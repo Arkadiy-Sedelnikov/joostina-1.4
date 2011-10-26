@@ -298,7 +298,7 @@ if($siteUrl) {
 	$config .= "\$mosConfig_dirperms = '".$configArray['dirPerms']."';\n";
 	$config .= "\$mosConfig_helpurl = 'http://help.joom.ru';\n";
 	$config .= "\$mosConfig_multilingual_support = '0';\n";
-	$config .= "\$mosConfig_editor = 'jce';\n";
+	$config .= "\$mosConfig_editor = 'elrte';\n";
 	$config .= "\$mosConfig_admin_expired = '1';\n";
 	$config .= "\$mosConfig_frontend_login = '1';\n";
 	$config .= "\$mosConfig_frontend_userparams = '1';\n";
