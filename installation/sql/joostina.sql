@@ -546,21 +546,21 @@ INSERT INTO `#__components` VALUES (17, 'RSS экспорт', '', 0, 0, 'option=
 INSERT INTO `#__components` VALUES (18, 'Рассылка почты', '', 0, 0, 'option=com_massmail&hidemainmenu=1', 'Массовая рассылка почты', 'com_massmail', 0, 'js/ThemeOffice/mass_email.png', 0, '');
 INSERT INTO `#__components` VALUES (19, 'Карта сайта', 'option=com_xmap', 0, 0, 'option=com_xmap', '', 'com_xmap', 0, 'js/ThemeOffice/map.png', 0, '');
 INSERT INTO `#__components` VALUES (20, 'JoiBOSS CCK', 'option=com_boss', 0, 0, 'option=com_boss', 'JoiBOSS CCK', 'com_boss', 0, '../administrator/components/com_boss/images/16x16/component.png', 0, '');
-INSERT INTO `#__components` VALUES (21, 'Категории', '', 0, 26, 'option=com_boss&act=categories', 'Категории', 'com_boss', 0, '../administrator/components/com_boss/images/16x16/categories.png', 0, NULL);
-INSERT INTO `#__components` VALUES (22, 'Контент', '', 0, 26, 'option=com_boss&act=contents', 'Контент', 'com_boss', 1, '../administrator/components/com_boss/images/16x16/contents.png', 0, NULL);
-INSERT INTO `#__components` VALUES (23, 'Управление', '', 0, 26, 'option=com_boss&act=manager', 'Управление', 'com_boss', 2, '../administrator/components/com_boss/images/16x16/manager.png', 0, NULL);
-INSERT INTO `#__components` VALUES (24, 'Конфигурация', '', 0, 26, 'option=com_boss&act=configuration', 'Конфигурация', 'com_boss', 3, '../administrator/components/com_boss/images/16x16/configuration.png', 0, NULL);
-INSERT INTO `#__components` VALUES (25, 'Поля', '', 0, 26, 'option=com_boss&act=fields', 'Поля', 'com_boss', 4, '../administrator/components/com_boss/images/16x16/fields.png', 0, NULL);
-INSERT INTO `#__components` VALUES (26, 'Шаблоны', '', 0, 26, 'option=com_boss&act=templates', 'Шаблоны', 'com_boss', 5, '../administrator/components/com_boss/images/16x16/templates.png', 0, NULL);
-INSERT INTO `#__components` VALUES (27, 'Расширения', '', 0, 26, 'option=com_boss&act=plugins', 'Расширения', 'com_boss', 6, '../administrator/components/com_boss/images/16x16/plugins.png', 0, NULL);
-INSERT INTO `#__components` VALUES (28, 'Изображения', '', 0, 26, 'option=com_boss&act=fieldimage', 'Изображения', 'com_boss', 7, '../administrator/components/com_boss/images/16x16/fieldimage.png', 0, NULL);
-INSERT INTO `#__components` VALUES (29, 'Импорт / экспорт', '', 0, 26, 'option=com_boss&act=export_import', 'Импорт / экспорт', 'com_boss', 8, '../administrator/components/com_boss/images/16x16/export_import.png', 0, NULL);
-INSERT INTO `#__components` VALUES (30, 'Пользователи', '', 0, 26, 'option=com_boss&act=users', 'Пользователи', 'com_boss', 9, '../administrator/components/com_boss/images/16x16/user.png', 0, NULL);
+INSERT INTO `#__components` VALUES (21, 'Категории', '', 0, 20, 'option=com_boss&act=categories', 'Категории', 'com_boss', 0, '../administrator/components/com_boss/images/16x16/categories.png', 0, NULL);
+INSERT INTO `#__components` VALUES (22, 'Контент', '', 0, 20, 'option=com_boss&act=contents', 'Контент', 'com_boss', 1, '../administrator/components/com_boss/images/16x16/contents.png', 0, NULL);
+INSERT INTO `#__components` VALUES (23, 'Управление', '', 0, 20, 'option=com_boss&act=manager', 'Управление', 'com_boss', 2, '../administrator/components/com_boss/images/16x16/manager.png', 0, NULL);
+INSERT INTO `#__components` VALUES (24, 'Конфигурация', '', 0, 20, 'option=com_boss&act=configuration', 'Конфигурация', 'com_boss', 3, '../administrator/components/com_boss/images/16x16/configuration.png', 0, NULL);
+INSERT INTO `#__components` VALUES (25, 'Поля', '', 0, 20, 'option=com_boss&act=fields', 'Поля', 'com_boss', 4, '../administrator/components/com_boss/images/16x16/fields.png', 0, NULL);
+INSERT INTO `#__components` VALUES (26, 'Шаблоны', '', 0, 20, 'option=com_boss&act=templates', 'Шаблоны', 'com_boss', 5, '../administrator/components/com_boss/images/16x16/templates.png', 0, NULL);
+INSERT INTO `#__components` VALUES (27, 'Расширения', '', 0, 20, 'option=com_boss&act=plugins', 'Расширения', 'com_boss', 6, '../administrator/components/com_boss/images/16x16/plugins.png', 0, NULL);
+INSERT INTO `#__components` VALUES (28, 'Изображения', '', 0, 20, 'option=com_boss&act=fieldimage', 'Изображения', 'com_boss', 7, '../administrator/components/com_boss/images/16x16/fieldimage.png', 0, NULL);
+INSERT INTO `#__components` VALUES (29, 'Импорт / экспорт', '', 0, 20, 'option=com_boss&act=export_import', 'Импорт / экспорт', 'com_boss', 8, '../administrator/components/com_boss/images/16x16/export_import.png', 0, NULL);
+INSERT INTO `#__components` VALUES (30, 'Пользователи', '', 0, 20, 'option=com_boss&act=users', 'Пользователи', 'com_boss', 9, '../administrator/components/com_boss/images/16x16/user.png', 0, NULL);
 INSERT INTO `#__components` VALUES (31, 'elFinder + elRTE', 'option=com_elrte', 0, 0, 'option=com_elrte', 'elFinder + elRTE', 'com_elrte', 0, 'js/ThemeOffice/component.png', 0, '');
-INSERT INTO `#__components` VALUES (32, 'Медиа менеджер elFinder', '', 0, 37, 'option=com_elrte', 'Медиа менеджер elFinder', 'com_elrte', 0, 'js/ThemeOffice/component.png', 0, NULL);
-INSERT INTO `#__components` VALUES (33, 'Конфигурация elRTE', '', 0, 37, 'option=com_elrte&task=config_elrte', 'Конфигурация elRTE', 'com_elrte', 1, 'js/ThemeOffice/component.png', 0, NULL);
-INSERT INTO `#__components` VALUES (34, 'Конфигурация elFinder', '', 0, 37, 'option=com_elrte&task=config_elfinder', 'Конфигурация elFinder', 'com_elrte', 2, 'js/ThemeOffice/component.png', 0, NULL);
-INSERT INTO `#__components` VALUES (35, 'Инфо', '', 0, 37, 'option=com_elrte&task=info', 'Инфо', 'com_elrte', 3, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (32, 'Медиа менеджер elFinder', '', 0, 31, 'option=com_elrte', 'Медиа менеджер elFinder', 'com_elrte', 0, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (33, 'Конфигурация elRTE', '', 0, 31, 'option=com_elrte&task=config_elrte', 'Конфигурация elRTE', 'com_elrte', 1, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (34, 'Конфигурация elFinder', '', 0, 31, 'option=com_elrte&task=config_elfinder', 'Конфигурация elFinder', 'com_elrte', 2, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (35, 'Инфо', '', 0, 31, 'option=com_elrte&task=info', 'Инфо', 'com_elrte', 3, 'js/ThemeOffice/component.png', 0, NULL);
 
 #
 # Структура таблицы `#__contact_details`
