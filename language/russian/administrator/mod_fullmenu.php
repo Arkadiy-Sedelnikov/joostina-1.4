@@ -26,9 +26,9 @@ DEFINE('_MOD_FULLMENU_SEARCHES_TIP','Статистика поисковых з�
 DEFINE('_MOD_FULLMENU_NEW_SITE_TEMPLATE','Управление шаблонами');
 DEFINE('_MOD_FULLMENU_NEW_ADMIN_TEMPLATE','Установка нового шаблона');
 DEFINE('_MENU_TRASH','Корзина меню');
-DEFINE('_MOD_FULLMENU_CONTENT_IN_SECTIONS','Содержимое по разделам');
-DEFINE('_MOD_FULLMENU_CONTENT_IN_SECTION','Содержимое в разделе');
-DEFINE('_MOD_FULLMENU_SECTION_CATEGORIES2','Категории раздела');
+DEFINE('_MOD_FULLMENU_CONTENT_IN_SECTIONS','Содержимое по каталогам');
+DEFINE('_MOD_FULLMENU_CONTENT_IN_SECTION','Содержимое в каталоге');
+DEFINE('_MOD_FULLMENU_SECTION_CATEGORIES2','Категории каталога');
 DEFINE('_MOD_FULLMENU_ADD_CONTENT_ITEM','Добавить новость / статью');
 DEFINE('_MOD_FULLMENU_ADD_STATIC_CONTENT','Добавить статичное содержимое');
 DEFINE('_MOD_FULLMENU_CONTENT_ON_FRONTPAGE','Содержимое на главной');
@@ -62,3 +62,4 @@ DEFINE('_MOD_FULLMENU_SECTION_ARCHIVE','Архив раздела');
 DEFINE('_MOD_FULLMENU_USER_CONTENT','Материалы пользователя');
 DEFINE('_MOD_FULLMENU_LOSTPASS_SETUP','Восстановление пароля');
 DEFINE('_MOD_FULLMENU_JOOSTINARU','Сайт поддержки');
+DEFINE('_DIRECTORIES','Управление каталогами');

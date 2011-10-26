@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
   `date_unpublish` datetime NOT NULL,
   `views` int(11) unsigned DEFAULT '0',
   `type_content` int(11) NOT NULL,
+  `content_homepage` text NOT NULL,
   `content_editor` text NOT NULL,
   `content_editorfull` text NOT NULL,
   PRIMARY KEY (`id`),
@@ -226,7 +227,8 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_fields` (
 
 INSERT INTO `#__boss_1_fields` (`fieldid`, `name`, `title`, `display_title`, `description`, `type`, `text_before`, `text_after`, `tags_open`, `tags_separator`, `tags_close`, `maxlength`, `size`, `required`, `link_text`, `link_image`, `ordering`, `cols`, `rows`, `profile`, `editable`, `searchable`, `sort`, `sort_direction`, `catsid`, `published`, `filter`) VALUES
 (20, 'content_editor', 'Краткое описание', 0, 'Здесь пишем то, что будет отображаться в списке контента (поиск, категории и т.п.)', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 2, 200, 20, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0),
-(21, 'content_editorfull', 'Полное описание', 0, 'Здесь пишем основной текст', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 3, 50, 5, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0);
+(21, 'content_editorfull', 'Полное описание', 0, 'Здесь пишем основной текст', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 3, 50, 5, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0),
+(22, 'content_homepage', 'На главной', 0, 'Опубликовать этот контент на главной странице.', 'BossCheckboxPlugin', '', '', '', '', '', 75, 0, 0, ',-1,', ',-1,', 0, 0, 0, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0);
 
 # ############################
 
@@ -449,7 +451,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_config` (
 #
 
 INSERT INTO `#__boss_config` (`id`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `default_order_by`, `contents_per_page`, `root_allowed`, `show_contact`, `send_email_on_new`, `send_email_on_update`, `auto_publish`, `fronttext`, `email_display`, `display_fullname`, `rules_text`, `expiration`, `content_duration`, `recall`, `recall_time`, `recall_text`, `empty_cat`, `cat_max_width`, `cat_max_height`, `cat_max_width_t`, `cat_max_height_t`, `submission_type`, `nb_contents_by_user`, `allow_attachement`, `allow_contact_by_pms`, `allow_comments`, `rating`, `secure_comment`, `comment_sys`, `allow_unregisered_comment`, `allow_ratings`, `secure_new_content`, `use_content_mambot`, `show_rss`, `filter`, `template`, `allow_rights`, `rights`) VALUES
-(1, 'directory', 'dir', '', '', '', '0', 20, 1, 1, 1, 1, 1, 'Текст приветствия\r\n', 0, 1, 'Это правила...\r\n', 0, 30, 1, 7, '', 1, 150, 150, 30, 30, 0, -1, 0, 0, 1, 'defaultRating', 1, 1, 0, 0, 1, 1, 0, 'no', 'default', '0', '');
+(1, 'Статьи', 'content', '', '', '', '0', 20, 1, 1, 1, 1, 1, 'Текст приветствия\r\n', 0, 1, 'Это правила...\r\n', 0, 30, 1, 7, '', 1, 150, 150, 30, 30, 0, -1, 0, 0, 1, 'defaultRating', 1, 1, 0, 0, 1, 1, 0, 'no', 'default', '0', '');
 
 # ############################
 
