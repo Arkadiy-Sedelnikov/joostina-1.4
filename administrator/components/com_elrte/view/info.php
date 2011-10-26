@@ -24,9 +24,9 @@ $mainframe	= &mosMainFrame::getInstance(true);
 <p><a target="_blank" href="http://elrte.org/"><?php echo _ELRTE_INFO_DESC; ?> </a></p>
 
 <table  width="100%" class="paramlist">
-	<tr><th class="key"><?php echo _ELRTE_INFO_VER; ?>: </th><td>1.0.0a</td></tr>
-	<tr><th class="key"><?php echo _ELRTE_INFO_VER_ELRTE; ?>: </th><td>1.2</td></tr>
-	<tr><th class="key"><?php echo _ELRTE_INFO_VER_ELFINDER; ?>: </th><td>1.1</td></tr>
+	<tr><th class="key"><?php echo _ELRTE_INFO_VER; ?>: </th><td>1.1.0b</td></tr>
+	<tr><th class="key"><?php echo _ELRTE_INFO_VER_ELRTE; ?>: </th><td>1.3</td></tr>
+	<tr><th class="key"><?php echo _ELRTE_INFO_VER_ELFINDER; ?>: </th><td>1.2</td></tr>
 	<tr><th class="key"><?php echo _ELRTE_INFO_DEV; ?>: </th><td>Arkadiy Sedelnikov (Joostina Team, <a target="_blank" href="http://www.joostina.ru">www.joostina.ru</a>)</td></tr>
 	<tr><th class="key">GoogleCode:</th><td><a target="_blank" href="#">http://code.google.com/p/###/</a></td></tr>
 </table>
