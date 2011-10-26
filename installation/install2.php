@@ -13,7 +13,17 @@ define("_VALID_MOS",1);
 
 // Подключение common.php
 require_once ('common.php');
-require_once ('../includes/libraries/database/database.php');
+
+//выбор класса базыданных
+$DBtype	= trim(mosGetParam($_POST,'DBtype','mysql'));
+if($DBtype == 'mysqli'){
+    require_once ('../includes/libraries/database/database.php');
+}
+else{
+    require_once ('../includes/libraries/database_old/database_old.php');
+}
+
+
 
 $DBhostname	= trim(mosGetParam($_POST,'DBhostname',''));
 $DBuserName	= trim(mosGetParam($_POST,'DBuserName',''));
@@ -50,6 +60,7 @@ if(!$DBcreated) {
 	}
 
 	// Does this code actually do anything???
+	$configArray['DBtype'] = $DBtype;
 	$configArray['DBhostname'] = $DBhostname;
 	$configArray['DBuserName'] = $DBuserName;
 	$configArray['DBpassword'] = $DBpassword;
@@ -124,8 +135,9 @@ if(!$DBcreated) {
 }
 
 function db_err($step,$alert) {
-	global $DBhostname,$DBuserName,$DBpassword,$DBDel,$DBname;
+	global $DBhostname,$DBuserName,$DBpassword,$DBDel,$DBname,$DBtype;
 	echo "<form name=\"$step\" method=\"post\" action=\"install1.php\">
+	<input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\">
 	<input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\">
 	<input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\">
 	<input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\">
@@ -147,9 +159,9 @@ function populate_db(&$database,$sqlfile = 'joostina.sql') {
 
 	$database->query();
 	$mqr = @get_magic_quotes_runtime();
-	ini_set("magic_quotes_runtime", 0);
+	@ini_set('magic_quotes_runtime', 0);
 	$query = fread(fopen($sqlfile,'r'),filesize($sqlfile));
-	ini_set("magic_quotes_runtime", $mqr);
+	@ini_set('magic_quotes_runtime', $mqr);
 	$pieces = split_sql($query);
 
 	for($i = 0; $i < count($pieces); $i++) {

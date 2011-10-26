@@ -12,6 +12,7 @@ define("_VALID_MOS",1);
 /** Подключение common.php*/
 require_once ('common.php');
 
+$DBtype	= trim(mosGetParam($_POST,'DBtype','mysql'));
 $DBhostname		= mosGetParam($_POST,'DBhostname','');
 $DBuserName		= mosGetParam($_POST,'DBuserName','');
 $DBpassword		= mosGetParam($_POST,'DBpassword','');
@@ -34,6 +35,7 @@ if(get_magic_quotes_gpc()) {
 if($sitename == '') {
 	echo "<form name=\"stepBack\" method=\"post\" action=\"install2.php\">
                         <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\">
+                        <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\">
                         <input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\">
                         <input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\">
                         <input type=\"hidden\" name=\"DBname\" value=\"$DBname\">
@@ -140,6 +142,7 @@ function changeDirPermsMode(mode)
  <div id="ctr" align="center">
   <form action="install4.php" method="post" name="form" id="form" onsubmit="return check();">
    <input type="hidden" name="DBhostname" value="<?php echo $DBhostname; ?>" />
+   <input type="hidden" name="DBtype" value="<?php echo $DBtype; ?>" />
    <input type="hidden" name="DBuserName" value="<?php echo $DBuserName; ?>" />
    <input type="hidden" name="DBpassword" value="<?php echo $DBpassword; ?>" />
    <input type="hidden" name="DBname" value="<?php echo $DBname; ?>" />

@@ -13,6 +13,7 @@ define("_VALID_MOS",1);
 /** Include common.php*/
 require_once ('common.php');
 echo $DBhostname	= mosGetParam($_POST,'DBhostname','');
+$DBtype	= trim(mosGetParam($_POST,'DBtype','mysql'));
 $DBuserName	= mosGetParam($_POST,'DBuserName','');
 $DBpassword	= mosGetParam($_POST,'DBpassword','');
 $DBname		= mosGetParam($_POST,'DBname','');
@@ -101,7 +102,17 @@ return formValid;
 							<div class="form-block">
 							
 							<table class="content2" width="100%">
-							
+
+							    <tr>
+									<th>Тип базы данных</th>
+									<td>
+                                        <select name="DBtype">
+                                            <option value="mysql">MySQL</option>
+                                            <option value="mysqli">MySQLi</option>
+                                        </select> <span>Обычно это <strong>MySQL</strong>, но бывает и <strong>MySQLi</strong></span>
+									</td>
+								</tr>
+
 								<tr>
 									<th>Имя хоста MySQL</th>
 									<td>

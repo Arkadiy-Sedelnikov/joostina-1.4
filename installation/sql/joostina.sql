@@ -74,6 +74,406 @@ CREATE TABLE IF NOT EXISTS `#__banners_clients` (
   PRIMARY KEY  (`cid`)
 ) ENGINE=MyISAM  CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_categories`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent` int(10) unsigned DEFAULT '0',
+  `name` varchar(50) DEFAULT NULL,
+  `slug` varchar(100) NOT NULL,
+  `meta_title` varchar(60) NOT NULL,
+  `meta_desc` varchar(200) NOT NULL,
+  `meta_keys` varchar(200) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `ordering` int(11) DEFAULT '0',
+  `published` tinyint(1) DEFAULT '0',
+  `content_types` int(11) DEFAULT '0',
+  `template` varchar(50) NOT NULL,
+  `rights` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+#
+# Dumping data for table `#__boss_1_categories`
+#
+
+INSERT INTO `#__boss_1_categories` (`id`, `parent`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `description`, `ordering`, `published`, `content_types`, `template`, `rights`) VALUES
+(1, 0, 'Категория 1', 'category1', '', '', '', 'Описание категории 1\r\n', 0, 1, 1, '0', '');
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_contents`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` text,
+  `slug` varchar(100) NOT NULL,
+  `meta_title` varchar(60) NOT NULL,
+  `meta_desc` varchar(200) NOT NULL,
+  `meta_keys` varchar(200) NOT NULL,
+  `userid` int(11) unsigned DEFAULT NULL,
+  `published` tinyint(1) DEFAULT '1',
+  `date_created` datetime DEFAULT NULL,
+  `date_last_сomment` datetime DEFAULT NULL,
+  `date_publish` datetime NOT NULL,
+  `date_unpublish` datetime NOT NULL,
+  `views` int(11) unsigned DEFAULT '0',
+  `type_content` int(11) NOT NULL,
+  `content_editor` text NOT NULL,
+  `content_editorfull` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `published` (`published`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+#
+# Dumping data for table `#__boss_1_contents`
+#
+
+INSERT INTO `#__boss_1_contents` (`id`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `userid`, `published`, `date_created`, `date_last_сomment`, `date_publish`, `date_unpublish`, `views`, `type_content`, `content_editor`, `content_editorfull`) VALUES
+(1, 'Первая статья', 'first_content', '', '', '', 62, 1, '2011-10-19 21:28:00', NULL, '2011-10-20 04:28:00', '0000-00-00 00:00:00', 1, 1, 'Это первая и пока единственная статья в каталоге.', '<div style="text-align: left">\r\nЭто первая и пока единственная статья в каталоге.&nbsp;<span style="line-height: normal; font-size: medium; font-family: ''Times New Roman''" class="Apple-style-span"><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.&nbsp;</span><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.&nbsp;</span><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.</span></span>\r\n</div>\r\n<span style="line-height: normal; font-size: medium; font-family: ''Times New Roman''" class="Apple-style-span">\r\n<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; background-color: #ffffff; font: normal normal normal 12px/20px Arial; text-align: left; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial">\r\nЭто первая и пока единственная статья в каталоге.&nbsp;\r\n</div>\r\n</span>');
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_content_category_href`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_content_category_href` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `content_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`,`content_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Привязка контента к категориям' AUTO_INCREMENT=3 ;
+
+#
+# Dumping data for table `#__boss_1_content_category_href`
+#
+
+INSERT INTO `#__boss_1_content_category_href` (`id`, `category_id`, `content_id`) VALUES
+(2, 1, 1);
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_content_types`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_content_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `desc` varchar(255) NOT NULL,
+  `fields` tinyint(1) NOT NULL DEFAULT '0',
+  `published` tinyint(1) NOT NULL,
+  `ordering` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+#
+# Dumping data for table `#__boss_1_content_types`
+#
+
+INSERT INTO `#__boss_1_content_types` (`id`, `name`, `desc`, `fields`, `published`, `ordering`) VALUES
+(1, 'Статьи', 'Обычные статьи без изысков, аналог ком-контент', 0, 1, 1);
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_fields`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_fields` (
+  `fieldid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `display_title` tinyint(1) NOT NULL DEFAULT '0',
+  `description` mediumtext NOT NULL,
+  `type` varchar(50) NOT NULL DEFAULT '',
+  `text_before` text NOT NULL,
+  `text_after` text NOT NULL,
+  `tags_open` varchar(150) NOT NULL,
+  `tags_separator` varchar(100) NOT NULL,
+  `tags_close` varchar(50) NOT NULL,
+  `maxlength` int(11) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `required` tinyint(4) DEFAULT '0',
+  `link_text` varchar(255) NOT NULL DEFAULT ',-1,',
+  `link_image` varchar(255) NOT NULL DEFAULT ',-1,',
+  `ordering` int(10) unsigned DEFAULT '0',
+  `cols` int(11) DEFAULT NULL,
+  `rows` int(11) DEFAULT NULL,
+  `profile` tinyint(1) NOT NULL DEFAULT '0',
+  `editable` tinyint(1) NOT NULL DEFAULT '1',
+  `searchable` tinyint(1) NOT NULL DEFAULT '1',
+  `sort` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_direction` varchar(4) NOT NULL DEFAULT 'DESC',
+  `catsid` varchar(255) NOT NULL DEFAULT ',-1,',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
+  `filter` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fieldid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+
+#
+# Dumping data for table `#__boss_1_fields`
+#
+
+INSERT INTO `#__boss_1_fields` (`fieldid`, `name`, `title`, `display_title`, `description`, `type`, `text_before`, `text_after`, `tags_open`, `tags_separator`, `tags_close`, `maxlength`, `size`, `required`, `link_text`, `link_image`, `ordering`, `cols`, `rows`, `profile`, `editable`, `searchable`, `sort`, `sort_direction`, `catsid`, `published`, `filter`) VALUES
+(20, 'content_editor', 'Краткое описание', 0, 'Здесь пишем то, что будет отображаться в списке контента (поиск, категории и т.п.)', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 2, 200, 20, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0),
+(21, 'content_editorfull', 'Полное описание', 0, 'Здесь пишем основной текст', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 3, 50, 5, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0);
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_field_values`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_field_values` (
+  `fieldvalueid` int(11) NOT NULL AUTO_INCREMENT,
+  `fieldid` int(11) NOT NULL DEFAULT '0',
+  `fieldtitle` varchar(50) NOT NULL DEFAULT '',
+  `fieldvalue` text,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `sys` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fieldvalueid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+
+#
+# Dumping data for table `#__boss_1_field_values`
+#
+
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_groupfields`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_groupfields` (
+  `fieldid` int(11) NOT NULL DEFAULT '0',
+  `groupid` int(11) NOT NULL DEFAULT '0',
+  `template` varchar(20) DEFAULT NULL,
+  `type_tmpl` varchar(20) DEFAULT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fieldid`,`groupid`),
+  KEY `template` (`template`),
+  KEY `type_tmpl` (`type_tmpl`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__boss_1_groupfields`
+#
+
+INSERT INTO `#__boss_1_groupfields` (`fieldid`, `groupid`, `template`, `type_tmpl`, `ordering`) VALUES
+(20, 12, 'blog', 'category', 0),
+(21, 14, 'blog', 'content', 0),
+(20, 2, 'default', 'category', 0),
+(21, 9, 'default', 'content', 0),
+(20, 16, 'table', 'category', 0),
+(21, 19, 'table', 'content', 0),
+(20, 21, 'template2', 'category', 0),
+(21, 24, 'template2', 'content', 0);
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_groups`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `desc` varchar(20) DEFAULT NULL,
+  `template` varchar(20) DEFAULT NULL,
+  `type_tmpl` varchar(20) DEFAULT NULL,
+  `catsid` varchar(255) NOT NULL DEFAULT ',-1,',
+  `published` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+
+#
+# Dumping data for table `#__boss_1_groups`
+#
+
+INSERT INTO `#__boss_1_groups` (`id`, `name`, `desc`, `template`, `type_tmpl`, `catsid`, `published`) VALUES
+(1, 'ListSubtitle', 'ListSubtitle', 'default', 'category', ',-1,', 1),
+(2, 'ListDescription', 'ListDescription', 'default', 'category', ',-1,', 1),
+(3, 'ListBottom', 'ListBottom', 'default', 'category', ',-1,', 1),
+(4, 'ListImage', 'ListImage', 'default', 'category', ',-1,', 1),
+(5, 'DetailsSubtitle1', 'DetailsSubtitle1', 'default', 'content', ',-1,', 1),
+(6, 'DetailsSubtitle2', 'DetailsSubtitle2', 'default', 'content', ',-1,', 1),
+(7, 'DetailsSubtitle3', 'DetailsSubtitle3', 'default', 'content', ',-1,', 1),
+(8, 'DetailsDescription', 'DetailsDescription', 'default', 'content', ',-1,', 1),
+(9, 'DetailsFullText', 'DetailsFullText', 'default', 'content', ',-1,', 1),
+(10, 'DetailsBottom', 'DetailsBottom', 'default', 'content', ',-1,', 1),
+(11, 'DetailsImage', 'DetailsImage', 'default', 'content', ',-1,', 1),
+(12, 'ListDescription', 'ListDescription', 'blog', 'category', ',-1,', 1),
+(13, 'ListImage', 'ListImage', 'blog', 'category', ',-1,', 1),
+(14, 'DetailsDescription', 'DetailsDescription', 'blog', 'content', ',-1,', 1),
+(15, 'DetailsImage', 'DetailsImage', 'blog', 'content', ',-1,', 1),
+(16, 'GroupList1', 'GroupList1', 'table', 'category', ',-1,', 1),
+(17, 'GroupDetails1', 'GroupDetails1', 'table', 'content', ',-1,', 1),
+(18, 'GroupDetails2', 'GroupDetails2', 'table', 'content', ',-1,', 1),
+(19, 'GroupDetails3', 'GroupDetails3', 'table', 'content', ',-1,', 1),
+(20, 'GroupDetails4', 'GroupDetails4', 'table', 'content', ',-1,', 1),
+(21, 'GroupList1', 'GroupList1', 'template2', 'category', ',-1,', 1),
+(22, 'GroupList2', 'GroupList2', 'template2', 'category', ',-1,', 1),
+(23, 'ListImage', 'ListImage', 'template2', 'category', ',-1,', 1),
+(24, 'GroupDetails1', 'GroupDetails1', 'template2', 'content', ',-1,', 1),
+(25, 'GroupDetails2', 'GroupDetails2', 'template2', 'content', ',-1,', 1),
+(26, 'GroupDetails3', 'GroupDetails3', 'template2', 'content', ',-1,', 1),
+(27, 'DetailsImage', 'DetailsImage', 'template2', 'content', ',-1,', 1);
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_profile`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_profile` (
+  `userid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table `#__boss_1_profile`
+#
+
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_rating`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_rating` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contentid` int(10) unsigned DEFAULT NULL,
+  `userid` int(10) unsigned DEFAULT NULL,
+  `note` int(10) unsigned DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `published` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+#
+# Dumping data for table `#__boss_1_rating`
+#
+
+
+# ############################
+
+#
+# Table structure for table `#__boss_1_reviews`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_1_reviews` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contentid` int(10) unsigned DEFAULT NULL,
+  `userid` int(10) unsigned DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `date` date DEFAULT NULL,
+  `published` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+#
+# Dumping data for table `#__boss_1_reviews`
+#
+
+
+# ############################
+
+#
+# Table structure for table `#__boss_config`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_config` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `slug` varchar(200) NOT NULL,
+  `meta_title` varchar(60) NOT NULL,
+  `meta_desc` varchar(200) NOT NULL,
+  `meta_keys` varchar(200) NOT NULL,
+  `default_order_by` varchar(20) NOT NULL,
+  `contents_per_page` int(10) unsigned NOT NULL DEFAULT '20',
+  `root_allowed` tinyint(4) NOT NULL DEFAULT '1',
+  `show_contact` tinyint(4) NOT NULL DEFAULT '1',
+  `send_email_on_new` tinyint(4) NOT NULL DEFAULT '1',
+  `send_email_on_update` tinyint(4) NOT NULL DEFAULT '1',
+  `auto_publish` tinyint(4) NOT NULL DEFAULT '1',
+  `fronttext` text NOT NULL,
+  `email_display` tinyint(4) NOT NULL DEFAULT '0',
+  `display_fullname` tinyint(4) NOT NULL DEFAULT '2',
+  `rules_text` text NOT NULL,
+  `expiration` tinyint(1) NOT NULL DEFAULT '0',
+  `content_duration` int(4) NOT NULL DEFAULT '30',
+  `recall` tinyint(1) NOT NULL DEFAULT '1',
+  `recall_time` int(4) NOT NULL DEFAULT '7',
+  `recall_text` text NOT NULL,
+  `empty_cat` tinyint(1) NOT NULL DEFAULT '1',
+  `cat_max_width` int(4) NOT NULL DEFAULT '150',
+  `cat_max_height` int(4) NOT NULL DEFAULT '150',
+  `cat_max_width_t` int(4) NOT NULL DEFAULT '30',
+  `cat_max_height_t` int(4) NOT NULL DEFAULT '30',
+  `submission_type` int(4) NOT NULL DEFAULT '30',
+  `nb_contents_by_user` int(4) NOT NULL DEFAULT '-1',
+  `allow_attachement` tinyint(1) NOT NULL DEFAULT '0',
+  `allow_contact_by_pms` tinyint(1) NOT NULL DEFAULT '0',
+  `allow_comments` tinyint(1) NOT NULL DEFAULT '0',
+  `rating` varchar(50) NOT NULL,
+  `secure_comment` tinyint(1) NOT NULL DEFAULT '0',
+  `comment_sys` tinyint(1) NOT NULL,
+  `allow_unregisered_comment` tinyint(1) NOT NULL,
+  `allow_ratings` tinyint(1) NOT NULL,
+  `secure_new_content` tinyint(1) NOT NULL DEFAULT '0',
+  `use_content_mambot` tinyint(1) NOT NULL DEFAULT '0',
+  `show_rss` tinyint(1) NOT NULL DEFAULT '0',
+  `filter` varchar(50) NOT NULL DEFAULT 'no',
+  `template` varchar(255) NOT NULL DEFAULT 'default',
+  `allow_rights` varchar(1) NOT NULL DEFAULT '0',
+  `rights` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+#
+# Dumping data for table `#__boss_config`
+#
+
+INSERT INTO `#__boss_config` (`id`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `default_order_by`, `contents_per_page`, `root_allowed`, `show_contact`, `send_email_on_new`, `send_email_on_update`, `auto_publish`, `fronttext`, `email_display`, `display_fullname`, `rules_text`, `expiration`, `content_duration`, `recall`, `recall_time`, `recall_text`, `empty_cat`, `cat_max_width`, `cat_max_height`, `cat_max_width_t`, `cat_max_height_t`, `submission_type`, `nb_contents_by_user`, `allow_attachement`, `allow_contact_by_pms`, `allow_comments`, `rating`, `secure_comment`, `comment_sys`, `allow_unregisered_comment`, `allow_ratings`, `secure_new_content`, `use_content_mambot`, `show_rss`, `filter`, `template`, `allow_rights`, `rights`) VALUES
+(1, 'directory', 'dir', '', '', '', '0', 20, 1, 1, 1, 1, 1, 'Текст приветствия\r\n', 0, 1, 'Это правила...\r\n', 0, 30, 1, 7, '', 1, 150, 150, 30, 30, 0, -1, 0, 0, 1, 'defaultRating', 1, 1, 0, 0, 1, 1, 0, 'no', 'default', '0', '');
+
+# ############################
+
+#
+# Table structure for table `#__boss_plug_config`
+#
+
+CREATE TABLE IF NOT EXISTS `#__boss_plug_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `directory` int(11) NOT NULL,
+  `plug_type` varchar(11) CHARACTER SET utf8 NOT NULL,
+  `plug_name` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `title` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `value` varchar(30) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `directory` (`directory`,`plug_type`,`plug_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+
+#
+# Dumping data for table `#__boss_plug_config`
+#
+
+# ############################
+
 #
 # Структура таблицы `#__categories`
 #
@@ -128,7 +528,7 @@ CREATE TABLE `#__components` (
 INSERT INTO `#__components` VALUES (1, 'Баннеры', '', 0, 0, 'option=com_banners', 'Управление баннерами', 'com_banners', 0, 'js/ThemeOffice/component.png', 0, '');
 INSERT INTO `#__components` VALUES (2, 'Баннеры', '', 0, 1, 'option=com_banners&task=banners', 'Активные баннеры', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, '');
 INSERT INTO `#__components` VALUES (3, 'Клиенты', '', 0, 1, 'option=com_banners&task=clients', 'Управление клиентами', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '');
-INSERT INTO `#__components` VALUES (25, 'Категории', '', 0, 1, 'option=com_banners&task=categories', 'Управление категориями', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '');
+INSERT INTO `#__components` VALUES (36, 'Категории', '', 0, 1, 'option=com_banners&task=categories', 'Управление категориями', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, '');
 INSERT INTO `#__components` VALUES (4, 'Каталог ссылок', 'option=com_weblinks', 0, 0, '', 'Управление ссылками', 'com_weblinks', 0, 'js/ThemeOffice/globe2.png', 0, '');
 INSERT INTO `#__components` VALUES (5, 'Ссылки', '', 0, 4, 'option=com_weblinks', 'Просмотр существующих ссылок', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, '');
 INSERT INTO `#__components` VALUES (6, 'Категории', '', 0, 4, 'option=com_categories&section=com_weblinks', 'Управление категориями ссылок', '', 2, 'js/ThemeOffice/categories.png', 0, '');
@@ -144,12 +544,23 @@ INSERT INTO `#__components` VALUES (15, 'Авторизация', 'option=com_lo
 INSERT INTO `#__components` VALUES (16, 'Поиск', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, '');
 INSERT INTO `#__components` VALUES (17, 'RSS экспорт', '', 0, 0, 'option=com_syndicate&hidemainmenu=1', 'Управление настройками экспорта новостей', 'com_syndicate', 0, 'js/ThemeOffice/rss.png', 0, '');
 INSERT INTO `#__components` VALUES (18, 'Рассылка почты', '', 0, 0, 'option=com_massmail&hidemainmenu=1', 'Массовая рассылка почты', 'com_massmail', 0, 'js/ThemeOffice/mass_email.png', 0, '');
-INSERT INTO `#__components` VALUES (19, 'Визуальный редактор', 'option=com_jce', 0, 0, 'option=com_jce', 'Визуальный редактор JCE', 'com_jce', 0, 'js/ThemeOffice/editor_on.png', 0, '');
-INSERT INTO `#__components` VALUES (20, 'Настройки', '', 0, 19, 'option=com_jce&task=config', 'Настройки редактора JCE', 'com_jce', 0, 'js/ThemeOffice/controlpanel.png', 0, '');
-INSERT INTO `#__components` VALUES (21, 'Языки интерфейса', '', 0, 19, 'option=com_jce&task=lang', 'Языки интерфейса JCE', 'com_jce', 1, 'js/ThemeOffice/language.png', 0, '');
-INSERT INTO `#__components` VALUES (22, 'Расширения', '', 0, 19, 'option=com_jce&task=showplugins', 'Расширения JCE', 'com_jce', 2, 'js/ThemeOffice/add_section.png', 0, '');
-INSERT INTO `#__components` VALUES (23, 'Расположение кнопок', '0', 0, 19, 'option=com_jce&task=editlayout', 'Расположение кнопок JCE', 'com_jce', 3, 'js/ThemeOffice/content.png', 0, '');
-INSERT INTO `#__components` VALUES (24, 'Карта сайта', 'option=com_xmap', 0, 0, 'option=com_xmap', '', 'com_xmap', 0, 'js/ThemeOffice/map.png', 0, '');
+INSERT INTO `#__components` VALUES (19, 'Карта сайта', 'option=com_xmap', 0, 0, 'option=com_xmap', '', 'com_xmap', 0, 'js/ThemeOffice/map.png', 0, '');
+INSERT INTO `#__components` VALUES (20, 'JoiBOSS CCK', 'option=com_boss', 0, 0, 'option=com_boss', 'JoiBOSS CCK', 'com_boss', 0, '../administrator/components/com_boss/images/16x16/component.png', 0, '');
+INSERT INTO `#__components` VALUES (21, 'Категории', '', 0, 26, 'option=com_boss&act=categories', 'Категории', 'com_boss', 0, '../administrator/components/com_boss/images/16x16/categories.png', 0, NULL);
+INSERT INTO `#__components` VALUES (22, 'Контент', '', 0, 26, 'option=com_boss&act=contents', 'Контент', 'com_boss', 1, '../administrator/components/com_boss/images/16x16/contents.png', 0, NULL);
+INSERT INTO `#__components` VALUES (23, 'Управление', '', 0, 26, 'option=com_boss&act=manager', 'Управление', 'com_boss', 2, '../administrator/components/com_boss/images/16x16/manager.png', 0, NULL);
+INSERT INTO `#__components` VALUES (24, 'Конфигурация', '', 0, 26, 'option=com_boss&act=configuration', 'Конфигурация', 'com_boss', 3, '../administrator/components/com_boss/images/16x16/configuration.png', 0, NULL);
+INSERT INTO `#__components` VALUES (25, 'Поля', '', 0, 26, 'option=com_boss&act=fields', 'Поля', 'com_boss', 4, '../administrator/components/com_boss/images/16x16/fields.png', 0, NULL);
+INSERT INTO `#__components` VALUES (26, 'Шаблоны', '', 0, 26, 'option=com_boss&act=templates', 'Шаблоны', 'com_boss', 5, '../administrator/components/com_boss/images/16x16/templates.png', 0, NULL);
+INSERT INTO `#__components` VALUES (27, 'Расширения', '', 0, 26, 'option=com_boss&act=plugins', 'Расширения', 'com_boss', 6, '../administrator/components/com_boss/images/16x16/plugins.png', 0, NULL);
+INSERT INTO `#__components` VALUES (28, 'Изображения', '', 0, 26, 'option=com_boss&act=fieldimage', 'Изображения', 'com_boss', 7, '../administrator/components/com_boss/images/16x16/fieldimage.png', 0, NULL);
+INSERT INTO `#__components` VALUES (29, 'Импорт / экспорт', '', 0, 26, 'option=com_boss&act=export_import', 'Импорт / экспорт', 'com_boss', 8, '../administrator/components/com_boss/images/16x16/export_import.png', 0, NULL);
+INSERT INTO `#__components` VALUES (30, 'Пользователи', '', 0, 26, 'option=com_boss&act=users', 'Пользователи', 'com_boss', 9, '../administrator/components/com_boss/images/16x16/user.png', 0, NULL);
+INSERT INTO `#__components` VALUES (31, 'elFinder + elRTE', 'option=com_elrte', 0, 0, 'option=com_elrte', 'elFinder + elRTE', 'com_elrte', 0, 'js/ThemeOffice/component.png', 0, '');
+INSERT INTO `#__components` VALUES (32, 'Медиа менеджер elFinder', '', 0, 37, 'option=com_elrte', 'Медиа менеджер elFinder', 'com_elrte', 0, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (33, 'Конфигурация elRTE', '', 0, 37, 'option=com_elrte&task=config_elrte', 'Конфигурация elRTE', 'com_elrte', 1, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (34, 'Конфигурация elFinder', '', 0, 37, 'option=com_elrte&task=config_elfinder', 'Конфигурация elFinder', 'com_elrte', 2, 'js/ThemeOffice/component.png', 0, NULL);
+INSERT INTO `#__components` VALUES (35, 'Инфо', '', 0, 37, 'option=com_elrte&task=info', 'Инфо', 'com_elrte', 3, 'js/ThemeOffice/component.png', 0, NULL);
 
 #
 # Структура таблицы `#__contact_details`
@@ -321,22 +732,21 @@ INSERT INTO `#__mambots` VALUES (6,'Поиск содержимого','content.
 INSERT INTO `#__mambots` VALUES (7,'Поиск веб-ссылок','weblinks.searchbot','search',0,2,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (8,'Поддержка кода','moscode','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (9,'Простой редактор HTML','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__mambots` VALUES (10, 'WYSIWYG-редактор JCE', 'jce', 'editors', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'theme=advance\r\neditor_width=100%');
-INSERT INTO `#__mambots` VALUES (11,'Кнопка изображения MOS в редакторе','mosimage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__mambots` VALUES (12,'Кнопка разрыва страницы MOS в редакторе','mospage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__mambots` VALUES (13,'Поиск контактов','contacts.searchbot','search',0,3,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__mambots` VALUES (14, 'Поиск категорий', 'categories.searchbot', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (15, 'Поиск разделов', 'sections.searchbot', 'search', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (16, 'Маскировка E-mail', 'mosemailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (17, 'Поиск лент новостей', 'newsfeeds.searchbot', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (18, 'Позиции загрузки модуля', 'mosloadposition', 'content', 0, 6, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (19, 'Первый обработчик содержимого', 'first', 'mainbody', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (20, 'Модуль на главной странице', 'frontpagemodule', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 'mod_position=banner\nmod_type=1\nmod_after=1');
-INSERT INTO `#__mambots` VALUES (21, 'Контактные данные пользователя', 'user_contacts', 'profile', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (22, 'Материалы пользователя', 'user_content', 'profile', 0, 3, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (23, 'Информация ', 'user_info', 'profile', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'header=Информация\nshow_header=1\nshow_location=1\ngender=1');
-INSERT INTO `#__mambots` VALUES (24, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-
+INSERT INTO `#__mambots` VALUES (10,'Кнопка изображения MOS в редакторе','mosimage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__mambots` VALUES (11,'Кнопка разрыва страницы MOS в редакторе','mospage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__mambots` VALUES (12,'Поиск контактов','contacts.searchbot','search',0,3,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__mambots` VALUES (13, 'Поиск категорий', 'categories.searchbot', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (14, 'Поиск разделов', 'sections.searchbot', 'search', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (15, 'Маскировка E-mail', 'mosemailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (16, 'Поиск лент новостей', 'newsfeeds.searchbot', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (17, 'Позиции загрузки модуля', 'mosloadposition', 'content', 0, 6, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (18, 'Первый обработчик содержимого', 'first', 'mainbody', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (19, 'Модуль на главной странице', 'frontpagemodule', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 'mod_position=banner\nmod_type=1\nmod_after=1');
+INSERT INTO `#__mambots` VALUES (20, 'Контактные данные пользователя', 'user_contacts', 'profile', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (21, 'Материалы пользователя', 'user_content', 'profile', 0, 3, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (22, 'Информация ', 'user_info', 'profile', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'header=Информация\nshow_header=1\nshow_location=1\ngender=1');
+INSERT INTO `#__mambots` VALUES (23, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (24, 'elRTE Mambot', 'elrte', 'editors', 0, 1, 1, 0, 0, 62, '2011-10-22 22:19:50', NULL);
 
 # --------------------------------------------------------
 
@@ -368,6 +778,8 @@ CREATE TABLE `#__menu` (
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Главная', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'title=\npage_name=\nno_site_name=0\nrobots=-1\nmeta_description=\nmeta_keywords=\nmeta_author=\nmenu_image=-1\npageclass_sfx=\nheader=Добро пожаловать на главную страницу\npage_title=0\nback_button=0\nleading=2\nintro=2\ncolumns=1\nlink=0\norderby_pri=\norderby_sec=front\npagination=2\npagination_results=0\nimage=1\nsection=0\nsection_link=0\nsection_link_type=blog\ncategory=1\ncategory_link=0\ncat_link_type=blog\nitem_title=1\nlink_titles=1\nintro_only=1\nview_introtext=1\nintrotext_limit=\nview_tags=1\nreadmore=0\nrating=0\nauthor=1\nauthor_name=0\ncreatedate=1\nmodifydate=0\nhits=\nprint=0\nemail=0\nunpublished=0');
+INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'Босс', 'index.php?option=com_boss', 'components', 1, 0, 26, 0, 13, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'title=boss\ndirectory=1\ntask=\ncatid=');
+
 # --------------------------------------------------------
 
 #
@@ -863,84 +1275,6 @@ CREATE TABLE `#__jp_def` (
   PRIMARY KEY(`def_id`)
 )ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-
-CREATE TABLE `#__jce_langs` (
-  `id` int(11) NOT NULL auto_increment,
-  `Name` varchar(100) NOT NULL default '',
-  `lang` varchar(100) NOT NULL default '',
-  `published` tinyint(3) NOT NULL default '0',
-PRIMARY KEY (`id`)
-)ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-insert into `#__jce_langs` values ('1', 'Русский (Russian utf8_general_ci)', 'ru', '1');
-
-CREATE TABLE `#__jce_plugins` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL default '',
-  `plugin` varchar(100) NOT NULL default '',
-  `type` varchar(100) NOT NULL default 'plugin',
-  `icon` varchar(255) NOT NULL default '',
-  `layout_icon` varchar(255) NOT NULL default '',
-  `access` tinyint(3) unsigned NOT NULL default '18',
-  `row` int(11) NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
-  `published` tinyint(3) NOT NULL default '0',
-  `editable` tinyint(3) NOT NULL default '0',
-  `elements` varchar(255) NOT NULL default '',
-  `iscore` tinyint(3) NOT NULL default '0',
-  `client_id` tinyint(3) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `params` text,
-PRIMARY KEY  (`id`),
- UNIQUE KEY `plugin` (`plugin`) )
-ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-# плагины редактора JCE
-INSERT INTO `#__jce_plugins` VALUES(null, 'Полноэкранный режим', 'fullscreen', 'plugin', 'fullscreen', 'fullscreen', 18, 1, 22, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Вставка', 'paste', 'plugin', 'pasteword,pastetext', 'paste', 18, 1, 18, 1, 1, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Предпросмотр', 'preview', 'plugin', 'preview', 'preview', 18, 4, 1, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Таблицы', 'table', 'plugin', 'tablecontrols', 'buttons', 18, 2, 3, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Поиск и замена', 'searchreplace', 'plugin', 'search,replace', 'searchreplace', 18, 1, 8, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Стили', 'style', 'plugin', 'styleprops', 'styleprops', 18, 4, 2, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Видимые символы', 'visualchars', 'plugin', 'visualchars', 'visualchars', 18, 4, 4, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'XHTML Xtras', 'xhtmlxtras', 'plugin', 'cite,abbr,acronym,del,ins', 'xhtmlxtras', 18, 4, 5, 0, 0, 'del[*],ins[*]', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Редактор изображений', 'imgmanager', 'plugin', '', 'imgmanager', 18, 4, 6, 1, 1, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Гиперссылки', 'advlink', 'plugin', '', 'advlink', 18, 4, 7, 1, 1, '', 1, 0, 0, '0000-00-00 00:00:00', 'article=18\nsection=18\ncategory=18\nstatic=18\ncontact=18\nmenu=18');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Цвет текста', 'forecolor', 'command', 'forecolor', 'forecolor', 18, 1, 7, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Жирный', 'bold', 'command', 'bold', 'bold', 18, 1, 3, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Курсив', 'italic', 'command', 'italic', 'italic', 18, 1, 4, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Подчеркнутый', 'underline', 'command', 'underline', 'underline', 18, 1, 5, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Цвет фона', 'backcolor', 'command', 'backcolor', 'backcolor', 18, 1, 8, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Удалить ссылку', 'unlink', 'command', 'unlink', 'unlink', 18, 1, 16, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Выбор шрифта', 'fontselect', 'command', 'fontselect', 'fontselect', 18, 3, 2, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Размер шрифта', 'fontsizeselect', 'command', 'fontsizeselect', 'fontsizeselect', 18, 1, 19, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Стиль', 'styleselect', 'command', 'styleselect', 'styleselect', 18, 3, 1, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Новый документ', 'newdocument', 'command', 'newdocument', 'newdocument', 18, 1, 4, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Зачеркнутый', 'strikethrough', 'command', 'strikethrough', 'strikethrough', 18, 1, 6, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Вправо', 'indent', 'command', 'indent', 'indent', 18, 1, 11, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Влево', 'outdent', 'command', 'outdent', 'outdent', 18, 1, 10, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Отмена', 'undo', 'command', 'undo', 'undo', 18, 1, 1, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Повтор', 'redo', 'command', 'redo', 'redo', 18, 1, 2, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Горизонтальная линия', 'hr', 'command', 'hr', 'hr', 18, 2, 1, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'HTML', 'html', 'command', 'code', 'code', 18, 1, 20, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Нумерованный список', 'numlist', 'command', 'numlist', 'numlist', 18, 1, 10, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Маркированный список', 'bullist', 'command', 'bullist', 'bullist', 18, 1, 9, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Буфер обмена', 'clipboard', 'command', 'cut,copy,paste', 'clipboard', 18, 1, 16, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Подстрочный', 'sub', 'command', 'sub', 'sub', 18, 2, 2, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Надстрочный', 'sup', 'command', 'sup', 'sup', 18, 2, 3, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Контуры', 'visualaid', 'command', 'visualaid', 'visualaid', 18, 3, 7, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Спецсимволы', 'charmap', 'command', 'charmap', 'charmap', 18, 3, 6, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'По ширине', 'full', 'command', 'justifyfull', 'justifyfull', 18, 1, 14, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'По центру', 'center', 'command', 'justifycenter', 'justifycenter', 18, 1, 12, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Слева', 'left', 'command', 'justifyleft', 'justifyleft', 18, 1, 13, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Справа', 'right', 'command', 'justifyright', 'justifyright', 18, 1, 11, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Удалить форматирование', 'removeformat', 'command', 'removeformat', 'removeformat', 18, 1, 21, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Якорь', 'anchor', 'command', 'anchor', 'anchor', 18, 2, 9, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Формат', 'formatselect', 'command', 'formatselect', 'formatselect', 18, 3, 9, 0, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Изображение', 'image', 'command', 'image', 'image', 18, 1, 17, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__jce_plugins` VALUES(null, 'Ссылка', 'link', 'command', 'link', 'link', 18, 1, 15, 1, 0, '', 1, 0, 0, '0000-00-00 00:00:00', '');
-
 # Компонент значков быстрого доступа
 CREATE TABLE `#__quickicons` (
   `id` int(11) NOT NULL auto_increment,
@@ -1072,6 +1406,9 @@ CREATE TABLE `#__content_tags` (
   PRIMARY KEY  (`id`),
   KEY `obj_id` (`obj_id`,`tag`)
 ) ENGINE=MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+INSERT INTO `#__content_tags` (`id`, `obj_id`, `obj_type`, `tag`) VALUES
+(1, 1, 'com_boss_1', 'Первая статья');
 
 # новые поля в таблицах
 ALTER TABLE `#__sections` ADD `templates` text ;
