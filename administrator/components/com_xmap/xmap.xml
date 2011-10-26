@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component">
+	<name>Карта сайта</name>
+	<creationDate>10:08:2008</creationDate>
+	<author>Joostina! Project</author>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1 JE</version>
+	<description>
+		<![CDATA[ Компонент создания карт сайта ]]>
+	</description>
+	<params>
+		<param name="page_title" type="radio" default="1" label="Заголовок страницы" description="Показать/Скрыть заголовок страницы">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="header" type="text" size="40" default="" label="Заголовок страницы (title)" description="Текст, отображаемый вверху страницы. Если не будет заполнено, то взамен будет использоваться название меню" />
+		<param name="robots" type="list" default="-1" label="Мета-тег Robots" description="Выберите, какой мета-тег robots использовать для этой страницы">
+			<option value="-1">Не отображать мета-тег robot</option>
+			<option value="0">Index, follow</option>
+			<option value="1">Index, NoFollow</option>
+			<option value="2">NoIndex, Follow</option>
+			<option value="3">NoIndex, NoFollow</option>
+		</param>
+		<param name="meta_description" type="textarea" default="" label="META-тег description" rows="5" cols="30" description="META-тег: Description"/>
+		<param name="meta_keywords" type="textarea" default="" label="META-тег keywords" rows="5" cols="30" description="META-тег keywords. Разделяйте ключевые слова запятыми"/>
+		<param name="meta_author" type="text" size="40" default="" label="META-тег author" description="Введите МЕТА-тег author. Оставьте это поле пустым, если не хотите отображать этот тег в заголовке страницы" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="sitemap" type="text" default="" label="Идентификатор карты" description="Введите идентификатор отображаемой карты" />
+	</params>
+</mosinstall>

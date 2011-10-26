@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Экспорт новостей</name>
+	<author>Joostina! Project</author>
+	<creationDate>Июнь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Модуль экспорта новостей, отображающий ссылку, с помощью которой люди могут получать последние новости вашего сайта на свой сайт. Если Вы нажмете на значок RSS, то Вы будете перенаправлены на новую страницу со списком всех последних новостей в формате XML. Для того чтобы использовать Ленту новостей на другом сайте Joomla! или в программе для чтения лент новостей, Вы должны скопировать и вставить в них URL ссылки ленты новостей.</description>
+	<files>
+		<filename module="mod_rssfeed">mod_rssfeed.php</filename>
+	</files>
+	<params>
+		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
+		<param name="text" type="text" default="" label="Текст" description="Введите текст, который будет показываться вместе со ссылками экспорта новостей (RSS)" />
+		<param name="yandex" type="radio" default="1" label="Yandex" description="Надо ли показывать ссылку стандарта Yandex">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="rss091" type="radio" default="1" label="RSS 0.91" description="Надо ли показывать ссылку стандарта RSS 0.91">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="rss10" type="radio" default="1" label="RSS 1.0" description="Надо ли показывать ссылку стандарта RSS 1.0">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="rss20" type="radio" default="1" label="RSS 2.0" description="Надо ли показывать ссылку стандарта RSS 2.0">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="atom" type="radio" default="1" label="Atom" description="Надо ли показывать ссылку стандарта Atom 0.3">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="opml" type="radio" default="1" label="OPML" description="Надо ли показывать ссылку стандарта OPML">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="rss091_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение RSS 0.91" description="Выберите используемое изображение" />
+		<param name="rss10_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение RSS 1.0" description="Выберите используемое изображение" />
+		<param name="rss20_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение RSS 2.0" description="Выберите используемое изображение" />
+		<param name="atom_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение Atom" description="Выберите используемое изображение" />
+		<param name="opml_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение OPML" description="Выберите используемое изображение" />
+		<param name="yandex_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Изображение Yandex" description="Выберите используемое изображение" />
+	</params>
+</mosinstall>

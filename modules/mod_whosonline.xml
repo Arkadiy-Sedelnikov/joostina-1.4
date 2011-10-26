@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Кто на сайте</name>
+	<author>Joostina! Project</author>
+	<creationDate>12:08:2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1.0 JE</version>
+	<description>Модуль 'Кто на сайте' отображает количество гостей и зарегистрированных пользователей (вошедших на сайт), которые в настоящее время присутствуют на сайте.</description>
+	<files>
+		<filename module="mod_whosonline">mod_whosonline.php</filename>
+	</files>
+	<params>
+		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
+		<param name="module_orientation" type="radio" default="0" label="Ориентация модуля" description="">
+			<option value="0">Горизонтально</option>
+			<option value="1">Вертикально</option>
+		</param>
+		<param name="all_user" type="radio" default="0" label="Показывать количество зарегистрированных пользователей" description="Показывать количество зарегистрированных пользователей">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="online_user_count" type="list" default="0" label="Пользователи online" description="Выберите тип отображения информации о количестве пользователей online">
+			<option value="0">Общее количество</option>
+			<option value="1">Разбить по группам</option>
+			<option value="2">Не отображать</option>
+		</param>
+		<param name="online_users" type="list"  default="0" label="Кто online" description="Какая информация будет отображаться о пользователях online">
+			<option value="0">Не отображать</option>
+			<option value="1">Ники пользователей</option>
+			<option value="2">Имена пользователей</option>
+		</param>
+		<param name="user_avatar" type="list" default="0" label="Отображать аватары" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+			<option value="2">Выводить только аватары (без ников/имён)</option>
+		</param>
+	</params>
+</mosinstall>

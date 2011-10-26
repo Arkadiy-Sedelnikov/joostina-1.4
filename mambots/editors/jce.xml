@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.12" type="mambot" group="editors">
+	<name>JCE Editor Mambot</name>
+	<creationDate>24:02:2008</creationDate>
+	<author>Joostina! Project</author>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1.8 JE</version>
+	<license>GNU General Public License</license>
+	<description><![CDATA[<p>
+		<strong>JCE</strong>
+		<em>(Joomla Content Editor)</em> - гибко настраиваемый и расширяемый, основанный на работах Moxiecode&apos;s
+	<a href"http://tinymce.moxiecode.com" target="_blank" />TinyMCE</a> редактор, для  Joomla! CMS.</p><p>Автор посвящает JCE своему отцу .</p>]]></description>
+	<params>
+		<param name="@spacer" type="spacer" default="" label="Настройки" description="" />
+		<param name="editor_width" type="text" size="5" default="500" label="Ширина редактора" description="Ширина области занимаемой редактором" />
+		<param name="editor_height" type="text" size="5" default="600" label="Высота редактора" description="Высота области занимаемой редактором" />
+		<param name="size_all" type="radio" default="0" label="Использовать эти размеры" description="Игнорировать размеры редактора указанные в файлах вызова.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="editor_state" type="radio" default="mceEditor" label="Редактор включен" description="Состояние редактора - Включен/Выключен.">
+			<option value="mceEditor">Включен</option>
+			<option value="mceNoEditor">Выключен</option>
+		</param>
+		<param name="compression" type="radio" default="0" label="GZip сжатие" description="Сжатие скриптов для более быстрой загрузки редактора.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="absolute_url" type="radio" default="0" label="Абсолютные пути" description="Использовать абсолютные пути для работы редактора.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="relative_url" type="radio" default="1" label="Относительные ссылки" description="Заменять все абсолютные ссылки (src, href и т.д..) на относительные, т.е. удаление название Вашего сайта. (Рекомендуется).">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="text_direction" type="radio" default="ltr" label="Расположение текста" description="Индивидуальные языковые настройки расположения текста">
+			<option value="ltr">Слева на право</option>
+			<option value="rtl">Справа на лево</option>
+		</param>
+		<param name="charset" type="text" default="utf-8" label="Кодировка" description="Кодировка редактируемых данных для использования в аякс функциях." />
+		<param name="table_inline" type="radio" default="0" label="Расширенное управление таблицами" description="Использовать продвинутый редактор для таблиц">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="content_css" type="radio" default="1" label="CSS шаблона" description="Использовать файл стилей template_css.css шаблона по умолчанию">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="content_css_custom" type="text" size="50" default="" label="Дополнительный CSS файл" description="Можно загружать дополнительный CSS файл, одно условие - он должен находится в том же каталоге что Ваш основной CSS файл." />
+		<param name="newlines" type="radio" default="0" label="Новая строка" description="Параметры создания новой строки, используемый тег.">
+			<option value="1">Элемент BR</option>
+			<option value="0">Элемент P</option>
+		</param>
+		<param name="toolbar" type="radio" default="top" label="Панель инструментов" description="Расположение панели инструментов.">
+			<option value="top">Сверху</option>
+			<option value="bottom">Снизу</option>
+		</param>
+		<param name="toolbar_align" type="radio" default="left" label="Выравнивание кнопок на панели" description="Выравнивание кнопок панели инструментов">
+			<option value="left">Слева</option>
+			<option value="center">По центру</option>
+			<option value="right">Справа</option>
+		</param>
+		<param name="editor_resizing" type="radio" default="1" label="Растягивать редактор" description="Разрешить растягивать окно редактора">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="resize_horizontal" type="radio" default="0" label="Растягивать по горизонтали" description="Разрешить растягивать окно редактора горизонтально">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="editor_resizing_cookie" type="radio" default="0" label="Сохранять размер" description="Сохранять изменённые размеры редактора">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Очистка" description="" />
+		<param name="verify_html" type="radio" default="0" label="Очистка" description="Очистка базовых HTML сущностей">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fix_table_elements" type="radio" default="1" label="Исправлять таблицы" description="Автоматически переделывать таблицы для совместимости с  XHTML.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fix_list_elements" type="radio" default="1" label="Исправлять списки" description="Конвертировать элементы UL/OL для совместимости с XHTML.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="mambot_mode" type="list" default="0" label="Режим мамбота" description="При активации, &amp; и &apos; не будут перекодированы при сохранении.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="entity_encoding" type="list" default="named" label="Кодировка Entity" description="This option controls how entities/characters gets processed by TinyMCE/JCE. The value can be set to numeric, named or raw. The default value of this option is named, if named is used the entities option will be used to convert the codes into names.">
+			<option value="numeric">Numeric</option>
+			<option value="named">Named</option>
+			<option value="raw">Raw</option>
+		</param>
+		<param name="font_size_type" type="radio" default="length" label="Размер шрифта" description="Тип того как будет задаваться размер шрифта, например: 10pt, или абсолютный размер: x-small.">
+			<option value="length">Высота</option>
+			<option value="absolute">Абсолютный размер</option>
+		</param>
+		<param name="invalid_elements" type="text" size="50" default="applet" label="Удалять элементы" description="Элементы которые будут автоматически удаляться из текста." />
+		<param name="extended_elements" type="textarea" rows="2" cols="35" default="" label="Расширенные элементы" description="Расширения функций JCE. Формат: elm[tag1|tag2]" />
+		<param name="event_elements" type="text" size="50" default="td,img,a" label="Задачи элементов" description="This option should contain a comma separated list of elements thay may have event attributes such as onclick and simmilar. This option is needed since some browsers execute these events while editing content." />
+		<param name="allow_script" type="list" default="18" label="Разрешить ява-скрипты" description="Разрешение использовать ява-скрипты">
+			<option value="99">**Отключено**</option>
+			<option value="0">Гости</option>
+			<option value="18">-Зарегистрированные</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="General" description="" />
+		<param name="html_height" type="text" default="550" size="5" label="Высота HTML" description="Высота окна предпросмотра HTML кода." />
+		<param name="html_width" type="text" default="750" size="5" label="Ширина HTML" description="Ширина окна предпросмотра HTML кода." />
+		<param name="preview_height" type="text" default="550" size="5" label="Высота предпросмотра" description="Высота окна предпросмотра редактируемого текста." />
+		<param name="preview_width" type="text" default="750" size="5" label="Ширина предпросмотра" description="Ширина окна предпросмотра редактируемого текста." />
+		<param name="template_colors" type="textarea" rows="2" cols="35" default="" label="Шаблоны цветов" description="Через точку можно перечислить цвета, используемые в редакторе, например: #ff0000, (Не более 18)." />
+	</params>
+</mosinstall>

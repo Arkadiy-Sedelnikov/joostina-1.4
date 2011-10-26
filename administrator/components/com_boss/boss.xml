@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component">
+	<name>boss</name>
+	<creationDate>14:10:2011</creationDate>
+	<author>Joostina Team</author>
+	<copyright>This component is released under the GNU/GPL License.</copyright>
+	<authorEmail>info@joostina.ru</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1.0.1 alpha3</version>
+	<files>
+		<filename>front.zip</filename>		
+	</files>
+
+	<installfile>install.boss.php</installfile>
+	<uninstallfile>uninstall.boss.php</uninstallfile>
+
+	<administration>
+		<menu>JoiBOSS CCK</menu>
+		<submenu>
+			<menu act="categories">Категории</menu>
+			<menu act="contents">Контент</menu>
+			<menu act="manager">Управление</menu>
+			<menu act="configuration" task="edit">Конфигурация</menu>
+			<menu act="fields">Поля</menu>			
+			<menu act="templates">Шаблоны</menu>
+			<menu act="plugins">Расширения</menu>
+			<menu act="fieldimage">Изображения</menu>
+            <menu act="export_import">Импорт / экспорт</menu>
+            <menu act="users">Пользователи</menu>
+		</submenu>
+		<files>
+            <filename>admin.zip</filename>            
+            <filename>templates.zip</filename>
+		</files>
+	</administration>
+    <params>
+        <param name="directory" type="selectlist" sql="SELECT id, name as title FROM `#__boss_config`" DEFAULT="1" label="Каталог"  description="Выбрать каталог для показа по этой ссылке" />
+        <param name="task" type="list" default="" label="Действие" description="Введите сюда действие, соответствующее переменной $task если знаете">
+			<option value="">По умолчанию</option>
+			<option value="show_all">Показать все</option>
+			<option value="show_category">Открыть категорию</option>
+            <option value="search">Открыть страницу поиска</option>
+            <option value="write_content">Новый контент</option>
+            <option value="show_profile">Мой профиль</option>
+            <option value="show_user">Мой контент</option>
+            <option value="show_rules">Правила</option>
+		</param>
+		<param name="catid" type="text" default="" label="Категория ID" description="Категория ID" />
+	</params>
+    <description>
+        <h1>JoiBOSS для Joostina CMS! на основе Jdirectory от Thomas Papin</h1>
+        <p>JoiBOSS - контент-конструктор, при помощи которого можно создать любой тип контента - от галереи до магазина, от доски объявлений до бизнес-каталога.</p>
+    </description>
+</mosinstall>

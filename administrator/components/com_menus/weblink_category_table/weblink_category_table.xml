@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="menu" version="1.0.0">
+	<name>Таблица - Web-ссылки категории</name>
+	<group>Component</group>
+	<author>Joostina! Project</author>
+	<creationDate>Январь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Показывает в виде таблицы web-ссылки из определенной категории web-ссылок</description>
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Изображение меню" description="Маленькое изображение, располагаемое слева или справа от пункта меню. Изображение должно находиться в папке images/stories/" />
+		<param name="pageclass_sfx" type="text" default="" label="Суффикс CSS-класса страницы" description="Суффикс CSS-класса, используемого на этой странице. Необходим для использования индивидуального стиля страницы" />
+		<param name="back_button" type="radio" default="" label="Кнопка Назад (Вернуться)" description="Показать/Скрыть кнопку Назад (Вернуться), возвращающую на предыдущую просмотренную страницу">
+			<option value="">Использовать глобальные</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="page_title" type="radio" default="1" label="Заголовок страницы" description="Показать/Скрыть заголовок страницы">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="header" type="text" size="30" default="" label="Заголовок страницы" description="Текст, отображаемый вверху страницы. Если не будет заполнено, то взамен будет использоваться название меню" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="headings" type="radio" default="1" label="Заголовки таблиц" description="Показать/Скрыть заголовки таблиц">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="hits" type="radio" default="" label="Число просмотров" description="Показать/Скрыть столбец Просмотров">
+			<option value="">Использовать глобальные</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="item_description" type="radio" default="1" label="Описание ссылки" description="Показать/Скрыть текст описания ссылок">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Другие категории" description="При просмотре категории, Показать/Скрыть список других категорий">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Значок" description="Значок, используемый слева от url ссылки при просмотре в виде таблицы" />
+	</params>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="robots" type="list" default="-1" label="Мета-тег Robots" description="Выберите, какой мета-тег robots использовать для этой страницы">
+			<option value="-1">Не отображать мета-тег robot</option>
+			<option value="0">Index, follow</option>
+			<option value="1">Index, NoFollow</option>
+			<option value="2">NoIndex, Follow</option>
+			<option value="3">NoIndex, NoFollow</option>
+		</param>
+		<param name="meta_description" type="textarea" default="" label="META-тег description" rows="5" cols="30" description="META-тег: Description"/>
+		<param name="meta_keywords"    type="textarea" default="" label="META-тег keywords" rows="5" cols="30" description="META-тег keywords. Разделяйте ключевые слова запятыми"/>
+		<param name="meta_author" 	   type="text" size="40" default="" label="META-тег author" description="Введите МЕТА-тег author. Оставьте это поле пустым, если не хотите отображать этот тег в заголовке страницы" />
+</mosinstall>

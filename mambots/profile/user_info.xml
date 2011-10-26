@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="profile">
+	<name>Информация "О себе" в профиле пользователя</name>
+	<author>Joostina! Project</author>
+	<creationDate>Июль 2009</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>info@joostina.ru</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description><![CDATA[Отображение контактных данных в профиле пользователя. Для использование плагин должен быть опубликован. Вставка в произвольное место шаблона осуществляется с помощью конструкции: "$_MAMBOTS->call_mambot('userProfile', 'user_info', $user);". Доступ к странице мамбота внутри профиля пользователя может быть осуществлен по ссылке: "index.php?option=com_users&task=profile&view=user_info&user=$user_id"]]></description>
+	<files>
+		<filename mambot="user_info">user_info.php</filename>
+	</files>
+	<params>
+		<param name="header" type="text" default="О себе" label="Заголовок плагина" description="" />
+		<param name="show_header" type="radio" default="0" label="Показывать заголовок" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="gender" type="list" default="0" label="Вывести пол пользователя" description="">
+			<option value="0">Не отображать</option>
+			<option value="1">Текстом</option>
+			<option value="2">Значком</option>
+		</param>
+		<param name="show_location" type="radio" default="0" label="Вывести местоположение пользователя" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="show_birthdate" type="radio" default="0" label="Вывести возраст пользователя" description="">
+			<option value="0">Не отображать</option>
+			<option value="1">Показать дату рождения</option>
+			<option value="2">Показать возраст</option>
+		</param>
+		<param name="show_about" type="radio" default="0" label="Вывести информацию [О себе]" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+	</params>
+</mosinstall>

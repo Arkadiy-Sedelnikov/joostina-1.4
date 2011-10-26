@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="menu" version="1.0.0">
+	<name>Добавить содержимое</name>
+	<group>Content|Submit</group>
+	<author>Jason407</author>
+	<creationDate>August 2005</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.1 JE</version>
+	<description>Создает ссылку на добавление содержимого пользователями</description>
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Изображение меню" description="Маленькое изображение, располагаемое слева или справа от пункта меню. Изображение должно находиться в папке images/stories/" />
+		<param name="form_title_add" type="text" default="" label="Заголовок формы при добавлении записи" description="" />
+		<param name="form_title_edit" type="text" default="" label="Заголовок формы при редактировании записи" description="" />
+		<param name="for_section" type="mos_section" default="0" label="Параметры добавления для:" hide_none="0" hide_default="0" description="Выберите, для какого раздела будут дейстовать данные настройки" />
+		<param name="ids_user" type="text" default="" label="ID разделов или категорий, в которые разрешено/запрещено добавление материалов" description="Укажите через запятую ID разделов или категорий, в которые пользователям разрешено/запрещено добавлять материалы. Тип использования введенных ID укажите ниже - с помощью выпадающего списка. " />
+		<param name="ids_action" type="list" default="0" label="Тип использования введенных ID разделов или категорий" description="Выберите, каким образом обрабатывать введенные Вами исключения. Если выбрано 'Не использовать' - пользователям будет разрешено добавление записей во все разделы/категории">
+			<option value="0">Не использовать</option>
+			<option value="1">Разрешить публикацию только в указанных РАЗДЕЛАХ</option>
+			<option value="2">Разрешить публикацию только в указанных КАТЕГОРИЯХ</option>
+			<option value="3">Запретить публикацию в указанных РАЗДЕЛАХ</option>
+			<option value="4">Запретить публикацию в указанных КАТЕГОРИЯХ</option>
+		</param>
+		<param name="content_type" type="radio" default="0" label="Тип содержимого" description="Выберите тип содержимого">
+			<option value="0">Статья</option>
+			<option value="1">Статичное содержимое</option>
+		</param>
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="wwig_buttons" type="radio" default="0" label="Кнопки под редактором" description="Отображать кнопки под визуальным редактором? Например: [Разрыв страницы] и т.п.">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="fulltext" type="radio" default="1" label="Полный текст" description="Отображать поле [Полный текст]?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="allow_alias" type="radio" default="1" label="Псевдоним заголовка" description="Показывать поле 'Псевдоним заголовка' при добавлении содержимого?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="allow_info" type="radio" default="1" label="Информация" description="Показывать подробную информацию о записе?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="allow_params" type="radio" default="1" label="Параметры публикации" description="Показывать вкладку 'Параметры публикации' при добавлении содержимого?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="allow_desc" type="radio" default="1" label="Описание материала" description="Отображать поле ввода описания для содержимого?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="allow_tags" type="radio" default="1" label="Тэги" description="Отображать поле ввода тэгов?">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="auto_publish" type="list" default="0" label="Настройка публикации статей" description="Выберите соответствующий параметр для публикации.">
+			<option value="0">В соответствии с группой пользователей</option>
+			<option value="1">Выбор осуществляется пользователем</option>
+		</param>
+		<param name="allow_frontpage" type="radio" default="1" label="Показывать переключатель 'На главной'" description="Отображать переключатель. Независимо от настроек, Суперадминистратор всегда будет видеть этот переключатель">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="front_label" type="text" default="" label="Подпись переключателя 'На главной'" description="" />
+	</params>
+</mosinstall>

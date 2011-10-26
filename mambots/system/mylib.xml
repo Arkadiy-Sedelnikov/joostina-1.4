@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="system">
+	<name>Библиотека MyLib</name>
+	<author>Joostina! Project</author>
+	<creationDate>01.10.2009</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>info@joostina.ru</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0</version>
+	<description>Подкючение библиотеки MyLib, использующейся для размещения в ней пользовательского кода</description>
+	<files>
+		<filename mambot="mylib">mylib.php</filename>
+	</files>
+</mosinstall>

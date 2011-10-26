@@ -1,0 +1,33 @@
+// Русская локализация
+
+tinyMCE.addToLang('xhtmlxtras',{
+cite_desc : 'Цитирование',
+abbr_desc : 'Сокращение',
+acronym_desc : 'Акроним',
+del_desc : 'Стирание',
+ins_desc : 'Вставка',
+attribute_label_title : 'Заголовок',
+attribute_label_id : 'ID',
+attribute_label_class : 'Класс',
+attribute_label_style : 'Стиль',
+attribute_label_cite : 'Цитата',
+attribute_label_datetime : 'Дата/Время',
+attribute_label_langdir : 'Направление текста',
+attribute_option_ltr : 'Слева направо',
+attribute_option_rtl : 'Справа налево',
+attribute_label_langcode : 'Язык',
+general_tab : 'Общие',
+attrib_tab : 'Атрибуты',
+events_tab : 'События',
+fieldset_general_tab : 'Общие настройки',
+fieldset_attrib_tab : 'Атрибуты элемента',
+fieldset_events_tab : 'События элемента',
+title_ins_element : 'Вставка элемента',
+title_del_element : 'Удаление элемента',
+title_acronym_element : 'Элемент Акроним',
+title_abbr_element : 'Элемент Аббревиатура',
+title_cite_element : 'Элемент Цитирование',
+remove : 'Убрать',
+not_set : '--не задано--',
+insert_date : 'Вставить текущую дату/время'
+});

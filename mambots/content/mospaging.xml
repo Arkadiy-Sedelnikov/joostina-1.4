@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="content">
+	<name>Разрыв страницы Mambo</name>
+	<author>Joostina! Project</author>
+	<creationDate>Август 2004</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0 RE</version>
+	<description>Добавляет функцию создания оглавления содержимого. Синтаксис: {mospagebreak} или {mospagebreak title=Название страницы} или {mospagebreak heading=Первая страница} или {mospagebreak title=Название страницы&amp;heading=Первая страница} или {mospagebreak heading=Первая страница&amp;title=Название страницы}</description>
+	<files>
+		<filename mambot="mospaging">mospaging.php</filename>
+	</files>
+	<params>
+		<param name="title" type="radio" default="1" label="Название сайта" description="Атрибуты названия и заголовка, добавляемые в тэг Название сайта">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+	</params>
+</mosinstall>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Баннеры</name>
+	<author>Joostina! Project</author>
+	<creationDate>30:07:2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Модуль баннера позволяет показывать активные баннеры из компонента внутри Вашего сайта.</description>
+	<files>
+		<filename module="mod_banners">mod_banners.php</filename>
+	</files>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
+		<param name="categories" type="text" default="" label="Категории" description="Какие категории отображать? (напр. 1,2,7 - отображают первую, вторую и седьмую)" />
+		<param name="banners" type="text" default="" label="Баннеры" description="Какие баннеры будут отображены? (напр. 1,5 - отображают первые и пятые)" />
+		<param name="clients" type="text" default="" label="Клиенты" description="Какие клиенты будут отображены? (напр. 1,5 - отображают первые и пятые)" />
+		<param name="count" type="text" default="1" label="Счетчик" description="Счетчик баннеров, которые будут отображены? (напр. 5 - отображают пять баннеров из выбранных категорий)" />
+		<param name="random" type="list" default="0" label="Случайный баннер" description="Да для случайного отображения (это допустимо только для 'счетика' = 1)">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="text" type="list" default="0" label="Показывать заголовок?" description="">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="orientation" type="list" default="0" label="Ориентация" description="Выберите, если Вы хотите показывать ваши баннерам вертикально или горизонтально">
+			<option value="0">Вертикальная</option>
+			<option value="1">Горизонтальная</option>
+		</param>
+	</params>
+</mosinstall>

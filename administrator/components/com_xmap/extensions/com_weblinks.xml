@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="xmap_ext" version="1.0.0">
+	<name>com_weblinks</name>
+	<author>Joostina Team</author>
+	<creationDate>05:08:2008</creationDate>
+	<copyright>GNU GPL</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>joostina.ru</authorUrl>
+	<version>1.1 JE</version>
+	<description>Расширение для создания карты компонента ссылок</description>
+	<files>
+		<filename xmap_ext="com_weblinks">com_weblinks.php</filename>
+	</files>
+</mosinstall>

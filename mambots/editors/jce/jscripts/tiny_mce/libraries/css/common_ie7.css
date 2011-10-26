@@ -1,0 +1,53 @@
+div#fileContainer {
+  height: 246px;
+}
+div#fileDetails{
+  width: 170px;
+  height: 230px;
+}
+div#toolsList{
+    width:31px;
+	height:246px;
+}
+div#msgDiv {
+    width: 702px;
+    height: 32px;
+}
+div#msgIcon {
+    height: 32px;
+}
+div.msgBlock {
+    height: 38px;
+}
+div#dirListBlock {
+    width:617px;
+    height: 26px;
+}
+div#searchDiv {
+    width:202px;
+	height:24px;
+}
+
+div#sortTypeDiv {
+    width:50px;
+	height:24px;
+}
+
+div#sortNameDiv {
+    width:275px;
+	height:24px;
+}
+div#spacerDiv{
+	height:24px; 
+	width:192px;
+}
+div#treeDetails{
+	width: 192px;
+	height: 230px;
+}
+div#treeTitle{
+	width: 192px;
+}
+#searchValue {
+	margin-top: 0px;
+}

@@ -1,0 +1,41 @@
+/* CSS Document */
+.noResult {
+    font-size:medium;
+    font-weight:bold;
+    color: #c0d2ec;
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+    padding-top: 30px;
+}
+img {
+  border: 0;
+}
+.div-list {
+	-moz-user-select:	none;
+	font:		icon;
+	background:	Window;
+	cursor:		pointer;
+}
+.divList:hover, divList.hover{
+	background:	#ddd;
+	color: black;
+}
+.div-list div {
+	margin: 1px;
+	padding: 3px;
+}
+.selected {
+	background:	#eee;
+	color: black;
+}
+body {
+	padding: 0px;
+    margin: 0px;
+}
+a {
+	color: black;
+}
+a:visited {
+	color: black;
+}
+

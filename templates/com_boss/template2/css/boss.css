@@ -1,0 +1,594 @@
+/*                                */
+/* Stylesheet for com_boss  */
+/*                                */
+/*    (c) 2006 Thomas PAPIN       */
+/*         GPL License            */
+/*                                */
+/*     thomas.papin@free.fr       */
+/*                                */
+
+div.contentitem {
+ float: left;
+ width: 45%;
+ margin: 10px;
+ padding: 5px;
+ border: 1px solid #333333;
+ background-color: #eaf4fc;
+}
+
+tr.firstline{
+ background-color: #333333;
+ color: #FFFFFF;
+ border: 1px solid #333333;
+ text-align:center;
+ font-size: 11px;
+ height:25px;
+ text-align:left;
+}
+
+tr.firstline a:link,tr.firstline a:visited{
+color: #FFFFFF;
+font-size: 14px;
+text-decoration:none;
+}
+
+tr.firstline a:hover{
+color: #AAAAAA;
+text-decoration:none;
+}
+
+
+#boss_fieldset form br {
+	clear: left;
+}
+
+.boss_main_cat,.boss_main_cat a:link,.boss_main_cat a:visited{
+ font-size: 16px;
+ margin: 0px;
+ margin-top: 10px;
+ padding: 0px ;
+ color: #000000;
+}
+
+.boss_sub_cat,.boss_sub_cat a:link,.boss_sub_cat a:visited {
+ font-size: 11px;
+ font-family: arial;
+ margin-top: 2px;
+ padding: 0 ;
+ color: #7333B3;
+ font-weight:normal;
+ text-decoration:none;
+}
+
+.imgcat {
+ border : 0;
+}
+
+.boss_contents form {
+	display:inline;
+}
+
+.boss_footer {
+ font-size: 10px;
+ color: #555555;
+}
+
+.boss_cat {
+ font-size: 10px;
+ font-style: italic;
+ color: #BBBBBB;
+}
+
+.boss_pathway {
+ margin-bottom:10px;
+}
+
+table.boss_table{
+ background-color: #F7F7F7;
+ border: 1px solid #cccccc;
+ border-collapse: collapse; 
+ width: 98%;
+}
+
+table.boss_table th {
+ background-color: #333333;
+ color: #FFFFFF;
+ border: 1px solid #333333;
+ text-align:center;
+ font-size: 11px;
+}
+
+table.boss_table td {
+ border: 1px solid #cccccc;
+}
+
+.boss_table td img {
+	float: left;
+	border: none;
+	padding-right: 8px;
+}
+
+.boss_table td h2{
+	font-size: 11px;
+	margin-bottom : 0px;
+	padding-bottom: 5px;
+}
+
+.boss_table td {
+	text-align: left;
+	padding : 5px;
+}
+
+table.boss_table tr td.right {
+ text-align: right;
+}
+
+table.boss_table tr td.center {
+  text-align:center;
+}
+
+
+table.boss_topmenue {
+  background-color: #F7F7F7;
+  color: #000000;
+  padding: 0px;
+  margin: 0px;
+}
+
+table.boss_topmenue td {
+  border: 1px solid #cccccc;
+  color: #000000;
+  padding: 3px;
+  margin: 0px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.boss_search_title {
+ background: url(../images/system/title.png) no-repeat;
+ height: 24px;
+ color: #7333B3;
+ padding-top: 1px; 
+ padding-left: 24px; 
+ margin-bottom: 2px;
+ margin-top: 2px;
+ font-weight: bold;
+ font-size: 14px;
+ }
+ 
+.boss_subtitle {
+ text-align : right;
+ margin-bottom: 2px; 
+}
+
+.boss_search_box {
+	position :relative;
+	width: 96%;
+	left: 2%;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	padding: 2px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.boss_box_module {
+	width: 95%;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	padding: 2px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.boss_box {
+    position :relative;
+	width: 75%;
+	left: 10%;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	padding: 2px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.boss_inner_box {
+	font-size: 12px;
+	color: #000000;
+	border: 1px dotted #CCCCCC;
+	background-color: #FFFFCC;
+	padding: 5px; 
+	text-align:right;
+}
+
+.boss_inner_box tr td {
+	padding-right: 5px;
+}
+
+.boss_search_box form {
+	display : inline;
+}
+
+.imgheading {
+    margin-right : 5px;
+}
+
+table.boss {
+	width: 100%;
+	color: #000000;
+	border: 1px solid #CCCCCC;
+	background-color: #FFFFFF;
+}
+table.boss_header {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+table.boss_select {
+	/* width: 100%; */
+	color: #000000;
+	background-color: #F0F0F0;
+}
+
+div.boss_contents {
+  border: 1px solid #CCCCCC;
+  color: #000000;
+  padding: 2px;
+  margin: 0px;
+}
+
+div.boss_top_contents {
+	font-size: 10px;
+	color: #000000;
+	border: 1px dotted #CCCCCC;
+	background-color: #FFEEDD;
+	padding: 5px; 
+}
+
+div.boss_contents_kindof {
+	text-align : right;
+}
+
+div.boss_contents_state {
+	text-align : right;
+}
+
+h2.boss_contents_title {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 0px; 
+	margin: 0px;
+}
+
+div.boss_contents_main {
+	background-color: #F0F0F0; 
+}
+
+div.boss_contents_body {
+	float: left;
+	width: 67%;
+}
+
+div.boss_contents_desc {
+	border: 1px solid #FFFFFF;
+	padding: 5px; 
+}
+
+div.boss_contents_price {
+	border: 1px solid #FFFFFF;
+	padding: 5px; 
+}
+
+div.boss_contents_contact {
+	border: 1px solid #FFFFFF;
+	padding: 5px; 
+}
+
+div.boss_contents_image div {
+	border: 1px solid #FFFFFF;
+	float: left;
+	width:30%;
+	padding: 5px; 
+	text-align : center;
+}
+
+div.boss_contents_image a{
+	display : block;
+	margin-top: 10px;	
+}
+
+div.boss_contents_image a img{
+	border: none;
+}
+
+
+.boss_spacer {
+	clear: both;
+}
+
+div.boss_footer {
+	clear: both;
+	text-align: center;
+	margin-top: 10px;
+
+}
+
+
+
+fieldset.boss {
+	color: #000000;
+	border: 1px solid #CCCCCC;
+	/* background_color: #555555; */
+	/* padding: 5; */
+}
+
+
+legend.boss {
+	color: #000000;
+	font-weight: bold;
+	border: 1px solid #CCCCCC;
+	/* background_color: #DDDDDD; */
+	padding: 10px;
+}
+
+
+
+.boss {
+	border: 1px solid #CCCCCC;
+	background-color: #F0F0F0;
+	margin: 2px;
+	padding: 2px;
+}
+
+.boss_required {
+	border: 1px solid #CCCCCC;
+    background-image:none !important;
+	background-color: #FFEEDD !important;
+	margin: 2px;
+	padding: 2px;
+} 
+
+#boss_fieldset label {
+	/* border: 1px solid #CCCCCC; */
+	width: 15%;
+	float: left;
+	margin: 2px;
+	padding: 2px;
+	text-align: right;
+}
+
+#boss_fieldset label.right {
+	/* border: 1px solid #CCCCCC; */
+	width: 14em;
+	float: left;
+	margin: 5px;
+	padding: 2px;
+	text-align: left;
+}
+
+#boss_writecontent_header{
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.boss_innermenu {
+text-align:center;
+}
+
+.boss_innermenu h2{
+font-size: 12px;
+}
+
+
+#writecontent_header1 {
+    display: inline;
+	border: 1px solid #CCCCCC;
+	background-color: #FFEEDD;
+	width: 7em;
+	margin: 5px;
+	padding: 2px;
+}
+#writecontent_header2 {
+    display: inline;
+	border: 1px solid #CCCCCC;
+	background-color: #EEEEEE;
+	width: 7em;
+	margin: 5px;
+	padding: 2px;
+}
+
+/* v1.1.1 */
+.boss_ver_list {
+    list-style: none;
+    text-align: left;
+}
+
+.boss_ver_list li {
+	background-image: none;
+}
+
+div.module .boss_short {
+	width: 100%;
+}
+
+div.module .boss_left {
+	float: left;
+	width: 75%;
+}
+
+div.module .boss_left img{
+	float: left;
+	margin : 5px;
+}
+
+div.module .boss_right {
+	float: right;
+	width: 160px;
+}
+
+div.module .boss_right img {
+	vertical-align: middle ;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+div.module .boss_top {
+	padding-bottom: 5px;
+}
+
+div.module .boss_bottom {
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+
+.boss_vote div {
+	margin-right : 10px;
+}
+
+div.module h3 a {
+font-size: 1em;
+color: #484848;
+text-decoration: none;
+}
+
+div.boss_categories {
+	margin-top: 10px;
+	width: 80%;
+	padding-left: 50px;
+}
+
+div.boss_maincat {
+width: 80%;
+text-align:left;
+margin-bottom: 10px;
+/*padding-left: 20px;*/
+}
+
+div.boss_maincat img {
+margin-right : 5px;
+width : 100px;
+float: left;
+text-align: center;
+}
+
+h2.boss_maincat_title {
+margin: 5px;
+padding-top:5px;
+}
+
+h2.boss_maincat_title a:link,h2.boss_maincat_title a:visited{
+color: #000000;
+text-decoration:none;
+}
+
+h2.boss_maincat_title a:hover{
+color: #0000FF;
+text-decoration:none;
+}
+
+div.boss_sub_cat {
+width : 75%;
+}
+
+h3.boss_subcat_title {
+display:inline;
+}
+
+div.boss_content_box {
+	float: left;
+	width: 33%;
+	text-align:center;
+}
+
+div.boss_latest {
+	width: 100%;
+	
+}
+
+div.boss_content_box a{
+	text-align: center;
+	display: block; 
+}
+
+span.boss_content_date {
+	text-align: center;
+	display: block; 
+}
+
+.details {
+	width: 100%;
+	border-collapse: collapse; 
+}
+
+h1.detailstitle {
+	color: #333333;
+	font-size: 18px;
+}
+h1.detailstitle img{
+        border: 0px;
+}
+	
+.details td {
+	border: 1px solid #cccccc;
+	
+}
+
+
+
+.details .description {
+	float: left;
+	width : 60%;
+	padding-right :1px;
+}
+
+.details .description .other img{
+	display: block;
+	margin-bottom: 5px;
+}
+
+.details .right {
+	text-align:right;
+	float: right;
+	padding: 10px;
+	width : 20%;
+	background-color: #F7F7F7;
+}
+
+.details .center {
+	text-align:center;
+}
+
+.details div div {
+	border : none;
+}
+
+.vote {
+	text-align : center;
+}
+
+.dotteddiv {
+	border-bottom: 1px dotted #cccccc;
+	margin-top : 10px;
+	margin-left : 5%;
+	margin-right: 5%;
+	padding-bottom: 10px;
+}
+
+.bold {
+	 font-weight:bold;
+}
+
+div.boss_subcats a{
+	border-right:1px solid #cdcdcd;
+	padding:0 5px;
+	display: block;
+	float:left;
+	margin:2px 0;
+}
+
+div.boss_subcats a.last{
+	border:none;
+	padding:0 5px;
+	display: block;
+	float:left;
+	margin:2px 0;
+}

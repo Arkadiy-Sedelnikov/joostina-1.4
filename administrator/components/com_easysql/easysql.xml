@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component">
+	<name>Управление SQL</name>
+	<creationDate>27:07:2008</creationDate>
+	<author>Joostina! Project</author>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.1 JE</version>
+	<description>
+		<![CDATA[ Компонент управления SQL запросами ]]>
+	</description>
+</mosinstall>

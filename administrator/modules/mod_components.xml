@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module">
+	<name>Список компонентов</name>
+	<author>Joostina! Project</author>
+	<creationDate>Октябрь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Этот модуль показывает список установленных компонентов</description>
+	<files>
+		<filename module="mod_components">mod_components.php</filename>
+	</files>
+	<params>
+		<param name="count" type="text" default="10" label="Компоненты" description="Число объектов для отображения" />
+	</params>
+</mosinstall>

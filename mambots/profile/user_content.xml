@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="profile">
+	<name>Материалы пользователя</name>
+	<author>Joostina! Project</author>
+	<creationDate>Июль 2009</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>info@joostina.ru</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description><![CDATA[Отображение материалов в профиле пользователя. Для использование плагин должен быть опубликован. Вставка в произвольное место шаблона осуществляется с помощью конструкции: "$_MAMBOTS->call_mambot('userProfile', 'user_content', $user);". Доступ к странице мамбота внутри профиля пользователя может быть осуществлен по ссылке: "index.php?option=com_users&task=profile&view=user_content&user=$user_id"]]></description>
+	<files>
+		<filename mambot="user_content">user_content.php</filename>
+	</files>
+</mosinstall>

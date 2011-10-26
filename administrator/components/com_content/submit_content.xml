@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component" version="1.0.0">
+	<name>Добавить содержимое</name>
+	<author>boston</author>
+	<creationDate>August 2005</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.1 JE</version>
+	<description>Создает ссылку на добавление содержимого пользователями</description>
+	<params type="tabs" description="d fsdf sdfsd fdsfd">
+
+		<param name="@spacer" label="one" default="tabs" type="spacer" description="Первая" />
+
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="wwig" type="radio" default="1" label="Визуальный редактор" description="Использовать ли визуальный редактор для редактирования текста">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+
+		<param name="@spacer" label="two" default="tabs" type="spacer" description="Вторая"/>
+
+		<param name="fulltext" type="radio" default="1" label="Основной текст" description="Использовать поле для ввода основного текста.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fulltext" type="radio" default="1" label="Основной текст" description="Использовать поле для ввода основного текста.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fulltext" type="radio" default="1" label="Основной текст" description="Использовать поле для ввода основного текста.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fulltext" type="radio" default="1" label="Основной текст" description="Использовать поле для ввода основного текста.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="fulltext" type="radio" default="1" label="Основной текст" description="Использовать поле для ввода основного текста.">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+	</params>
+</mosinstall>

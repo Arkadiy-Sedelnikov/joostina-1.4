@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component" version="1.0.0">
+	<name>Contact</name>
+	<author>Joostina! Project</author>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Этот компонент показывает список контактов</description>
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Изображение меню" description="Маленькое изображение, располагаемое слева или справа от пункта меню. Изображение должно находиться в папке images/stories/" />
+		<param name="pageclass_sfx" type="text" default="" label="Суффикс CSS-класса страницы" description="Суффикс CSS-класса, используемого на этой странице. Необходим для использования индивидуального стиля страницы" />
+		<param name="back_button" type="list" default="" label="Кнопка Назад (Вернуться)" description="Показать/Скрыть кнопку Назад (Вернуться), возвращающую на предыдущую просмотренную страницу">
+			<option value="">Использовать глобальные</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="page_title" type="radio" default="1" label="Заголовок страницы" description="Показать/Скрыть заголовок страницы">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="header" type="text" size="30" default="" label="Заголовок страницы" description="Текст, отображаемый вверху страницы. Если заполнено, то будет взамен будет использоваться название меню" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="catid" type="mos_category" default="0" scope="com_contact_details" label="Определенная категория" description="Показывать контакты только из определенной категории" />
+		<param name="other_cat_section" type="radio" default="1" label="Список категорий - Раздел" description="Показать/Скрыть список категорий на странице просмотра списка">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Список категорий - Категория" description="Показать/Скрыть список категорий в таблице при просмотре страницы">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Описание категории" description="Показать/Скрыть описание для списка категорий">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="Кол-во объектов категории" description="Показать/Скрыть число объектов каждой категории">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="description" type="radio" default="1" label="Описание" description="Показать/Скрыть описание внизу">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="description_text" type="textarea" default="" label="Текст описания" rows="5" cols="30" description="Описание страницы. Если пусто, то из языкового файла будет загружена константа _WEBLINKS_DESC"/>
+		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Изображение" description="Изображение для страницы. Должно находиться в папке /images/stories. По умолчанию загружается web_links.jpg. Если стоит НЕТ, то изображение грузиться не будет." />
+		<param name="image_align" type="radio" default="right" label="Выравнивание изображения" description="Выравнивание изображения">
+			<option value="left">Слева</option>
+			<option value="right">Справа</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="headings" type="radio" default="1" label="Заголовки таблиц" description="Показать/Скрыть заголовки таблиц">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="position" type="radio" default="1" label="Столбец Положение" description="Показать/Скрыть столбец Положение">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="email" type="radio" default="0" label="Столбец E-mail" description="Показать/Скрыть столбец E-mail">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="telephone" type="radio" default="1" label="Столбец Телефон" description="Показать/Скрыть столбец Телефон">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="fax" type="radio" default="1" label="Столбец Факс" description="Показать/Скрыть столбец Факс">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="bannedEmail" type="text" default="" label="Заблокированные Email" size="40" description="Адреса E-mail, содержащие определенный текст. Необходимо ввести слова, разделяя их точкой с запятой. Например, ban;text;etc" />
+		<param name="bannedSubject" type="text" default="" label="Заблокированные темы" size="40" description="Темы писем, содержащие определенный текст. Необходимо ввести слова, разделяя их точкой с запятой. Например, ban;text;etc" />
+		<param name="bannedText" type="text" default="" label="Заблокированный текст" size="40" description="Текст писем, содержащих определенный текст. Необходимо ввести слова, разделяя их точкой с запятой. Например, ban;text;etc" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="sessionCheck" type="radio" default="1" label="Проверка сессий" description="Проверка сессий, не имеющих cookie. Эта функция запрещает пользователям без cookie отправлять сообщения на email">
+			<option value="0">Выкл.</option>
+			<option value="1">Вкл.</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="robots" type="list" default="-1" label="Мета-тег Robots" description="Выберите, какой мета-тег robots использовать для этой страницы. Этот тег позволяет управлять поведением поисковых роботов, т.е. индексацией страницы">
+			<option value="-1">Не отображать мета-тег robot</option>
+			<option value="0">Index, follow</option>
+			<option value="1">Index, NoFollow</option>
+			<option value="2">NoIndex, Follow</option>
+			<option value="3">NoIndex, NoFollow</option>
+		</param>
+		<param name="meta_description" type="textarea" default="" label="META-тег description" rows="5" cols="30" description="META-тег: Description"/>
+		<param name="meta_keywords"    type="textarea" default="" label="META-тег keywords" rows="5" cols="30" description="META-тег keywords. Разделяйте ключевые слова запятыми"/>
+		<param name="meta_author" 	   type="text" size="40" default="" label="META-тег author" description="Введите МЕТА-тег author. Оставьте это поле пустым, если не хотите отображать этот тег в заголовке страницы" />
+	</params>
+</mosinstall>

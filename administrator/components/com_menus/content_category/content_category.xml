@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="menu" version="1.0.0">
+    <name>Таблица - Содержимое категории</name>
+    <group>Content</group>
+    <author>Joostina! Project</author>
+    <creationDate>Январь 2008</creationDate>
+    <copyright>(C) 2008-2010 Joostina team.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+    <authorEmail>joostinacms@gmail.com</authorEmail>
+    <authorUrl>www.joostina.ru</authorUrl>
+    <version>1.0.0</version>
+    <description>В виде таблицы показываются объекты содержимого из определенной категории</description>
+    <params>
+        <param name="page_name" type="textarea" rows="3" cols="30" default="" label="Название страницы" description="Название страницы, отображаемое в заголовке браузера (тег title)." />
+        <param name="no_site_name" type="radio" default="1" label="Скрыть название сайта" description="Показать/скрыть название сайта в title страницы (заголовке браузера).">
+            <option value="0">Нет</option>
+            <option value="1">Да</option>
+        </param>
+        <param name="robots" type="list" default="-1" label="Мета-тег Robots" description="Выберите, какой мета-тег robots использовать для этой страницы">
+            <option value="-1">Не отображать мета-тег robot</option>
+            <option value="0">Index, follow</option>
+            <option value="1">Index, NoFollow</option>
+            <option value="2">NoIndex, Follow</option>
+            <option value="3">NoIndex, NoFollow</option>
+        </param>
+        <param name="meta_description" type="textarea" default="" label="META-тег description" rows="5" cols="30" description="META-тег: Description"/>
+        <param name="meta_keywords"    type="textarea" default="" label="META-тег keywords" rows="5" cols="30" description="META-тег keywords. Разделяйте ключевые слова запятыми"/>
+        <param name="meta_author" 	   type="text" size="40" default="" label="META-тег author" description="Введите МЕТА-тег author. Оставьте это поле пустым, если не хотите отображать этот тег в заголовке страницы" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Изображение меню" description="Маленькое изображение, располагаемое слева или справа от пункта меню. Изображение должно находиться в папке images/stories/" />
+        <param name="page_title" type="radio" default="1" label="Заголовок страницы" description="Показать/Скрыть заголовок страницы">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="pageclass_sfx" type="text" size="20" default="" label="Суффикс CSS-класса страницы" description="Суффикс CSS-класса, используемого на этой странице. Необходим для использования индивидуального стиля страницы" />
+        <param name="back_button" type="radio" default="" label="Кнопка Назад (Вернуться)" description="Показать/Скрыть кнопку Назад (Вернуться), возвращающую на предыдущую просмотренную страницу">
+            <option value="">Использовать глобальные</option>
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="description" type="radio" default="1" label="Описание категории" description="Показать/Скрыть описание категории">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="description_image" type="radio" default="1" label="Изображение в описании категории" description="Показать/Скрыть изображение в описании категории">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="orderby" type="list" default="" label="Порядок сортировки" description="Изменяет порядок расположения объектов.">
+            <option value="">По умолчанию</option>
+            <option value="date">Сначала самые старые</option>
+            <option value="rdate">Сначала самые новые</option>
+            <option value="alpha">Заголовки по алфавиту</option>
+            <option value="ralpha">Заголовки в обратном порядке алфавита</option>
+            <option value="author">Авторы по алфавиту</option>
+            <option value="rauthor">Авторы в обратном порядке алфавита</option>
+            <option value="hits">Сначала самые читаемые</option>
+            <option value="rhits">Сначала редко читаемые</option>
+            <option value="order">Упорядоченно</option>
+        </param>
+
+        <param name="date_format" type="text" size="15" default="" label="Формат даты" description="Формат отображаемой даты. Для форматирования используется функция PHP - strftime. Если поле оставлено пустым, то будет использоваться формат из языкового файла" />
+        <param name="date" type="radio" default="" label="Столбец Дата" description="Показать/Скрыть в таблице столбец Дата">
+            <option value="">Использовать глобальные</option>
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="author" type="radio" default="" label="Столбец Автор" description="Показать/Скрыть столбец Автор">
+            <option value="">Использовать глобальные</option>
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="author_name" type="list" default="0" label="Механизм отображения имен авторов" description="">
+            <option value="0">глобальные настройки</option>
+            <option value="1">имя-текст</option>
+            <option value="2">ник-текст</option>
+            <option value="3">имя-ссылка</option>
+            <option value="4">ник-ссылка</option>
+        </param>
+        <param name="hits" type="radio" default="" label="Столбец Просмотров" description="Показать/Скрыть столбец Просмотров">
+            <option value="">Использовать глобальные</option>
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="headings" type="radio" default="1" label="Заголовки таблиц" description="Показать/Скрыть заголовки таблиц">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="navigation" type="radio" default="1" label="Строка навигации" description="Показать/Скрыть строку навигации">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="order_select" type="radio" default="1" label="Выбор Сортировки" description="Показать/Скрыть раскрывающийся список с выбором способа сортировки">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="display" type="radio" default="1" label="Выбор отображения" description="Показать/Скрыть раскрывающийся список с выбором количества отображаемых объектов на странице">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="display_num" type="list" default="50" label="Показывать по ..." description="Количество отображаемых объектов по умолчанию">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+        </param>
+        <param name="filter" type="radio" default="1" label="Фильтр" description="Показать/Скрыть возможность фильтрации">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="filter_type" type="list" default="title" label="Поле фильтра" description="Какое поле использовать для фильтрации">
+            <option value="title">Заголовок</option>
+            <option value="author">Автор</option>
+            <option value="hits">Свое</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="other_cat" type="radio" default="1" label="Другие категории" description="Показать/Скрыть список других категорий">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="empty_cat" type="radio" default="0" label="Пустые категории" description="Показать/Скрыть пустые (без объектов) категории">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="cat_items" type="radio" default="1" label="Кол-во объектов категории" description="Показать/Скрыть число объектов каждой категории">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="unpublished" type="radio" default="1" label="Неопубликованные объекты" description="Показать/Скрыть неопубликованные объекты для группы пользователей `Publisher` и выше">
+            <option value="0">Скрыть</option>
+            <option value="1">Показать</option>
+        </param>
+    </params>
+</mosinstall>

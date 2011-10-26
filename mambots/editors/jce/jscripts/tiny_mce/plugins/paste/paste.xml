@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<mosinstall version="1.1.0" type="jceplugin" plugin="paste">
+	<name>Paste</name>
+	<version>1.1.0</version>
+	<creationDate>20 November 2006</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>ryandemmer@gmail.com</authorEmail>
+	<authorUrl>http://www.cellardoor.za.net/jce/</authorUrl>
+	<copyright>Ryan Demmer</copyright>
+	<license>LGPL</license>
+	<description><![CDATA[ 
+	<p>Paste plugin for JCE</p>
+	<p>Changelog (from 1.0.0):</p>
+	<p><ul>
+		<li>Fixed errors in parameter labels</li>
+	</ul></p>	
+	]]></description>
+	<icon>pastetext,pasteword,selectall</icon>
+	<layout_icon>paste</layout_icon>
+	<params>
+        <param name="paste_create_paragraphs" type="list" default="1" label="Create Paragraphs" description="If enabled double linefeeds are converted to paragraph elements when using the plain text dialog. This is enabled by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="paste_create_linebreaks" type="list" default="1" label="Create Line Breaks" description="If enabled single linefeeds are converted to hard line break elements when using the plain text dialog. This is enabled by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="paste_use_dialog" type="list" default="0" label="Use Dialog" description="MSIE specific option, if you set this to true both Mozilla and MSIE will present a paste dialog. If you set it to false pasting in MSIE will be done directly. This option is set to false by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="paste_auto_cleanup_on_paste" type="list" default="0" label="Auto Cleanup on Paste" description="MSIE specific option. If you enable this feature, a word paste will be executed when the user copy/paste content to the editor. This feature is disabled by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="paste_strip_class_attributes" type="list" default="all" label="Strip Class Attributes" description="This feature allows you to control whether or not class attributes are stripped when using pasteword.">
+            <option value="all">all - will strip all class attributes from the pasted content.</option>
+            <option value="none">none - will not strip any class attributes from the pasted content.</option>
+            <option value="mso">mso - will strip out all of the class attribute values that start with "Mso", but retain all others.</option>
+        </param>
+        <param name="paste_remove_spans" type="list" default="0" label="Remove Spans" description="This enables you to control if the word parse operation should remove or keep span elements, they will be removed by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="paste_remove_styles" type="list" default="0" label="Remove Styles" description="This enables you to control if the word parse operation should remove or keep style attributes, they will be removed by default.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+    </params>
+</mosinstall>

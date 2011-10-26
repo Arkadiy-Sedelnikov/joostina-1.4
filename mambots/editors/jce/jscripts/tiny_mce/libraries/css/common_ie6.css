@@ -1,0 +1,70 @@
+div#fileContainer {
+  height: 246px;
+}
+div#fileDetails{
+  	width: 170px;
+  	height: 231px;
+}
+div#infoTitle {
+	width: 170px;
+}
+div#toolsList{
+    width:31px;
+	height:246px;
+}
+div#msgDiv {
+    width: 705px;
+    height: 32px;
+}
+div#msgIcon {
+    height: 32px;
+}
+div.msgBlock {
+    height: 38px;
+}
+div#dirListBlock {
+    width:617px;
+    height: 26px;
+}
+div#searchDiv {
+    width:202px;
+	height:24px;
+}
+
+div#sortTypeDiv {
+    width:50px;
+	height:24px;
+}
+
+div#sortNameDiv {
+    width:275px;
+	height:24px;
+}
+div#spacerDiv{
+	height:24px; 
+	width:192px;
+}
+div#treeDetails{
+	width: 192px;
+	height: 231px;
+}
+div#treeTitle{
+	width: 192px;
+}
+#searchValue {
+	margin-top: 0px;
+}
+.jce_win_head {
+	height: 22px;
+}
+.jce_win_blocker {
+	position:absolute;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	width:100%;
+	height:100%;
+	background-color:#fff;
+	border:none;
+	filter:alpha(opacity=0);
+}

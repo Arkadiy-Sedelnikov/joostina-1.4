@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Случайное изображение</name>
+	<author>Joostina! Project</author>
+	<creationDate>Июнь 2009</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>Этот модуль позволяет показывать случайное изображение из заданной папки</description>
+	<files>
+		<filename module="mod_random_image">mod_random_image.php</filename>
+	</files>
+	<params>
+		<param name="params" type="tabs" default="startPane" />
+		<param name="tab1" type="tabs" default="startTab" label="Основные настройки" />
+		<param name="rotate_type" type="list" default="0" label="Тип вывода" description="Обычный - вывод одной картинки случайнм образом; Слайд-шоу - ajax-ротация изображений">
+			<option value="0">Обычный</option>
+			<option value="1">Слайд-шоу</option>
+		</param>
+		<param name="type" type="text" default="jpg" label="Тип изображения" description="Тип изображения: PNG/GIF/JPG или другой (по умолчанию - JPG)." />
+		<param name="folder" type="text" default="" label="Папка с изображениями" description="Путь до папки с изображениями относительно адреса сайта. Например: images/stories" />
+		<param name="link" type="text" default="" label="Ссылка" description="URL-адрес для перемещения пользователя после нажатия на изображении, например: http://www.joostina.ru" />
+		<param name="width" type="text" default="" label="Ширина (в пикселях - px)" description="Ширина изображения (все изображения будут отображаться с этой шириной)" />
+		<param name="height" type="text" default="" label="Высота (в пикселях - px)" description="Высота изображения (все изображения будут показываться с этой высотой)" />
+		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
+		<param name="tab1" type="tabs" default="endTab" />
+		<param name="tab2" type="tabs" default="startTab" label="Настройки слайд-шоу" />
+		<param name="slideshow_name" type="text" default="jstSlideShow_1" label="Идентификатор слайд-шоу" description="Идентификатор должен иметь уникальное имя, поскольку для вывода будет использоваться div с ID, равным данному идентификатору" />
+		<param name="img_pref" type="text" default="" label="Преффикс имени файла" description="Если преффикс указан, для ротации будут выбираться изображения, названия которых начинаются с [преффикс][порядковый номер]" />
+		<param name="s_autoplay" type="list" default="1" label="Автозапуск слайдов" description="Да - автоматическая прокрутка слайдов. Нет - смена слайдов доступна только в ручном режиме (т.е. с помощью кнопок управления) ">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="s_pause" type="text" default="2500" label="Пауза между слайдами, мс" description="" />
+		<param name="s_fadeduration" type="text" default="500" label="Скорость анимации, мс" description="" />
+		<param name="panel_height" type="text" default="45px" label="Высота панели управления" description="Задайте высоту панели управления в пикселях (область, где расположены кнопки управления слайд-шоу)" />
+		<param name="panel_opacity" type="text" default="0.5" label="Прозрачность панели управления" description="Задайте коэффициент прозрачности панели управления" />
+		<param name="panel_padding" type="text" default="5px" label="Верхний отступ панели управления (padding-top)" description="" />
+		<param name="panel_font" type="text" default="bold 11px Verdana" label="Шрифт панели управления" description="" />
+		<param name="tab2" type="tabs" default="endTab" />
+		<param name="params" type="tabs" default="endPane" />
+	</params>
+</mosinstall>

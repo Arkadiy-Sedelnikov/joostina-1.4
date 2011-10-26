@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component" version="1.0.0">
+	<name>Содержимое</name>
+	<author>Joostina! Project</author>
+	<creationDate>Февраль 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0 RE</version>
+	<description>Показывает простую страницу с содержимым</description>
+	<params>
+		<param name="page_name" type="textarea" rows="3" cols="30" default="" label="Название страницы" description="Название страницы, отображаемое в заголовке браузера (тег title)." />
+		<param name="no_site_name" type="radio" default="0" label="Скрыть название сайта" description="Показать/скрыть название сайта в title страницы (заголовке браузера).">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="pageclass_sfx" type="text" size="25" default="" label="Суффикс СSS-класса страницы" description="Суффикс, который будет добавлен к CSS-классам страницы, для индивидуальной настройки стиля страницы" />
+		<param name="pageclass_uids" type="text" size="25" default="" label="Идентификатор стиля содержимого" description="Уникальный идентификатор CSS стиля используемый для оформления только этого материала. Полный идентификатор будет '#pageclass_uid_{введённое значение}'" />
+		<param name="pageclass_uids_full" type="radio" default="1" label="Преимущества" description="Использовать введённый идентификатор, даже если активированы автоматические уникальные идентификаторы стилей новостей">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="back_button" type="list" default="" label="Кнопка НАЗАД" description="Показать/Спрятать кнопку НАЗАД (Вернуться), возвращающую на предыдущую просмотренную страницу">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="item_title" type="radio" default="1" label="Заголовок объекта" description="Показать/Спрятать заголовок объекта">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="link_titles" type="list" default="" label="Заголовки в виде ссылок" description="Сделать заголовок объекта в виде ссылки на него">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="introtext" type="radio" default="1" label="Вводный текст" description="Показать/Спрятать вводный текст">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="section" type="radio" default="0" label="Название раздела" description="Показать/Спрятать название раздела, к которому относится объект">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="section_link" type="radio" default="1" label="Название раздела как ссылка" description="Сделать названия разделов ссылками">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="section_link_type" type="list" default="blog" label="Тип ссылки на раздел" description="Тип ссылки на раздел">
+			<option value="blog">Блог раздела</option>
+			<option value="list">Список категорий раздела</option>
+		</param>
+		<param name="category" type="radio" default="0" label="Название категории" description="Показать/Спрятать название категории, к которой относится объект">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="category_link" type="radio" default="1" label="Название категории как ссылка" description="Сделать названия категорий ссылками">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="cat_link_type" type="list" default="blog" label="Тип ссылки на категорию" description="Тип ссылки на категорию">
+			<option value="blog">Блог категории</option>
+			<option value="table">Таблица категории</option>
+		</param>
+		<param name="rating" type="list" default="" label="Рейтинг" description="Показать/Спрятать рейтинг - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="author" type="list" default="" label="Имя автора" description="Показать/Спрятать имя автора - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="tags" type="list" default="" label="Тэги" description="Показать/Спрятать тэги публикации">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="hits" type="list" default="" label="Просмотры" description="Показать/Спрятать количество просмотров">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="createdate" type="list" default="" label="Дата и время создания" description="Показать/Спрятать дату создания - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="modifydate" type="list" default="" label="Дата и время изменения" description="Показать/Спрятать дату изменения - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="print" type="list" default="" label="Значок Печать" description="Показать/Скрыть кнопку печати - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="email" type="list" default="" label="Значок E-mail" description="Показать/Спрятать кнопку e-mail - действует только на этой странице">
+			<option value="">Использовать глобальные настройки</option>
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="keyref" type="text" size="25" default="" label="Ключевая ссылка" description="Текст ключа, по которому можно ссылаться на этот объект (например, в системе справки)" />
+	</params>
+</mosinstall>

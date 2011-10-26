@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.1.0" type="jceplugin" plugin="imgmanager">
+	<name>Image Manager</name>
+	<version>1.1.2</version>
+	<creationDate>07 June 2008</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>ryandemmer@gmail.com</authorEmail>
+	<authorUrl>http://www.cellardoor.za.net/</authorUrl>
+	<copyright>Ryan Demmer</copyright>
+	<license>GPL</license>
+	<description><![CDATA[ 
+	<p>Image Manager 1.1.2</p>
+	<p>Changelog (from 1.1.2):</p>
+	<p><ul>
+		<li>Fixed: Align default setting bug</li>
+	</ul></p>
+	<p>Changelog (from 1.1.1):</p>
+	<p><ul>
+		<li>Fixed: Align bug - #4786.</li>
+		<li>Added: New border options/functionality.</li>
+		<li>Added: JCE Tooltip class to class list.</li>
+	</ul></p>
+	<p>Changelog (from 1.1.0 beta 2):</p>
+	<p><ul>
+		<li>API updates/changes</li>
+		<li>General bug fixes</li>
+	</ul></p>
+	<p>Changelog (from 1.1.0 beta):</p>
+	<p><ul>
+		<li>Added functions to support new ajax routines</li>
+		<li>Changed max file size to Kb instead of Mb</li>
+	</ul></p>	
+	]]></description>
+	<icon></icon>
+	<layout_icon>imgmanager</layout_icon>
+	<elements></elements>
+	<files>
+		<filename plugin="imgmanager">editor_plugin.js</filename>
+		<filename>files.php</filename>
+		<filename>manager.php</filename>
+        <filename>view.php</filename>
+		<filename>classes/index.html</filename>
+        <filename>classes/manager.class.php</filename>
+        <filename>css/images.css</filename>
+        <filename>css/index.html</filename>
+        <filename>css/manager.css</filename>
+        <filename>images/imgmanager.gif</filename>
+        <filename>images/index.html</filename>
+        <filename>images/sample.gif</filename>
+        <filename>images/spacer.gif</filename>
+        <filename>index.html</filename>
+        <filename>index.php</filename>
+        <filename>jscripts/files.js</filename>
+        <filename>jscripts/index.html</filename>
+        <filename>jscripts/manager.js</filename>
+        <filename>langs/en.js</filename>
+        <filename>langs/en.php</filename>
+        <filename>langs/index.html</filename>
+    </files>
+	<params>
+        <param name="dir" type="text" default="/images/stories" label="Image Directory Path" description="Path to image directory."/>
+        <param name="url" type="text" default="/images/stories" label="Image Directory URL" description="URL to image directory."/>
+        <param name="create_folder" type="list" default="1" label="Create Image Directory" description="Creates the above Image Directory on first load if it does not exist.">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </param>
+		<param name="use_tree" type="list" default="1" label="Show Folder Tree" description="Enable/Disable Folder Tree View.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="Image Manager Defaults" description="" />
+		<param name="max_size" type="text" default="1024" label="Upload Max File Size (Kb)" description="Maximum file size for uploaded files."/>
+        <param name="hspace" type="text" default="5" label="Default HSpace value" description="Default HSpace value"/>
+        <param name="vspace" type="text" default="5" label="Default VSpace value" description="Default VSpace value"/>
+        <param name="border" type="list" default="0" label="Border On" description="Border on by default">
+				<option value="0">No</option>
+                <option value="1">Yes</option>
+		</param>
+		<param name="border_width" type="list" default="1" label="Border Width" description="Default border width.">
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="thin">thin</option>
+				<option value="medium">medium</option>
+				<option value="thick">thick</option>
+		</param>
+		<param name="border_style" type="list" default="solid" label="Border Style" description="Default border style.">
+				<option value="none">none</option>
+				<option value="solid">solid</option>
+				<option value="dashed">dashed</option>
+				<option value="dotted">dotted</option>
+				<option value="double">double</option>
+				<option value="groove">groove</option>
+				<option value="inset">inset</option>
+				<option value="outset">outset</option>
+			    <option value="ridge">ridge</option>
+		</param>
+		<param name="border_color" type="text" default="#000000" label="Border Color" description="Default border color."/>
+        <param name="align" type="list" default="left" label="Default Align value" description="Default Align value">
+                <option value="default">Default / Not Set</option>
+                <option value="top">Top</option>
+                <option value="middle">Middle</option>
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="Image Manager Access" description="" />
+        <param name="upload" type="list" default="18" label="Allow Upload" description="Select access level to allow Uploads">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="folder_new" type="list" default="18" label="Allow Folder Create" description="Select access level to allow Folder Create">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="folder_delete" type="list" default="18" label="Allow Folder Delete" description="Select access level to allow Folder Delete">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="folder_rename" type="list" default="18" label="Allow Folder Rename" description="Select access level to allow Folder Renaming">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="file_delete" type="list" default="18" label="Allow Image Deleteing" description="Select access level to allow Image Deleting">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="file_rename" type="list" default="18" label="Allow Image Renaming" description="Select access level to allow Image Renaming">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="file_move" type="list" default="18" label="Allow Image Cut/Copy/Paste" description="Select access level to allow Image Cut/Copy/Paste">
+            <option value="99">**Disabled**</option>
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+		<param name="user_dir" type="list" default="0" label="Use Usertype/Username Access" description="Restrict users to specific directories based on their access level.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="dir_type" type="list" default="level" label="Restriction Type" description="Select folder restriction type. 'Usertype' - restrict the user to a directory based on their usertype. 'Username' - restrict the user to a directory based on their username. 'Usertype/Username' - a combination of the former two. 'Folder' - restrict users to a folder named in the field below.">
+            <option value="level">Usertype</option>
+            <option value="name">Username</option>
+            <option value="level_name">Usertype/Username</option>
+			<option value="folder">Folder</option>
+        </param>
+		<param name="user_folder" type="text" default="" label="User Directory" description="Name of user folder if 'folder' option in 'Restriction Type' above is selected."/>
+        <param name="user_dir_level" type="list" default="18" label="Restriction Level" description="Level below which users are assigned a folder based on the selection above.">
+			<option value="0">Guest</option>
+			<option value="18">-Registered</option>
+			<option value="19">--Author</option>
+			<option value="20">---Editor</option>
+			<option value="21">----Publisher</option>
+			<option value="23">-----Manager</option>
+			<option value="24">------Administrator</option>
+			<option value="25">-------Super Administrator</option>
+		</param>
+    </params>
+</mosinstall>

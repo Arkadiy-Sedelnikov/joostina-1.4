@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="xmap_ext" version="1.0.0">
+	<name>com_content</name>
+	<author>Guillermo Vargas</author>
+	<creationDate>26:02:2008</creationDate>
+	<copyright>GNU GPL</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>guille@vargas.co.cr</authorEmail>
+	<authorUrl>joomla.vargas.co.cr</authorUrl>
+	<version>1.0.1</version>
+	<description>Plugin for native Joomla/Mambo contents</description>
+	<files>
+		<filename xmap_ext="com_content">com_content.php</filename>
+	</files>
+	<params>
+		<param name="use_mospagebreak" type="list" default="1" label="Раскрывать постраничную навигацию" description="Использовать вывод ссылок на страницы при разделении их через mospagebreak">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="expand_categories" type="list" default="1" label="Раскрывать категории" description="Раскрывать категории содержимого">
+			<option value="0">Никогда</option>
+			<option value="1">Всегда</option>
+			<option value="2">Только в XML карте</option>
+			<option value="3">Только в карте сайта</option>
+		</param>
+		<param name="expand_sections" type="list" default="1" label="Раскрывать разделы" description="Раскрывать разделы содержимого">
+			<option value="0">Никогда</option>
+			<option value="1">Всегда</option>
+			<option value="2">Только в XML карте</option>
+			<option value="3">Только в карте сайта</option>
+		</param>
+		<param name="show_unauth" type="list" default="0" label="Показывать ссылки неавторизованным" description="Отображать ссылки на контент предназначенный только для авторизованных пользователей.">
+			<option value="0">Никогда</option>
+			<option value="1">Всегда</option>
+			<option value="2">Только в XML карте</option>
+			<option value="3">Только в карте сайта</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="XML карта сайта" description="Настройки карты сайта применительно к XML отображению" />
+		<param name="cat_priority" type="list" default="-1" label="Category Priority" description="Set the priority for the categories">
+			<option value="-1">Use Parent Menu Settings</option>
+			<option value="0.0">0.0</option>
+			<option value="0.1">0.1</option>
+			<option value="0.2">0.2</option>
+			<option value="0.3">0.3</option>
+			<option value="0.4">0.4</option>
+			<option value="0.5">0.5</option>
+			<option value="0.6">0.6</option>
+			<option value="0.7">0.7</option>
+			<option value="0.8">0.8</option>
+			<option value="0.9">0.9</option>
+			<option value="1">1</option>
+		</param>
+		<param name="cat_changefreq" type="list" default="-1" label="Category Change frequency" description="Set the chage frequency for the categories">
+			<option value="-1">Use Parent Menu Settings</option>
+			<option value="always">Always</option>
+			<option value="hourly">Hourly</option>
+			<option value="daily">Daily</option>
+			<option value="weekly">Weekly</option>
+			<option value="monthly">Monthly</option>
+			<option value="yearly">Yearly</option>
+			<option value="never">Never</option>
+		</param>
+		<param name="art_priority" type="list" default="-1" label="Article Priority" description="Set the priority for articles">
+			<option value="-1">Use Parent Menu Settings</option>
+			<option value="0.0">0.0</option>
+			<option value="0.1">0.1</option>
+			<option value="0.2">0.2</option>
+			<option value="0.3">0.3</option>
+			<option value="0.4">0.4</option>
+			<option value="0.5">0.5</option>
+			<option value="0.6">0.6</option>
+			<option value="0.7">0.7</option>
+			<option value="0.8">0.8</option>
+			<option value="0.9">0.9</option>
+			<option value="1">1</option>
+		</param>
+		<param name="art_changefreq" type="list" default="-1" label="Article Change frequency" description="Set the chage frequency for articles">
+			<option value="-1">Use Parent Menu Settings</option>
+			<option value="always">Always</option>
+			<option value="hourly">Hourly</option>
+			<option value="daily">Daily</option>
+			<option value="weekly">Weekly</option>
+			<option value="monthly">Monthly</option>
+			<option value="yearly">Yearly</option>
+			<option value="never">Never</option>
+		</param>
+	</params>
+</mosinstall>

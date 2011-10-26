@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<author>Joostina! Project</author>
+	<creationDate>Июнь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.3.1</version>
+	<description>Модуль отображающий форму авторизации<![CDATA[
+	<script type="text/javascript" src="../includes/js/tabs/tabpane_mini.js"></script>
+	<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="../includes/js/tabs/tabpane.css" />]]></description>
+	<files>
+		<filename module="mod_ml_login">mod_ml_login.php</filename>
+		<filename>mod_ml_login/1.gif</filename>
+		<filename>mod_ml_login/2.gif</filename>
+		<filename>mod_ml_login/3.gif</filename>
+		<filename>mod_ml_login/4.gif</filename>
+		<filename>mod_ml_login/5.gif</filename>
+		<filename>mod_ml_login/6.gif</filename>
+		<filename>mod_ml_login/7.gif</filename>
+		<filename>mod_ml_login/8.gif</filename>
+		<filename>mod_ml_login/9.gif</filename>
+	</files>
+	<params>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt; &lt;div class=&quot;tab-page&quot; id=&quot;moduledgm&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;var tabPane1 = new WebFXTabPane( document.getElementById( &quot;moduledgm&quot; ), 1 )&lt;/script&gt; &lt;div class=&quot;tab-page&quot;id=&quot;module32&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Основные настройки&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById(&quot;module32&quot;));&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
+		<param name="template" type="radio" default="1" label="Шаблон" description="Выберите шаблон, с помощью которого будет отображаться модуль">
+			<option value="vertical.php">Вертикальный</option>
+			<option value="horizontal.php">Горизонтальный</option>
+			<option value="popup.php">Кнопка + всплывающее окно</option>
+		</param>
+		<param name="template_dir" type="radio" default="0" label="Директория шаблона" description="Системная - шаблон находится в modules/название_модуля/view. Папка шаблона сайта - шаблон находится в templates/текущий_шаблон_сайта/html/название_модуля ">
+			<option value="0">Системная</option>
+			<option value="1">Папка шаблона сайта</option>
+		</param>
+		<param name="dr_login_text" type="text" default="Авторизация" label="Текст кнопки раскрытия модуля" description="Текст кнопки авторизации (только для выпадающей формы меню)" />
+		<param name="ml_avatar" type="radio" default="1" label="Отображать аватар" description="Выводить в модуле аватар пользователя">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="pretext" type="textarea" cols="20" rows="5" default="" label="Текст в начале" description="Это просто текст или текст в формате HTML, который показывается перед формой входа" />
+		<param name="posttext" type="textarea" cols="20" rows="5" label="Текст в конце" description="Это просто текст или текст в формате HTML, который показывается после формы входа" />
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Авторизация (Вход)&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="login" type="text" default="" label="Адрес URL переадресации после входа" description="На какую страницу должен быть переадресован пользователь после входа. Если поле для ввода оставлено пустым - будет загружена главная страница" />
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="login_message" type="radio" default="0" label="Сообщение при авторизации" description="Показать/Скрыть всплывающее окно (на javascript) при успешной авторизации пользователя">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+		<param name="greeting" type="radio" default="1" label="Приветствие" description="Показать/Скрыть простой текст приветствия">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="user_name" type="list" default="0" label="Псевдоним/Имя пользователя">
+			<option value="0">Псевдоним пользователя</option>
+			<option value="1">Имя</option>
+		</param>
+		<param name="profile_link" type="list" default="0" label="Ссылка на профиль пользователя">
+			<option value="0">Использовать псевдоним/имя пользователя</option>
+			<option value="1">Отдельная ссылка (текст ниже)</option>
+			<option value="2">Не выводить</option>
+		</param>
+		<param name="profile_link_text" type="text" default="Личный кабинет" label="Текст ссылки на профиль" description="" />
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Выход из системы&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="logout" type="text" default="" label="Адрес URL переадресации пользователя при выходе" description="На какую страницу должен быть переадресован пользователь после входа. Если поле для ввода оставлено пустым - будет загружена главная страница" />
+
+		<param name="logout_message" type="radio" default="0" label="Сообщение при выходе" description="Показать/Скрыть всплывающее окно (на javascript) при успешном выходе">
+			<option value="0">Скрыть</option>
+			<option value="1">Показать</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Поля Логин/Пароль&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_login_text" type="radio" default="1" label="Показать текст Пользователь" description="Показывать подпись к полю ПОЛЬЗОВАТЕЛЬ">
+			<option value="0">Нет</option>
+			<option value="1">Над полем вода</option>
+			<option value="2">Внутри поля ввода</option>
+			<option value="3">Слева от поля ввода</option>
+		</param>
+
+		<param name="ml_login_text" type="text" default="" label="Текст Пользователь" description="Надпись ПОЛЬЗОВАТЕЛЬ" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="show_pass_text" type="radio" default="1" label="Показать текст Пароль" description="Показывать подпись к полю ПАРОЛЬ">
+			<option value="0">Нет</option>
+			<option value="1">Над полем ввода</option>
+			<option value="2">Внутри поля ввода</option>
+			<option value="3">Слева от поля ввода</option>
+		</param>
+
+		<param name="ml_pass_text" type="text" default="" label="Текст Пароль" description="Надпись ПАРОЛЬ" />
+
+
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Другие элементы формы&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_remember" type="radio" default="1" label="Запомнить меня" description="Показывать ЗАПОМНИТЬ МЕНЯ">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="ml_rem_text" type="text" default="" label="Текст Запомнить меня" description="" />
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="show_lost_pass" type="radio" default="1" label="Забыли пароль" description="Показывать ЗАБЫЛИ ПАРОЛЬ ">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="ml_rem_pass_text" type="text" default="" label="Текст Забыли пароль" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="show_register" type="radio" default="1" label="Зарегистрироваться" description="Показывать ЗАРЕГИСТРИРОВАТЬСЯ ">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="ml_reg_text" type="text" default="" label="Текст Зарегистрироваться" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="submit_button_text" type="text" default="" label="Текст на кнопке сабмитта" description="" />
+
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;table&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+	</params>
+</mosinstall>

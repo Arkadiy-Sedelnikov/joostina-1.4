@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+	<name>ML Joostina Menu</name>
+	<author>Joostina! Project</author>
+	<creationDate>Июнь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.9.0 JE</version>
+	<description><![CDATA[
+	Mitrichlab Joostina Menu
+	<br />Copyleft <a href="http://mitrichlab.ru">Дмитрий [Mitrich] Смирнов</a> 2007</strong>
+	за вкладки (tabs) спасибо <a href="http://www.joomla-ua.org">Денису [DUTCH] Носову</a>
+	<script type="text/javascript" src="../includes/js/tabs/tabpane_mini.js"></script>
+	<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="../includes/js/tabs/tabpane.css" />]]>
+	</description>
+	<files>
+		<filename module="mod_mljoostinamenu">mod_mljoostinamenu.php</filename>
+	</files>
+	<params>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt; &lt;div class=&quot;tab-page&quot; id=&quot;moduledgm&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;var tabPane1 = new WebFXTabPane( document.getElementById( &quot;moduledgm&quot; ), 1 )&lt;/script&gt; &lt;div class=&quot;tab-page&quot;id=&quot;module32&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Основные&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById(&quot;module32&quot;));&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="" />
+		<param name="class_sfx" type="text" default="" label="Суффикс класса ссылки меню" description="" />
+		<param name="menutype" type="mos_menu" default="mainmenu" label="Используемое меню" description="" />
+		<param name="menu_style" type="list" default="horizontal" label="Тип вывода меню" description="">
+			<option value="vertical">Вертикальное многоуровневое</option>
+			<option value="ml_vertical">Вертикальное одноуровневое</option>
+			<option value="horizontal">Горизонтальная таблица</option>
+			<option value="horiz_tab">Горизонтальная таблица 100% ширины</option>
+			<option value="ulli">Список UL - LI</option>
+			<option value="divs">DIV</option>
+			<option value="linksonly">Только ссылки</option>
+		</param>
+		<param name="ml_imaged" type="radio" default="0" label="Меню выводится" description="">
+			<option value="0">Ссылками</option>
+			<option value="1">Картинками</option>
+			<option value="2">Картинка + ссылка</option>
+		</param>
+		<param name="ml_module_number" type="list" default="1" label="Номер модуля" description="Если используется несколько копий модуля то для каждого нужно установить уникальный номер">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		</param>
+		<param name="numrow" type="text" default="Все" label="Число элементов li в одном ul" description="Разбивать UL-LI элементы на несколько блоков." />
+		<param name="ml_first_hidden" type="radio" default="0" label="Прятать первый пункт" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Многоуровневое меню&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="@spacer" type="spacer" default="&lt;span style=&quot;font-style:italic; font-size:11px;&quot;&gt;Данный тип вывода является наследием mod_mainmenu (&quot;родной&quot; модуль меню Joomla!) 99% опций этого модуля при данном методе вывода не работают&lt;/span&gt;" label="" description="" />
+		<param name="full_active_id" type="radio" default="0" label="Полная активная подсветка" description="Разрешить полную активную подсветку меню, включая `Ссылка - Компонент` и `Ссылка - URL`, которые не вполне совместимы c XHTML, если более, чем одна активны">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="menu_images" type="radio" default="0" label="Показывать значки меню" description="Показывать значки меню">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="menu_images_align" type="radio" default="0" label="Выравнивание значки меню" description="Выравнивание значки меню">
+			<option value="0">Слева</option>
+			<option value="1">Справа</option>
+		</param>
+		<param name="expand_menu" type="radio" default="0" label="Развернуть меню" description="Развернуть меню и сделать его подменю видимыми">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="activate_parent" type="radio" default="0" label="Активация родителя" description="Установить ID активации для всех родительских меню в дереве">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="indent_image" type="list" default="0" label="Взять изображения" description="Выбрать, откуда будут браться изображения для меню">
+			<option value="0">Шаблон</option>
+			<option value="1">Joomla картинки по умолчанию</option>
+			<option value="2">Использовать эти картинки</option>
+			<option value="3">Нет</option>
+		</param>
+		<param name="indent_image1" type="imagelist" directory="/images/M_images" default="" label="Картинка 1" description="Изображение для 1 подуровня" />
+		<param name="indent_image2" type="imagelist" directory="/images/M_images" default="" label="Картинка 2" description="Изображение для 2 подуровня" />
+		<param name="indent_image3" type="imagelist" directory="/images/M_images" default="" label="Картинка 3" description="Изображение для 3 подуровня" />
+		<param name="indent_image4" type="imagelist" directory="/images/M_images" default="" label="Картинка 4" description="Изображение для 4 подуровня" />
+		<param name="indent_image5" type="imagelist" directory="/images/M_images" default="" label="Картинка 5" description="Изображение для 5 подуровня" />
+		<param name="indent_image6" type="imagelist" directory="/images/M_images" default="" label="Картинка 6" description="Изображение для 6 подуровня" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Уникальные классы&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="@spacer" type="spacer" default="&lt;div class=&quot;ml_modulestyle_small&quot;&gt; Настройки уникальных классов для ссылок &lt;/div&gt;" label="" description="" />
+		<param name="ml_separated_link" type="radio" default="0" label="Уникальные стили для ссылок" description="Данная опция при включении имеет приоритет над опциями УНИКАЛЬНЫЙ СТИЛЬ ДЛЯ ПЕРВОЙ/ПОСЛЕДНЕЙ ">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_linked_sep" type="list" default="0" label="Привязка уникального стиля для ссылок" description="">
+			<option value="0">Порядковый номер</option>
+			<option value="1">Itemid</option>
+		</param>
+		<param name="ml_separated_link_first" type="radio" default="0" label="Уникальные стили для первой ссылки" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_separated_link_last" type="radio" default="0" label="Уникальные стили для последней ссылки" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;div class=&quot;ml_modulestyle_small&quot;&gt; Настройки уникальных ID для активных ссылок &lt;/div&gt;" label="" description="" />
+		<param name="ml_hide_active" type="radio" default="0" label="Активный пункт меню" description="">
+			<option value="0">Ссылка</option>
+			<option value="1">Текст БЕЗ ссылки</option>
+		</param>
+		<param name="ml_separated_active" type="radio" default="0" label="Уникальные ID для активного пункта меню" description="Данная опция при включении имеет приоритет над опциями УНИКАЛЬНЫЙ СТИЛЬ ДЛЯ ПЕРВОЙ/ПОСЛЕДНЕЙ">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_linked_sep_active" type="list" default="0" label="Привязка уникального стиля ID" description="">
+			<option value="0">Порядковый номер</option>
+			<option value="1">Itemid</option>
+		</param>
+		<param name="ml_separated_active_first" type="radio" default="0" label="Уникальные стили для первой активной ссылки" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_separated_active_last" type="radio" default="0" label="Уникальные стили для последней активной ссылки" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;div class=&quot;ml_modulestyle_small&quot;&gt; Настройки уникальных классов для родительских элементов &lt;/div&gt;" label="" description="" />
+		<param name="ml_separated_element" type="radio" default="0" label="Уникальные стили для родительского элемента" description="Данная опция при включении имеет приоритет над опциями УНИКАЛЬНЫЙ СТИЛЬ ДЛЯ ПЕРВОЙ/ПОСЛЕДНЕЙ">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_separated_element_first" type="radio" default="0" label="Уникальные стили для первого родительского элемента" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="ml_separated_element_last" type="radio" default="0" label="Уникальные стили для последнего родительского элемента" description="">
+			<option value="0">Нет</option>
+			<option value="1">Уникальные</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Другие настройки&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="ml_td_width" type="list" default="0" label="Ширина ячейки таблицы" description="Опция действует только для метода вывода ГОРИЗОНТАЛЬНАЯ ТАБЛИЦА 100% ШИРИНЫ ">
+			<option value="0">Автоматически</option>
+			<option value="1">Равной ширины</option>
+		</param>
+		<param name="ml_div" type="radio" default="0" label="Обрамление ссылки в div" description="Используется для применения CSS метода SLIDING DOORS ">
+			<option value="0">Нет</option>
+			<option value="1">Один DIV</option>
+			<option value="2">DIV в DIV</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Меню картинками&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="ml_aligner" type="radio" default="left" label="Картинка от ссылки" description="">
+			<option value="left">Слева</option>
+			<option value="right">Справа</option>
+		</param>
+		<param name="ml_rollover_use" type="radio" default="0" label="Использовать rollover для картинок" description="">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		<param name="ml_image1" type="imagelist" default="1.gif" label="Картинка для пункта меню №1" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image2" type="imagelist" default="1.gif" label="Картинка для пункта меню №2" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image3" type="imagelist" default="1.gif" label="Картинка для пункта меню №3" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image4" type="imagelist" default="1.gif" label="Картинка для пункта меню №4" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image5" type="imagelist" default="1.gif" label="Картинка для пункта меню №5" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image6" type="imagelist" default="1.gif" label="Картинка для пункта меню №6" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image7" type="imagelist" default="1.gif" label="Картинка для пункта меню №7" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image8" type="imagelist" default="1.gif" label="Картинка для пункта меню №8" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image9" type="imagelist" default="1.gif" label="Картинка для пункта меню №9" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image10" type="imagelist" default="1.gif" label="Картинка для пункта меню №10" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image11" type="imagelist" default="1.gif" label="Картинка для пункта меню №11" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="1" hide_default="1" description="" />
+		<param name="ml_image_roll_1" type="imagelist" default="1r.gif" label="Картинка для пункта меню №1 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_2" type="imagelist" default="1r.gif" label="Картинка для пункта меню №2 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_3" type="imagelist" default="1r.gif" label="Картинка для пункта меню №3 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_4" type="imagelist" default="1r.gif" label="Картинка для пункта меню №4 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_5" type="imagelist" default="1r.gif" label="Картинка для пункта меню №5 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_6" type="imagelist" default="1r.gif" label="Картинка для пункта меню №6 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_7" type="imagelist" default="1r.gif" label="Картинка для пункта меню №7 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_8" type="imagelist" default="1r.gif" label="Картинка для пункта меню №8 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_9" type="imagelist" default="1r.gif" label="Картинка для пункта меню №9 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_10" type="imagelist" default="1r.gif" label="Картинка для пункта меню №10 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="ml_image_roll_11" type="imagelist" default="1r.gif" label="Картинка для пункта меню №11 при наведении" directory="/modules/mod_mljoostinamenu/menuimages"  hide_none="0" hide_default="1" description="" />
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;div class=&quot;tab-page&quot; id=&quot;module19&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Ссылки для гостей&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById( &quot;module20&quot; ) );&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+		<param name="ml_hide_logged1" type="radio" default="1" label="Показывать только гостям ссылку №1" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged2" type="radio" default="1" label="Показывать только гостям ссылку №2" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged3" type="radio" default="1" label="Показывать только гостям ссылку №3" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged4" type="radio" default="1" label="Показывать только гостям ссылку №4" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged5" type="radio" default="1" label="Показывать только гостям ссылку №5" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged6" type="radio" default="1" label="Показывать только гостям ссылку №6" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged7" type="radio" default="1" label="Показывать только гостям ссылку №7" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged8" type="radio" default="1" label="Показывать только гостям ссылку №8" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged9" type="radio" default="1" label="Показывать только гостям ссылку №9" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged10" type="radio" default="1" label="Показывать только гостям ссылку №10" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="ml_hide_logged11" type="radio" default="1" label="Показывать только гостям ссылку №11" description="">
+			<option value="0">Только гостям</option>
+			<option value="1">Всем</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt; &lt;table&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
+	</params>
+</mosinstall>

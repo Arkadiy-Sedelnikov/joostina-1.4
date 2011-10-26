@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component">
+	<name>Файловый менеджер</name>
+	<creationDate>08:06:2008</creationDate>
+	<author>Joostina Team</author>
+	<copyright>Soeren Eberhardt-Biermann, QuiX Project, Joostina Team</copyright>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>http://www.joostina.ru</authorUrl>
+	<version>1.6.1 JE</version>
+	<description>
+	<![CDATA[ Компонент управления файлами основанный на joomlaXplorer]]></description>
+</mosinstall>

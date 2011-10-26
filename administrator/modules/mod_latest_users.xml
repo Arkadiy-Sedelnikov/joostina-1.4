@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module">
+	<name>Последние зарегистрированные пользователи</name>
+	<author>Joostina! Project</author>
+	<creationDate>22:08:2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.2 JE</version>
+	<description>Этот модуль показывает информацию о зарегистрированных пользователях.</description>
+	<files>
+		<filename module="mod_latest_users">mod_latest_users.php</filename>
+	</files>
+	<params>
+		<param name="num" type="text" size="15" default="10" label="Число последних регистраций" description="Количество регистраций для отображения" />
+		<param name="show_logged" type="radio" default="1" label="Авторизовано на сайте" description="Отображать число пользователей авторизованных на сайте">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="show_total" type="radio" default="1" label="Зарегистрировано всего на сайте" description="Отображать общее число пользователй зарегистрированных на сайте">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="show_today" type="radio" default="1" label="Зарегистрировано сегодня" description="Отображать число пользователей зарегистрированных сегодня">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="show_week" type="radio" default="1" label="Зарегистрировано за эту неделю" description="Отображать число пользователей зарегистрированных в течении текущей недели">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="show_month" type="radio" default="1" label="Зарегистрировано за этот месяц" description="Отображать число пользователей зарегистрированных в течении текущего месяца">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+	</params>
+</mosinstall>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="component" version="1.0.0">
+	<name>Weblinks</name>
+	<author>Joostina! Project</author>
+	<creationDate>Январь 2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0</version>
+	<description>This component shows a listing of Weblinks</description>
+	<params>
+		<param name="target" type="list" default="0" label="Открыть в..." description="Окно, которое откроется после нажатия на ссылку">
+			<option value="0">текущем окне с панелью навигации </option>
+			<option value="1">новом окне с панелью навигации</option>
+			<option value="2">новом окне без панели навигации</option>
+		</param>
+	</params>
+</mosinstall>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="content">
+	<name>Позиция загрузки модулей</name>
+	<author>Joostina! Project</author>
+	<creationDate>January 2005</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.0.0 RE</version>
+	<description>Загрузка модулей в определенной позиции в пределах содержимого. Синтаксис: {mosloadposition user1}</description>
+	<files>
+		<filename mambot="mosloadposition">mosloadposition.php</filename>
+	</files>
+	<params>
+		<param name="style" type="list" default="0" label="Стиль" description="Код, определяющий вложение модулей">
+			<option value="0">В таблице - в столбец</option>
+			<option value="1">В таблице - горизонтально</option>
+			<option value="-2">В тэгах DIV</option>
+			<option value="-3">В нескольких тэгах DIV</option>
+			<option value="-1">Без вложения - без обработки</option>
+		</param>
+	</params>
+</mosinstall>

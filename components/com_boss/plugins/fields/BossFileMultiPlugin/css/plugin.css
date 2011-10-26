@@ -1,0 +1,39 @@
+/**
+ * @BOSS - Плагин файлов. Файл стилей.
+ */
+ 
+/* Административная часть */
+div.boss_plugin_file {margin:10px 0 10px 0;}
+div.boss_plugin_file td {padding:0;}
+div.boss_plugin_file span.filesize {color:#999;}
+div.boss_plugin_file span.filesize span {padding-right:1px;}
+div.boss_file_size span.filesize span span{padding-right:1px;font-weight:bold}
+div.boss_plugin_file tr, div.boss_plugin_file td {border-bottom:none!important;}
+
+/* Фронтальная часть */
+div.boss_file  {
+	color:#636363; 
+	display: table-cell; 
+	vertical-align:middle!important;  
+	font: normal 11px/21px Verdana, Georgia, "Times New Roman", times, tahoma, arial, serif;
+}
+div.boss_file img {vertical-align:middle!important;}
+.boss_file span, div.boss_file span.boss_file_info ,
+.boss_file_date {
+	color:#636363; font-style:italic;	
+	white-space:nowrap!important;
+}
+.boss_file span.boss_file_size span, 
+.boss_file span.boss_file_date span {padding-right:2px;font-weight:bold}
+.boss_file a, .boss_file a:link, .boss_file a:visited {
+	color:#636363;
+	text-decoration:none; 
+	border-bottom:thin dotted;
+	padding-bottom:2px;
+	line-height:190%;
+}
+.boss_file a:hover {color:#b10000;}
+
+#status{
+    font-size: 10pt;
+}

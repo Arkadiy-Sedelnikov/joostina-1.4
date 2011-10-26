@@ -1,0 +1,338 @@
+/*--------------------------------->reset.css<------*/
+html, body, address, blockquote, div, p, pre, h1, h2, h3, h4, h5, h6, hr, dd, dl, dt, ul, ol, li, a, abbr, acronym, b, big, br, cite, code, del, dfn, em, i, ins, kbd, q, samp, small, span, strong, sub, sup, tt, var, img, object, caption, table, tbody, td, tfoot, th, thead, tr, textarea, select, form, fieldset, legend, label,  u, s, center, dir, menu, strike, xmp{color: #373737; font-family: "Tahoma"; list-style: none; margin: 0; padding: 0; text-indent: 0; vertical-align: baseline;}
+:focus{outline: 0;}
+ins, a:hover, .jwajaxvote-star-rating li a{text-decoration: none;}
+del{text-decoration: line-through;}
+hr, img, object, fieldset{border: 0;}
+address, caption, cite, code, dfn, em, strong, th, var{font-style: normal; font-weight: normal;}
+caption, td, th, tr{text-align: left; vertical-align: top;}
+h1, h2, h3, h4, h5, h6{font-size: 100%; font-weight: normal;}
+abbr, acronym{border: 0; font-variant: normal;}
+legend{color: #000;}
+optgroup{background: white; color: black; font-style: normal;}
+optgroup option{padding-left: 22px;}
+hr{background-color: black; color: black; height: 1px; margin: 7px 0;}
+strong, label{font-weight: bold;}
+li ul, li ul li{list-style: none;}
+sub, sup{font-size: 10px; position: relative;}
+sub{top: 5px;}
+sup{color: #000; margin: 0 2px 0 5px; top: -5px;}
+table{border-collapse: collapse; border-spacing: 0;}
+
+/*----------------------------------->settings<------*/
+abbr, acronym{border-bottom: 1px dotted #000; cursor: help;}
+em{font-style: italic;}
+blockquote, ul, ol, dl{margin: 1em;}
+ol, ul, dl{margin-left: 2em;}
+ol li{list-style: decimal outside;}
+ul li{list-style: disc outside;}
+dl dd{margin-left: 1em;}
+th{font-weight: bold;}
+caption{margin-bottom: .5em; text-align: center;}
+p, fieldset, pre{margin-bottom: 1em;}
+body{background: #FFF; line-height: 1; position: relative;}
+html, body{font: normal 12px/19px "Tahoma"; text-align: left; text-decoration: none;}
+html{background: #FFF; color: #000; height: 100%; width: 100%;}
+
+/* Joostina install css */
+.install-form .inputbox{
+	width: 99%;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	color: #333;
+	background-color: #FFF;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+    background: url(img/bg.jpg) repeat-x top left;  height: 100%;
+
+}
+.trongate-1 td {
+}
+.trongate-2 {
+
+}
+.login-text {
+	text-align: center;
+	width: 40%;
+	float: left;
+}
+
+
+
+
+#header p{
+    width: 40%;
+    float: left;
+    color: #e5e3d8;
+    text-align: left;
+}
+#header p a{
+    color: #e5e3d8; text-decoration: underline;
+}
+#header p.jst{
+background: url(img/jst.png) no-repeat left;
+padding: 0 0 0 42px; width: 460px; float: right; text-align: right;
+
+}
+
+
+#navigator{
+    clear: both; height: 130px;
+    padding: 30px 0 0 0;
+}
+#navigator big{
+    width: 180px;
+    display:block;
+    font-size: 24px; float: left;
+    font-family: Arial;
+    color: #FFF; line-height: 30px;
+    text-align: left; margin: 0 50px 0 0;
+}
+
+#navigator ul, #navigator ul li{
+    list-style: none; margin: 0; padding: 0;
+}
+#navigator li{
+    display: block; float: left;
+}
+#navigator li.step strong{
+    display: block;
+    background: url(img/step.png) no-repeat top left;
+    font-size: 24px;
+    color: #000;
+    width:62px;
+    height: 63px;
+    font-weight:normal;
+    line-height: 63px;
+
+}
+#navigator li.step span{
+    display: block;
+    text-align: center; line-height: 12px;
+    width:90px;   color: #F3F4F4;
+}
+#navigator li.step.step-on strong{
+    color: #6FAA30;
+}
+#navigator li.step.step-on span{
+ color: #BCDE9B;
+}
+#navigator li.arrow{
+    width: 48px;
+    background: url(img/step_arrow.png) no-repeat  left;
+    height: 63px;
+    line-height: 63px;
+}
+.step-on {
+	color: #fff;
+
+}
+.step-off {
+	font-size: 13px;
+}
+.buttons{
+    text-align: right;
+    margin: 0 0 12px 0;
+}
+.install {
+	margin: 0 auto;
+	padding: 10px;
+	width: 1020px;
+}
+
+#wrap{
+        text-align: left;
+}
+
+
+
+ h1 {
+font: 20px "Lucida Sans Unicode", "Lucida Grande", "Myriad Pro", sans-serif; margin: 15px 0 5px 0;
+color:#000;
+}
+ h2 {
+	padding: 0px 0px 0px 0px;
+	font-size: 15px;
+	font-weight: bold;
+}
+.button {
+    width: 118px;
+    background: url(img/button.png) no-repeat  left transparent;
+    height: 43px;
+    line-height: 43px;
+    border: none; cursor: pointer;
+    color: #000;
+}
+.button.small{
+    font-size: 10px;
+}
+
+
+.button:hover {
+	color: #266880; background-color: transparent;
+}
+.button2{
+    background: #3CA5C5;
+    float:left;
+    font-size: 12px;
+    padding:3px 5px;
+    text-decoration: underline;
+    width: auto; color: #FFF; cursor: pointer; font-weight: bold;
+}
+input, select {
+    background: url(img/input_bg.png) top left repeat-x #FEFEFE;
+    padding: 3px 5px;
+}
+
+textarea {
+	font-size: 11px;
+	border: 1px solid silver;
+	background-color: #F1F1F1;
+}
+.text_area:focus,.text_area:hover, input:focus, input:hover, select:focus, select:hover, textarea:focus, textarea:hover {
+	background-color: #F9F9F9;
+	border-color: #999999;
+}
+input[type=checkbox]{
+    padding: 1px; border: none;
+}
+input[type=radio]{
+    padding: 1px; border: none;
+}
+
+
+#break {
+	height: 20px;
+}
+.licensetext {
+	text-align: left;
+}
+.license {
+	padding: 0px;
+	width: 100%;
+	height: 500px;
+}
+.license-form {
+
+}
+
+.install-text {
+
+    border: 1px solid #CCC;
+    padding: 11px 5px 11px 50px;
+      background: url(img/mes1.png) no-repeat  10px #F9F9F9;
+	text-align: left; margin: 0 0 5px 0;
+
+}
+.form-block {
+	width: 99%;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
+.form-block table td{
+ border-bottom: 1px solid #AFAFAF;
+}
+.form-block table td.item{
+
+}
+
+.left {
+	position: relative;
+	text-align: left;
+	float: left;
+	width: 50%;
+}
+.right {
+	position: relative;
+	text-align: left;
+	float: right;
+	width: 50%;
+}
+.far-left {
+	position: relative;
+	text-align: left;
+	float: left;
+}
+.clr {
+	clear: both;
+}
+
+table.content {
+	width: 99%;
+}
+table.content td {
+	color: #333333;
+	font-size: 11px;
+	width: 50%;
+}
+table.content2 {
+	width: 99%;
+	color: #333333;
+	font-size: 11px;
+}
+table.content2 th{
+    text-align: right; padding: 5px 6px 5px 0;
+    border-bottom: 1px solid #AFAFAF;
+}
+
+table.content2 td{
+    padding: 4px 6px 8px 10px;
+}
+
+
+table.content3 td {
+	color: #333333;
+	font-size: 11px;
+}
+.toggle {
+	font-weight: bold;
+}
+/*  old stuff */
+a {
+	color: #000166;
+	text-decoration: none;
+}
+a:hover {
+	color: #30569D;
+	text-decoration: underline;
+}
+a:active {
+	color: #FF9900;
+	text-decoration: underline;
+}
+.small {
+	color: #333;
+	font-size: 10px;
+}
+.error {
+	color: red;
+	font-size: 12px;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+select.options, input.options {
+	font-size: 8pt;
+	border: 1px solid #999;
+}
+form {
+	margin: 0px 0px 0px 0px;
+}
+.dottedline {
+	border-bottom: 1px solid #333;
+}
+.installheader {
+	color: #FFF;
+	font-size: 24px;
+}
+textarea {
+	color: #0000dd;
+	font-family: Arial;
+	font-size: 11px;
+	border: 1px;
+}

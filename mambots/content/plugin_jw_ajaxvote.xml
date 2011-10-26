@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.0" type="mambot" group="content">
+	<name>Рейтинг статей - JW AJAX Vote</name>
+	<author>Joostina! Project</author>
+	<creationDate>15:06:2008</creationDate>
+	<copyright>(C) 2008-2010 Joostina team.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>joostinacms@gmail.com</authorEmail>
+	<authorUrl>www.joostina.ru</authorUrl>
+	<version>1.2 JE</version>
+	<description><![CDATA[ Расширение позволяет выставлять статьям рейтинг. ]]></description>
+</mosinstall>
