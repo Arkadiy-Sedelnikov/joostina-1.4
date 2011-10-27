@@ -12,19 +12,21 @@ defined('_VALID_MOS') or die();
 
 mosAdminMenus::menuItem($type);
 
+$directory = getDirectory($menu);
+
 switch($task) {
-	case 'content_blog_category':
-		// this is the new item, ie, the same name as the menu `type`
-		content_blog_category::edit(0,$menutype,$option,$menu);
-		break;
+//	case 'boss_all_content':
+//		// this is the new item, ie, the same name as the menu `type`
+//		boss_all_content_menu::editCategory(0,$menutype,$option,$menu, $directory);
+//		break;
 
 	case 'edit':
-		content_blog_category::edit($cid[0],$menutype,$option,$menu);
+		boss_all_content_menu::editCategory($cid[0],$menutype,$option,$menu, $directory);
 		break;
 
 	case 'save':
 	case 'apply':
 	case 'save_and_new':
-		content_blog_category::saveMenu($option,$task);
+		saveMenu($option,$task);
 		break;
 }

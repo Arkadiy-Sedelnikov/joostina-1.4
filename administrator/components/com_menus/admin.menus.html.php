@@ -131,7 +131,7 @@ class HTML_menusections {
 	/**
 	* Отображение списка типов пунктов меню для создания
 	*/
-   public static function addMenuItem(&$cid,$menutype,$option,$types_content,$types_component,$types_link,$types_other,$types_submit) {
+   public static function addMenuItem(&$cid,$menutype,$option,$types_content,$types_component,$types_link,$types_other,$types_submit, $directories) {
 
 		mosCommonHTML::loadOverlib();
 ?>
@@ -161,12 +161,15 @@ class HTML_menusections {
 <?php
 		$k = 0;
 		$count = count($types_content);
-		for($i = 0; $i < $count; $i++) {
-			$row = &$types_content[$i];
-			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
-			HTML_menusections::htmlOptions($row,$link,$k,$i);
-			$k = 1 - $k;
-		}
+        foreach($directories as $directory){
+		    for($i = 0; $i < $count; $i++) {
+		    	$row = &$types_content[$i];
+                $row->name = $directory->name.': '.$row->name;
+		    	$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1&directory='.$directory->id;
+		    	HTML_menusections::htmlOptions($row,$link,$k,$i);
+		    	$k = 1 - $k;
+		    }
+        }
 ?>
 					</table>
 				</fieldset>

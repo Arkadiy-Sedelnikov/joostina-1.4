@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="menu" version="1.0.0">
 	<name>Ссылка - Объект содержимого</name>
-	<group>Content|Link</group>
+	<group>Boss</group>
 	<author>Joostina! Project</author>
 	<creationDate>Январь 2008</creationDate>
 	<copyright>(C) 2008-2010 Joostina team.</copyright>

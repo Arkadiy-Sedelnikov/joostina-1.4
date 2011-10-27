@@ -63,6 +63,18 @@ class jDirectoryConf extends mosDBTable {
         $this->mosDBTable('#__boss_config', 'id', $db);
     }
 
+    // get configuration
+    public static function getConfig($directory) {
+    	$database = database::getInstance();
+        $conf = null;
+    	$database->setQuery("SELECT * FROM #__boss_config WHERE id = $directory",0,1)->loadObject($conf);
+    	if ($database->getErrorNum()) {
+    		echo $database->stderr();
+    		return false;
+    	}
+    	return $conf;
+    }
+    
     /** редактирование конфигурации
      * @static
      * @param  $directory

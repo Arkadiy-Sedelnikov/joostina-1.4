@@ -11,6 +11,8 @@
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
+//подключаем класс босса
+require_once(JPATH_BASE.'/components/com_boss/boss.class.php');
 
 $path = JPATH_BASE_ADMIN . DS . 'components' . DS . 'com_menus' . DS;
 
@@ -255,7 +257,9 @@ function viewMenuItems($menutype, $option) {
  */
 function addMenuItem(&$cid, $menutype, $option, $task) {
 	$types = array();
-
+    
+    //вычисляем каталоги
+    $directories = BossDirectory::getDirectories();
 	// list of directories
 	$dirs = mosReadDirectory(JPATH_BASE_ADMIN . DS . 'components/com_menus');
 
@@ -292,54 +296,42 @@ function addMenuItem(&$cid, $menutype, $option, $task) {
 	SortArrayObjects($types, 'name', 1);
 
 	$types_content = array();
-	// split into Content
+    $types_link = array();
+    $types_component = array();
+    $types_other = array();
+    $types_submit = array();
+
 	$i = 0;
 	foreach ($types as $type) {
-		if (strstr($type->group, 'Content')) {
+        // split into Content
+		if (strstr($type->group, 'Boss')) {
 			$types_content[] = $types[$i];
 		}
-		$i++;
-	}
 
-	// split into Links
-	$i = 0;
-	$types_link = array();
-	foreach ($types as $type) {
-		if (strstr($type->group, 'Link')) {
+        // split into Links
+        if (strstr($type->group, 'Link')) {
 			$types_link[] = $types[$i];
 		}
-		$i++;
-	}
 
-	// split into Component
-	$i = 0;
-	$types_component = array();
-	foreach ($types as $type) {
-		if (strstr($type->group, 'Component')) {
+        // split into Component
+        if (strstr($type->group, 'Component')) {
 			$types_component[] = $types[$i];
 		}
-		$i++;
-	}
 
-	// split into Other
-	$i = 0;
-	foreach ($types as $type) {
-		if (strstr($type->group, 'Other') || !$type->group) {
+        // split into Other
+        if (strstr($type->group, 'Other') || !$type->group) {
 			$types_other[] = $types[$i];
 		}
-		$i++;
-	}
 
-	// split into Submit
-	$i = 0;
-	foreach ($types as $type) {
-		if (strstr($type->group, 'Submit') || !$type->group) {
+        // split into Submit
+        if (strstr($type->group, 'Submit') || !$type->group) {
 			$types_submit[] = $types[$i];
 		}
+        
 		$i++;
 	}
 
-	HTML_menusections::addMenuItem($cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit);
+	HTML_menusections::addMenuItem($cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit, $directories);
 }
 
 /**
@@ -838,4 +830,24 @@ function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level
 	}
 
 	return $list;
+}
+
+function getDirectory($menu){
+    $directory = mosGetParam($_REQUEST, 'directory', 0);
+    if($directory == 0){
+        $linkArr = uriToArray($menu->link);
+        $directory = $linkArr['directory'];
+    }
+    return $directory;
+}
+
+function uriToArray($link){
+        $linkValues = str_replace('index.php?', '', $link);
+        $linkValues = explode('&', $linkValues);
+        $linkArr = array();
+        foreach($linkValues as $linkValue){
+            $tmp = explode('=', $linkValue);
+            $linkArr[$tmp[0]] = $tmp[1];
+        }
+    return $linkArr;
 }
