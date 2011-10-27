@@ -9,17 +9,19 @@
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-
+require_once(JPATH_BASE.'/administrator/components/com_boss/admin.boss.html.php');
 mosAdminMenus::menuItem($type);
 
+$directory = getDirectory($menu);
+
 switch($task) {
-	case 'content_archive_category':
-		// this is the new item, ie, the same name as the menu `type`
-		content_archive_category_menu::editCategory(0,$menutype,$option,$menu);
-		break;
+//	case 'boss_category_content':
+//		// this is the new item, ie, the same name as the menu `type`
+//		boss_category_content_menu::editCategory(0,$menutype,$option,$menu);
+//		break;
 
 	case 'edit':
-		content_archive_category_menu::editCategory($cid[0],$menutype,$option,$menu);
+		boss_category_content_menu::editCategory($cid[0],$menutype,$option,$menu, $directory);
 		break;
 
 	case 'save':

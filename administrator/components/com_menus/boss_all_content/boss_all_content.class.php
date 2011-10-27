@@ -37,7 +37,7 @@ class boss_all_content_menu {
 			$menu->published = 1;
 			$menu->link = $link;
 		}
-//var_dump($menu);
+
         $directoryconf = jDirectoryConf::getConfig($directory);
 
 		// build the html select list for category
@@ -57,7 +57,7 @@ class boss_all_content_menu {
 		$lists['directoryconf'] = $directoryconf;
         //ид каталога
 		$lists['directory'] = $directory;
-//var_dump($lists['link']);
+
 		// get params definitions
 		$params = new mosParameters($menu->params,$mainframe->getPath('menu_xml',$menu->type),'menu');
 

@@ -14,14 +14,14 @@ defined('_VALID_MOS') or die();
 * @package Joostina
 * @subpackage Menus
 */
-class content_archive_category_menu {
+class boss_category_content_menu {
 	/**
 	* @param database A database connector object
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
-	function editCategory($uid,$menutype,$option,$menu) {
+	function editCategory($uid,$menutype,$option,$menu, $directory) {
 		global $database,$my,$mainframe;
-
+        
 		// fail if checked out not by 'me'
 		if($menu->checked_out && $menu->checked_out != $my->id) {
 			mosErrorAlert($menu->title." "._MODULE_IS_EDITING_MY_ADMIN);
@@ -30,15 +30,18 @@ class content_archive_category_menu {
 		if($uid) {
 			$menu->checkout($my->id);
 		} else {
-			$menu->type = 'content_archive_category';
+			$menu->type = 'boss_category_content';
 			$menu->menutype = $menutype;
 			$menu->ordering = 9999;
 			$menu->parent = intval(mosGetParam($_POST,'parent',0));
 			$menu->published = 1;
 		}
+        
+        $directoryconf = jDirectoryConf::getConfig($directory);
 
-		// build the html select list for category
-		$lists['componentid'] = mosAdminMenus::Category($menu,$uid);
+        
+		$lists['categories'] = jDirectoryCategory::getAllCategories($directory);
+        $lists['selected_categ'] = array(getBossSelectedCat($menu));
 
 		// build the html select list for ordering
 		$lists['ordering'] = mosAdminMenus::Ordering($menu,$uid);
@@ -50,11 +53,13 @@ class content_archive_category_menu {
 		$lists['published'] = mosAdminMenus::Published($menu);
 		// build the url link output
 		$lists['link'] = mosAdminMenus::Link($menu,$uid);
+        //название каталога
+		$lists['directoryconf'] = $directoryconf;
 
 		// get params definitions
 		$params = new mosParameters($menu->params,$mainframe->getPath('menu_xml',$menu->type),'menu');
 
-		content_archive_category_menu_html::editCategory($menu,$lists,$params,$option);
+		boss_category_content_menu_html::editCategory($menu,$lists,$params,$option);
 	}
 }
 ?>

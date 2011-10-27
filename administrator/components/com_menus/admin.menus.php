@@ -840,6 +840,11 @@ function getDirectory($menu){
     }
     return $directory;
 }
+function getBossSelectedCat($menu){
+        $linkArr = uriToArray($menu->link);
+        $return = ($linkArr['catid'] > 0) ? (int)$linkArr['catid'] : 0;
+    return $return;
+}
 
 function uriToArray($link){
         $linkValues = str_replace('index.php?', '', $link);

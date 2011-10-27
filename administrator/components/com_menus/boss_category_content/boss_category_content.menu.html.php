@@ -18,7 +18,7 @@ defined('_VALID_MOS') or die();
 * @package Joostina
 * @subpackage Menus
 */
-class content_archive_category_menu_html {
+class boss_category_content_menu_html {
 
 	function editCategory(&$menu,&$lists,&$params,$option) {
 		mosCommonHTML::loadOverlib();
@@ -31,40 +31,15 @@ class content_archive_category_menu_html {
 				return;
 			}
 			var form = document.adminForm;
-			<?php
-		if(!$menu->id) {
-?>
-				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( '<?php echo _PLEASE_CHOOSE_CATEGORY?>' );
-					return;
-				}
-				sectcat = getSelectedText( 'adminForm', 'componentid' );
-				sectcats = sectcat.split('/');
-				section = getSelectedOption( 'adminForm', 'componentid' );
-
-				form.link.value = "index.php?option=com_content&task=archivecategory&id=" + form.componentid.value;
-				if ( form.name.value == '' ) {
-					form.name.value = sectcats[1];
-				}
-				submitform( pressbutton );
-				<?php
-		} else {
-?>
-				if ( form.name.value == '' ) {
-					alert( '<?php echo _OBJECT_MUST_HAVE_NAME?>' );
-				} else {
-					submitform( pressbutton );
-				}
-				<?php
-		}
-?>
+			form.link.value = "index.php?option=com_boss&task=show_category&catid="+form.category.value+"&directory=" + form.directory.value;
+			submitform( pressbutton );
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_ITEM_BLOG_CATEGORY_ARCHIVE?>
+			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_PUNKT ?>:: <?php echo $lists['directoryconf']->name ?> → <?php echo _MENU_BOSS_CAT_CONTENT?>
 			</th>
 		</tr>
 		</table>
@@ -100,9 +75,11 @@ class content_archive_category_menu_html {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo _CATEGORY?>:</td>
+					<td valign="top" align="right"><?php echo _CATEGORY ?>:</td>
 					<td>
-					<?php echo $lists['componentid']; ?>
+                        <select size="10" name="category" id="category">
+                            <?php HTML_boss::selectCategories(0, 'Root' . " >> ", $lists['categories'], $lists['selected_categ'], -1, 1); ?>
+                        </select>
 					</td>
 				</tr>
 				<tr>
@@ -156,7 +133,8 @@ class content_archive_category_menu_html {
 			</td>
 		</tr>
 		</table>
-
+        <input type="hidden" name="directory" value="<?php echo $lists['directoryconf']->id; ?>" />
+        <input type="hidden" name="link" value="" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />

@@ -27,6 +27,7 @@ DEFINE('_CHOOSE_CONTACT_FOR_LINK','Для создания ссылки необ
 DEFINE('_MENU_ITEM_CONTACT_OBJECT','Пункт меню :: Ссылка - Объект контакта');
 DEFINE('_MENU_ITEM_BLOG_CATEGORY_ARCHIVE','Пункт меню :: Блог - Содержимое категории в архиве');
 DEFINE('_MENU_BOSS_ALL_CONTENT','Весь контент каталога');
+DEFINE('_MENU_BOSS_CAT_CONTENT','Контент категории');
 DEFINE('_MENU_PUNKT','Пункт меню');
 DEFINE('_MENU_ITEM_BLOG_SECTION_ARCHIVE','Пункт меню :: Блог - Содержимое раздела в архиве');
 DEFINE('_SECTION_TITLE_IF_FILED_IS_EMPTY','Если поле будет оставлено пустым, то автоматически будет использовано название раздела');
