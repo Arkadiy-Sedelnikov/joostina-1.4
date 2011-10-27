@@ -131,58 +131,38 @@ _cmSplit,['<img src="<?php echo $cur_file_icons_path ?>trash.png" />','<?php ech
 			}
 			?>
 ],[null,'<?php echo _CONTENT?>',null,null,'<?php echo _CONTENT?>',
-			<?php
+            <?php
+
+
+
+            //Меню БОССА
 			if(count($directories) > 0) {
-				?>  ['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _MOD_FULLMENU_CONTENT_IN_SECTIONS?>',null,null,'<?php echo _MOD_FULLMENU_CONTENT_IN_SECTIONS?>',
+				?>
 				<?php
 				foreach($directories as $directory) {
 					$txt = addslashes($directory->name);
 					?>
-    ['<img src="<?php echo $cur_file_icons_path ?>document.png" />','<?php echo $txt; ?>', null, null,'<?php echo _SECTION?>: <?php echo $txt; ?>',
-	['<img src="<?php echo $cur_file_icons_path ?>edit.png" />', '<?php echo _MOD_FULLMENU_CONTENT_IN_SECTION?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=contents&layout=edit&directory=<?php echo $directory->id; ?>',null,null],
-	['<img src="<?php echo $cur_file_icons_path ?>sections.png" />', '<?php echo _MOD_FULLMENU_SECTION_CATEGORIES2?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=categories&layout=edit&directory=<?php echo $directory->id; ?>',null, null],
+    ['<img src="<?php echo $cur_file_icons_path ?>add_section.png" />','<?php echo $txt; ?>', null, null,'<?php echo _SECTION?>: <?php echo $txt; ?>',
+	    ['<img src="<?php echo $cur_file_icons_path ?>edit.png" />', '<?php echo _MOD_FULLMENU_CONTENT_IN_SECTION?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=contents&layout=edit&directory=<?php echo $directory->id; ?>',null,null],
+	    ['<img src="<?php echo $cur_file_icons_path ?>sections.png" />', '<?php echo _MOD_FULLMENU_SECTION_CATEGORIES2?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=categories&layout=edit&directory=<?php echo $directory->id; ?>',null, null],
+    ],
+				<?php } // foreach ?>
+    _cmSplit,
+			<?php } ?>
+
+
+    ['<img src="<?php echo $cur_file_icons_path ?>home.png" />','<?php echo _MOD_FULLMENU_CONTENT_ON_FRONTPAGE?>','index2.php?option=com_frontpage',null,'<?php echo _MOD_FULLMENU_CONTENT_ON_FRONTPAGE?>'],
+    _cmSplit,
+
+        <?php if($canConfig) { ?>
+            ['<img src="<?php echo $cur_file_icons_path ?>globe3.png" />', '<?php echo _DIRECTORIES?>', 'index2.php?option=com_boss&act=manager&layout=manage', null, '<?php echo _PAGES_HITS?>'],
+        <?php } ?>
 ],
-					<?php
-				} // foreach
-				?>
-],_cmSplit,
-				<?php
-			}
-			?>
-['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _ALL_CONTENT?>','index2.php?option=com_content&sectionid=0',null,'<?php echo _ALL_CONTENT?>'],
-['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _MOD_FULLMENU_ADD_CONTENT_ITEM?>','index2.php?option=com_content&sectionid=0&task=new',null,'<?php echo _MOD_FULLMENU_ADD_CONTENT_ITEM?>'],
-_cmSplit,
-['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _STATIC_CONTENT?>','index2.php?option=com_typedcontent',null,'<?php echo _STATIC_CONTENT?>'],
-['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _MOD_FULLMENU_ADD_STATIC_CONTENT?>','index2.php?option=com_typedcontent&task=new',null,'<?php echo _MOD_FULLMENU_ADD_STATIC_CONTENT?>'],
-_cmSplit,
-['<img src="<?php echo $cur_file_icons_path ?>add_section.png" />','<?php echo _SECTIONS?>','index2.php?option=com_sections&scope=content',null,'<?php echo _SECTIONS?>'],
-['<img src="<?php echo $cur_file_icons_path ?>sections.png" />','<?php echo _CATEGORIES?>','index2.php?option=com_categories&section=content',null,'<?php echo _CATEGORIES?>'],
-['<img src="<?php echo $cur_file_icons_path ?>masadd.png" />','<?php echo _MASS_CONTENT_ADD?>','index2.php?option=com_sections&task=masadd',null,'<?php echo _MASS_CONTENT_ADD?>'],
-_cmSplit,
-['<img src="<?php echo $cur_file_icons_path ?>home.png" />','<?php echo _MOD_FULLMENU_CONTENT_ON_FRONTPAGE?>','index2.php?option=com_frontpage',null,'<?php echo _MOD_FULLMENU_CONTENT_ON_FRONTPAGE?>'],
-['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _ARCHIVE?>','index2.php?option=com_content&task=showarchive&sectionid=0',null,'<?php echo _ARCHIVE?>'],
-_cmSplit,
-			<?php
-			if(count($directories) > 0) {
-				?>  ['<img src="<?php echo $cur_file_icons_path ?>edit.png" />','<?php echo _MOD_FULLMENU_CONTENT_IN_SECTIONS?>',null,null,'<?php echo _MOD_FULLMENU_CONTENT_IN_SECTIONS?>',
-				<?php
-				foreach($directories as $directory) {
-					$txt = addslashes($directory->name);
-					?>
-    ['<img src="<?php echo $cur_file_icons_path ?>document.png" />','<?php echo $txt; ?>', null, null,'<?php echo _SECTION?>: <?php echo $txt; ?>',
-	['<img src="<?php echo $cur_file_icons_path ?>edit.png" />', '<?php echo _MOD_FULLMENU_CONTENT_IN_SECTION?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=contents&layout=edit&directory=<?php echo $directory->id; ?>',null,null],
-	['<img src="<?php echo $cur_file_icons_path ?>sections.png" />', '<?php echo _MOD_FULLMENU_SECTION_CATEGORIES2?>: <?php echo $txt; ?>', 'index2.php?option=com_boss&act=categories&layout=edit&directory=<?php echo $directory->id; ?>',null, null],
-],
-					<?php
-				} // foreach
-				?>
-],_cmSplit,
-				<?php
-			}
-			?>
-['<img src="<?php echo $cur_file_icons_path ?>globe3.png" />', '<?php echo _DIRECTORIES?>', 'index2.php?option=com_boss&act=manager&layout=manage', null, '<?php echo _PAGES_HITS?>'],
-],
-			<?php
+<?php
+
+
+
+
 			// Components Sub-Menu
 			if($installComponents | $editAllComponents) {
 				?>
