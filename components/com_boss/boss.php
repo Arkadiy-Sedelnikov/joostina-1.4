@@ -1337,7 +1337,7 @@ function show_profile($userid, $directory, $template_name) {
 		}
 
                 $jDirectoryHtmlClass->field_values = boss_helpers::loadFieldValues($directory);
-                $jDirectoryHtmlClass->plugins = get_plugins($directory, 'fields');
+                $jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
 		$jDirectoryHtmlClass->fields = $fields;
 		$jDirectoryHtmlClass->user = $user;
 		$jDirectoryHtmlClass->itemid = $itemid;

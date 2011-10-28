@@ -155,56 +155,28 @@ class HTML_menusections {
 		<table class="adminform">
 		<tr>
 			<td width="50%" valign="top">
-				<fieldset>
-				<legend><?php echo _CONTENT?></legend>
-					<table class="adminform">
+
 <?php
 		$k = 0;
 		$count = count($types_content);
         foreach($directories as $directory){
+            ?>
+            <fieldset>
+				<legend><?php echo $directory->name ?></legend>
+					<table class="adminform">
+            <?php
 		    for($i = 0; $i < $count; $i++) {
 		    	$row = &$types_content[$i];
-                $row->name = $directory->name.': '.$row->name;
 		    	$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1&directory='.$directory->id;
 		    	HTML_menusections::htmlOptions($row,$link,$k,$i);
 		    	$k = 1 - $k;
 		    }
+            ?>
+                    </table>
+			</fieldset>
+            <?php
         }
 ?>
-					</table>
-				</fieldset>
-				<fieldset>
-				<legend><?php echo _MENU_ITEMS_OTHER?></legend>
-					<table class="adminform">
-<?php
-		$k = 0;
-		$count = count($types_other);
-		for($i = 0; $i < $count; $i++) {
-			$row = &$types_other[$i];
-			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
-			HTML_menusections::htmlOptions($row,$link,$k,$i);
-			$k = 1 - $k;
-		}
-?>
-					</table>
-				</fieldset>
-				<fieldset>
-					<legend><?php echo _MENU_ITEMS_SEND?></legend>
-					<table class="adminform">
-<?php
-		$k = 0;
-		$count = count($types_submit);
-		for($i = 0; $i < $count; $i++) {
-			$row = &$types_submit[$i];
-
-			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
-			HTML_menusections::htmlOptions($row,$link,$k,$i);
-
-			$k = 1 - $k;
-		}
-?>
-					</table>
-				</fieldset>
 			</td>
 			<td width="50%" valign="top">
 				<fieldset>
@@ -232,6 +204,38 @@ class HTML_menusections {
 		$count = count($types_link);
 		for($i = 0; $i < $count; $i++) {
 			$row = &$types_link[$i];
+
+			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
+			HTML_menusections::htmlOptions($row,$link,$k,$i);
+
+			$k = 1 - $k;
+		}
+?>
+					</table>
+				</fieldset>
+<fieldset>
+				<legend><?php echo _MENU_ITEMS_OTHER?></legend>
+					<table class="adminform">
+<?php
+		$k = 0;
+		$count = count($types_other);
+		for($i = 0; $i < $count; $i++) {
+			$row = &$types_other[$i];
+			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
+			HTML_menusections::htmlOptions($row,$link,$k,$i);
+			$k = 1 - $k;
+		}
+?>
+					</table>
+				</fieldset>
+				<fieldset>
+					<legend><?php echo _MENU_ITEMS_SEND?></legend>
+					<table class="adminform">
+<?php
+		$k = 0;
+		$count = count($types_submit);
+		for($i = 0; $i < $count; $i++) {
+			$row = &$types_submit[$i];
 
 			$link = 'index2.php?option=com_menus&menutype='.$menutype.'&task=edit&type='.$row->type.'&hidemainmenu=1';
 			HTML_menusections::htmlOptions($row,$link,$k,$i);

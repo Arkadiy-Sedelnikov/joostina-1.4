@@ -19,9 +19,15 @@ switch($task) {
 	case "publish":
 		echo x_publish($id);
 		return;
+
 	case "access":
 		echo x_access($id);
 		return;
+
+    case "get_category_content":
+        echo getCategoryContent($directory);
+        break;
+
 	default:
 		echo 'error-task';
 		return;
@@ -97,4 +103,28 @@ function x_publish($id = null) {
 		return $ret_img;
 	}
 }
+
+function getCategoryContent(){
+    $database = database::getInstance();
+    $catid = mosGetParam($_REQUEST, 'catid', 0);
+    $directory = mosGetParam($_REQUEST, 'directory', 0);
+
+    if($catid ==0 || $directory == 0)
+        return;
+    
+    $q = "SELECT content.id, content.name ";
+    $q .= "FROM #__boss_" . $directory . "_contents as content, ";
+    $q .= "#__boss_" . $directory . "_content_category_href as cch ";
+    $q .= "WHERE cch.category_id = $catid ";
+    $q .= "AND cch.content_id = content.id ";
+    $q .= "ORDER BY content.name";
+
+    $contents = $database->setQuery($q)->loadObjectList();
+    $options = '';
+    foreach($contents as $content){
+        $options .= '<option value="'.$content->id.'">'.$content->name.'</option> ';
+    }
+    return $options;
+}
+
 ?>

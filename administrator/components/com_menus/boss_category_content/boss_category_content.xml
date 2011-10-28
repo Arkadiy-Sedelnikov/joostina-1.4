@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="menu" version="1.0.0">
-	<name>Содержимое категории</name>
+	<name>Контент категории</name>
 	<group>Boss</group>
 	<author>Joostina! Project</author>
 	<creationDate>Январь 2008</creationDate>

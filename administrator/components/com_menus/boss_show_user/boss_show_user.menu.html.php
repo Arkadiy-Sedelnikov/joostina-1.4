@@ -18,43 +18,32 @@ defined('_VALID_MOS') or die();
 * @package Joostina
 * @subpackage Menus
 */
-class boss_category_content_menu_html {
+class boss_show_user_menu_html {
 
 	function editCategory(&$menu,&$lists,&$params,$option) {
 		mosCommonHTML::loadOverlib();
 ?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
-		function submitbutton(pressbutton) {
-			if (pressbutton == 'cancel') {
-				submitform( pressbutton );
-				return;
-			}
-			var form = document.adminForm;
+            function submitbutton(pressbutton) {
+                if (pressbutton == 'cancel') {
+                    submitform(pressbutton);
+                    return;
+                }
+                var form = document.adminForm;
 
-            // do field validation
-            if ( form.name.value == '' ) {
-			    alert( '<?php echo _OBJECT_MUST_HAVE_NAME?>' );
-                return;
-			}
-            else if( trim(form.category.value) == ""){
-                alert( "<?php echo _BOSS_MUST_HAVE_CATEGORY?>" );
-                return;
+                if (form.name.value == '') {
+                    alert('<?php echo _OBJECT_MUST_HAVE_NAME?>');
+                } else {
+                    submitform(pressbutton);
+                }
             }
-            else if( trim(form.directory.value) == "0"){
-                alert( "<?php echo _BOSS_MUST_HAVE_DIRECTORY?>" );
-                return;
-            }
-
-			form.link.value = "index.php?option=com_boss&task=show_category&catid="+form.category.value+"&directory=" + form.directory.value;
-			submitform( pressbutton );
-		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_PUNKT ?>:: <?php echo $lists['directoryconf']->name ?> → <?php echo _MENU_BOSS_CAT_CONTENT?>
+			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_PUNKT ?>:: <?php echo $lists['directoryconf']->name ?> → <?php echo _MENU_BOSS_USER?>
 			</th>
 		</tr>
 		</table>
@@ -87,14 +76,6 @@ class boss_category_content_menu_html {
 					</td>
 					<td width="80%">
 						<input class="inputbox" type="text" name="params[title]" size="50" maxlength="100" value="<?php echo htmlspecialchars($params->get('title',''),ENT_QUOTES); ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo _CATEGORY ?>:</td>
-					<td>
-                        <select size="10" name="category" id="category">
-                            <?php HTML_boss::selectCategories(0, 'Root' . " >> ", $lists['categories'], $lists['selected_categ'], -1, 1); ?>
-                        </select>
 					</td>
 				</tr>
 				<tr>
@@ -148,9 +129,9 @@ class boss_category_content_menu_html {
 			</td>
 		</tr>
 		</table>
-        <input type="hidden" name="directory" value="<?php echo $lists['directoryconf']->id; ?>" />
-        <input type="hidden" name="link" value="" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="link" value="<?php echo ampReplace($lists['link']); ?>" />
+		<input type="hidden" name="directory" value="<?php echo $lists['directoryconf']->id; ?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $menu->type; ?>" />

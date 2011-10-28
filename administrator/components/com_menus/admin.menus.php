@@ -832,27 +832,42 @@ function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level
 	return $list;
 }
 
+//вычисляет ид каталога из ссылки меню
 function getDirectory($menu){
     $directory = mosGetParam($_REQUEST, 'directory', 0);
-    if($directory == 0){
+    if($directory == 0){var_dump($menu->link);
         $linkArr = uriToArray($menu->link);
-        $directory = $linkArr['directory'];
+        $directory = (int)$linkArr['directory'];
     }
     return $directory;
 }
+
+//вычисляет ид категории из ссылки меню
 function getBossSelectedCat($menu){
         $linkArr = uriToArray($menu->link);
-        $return = ($linkArr['catid'] > 0) ? (int)$linkArr['catid'] : 0;
+        $return = (isset($linkArr['catid']) && $linkArr['catid'] > 0) ? (int)$linkArr['catid'] : 0;
     return $return;
 }
 
+//вычисляет ид кщнтента из ссылки меню
+function getBossSelectedContent($menu){
+        $linkArr = uriToArray($menu->link);
+        $return = (isset($linkArr['content_id']) && $linkArr['content_id'] > 0) ? (int)$linkArr['content_id'] : 0;
+    return $return;
+}
+
+//преобразует ссылку в ассоциативный массив
 function uriToArray($link){
-        $linkValues = str_replace('index.php?', '', $link);
-        $linkValues = explode('&', $linkValues);
-        $linkArr = array();
+    $linkValues = str_replace('index.php?', '', $link);
+    $linkValues = explode('&', $linkValues);
+    $linkArr = array();
+    
+    if(!((count($linkValues) == 1 && $linkValues[0] == '') || count($linkValues) == 0)){
         foreach($linkValues as $linkValue){
             $tmp = explode('=', $linkValue);
             $linkArr[$tmp[0]] = $tmp[1];
         }
+    }
+
     return $linkArr;
 }

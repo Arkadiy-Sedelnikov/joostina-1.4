@@ -77,3 +77,14 @@ DEFINE('_COM_MENUS_SUBMIT_CONTENT','Пункт меню :: Добавить со
 DEFINE('_MOVE_MENUS','перемещено');
 DEFINE('_MOVE_MENUS_TO','перемещено в');
 DEFINE('_EDIT_CONTENT_TYPED','Изменить статичное содержимое');
+DEFINE('_BOSS_CONTENT','Контент');
+DEFINE('_BOSS_SELECT_CONTENT','Выбрать контент');
+DEFINE('_BOSS_MUST_HAVE_CONTENT','Контент должен быть выбран');
+DEFINE('_BOSS_MUST_HAVE_CATEGORY','Категория должна быть выбрана');
+DEFINE('_BOSS_MUST_HAVE_DIRECTORY','Катаолг должен быть выбран');
+DEFINE('_MENU_BOSS_CONTENT','Контент');
+DEFINE('_MENU_BOSS_SEARCH','Страница поиска');
+DEFINE('_MENU_BOSS_PROFILE','Мой профиль');
+DEFINE('_MENU_BOSS_RULES','Правила');
+DEFINE('_MENU_BOSS_USER','Мой контент');
+DEFINE('_MENU_BOSS_WRITE','Добавить контент');

@@ -14,7 +14,7 @@ defined('_VALID_MOS') or die();
 * @package Joostina
 * @subpackage Menus
 */
-class boss_all_content_menu {
+class boss_write_content_menu {
 	/**
 	* @param database A database connector object
 	* @param integer The unique id of the category to edit (0 if new)
@@ -26,11 +26,11 @@ class boss_all_content_menu {
 		if($menu->checked_out && $menu->checked_out != $my->id) {
 			mosErrorAlert($menu->title." "._MODULE_IS_EDITING_MY_ADMIN);
 		}
-        $link = 'index.php?option=com_boss&task=show_all&directory='.$directory;
+        $link = 'index.php?option=com_boss&task=write_content&directory='.$directory;
 		if($uid) {
 			$menu->checkout($my->id);
 		} else {
-			$menu->type = 'boss_all_content';
+			$menu->type = 'boss_write_content';
 			$menu->menutype = $menutype;
 			$menu->ordering = 9999;
 			$menu->parent = intval(mosGetParam($_POST,'parent',0));
@@ -61,7 +61,7 @@ class boss_all_content_menu {
 		// get params definitions
 		$params = new mosParameters($menu->params,$mainframe->getPath('menu_xml',$menu->type),'menu');
 
-		boss_all_content_menu_html::editCategory($menu,$lists,$params,$option);
+		boss_write_content_menu_html::editCategory($menu,$lists,$params,$option);
 	}
 }
 ?>

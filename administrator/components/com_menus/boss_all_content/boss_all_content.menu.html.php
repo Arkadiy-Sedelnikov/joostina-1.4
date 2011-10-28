@@ -25,30 +25,19 @@ class boss_all_content_menu_html {
 ?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
-		function submitbutton(pressbutton) {
-			if (pressbutton == 'cancel') {
-				submitform( pressbutton );
-				return;
-			}
-			var form = document.adminForm;
-			<?php
-		if(!$menu->id) {
-?>
+            function submitbutton(pressbutton) {
+                if (pressbutton == 'cancel') {
+                    submitform(pressbutton);
+                    return;
+                }
+                var form = document.adminForm;
 
-
-				submitform( pressbutton );
-				<?php
-		} else {
-?>
-				if ( form.name.value == '' ) {
-					alert( '<?php echo _OBJECT_MUST_HAVE_NAME?>' );
-				} else {
-					submitform( pressbutton );
-				}
-				<?php
-		}
-?>
-		}
+                if (form.name.value == '') {
+                    alert('<?php echo _OBJECT_MUST_HAVE_NAME?>');
+                } else {
+                    submitform(pressbutton);
+                }
+            }
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
@@ -140,7 +129,6 @@ class boss_all_content_menu_html {
 			</td>
 		</tr>
 		</table>
-
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="link" value="<?php echo ampReplace($lists['link']); ?>" />
 		<input type="hidden" name="directory" value="<?php echo $lists['directoryconf']->id; ?>" />

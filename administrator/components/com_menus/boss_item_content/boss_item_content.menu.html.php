@@ -11,43 +11,78 @@
 defined('_VALID_MOS') or die();
 
 /**
-* Disaply content item link
+* Writes the edit form for new and existing content item
+*
+* A new record is defined when <var>$row</var> is passed with the <var>id</var>
+* property set to 0.
 * @package Joostina
 * @subpackage Menus
 */
-class content_item_link_menu_html {
+class boss_item_content_menu_html {
 
-	function edit(&$menu,&$lists,&$params,$option,$content) {
+	function editCategory(&$menu,&$lists,&$params,$option) {
 		mosCommonHTML::loadOverlib();
 ?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
+
+
+
+
 		function submitbutton(pressbutton) {
-			var form = document.adminForm;
+            var form = document.adminForm;
 			if (pressbutton == 'cancel') {
 				submitform( pressbutton );
 				return;
 			}
-			if (pressbutton == 'redirect') {
-				submitform( pressbutton );
-				return;
+
+            // do field validation
+            if ( form.name.value == '' ) {
+			    alert( '<?php echo _OBJECT_MUST_HAVE_NAME?>' );
+                return;
 			}
-			if (trim(form.name.value) == ""){
-				alert( "<?php echo _OBJECT_MUST_HAVE_NAME?>" );
-			} else if (trim(form.content_item_link.value) == ""){
-				alert( "<?php echo _CONTENT_ITEM_TO_LINK_TO?>" );
-			} else {
-				form.link.value = "index.php?option=com_content&task=view&id=" + form.content_item_link.value;
-				form.componentid.value = form.content_item_link.value;
-				submitform( pressbutton );
+            if( trim(form.category.value) == ""){
+                alert( "<?php echo _BOSS_MUST_HAVE_CATEGORY?>" );
+                return;
+            }
+			else if ( trim(form.content_id.value) == "0" ){
+				alert( "<?php echo _BOSS_MUST_HAVE_CONTENT?>" );
+                return;
 			}
+            else if( trim(form.directory.value) == "0"){
+                alert( "<?php echo _BOSS_MUST_HAVE_DIRECTORY?>" );
+                return;
+            }
+
+			form.link.value = "index.php?option=com_boss&task=show_content&contentid="+form.content_id.value+"&catid="+form.category.value+"&directory=" + form.directory.value;
+			submitform( pressbutton );
 		}
+
+        function selectBossContent() {
+            var directory = jQuery('#directory').val();
+			var catid = jQuery('#category').val();
+            jQuery.ajax({
+                type: "POST",
+                url: '/administrator/ajax.index.php?option=com_menus&task=get_category_content&catid='+catid+'&directory='+directory,
+                dataType: 'html',
+                success: function (data) {
+                    jQuery("#content").append(jQuery(data));
+                    jQuery("#content").slideDown('slow');
+                }
+            });
+        }
+
+        function writeBossContent(){
+            var content_id = jQuery('#content').val();
+            jQuery('#content_id').val(content_id);
+        }
 		</script>
+        
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_ITEM_CONTENT_ITEM?>
+			<?php echo $menu->id?_EDITING.' -':_CREATION.' -'; ?> <?php echo _MENU_PUNKT ?>:: <?php echo $lists['directoryconf']->name ?> → <?php echo _MENU_BOSS_CONTENT?>
 			</th>
 		</tr>
 		</table>
@@ -57,16 +92,21 @@ class content_item_link_menu_html {
 			<td width="60%">
 				<table class="adminform">
 				<tr>
-					<th colspan="2">
+					<th colspan="3">
 					<?php echo _DETAILS?>
 					</th>
 				</tr>
 				<tr>
-					<td width="10%" align="right">
-					<?php echo _NAME?>:
+					<td width="10%" align="right" valign="top"><?php echo _NAME?>:</td>
+					<td width="200px">
+					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo htmlspecialchars($menu->name,ENT_QUOTES); ?>"/>
 					</td>
-					<td width="80%">
-					<input class="inputbox" type="text" name="name" id="name" size="50" maxlength="100" value="<?php echo htmlspecialchars($menu->name,ENT_QUOTES); ?>" />
+					<td>
+					<?php
+		if(!$menu->id) {
+			echo mosToolTip(_CATEGORY_TITLE_IF_FILED_IS_EMPTY);
+		}
+?>
 					</td>
 				</tr>
 				<tr>
@@ -78,47 +118,41 @@ class content_item_link_menu_html {
 					</td>
 				</tr>
 				<tr>
-					<td width="10%" align="right" valign="top">
-					<?php echo _CONTENT_TO_LINK_TO?>:
+					<td valign="top" align="right"><?php echo _CATEGORY ?>:</td>
+					<td>
+                        <select size="10" name="category" id="category" onclick="selectBossContent()">
+                            <?php HTML_boss::selectCategories(0, 'Root' . " >> ", $lists['categories'], $lists['selected_categ'], -1, 1); ?>
+                        </select>
 					</td>
-					<td width="80%">
-					<?php echo $lists['content']; ?>
+				</tr>
+                <tr>
+					<td valign="top" align="right"><?php echo _BOSS_CONTENT ?>:</td>
+					<td>
+                        <select name="content" id="content"  style="display: none;" onchange="writeBossContent()">
+                            <option value=""><?php echo _BOSS_SELECT_CONTENT ?></option>
+                        </select>
 					</td>
 				</tr>
 				<tr>
-					<td width="10%" align="right">URL:</td>
-					<td width="80%">
+					<td align="right">URL:</td>
+					<td>
 					<?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="10%" align="right" valign="top">
-					<?php echo _LINK_TARGET?>
-					</td>
-					<td width="80%">
-					<?php echo $lists['target']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo _PARENT_MENU_ITEM?>:
-					</td>
+					<td align="right"><?php echo _PARENT_MENU_ITEM?>:</td>
 					<td>
 					<?php echo $lists['parent']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">
-					<?php echo _ORDER_DROPDOWN?>:
-					</td>
+					<td valign="top" align="right"><?php echo _ORDER_DROPDOWN?>:</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right">
-					У<?php echo _ACCESS?>:
-					</td>
+					<td valign="top" align="right"><?php echo _ACCESS?>:</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
@@ -150,12 +184,11 @@ class content_item_link_menu_html {
 			</td>
 		</tr>
 		</table>
-
-		<input type="hidden" name="scid" value="<?php echo $menu->componentid; ?>" />
+        <input type="hidden" name="directory" id="directory" value="<?php echo $lists['directoryconf']->id; ?>" />
+        <input type="hidden" name="link" value="" />
+        <input type="hidden" name="content_id" id="content_id" value="<?php echo $lists['selected_content']; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
-		<input type="hidden" name="componentid" value="" />
-		<input type="hidden" name="link" value="" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $menu->type; ?>" />
 		<input type="hidden" name="task" value="" />
