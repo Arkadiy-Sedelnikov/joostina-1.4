@@ -3697,7 +3697,7 @@ class bossExportImport {
         if ($directory == 0) {
             $directory = installNewDirectory(0);
             $directory = (int) $directory['id'];
-        } else if ($directory != 0) {
+        } else {
             //проверим существование каталога
             $q = "SELECT `id` FROM #__boss_config WHERE `id` = '$directory'";
             $result = $database->setQuery($q)->loadObjectList();
@@ -3723,6 +3723,12 @@ class bossExportImport {
 
         //удаляем временные файлы
         boss_helpers::rmdir_rf($pathFrom);
+
+        //проверка существования плагинов, в случае отсутствия копируем из резерва или создаем
+        $pathToReserve = JPATH_BASE . '/components/com_boss';
+        !is_dir($pathTo . '/plugins/fields') ? boss_helpers::copy_folder_rf($pathToReserve . '/plugins', $pathTo . '/plugins') : null;
+
+
         //редиректим на настройки
         mosRedirect("index2.php?option=com_boss&act=configuration&directory=" . $directory);
         return true;

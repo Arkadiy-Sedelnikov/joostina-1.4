@@ -565,6 +565,7 @@ function installNewDirectory($installPlugins=1) {
 
     if(!is_dir(JPATH_BASE . "/images/boss/$id/lang/")) {
 		@mkdir(JPATH_BASE . "/images/boss/$id/lang/");
+        @copy(JPATH_BASE . "/images/index.html", JPATH_BASE . "/images/boss/$id/lang/index.html");
 	};
 
     if($installPlugins == 1){
@@ -576,13 +577,14 @@ function installNewDirectory($installPlugins=1) {
 
 function backup_table_structure($directory, $file, $table) {
     $database = database::getInstance();
+    global $mosConfig_dbprefix;
     //получение и сохранение структуры таблицы
-    $content = '$query = "DROP TABLE IF EXISTS `' . str_replace('boss_'.$directory.'_', 'boss_".$directory."_', $table) .'`";'."\n";
+    $content = '$query = "DROP TABLE IF EXISTS `' . str_replace($mosConfig_dbprefix.'boss_'.$directory.'_', '#__boss_".$directory."_', $table) .'`";'."\n";
     $content .= '$database->setQuery($query);'."\n";
 	$content .= '$database->query();'."\n\n";
     $result = $database->getTableCreate(array($table));
     $result = implode(' ',$result);
-    $result = str_replace('boss_'.$directory.'_', 'boss_".$directory."_', $result);
+    $result = str_replace($mosConfig_dbprefix.'boss_'.$directory.'_', '#__boss_".$directory."_', $result);
     $content .= '$query = "'.$result . ';";'."\n";
     $content .= '$database->setQuery($query);'."\n";
 	$content .= '$database->query();'."\n\n";
@@ -624,7 +626,7 @@ function backup_table_data($directory, $file, $table) {
                         $field = preg_replace("/\n/", "/\/\n/", $field);
                         $content .= !$first2 ? (",'" . $field . "'") : ("'" . $field . "'");
                     } else {
-                        $content .= !$first2 ? (',' . $field) : $field;
+                        $content .= !$first2 ? (",'" . $field . "'") : ("'" . $field . "'");
                     }
                     $first2 = false;
                 }
