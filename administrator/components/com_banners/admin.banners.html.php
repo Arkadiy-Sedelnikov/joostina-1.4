@@ -549,7 +549,26 @@ class HTML_banners {
 									$image_blank = '<img src="images/blank.png" name="imagelib" />';
 									if($row->image_url != '') {
 										if(preg_match("/.swf/", $row->image_url)) {
-											echo $image_blank;
+
+                                    $image_url = JPATH_SITE.'/images/show/' . $row->image_url;
+			                        $swfinfo = @getimagesize(JPATH_BASE.'/images/banners/'. $row->image_url);
+			                        $result = "
+                                        <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\"
+                                            codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\"
+                                            border=\"0\"
+                                            width=\"$swfinfo[0]\"
+                                            height=\"$swfinfo[1]\"
+                                            vspace=\"0\">
+                                                <param name=\"SRC\" value=\"$image_url\" />
+                                                    <embed src=\"$image_url\"
+                                                        loop=\"false\"
+                                                        pluginspage=\"http://www.macromedia.com/go/get/flashplayer\"
+                                                        type=\"application/x-shockwave-flash\"
+                                                        width=\"$swfinfo[0]\"
+                                                        height=\"$swfinfo[1]\">
+                                        </object>
+                                    ";
+											echo $result;
 											echo '<script language="javascript" type="text/javascript">
 				<!--
 					changeDisplayImage(0);

@@ -157,9 +157,24 @@ if(!function_exists('showBanners')) {
 			}
 			$result = '<div class="banernblok'.$moduleclass_sfx.'">'.$result.'</div>';
 		} elseif(preg_match("/.swf/", $banner->image_url)) {
-			$image_url = JPATH_SITE.'/images/banners/' . $banner->image_url;
+			$image_url = JPATH_SITE.'/images/show/' . $banner->image_url;
 			$swfinfo = @getimagesize(JPATH_BASE.'/images/banners/'. $banner->image_url);
-			$result = "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0\" border=\"0\" width=\"$swfinfo[0]\" height=\"$swfinfo[1]\" vspace=\"0\"><param name=\"SRC\" value=\"$image_url\"><embed src=\"$image_url\" loop=\"false\" pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"$swfinfo[0]\" height=\"$swfinfo[1]\"></object>";
+			$result = "
+                <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\"
+                codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\"
+                border=\"0\"
+                width=\"$swfinfo[0]\"
+                height=\"$swfinfo[1]\"
+                vspace=\"0\">
+                    <param name=\"SRC\" value=\"$image_url\" />
+                        <embed src=\"$image_url\"
+                            loop=\"false\"
+                            pluginspage=\"http://www.macromedia.com/go/get/flashplayer\"
+                            type=\"application/x-shockwave-flash\"
+                            width=\"$swfinfo[0]\"
+                            height=\"$swfinfo[1]\">
+                </object>
+                ";
 		}
 
 		return $result;
@@ -169,3 +184,4 @@ if(!function_exists('showBanners')) {
 $params = new mosParameters($module->params);
 $content = showBanners( $params, $mainframe );
 unset($params, $mainframe);
+
