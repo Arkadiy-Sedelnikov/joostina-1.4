@@ -835,7 +835,7 @@ function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level
 //вычисляет ид каталога из ссылки меню
 function getDirectory($menu){
     $directory = mosGetParam($_REQUEST, 'directory', 0);
-    if($directory == 0){var_dump($menu->link);
+    if($directory == 0){
         $linkArr = uriToArray($menu->link);
         $directory = (int)$linkArr['directory'];
     }
