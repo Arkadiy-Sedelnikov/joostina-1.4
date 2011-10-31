@@ -18,60 +18,79 @@ if(!($acl->acl_check('administration','edit','users',$my->usertype,'components',
 // call
 require_once ($mainframe->getPath('admin_html'));
 require_once ($mainframe->getPath('class'));
+//подключаем класс босса
+require_once(JPATH_BASE.'/components/com_boss/boss.class.php');
+
+$conf = null;
+$configObject = new frontpageConfig();
+$conf->directory = $configObject->get('directory');
+$conf->page = $configObject->get('page');
 
 $cid = josGetArrayInts('cid');
 
-switch($task) {
-	case 'publish':
-		changeFrontPage($cid,1,$option);
-		break;
+    switch($task) {
+    	case 'publish':
+    		changeFrontPage($cid,1,$option);
+    		break;
 
-	case 'unpublish':
-		changeFrontPage($cid,0,$option);
-		break;
+    	case 'unpublish':
+    		changeFrontPage($cid,0,$option);
+    		break;
 
-	case 'archive':
-		changeFrontPage($cid,-1,$option);
-		break;
+    	case 'archive':
+    		changeFrontPage($cid,-1,$option);
+    		break;
 
-	case 'remove':
-		removeFrontPage($cid,$option);
-		break;
+    	case 'remove':
+    		removeFrontPage($cid,$option);
+    		break;
 
-	case 'orderup':
-		orderFrontPage(intval($cid[0]),-1,$option);
-		break;
+    	case 'orderup':
+    		orderFrontPage(intval($cid[0]),-1,$option);
+    		break;
 
-	case 'orderdown':
-		orderFrontPage(intval($cid[0]),1,$option);
-		break;
+    	case 'orderdown':
+    		orderFrontPage(intval($cid[0]),1,$option);
+    		break;
 
-	case 'saveorder':
-		saveOrder($cid);
-		break;
+    	case 'saveorder':
+    		saveOrder($cid);
+    		break;
 
-	case 'accesspublic':
-		accessMenu(intval($cid[0]),0);
-		break;
+    	case 'accesspublic':
+    		accessMenu(intval($cid[0]),0);
+    		break;
 
-	case 'accessregistered':
-		accessMenu(intval($cid[0]),1);
-		break;
+    	case 'accessregistered':
+    		accessMenu(intval($cid[0]),1);
+    		break;
 
-	case 'accessspecial':
-		accessMenu(intval($cid[0]),2);
-		break;
+    	case 'accessspecial':
+    		accessMenu(intval($cid[0]),2);
+    		break;
 
-	default:
-		viewFrontPage($option);
-		break;
-}
+    	case 'settings':
+    		settings($conf);
+    		break;
+
+    	case 'save_settings':
+    	case 'apply_settings':
+    		saveSettings($task, $configObject);
+    		break;
+
+    	default:
+            if(!isset($conf->directory)){
+                mosRedirect("index2.php?option=com_frontpage&task=settings", _CONFIG_EMPTY);
+            }
+    		viewFrontPage($option, $conf->directory);
+    		break;
+    }
 
 
 /**
  * Compiles a list of frontpage items
  */
-function viewFrontPage($option) {
+function viewFrontPage($option, $directory) {
 	global $mainframe,$mosConfig_list_limit;
 
 	$database = database::getInstance();
@@ -87,42 +106,39 @@ function viewFrontPage($option) {
 		$search = stripslashes($search);
 	}
 
-	$where = array("c.state >= 0");
+	$where = array();
 
 	// used by filter
-	if($filter_sectionid > 0) {
-		$where[] = "c.sectionid = ".(int)$filter_sectionid;
-	}
 	if($catid > 0) {
-		$where[] = "c.catid = ".(int)$catid;
+		$where[] = "cc.id = ".(int)$catid;
 	}
 	if($filter_authorid > 0) {
-		$where[] = "c.created_by = ".(int)$filter_authorid;
+		$where[] = "c.userid = ".(int)$filter_authorid;
 	}
 
 	if($search) {
-		$where[] = "LOWER( c.title ) LIKE '%".$database->getEscaped(Jstring::trim(Jstring::strtolower($search)))."%'";
+		$where[] = "LOWER( c.name ) LIKE '%".$database->getEscaped(Jstring::trim(Jstring::strtolower($search)))."%'";
 	}
 
 	// get the total number of records
 	$query = "SELECT count(*)"
-			."\n FROM #__content AS c"
-			."\n INNER JOIN #__categories AS cc ON cc.id = c.catid"
-			."\n INNER JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-			."\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id".(count($where)?"\n WHERE ".implode(' AND ',$where):'');
+			."\n FROM FROM #__boss_" . $directory . "_contents AS c"
+			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
+			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
+
+			."\n WHERE c.frontpage = 1 ".(count($where)?"\n AND ".implode(' AND ',$where):'');
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
 	require_once (JPATH_BASE.'/'.JADMIN_BASE.'/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total,$limitstart,$limit);
 
-	$query = "SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author"
-			."\n FROM #__content AS c"."\n INNER JOIN #__categories AS cc ON cc.id = c.catid"
-			."\n INNER JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
-			."\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
-			."\n INNER JOIN #__groups AS g ON g.id = c.access"
-			."\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-			."\n LEFT JOIN #__users AS v ON v.id = c.created_by".(count($where)?"\nWHERE ".implode(' AND ',$where):"")."\n ORDER BY f.ordering";
+	$query = "SELECT c.*, cc.name as catname, cc.id as catid, v.name AS author"
+			."\n FROM #__boss_" . $directory . "_contents AS c"
+			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
+			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
+			."\n LEFT JOIN #__users AS v ON v.id = c.userid"
+            ."\n WHERE c.frontpage = 1 ".(count($where)?"\nAND ".implode(' AND ',$where):"");
 	$database->setQuery($query,$pageNav->limitstart,$pageNav->limit);
 
 	$rows = $database->loadObjectList();
@@ -132,34 +148,28 @@ function viewFrontPage($option) {
 	}
 
 	// get list of categories for dropdown filter
-	$query = "SELECT cc.id AS value, cc.title AS text, section"
-			."\n FROM #__categories AS cc"
-			."\n INNER JOIN #__sections AS s ON s.id = cc.section "
-			."\n ORDER BY s.ordering, cc.ordering";
+	$query = "SELECT cc.id AS value, cc.name AS text"
+			."\n FROM #__boss_" . $directory . "_contents AS c"
+			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
+			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
+			."\n WHERE c.frontpage = 1";
 	$categories[] = mosHTML::makeOption('0',_SEL_CATEGORY);
 	$database->setQuery($query);
 	$categories = array_merge($categories,$database->loadObjectList());
 	$lists['catid'] = mosHTML::selectList($categories,'catid','class="inputbox" size="1" onchange="document.adminForm.submit( );"','value','text',$catid);
 
-	// get list of sections for dropdown filter
-	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid'] = mosAdminMenus::SelectSection('filter_sectionid',$filter_sectionid,$javascript);
-
 	// get list of Authors for dropdown filter
-	$query = "SELECT c.created_by, u.name"
-			."\n FROM #__content AS c"
-			."\n INNER JOIN #__sections AS s ON s.id = c.sectionid"
-			."\n LEFT JOIN #__users AS u ON u.id = c.created_by"
-			."\n WHERE c.state != -1"
-			."\n AND c.state != -2"
+	$query = "SELECT c.userid, u.name"
+			."\n FROM #__boss_" . $directory . "_contents AS c"
+			."\n LEFT JOIN #__users AS u ON u.id = c.userid"
 			."\n GROUP BY u.name"
 			."\n ORDER BY u.name";
-	$authors[] = mosHTML::makeOption('0',_SEL_AUTHOR,'created_by','name');
+	$authors[] = mosHTML::makeOption('0',_SEL_AUTHOR,'userid','name');
 	$database->setQuery($query);
 	$authors = array_merge($authors,$database->loadObjectList());
-	$lists['authorid'] = mosHTML::selectList($authors,'filter_authorid','class="inputbox" size="1" onchange="document.adminForm.submit( );"','created_by','name',$filter_authorid);
+	$lists['authorid'] = mosHTML::selectList($authors,'filter_authorid','class="inputbox" size="1" onchange="document.adminForm.submit( );"','userid','name',$filter_authorid);
 
-	ContentView::showList($rows,$search,$pageNav,$option,$lists);
+	ContentView::showList($rows,$search,$pageNav,$option,$lists, $directory);
 }
 
 /**
@@ -197,7 +207,7 @@ function changeFrontPage($cid = null,$state = 0,$option) {
 	}
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect("index2.php?option=$option");
 }
@@ -228,7 +238,7 @@ function removeFrontPage(&$cid,$option) {
 	$fp->updateOrder();
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect("index2.php?option=$option");
 }
@@ -247,7 +257,7 @@ function orderFrontPage($uid,$inc,$option) {
 	$fp->move($inc);
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect("index2.php?option=$option");
 }
@@ -274,7 +284,7 @@ function accessMenu($uid,$access) {
 	}
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect('index2.php?option=com_frontpage');
 }
@@ -303,8 +313,31 @@ function saveOrder(&$cid) {
 	}
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = _NEW_ORDER_SAVED;
 	mosRedirect( 'index2.php?option=com_frontpage', $msg );
+}
+
+function settings($conf) {
+
+	$database = database::getInstance();
+
+    $directories = BossDirectory::getDirectories();
+    $dirOptions = array();
+	foreach($directories as $directory){
+        $dirOptions[] = mosHTML::makeOption($directory->id, $directory->name);
+    }
+    $directorylist = mosHTML::selectList($dirOptions, 'directory', 'class="inputbox" size="1"', 'value', 'text', @$conf->directory);
+    $pages = array();
+    $pages[] = mosHTML::makeOption('show_frontpage', _DIRECTORY_CONTENT);
+    $pages[] = mosHTML::makeOption('front', _DIRECTORY_CATEGORY);
+    $pageslist = mosHTML::selectList($pages, 'page', 'class="inputbox" size="1"', 'value', 'text', @$conf->page);
+    ContentView::showConf($directorylist,$pageslist);
+}
+
+function saveSettings($task, $configObject){
+    $configObject->save_config();
+    $task = ($task == 'apply_settings') ? 'settings' : '';
+    mosRedirect("index2.php?option=com_frontpage&task=".$task, _CONFIG_SAVED);
 }

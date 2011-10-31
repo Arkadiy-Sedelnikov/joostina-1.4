@@ -23,10 +23,10 @@ class DBconfig {
 	/**
 	 *
 	 */
-	function DBconfig($database, $group = '', $subgroup='') {
+	function __construct($database, $group = '', $subgroup='') {
 		global $option;
 
-		$database = database::getInstance();
+		//$database = database::getInstance();
 		$this->_db = $database;
 
 		// проверяем - задана ли группа

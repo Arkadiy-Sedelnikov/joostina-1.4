@@ -368,6 +368,8 @@ function installNewDirectory($installPlugins=1) {
                     "`meta_keys` varchar(200) NOT NULL, ".
                     "`userid` int(11) unsigned default NULL, ".
                     "`published` tinyint(1) default '1', ".
+                    "`frontpage` BOOL NOT NULL, ".
+                    "`featured` BOOL NOT NULL, ".
                     "`date_created` datetime default NULL, ".
                     "`date_last_сomment` datetime DEFAULT NULL, ".
                     "`date_publish` DATETIME NOT NULL, ".

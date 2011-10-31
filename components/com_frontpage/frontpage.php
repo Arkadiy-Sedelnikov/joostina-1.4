@@ -10,5 +10,14 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
+require_once ($mainframe->getPath('class', 'com_frontpage'));
+
+$frontpageConf = null;
+$configObject = new frontpageConfig();
+$frontpageConf->directory = $configObject->get('directory', 0);
+$frontpageConf->task = $configObject->get('page', 'front');
+
+$isFrontpage = 1;
+
 // code handling has been shifted into content.php
-require_once (JPATH_BASE.'/components/com_content/content.php');
+require_once (JPATH_BASE.'/components/com_boss/boss.php');

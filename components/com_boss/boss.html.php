@@ -50,8 +50,13 @@ class boss_html
     var $rating;
 
     function displayList()
-    {        
-        include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/list.php');
+    {
+        if($this->task == 'show_frontpage'){
+            include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/frontpage.php');
+        }
+        else{
+            include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/list.php');
+        }
     }
 
     function jsJumpmenu()

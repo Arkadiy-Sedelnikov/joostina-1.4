@@ -548,6 +548,8 @@ class jDirectoryContent extends mosDBTable {
     var $meta_keys = null;
     var $userid = null;
     var $published = null;
+    var $frontpage = null;
+    var $featured = null;
     var $date_created = null;
     var $date_publish = null;
     var $date_unpublish = null;
@@ -2182,6 +2184,11 @@ class boss_helpers {
 
         $search .= "AND (a.date_publish = '0000-00-00 00:00:00' OR a.date_publish <= NOW()) \n";
         $search .= "AND (a.date_unpublish = '0000-00-00 00:00:00' OR a.date_unpublish >= NOW()) \n";
+        
+        //если это главная страница
+        if($task == 'show_frontpage'){
+            $search .= "AND a.frontpage = 1 \n";
+        }
 
         $total = $database->setQuery("SELECT COUNT(*) FROM #__boss_" . $directory . "_contents as a $tables WHERE $search $search1")->loadResult();
         $limit = $conf->contents_per_page;

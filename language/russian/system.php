@@ -565,3 +565,4 @@ DEFINE('_IN_ARCHIVE','В архиве');
 DEFINE('_SEARCH_NEWSFEEDS','Ленты новостей');
 
 DEFINE('_CANNOT_CHANGE_PUBLISH_STATE','Смена статуса публикации недоступна');
+DEFINE('_CONFIG_EMPTY','Конфигурация отсутствует. Пожалуйста сконфигурируйте компонент');

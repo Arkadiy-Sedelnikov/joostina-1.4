@@ -14,7 +14,10 @@ require_once ($mainframe->getPath('toolbar_html'));
 require_once ($mainframe->getPath('toolbar_default'));
 
 switch($task) {
-	default:
+	case 'settings':
+		TOOLBAR_FrontPage::_SETTINGS();
+		break;
+    default:
 		TOOLBAR_FrontPage::_DEFAULT();
 		break;
 }

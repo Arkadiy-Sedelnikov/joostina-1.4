@@ -8,13 +8,13 @@
  */
 defined( '_VALID_MOS' ) or die();
 
-require_once( $mainframe->getPath( 'front_html' ) );
-require_once( $mainframe->getPath( 'class' ) );
+require_once( $mainframe->getPath( 'front_html', 'com_boss' ) );
+require_once( $mainframe->getPath( 'class', 'com_boss' ) );
 require_once( JPATH_BASE.'/components/com_boss/boss.tools.php' );
 // cache activation
 $cache = mosCache::getCache( 'com_boss' );
 
-$task           = mosGetParam( $_REQUEST, 'task', "front" );
+$task           = (isset($frontpageConf->task)) ? $frontpageConf->task : mosGetParam( $_REQUEST, 'task', "front" );
 $text_search    = mosGetParam( $_REQUEST, 'text_search', "" );
 $name_search    = mosGetParam( $_REQUEST, 'name_search', "" );
 $limitstart     = (int) mosGetParam( $_REQUEST, 'limitstart', 0 );
@@ -22,12 +22,12 @@ $userid         = (int) mosGetParam( $_REQUEST, 'userid', $my->id );
 $catid          = (int) mosGetParam( $_REQUEST, 'catid', 0 );
 $contentid      = (int) mosGetParam( $_REQUEST, 'contentid', 0 );
 $order          = (int) mosGetParam( $_REQUEST, 'order', 0 );
-$task           = mosGetParam( $_REQUEST, 'task', "" );
 $mode           = mosGetParam( $_REQUEST, 'mode', 'email');
 $tag            = mosGetParam( $_REQUEST, 'tag', '');
 $alpha          = urldecode(mosGetParam( $_REQUEST, 'alpha', ''));
-$directory      = (int) mosGetParam( $_REQUEST, 'directory', 0 );
+$directory      = (isset($frontpageConf->directory)) ? (int)$frontpageConf->directory : (int) mosGetParam( $_REQUEST, 'directory', 0 );
 $itemid         = (int) mosGetParam( $_REQUEST, 'Itemid', 0 );
+$isFrontpage    = (isset($isFrontpage)) ? 1 : 0;
 
 //пробуем разобрать ссылки меню если ид каталога не известен
 if ($directory==0) {
@@ -226,6 +226,17 @@ switch ($task) {
 			break;
 		}
 
+
+	case 'show_frontpage': {
+                        if( $mainframe->getCfg('caching') == 1 ){
+				$results = $cache->call( 'show_frontpage',$text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			}else{
+				$results = show_frontpage($text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			}
+			boss_show_cached_result($results);
+			break;
+		}
+
 	case 'show_message_form': {
 			$cache->call( 'show_message_form',$contentid,$mode,$directory,$template_name);
 			break;
@@ -376,6 +387,57 @@ function show_all($text_search,$name_search,$order,$limitstart,$directory,$templ
 
     ob_start();
 	boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_all","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
+	$params['page_body'] = ob_get_contents();
+	ob_end_clean();
+
+        return $params;
+}
+
+function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,$template_name) {
+
+    //get configuration
+    $conf = getConfig($directory);
+
+    //права пользователя
+    if($conf->allow_rights){
+        global $my;
+        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+        $rights->bind_rights(@$conf->rights);
+        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+        if(!$rights->allow_me('show_all', $my->groop_id) ){
+            echo '<div class="error">'.$rights->error('show_all').'</div>';
+            return;
+        }
+    }
+
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
+    $paths = null;
+    $params = array();
+	$jDirectoryHtmlClass = new boss_html();
+
+	$itemid = getBossItemid($directory, 0 );
+
+	// Dynamic Page Title
+        $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
+
+	//Pathway
+	$list = boss_helpers::loadCats($directory);
+	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
+	$paths[0]->text = $conf->name;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
+    $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
+	$jDirectoryHtmlClass->paths  = $paths;
+	$jDirectoryHtmlClass->subcats  = $subcats;
+	//List
+	if (isset($text_search)){
+		$url_text_search = "&amp;text_search=".$text_search;
+	}
+
+	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
+
+    ob_start();
+	boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_frontpage","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
 

@@ -3573,9 +3573,6 @@ class mosHTML {
 
 }
 
-// класс работы с контентом
-require_once(JPATH_BASE . '/components/com_content/content.class.php');
-
 // класс работы с пользователями
 require_once(JPATH_BASE . '/components/com_users/users.class.php');
 

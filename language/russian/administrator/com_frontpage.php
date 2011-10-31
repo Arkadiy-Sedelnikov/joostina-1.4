@@ -18,4 +18,10 @@ DEFINE('_CHANGE_TO_PUBLISH','публикации');
 DEFINE('_CHANGE_TO_ARH','архивирования');
 DEFINE('_CHANGE_TO_UNPUBLISH','сокрытия');
 DEFINE('_C_FRONTPAGE_CONTENT','Содержимое главной страницы');
-
+DEFINE('_SETTINGS','Настройки');
+DEFINE('_DIRECTORY_CONTENT','Контент каталога');
+DEFINE('_DIRECTORY_CATEGORY','Категории каталога');
+DEFINE('_SELECT_DIRECTORY','Выберите каталог');
+DEFINE('_SELECT_DIRECTORY_DESC','Выберите каталог для показа на главной странице');
+DEFINE('_SELECT_VIEW','Выберите вид');
+DEFINE('_SELECT_VIEW_DESC','Выберите вид выводимого контента');
