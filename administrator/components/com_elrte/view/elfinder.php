@@ -19,17 +19,13 @@ defined('_VALID_MOS') or die();
     include_once(JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_elrte' . DS . 'config_elfinder.php');
 
     //обрубаем загрузку стандартных jQuery и ui если вызвано раньше чем загружено
-    if (!defined('_JQUERY_LOADED'))
-        define('_JQUERY_LOADED', 1);
-    if (!defined('_JQUERY_UI_LOADED'))
-        define('_JQUERY_UI_LOADED',1);
     if(!defined('_FAX_LOADED'))
         define('_FAX_LOADED',1);
 
     //jQuery and jQuery UI
-    $mainframe->addJS(JPATH_SITE . "/mambots/editors/elrte/js/jquery-1.4.4.min.js");
-    $mainframe->addJS(JPATH_SITE . "/mambots/editors/elrte/js/jquery-ui-1.8.7.custom.min.js");
-    $mainframe->addCSS(JPATH_SITE . "/mambots/editors/elrte/css/smoothness/jquery-ui-1.8.7.custom.css");
+    mosCommonHTML::loadJquery();
+    mosCommonHTML::loadJqueryUI();
+    $mainframe->addCSS(JPATH_SITE . "/mambots/editors/elrte/css/smoothness/jquery-ui-1.8.13.custom.css");
 
     //elFinder
     $mainframe->addJS(JPATH_SITE . "/mambots/editors/elrte/src/elfinder/js/elfinder.min.js");
