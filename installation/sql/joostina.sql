@@ -98,13 +98,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-#
-# Dumping data for table `#__boss_1_categories`
-#
-
-INSERT INTO `#__boss_1_categories` (`id`, `parent`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `description`, `ordering`, `published`, `content_types`, `template`, `rights`) VALUES
-(1, 0, 'Категория 1', 'category1', '', '', '', 'Описание категории 1\r\n', 0, 1, 1, '0', '');
-
 # ############################
 
 #
@@ -134,15 +127,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 #
-# Dumping data for table `#__boss_1_contents`
-#
-
-INSERT INTO `#__boss_1_contents` (`id`, `name`, `slug`, `meta_title`, `meta_desc`, `meta_keys`, `userid`, `published`, `date_created`, `date_last_сomment`, `date_publish`, `date_unpublish`, `views`, `type_content`, `content_editor`, `content_editorfull`) VALUES
-(1, 'Первая статья', 'first_content', '', '', '', 62, 1, '2011-10-19 21:28:00', NULL, '2011-10-20 04:28:00', '0000-00-00 00:00:00', 1, 1, 'Это первая и пока единственная статья в каталоге.', '<div style="text-align: left">\r\nЭто первая и пока единственная статья в каталоге.&nbsp;<span style="line-height: normal; font-size: medium; font-family: ''Times New Roman''" class="Apple-style-span"><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.&nbsp;</span><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.&nbsp;</span><span style="font-size: 12px; line-height: 20px; font-family: Arial" class="Apple-style-span">Это первая и пока единственная статья в каталоге.</span></span>\r\n</div>\r\n<span style="line-height: normal; font-size: medium; font-family: ''Times New Roman''" class="Apple-style-span">\r\n<div style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; background-color: #ffffff; font: normal normal normal 12px/20px Arial; text-align: left; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial">\r\nЭто первая и пока единственная статья в каталоге.&nbsp;\r\n</div>\r\n</span>');
-
-# ############################
-
-#
 # Table structure for table `#__boss_1_content_category_href`
 #
 
@@ -153,15 +137,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_content_category_href` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`,`content_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Привязка контента к категориям' AUTO_INCREMENT=3 ;
-
-#
-# Dumping data for table `#__boss_1_content_category_href`
-#
-
-INSERT INTO `#__boss_1_content_category_href` (`id`, `category_id`, `content_id`) VALUES
-(2, 1, 1);
-
-# ############################
 
 #
 # Table structure for table `#__boss_1_content_types`
@@ -176,15 +151,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_content_types` (
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
-#
-# Dumping data for table `#__boss_1_content_types`
-#
-
-INSERT INTO `#__boss_1_content_types` (`id`, `name`, `desc`, `fields`, `published`, `ordering`) VALUES
-(1, 'Статьи', 'Обычные статьи без изысков, аналог ком-контент', 0, 1, 1);
-
-# ############################
 
 #
 # Table structure for table `#__boss_1_fields`
@@ -222,17 +188,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_fields` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 #
-# Dumping data for table `#__boss_1_fields`
-#
-
-INSERT INTO `#__boss_1_fields` (`fieldid`, `name`, `title`, `display_title`, `description`, `type`, `text_before`, `text_after`, `tags_open`, `tags_separator`, `tags_close`, `maxlength`, `size`, `required`, `link_text`, `link_image`, `ordering`, `cols`, `rows`, `profile`, `editable`, `searchable`, `sort`, `sort_direction`, `catsid`, `published`, `filter`) VALUES
-(20, 'content_editor', 'Краткое описание', 0, 'Здесь пишем то, что будет отображаться в списке контента (поиск, категории и т.п.)', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 2, 200, 20, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0),
-(21, 'content_editorfull', 'Полное описание', 0, 'Здесь пишем основной текст', 'BossTextAreaEditorPlugin', '', '', '', '', '', 2000, 0, 1, '', '', 3, 50, 5, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0),
-(22, 'content_homepage', 'На главной', 0, 'Опубликовать этот контент на главной странице.', 'BossCheckboxPlugin', '', '', '', '', '', 75, 0, 0, ',-1,', ',-1,', 0, 0, 0, 0, 1, 1, 0, 'DESC', ',-1,', 1, 0);
-
-# ############################
-
-#
 # Table structure for table `#__boss_1_field_values`
 #
 
@@ -245,13 +200,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_field_values` (
   `sys` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`fieldvalueid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
-
-#
-# Dumping data for table `#__boss_1_field_values`
-#
-
-
-# ############################
 
 #
 # Table structure for table `#__boss_1_groupfields`
@@ -269,22 +217,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_groupfields` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table `#__boss_1_groupfields`
-#
-
-INSERT INTO `#__boss_1_groupfields` (`fieldid`, `groupid`, `template`, `type_tmpl`, `ordering`) VALUES
-(20, 12, 'blog', 'category', 0),
-(21, 14, 'blog', 'content', 0),
-(20, 2, 'default', 'category', 0),
-(21, 9, 'default', 'content', 0),
-(20, 16, 'table', 'category', 0),
-(21, 19, 'table', 'content', 0),
-(20, 21, 'template2', 'category', 0),
-(21, 24, 'template2', 'content', 0);
-
-# ############################
-
-#
 # Table structure for table `#__boss_1_groups`
 #
 
@@ -300,41 +232,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_groups` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 #
-# Dumping data for table `#__boss_1_groups`
-#
-
-INSERT INTO `#__boss_1_groups` (`id`, `name`, `desc`, `template`, `type_tmpl`, `catsid`, `published`) VALUES
-(1, 'ListSubtitle', 'ListSubtitle', 'default', 'category', ',-1,', 1),
-(2, 'ListDescription', 'ListDescription', 'default', 'category', ',-1,', 1),
-(3, 'ListBottom', 'ListBottom', 'default', 'category', ',-1,', 1),
-(4, 'ListImage', 'ListImage', 'default', 'category', ',-1,', 1),
-(5, 'DetailsSubtitle1', 'DetailsSubtitle1', 'default', 'content', ',-1,', 1),
-(6, 'DetailsSubtitle2', 'DetailsSubtitle2', 'default', 'content', ',-1,', 1),
-(7, 'DetailsSubtitle3', 'DetailsSubtitle3', 'default', 'content', ',-1,', 1),
-(8, 'DetailsDescription', 'DetailsDescription', 'default', 'content', ',-1,', 1),
-(9, 'DetailsFullText', 'DetailsFullText', 'default', 'content', ',-1,', 1),
-(10, 'DetailsBottom', 'DetailsBottom', 'default', 'content', ',-1,', 1),
-(11, 'DetailsImage', 'DetailsImage', 'default', 'content', ',-1,', 1),
-(12, 'ListDescription', 'ListDescription', 'blog', 'category', ',-1,', 1),
-(13, 'ListImage', 'ListImage', 'blog', 'category', ',-1,', 1),
-(14, 'DetailsDescription', 'DetailsDescription', 'blog', 'content', ',-1,', 1),
-(15, 'DetailsImage', 'DetailsImage', 'blog', 'content', ',-1,', 1),
-(16, 'GroupList1', 'GroupList1', 'table', 'category', ',-1,', 1),
-(17, 'GroupDetails1', 'GroupDetails1', 'table', 'content', ',-1,', 1),
-(18, 'GroupDetails2', 'GroupDetails2', 'table', 'content', ',-1,', 1),
-(19, 'GroupDetails3', 'GroupDetails3', 'table', 'content', ',-1,', 1),
-(20, 'GroupDetails4', 'GroupDetails4', 'table', 'content', ',-1,', 1),
-(21, 'GroupList1', 'GroupList1', 'template2', 'category', ',-1,', 1),
-(22, 'GroupList2', 'GroupList2', 'template2', 'category', ',-1,', 1),
-(23, 'ListImage', 'ListImage', 'template2', 'category', ',-1,', 1),
-(24, 'GroupDetails1', 'GroupDetails1', 'template2', 'content', ',-1,', 1),
-(25, 'GroupDetails2', 'GroupDetails2', 'template2', 'content', ',-1,', 1),
-(26, 'GroupDetails3', 'GroupDetails3', 'template2', 'content', ',-1,', 1),
-(27, 'DetailsImage', 'DetailsImage', 'template2', 'content', ',-1,', 1);
-
-# ############################
-
-#
 # Table structure for table `#__boss_1_profile`
 #
 
@@ -342,13 +239,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_profile` (
   `userid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table `#__boss_1_profile`
-#
-
-
-# ############################
 
 #
 # Table structure for table `#__boss_1_rating`
@@ -366,13 +256,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_rating` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 #
-# Dumping data for table `#__boss_1_rating`
-#
-
-
-# ############################
-
-#
 # Table structure for table `#__boss_1_reviews`
 #
 
@@ -386,13 +269,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_reviews` (
   `published` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-#
-# Dumping data for table `#__boss_1_reviews`
-#
-
-
-# ############################
 
 #
 # Table structure for table `#__boss_config`
@@ -593,60 +469,6 @@ CREATE TABLE `#__contact_details` (
   `catid` int(11) NOT NULL default '0',
   `access` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-#
-# Структура таблицы `#__content`
-#
-
-CREATE TABLE `#__content` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `title_alias` varchar(255) NOT NULL default '',
-  `introtext` mediumtext,
-  `fulltext` mediumtext,
-  `state` tinyint(3) NOT NULL default '0',
-  `sectionid` int(11) unsigned NOT NULL default '0',
-  `mask` int(11) unsigned NOT NULL default '0',
-  `catid` int(11) unsigned NOT NULL default '0',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(11) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(100) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(11) unsigned NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  `images` text,
-  `urls` text,
-  `attribs` text,
-  `version` int(11) unsigned NOT NULL default '1',
-  `parentid` int(11) unsigned NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
-  `metakey` text,
-  `metadesc` text,
-  `access` int(11) unsigned NOT NULL default '0',
-  `hits` int(11) unsigned NOT NULL default '0',
-  `notetext` text,
-  PRIMARY KEY  (`id`),
-  KEY `idx_section` (`sectionid`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`state`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_mask` (`mask`),
-  KEY `idx_created_by` (`created_by`)
-) ENGINE=MyISAM  CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-#
-# Структура таблицы `#__content_frontpage`
-#
-
-CREATE TABLE `#__content_frontpage` (
-  `content_id` int(11) NOT NULL default '0',
-  `ordering` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`content_id`)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 #
@@ -993,29 +815,6 @@ CREATE TABLE `#__poll_menu` (
   `pollid` int(11) NOT NULL default '0',
   `menuid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`pollid`,`menuid`)
-) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-#
-# Структура таблицы `#__sections`
-#
-
-CREATE TABLE `#__sections` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varchar(50) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `image` varchar(100) NOT NULL default '',
-  `scope` varchar(50) NOT NULL default '',
-  `image_position` varchar(10) NOT NULL default '',
-  `description` text,
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` int(11) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `count` int(11) NOT NULL default '0',
-  `params` text,
-  PRIMARY KEY  (`id`),
-  KEY `idx_scope` (`scope`)
 ) ENGINE=MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 #
@@ -1413,9 +1212,7 @@ INSERT INTO `#__content_tags` (`id`, `obj_id`, `obj_type`, `tag`) VALUES
 (1, 1, 'com_boss_1', 'Первая статья');
 
 # новые поля в таблицах
-ALTER TABLE `#__sections` ADD `templates` text ;
 ALTER TABLE `#__categories` ADD `templates` text ;
-ALTER TABLE `#__content` ADD `templates` VARCHAR( 255 ) NOT NULL ;
 # RC3
 ALTER TABLE `#__content_tags` ADD INDEX ( `obj_type` );
 ALTER TABLE `#__core_acl_aro_groups` DROP INDEX `parent_id_aro_groups`;
@@ -1425,13 +1222,11 @@ ALTER TABLE `#__session` DROP PRIMARY KEY, ADD PRIMARY KEY ( `session_id` ( 64 )
 ALTER TABLE `#__banners_categories` ADD INDEX ( `published` );
 ALTER TABLE `#__banners_clients` ADD INDEX ( `published` );
 ALTER TABLE `#__banners` ADD INDEX `ibx_select` (`state` ,`last_show` ,`msec` ,`publish_up_date` ,`publish_up_time` ,`publish_down_date` ,`publish_down_time` ,`reccurtype` ,`reccurweekdays` ( 2 ) ,`access`);
-# 1.3.0.1
-ALTER TABLE `#__content_frontpage` ADD INDEX ( `ordering` );
-ALTER TABLE `#__sections` ADD INDEX ( `access` );
-ALTER TABLE `#__sections` ADD INDEX ( `published` );
-ALTER TABLE `#__content` ADD INDEX ( `hits` );
 
 # 1.3.0.4
 ALTER TABLE `#__core_acl_aro` CHANGE `value` `value` INT( 11 ) NOT NULL;
 # 1.3.0.5
 ALTER TABLE `#__users` CHANGE `username` `username` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;
+# 1.4
+ALTER TABLE  `#__boss_1_contents` ADD  `frontpage` BOOL NOT NULL AFTER  `published`;
+ALTER TABLE  `#__boss_1_contents` ADD  `featured` BOOL NOT NULL AFTER  `frontpage`
