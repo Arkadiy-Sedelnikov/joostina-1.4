@@ -113,12 +113,15 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
   `meta_keys` varchar(200) NOT NULL,
   `userid` int(11) unsigned DEFAULT NULL,
   `published` tinyint(1) DEFAULT '1',
+  `frontpage` tinyint(1) default '0',
+  `featured` tinyint(1) default '0', 
   `date_created` datetime DEFAULT NULL,
   `date_last_сomment` datetime DEFAULT NULL,
   `date_publish` datetime NOT NULL,
   `date_unpublish` datetime NOT NULL,
   `views` int(11) unsigned DEFAULT '0',
   `type_content` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL,
   `content_homepage` text NOT NULL,
   `content_editor` text NOT NULL,
   `content_editorfull` text NOT NULL,
@@ -1227,6 +1230,3 @@ ALTER TABLE `#__banners` ADD INDEX `ibx_select` (`state` ,`last_show` ,`msec` ,`
 ALTER TABLE `#__core_acl_aro` CHANGE `value` `value` INT( 11 ) NOT NULL;
 # 1.3.0.5
 ALTER TABLE `#__users` CHANGE `username` `username` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;
-# 1.4
-ALTER TABLE  `#__boss_1_contents` ADD  `frontpage` BOOL NOT NULL AFTER  `published`;
-ALTER TABLE  `#__boss_1_contents` ADD  `featured` BOOL NOT NULL AFTER  `frontpage`

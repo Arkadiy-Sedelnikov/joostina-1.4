@@ -368,14 +368,15 @@ function installNewDirectory($installPlugins=1) {
                     "`meta_keys` varchar(200) NOT NULL, ".
                     "`userid` int(11) unsigned default NULL, ".
                     "`published` tinyint(1) default '1', ".
-                    "`frontpage` BOOL NOT NULL, ".
-                    "`featured` BOOL NOT NULL, ".
+                    "`frontpage` tinyint(1) default '0', ".
+                    "`featured` tinyint(1) default '0', ".
                     "`date_created` datetime default NULL, ".
                     "`date_last_сomment` datetime DEFAULT NULL, ".
                     "`date_publish` DATETIME NOT NULL, ".
                     "`date_unpublish` DATETIME NOT NULL, ".
                     "`views` int(11) unsigned default '0', ".
                     "`type_content` int(11) NOT NULL, ".
+                    "`ordering` int(11) NOT NULL, ".
                     "PRIMARY KEY  (`id`), ".
                     "KEY `published` (`published`)".
                     ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
