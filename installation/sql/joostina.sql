@@ -1179,6 +1179,9 @@ CREATE TABLE IF NOT EXISTS `#__config` (
   KEY `name` (`name`)
 ) ENGINE=MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+INSERT INTO `jos_config` (`id`, `group`, `subgroup`, `name`, `value`) VALUES
+(1, 'com_frontpage', 'default', 'directory', 's:1{1}'),
+(2, 'com_frontpage', 'default', 'page', 's:14{show_frontpage}');
 
 # расширенные поля профиля пользователя
 CREATE TABLE IF NOT EXISTS `#__users_extra` (

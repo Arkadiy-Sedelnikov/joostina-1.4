@@ -79,7 +79,7 @@ $cid = josGetArrayInts('cid');
     		break;
 
     	default:
-            if(!isset($conf->directory)){
+            if(!isset($conf->directory) || $conf->directory == '' || $conf->directory == 0){
                 mosRedirect("index2.php?option=com_frontpage&task=settings", _CONFIG_EMPTY);
             }
     		viewFrontPage($option, $conf->directory);
