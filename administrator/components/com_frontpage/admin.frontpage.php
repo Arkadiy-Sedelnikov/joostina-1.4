@@ -21,8 +21,9 @@ require_once ($mainframe->getPath('class'));
 //подключаем класс босса
 require_once(JPATH_BASE.'/components/com_boss/boss.class.php');
 
+$db = $database::getInstance();
 $conf = null;
-$configObject = new frontpageConfig();
+$configObject = new frontpageConfig($db);
 $conf->directory = $configObject->get('directory');
 $conf->page = $configObject->get('page');
 

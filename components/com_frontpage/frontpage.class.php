@@ -40,9 +40,7 @@ class frontpageConfig extends dbConfig {
     var $directory  = null;
     var $page       = null;
 
-    function __construct($group = 'com_frontpage', $subgroup = 'default') {
-        global $database;
-        $db = $database::getInstance();
+    function __construct($db, $group = 'com_frontpage', $subgroup = 'default') {
         parent::__construct($db, $group, $subgroup);
     }
 

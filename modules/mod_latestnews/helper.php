@@ -37,7 +37,7 @@ class mod_latestnews_Helper {
 
         if($directory == 0){
             require_once ($mainframe->getPath('class', 'com_frontpage'));
-            $configObject = new frontpageConfig();
+            $configObject = new frontpageConfig($database);
             $directory = $configObject->get('directory', 0);
         }
 
