@@ -41,9 +41,12 @@ function mess_bad(mess){
 }
 
 // смена статуса публикации, elID - идентификатор объекта у которого меняется статус публикации
-function ch_publ(elID,option){
+function ch_publ(elID,option,directory){
+    if (directory === undefined) directory = '';
+    else directory = '&directory='+directory;
+
 	$('#img-pub-'+elID).attr('src','images/aload.gif');
-	$.get('ajax.index.php?option='+option+'&task=publish&id='+elID, function(data) {
+	$.get('ajax.index.php?option='+option+'&task=publish&id='+elID+directory, function(data) {
 		$('#img-pub-'+elID).attr('src','images/'+data);
 	});
 	return false;

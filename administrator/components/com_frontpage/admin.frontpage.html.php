@@ -29,10 +29,10 @@ class ContentView {
 		?>
 <script type="text/javascript">
 	// удаление содержимого с публикации на главной
-	function ch_front(elID){
+	function ch_front(elID, directory){
 		id('img-trash-'+elID).src = 'images/aload.gif';
 		dax({
-			url: 'ajax.index.php?option=com_frontpage&task=rem_front&id='+elID,
+			url: 'ajax.index.php?option=com_frontpage&task=rem_front&id='+elID+'&directory='+directory,
 			id:'trash-'+elID,
 			callback:
 				function(resp, idTread, status, ops){
@@ -91,7 +91,7 @@ class ContentView {
 						$img = 'publish_g.png';
 						$alt = _PUBLISHED;
 					} else
-					if($now > $row->publish_down && $row->published == '1') {
+					if($now > $row->date_unpublish && $row->published == '1') {
 						$img = 'publish_r.png';
 						$alt = _PUBLISH_TIME_END;
 					} elseif($row->published == "0") {
@@ -100,18 +100,18 @@ class ContentView {
 					}
 
 					$times = '';
-					if(isset($row->publish_up)) {
-						if($row->publish_up == $nullDate) {
+					if(isset($row->date_publish)) {
+						if($row->date_publish == $nullDate) {
 							$times .= '<tr><td>'._START.': '._ALWAYS.'</td></tr>';
 						} else {
-							$times .= '<tr><td>'._START.': '.$row->publish_up.'</td></tr>';
+							$times .= '<tr><td>'._START.': '.$row->date_publish.'</td></tr>';
 						}
 					}
-					if(isset($row->publish_down)) {
-						if($row->publish_down == $nullDate) {
+					if(isset($row->date_unpublish)) {
+						if($row->date_unpublish == $nullDate) {
 							$times .= '<tr><td>'._END.': '._WITHOUT_END.'</td></tr>';
 						} else {
-							$times .= '<tr><td>'._END.': '.$row->publish_down.'</td></tr>';
+							$times .= '<tr><td>'._END.': '.$row->date_unpublish.'</td></tr>';
 						}
 					}
 
@@ -134,7 +134,8 @@ class ContentView {
 					?>
 		<tr class="row<?php echo $k; ?>" id="tr-el-<?php echo $row->id;?>">
 			<td><?php echo $pageNav->rowNumber($i); ?></td>
-			<td></td>
+			<td><input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>"
+                               onclick="isChecked(this.checked);"/></td>
 			<td align="left">
 
 				<a href="<?php echo $link; ?>" class="abig" title="<?php echo _CHANGE_CONTENT?>"><?php echo $row->name; ?></a>
@@ -143,20 +144,14 @@ class ContentView {
 							echo '<br />'.$row->userid.' : '.$author;
 							?>
 			</td>
-			<td align="center" <?php echo 'onclick="ch_front('.$row->id.');" class="td-state"';?>>
+			<td align="center" <?php echo 'onclick="ch_front('.$row->id.','.$directory.');" class="td-state"';?>>
 				<img class="img-mini-state" src="<?php echo $cur_file_icons_path;?>/trash_mini.png" id="img-trash-<?php echo $row->id;?>"/>
 			</td>
 						<?php
 						if($times) {
 							?>
-			<td align="center" <?php echo 'onclick="ch_publ('.$row->id.',\'com_frontpage\');" class="td-state"';?>>
-								<?php
-							
-									?>
+			<td align="center" <?php echo 'onclick="ch_publ('.$row->id.',\'com_frontpage\','.$directory.');" class="td-state"';?>>
 				<img class="img-mini-state" src="<?php echo $cur_file_icons_path;?>/<?php echo $img;?>" id="img-pub-<?php echo $row->id;?>" alt="<?php echo _CANNOT_CHANGE_PUBLISH_STATE?>"/>
-									<?php
-
-								?>
 			</td>
 							<?php
 						}
@@ -164,10 +159,11 @@ class ContentView {
 			<td align="center"><?php echo $pageNav->orderUpIcon($i); ?></td>
 			<td align="center"><?php echo $pageNav->orderDownIcon($i,$n); ?></td>
 			<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php //echo $row->fpordering; ?>" class="text_area" style="text-align: center" />
+				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 			</td>
-			<td></td>
-			<td><a href="<?php echo $row->cat_link; ?>" title="<?php echo _CHANGE_CATEGORY?>"><?php echo $row->catname; ?></a></td>
+			<td>
+                <a href="<?php echo $row->cat_link; ?>" title="<?php echo _CHANGE_CATEGORY?>"><?php echo $row->catname; ?></a>
+            </td>
 		</tr>
 					<?php
 					$k = 1 - $k;
@@ -182,6 +178,7 @@ class ContentView {
 
 	<input type="hidden" name="option" value="<?php echo $option; ?>" />
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="directory" value="<?php echo $directory; ?>" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1" />
 </form>

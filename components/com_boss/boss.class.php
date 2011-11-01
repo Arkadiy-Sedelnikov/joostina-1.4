@@ -2239,6 +2239,9 @@ class boss_helpers {
             }
         }
 
+        //сортировка в зависимости от главная страница
+        $ordering = ($task == 'show_frontpage') ? "a.ordering" : $order_text;
+
         $q = "SELECT a.*, a.userid as user_id, p.name as parent, p.id as parentid, c.name as cat, c.id as catid, c.rights as rights, \n";
         if ($show_contact == 1) {
             $q .= "profile.*, \n";
@@ -2259,7 +2262,7 @@ class boss_helpers {
                 "LEFT JOIN #__boss_" . $directory . "_categories as p ON c.parent = p.id \n" .
                 "WHERE $search AND c.published = 1 \n" .
                 "GROUP BY a.id \n" .
-                "ORDER BY $order_text LIMIT " .
+                "ORDER BY $ordering LIMIT " .
                 $limitstart . ',' . $limit;
         $contents = $database->setQuery($q)->loadObjectList('id');
         if ($database->getErrorNum()) {

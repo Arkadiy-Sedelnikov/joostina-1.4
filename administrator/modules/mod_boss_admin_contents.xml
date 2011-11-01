@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module">
+	<name>BOSS - Объекты компонента</name>
+	<author>Алексей Поздняков</author>
+	<creationDate>27.02.2011</creationDate>
+	<copyright>(C)2011 Woodell Web Works</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL</license>
+	<authorEmail>mosgaz@list.ru</authorEmail>
+	<authorUrl>www.woodell.ru</authorUrl>
+	<version>1.0.1</version>
+	<description>Модуль отображения списка объектов компонента JoiBoss CCK.</description>
+	<files>
+		<filename module="mod_boss_admin_contents">mod_boss_admin_contents.php</filename>
+	</files>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, подставляемый к классу модуля для индивидуального оформления" />
+		<param name="cache" type="radio" default="0" label="Кешировать?" description="Разрешить/запретить кеширование модуля">
+			<option value="0">Нет</option>
+			<option value="1">Да</option>
+		</param>
+		
+		<param name="&nbsp;" type="spacer" default="&nbsp;" label="" description="" />
+		
+		<param name="limit" type="text" size="5" default="10" label="Число элементов" description="Максимальное количество объектов отображаемых модулем. Оставьте поле пустым для отображения всех объектов." />
+		<param name="publ" type="list" default="0" label="Отображать" description="Укажите элементы какого типа отображать в модуле">
+			<option value="0">все объекты</option>
+			<option value="1">только опубликованные</option>
+			<option value="2">только не опубликованные</option>
+		</param>
+		<param name="displaycategory" type="radio" default="1" label="Отображать категории" description="Отображать категории, которым принадлежат объекты?">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		
+		<param name="content_title" size="50" type="text" default="Последнее добавленное содержимое" label="Заголовок модуля" description="Текст заголовка модуля, например «Последние добавленные новости»" />
+		<param name="content_title_link" size="50" type="text" default="Все содержимое" label="Текст ссылки" description="Текст ссылки на полный список контента, например «Все новости»" />
+		<param name="sort" type="list" default="0" label="Сортировка записей" description="Выбрать какой контент показывать">
+			<option value="0">по ID (от больших к меньшим)</option>
+			<option value="1">по ID (от меньших к большим)</option>
+			<option value="2">случайным образом</option>			
+			<option value="3">по названию А&rarr;я</option>
+			<option value="4">по названию Я&rarr;а</option>
+			<option value="5">по дате создания (от новых к старым)</option>
+			<option value="6">по дате создания (от старых к новым)</option>
+			<option value="7">по дате публикации (от свежих к ранним)</option>
+			<option value="8">по дате публикации (от ранних к свежим)</option>
+		</param>
+
+		<param name="date_field" type="list" default="content_created" label="Показывать дату" description="Если необходимо отображение даты выберите соответствующее поле из базы данных">
+			<option value="0">нет</option>
+			<option value="date_created">date_created</option>
+			<option value="date_publish">date_publish</option>
+			<option value="date_unpublish">date_unpublish</option>			
+		</param>
+		<param name="display_author" type="list" default="3" label="Отображать автора" description="">
+			<option value="0">нет</option>
+			<option value="1">Имя автора</option>
+			<option value="2">[ID]</option>
+			<option value="3">[ID] Имя автора</option>			
+		</param>
+        <param name="directory" type="selectlist" sql="SELECT id, name as title FROM `#__boss_config`" DEFAULT="1" label="Каталог"  description="Выбрать каталог из которого брать контент" />
+		<param name="cat_ids" type="text" default="" size="4" label="ID категории" description="Укажите Id одной или более категорий, разделяя их запятой (1,2,3,5) для отображения. По умолчанию отображаются все категории." />
+	</params>
+</mosinstall>

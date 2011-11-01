@@ -125,7 +125,6 @@ function viewFrontPage($option, $directory) {
 			."\n FROM FROM #__boss_" . $directory . "_contents AS c"
 			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
 			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
-
 			."\n WHERE c.frontpage = 1 ".(count($where)?"\n AND ".implode(' AND ',$where):'');
 	$database->setQuery($query);
 	$total = $database->loadResult();
@@ -138,7 +137,8 @@ function viewFrontPage($option, $directory) {
 			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
 			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
 			."\n LEFT JOIN #__users AS v ON v.id = c.userid"
-            ."\n WHERE c.frontpage = 1 ".(count($where)?"\nAND ".implode(' AND ',$where):"");
+            ."\n WHERE c.frontpage = 1 ".(count($where)?"\nAND ".implode(' AND ',$where):"")
+            ."\n ORDER BY  c.ordering";
 	$database->setQuery($query,$pageNav->limitstart,$pageNav->limit);
 
 	$rows = $database->loadObjectList();
@@ -179,7 +179,7 @@ function viewFrontPage($option, $directory) {
  */
 function changeFrontPage($cid = null,$state = 0,$option) {
 	global $my;
-
+    $directory = mosGetParam($_REQUEST,'directory',0);
 	$database = database::getInstance();
 
 	josSpoofCheck();
@@ -192,18 +192,13 @@ function changeFrontPage($cid = null,$state = 0,$option) {
 	mosArrayToInts($cid);
 	$cids = 'id='.implode(' OR id=',$cid);
 
-	$query = "UPDATE #__content"
-			."\n SET state = ".(int)$state."\n WHERE ( $cids )"
-			."\n AND ( checked_out = 0 OR ( checked_out = ".(int)$my->id." ) )";
+    $query = "UPDATE #__boss_" . $directory . "_contents"
+			."\n SET published = ".(int)$state
+			."\n WHERE ( $cids ) ";
 	$database->setQuery($query);
 	if(!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".$database->stderr()."'); window.history.go(-1); </script>\n";
 		exit();
-	}
-
-	if(count($cid) == 1) {
-		$row = new mosContent($database);
-		$row->checkin($cid[0]);
 	}
 
 	// clean any existing cache files
@@ -216,27 +211,23 @@ function removeFrontPage(&$cid,$option) {
 	josSpoofCheck();
 
 	$database = database::getInstance();
+    $directory = mosGetParam($_REQUEST,'directory',0);
 
 	if(!is_array($cid) || count($cid) < 1) {
 		echo "<script> alert('"._CHOOSE_OBJ_DELETE."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new mosFrontPage($database);
-	foreach($cid as $id) {
-		if(!$fp->delete((int)$id)) {
-			echo "<script> alert('".$fp->getError()."'); </script>\n";
-			exit();
-		}
-		$obj = new mosContent($database);
-		$obj->load((int)$id);
-		$obj->mask = 0;
-		if(!$obj->store()) {
-			echo "<script> alert('".$fp->getError()."'); </script>\n";
-			exit();
-		}
-	}
-	$fp->updateOrder();
 
+	foreach($cid as $id) {
+        $query = "UPDATE #__boss_" . $directory . "_contents"
+	    		."\n SET frontpage = 0"
+	    		."\n WHERE id = ".(int)$id;
+	    $database->setQuery($query);
+	    if(!$database->query()) {
+            echo "<script> alert('".$database->stderr()."'); window.history.go(-1);</script>\n";
+	    		exit();
+	    }
+	}
 	// clean any existing cache files
 	mosCache::cleanCache('com_boss');
 
@@ -251,8 +242,9 @@ function orderFrontPage($uid,$inc,$option) {
 	josSpoofCheck();
 
 	$database = database::getInstance();
-
-	$fp = new mosFrontPage($database);
+    $directory = mosGetParam($_REQUEST,'directory',0);
+    
+	$fp = new mosFrontPage($database, $directory);
 	$fp->load((int)$uid);
 	$fp->move($inc);
 
@@ -293,23 +285,18 @@ function saveOrder(&$cid) {
 	josSpoofCheck();
 
 	$database = database::getInstance();
-
+    $directory = mosGetParam($_REQUEST,'directory',0);
+    
 	$total = count($cid);
 	$order = josGetArrayInts('order');
 
 	for($i = 0; $i < $total; $i++) {
-		$query = "UPDATE #__content_frontpage SET ordering = ".(int)$order[$i]." WHERE content_id = ".(int)
-				$cid[$i];
+		$query = "UPDATE #__boss_" . $directory . "_contents SET ordering = ".(int)$order[$i]." WHERE id = ".(int)$cid[$i];
 		$database->setQuery($query);
 		if(!$database->query()) {
-			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('".$database->stderr()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-
-		// update ordering
-		$row = new mosFrontPage($database);
-		$row->load((int)$cid[$i]);
-		$row->updateOrder();
 	}
 
 	// clean any existing cache files

@@ -83,11 +83,11 @@ function x_publish($id = null) {
 	global $database,$my;
 	// id содержимого для обработки не получен - выдаём ошибку
 	if(!$id) return _UNKNOWN_ID;
-
+    $directory = mosGetParam($_REQUEST,'directory',0);
 	$state = new stdClass();
-	$query = "SELECT state, publish_up, publish_down"
-			."\n FROM #__content "
-			."\n WHERE id = ".(int)$id;
+	$query = "SELECT published as state, date_publish as publish_up, date_unpublish as publish_down"
+			."\n FROM #__boss_" . $directory . "_contents "
+			."\n WHERE id = ".(int)$id." LIMIT 1";
 	$database->setQuery($query);
 	$row = $database->loadobjectList();
 	$row = $row['0']; // результат запроса с элементами выбранных значений
@@ -129,9 +129,9 @@ function x_publish($id = null) {
 		/* не было опубликовано - публикуем*/
 	}
 
-	$query = "UPDATE #__content"
-			."\n SET state = ".(int)$state.", modified = ".$database->Quote(date('Y-m-d H:i:s'))
-			."\n WHERE id = ".$id." AND ( checked_out = 0 OR (checked_out = ".(int)$my->id.") )";
+	$query = "UPDATE #__boss_" . $directory . "_contents"
+			."\n SET published = ".(int)$state
+			."\n WHERE id = ".$id;
 	$database->setQuery($query);
 	if(!$database->query()) {
 		return 'error-db';
@@ -143,20 +143,17 @@ function x_publish($id = null) {
 * $id - идентификатор содержимого
 */
 function x_remfront($id) {
-	global $mainframe,$database;
-	require_once ($mainframe->getPath('class','com_frontpage'));
-
-	$fp = new mosFrontPage($database);
-	if($fp->load($id)) {
-		if($fp->delete($id)) {
-			echo 1;
-			$fp->ordering = 0;
-			$fp->updateOrder();
-			mosCache::cleanCache('com_content'); // почистим кэш контент
-		}else {
-			echo 'error-delete';
-		}
-	}else {
-		echo 'error-load';
+	$database = database::getInstance();
+    $directory = mosGetParam($_REQUEST,'directory',0);
+    
+    $query = "UPDATE #__boss_" . $directory . "_contents"
+			."\n SET frontpage = 0"
+			."\n WHERE id = ".(int)$id;
+	$database->setQuery($query);
+	if(!$database->query()) {
+		echo 'error-delete';
+	} else {
+        echo 1;
+        mosCache::cleanCache('com_content'); // почистим кэш контент
 	}
 }

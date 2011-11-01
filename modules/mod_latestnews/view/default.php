@@ -9,35 +9,39 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-if ($params->get('numrows', 0)) {
+if ($params->get('numrows',0)) {
 	?>
-	<div class="mod_latestnews <?php echo $params->get('moduleclass_sfx', ''); ?>">
-		<ul>
+<div class="mod_latestnews <?php echo $params->get('moduleclass_sfx', '');?>">
+	<ul>
 			<?php foreach ($rows as $row): ?>
-				<?php $module->helper->prepare_row($row, $params); ?>
-				<li>
-					<?php if ($params->get('image', 'mosimage')): ?>
-						<?php echo $row->image; ?>
-					<?php endif; ?>
-					<?php if ($params->get('show_date', 1)): ?>
-						<span class="date"><?php echo mosFormatDate($row->created); ?></span>
-					<?php endif; ?>
-					<?php if ($params->get('show_author', 0)): ?>
-						<span class="author"><?php echo $row->author; ?></span>
-					<?php endif; ?>
-					<?php if ($params->get('item_title', 1)): ?>
-						<?php echo $row->title; ?>
-					<?php endif; ?>
-					<?php if ($params->get('text', 0)): ?>
-						<?php echo $row->text; ?>
+				<?php $module->helper->prepare_row($row, $params);?>
+		<li>
+					<?php if($params->get('image','mosimage')): ?>
+						<?php echo $row->image;?>
 					<?php endif; ?>
 
-					<?php if ($params->get('readmore', 0)): ?>
-						<div class="readmore"><?php echo $row->readmore; ?></div>
+					<?php if($params->get('show_date',1)): ?>
+			<span class="date"><?php echo mosFormatDate($row->created); ?></span>
 					<?php endif; ?>
-				</li>
+
+					<?php if($params->get('show_author',0)): ?>
+			<span class="author"><?php echo $row->author;?></span>
+					<?php endif; ?>
+
+					<?php if($params->get('item_title',1)): ?>
+			<span class="title"><?php echo $row->title;?></span>
+					<?php endif; ?>
+
+					<?php if($params->get('text',0)): ?>
+						<?php echo $row->text;?>
+					<?php endif; ?>
+
+					<?php if($params->get('readmore', 0)):?>
+			<div class="readmore"><?php echo $row->readmore ;?></div>
+					<?php endif; ?>
+		</li>
 			<?php endforeach; ?>
-		</ul>
-	</div>
+	</ul>
+</div>
 	<?php
 }

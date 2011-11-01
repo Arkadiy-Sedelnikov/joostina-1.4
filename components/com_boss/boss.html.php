@@ -948,7 +948,7 @@ class boss_html
                         $this->rights->bind_rights($content->rights);
                     }
                     else{
-                        $this->rights->bind_rights(@$conf->rights);
+                        $this->rights->bind_rights(@$this->conf->rights);
                     }
                     
                     $this->perms = $this->rights->loadRights(array('show_my_content', 'show_all_content', 'edit_user_content', 'edit_all_content', 'delete_user_content', 'delete_all_content'), $my->groop_id);                    
@@ -957,8 +957,12 @@ class boss_html
                         continue;
                     }
                 }
-                
-                $tpl = $this->viewsPlugin->contentViews($content, $this->views);
+                if($listTemplate=='frontpage'){
+                    $tpl = 'frontpage_list_item.php';
+                }
+                else{
+                    $tpl = $this->viewsPlugin->contentViews($content, $this->views);
+                }
                 $pathToTemplate = JPATH_BASE .'/templates/com_boss/'.$this->template_name.'/'.$tpl;
                 include( $pathToTemplate );
             }

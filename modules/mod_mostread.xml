@@ -21,11 +21,6 @@
 			<option value="1">Да</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="type" type="list" default="0" label="Режим работы модуля" description="Позволяет Вам управлять типом отображаемого в модуле контента">
-			<option value="1">Только содержимое объектов</option>
-			<option value="2">Только статическое содержимое</option>
-			<option value="3">Оба типа</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="show_front" type="radio" default="1" label="Объекты главной страницы" description="Показать/скрыть объекты, предназначенные для главной страницы. Эта опция работает, если выбран режим - Только объекты содержимого">
 			<option value="1">Показать</option>

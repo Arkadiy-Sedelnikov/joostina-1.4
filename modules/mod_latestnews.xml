@@ -13,38 +13,28 @@
 		<filename module="mod_latestnews">mod_latestnews.php</filename>
 	</files>
 	<params>
-		<param name="cache" type="radio" default="0" label="Разрешить кэширование" description="Выберите, кэшировать ли содержимое этого модуля">
+            <param name="directory" type="text" default="0" label="ИД каталога" description="ИД каталога из которого будут браться новости, если 0, то будут использованы все каталоги, при этом поле заголовка и поле основного текста во всех каталогах должны присутствовать." />
+
+            <param name="content_field" type="text" default="content_editor" label="Поле основного текста" description="Имя поля БД из которого будет браться контент." />
+            <param name="@spacer" type="spacer" default="" label="" description="" />
+			<param name="cache" type="radio" default="0" label="Разрешить кэширование" description="Выберите, кэшировать ли содержимое этого модуля">
 			<option value="0">Нет</option>
 			<option value="1">Да</option>
 		</param>
 		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-
 		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="template" type="text" default="default.php" label="Шаблон модуля (название.расширение)" description="Введите название файла (например: template.php). Если оставить поле пустым - будет использован шаблон по-умолчанию." />
 		<param name="template_dir" type="radio" default="0" label="Директория шаблона" description="Системная - шаблон находится в modules/название_модуля/view. Папка шаблона сайта - шаблон находится в templates/текущий_шаблон_сайта/html/название_модуля ">
 			<option value="0">Системная</option>
 			<option value="1">Папка шаблона сайта</option>
 		</param>
-
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="count" type="text" default="5" label="Число объектов" description="Количество отображаемых объектов (по умолчанию: 5)" />
-		<param name="type" type="list" default="0" label="Режим работы модуля" description="Позволяет Вам управлять типом отображаемого в модуле контента">
-			<option value="1">Только содержимое объектов</option>
-			<option value="2">Только статическое содержимое</option>
-			<option value="3">Оба типа</option>
-		</param>
-		<param name="show_front" type="radio" default="1" label="Объекты главной страницы" description="Показать/скрыть объекты, предназначенные для главной страницы. Эта опция работает, если выбран режим - Только содержимое объектов">
-			<option value="1">Показать</option>
-			<option value="0">Скрыть</option>
-		</param>
-
 		<param name="catid" type="text" default="" label="Идентификатор (ID) категории" description="Выбор объектов из определенных категорий, или набора категорий (для выбора более одной категории, разделяйте их запятой , )." />
-		<param name="secid" type="text" default="" label="Идентификатор (ID) раздела" description="Выбор объектов определенных секций или набора секций (для выбора более одной секции, разделяйте их запятыми , )." />
 		<param name="image" type="list" default="0" label="Показывать изображения" description="Показывать изображения объекта содержимого">
 			<option value="0">Нет</option>
-			<option value="mosimage">Использовать {mosimage}</option>
-			<option value="img">Использовать [img]</option>
+			<option value="img">Использовать</option>
 		</param>
 		<param name="image_link" type="radio" default="0" label="Изображение - ссылка на материал" description="">
 			<option value="0">Нет</option>
@@ -58,8 +48,7 @@
 			<option value="0">Нет</option>
 			<option value="1">Да</option>
 		</param>
-		<param name="link_titles" type="list" default="" label="Заголовки в виде ссылок" description="Создание заголовков объекта в виде ссылок">
-			<option value="">Использовать глобальные настройки</option>
+		<param name="link_titles" type="list" default="0" label="Заголовки в виде ссылок" description="Создание заголовков объекта в виде ссылок">
 			<option value="0">Нет</option>
 			<option value="1">Да</option>
 		</param>
@@ -87,9 +76,6 @@
 			<option value="1">Показать</option>
 		</param>
 		<param name="link_text" type="text" default="" label="Текст [Подробнее]" description="Если оставить поле пустым - будет использован текст по-умолчанию." />
-
-
-
-		<param name="def_itemid" type="text" default="0" label="ItemId по умолчанию" description="Параметр ItemId для ссылок. 0 для ипользования автоматического рассчета." />
-	</params>
+        <param name="def_itemid" type="text" default="0" label="ItemId по умолчанию" description="Параметр ItemId для ссылок. 0 для ипользования автоматического рассчета." />
+    </params>
 </mosinstall>

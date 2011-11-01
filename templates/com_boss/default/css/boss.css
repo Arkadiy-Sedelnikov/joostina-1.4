@@ -472,6 +472,13 @@ h1.detailstitle img{
 	margin-bottom: 10px;
 }
 
+.list_item_50 {
+	width: 49%;
+	border-bottom: 1px dashed #CCCCCC;
+	margin-bottom: 10px;
+    float: left;
+}
+
 .list_item_featured {
 	width: 100%;
 	border: 1px solid purple;

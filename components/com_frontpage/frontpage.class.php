@@ -27,8 +27,8 @@ class mosFrontPage extends mosDBTable {
 	/**
 	 * @param database A database connector object
 	 */
-	function mosFrontPage(&$db) {
-		$this->mosDBTable('#__content_frontpage','content_id',$db);
+	function mosFrontPage(&$db, $directory) {
+		$this->mosDBTable('#__boss_' . $directory . '_contents','id',$db);
 	}
 }
 
