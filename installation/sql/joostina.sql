@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_categories` (
   `template` varchar(50) NOT NULL,
   `rights` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 # ############################
 
@@ -113,8 +113,8 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
   `meta_keys` varchar(200) NOT NULL,
   `userid` int(11) unsigned DEFAULT NULL,
   `published` tinyint(1) DEFAULT '1',
-  `frontpage` tinyint(1) default '0',
-  `featured` tinyint(1) default '0', 
+  `frontpage` tinyint(1) NOT NULL DEFAULT '0',
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
   `date_created` datetime DEFAULT NULL,
   `date_last_сomment` datetime DEFAULT NULL,
   `date_publish` datetime NOT NULL,
@@ -122,12 +122,11 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_contents` (
   `views` int(11) unsigned DEFAULT '0',
   `type_content` int(11) NOT NULL,
   `ordering` int(11) NOT NULL,
-  `content_homepage` text NOT NULL,
   `content_editor` text NOT NULL,
   `content_editorfull` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`published`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_content_category_href`
@@ -139,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_content_category_href` (
   `content_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`,`content_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Привязка контента к категориям' AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Привязка контента к категориям';
 
 #
 # Table structure for table `#__boss_1_content_types`
@@ -153,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_content_types` (
   `published` tinyint(1) NOT NULL,
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_fields`
@@ -188,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_fields` (
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `filter` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`fieldid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_field_values`
@@ -202,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_field_values` (
   `ordering` int(11) NOT NULL DEFAULT '0',
   `sys` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`fieldvalueid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_groupfields`
@@ -232,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_groups` (
   `catsid` varchar(255) NOT NULL DEFAULT ',-1,',
   `published` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_profile`
@@ -256,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_rating` (
   `date` datetime DEFAULT NULL,
   `published` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_1_reviews`
@@ -271,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_reviews` (
   `date` date DEFAULT NULL,
   `published` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Table structure for table `#__boss_config`
@@ -323,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_config` (
   `allow_rights` varchar(1) NOT NULL DEFAULT '0',
   `rights` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__boss_config`
@@ -347,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_plug_config` (
   `value` varchar(30) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `directory` (`directory`,`plug_type`,`plug_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__boss_plug_config`
