@@ -161,6 +161,8 @@ DEFINE("BOSS_FRONTPAGE_LONG","Текст описания каталога на 
 DEFINE("BOSS_CATEGORY_ITEMS","Контент категории: ");
 
 DEFINE("BOSS_TH_TITLE","Название");
+DEFINE("BOSS_TH_FRONTPAGE","На главной");
+DEFINE("BOSS_TH_FEATURED","Выделить");
 DEFINE("BOSS_TH_PUBLISH","Опубликовано");
 DEFINE("BOSS_TH_USER","Пользователь");
 DEFINE("BOSS_TH_USERS","Пользователи");

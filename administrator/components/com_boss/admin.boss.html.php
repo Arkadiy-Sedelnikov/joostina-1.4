@@ -1240,6 +1240,34 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
                 </tr>
                 <tr>
+                    <td><?php echo BOSS_TH_FRONTPAGE;?></td>
+                    <td>
+                        <select name="frontpage" id="frontpage">
+                            <option value="1" <?php if ($row->frontpage == 1) {
+                                echo "selected";
+                            } ?>><?php echo BOSS_YES ?></option>
+                            <option value="0" <?php if ($row->frontpage == 0 && !is_null($row->frontpage)) {
+                                echo "selected";
+                            } ?>><?php echo BOSS_NO ?></option>
+                        </select>
+                    </td>
+                    <td>&nbsp;</td>
+                <tr>
+                <tr>
+                    <td><?php echo BOSS_TH_FEATURED;?></td>
+                    <td>
+                        <select name="featured" id="featured">
+                            <option value="1" <?php if ($row->featured == 1) {
+                                echo "selected";
+                            } ?>><?php echo BOSS_YES ?></option>
+                            <option value="0" <?php if ($row->featured == 0 && !is_null($row->featured)) {
+                                echo "selected";
+                            } ?>><?php echo BOSS_NO ?></option>
+                        </select>
+                    </td>
+                    <td>&nbsp;</td>
+                <tr>
+                <tr>
                     <td><?php echo BOSS_TH_TITLE;?></td>
                     <td><input name="name" id="name" value="<?php echo $row->name ?>" size="45"/></td>
                     <td>&nbsp;</td>

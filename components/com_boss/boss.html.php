@@ -960,8 +960,12 @@ class boss_html
                 if($listTemplate=='frontpage'){
                     $tpl = 'frontpage_list_item.php';
                 }
+                else if($content->featured == 1){
+                    $tpl = 'featured_content.php';
+                    //$tpl = $this->viewsPlugin->contentViews($content, $this->views);
+                }
                 else{
-                    $tpl = $this->viewsPlugin->contentViews($content, $this->views);
+                    $tpl = 'list_item.php';
                 }
                 $pathToTemplate = JPATH_BASE .'/templates/com_boss/'.$this->template_name.'/'.$tpl;
                 include( $pathToTemplate );
