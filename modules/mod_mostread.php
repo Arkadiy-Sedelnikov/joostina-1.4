@@ -23,7 +23,7 @@ $def_itemid	= $params->get( 'def_itemid', false );
 //определение каталога
 $directory = mosGetParam($_REQUEST,'directory',0);
 if($directory == 0){
-    $db = $database::getInstance();
+    $db = database::getInstance();
     require_once ($mainframe->getPath('class', 'com_frontpage'));
     $configObject = new frontpageConfig($db);
     $directory = $configObject->get('directory', 0);

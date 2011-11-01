@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('class', 'com_frontpage'));
-$db = $database::getInstance();
+$db = database::getInstance();
 $frontpageConf = null;
 $configObject = new frontpageConfig($db);
 $frontpageConf->directory = $configObject->get('directory', 0);
