@@ -95,7 +95,7 @@ defined('_VALID_MOS') or die();
                 initEditor();
 
                 ob_start();
-                editorArea('editor_'.$field->name, htmlspecialchars($value, ENT_QUOTES, 'utf-8'), $field->name, 250, 250, $field->cols, $field->rows);
+                editorArea('editor_'.$field->name, htmlspecialchars($value, ENT_QUOTES, 'utf-8'), $field->name, '100%', 250, $field->cols, $field->rows);
                 $return .= ob_get_contents();
                 ob_end_clean();
             }
