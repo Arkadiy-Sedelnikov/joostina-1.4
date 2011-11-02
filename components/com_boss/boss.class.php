@@ -1322,7 +1322,7 @@ class jDirectoryField extends mosDBTable {
             echo $database->stderr();
             return;
         }
-        
+
         $plugin = BossPlugins::get_plugin($directory, $row->type, 'fields');
         HTML_boss::showField($row, $directory, $plugin);
     }
@@ -1422,7 +1422,7 @@ class jDirectoryField extends mosDBTable {
         $database = database::getInstance();
         $field_action = mosGetParam($_REQUEST, 'field_action', '');
         $directories = mosGetParam($_REQUEST, 'directories', array());
-        $dirFieldid = '';
+        $dirFieldid = array();
         if (count($directories) == 0)
             $directories[] = $dir;
 
@@ -1471,8 +1471,8 @@ class jDirectoryField extends mosDBTable {
             //Update Content Fields
             $plugins = BossPlugins::get_plugins($directory, 'fields');
             $plugfield = false;
-            if (isset($plugins["$row->type"])) {
-                $plugfield = $plugins["$row->type"]->saveFieldOptions($directory, $row);
+            if (isset($plugins[$row->type])) {
+                $plugfield = $plugins[$row->type]->saveFieldOptions($directory, $row);
             }
 
             if ($plugfield == false) {
@@ -1491,10 +1491,11 @@ class jDirectoryField extends mosDBTable {
             }
             //вычисляем филдид поля в изначальном каталоге
             if ($directory == $dir)
-                $dirFieldid = $row->fieldid;
+                $dirFieldid[$directory] = $row->fieldid;
         }
-        echo $dirFieldid;
-        return $dirFieldid;
+        
+        echo $dirFieldid[$dir];
+        return $dirFieldid[$dir];
     }
 
     /** удаление поля

@@ -207,7 +207,7 @@ defined('_VALID_MOS') or die();
 					$database->setQuery( "INSERT INTO #__boss_".$directory."_field_values (fieldid,fieldtitle,fieldvalue,ordering)"
 							. " VALUES('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)"
 					);
-					if(!$database->loadResult()) echo $database->getErrorMsg();
+					$database->query();
 					$j++;
 				}
 			}
