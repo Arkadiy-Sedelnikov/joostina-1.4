@@ -88,7 +88,8 @@ defined('_VALID_MOS') or die();
                             $checked = 'checked="checked"';
 
                         $return .= "<td>";
-                        $return .= "<input class='inputbox' type='checkbox' mosLabel='" . $strtitle . "' name='" . $field->name . "[]' value='$fieldvalue' $mosReq $checked />&nbsp;$fieldtitle&nbsp;\n";
+                        if(!empty($fieldvalue))
+                            $return .= "<input class='inputbox' type='checkbox' mosLabel='" . $strtitle . "' name='" . $field->name . "[]' value='$fieldvalue' $mosReq $checked />&nbsp;$fieldtitle&nbsp;\n";
                         $return .= "</td>";
 
                         $k++;
@@ -346,8 +347,19 @@ defined('_VALID_MOS') or die();
         }
 
         //действия при поиске
-        function search($directory) {
-            return;
+        function search($directory,$fieldName) {
+            $values = mosGetParam( $_REQUEST, $fieldName, array() );
+            $search = '';
+            $tmp = array();
+            foreach($values as $value){
+                $tmp[]= "FIND_IN_SET( '$value', a.$fieldName )>0";
+            }
+
+			if(is_array($values) && count($values)>0){
+                $search = " AND ( ".implode(" OR ", $tmp)." ) ";
+            }
+            var_dump($search);
+            return $search;
         }
     }
 ?>

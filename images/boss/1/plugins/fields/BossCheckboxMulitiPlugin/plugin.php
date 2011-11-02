@@ -66,7 +66,7 @@ defined('_VALID_MOS') or die();
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-            $fieldname = $field->name;
+            $fieldname = $field->name; 
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
             $strtitle = htmlentities(jdGetLangDefinition($field->title), ENT_QUOTES, 'utf-8');
             $k = 0;
@@ -90,8 +90,10 @@ defined('_VALID_MOS') or die();
                             $checked = 'checked="checked"';
 
                         $return .= "<td>";
-                        $return .= "<input class='inputbox' type='checkbox' mosLabel='$strtitle' name='" . $field->name . "[]' value='$fieldvalue'  $mosReq $checked />&nbsp;$fieldtitle&nbsp;\n";
-                        $return .= "</td>";
+                        if(!empty($fieldvalue)){
+                            $return .= "<input class='inputbox' type='checkbox' mosLabel='$strtitle' name='" . $field->name . "[]' value='$fieldvalue'  $mosReq $checked />&nbsp;$fieldtitle&nbsp;\n";
+                        }
+                            $return .= "</td>";
 
                         $k++;
                     }
@@ -236,7 +238,7 @@ defined('_VALID_MOS') or die();
 					$database->setQuery( "INSERT INTO #__boss_".$directory."_field_values (fieldid,fieldtitle,fieldvalue,ordering)"
 							. " VALUES('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)"
 					);
-					$database->query();
+					if(!$database->loadResult()) echo $database->getErrorMsg();
 					$j++;
 				}
 			}
@@ -261,17 +263,18 @@ defined('_VALID_MOS') or die();
         }
         //действия при поиске
         function search($directory,$fieldName) {
+
+            $values = mosGetParam( $_REQUEST, $fieldName, array() );
             $search = '';
-            $value = mosGetParam( $_REQUEST, $fieldName, array() );
-					for($i = 0,$nb=count($value);$i < $nb;$i++) {
-						if ($i == 0)
-							$search .= " AND (";
-						$search .= "a.$fieldName = ',$value[$i],'";
-						if ($i < $nb - 1)
-							$search .= " OR ";
-						else
-							$search .= " )";
-					}
+            $tmp = array();
+            foreach($values as $value){
+                $tmp[]= "FIND_IN_SET( '$value', a.$fieldName )>0";
+            }
+
+			if(is_array($values) && count($values)>0){
+                $search = " AND ( ".implode(" OR ", $tmp)." ) ";
+            }
+            var_dump($search);
             return $search;
         }
     }

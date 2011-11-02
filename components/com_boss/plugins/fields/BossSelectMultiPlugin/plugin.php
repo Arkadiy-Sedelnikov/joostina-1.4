@@ -232,17 +232,17 @@ defined('_VALID_MOS') or die();
         }
         //действия при поиске
         function search($directory,$fieldName) {
+            $values = mosGetParam( $_REQUEST, $fieldName, array() );
             $search = '';
-            $value = mosGetParam( $_REQUEST, $fieldName, array() );
-					for($i = 0,$nb=count($value);$i < $nb;$i++) {
-						if ($i == 0)
-							$search .= " AND (";
-						$search .= "a.$fieldName LIKE '%,$value[$i],%'";
-						if ($i < $nb - 1)
-							$search .= " OR ";
-						else
-							$search .= " )";
-					}
+            $tmp = array();
+            foreach($values as $value){
+                $tmp[]= "FIND_IN_SET( '$value', a.$fieldName )>0";
+            }
+
+			if(is_array($values) && count($values)>0){
+                $search = " AND ( ".implode(" OR ", $tmp)." ) ";
+            }
+            var_dump($search);
             return $search;
         }
     }
