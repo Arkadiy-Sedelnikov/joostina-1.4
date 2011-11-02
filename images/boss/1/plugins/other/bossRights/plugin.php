@@ -44,7 +44,7 @@ class bossRights extends joiBossRights {
     function __construct($directory, $params) {
         
         $params[0] = (empty($params[0])) ? 'conf' : $params[0];
-        
+
         if($params[0] == 'conf_admin'){
             $rights_label = array(
                     'edit_category' => 'Редактирование категорий',
@@ -61,7 +61,7 @@ class bossRights extends joiBossRights {
             );
         }
         
-        if($params[0] == 'conf_front'){
+        else if($params[0] == 'conf_front'){
             $rights_label = array(               
                     //доступ к отдельным страницам
                     'show_user_content' => 'Просмотр контента конкретного пользователя',

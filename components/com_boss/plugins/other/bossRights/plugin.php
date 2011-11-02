@@ -61,7 +61,7 @@ class bossRights extends joiBossRights {
             );
         }
         
-        if($params[0] == 'conf_front'){
+        else if($params[0] == 'conf_front'){
             $rights_label = array(               
                     //доступ к отдельным страницам
                     'show_user_content' => 'Просмотр контента конкретного пользователя',
