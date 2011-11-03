@@ -49,7 +49,7 @@
         <br/>
 	<?php $this->displayFormFields(); ?>
 	<!-- security -->
-	<?php if ($this->isContentCaptchaActivated()) {
+	<?php if ($this->isContentCaptchaActivated() && $my->id == 0) {
 	?><br/><label for="security"><?php echo BOSS_SECURITY; ?></label><?php
 	$this->displayCaptchaImage();?><br/>
 	<label for="copy"><?php echo BOSS_FORM_SECURITY_CODE_VERIFY; ?></label>

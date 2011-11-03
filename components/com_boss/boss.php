@@ -1102,7 +1102,7 @@ function save_content($directory) {
 	//get configuration
     $conf = getConfig($directory);
 
-	if ($conf->secure_new_content == 1) {
+	if ($conf->secure_new_content == 1 && $my->id == 0) {
             session_name(mosMainFrame::sessionCookieName());
 			session_start();
 			$captcha = strval(mosGetParam($_POST, 'captcha', null));

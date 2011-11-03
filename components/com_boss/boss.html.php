@@ -77,11 +77,12 @@ class boss_html
 
     function displayWriteForm()
     {
+        global $my;
         $plugins = $this->plugins;
         ?>
     <script type="text/javascript" src="<?php echo JPATH_SITE;?>/includes/js/overlib_mini.js"></script>
     <?php $this->jsJumpmenu(); ?>
-    <script language="JavaScript" type="text/javascript">
+    <script type="text/javascript"><!--//--><![CDATA[//><!--
         //*** Parametres
         //*** texte : objet representant le textarea
         //*** max : nombre de caracteres maximum
@@ -90,9 +91,7 @@ class boss_html
                 texte.value = texte.value.substr(0, max - 1);
             }
         }
-    </script>
 
-    <script type="text/javascript"><!--//--><![CDATA[//><!--
     function submitbutton(mfrm) {
         var me = mfrm.elements;
         var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");

@@ -68,6 +68,11 @@ class defaultComment
     public function displayAddReview($directory, $content, $conf)
     {
         global $my;
+
+        $name = '';
+        if($my->id != 0)
+            $name = $my->name;
+
         if ($conf->allow_comments == 0) {
             return;
         }
@@ -119,7 +124,7 @@ class defaultComment
 			exit();
 		}
 
-		if ($conf->secure_comment == 1) {
+		if ($conf->secure_comment == 1 && $my->id == 0) {
 			session_name(mosMainFrame::sessionCookieName());
 			session_start();
 			$captcha = strval(mosGetParam($_POST, 'captcha', null));
@@ -200,7 +205,7 @@ class defaultComment
    //действия при установке плагина
     public function install($directory) {
         $database = database::getInstance();
-	$query=     "CREATE TABLE IF NOT EXISTS `#__boss_".$id."_reviews` ( ".
+	$query=     "CREATE TABLE IF NOT EXISTS `#__boss_".$directory."_reviews` ( ".
                     "`id` int(10) unsigned NOT NULL auto_increment, ".
                     "`contentid` int(10) unsigned default NULL, ".
                     "`userid` int(10) unsigned default NULL, ".
