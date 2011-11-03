@@ -104,7 +104,14 @@ function botElrteInit()
     $usedToolbar = (@$toolbar_metod ==1) ? "toolbar  : 'UserToolbar',\n" : $selected_toolbar;
 
     $html .= "<script type='text/javascript' charset='utf-8'>\n";
-
+    $html .= "
+        function insertAtCursor(obj_name, text){
+            var area=document.getElementsByName(obj_name).item(0);
+            area.elrte.history.add();
+            area.elrte.selection.insertHtml(text, true);
+            area.elrte.window.focus();
+        }
+            ";
     $html .= "var opts = {\n";
     $html .= $toolbar;
     $html .= $doctype;
@@ -145,6 +152,15 @@ function botElrteGetContents($editorArea, $hiddenField)
 
 function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row)
 {
+    	global $_MAMBOTS;
+	$results = $_MAMBOTS->trigger('onCustomEditorButton');
+	$buttons = array();
+	foreach($results as $result) {
+		if($result[0]) {
+			$buttons[] = '<img src="'.JPATH_SITE.'/mambots/editors-xtd/'.$result[0].'" onclick="insertAtCursor( \''.$hiddenField.'\', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
+		}
+	}
+	$buttons = implode("",$buttons);
 ?>
     <script type='text/javascript' charset='utf-8'>
         jQuery().ready(function() {
@@ -152,7 +168,7 @@ function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row
         });
     </script>
     <textarea id="<?php echo $hiddenField;?>"  name="<?php echo $hiddenField;?>" cols="<?php echo $col;?>" rows="<?php echo $row;?>" style="display: none;width:<?php echo $width;?>px; height:<?php echo $height;?>px;"  class="mceEditor"><?php echo $content;?></textarea>
-
+    <div style="text-align: right;"><?php echo $buttons;?></div>
 <?php
 }
 ?>
