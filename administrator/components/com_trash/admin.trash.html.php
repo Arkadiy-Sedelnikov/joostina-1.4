@@ -19,7 +19,7 @@ class HTML_trash {
 	/**
 	 * Writes a list of the Trash items
 	 */
-	public static function showList($option,$content,$pageNav,$list,$catid) {
+	public static function showList($option,$content,$pageNav) {
 		global $my;
 		?>
 <script language="javascript" type="text/javascript">
@@ -51,9 +51,6 @@ class HTML_trash {
 	<table class="adminheading">
 		<tr>
 			<th class="trash"><?php echo _TRASH?></th>
-			<td width="right">
-						<?php echo $list; ?>
-			</td>
 		</tr>
 	</table>
 
@@ -81,19 +78,16 @@ class HTML_trash {
 				$k = 0;
 				$i = 0;
 				$n = count($content);
+        if($n != 0){
 				foreach($content as $row) {
 					?>
 		<tr class="<?php echo "row".$k; ?>">
 			<td align="center" width="30px">
 							<?php echo $i + 1 + $pageNav->limitstart; ?>
 			</td>
-			<td width="20px" align="center"><?php
-							if($catid == "content") {
-								echo mosHTML::idBox($i,$row->id);
-							} else {
-								echo "<input type=\"checkbox\" id=\"cb$i\" name=\"mid[]\" value=\"$row->id\" onclick=\"isChecked(this.checked);\" />";
-							}
-							?></td>
+			<td width="20px" align="center">
+                <?php echo "<input type=\"checkbox\" id=\"cb$i\" name=\"mid[]\" value=\"$row->id\" onclick=\"isChecked(this.checked);\" />"; ?>
+            </td>
 			<td width="20px"></td>
 			<td class="jtd_nowrap" align="left">
 							<?php
@@ -120,6 +114,7 @@ class HTML_trash {
 					$k = 1 - $k;
 					$i++;
 				}
+    }
 				?>
 	</table>
 			<?php echo $pageNav->getListFooter(); ?>
