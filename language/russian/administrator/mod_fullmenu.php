@@ -62,4 +62,4 @@ DEFINE('_MOD_FULLMENU_SECTION_ARCHIVE','Архив раздела');
 DEFINE('_MOD_FULLMENU_USER_CONTENT','Материалы пользователя');
 DEFINE('_MOD_FULLMENU_LOSTPASS_SETUP','Восстановление пароля');
 DEFINE('_MOD_FULLMENU_JOOSTINARU','Сайт поддержки');
-DEFINE('_DIRECTORIES','Управление каталогами');
+DEFINE('_MOD_FULLMENU_DIRECTORIES','Управление каталогами');

@@ -155,7 +155,7 @@ _cmSplit,['<img src="<?php echo $cur_file_icons_path ?>trash.png" />','<?php ech
     _cmSplit,
 
         <?php if($canConfig) { ?>
-            ['<img src="<?php echo $cur_file_icons_path ?>globe3.png" />', '<?php echo _DIRECTORIES?>', 'index2.php?option=com_boss&act=manager&layout=manage', null, '<?php echo _PAGES_HITS?>'],
+            ['<img src="<?php echo $cur_file_icons_path ?>globe3.png" />', '<?php echo _MOD_FULLMENU_DIRECTORIES?>', 'index2.php?option=com_boss&act=manager&layout=manage', null, '<?php echo _PAGES_HITS?>'],
         <?php } ?>
 ],
 <?php

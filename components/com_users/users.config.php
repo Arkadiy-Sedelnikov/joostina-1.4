@@ -63,8 +63,8 @@ class configUser_registration extends dbConfig {
 	 */
 	var $admin_activation = 0;
 
-	function configUser_registration(&$db, $group = 'com_users', $subgroup = 'registration') {
-		$this->dbConfig($db, $group, $subgroup);
+	function __construct(&$db, $group = 'com_users', $subgroup = 'registration') {
+		parent::__construct($db, $group, $subgroup);
 	}
 
 	function display_config($option) {
@@ -187,8 +187,8 @@ class configUser_profile extends dbConfig {
 	 */
 	var $template_dir = '';
 
-	function configUser_profile(&$db, $group = 'com_users', $subgroup = 'profile') {
-		$this->dbConfig($db, $group, $subgroup);
+	function __construct(&$db, $group = 'com_users', $subgroup = 'profile') {
+		parent::__construct($db, $group, $subgroup);
 	}
 
 	function display_config($option) {
@@ -274,8 +274,8 @@ class configUser_lostpass extends dbConfig {
 	 */
 	var $template_dir = '';
 
-	function configUser_profile(&$db, $group = 'com_users', $subgroup = 'lostpass') {
-		$this->dbConfig($db, $group, $subgroup);
+	function __construct(&$db, $group = 'com_users', $subgroup = 'lostpass') {
+		parent::__construct($db, $group, $subgroup);
 	}
 
 	function display_config($option) {

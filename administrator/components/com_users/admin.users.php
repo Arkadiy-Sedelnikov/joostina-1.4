@@ -17,6 +17,7 @@ if(!$acl->acl_check('administration','manage','users',$my->usertype,'components'
 require_once ($mainframe->getPath('admin_html'));
 require_once ($mainframe->getPath('class'));
 require_once ($mainframe->getPath('config','com_users'));
+//require_once (JPATH_BASE.'/components/com_users/users.config.php');
 
 $cid = josGetArrayInts('cid');
 
