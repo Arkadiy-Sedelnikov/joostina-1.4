@@ -1095,20 +1095,16 @@ CREATE TABLE `#__quickicons` (
 
 
 # Настройки компонента значков быстрого доступа
-INSERT INTO `#__quickicons` VALUES (1, 'Добавить содержимое', 'index2.php?option=com_content&sectionid=0&task=new', '/administrator/templates/joostfree/images/cpanel_ico/add_new.png', 1, 0, 1, 'Добавить новость / статью', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (2, 'Разделы', 'index2.php?option=com_sections&scope=content', '/administrator/templates/joostfree/images/cpanel_ico/sections.png', 4, 0, 1, 'Управление разделами', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (3, 'Главная страница', 'index2.php?option=com_frontpage', '/administrator/templates/joostfree/images/cpanel_ico/frontpage.png', 6, 0, 1, 'Управление объектами главной страницы', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (4, 'Все содержимое сайта', 'index2.php?option=com_content&sectionid=0', '/administrator/templates/joostfree/images/cpanel_ico/all_content.png', 2, 0, 1, 'Управление объектами содержимого', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (5, 'Статичное содержимое', 'index2.php?option=com_typedcontent', '/administrator/templates/joostfree/images/cpanel_ico/all_typed.png', 3, 0, 1, 'Управление объектами статичного содержимого', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (6, 'Медиа менеджер', 'index2.php?option=com_jwmmxtd', '/administrator/templates/joostfree/images/cpanel_ico/mediamanager.png', 7, 0, 1, 'Управление медиа файлами', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (7, 'Категории', 'index2.php?option=com_categories&section=content', '/administrator/templates/joostfree/images/cpanel_ico/categories.png', 5, 0, 1, 'Управление категориями', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (8, 'Корзина', 'index2.php?option=com_trash', '/administrator/templates/joostfree/images/cpanel_ico/trash.png', 12, 0, 1, 'Управление корзиной удаленных объектов', 0, 0, 0);
-INSERT INTO `#__quickicons` VALUES (9, 'Редактор меню', 'index2.php?option=com_menumanager', '/administrator/templates/joostfree/images/cpanel_ico/menu.png', 9, 0, 1, 'Управление объектами меню', 0, 0, 24);
-INSERT INTO `#__quickicons` VALUES (10, 'Файловый менеджер', 'index2.php?option=com_joomlaxplorer', '/administrator/templates/joostfree/images/cpanel_ico/filemanager.png', 8, 0, 1, 'Управление всеми файлами', 0, 0, 25);
-INSERT INTO `#__quickicons` VALUES (11, 'Пользователи', 'index2.php?option=com_users', '/administrator/templates/joostfree/images/cpanel_ico/user.png', 10, 0, 1, 'Управление пользователями', 0, 0, 24);
-INSERT INTO `#__quickicons` VALUES (12, 'Глобальная конфигурация', 'index2.php?option=com_config&hidemainmenu=1', '/administrator/templates/joostfree/images/cpanel_ico/config.png', 13, 0, 1, 'Глобальная конфигурация сайта', 0, 0, 25);
-INSERT INTO `#__quickicons` VALUES (13, 'Резервное копирование', 'index2.php?option=com_joomlapack&act=pack&hidemainmenu=1', '/administrator/templates/joostfree/images/cpanel_ico/backup.png', 11, 0, 1, 'Резервное копирование информации сайта', 0, 0, 24);
-INSERT INTO `#__quickicons` VALUES (14, 'Очистить весь кэш', 'index2.php?option=com_admin&task=clean_all_cache', '/administrator/templates/joostfree/images/cpanel_ico/clear.png', 14, 0, 1, 'Очистить весь кэш сайта', 0, 0, 24);
+INSERT INTO `#__quickicons` VALUES (1, 'Контент JoiBoss', 'index2.php?option=com_boss', '/administrator/templates/joostfree/images/cpanel_ico/all_content.png', 1, 0, 1, 'Управление объектами содержимого', 0, 0, 0);
+INSERT INTO `#__quickicons` VALUES (2, 'Главная страница', 'index2.php?option=com_frontpage', '/administrator/templates/joostfree/images/cpanel_ico/frontpage.png', 2, 0, 1, 'Управление объектами главной страницы', 0, 0, 0);
+INSERT INTO `#__quickicons` VALUES (3, 'Медиа менеджер', 'index2.php?option=com_jwmmxtd', '/administrator/templates/joostfree/images/cpanel_ico/mediamanager.png', 3, 0, 1, 'Управление медиа файлами', 0, 0, 0);
+INSERT INTO `#__quickicons` VALUES (4, 'Корзина', 'index2.php?option=com_trash', '/administrator/templates/joostfree/images/cpanel_ico/trash.png', 4, 0, 1, 'Управление корзиной удаленных объектов', 0, 0, 0);
+INSERT INTO `#__quickicons` VALUES (5, 'Редактор меню', 'index2.php?option=com_menumanager', '/administrator/templates/joostfree/images/cpanel_ico/menu.png', 5, 0, 1, 'Управление объектами меню', 0, 0, 24);
+INSERT INTO `#__quickicons` VALUES (6, 'Файловый менеджер', 'index2.php?option=com_joomlaxplorer', '/administrator/templates/joostfree/images/cpanel_ico/filemanager.png', 6, 0, 1, 'Управление всеми файлами', 0, 0, 25);
+INSERT INTO `#__quickicons` VALUES (7, 'Пользователи', 'index2.php?option=com_users', '/administrator/templates/joostfree/images/cpanel_ico/user.png', 7, 0, 1, 'Управление пользователями', 0, 0, 24);
+INSERT INTO `#__quickicons` VALUES (8, 'Глобальная конфигурация', 'index2.php?option=com_config&hidemainmenu=1', '/administrator/templates/joostfree/images/cpanel_ico/config.png', 8, 0, 1, 'Глобальная конфигурация сайта', 0, 0, 25);
+INSERT INTO `#__quickicons` VALUES (9, 'Резервное копирование', 'index2.php?option=com_joomlapack&act=pack&hidemainmenu=1', '/administrator/templates/joostfree/images/cpanel_ico/backup.png', 9, 0, 1, 'Резервное копирование информации сайта', 0, 0, 24);
+INSERT INTO `#__quickicons` VALUES (10, 'Очистить весь кэш', 'index2.php?option=com_admin&task=clean_all_cache', '/administrator/templates/joostfree/images/cpanel_ico/clear.png', 10, 0, 1, 'Очистить весь кэш сайта', 0, 0, 24);
 
 
 # Таблицы компонента Xmap
