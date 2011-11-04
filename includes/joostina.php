@@ -4784,6 +4784,99 @@ class mosTabs {
 
 }
 
+
+/**
+ * Создание табов
+ * @package Joostina
+ */
+class uiTabs {
+
+	/**
+	  @var int Use cookies */
+	var $useCookies = 0;
+
+	/**
+	 * Constructor
+	 * Includes files needed for displaying tabs and sets cookie options
+	 * @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	 */
+	function __construct($useCookies, $xhtml = 0) {
+		/* запрет повторного включения css и js файлов в документ */
+		if (!defined('_MTABS_LOADED')) {
+			define('_MTABS_LOADED', 1);
+
+			if ($xhtml) {
+                mosCommonHTML::loadJquery();
+                mosCommonHTML::loadJqueryUI();
+			} else {
+                mosCommonHTML::loadJquery(true);
+                mosCommonHTML::loadJqueryUI(true);
+			}
+			$this->useCookies = $useCookies;
+		}
+	}
+
+	/**
+	 * creates a tab pane and creates JS obj
+	 * @param string The Tab Pane Name
+	 */
+    function startPane($id)
+    {
+        ?>
+    <script type="text/javascript">
+        jQuery(function() {
+            // Tabs
+            jQuery('#<?php echo $id ?>').tabs({
+                fx: {
+                    opacity: 'toggle',
+                    duration: 'fast'
+                }
+            });
+
+        });
+        function addTabHeader(id, li) {
+            var parentId = jQuery('#' + id).parent().attr('id');
+            var ul = jQuery('#' + parentId).children('.tabheaders')[0];
+            jQuery(li).appendTo(ul);
+        }
+    </script>
+		<div id="<?php echo $id ?>">
+             <ul class="tabheaders"></ul>
+        <?php
+	}
+
+	/**
+	 * Ends Tab Pane
+	 */
+	function endPane() {
+		echo '</div>';
+	}
+
+	/*
+	 * Creates a tab with title text and starts that tabs page
+	 * @param tabText - This is what is displayed on the tab
+	 * @param paneid - This is the parent pane to build this tab on
+	 */
+
+	function startTab($tabText, $paneid) {
+        ?>
+        <div class="tab-page" id="<?php echo $paneid ?>">
+            <script type="text/javascript">
+                addTabHeader( '<?php echo $paneid ?>', '<li><a href="#<?php echo $paneid ?>"><?php echo $tabText ?></a></li>' );
+            </script>
+        <?php
+	}
+
+	/*
+	 * Ends a tab page
+	 */
+
+	function endTab() {
+		echo '</div>';
+	}
+
+}
+
 /**
  * Common HTML Output Files
  * @package Joostina
@@ -5796,9 +5889,12 @@ class mosCommonHTML {
 
 	/* подключение расширений Jquery */
 
-	public static function loadJqueryPlugins($name, $ret = false, $css = false, $footer = '') {
+	public static function loadJqueryPlugins($name, $ret = false, $css = false, $footer = '', $folder='') {
 		$name = trim($name);
+        $folder= (!empty($folder)) ? trim($folder).'/' : '';
 
+        $path = JPATH_SITE.'/includes/js/jquery/plugins/'.$folder.$name;
+        
 		// если само ядро Jquery не загружено - сначала грузим его
 		if (!defined('_JQUERY_LOADED')) {
 			mosCommonHTML::loadJquery($ret);
@@ -5809,19 +5905,19 @@ class mosCommonHTML {
 			define($const, 1);
 			if ($ret) {
 				$return = '
-                <script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/plugins/'.$name.'.js"></script>
+                <script language="javascript" type="text/javascript" src="'.$path.'.js"></script>
 				<script language="JavaScript" type="text/javascript">if(_js_defines) {_js_defines.push(\''.$name.'\')} else {var _js_defines = [\''.$name.'\']}</script>
 				';
 				if ($css) {
-					$return .= '<link type="text/css" rel="stylesheet" href="'.JPATH_SITE.'/includes/js/jquery/plugins/'.$name.'.css" />';
+					$return .= '<link type="text/css" rel="stylesheet" href="'.$path.'.css" />';
                 }
 			    return $return;
 			} else {
 				$mainframe = mosMainFrame::getInstance();
-				$mainframe->addJS(JPATH_SITE . '/includes/js/jquery/plugins/' . $name . '.js', $footer);
+				$mainframe->addJS($path . '.js', $footer);
 				$mainframe->addCustomHeadTag('<script language="JavaScript" type="text/javascript">if(_js_defines) {_js_defines.push(\'' . $name . '\')} else {var _js_defines = [\'' . $name . '\']}</script>');
 				if ($css) {
-					$mainframe->addCSS(JPATH_SITE . '/includes/js/jquery/plugins/' . $name . '.css');
+					$mainframe->addCSS($path . '.css');
 				}
 			}
 		}
@@ -5834,10 +5930,13 @@ class mosCommonHTML {
 		if (!defined('_JQUERY_UI_LOADED')) {
 			define('_JQUERY_UI_LOADED', 1);
 			if ($ret) {
-				return '<script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/ui.js"></script>';
+                $return  = '<script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/ui.js"></script>';
+                $return .= '<link type="text/css" rel="stylesheet" href="'.JPATH_SITE.'/includes/js/jquery/ui/ui.css" />';
+				return '';
 			} else {
 				$mainframe = mosMainFrame::getInstance();
 				$mainframe->addJS(JPATH_SITE . '/includes/js/jquery/ui.js');
+				$mainframe->addCSS(JPATH_SITE . '/includes/js/jquery/ui/ui.css');
 			}
 		}
 		return true;
