@@ -49,7 +49,7 @@ require_once (JPATH_BASE . '/includes/parameters.xml.php');
 /* класс фильтрации данных */
 mosMainFrame::addLib('inputfilter');
 /*определяем дип бвзы данных*/
-$dbType = ($mosConfig_dbtype == 'mysql') ? 'database_old' : 'database';
+$dbType = (!empty($mosConfig_dbtype) && $mosConfig_dbtype == 'mysqli') ? 'database' : 'database_old';
 /* класс работы с базой данных */
 mosMainFrame::addLib($dbType);
 
