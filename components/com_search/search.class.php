@@ -23,8 +23,8 @@ class searchByTagConfig extends dbConfig {
 	 */
 	var $title = _SEARCH_ALL_ITEM_W_TAG;
 
-	function jstContentUserpageConfig(&$db, $group = 'com_search', $subgroup = 'search_by_tag') {
-		$this->dbConfig($db, $group, $subgroup);
+	function __construct(&$db, $group = 'com_search', $subgroup = 'search_by_tag') {
+		parent::__construct($db, $group, $subgroup);
 	}
 
 }

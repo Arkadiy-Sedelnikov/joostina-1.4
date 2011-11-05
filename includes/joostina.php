@@ -6959,6 +6959,106 @@ class mosCategory extends mosDBTable {
 
 }
 
+class contentMeta {
+
+	var $_params = null;
+
+	function contentMeta($params) {
+		$this->_params = $params;
+	}
+
+	function set_meta() {
+		if (!$this->_params) {
+			return;
+		}
+
+		switch ($this->_params->page_type) {
+			case 'section_blog':
+			case 'category_blog':
+			case 'frontpage':
+			default:
+				$this->_meta_blog();
+				break;
+
+			case 'item_full':
+			case 'item_static':
+				$this->_meta_item();
+				break;
+		}
+	}
+
+	function _meta_blog() {
+
+		$mainframe = mosMainFrame::getInstance();
+
+		if ($this->_params->menu) {
+			if (trim($this->_params->get('page_name'))) {
+				$mainframe->SetPageTitle($this->_params->menu->name, $this->_params);
+			} elseif ($this->_params->get('header') != '') {
+				$mainframe->SetPageTitle($this->_params->get('header', 1), $this->_params);
+			} else {
+				$mainframe->SetPageTitle($this->_params->menu->name, $this->_params);
+			}
+		} else {
+			$mainframe->SetPageTitle($this->_params->get('header'), $this->_params);
+		}
+
+		set_robot_metatag($this->_params->get('robots'));
+
+		if ($this->_params->get('meta_description') != "") {
+			$mainframe->addMetaTag('description', $this->_params->get('meta_description'));
+		} else {
+			$mainframe->addMetaTag('description', $mainframe->getCfg('MetaDesc'));
+		}
+
+		if ($this->_params->get('meta_keywords') != "") {
+			$mainframe->addMetaTag('keywords', $this->_params->get('meta_keywords'));
+		} else {
+			$mainframe->addMetaTag('keywords', $mainframe->getCfg('MetaKeys'));
+		}
+
+		if ($this->_params->get('meta_author') != "") {
+			$mainframe->addMetaTag('author', $this->_params->get('meta_author'));
+		}
+	}
+
+	function _meta_item() {
+		$mainframe = mosMainFrame::getInstance();
+
+		$row = $this->_params->object;
+
+		$mainframe->setPageTitle($row->title, $this->_params);
+
+		$mainframe->appendMetaTag('description', $row->description);
+		$mainframe->appendMetaTag('keywords', $row->metakey);
+
+		if ($mainframe->getCfg('MetaTitle') == '1') {
+			$mainframe->addMetaTag('title', $row->title);
+		}
+		if ($mainframe->getCfg('MetaAuthor') == '1') {
+			if ($row->created_by_alias != "") {
+				$mainframe->addMetaTag('author', $row->created_by_alias);
+			} else {
+				$mainframe->addMetaTag('author', $row->author);
+			}
+		}
+		if ($this->_params->get('robots') == 0) {
+			$mainframe->addMetaTag('robots', 'index, follow');
+		}
+		if ($this->_params->get('robots') == 1) {
+			$mainframe->addMetaTag('robots', 'index, nofollow');
+		}
+		if ($this->_params->get('robots') == 2) {
+			$mainframe->addMetaTag('robots', 'noindex, follow');
+		}
+		if ($this->_params->get('robots') == 3) {
+			$mainframe->addMetaTag('robots', 'noindex, nofollow');
+		}
+	}
+
+}
+
+
 // Оптимизация таблиц базы данных
 function _optimizetables() {
 	$database = database::getInstance();
