@@ -58,14 +58,6 @@ $nullDate = $database->getNullDate();
 		$database->setQuery( $query, 0, $count );
 		$rows = $database->loadObjectList();
 
-
-if(!$def_itemid>0) {
-	// требование уменьшить запросы, используемые getItemid для объектов содержимого
-		$bs	= $mainframe->getBlogSectionCount();
-		$bc	= $mainframe->getBlogCategoryCount();
-		$gbs	= $mainframe->getGlobalBlogSectionCount();
-}
-
 // Вывод
 ?>
 <ul class="mostread<?php echo $moduleclass_sfx; ?>">
@@ -73,7 +65,7 @@ if(!$def_itemid>0) {
 	foreach ($rows as $row) {
 		if(!$def_itemid>0) {
 			// get Itemid
-            $Itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+            $Itemid = $mainframe->getBossItemid($directory, $row->catid, $row->id);
 
 		}else {
 			$Itemid=$def_itemid;

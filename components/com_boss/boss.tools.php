@@ -23,57 +23,9 @@ function getIp() {
 }
 
 function getBossItemid($directory, $catid) {
-        global $_SESSION;
-        $database = database::getInstance();
-        $requestItemid = intval(mosGetParam($_REQUEST, 'Itemid', 0));
-        //unset ($_SESSION['boss_itemids']);
-        if (!isset($_SESSION['boss_itemids'])) {
-
-            $_SESSION['boss_itemids'] = array();
-
-            $database->setQuery("SELECT id, params " .
-                    "FROM #__menu " .
-                    "WHERE `link` = 'index.php?option=com_boss' AND published = 1 ");
-            $menu = $database->loadObjectList();
-            //получаем массив пунктов меню
-            $itemsArray = array();
-            if (count($menu) > 0) {
-                foreach ($menu as $item) {
-
-                    $paramsArray = array();
-                    $params = $item->params;
-                    $params = explode("\n", $params);
-
-                    foreach ($params as $param) {
-                        $param = explode("=", $param);
-                        $paramsArray[$param[0]] = $param[1];
-                    }
-
-                    $paramsArray['itemid'] = $item->id;
-                    $itemsArray[] = $paramsArray;
-                }
-            }
-            $_SESSION['boss_itemids'] = $itemsArray;
-        }
-        $itemsArray = $_SESSION['boss_itemids'];
-        //обрабатываем массив пунктов меню, вычисляем итемид
-        if(count($itemsArray)==0)
-            $itemid = $requestItemid;
-        elseif(count($itemsArray)==1)
-            $itemid = $itemsArray[0]['itemid'];
-        elseif(count($itemsArray)>1) {//если идов много, то вычисляем наиболее подходящий
-            $itemid = 0;
-            foreach ($itemsArray as $item){
-                if (@$item['directory'] == $directory && $item['catid'] == $catid){
-                    $itemid = $item['itemid'];
-                    break;
-                }
-                elseif(@$item['directory'] == $directory)
-                    $itemid = $item['itemid'];
-                elseif ($itemid == 0)
-                    $itemid = $item['itemid'];
-            }
-        }
+        global $mainframe;
+        $contentid = intval(mosGetParam($_REQUEST, 'contentid', 0));
+        $itemid = $mainframe->getBossItemid($directory, $catid, $contentid);
         return $itemid;
 
 }

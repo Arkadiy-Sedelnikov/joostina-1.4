@@ -1531,263 +1531,12 @@ class mosMainFrame {
 	 */
 	function getItemid($id, $typed = 1, $link = 1) {
 		global $Itemid;
-
+        $directory = mosGetParam($_REQUEST,'directory',0);
+        
 		// getItemid compatibility mode, holds maintenance version number
 		$compat = (int) $this->getCfg('itemid_compat');
 		$compat = ($compat == 0) ? 12 : $compat;
 		$_Itemid = '';
-
-		if ($_Itemid == '' && $typed && $this->getStaticContentCount()) {
-			$exists = 0;
-			foreach ($this->get('_ContentTyped', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			unset($key, $value);
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				$ContentTyped = $this->get('_ContentTyped', array());
-
-				$all_menu_links = &mosMenu::get_menu_links();
-
-				if (isset($all_menu_links['index.php?option=com_content&task=view&id=' . $id]) && $all_menu_links['index.php?option=com_content&task=view&id=' . $id]['type'] == 'content_typed') {
-					$ContentTyped[$id] = $all_menu_links['index.php?option=com_content&task=view&id=' . $id]['id'];
-				} else {
-					// Search for typed link
-					$query = "SELECT id FROM #__menu WHERE type = 'content_typed' AND published = 1 AND link = 'index.php?option=com_content&task=view&id=" . (int) $id . "'";
-					$ContentTyped[$id] = $this->_db->setQuery($query)->loadResult();
-				}
-				// save temp array to main array storage
-				$this->set('_ContentTyped', $ContentTyped);
-
-				$_Itemid = $ContentTyped[$id];
-			}
-		}
-
-		if ($_Itemid == '' && $link && $this->getContentItemLinkCount()) {
-			$exists = 0;
-			foreach ($this->get('_ContentItemLink', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			unset($key, $value);
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				// pull existing query storage into temp variable
-				$ContentItemLink = $this->get('_ContentItemLink', array());
-				// add query result to temp array storage
-				$query = "SELECT id FROM #__menu WHERE type = 'content_item_link' AND published = 1 AND link = 'index.php?option=com_content&task=view&id=" . (int) $id . "'";
-				$ContentItemLink[$id] = $this->_db->setQuery($query)->loadResult();
-				// save temp array to main array storage
-				$this->set('_ContentItemLink', $ContentItemLink);
-
-				$_Itemid = $ContentItemLink[$id];
-				unset($ContentItemLink);
-			}
-		}
-
-		if ($_Itemid == '') {
-			$exists = 0;
-			foreach ($this->get('_ContentSection', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-
-				$query = "SELECT ms.id AS sid, ms.type AS stype, mc.id AS cid, mc.type AS ctype, i.id as sectionid, i.id As catid, ms.published AS spub, mc.published AS cpub"
-						. "\n FROM #__content AS i"
-						. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-						. "\n LEFT JOIN #__menu AS ms ON ms.componentid = s.id "
-						. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-						. "\n LEFT JOIN #__menu AS mc ON mc.componentid = c.id "
-						. "\n WHERE ( ms.type IN ( 'content_section', 'content_blog_section' ) OR mc.type IN ( 'content_blog_category', 'content_category' ) )"
-						. "\n AND i.id = " . (int) $id . "\n ORDER BY ms.type DESC, mc.type DESC, ms.id, mc.id";
-				$links = $this->_db->setQuery($query)->loadObjectList();
-				;
-
-				if (count($links)) {
-					foreach ($links as $link) {
-						if ($link->stype == 'content_section' && $link->sectionid == $id && $link->spub == 1) {
-							$content_section = $link->sid;
-						}
-
-						if ($link->stype == 'content_blog_section' && $link->sectionid == $id && $link->spub == 1) {
-							$content_blog_section = $link->sid;
-						}
-
-						if ($link->ctype == 'content_blog_category' && $link->catid == $id && $link->cpub == 1) {
-							$content_blog_category = $link->cid;
-						}
-
-						if ($link->ctype == 'content_category' && $link->catid == $id && $link->cpub == 1) {
-							$content_category = $link->cid;
-						}
-					}
-				}
-
-				unset($links);
-
-				if (!isset($content_section)) {
-					$content_section = null;
-				}
-
-				// pull existing query storage into temp variable
-				$ContentSection = $this->get('_ContentSection', array());
-				// add query result to temp array storage
-				$ContentSection[$id] = $content_section;
-				// save temp array to main array storage
-				$this->set('_ContentSection', $ContentSection);
-
-				$_Itemid = $ContentSection[$id];
-			}
-		}
-
-		if ($compat <= 11 && $_Itemid == '') {
-			$exists = 0;
-			foreach ($this->get('_ContentBlogSection', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				if (!isset($content_blog_section)) {
-					$content_blog_section = null;
-				}
-				// pull existing query storage into temp variable
-				$ContentBlogSection = $this->get('_ContentBlogSection', array());
-				// add query result to temp array storage
-				$ContentBlogSection[$id] = $content_blog_section;
-				// save temp array to main array storage
-				$this->set('_ContentBlogSection', $ContentBlogSection);
-				$_Itemid = $ContentBlogSection[$id];
-			}
-		}
-		if ($_Itemid == '') {
-			$exists = 0;
-			foreach ($this->get('_ContentBlogCategory', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				if (!isset($content_blog_category)) {
-					$content_blog_category = null;
-				}
-
-				// pull existing query storage into temp variable
-				$ContentBlogCategory = $this->get('_ContentBlogCategory', array());
-				// add query result to temp array storage
-				$ContentBlogCategory[$id] = $content_blog_category;
-				// save temp array to main array storage
-				$this->set('_ContentBlogCategory', $ContentBlogCategory);
-
-				$_Itemid = $ContentBlogCategory[$id];
-			}
-		}
-
-		if ($_Itemid == '') {
-			// ensure that query is only called once
-			if (!$this->get('_GlobalBlogSection') && !defined('_JOS_GBS')) {
-				define('_JOS_GBS', 1);
-
-				// Search in global blog section
-				$query = "SELECT id FROM #__menu WHERE type = 'content_blog_section' AND published = 1 AND componentid = 0";
-				$this->_db->setQuery($query);
-				$this->set('_GlobalBlogSection', $this->_db->loadResult());
-			}
-
-			$_Itemid = $this->get('_GlobalBlogSection');
-		}
-
-		if ($compat >= 12 && $_Itemid == '') {
-			$exists = 0;
-			foreach ($this->get('_ContentBlogSection', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				if (!isset($content_blog_section)) {
-					$content_blog_section = null;
-				}
-
-				// pull existing query storage into temp variable
-				$ContentBlogSection = $this->get('_ContentBlogSection', array());
-				// add query result to temp array storage
-				$ContentBlogSection[$id] = $content_blog_section;
-				// save temp array to main array storage
-				$this->set('_ContentBlogSection', $ContentBlogSection);
-
-				$_Itemid = $ContentBlogSection[$id];
-			}
-		}
-
-		if ($_Itemid == '') {
-			$exists = 0;
-			foreach ($this->get('_ContentCategory', array()) as $key => $value) {
-				// check if id has been tested before, if it is pull from class variable store
-				if ($key == $id) {
-					$_Itemid = $value;
-					$exists = 1;
-					break;
-				}
-			}
-			// if id hasnt been checked before initaite query
-			if (!$exists) {
-				if (!isset($content_category)) {
-					$content_category = null;
-				}
-
-				// pull existing query storage into temp variable
-				$ContentCategory = $this->get('_ContentCategory', array());
-				// add query result to temp array storage
-				//$ContentCategory[$id]	= $this->_db->loadResult();
-				$ContentCategory[$id] = $content_category;
-				// save temp array to main array storage
-				$this->set('_ContentCategory', $ContentCategory);
-
-				$_Itemid = $ContentCategory[$id];
-			}
-		}
-
-		if ($_Itemid == '') {
-			// ensure that query is only called once
-			if (!$this->get('_GlobalBlogCategory') && !defined('_JOS_GBC')) {
-				define('_JOS_GBC', 1);
-
-				// Search in global blog category
-				$query = "SELECT id FROM #__menu WHERE type = 'content_blog_category' AND published = 1 AND componentid = 0";
-				$this->_db->setQuery($query);
-				$this->set('_GlobalBlogCategory', $this->_db->loadResult());
-			}
-
-			$_Itemid = $this->get('_GlobalBlogCategory');
-		}
 
 		if ($_Itemid != '') {
 			// if Itemid value discovered by queries, return this value
@@ -1803,6 +1552,98 @@ class mosMainFrame {
 		}
 		return 99999999;
 	}
+
+    function getBossItemid($directory, $catid, $id) {
+        $itemsArray = $this->getBossItemidArray(); 
+        $requestItemid = intval(mosGetParam($_REQUEST, 'Itemid', 0));
+        //обрабатываем массив пунктов меню, вычисляем итемид
+
+        $itemid = $requestItemid;
+
+        if(count($itemsArray)>0) {//если идов много, то вычисляем наиболее подходящий
+            //вычисляем ид меню соответствующий контенту
+            if(isset($itemsArray['boss_item_content'][$directory])){
+                foreach($itemsArray['boss_item_content'][$directory] as $boss_item_content){
+                    if($boss_item_content['contentid'] == $id){
+                        return $boss_item_content['itemid'];
+                    }
+                }
+            }
+            //вычисляем ид меню соответствующий категории
+            if(isset($itemsArray['boss_category_content'][$directory])){
+                foreach($itemsArray['boss_category_content'][$directory] as $boss_item_content){
+
+                    if($id>0){//если известен ид контента
+                        if( in_array($id, $boss_item_content['contentids'])){
+                            return $boss_item_content['itemid'];
+                        }
+                    }//если известен ид категории
+                    else if($boss_item_content['catid'] == $catid){
+                        return $boss_item_content['itemid'];
+                    }
+                }
+            }
+            //вычисляем ид меню соответствующий каталогу
+            if(isset($itemsArray['boss_all_content'][$directory])){
+                foreach($itemsArray['boss_all_content'][$directory] as $boss_item_content){
+                    if($boss_item_content['directory'] == $directory){
+                        return $boss_item_content['itemid'];
+                    }
+                }
+            }
+        }
+        return $itemid;
+    }
+
+    function getBossItemidArray(){
+        global $_SESSION;
+        $database = database::getInstance();
+
+        //unset ($_SESSION['boss_itemids']);
+        if (!isset($_SESSION['boss_itemids'])) {
+
+            $_SESSION['boss_itemids'] = array();
+
+            $database->setQuery("SELECT id, type, link " .
+                    "FROM #__menu " .
+                    "WHERE `type` IN ( 'boss_all_content', 'boss_category_content', 'boss_item_content' ) AND published = 1 ");
+            $menu = $database->loadObjectList();
+
+            //получаем массив пунктов меню
+            $itemsArray = array();
+            if (count($menu) > 0) {
+                foreach ($menu as $item) {
+                    //разбираем линк на переменные
+                    $linkArray = array();
+                    $link = explode("&", str_replace('index.php?', '', $item->link));
+                    foreach ($link as $param) {
+                        $param = explode("=", $param);
+                        if($param[0] != 'option'){
+                            $linkArray[$param[0]] = $param[1];
+                        }
+                    }
+                    $linkArray['itemid'] = $item->id;
+                    
+                    //если тип меню содержимое категории, то запрашиваем иды контента категории
+                    if($item->type == 'boss_category_content'){
+                        $q = "SELECT c.id " .
+                                "FROM #__boss_".$linkArray['directory']."_contents as c, " .
+                                "#__boss_".$linkArray['directory']."_content_category_href as cch, " .
+                                "#__boss_".$linkArray['directory']."_categories as cat " .
+                                "WHERE cat.id = '".$linkArray['catid']."' AND cat.published = 1 " .
+                                "AND cat.id = cch.category_id " .
+                                "AND c.id = cch.content_id AND c.published = 1 ";
+                        $database->setQuery($q);
+                        $linkArray['contentids'] = $database->loadResultArray();
+                    }
+                    
+                    $itemsArray[$item->type][$linkArray['directory']][] = $linkArray;
+                }
+            }
+            $_SESSION['boss_itemids'] = $itemsArray;
+        }
+        return $_SESSION['boss_itemids'];
+    }
 
 	/**
 	 * @return number of Published Blog Sections
@@ -1853,7 +1694,7 @@ class mosMainFrame {
 		if (!$this->get('_ContentItemLinkCount') && !defined('_JOS_CILC')) {
 			define('_JOS_CILC', 1);
 
-			$query = "SELECT COUNT( id ) FROM #__menu WHERE type = 'content_item_link' AND published = 1";
+			$query = "SELECT COUNT( id ) FROM #__menu WHERE type = 'boss_item_content' AND published = 1";
 			$this->_db->setQuery($query);
 			// saves query result to variable
 			$this->set('_ContentItemLinkCount', $this->_db->loadResult());
