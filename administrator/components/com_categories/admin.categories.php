@@ -11,7 +11,6 @@
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
-require_once (JPATH_BASE.DS.'components'.DS.'com_content'.DS.'content.class.php');
 
 define('COM_IMAGE_BASE',JPATH_BASE.DS.'images'.DS.'stories');
 
@@ -228,21 +227,21 @@ function showCategories($section,$option) {
 	}
 
 	$new_rows = array();
-	if(count($cat_ids)>0) {
-		$query = "SELECT COUNT( a.id ) as count,a.state,a.catid FROM #__content AS a WHERE a.catid IN(".implode(',',$cat_ids).") GROUP BY a.catid";
-		$database->setQuery($query);
-		$cats_info = $database->loadObjectList();
-		// заполняем данные о числе активных и удалённых материалах в категории
-		foreach ($cats_info as $cat_info) {
-			if($cat_info->state=='-2') {
-				$rows[$cat_info->catid]->trash = $cat_info->count;
-				$rows[$cat_info->catid]->active = 0;
-			}else {
-				$rows[$cat_info->catid]->active = $cat_info->count;
-				$rows[$cat_info->catid]->trash = 0;
-			}
-		}
-	}
+//	if(count($cat_ids)>0) {
+//		$query = "SELECT COUNT( a.id ) as count,a.state,a.catid FROM #__content AS a WHERE a.catid IN(".implode(',',$cat_ids).") GROUP BY a.catid";
+//		$database->setQuery($query);
+//		$cats_info = $database->loadObjectList();
+//		// заполняем данные о числе активных и удалённых материалах в категории
+//		foreach ($cats_info as $cat_info) {
+//			if($cat_info->state=='-2') {
+//				$rows[$cat_info->catid]->trash = $cat_info->count;
+//				$rows[$cat_info->catid]->active = 0;
+//			}else {
+//				$rows[$cat_info->catid]->active = $cat_info->count;
+//				$rows[$cat_info->catid]->trash = 0;
+//			}
+//		}
+//	}
 
 	foreach($rows as $v) {
 		$new_rows[] = $v;
@@ -250,10 +249,6 @@ function showCategories($section,$option) {
 
 	$rows = $new_rows;
 	unset($new_rows);
-
-	// get list of sections for dropdown filter
-	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid'] = mosAdminMenus::SelectSection('sectionid',$sectionid,$javascript);
 
 	categories_html::show($rows,$section,$section_name,$pageNav,$lists,$type);
 }
@@ -270,14 +265,6 @@ function editCategory($uid = 0,$section = '') {
 	$type = strval(mosGetParam($_REQUEST,'type',''));
 	$redirect = strval(mosGetParam($_REQUEST,'section','content'));
 
-	// check for existance of any sections
-	$query = "SELECT COUNT( id ) FROM #__sections WHERE scope = 'content'";
-	$database->setQuery($query);
-	$sections = $database->loadResult();
-	if(!$sections && $type != 'other') {
-		echo "<script> alert('"._BEFORE_CREATION_CAT_CREATE_SECTION."'); window.history.go(-1); </script>\n";
-		exit();
-	}
 
 	$row = new mosCategory($database);
 	// load the row from the db table
@@ -389,21 +376,9 @@ function editCategory($uid = 0,$section = '') {
 	}
 
 	// build the html select list for sections
-	if($section == 'content') {
-		$query = "SELECT s.id AS value, s.title AS text FROM #__sections AS s ORDER BY s.ordering";
-		$database->setQuery($query);
-		$sections = $database->loadObjectList();
-		$lists['section'] = mosHTML::selectList($sections,'section','class="inputbox" size="1"','value','text');
-	} else {
-		if($type == 'other') {
-			$section_name = 'N/A';
-		} else {
-			$temp = new mosSection($database);
-			$temp->load($row->section);
-			$section_name = $temp->name;
-		}
-		$lists['section'] = '<input type="hidden" name="section" value="'.$row->section.'" />'.$section_name;
-	}
+	$section_name = 'N/A';
+	$lists['section'] = '<input type="hidden" name="section" value="'.$row->section.'" />'.$section_name;
+
 
 	// build the html select list for category types
 	$types[] = mosHTML::makeOption('',_SEL_TYPE);

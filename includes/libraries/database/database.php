@@ -114,7 +114,7 @@ class database {
 
 			$instance = new database($config->config_host, $config->config_user, $config->config_password, $config->config_db, $config->config_dbprefix, true, $config->config_debug);
 			if ($instance->getErrorNum()) {
-				$mosSystemError = $database->getErrorNum();
+				$mosSystemError = $instance->getErrorNum();
 				include JPATH_BASE . DS . 'configuration.php';
 				include JPATH_BASE . DS . 'templates/system/offline.php';
 				exit();

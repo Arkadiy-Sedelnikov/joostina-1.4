@@ -16,17 +16,17 @@ defined('_VALID_MOS') or die();
  */
 class joomlaVersion {
 	/** @var строка Продукт*/
-	var $PRODUCT = 'Joomla!';
+	var $PRODUCT = 'Joostina';
 	/** @var строка CMS*/
 	var $CMS = 'Joostina';
 	/** @var версия*/
-	var $CMS_ver = '1.3.0.4::837 build';
+	var $CMS_ver = '1.4.0::837 build';
 	/** @var int Номер основной версии*/
 	var $RELEASE = '1.0';
 	/** @var строка  статус разработки*/
 	var $DEV_STATUS = '';
 	/** @var int Подверсия*/
-	var $DEV_LEVEL = '15';
+	var $DEV_LEVEL = '1400';
 	/** @var int Номер сборки*/
 	var $BUILD = '837';
 	/** @var string Кодовое имя*/

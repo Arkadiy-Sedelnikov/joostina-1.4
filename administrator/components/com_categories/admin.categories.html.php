@@ -26,37 +26,6 @@ class categories_html {
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 		mosCommonHTML::loadOverlib();
 		?>
-<script type="text/javascript">
-	// получение списка разделов
-	function ch_get_sec(elID,curSEC){
-		log('Получение списка разделов для категории: '+elID+' текущий раздел: '+curSEC);
-		SRAX.replaceHtml('cat-id-'+elID,'<div style="text-align:center;"><img src="images/aload.gif" /></div>');
-		dax({
-			url: 'ajax.index.php?option=com_categories&task=get_sec&id='+elID+'&cur_sec='+curSEC,
-			id:'publ-'+elID,
-			callback:
-				function(resp, idTread, status, ops){
-				log('Получен ответ: ' + resp.responseText);
-				SRAX.replaceHtml('cat-id-'+elID,resp.responseText);
-			}});
-	};
-	// смена раздела категории
-	function ch_save_sec(elID,newSEC){
-		log('Смена раздела категории: '+elID+' на '+newSEC);
-		SRAX.replaceHtml('cat-id-'+elID,'<div style="text-align:center;"><img src="images/aload.gif" /></div>');
-		dax({
-			url: 'ajax.index.php?option=com_categories&task=save_sec&id='+elID+'&new_sec='+newSEC,
-			id:'publ-'+elID,
-			callback:
-				function(resp, idTread, status, ops){
-				log('Получен ответ: ' + resp.responseText);
-				if(resp.responseText==2)
-					SRAX.replaceHtml('cat-id-'+elID,'<div style="text-align:center;"><img src="<?php echo $cur_file_icons_path;?>/error.png" /></div>');
-				else
-					SRAX.replaceHtml('cat-id-'+elID,resp.responseText);
-			}});
-	};
-</script>
 <form action="index2.php" method="post" name="adminForm">
 	<table class="adminheading">
 		<tr>
@@ -66,7 +35,7 @@ class categories_html {
 			<th class="categories">
 							<?php echo _CONTENT_CATEGORIES?> <small><small>[ <?php echo _ALL_CONTENT?> ]</small></small>
 			</th>
-			<td width="right"><?php echo $lists['sectionid']; ?></td>
+			<td width="right"></td>
 						<?php
 					} else {
 						?>

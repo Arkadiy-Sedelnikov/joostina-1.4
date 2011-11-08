@@ -6899,6 +6899,187 @@ class contentMeta {
 
 }
 
+class ContentTemplate {
+
+	var $page_type = null;
+	var $template_dir = null;
+	var $template_file = null;
+
+	function get_template_dir($page_type) {
+
+		$dir = str_replace('_', '/', $page_type);
+
+		/* 			switch($page_type){
+		  case 'blog_section':
+		  $dir = 'section/blog';
+		  break;
+
+		  case 'groupcats_section':
+		  $dir = 'section/groupcats';
+		  break;
+
+		  case 'table_cats_section':
+		  $dir = 'section/table_cats';
+		  break;
+
+		  case 'table_items_section':
+		  $dir = 'section/table_items';
+		  break;
+
+		  case 'blog_category':
+		  $dir = 'category/blog';
+		  break;
+
+		  case 'table_category':
+		  $dir = 'category/table';
+		  break;
+
+		  case 'archive':
+		  $dir = 'archive';
+		  break;
+
+		  case 'item':
+		  $dir = 'item/full_view';
+		  break;
+
+		  case 'item_static':
+		  $dir = 'item/static_content';
+		  break;
+
+		  case 'item_editform':
+		  $dir = 'item/edit_form';
+		  break;
+
+		  default:
+		  $dir = null;
+		  break;
+
+		  } */
+		return $dir;
+	}
+
+	function set_template($page_type, $templates = null) {
+
+		$this->page_type = $page_type;
+		$this->template_dir = self::get_system_path($this->page_type);
+		$this->template_file = 'default.php';
+
+		//если найдены записи о шаблонах
+		if ($templates) {
+			$tpl_arr = self::parse_curr_templates($templates);
+			$template_file = $tpl_arr[$page_type];
+
+			if (isset($template_file)) {
+				$template_pref = substr($template_file, 0, 3);
+				$template_file = str_replace($template_pref, '', $template_file);
+
+				switch ($template_pref) {
+					case '[t]':
+						$this->template_dir = self::get_currtemplate_path($page_type);
+						break;
+
+					default:
+						break;
+				}
+				if (is_file(JPATH_BASE . DS . $this->template_dir . DS . $template_file)) {
+					$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $template_file;
+				}
+			}
+		}
+		//смотрим, что у нас в глобальной конфигурации сказано по поводу размещения шаблонов по-умолчанию
+		else if (Jconfig::getInstance()->config_global_templates == 1) {
+			if (is_file(JPATH_BASE . DS . self::get_currtemplate_path($page_type) . DS . $this->template_file)) {
+				$this->template_file = JPATH_BASE . DS . self::get_currtemplate_path($page_type) . DS . $this->template_file;
+			} else {
+				$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $this->template_file;
+			}
+		}
+		//шаблон мы так и не нашли, так что цепляем что-нибудь по-умолчанию
+		else {
+			$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $this->template_file;
+		}
+	}
+
+	function get_system_path($page_type) {
+		$template_dir = self::get_template_dir($page_type);
+		$system_path = 'components' . DS . 'com_content' . DS . 'view' . DS . $template_dir;
+		return $system_path;
+	}
+
+	function get_currtemplate_path($page_type) {
+		$mainframe = mosMainFrame::getInstance();
+		$mainframe->_setTemplate();
+		$template = $mainframe->getTemplate();
+		$template_dir = self::get_template_dir($page_type);
+		$currtemplate_path = 'templates' . DS . $template . DS . 'html' . DS . 'com_content' . DS . $template_dir;
+		return $currtemplate_path;
+	}
+
+	function templates_select_list($page_type, $curr_value_arr = null) {
+		$curr_value = null;
+
+		$system_path = self::get_system_path($page_type);
+		$currtemplate_path = self::get_currtemplate_path($page_type);
+
+		$files_system = mosReadDirectory(JPATH_BASE . DS . $system_path, '\.php$');
+		$files_from_currtemplate = mosReadDirectory(JPATH_BASE . DS . $currtemplate_path, '\.php$');
+
+		$options = array();
+		$options[] = mosHTML::makeOption('0', _DEFAULT);
+		foreach ($files_system as $file) {
+			$options[] = mosHTML::makeOption('[s]' . $file, '[s]' . $file);
+		}
+		foreach ($files_from_currtemplate as $file) {
+			$options[] = mosHTML::makeOption('[t]' . $file, '[t]' . $file);
+		}
+		//return $options;
+
+		if ($curr_value_arr && isset($curr_value_arr[$page_type])) {
+			$curr_value = $curr_value_arr[$page_type];
+		}
+		return mosHTML::selectList($options, 'templates[' . $page_type . ']', 'class="inputbox"', 'value', 'text', $curr_value);
+	}
+
+	function prepare_for_save($templates) {
+		$txt = array();
+		foreach ($templates as $k => $v) {
+			if ($v) {
+				$txt[] = "$k=$v";
+			}
+		}
+		return implode('|', $txt);
+	}
+
+	function parse_curr_templates($templates) {
+		if ($templates) {
+			$tpls = array();
+			$tpls = explode('|', $templates);
+
+			$return = array();
+
+			foreach ($tpls as $tpl) {
+				$arr = explode('=', $tpl);
+				$key = $arr[0];
+				$value = $arr[1];
+				$return[$key] = $value;
+			}
+			return $return;
+		}
+		return null;
+	}
+
+	function isset_settings($page_type, $templates) {
+		if ($page_type && $templates) {
+			$templates = self::parse_curr_templates($templates);
+			if (isset($templates[$page_type])) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+}
 
 // Оптимизация таблиц базы данных
 function _optimizetables() {
