@@ -21,8 +21,8 @@ DEFINE('_CONTACTS_DESC','Список контактов этого сайта.'
 DEFINE('_CONTACT_MORE_THAN','Вы не можете вводить более одного адреса e-mail.');
 DEFINE('_CONTACT_TITLE','Обратная связь');
 DEFINE('_EMAIL_DESCRIPTION','Отправить e-mail пользователю:');
-DEFINE('_EMAIL_YOUR_NAME','Ваше имя:');
-DEFINE('_EMAIL_YOUR_MAIL','Ваш e-mail:');
+//DEFINE('_EMAIL_YOUR_NAME','Ваше имя:');
+//DEFINE('_EMAIL_YOUR_MAIL','Ваш e-mail:');
 DEFINE('_MESSAGE_PROMPT','Текст сообщения:');
 DEFINE('_CONTACT_FORM_NC','Пожалуйста, заполните форму полностью и правильно.');
 DEFINE('_CONTACT_TELEPHONE','Телефон: ');
