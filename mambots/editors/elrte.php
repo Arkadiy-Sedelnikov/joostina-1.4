@@ -20,7 +20,6 @@ function botElrteInit()
     if(!defined('_JQUERY_UI_LOADED')) {
         $html .= mosCommonHTML::loadJqueryUI(true);
     }
-    $html .='<link type="text/css" rel="stylesheet" href="' . JPATH_SITE . '/mambots/editors/elrte/css/smoothness/jquery-ui-1.8.13.custom.css" />'."\n";
 
     //обрубаем загрузку Fullajax
     if(!defined('_FAX_LOADED'))

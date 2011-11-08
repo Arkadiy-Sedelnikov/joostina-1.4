@@ -49,7 +49,7 @@ require_once (JPATH_BASE . '/includes/parameters.xml.php');
 /* класс фильтрации данных */
 mosMainFrame::addLib('inputfilter');
 /*определяем дип бвзы данных*/
-$dbType = ($mosConfig_dbtype == 'mysql') ? 'database_old' : 'database';
+$dbType = (!empty($mosConfig_dbtype) && $mosConfig_dbtype == 'mysqli') ? 'database' : 'database_old';
 /* класс работы с базой данных */
 mosMainFrame::addLib($dbType);
 
@@ -4625,6 +4625,99 @@ class mosTabs {
 
 }
 
+
+/**
+ * Создание табов
+ * @package Joostina
+ */
+class uiTabs {
+
+	/**
+	  @var int Use cookies */
+	var $useCookies = 0;
+
+	/**
+	 * Constructor
+	 * Includes files needed for displaying tabs and sets cookie options
+	 * @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	 */
+	function __construct($useCookies, $xhtml = 0) {
+		/* запрет повторного включения css и js файлов в документ */
+		if (!defined('_MTABS_LOADED')) {
+			define('_MTABS_LOADED', 1);
+
+			if ($xhtml) {
+                mosCommonHTML::loadJquery();
+                mosCommonHTML::loadJqueryUI();
+			} else {
+                mosCommonHTML::loadJquery(true);
+                mosCommonHTML::loadJqueryUI(true);
+			}
+			$this->useCookies = $useCookies;
+		}
+	}
+
+	/**
+	 * creates a tab pane and creates JS obj
+	 * @param string The Tab Pane Name
+	 */
+    function startPane($id)
+    {
+        ?>
+    <script type="text/javascript">
+        jQuery(function() {
+            // Tabs
+            jQuery('#<?php echo $id ?>').tabs({
+                fx: {
+                    opacity: 'toggle',
+                    duration: 'fast'
+                }
+            });
+
+        });
+        function addTabHeader(id, li) {
+            var parentId = jQuery('#' + id).parent().attr('id');
+            var ul = jQuery('#' + parentId).children('.tabheaders')[0];
+            jQuery(li).appendTo(ul);
+        }
+    </script>
+		<div id="<?php echo $id ?>">
+             <ul class="tabheaders"></ul>
+        <?php
+	}
+
+	/**
+	 * Ends Tab Pane
+	 */
+	function endPane() {
+		echo '</div>';
+	}
+
+	/*
+	 * Creates a tab with title text and starts that tabs page
+	 * @param tabText - This is what is displayed on the tab
+	 * @param paneid - This is the parent pane to build this tab on
+	 */
+
+	function startTab($tabText, $paneid) {
+        ?>
+        <div class="tab-page" id="<?php echo $paneid ?>">
+            <script type="text/javascript">
+                addTabHeader( '<?php echo $paneid ?>', '<li><a href="#<?php echo $paneid ?>"><?php echo $tabText ?></a></li>' );
+            </script>
+        <?php
+	}
+
+	/*
+	 * Ends a tab page
+	 */
+
+	function endTab() {
+		echo '</div>';
+	}
+
+}
+
 /**
  * Common HTML Output Files
  * @package Joostina
@@ -5637,9 +5730,12 @@ class mosCommonHTML {
 
 	/* подключение расширений Jquery */
 
-	public static function loadJqueryPlugins($name, $ret = false, $css = false, $footer = '') {
+	public static function loadJqueryPlugins($name, $ret = false, $css = false, $footer = '', $folder='') {
 		$name = trim($name);
+        $folder= (!empty($folder)) ? trim($folder).'/' : '';
 
+        $path = JPATH_SITE.'/includes/js/jquery/plugins/'.$folder.$name;
+        
 		// если само ядро Jquery не загружено - сначала грузим его
 		if (!defined('_JQUERY_LOADED')) {
 			mosCommonHTML::loadJquery($ret);
@@ -5650,19 +5746,19 @@ class mosCommonHTML {
 			define($const, 1);
 			if ($ret) {
 				$return = '
-                <script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/plugins/'.$name.'.js"></script>
+                <script language="javascript" type="text/javascript" src="'.$path.'.js"></script>
 				<script language="JavaScript" type="text/javascript">if(_js_defines) {_js_defines.push(\''.$name.'\')} else {var _js_defines = [\''.$name.'\']}</script>
 				';
 				if ($css) {
-					$return .= '<link type="text/css" rel="stylesheet" href="'.JPATH_SITE.'/includes/js/jquery/plugins/'.$name.'.css" />';
+					$return .= '<link type="text/css" rel="stylesheet" href="'.$path.'.css" />';
                 }
 			    return $return;
 			} else {
 				$mainframe = mosMainFrame::getInstance();
-				$mainframe->addJS(JPATH_SITE . '/includes/js/jquery/plugins/' . $name . '.js', $footer);
+				$mainframe->addJS($path . '.js', $footer);
 				$mainframe->addCustomHeadTag('<script language="JavaScript" type="text/javascript">if(_js_defines) {_js_defines.push(\'' . $name . '\')} else {var _js_defines = [\'' . $name . '\']}</script>');
 				if ($css) {
-					$mainframe->addCSS(JPATH_SITE . '/includes/js/jquery/plugins/' . $name . '.css');
+					$mainframe->addCSS($path . '.css');
 				}
 			}
 		}
@@ -5675,10 +5771,13 @@ class mosCommonHTML {
 		if (!defined('_JQUERY_UI_LOADED')) {
 			define('_JQUERY_UI_LOADED', 1);
 			if ($ret) {
-				return '<script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/ui.js"></script>';
+                $return  = '<script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/ui.js"></script>';
+                $return .= '<link type="text/css" rel="stylesheet" href="'.JPATH_SITE.'/includes/js/jquery/ui/ui.css" />';
+				return '';
 			} else {
 				$mainframe = mosMainFrame::getInstance();
 				$mainframe->addJS(JPATH_SITE . '/includes/js/jquery/ui.js');
+				$mainframe->addCSS(JPATH_SITE . '/includes/js/jquery/ui/ui.css');
 			}
 		}
 		return true;
@@ -6447,6 +6546,359 @@ class joostina_api {
 	}
 
 }
+
+/**
+ * Category database table class
+ * @package Joostina
+ */
+class mosCategory extends mosDBTable {
+
+	/**
+	 *  *  * @var int Primary key */
+	var $id = null;
+	/**
+	 *  *  * @var int */
+	var $parent_id = null;
+	/**
+	 *  *  * @var string The menu title for the Category (a short name) */
+	var $title = null;
+	/**
+	 *  *  * @var string The full name for the Category */
+	var $name = null;
+	/**
+	 *  *  * @var string */
+	var $image = null;
+	/**
+	 *  *  * @var string */
+	var $section = null;
+	/**
+	 *  *  * @var int */
+	var $image_position = null;
+	/**
+	 *  *  * @var string */
+	var $description = null;
+	/**
+	 *  *  * @var boolean */
+	var $published = null;
+	/**
+	 *  *  * @var boolean */
+	var $checked_out = null;
+	/**
+	 *  *  * @var time */
+	var $checked_out_time = null;
+	/**
+	 *  *  * @var int */
+	var $ordering = null;
+	/**
+	 *  *  * @var int */
+	var $access = null;
+	/**
+	 *  *  * @var string */
+	var $params = null;
+	var $templates = null;
+
+	/**
+	 * @param database A database connector object
+	 */
+	function mosCategory(&$db) {
+		$this->mosDBTable('#__categories', 'id', $db);
+	}
+
+	// overloaded check function
+	function check() {
+		// check for valid name
+		if (trim($this->title) == '') {
+			$this->_error = _ENTER_CATEGORY_TITLE;
+			return false;
+		}
+		if (trim($this->name) == '') {
+			$this->_error = _ENTER_CATEGORY_NAME;
+			return false;
+		}
+		$ignoreList = array('description');
+		$this->filter($ignoreList);
+		// check for existing name
+		$query = "SELECT id FROM #__categories WHERE name = " . $this->_db->Quote($this->name) . " AND section = " . $this->_db->Quote($this->section);
+		$this->_db->setQuery($query);
+
+		$xid = intval($this->_db->loadResult());
+		if ($xid && $xid != intval($this->id)) {
+			$this->_error = _CATEGORY_ALREADY_EXISTS;
+			return false;
+		}
+		return true;
+	}
+
+	function get_category($id) {
+		$query = 'SELECT cc.* FROM #__categories AS cc WHERE cc.id = ' . $id;
+		$r = null;
+		$this->_db->setQuery($query);
+		$this->_db->loadObject($r);
+		return $r;
+	}
+
+	public static function get_category_url($params) {
+		if ($params->get('cat_link_type') == 'blog') {
+			return self::get_category_blog_url($params);
+		} else {
+			return self::get_category_table_url($params);
+		}
+	}
+
+	public static function get_category_table_url($params) {
+		$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid=' . $params->get('sectionid') . '&amp;id=' . $params->get('catid') . $params->get('Itemid'));
+		return $link;
+	}
+
+	public static function get_category_blog_url($params) {
+		$link = sefRelToAbs('index.php?option=com_content&amp;task=blogcategory&amp;id=' . $params->get('catid') . $params->get('Itemid'));
+		return $link;
+	}
+
+	public static function get_category_menu($cat_id, $type = null) {
+		$database = database::getInstance();
+
+		if (!$type) {
+			$and_type = "AND type IN ( 'content_category', 'content_blog_category' )";
+		} else {
+			switch ($type) {
+				case 'blog':
+				default:
+					$and_type = "AND type = 'content_blog_category' ";
+					break;
+
+				case 'table':
+					$and_type = "AND type = 'content_category' ";
+					break;
+			}
+		}
+
+		$query = "SELECT id, link
+				FROM #__menu
+				WHERE published = 1
+				" . $and_type . "
+				AND componentid = " . $cat_id . "
+				ORDER BY type DESC, ordering";
+		$database->setQuery($query);
+		$result = $database->loadRow();
+
+		return $result;
+	}
+
+	public static function get_category_link($row, $params) {
+		$mainframe = mosMainFrame::getInstance();
+
+		$catLinkID = $mainframe->get('catID_' . $row->catid, -1);
+		$catLinkURL = $mainframe->get('catURL_' . $row->catid);
+
+		// check if values have already been placed into mainframe memory
+		if ($catLinkID == -1) {
+			$result = self::get_category_menu($row->catid, $params->get('cat_link_type'));
+
+			$catLinkID = $result[0];
+			$catLinkURL = $result[1];
+
+			if ($catLinkID == null) {
+				$catLinkID = 0;
+				// save 0 query result to mainframe
+				$mainframe->set('catID_' . $row->catid, 0);
+			} else {
+				// save query result to mainframe
+				$mainframe->set('catID_' . $row->catid, $catLinkID);
+				$mainframe->set('catURL_' . $row->catid, $catLinkURL);
+			}
+		}
+
+		$_Itemid = '';
+		// use Itemid for category found in query
+		if ($catLinkID != -1 && $catLinkID) {
+			$_Itemid = '&amp;Itemid=' . $catLinkID;
+		} else if ($mainframe->get('secID_' . $row->sectionid, -1) != -1 && $mainframe->get('secID_' . $row->sectionid, -1)) {
+			// use Itemid for section found in query
+			$_Itemid = '&amp;Itemid=' . $mainframe->get('secID_' . $row->sectionid, -1);
+		}
+
+		$params->set('catid', $row->catid);
+		$params->set('sectionid', $row->sectionid);
+		$params->set('Itemid', $_Itemid);
+
+		if ($params->get('cat_link_type') == 'blog') {
+			$link = mosCategory::get_category_blog_url($params);
+		} else {
+			$link = mosCategory::get_category_table_url($params);
+		}
+
+		return $link;
+	}
+
+	function get_other_cats($category, $access, $params) {
+		global $my;
+
+		$xwhere = contentSqlHelper::construct_where_table_category($category, $access, $params);
+		$xwhere2 = contentSqlHelper::construct_where_other_cats($category, $access, $params);
+
+
+		// show/hide empty categories
+		$empty = '';
+		if (!$params->get('empty_cat'))
+			$empty = " HAVING COUNT( a.id ) > 0";
+
+		// get the list of other categories
+		$query = "	SELECT c.*, COUNT( a.id ) AS numitems
+					FROM #__categories AS c
+					LEFT JOIN #__content AS a ON a.catid = c.id
+					" . $xwhere2 . "
+					WHERE c.section = '" . (int) $category->section . "'
+					GROUP BY c.id
+					" . $empty . "
+					ORDER BY c.ordering";
+		$this->_db->setQuery($query);
+		return $this->_db->loadObjectList();
+	}
+
+	function get_lists($params) {
+		$check = 0;
+
+		$lists['order_value'] = '';
+		if ($params->get('selected')) {
+			$lists['order_value'] = $params->get('selected');
+		}
+
+		if ($params->get('date')) {
+			$order[] = mosHTML::makeOption('date', _ORDER_DROPDOWN_DA);
+			$order[] = mosHTML::makeOption('rdate', _ORDER_DROPDOWN_DD);
+			$check .= 1;
+		}
+		if ($params->get('title')) {
+			$order[] = mosHTML::makeOption('alpha', _ORDER_DROPDOWN_TA);
+			$order[] = mosHTML::makeOption('ralpha', _ORDER_DROPDOWN_TD);
+			$check .= 1;
+		}
+		if ($params->get('hits')) {
+			$order[] = mosHTML::makeOption('hits', _ORDER_DROPDOWN_HA);
+			$order[] = mosHTML::makeOption('rhits', _ORDER_DROPDOWN_HD);
+			$check .= 1;
+		}
+		if ($params->get('author')) {
+			$order[] = mosHTML::makeOption('author', _ORDER_DROPDOWN_AUA);
+			$order[] = mosHTML::makeOption('rauthor', _ORDER_DROPDOWN_AUD);
+			$check .= 1;
+		}
+
+		$order[] = mosHTML::makeOption('order', _ORDER_DROPDOWN_O);
+		$lists['order'] = mosHTML::selectList($order, 'order', 'class="inputbox" size="1"  onchange="document.adminForm.submit();"', 'value', 'text', $params->get('selected'));
+		if ($check < 1) {
+			$lists['order'] = '';
+			$params->set('order_select', 0);
+		}
+
+		$lists['task'] = 'category';
+		$lists['filter'] = $params->get('cur_filter');
+
+		return $lists;
+	}
+
+}
+
+class contentMeta {
+
+	var $_params = null;
+
+	function contentMeta($params) {
+		$this->_params = $params;
+	}
+
+	function set_meta() {
+		if (!$this->_params) {
+			return;
+		}
+
+		switch ($this->_params->page_type) {
+			case 'section_blog':
+			case 'category_blog':
+			case 'frontpage':
+			default:
+				$this->_meta_blog();
+				break;
+
+			case 'item_full':
+			case 'item_static':
+				$this->_meta_item();
+				break;
+		}
+	}
+
+	function _meta_blog() {
+
+		$mainframe = mosMainFrame::getInstance();
+
+		if ($this->_params->menu) {
+			if (trim($this->_params->get('page_name'))) {
+				$mainframe->SetPageTitle($this->_params->menu->name, $this->_params);
+			} elseif ($this->_params->get('header') != '') {
+				$mainframe->SetPageTitle($this->_params->get('header', 1), $this->_params);
+			} else {
+				$mainframe->SetPageTitle($this->_params->menu->name, $this->_params);
+			}
+		} else {
+			$mainframe->SetPageTitle($this->_params->get('header'), $this->_params);
+		}
+
+		set_robot_metatag($this->_params->get('robots'));
+
+		if ($this->_params->get('meta_description') != "") {
+			$mainframe->addMetaTag('description', $this->_params->get('meta_description'));
+		} else {
+			$mainframe->addMetaTag('description', $mainframe->getCfg('MetaDesc'));
+		}
+
+		if ($this->_params->get('meta_keywords') != "") {
+			$mainframe->addMetaTag('keywords', $this->_params->get('meta_keywords'));
+		} else {
+			$mainframe->addMetaTag('keywords', $mainframe->getCfg('MetaKeys'));
+		}
+
+		if ($this->_params->get('meta_author') != "") {
+			$mainframe->addMetaTag('author', $this->_params->get('meta_author'));
+		}
+	}
+
+	function _meta_item() {
+		$mainframe = mosMainFrame::getInstance();
+
+		$row = $this->_params->object;
+
+		$mainframe->setPageTitle($row->title, $this->_params);
+
+		$mainframe->appendMetaTag('description', $row->description);
+		$mainframe->appendMetaTag('keywords', $row->metakey);
+
+		if ($mainframe->getCfg('MetaTitle') == '1') {
+			$mainframe->addMetaTag('title', $row->title);
+		}
+		if ($mainframe->getCfg('MetaAuthor') == '1') {
+			if ($row->created_by_alias != "") {
+				$mainframe->addMetaTag('author', $row->created_by_alias);
+			} else {
+				$mainframe->addMetaTag('author', $row->author);
+			}
+		}
+		if ($this->_params->get('robots') == 0) {
+			$mainframe->addMetaTag('robots', 'index, follow');
+		}
+		if ($this->_params->get('robots') == 1) {
+			$mainframe->addMetaTag('robots', 'index, nofollow');
+		}
+		if ($this->_params->get('robots') == 2) {
+			$mainframe->addMetaTag('robots', 'noindex, follow');
+		}
+		if ($this->_params->get('robots') == 3) {
+			$mainframe->addMetaTag('robots', 'noindex, nofollow');
+		}
+	}
+
+}
+
 
 // Оптимизация таблиц базы данных
 function _optimizetables() {

@@ -302,7 +302,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 	<tr><td>
 			<form action="index2.php" method="post" name="adminForm">
             <?php
-            $configtabs = new mosTabs(0,1);
+            $configtabs = new uiTabs(0,1);
             $configtabs->startPane("config");
             $configtabs->startTab(BOSS_TAB_GENERAL, "general-page");
             ?>

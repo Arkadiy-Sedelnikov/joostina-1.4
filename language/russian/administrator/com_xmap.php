@@ -109,7 +109,6 @@ DEFINE('_XMAP_PLUGIN_VERSION','Версия %s');
 DEFINE('_XMAP_TAB_EXTENSIONS','Расширения');
 DEFINE('_XMAP_TAB_INSTALLED_EXTENSIONS','Установленные расширения');
 DEFINE('_XMAP_NO_PLUGINS_INSTALLED','Расширения не установлены');
-DEFINE('_HEADER_AUTHOR','Автор');
 DEFINE('_XMAP_CONFIRM_DELETE_SITEMAP','Вы уверены что хотите удалить эту карту?');
 DEFINE('_XMAP_CONFIRM_UNINSTALL_PLUGIN','Вы уверены что хотите удалить это расширение?');
 DEFINE('_XMAP_EXT_PUBLISHED','Опубликовать');
