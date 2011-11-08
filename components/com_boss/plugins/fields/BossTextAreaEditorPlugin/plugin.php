@@ -57,10 +57,10 @@ defined('_VALID_MOS') or die();
         function addInWriteScript($field){
             global $_MAMBOTS;
             $return = '';
-            ob_start();
-                $_MAMBOTS->trigger('onGetEditorContents',array('editor_'.$field->name, $field->name));
-                $return .= ob_get_contents();
-            ob_end_clean();
+            $arrayEditors = $_MAMBOTS->trigger('onGetEditorContents',array('editor_'.$field->name, $field->name));
+            foreach($arrayEditors as $editor) {
+                $return .= $editor;
+            }
             if ($field->required == 1){
                 $return .= "\n
                  var editor_$field->name = mfrm.$field->name;

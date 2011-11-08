@@ -1187,6 +1187,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 submitform(pressbutton);
 		        return true;
             }
+        var mfrm = document.getElementById('adminForm');
+        var errorMSG = '';
+        var iserror = 0;
         var category = document.getElementById('category');
         var me = document.getElementById('name');
         if (me.value == '') {
@@ -1198,12 +1201,18 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 		    alert("<?php echo html_entity_decode(addslashes( BOSS_REGWARN_ERROR),ENT_QUOTES); ?> : <?php echo html_entity_decode(addslashes(BOSS_TH_CATEGORY),ENT_QUOTES); ?>");
         }
         else {
-            <?php
-                foreach($fields as $field) {
-                    if($field->type == 'editor')
-                    getEditorContents('editor', $field->name);
-                }
-            ?>
+     
+                    <?php
+        foreach($fields as $field){
+            if(method_exists($plugins[$field->type],'addInWriteScript')){
+                echo $plugins[$field->type]->addInWriteScript($field);
+            }
+        }
+        ?>
+        if (iserror == 1) {
+            alert(errorMSG);
+            return false;
+        }
             submitform(pressbutton);
 		    return true;
 		}
