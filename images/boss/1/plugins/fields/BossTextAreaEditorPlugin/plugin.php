@@ -24,7 +24,6 @@ defined('_VALID_MOS') or die();
         //отображение поля в контенте
         function getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
             $fieldname = $field->name;
-
             $return = '';
             if(isset ($content->$fieldname)) {
                 if(!empty($field->text_before))
@@ -38,6 +37,11 @@ defined('_VALID_MOS') or die();
                     $params = new mosParameters('');
                     $row = null;
                     $row->text = $content->$fieldname;
+                    $row->id = $content->id;
+                    $row->access = 0;
+                    $row->catid = $content->catid;
+                    $row->title = $content->name;
+                    $row->readmore = '';//TODO разобраться что это и зачем, поправить
                     $_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, 0 ), true );
                     $content->$fieldname = $row->text;
                 }
