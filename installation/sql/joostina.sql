@@ -569,7 +569,6 @@ INSERT INTO `#__mambots` VALUES (17, 'Позиции загрузки модул
 INSERT INTO `#__mambots` VALUES (18, 'Первый обработчик содержимого', 'first', 'mainbody', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (19, 'Модуль на главной странице', 'frontpagemodule', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 'mod_position=banner\nmod_type=1\nmod_after=1');
 INSERT INTO `#__mambots` VALUES (20, 'Контактные данные пользователя', 'user_contacts', 'profile', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (21, 'Материалы пользователя', 'user_content', 'profile', 0, 3, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (22, 'Информация ', 'user_info', 'profile', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'header=Информация\nshow_header=1\nshow_location=1\ngender=1');
 INSERT INTO `#__mambots` VALUES (23, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (24, 'elRTE Mambot', 'elrte', 'editors', 0, 1, 1, 0, 0, 62, '2011-10-22 22:19:50', NULL);
