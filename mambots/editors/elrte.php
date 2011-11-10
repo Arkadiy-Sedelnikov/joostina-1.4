@@ -17,13 +17,11 @@ function botElrteInit()
     //загружаем Jquery
     $html .= mosCommonHTML::loadJquery(true);
     //загружаем Jquery UI
-    if(!defined('_JQUERY_UI_LOADED')) {
-        $html .= mosCommonHTML::loadJqueryUI(true);
-    }
+    $html .= mosCommonHTML::loadJqueryUI(true);
 
     //обрубаем загрузку Fullajax
-    if(!defined('_FAX_LOADED'))
-        define('_FAX_LOADED',1);
+//    if(!defined('_FAX_LOADED'))
+//        define('_FAX_LOADED',1);
     
     //исправляем неправильное определение ида группы на фронте
     if ($my->id == 0) {

@@ -5773,14 +5773,14 @@ class mosCommonHTML {
 			if ($ret) {
                 $return  = '<script language="javascript" type="text/javascript" src="'.JPATH_SITE.'/includes/js/jquery/ui.js"></script>';
                 $return .= '<link type="text/css" rel="stylesheet" href="'.JPATH_SITE.'/includes/js/jquery/ui/ui.css" />';
-				return '';
+				return $return;
 			} else {
 				$mainframe = mosMainFrame::getInstance();
 				$mainframe->addJS(JPATH_SITE . '/includes/js/jquery/ui.js');
 				$mainframe->addCSS(JPATH_SITE . '/includes/js/jquery/ui/ui.css');
+                return true;
 			}
 		}
-		return true;
 	}
 
 	/* подключение codepress */
