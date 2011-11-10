@@ -13,6 +13,7 @@
 		<filename mambot="categories.searchbot">categories.searchbot.php</filename>
 	</files>
 	<params>
+        <param name="directory" type="text" default="" label="ИД каталогов" description="ИД каталогов через запятуюв которых будет производиться поиск, если пусто, то будут использованы все каталоги." />
 		<param name="search_limit" type="text" size="5" default="50" label="Ограничить поиск" description="Ограничение количества найденных объектов"/>
 	</params>
 </mosinstall>

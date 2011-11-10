@@ -554,7 +554,7 @@ INSERT INTO `#__mambots` VALUES (2,'Разбиение на страницы MOS
 #INSERT INTO `#__mambots` VALUES (3,'Включение наследования мамботов','legacybots','content',0,1,0,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (4,'SEF','mossef','content',0,3,0,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (5,'Рейтинг статей','plugin_jw_ajaxvote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__mambots` VALUES (6,'Поиск содержимого','content.searchbot','search',0,1,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__mambots` VALUES (6, 'Поиск в контенте JoiBoss', 'boss.searchbot', 'search', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'directory=1\ncontent_field=content_editorfull\nsearch_limit=50\ngroup_results=0');
 INSERT INTO `#__mambots` VALUES (7,'Поиск веб-ссылок','weblinks.searchbot','search',0,2,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (8,'Поддержка кода','moscode','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (9,'Простой редактор HTML','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
@@ -562,7 +562,6 @@ INSERT INTO `#__mambots` VALUES (10,'Кнопка изображения MOS в 
 INSERT INTO `#__mambots` VALUES (11,'Кнопка разрыва страницы MOS в редакторе','mospage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (12,'Поиск контактов','contacts.searchbot','search',0,3,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (13, 'Поиск категорий', 'categories.searchbot', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (14, 'Поиск разделов', 'sections.searchbot', 'search', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (15, 'Маскировка E-mail', 'mosemailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (16, 'Поиск лент новостей', 'newsfeeds.searchbot', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (17, 'Позиции загрузки модуля', 'mosloadposition', 'content', 0, 6, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
