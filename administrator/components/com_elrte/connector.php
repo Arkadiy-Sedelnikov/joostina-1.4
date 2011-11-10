@@ -81,31 +81,6 @@ $opts = array(
 	'write'  => true,
     'rm'     => true
 	)
-	// 'perms'        => array(),      // individual folders/files permisions
-	// 'debug'        => true,         // send debug to client
-	// 'archiveMimes' => array(),      // allowed archive's mimetypes to create. Leave empty for all available types.
-	// 'archivers'    => array()       // info about archivers to use. See example below. Leave empty for auto detect
-	// 'archivers' => array(
-	// 	'create' => array(
-	// 		'application/x-gzip' => array(
-	// 			'cmd' => 'tar',
-	// 			'argc' => '-czf',
-	// 			'ext'  => 'tar.gz'
-	// 			)
-	// 		),
-	// 	'extract' => array(
-	// 		'application/x-gzip' => array(
-	// 			'cmd'  => 'tar',
-	// 			'argc' => '-xzf',
-	// 			'ext'  => 'tar.gz'
-	// 			),
-	// 		'application/x-bzip2' => array(
-	// 			'cmd'  => 'tar',
-	// 			'argc' => '-xjf',
-	// 			'ext'  => 'tar.bz'
-	// 			)
-	// 		)
-	// 	)
 );
 
 $fm = new elFinder($opts);
@@ -176,27 +151,6 @@ class elFinder {
 		'debug'        => false,        // send debug to client
 		'archiveMimes' => array(),      // allowed archive's mimetypes to create. Leave empty for all available types.
 		'archivers'    => array()       // info about archivers to use. See example below. Leave empty for auto detect
-		// 'archivers' => array(
-		// 	'create' => array(
-		// 		'application/x-gzip' => array(
-		// 			'cmd' => 'tar',
-		// 			'argc' => '-czf',
-		// 			'ext'  => 'tar.gz'
-		// 			)
-		// 		),
-		// 	'extract' => array(
-		// 		'application/x-gzip' => array(
-		// 			'cmd'  => 'tar',
-		// 			'argc' => '-xzf',
-		// 			'ext'  => 'tar.gz'
-		// 			),
-		// 		'application/x-bzip2' => array(
-		// 			'cmd'  => 'tar',
-		// 			'argc' => '-xjf',
-		// 			'ext'  => 'tar.bz'
-		// 			)
-		// 		)
-		// 	)
 		);
 
 

@@ -54,6 +54,8 @@ function botElrteInit()
     $cssfiles = $fm_allow = $panels = array();
     $select_toolbar = 'normal';
     $toolbar_metod = 0;
+    $doctype = $css_class = $editor_height = $editor_width = '';
+    $absolute_urls = $style_with_css = $allow_source = '1';
 
     //читаем конфиг, формируем настройки скрипта.
     require (JPATH_BASE.DS.'administrator'.DS.'components'.DS.'com_elrte'.DS.'config_elrte.php');
@@ -149,7 +151,7 @@ function botElrteGetContents($editorArea, $hiddenField)
 
 function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row)
 {
-    	global $_MAMBOTS;
+    global $_MAMBOTS;
 	$results = $_MAMBOTS->trigger('onCustomEditorButton');
 	$buttons = array();
 	foreach($results as $result) {
