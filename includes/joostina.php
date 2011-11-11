@@ -4675,10 +4675,19 @@ class uiTabs {
             });
 
         });
+        
         function addTabHeader(id, li) {
             var parentId = jQuery('#' + id).parent().attr('id');
             var ul = jQuery('#' + parentId).children('.tabheaders')[0];
             jQuery(li).appendTo(ul);
+        }
+
+        function initEditors() {
+            var args = [].slice.call(arguments);
+            var n = args.length;
+            for (var i = 0; i < n; i++){
+                jQuery('#'+args[i]).elrte(opts);
+            }
         }
     </script>
 		<div id="<?php echo $id ?>">
@@ -4699,11 +4708,18 @@ class uiTabs {
 	 * @param paneid - This is the parent pane to build this tab on
 	 */
 
-	function startTab($tabText, $paneid) {
+	function startTab($tabText, $paneid, $hiddenFields = null) {
+        if(!is_null($hiddenFields)){
+
+            $hiddenFields = " onclick=\"setTimeout(function() {initEditors(\\'".implode("\\', \\'", $hiddenFields)."\\')}, 500)\"";
+        }
+        else{
+            $hiddenFields = '';
+        }
         ?>
         <div class="tab-page" id="<?php echo $paneid ?>">
             <script type="text/javascript">
-                addTabHeader( '<?php echo $paneid ?>', '<li><a href="#<?php echo $paneid ?>"><?php echo $tabText ?></a></li>' );
+                addTabHeader( '<?php echo $paneid ?>', '<li><a href="#<?php echo $paneid ?>"<?php echo $hiddenFields ?>><?php echo $tabText ?></a></li>' );
             </script>
         <?php
 	}

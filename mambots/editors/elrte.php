@@ -149,7 +149,20 @@ function botElrteGetContents($editorArea, $hiddenField)
    return $return;
 }
 
-function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row)
+/**
+ * @param $name
+ * @param $content
+ * @param $hiddenField
+ * @param $width
+ * @param $height
+ * @param $col
+ * @param $row
+ * @param $delayInit позволяет инициализировать редактор немедленно, или приостановить
+ *                   инициализацию и использовать ее в другом месте. Чтобы включить
+ *                   задержку необходимо передать этому параметру 1
+ * @return void
+ */
+function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row, $delayInit = null)
 {
     global $_MAMBOTS;
 	$results = $_MAMBOTS->trigger('onCustomEditorButton');
@@ -160,12 +173,16 @@ function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row
 		}
 	}
 	$buttons = implode("",$buttons);
+
+    if(!$delayInit){
 ?>
     <script type='text/javascript' charset='utf-8'>
         jQuery().ready(function() {
             jQuery('#<?php echo $hiddenField;?>').elrte(opts);
         });
     </script>
+    <?php } ?>
+        
     <textarea id="<?php echo $hiddenField;?>"  name="<?php echo $hiddenField;?>" cols="<?php echo $col;?>" rows="<?php echo $row;?>" style="display: none;width:<?php echo $width;?>px; height:<?php echo $height;?>px;"  class="mceEditor"><?php echo $content;?></textarea>
     <div style="text-align: right;"><?php echo $buttons;?></div>
 <?php

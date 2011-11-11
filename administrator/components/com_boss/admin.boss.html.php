@@ -621,12 +621,12 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             </table>
             <?php
             $configtabs->endTab();
-            $configtabs->startTab(BOSS_TAB_TEXT, "text-page");
+            $configtabs->startTab(BOSS_TAB_TEXT, "text-page", array('fronttext', 'rules_text'));
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
                     <td><?php echo BOSS_FRONTPAGE; ?></td>
-                    <td><?php editorArea('editor1', @$row->fronttext, 'fronttext', '100%;', '350', '75', '20'); ?></td>
+                    <td><?php editorArea('editor1', @$row->fronttext, 'fronttext', '100%;', '350', '75', '20', 1); ?></td>
                     <td><?php echo BOSS_FRONTPAGE_LONG; ?></td>
                 </tr>
 				<tr>
@@ -634,7 +634,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 				</tr>
                 <tr>
                     <td><?php echo BOSS_RULES; ?></td>
-                    <td><?php editorArea('editor2', @$row->rules_text, 'rules_text', '100%;', '350', '75', '20'); ?></td>
+                    <td><?php editorArea('editor2', @$row->rules_text, 'rules_text', '100%;', '350', '75', '20', 1); ?></td>
                     <td>&nbsp;</td>
                 </tr>
             </table>
@@ -763,7 +763,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             </table>
             <?php
             $configtabs->endTab();
-            $configtabs->startTab(BOSS_TAB_EXPIRATION, "Expiration-page");
+            $configtabs->startTab(BOSS_TAB_EXPIRATION, "Expiration-page", array('recall_text'));
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
             <tr>
@@ -807,7 +807,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     <tr>
                             <td><?php echo BOSS_RECALL_TEXT; ?></td>
             <?php $recall_text = stripslashes(@$row->recall_text); ?>
-                            <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20'); ?></td>
+                            <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20', 1); ?></td>
                             <td>&nbsp;</td>
                     </tr>
             </table>
