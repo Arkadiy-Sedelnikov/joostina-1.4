@@ -79,8 +79,8 @@ class ContentView {
 				for($i = 0,$n = $num; $i < $n; $i++) {
 					$row = &$rows[$i];
 					mosMakeHtmlSafe($row);
-					$link = 'index2.php?option=com_boss&act=contents&task=edit&hidemainmenu=1&directory='.$directory.'&tid[]='.$row->id;
-					$row->cat_link = 'index2.php?option=com_boss&directory='.$directory.'&act=categories&hidemainmenu=1&task=edit&tid[]='.$row->catid;
+					$link = 'index2.php?option=com_boss&act=contents&task=edit&hidemainmenu=1&layout=edit&directory='.$directory.'&tid[]='.$row->id;
+					$row->cat_link = 'index2.php?option=com_boss&directory='.$directory.'&act=categories&hidemainmenu=1&layout=edit&task=edit&tid[]='.$row->catid;
 
 					$now = _CURRENT_SERVER_TIME;
 					if($now <= $row->date_publish && $row->published == '1') {
