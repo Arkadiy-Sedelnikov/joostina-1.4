@@ -115,22 +115,35 @@ function showSummary($option,$task) {
 function showPageImpressions($option,$task) {
 	$database = database::getInstance();
 	$mainframe = mosMainFrame::getInstance(true);
+    
+    //определяем каталог выведенный на главную страницу
+    require_once ($mainframe->getPath('class', 'com_frontpage'));
+    $configObject = new frontpageConfig($database);
+    $directory = $configObject->get('directory', 0);
 
-	$query = "SELECT COUNT( id ) FROM #__content";
-	$database->setQuery($query);
-	$total = $database->loadResult();
+    require_once (JPATH_BASE.'/'.JADMIN_BASE.'/includes/pageNavigation.php');
+    
+    if($directory == 0){
+        $total = 0;
+        $rows = array();
+        $limit = $mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mainframe->getCfg('list_limit'));
+	    $limitstart = $mainframe->getUserStateFromRequest("view{$option}{$task}limitstart",'limitstart',0);
+	    $pageNav = new mosPageNav($total,$limitstart,$limit);
+    }
+    else{
+        $query = "SELECT COUNT( * ) FROM #__boss_" . $directory . "_contents";
+	    $database->setQuery($query);
+	    $total = $database->loadResult();
 
-	$limit = $mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mainframe->getCfg('list_limit'));
-	$limitstart = $mainframe->getUserStateFromRequest("view{$option}{$task}limitstart",'limitstart',0);
+        $limit = $mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mainframe->getCfg('list_limit'));
+	    $limitstart = $mainframe->getUserStateFromRequest("view{$option}{$task}limitstart",'limitstart',0);
+	    $pageNav = new mosPageNav($total,$limitstart,$limit);
+        
+        $query = "SELECT id, name AS title, date_created AS created, views AS hits FROM #__boss_" . $directory . "_contents ORDER BY views DESC";
+	    $database->setQuery($query,$pageNav->limitstart,$pageNav->limit);
 
-	require_once (JPATH_BASE.'/'.JADMIN_BASE.'/includes/pageNavigation.php');
-	$pageNav = new mosPageNav($total,$limitstart,$limit);
-
-	$query = "SELECT id, title, created, hits FROM #__content ORDER BY hits DESC";
-	$database->setQuery($query,$pageNav->limitstart,$pageNav->limit);
-
-	$rows = $database->loadObjectList();
-
+	    $rows = $database->loadObjectList();
+    }
 	HTML_statistics::pageImpressions($rows,$pageNav,$option,$task);
 }
 
