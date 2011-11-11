@@ -123,7 +123,7 @@ function viewFrontPage($option, $directory) {
 
 	// get the total number of records
 	$query = "SELECT count(*)"
-			."\n FROM FROM #__boss_" . $directory . "_contents AS c"
+			."\n FROM #__boss_" . $directory . "_contents AS c"
 			."\n INNER JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = c.id"
 			."\n INNER JOIN #__boss_" . $directory . "_categories AS cc ON cc.id = cch.category_id"
 			."\n WHERE c.frontpage = 1 ".(count($where)?"\n AND ".implode(' AND ',$where):'');
