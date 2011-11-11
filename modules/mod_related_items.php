@@ -12,15 +12,16 @@ defined( '_VALID_MOS' ) or die();
 
 global $mosConfig_offset, $option, $task,$my;
 
-$id		= intval( mosGetParam( $_REQUEST, 'id', null ) );
+$id		    = intval( mosGetParam( $_REQUEST, 'contentid', null ) );
+$directory  = intval( mosGetParam( $_REQUEST, 'directory', null ) );
 $limit = $params->get( 'limit',5);
 
 $now		= _CURRENT_SERVER_TIME;
 $nullDate = $database->getNullDate();
 
-if ($option == 'com_content' && $task == 'view' && $id) {
+if ($option == 'com_boss' && $task == 'show_content' && $id && $directory) {
 	// выборка ключевых слов из объекта
-	$query = 'SELECT metakey FROM #__content WHERE id = '.(int) $id;
+	$query = 'SELECT meta_keys FROM #__boss_'.$directory.'_contents WHERE id = '.(int) $id; 
 	$database->setQuery( $query );
 	if ($metakey = trim( $database->loadResult() )) {
 		// разделить ключевые слова запятыми
@@ -37,39 +38,28 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 
 		if (count($likes)) {
 			// select other items based on the metakey field 'like' the keys found
-			$query = "SELECT a.id, a.title, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state"
-					. "\n FROM #__content AS a"
-					. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id"
-					. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
-					. "\n LEFT JOIN #__sections AS s ON s.id = a.sectionid"
+			$query = "SELECT a.id, a.name as title, cch.category_id as catid "
+					. "\n FROM #__boss_".$directory."_contents AS a"
+					. "\n LEFT JOIN #__boss_".$directory."_content_category_href AS cch ON cch.content_id = a.id"
 					. "\n WHERE a.id != " . (int) $id
-					. "\n AND a.state = 1"
-					. "\n AND a.access <= " . (int) $my->gid
-					. "\n AND ( a.metakey LIKE '%" . implode( "%' OR a.metakey LIKE '%", $likes ) ."%' )"
-					. "\n AND ( a.publish_up = " . $database->Quote( $nullDate ) . " OR a.publish_up <= " . $database->Quote( $now ) . " )"
-					. "\n AND ( a.publish_down = " . $database->Quote( $nullDate ) . " OR a.publish_down >= " . $database->Quote( $now ) . " )"
+					. "\n AND a.published = 1"
+					. "\n AND ( a.meta_keys LIKE '%" . implode( "%' OR a.meta_keys LIKE '%", $likes ) ."%' )"
+					. "\n AND ( a.date_publish = " . $database->Quote( $nullDate ) . " OR a.date_publish <= " . $database->Quote( $now ) . " )"
+					. "\n AND ( a.date_unpublish = " . $database->Quote( $nullDate ) . " OR a.date_unpublish >= " . $database->Quote( $now ) . " )"
+					. "\n GROUP BY a.id"
 			;
+            
 			$database->setQuery( $query, 0, $limit );
-			$temp = $database->loadObjectList();
-
-			$related = array();
-			if (count($temp)) {
-				foreach ($temp as $row ) {
-					if (($row->cat_state == 1 || $row->cat_state == '') &&  ($row->sec_state == 1 || $row->sec_state == '') &&  ($row->cat_access <= $my->gid || $row->cat_access == '') &&  ($row->sec_access <= $my->gid || $row->sec_access == '')) {
-						$related[] = $row;
-					}
-				}
-			}
-			unset($temp);
+			$related = $database->loadObjectList();
 
 			if ( count( $related ) ) {?>
 <ul>
 <?php
 					foreach ($related as $item) {
-						if ($option == 'com_content' && $task == 'view') {
-							$Itemid = $mainframe->getItemid($item->id);
-						}
-						$href = sefRelToAbs( "index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$Itemid" );
+
+						$Itemid = $mainframe->getItemid($item->id);
+                                              
+						$href = sefRelToAbs( "index.php?option=com_boss&amp;task=show_content&amp;contentid=$item->id&amp;catid=$item->catid&amp;directory=$directory&amp;Itemid=$Itemid" );
 						?>
 	<li>
 		<a href="<?php echo $href; ?>"><?php echo $item->title; ?></a>
