@@ -1140,11 +1140,7 @@ class mosDBTable {
 			return false;
 		}
 
-		if($this->_tbl == "#__content_frontpage") {
-			$order2 = ", content_id DESC";
-		} else {
-			$order2 = '';
-		}
+		$order2 = '';
 
 		$query = "SELECT $this->_tbl_key, ordering"."\n FROM $this->_tbl".($where?"\n WHERE $where" : '')."\n ORDER BY ordering$order2 ";
 		$this->_db->setQuery($query);

@@ -198,52 +198,64 @@ function feedFrontpage($showFeed) {
 	// Determine ordering for sql
 	switch(strtolower($info['orderby'])) {
 		case 'date':
-			$orderby = 'a.created';
+			$orderby = 'a.date_created';
 			break;
 
 		case 'rdate':
-			$orderby = 'a.created DESC';
+			$orderby = 'a.date_created DESC';
 			break;
 
 		case 'alpha':
-			$orderby = 'a.title';
+			$orderby = 'a.name';
 			break;
 
 		case 'ralpha':
-			$orderby = 'a.title DESC';
+			$orderby = 'a.name DESC';
 			break;
 
 		case 'hits':
-			$orderby = 'a.hits DESC';
+			$orderby = 'a.views DESC';
 			break;
 
 		case 'rhits':
-			$orderby = 'a.hits ASC';
+			$orderby = 'a.views ASC';
 			break;
 
 		case 'front':
-			$orderby = 'f.ordering';
+			$orderby = 'a.ordering';
 			break;
 
 		default:
-			$orderby = 'f.ordering';
+			$orderby = 'a.ordering';
 			break;
 	}
 
+        //определяем каталог выведенный на главную страницу
+    require_once ($mainframe->getPath('class', 'com_frontpage'));
+    $configObject = new frontpageConfig($database);
+    $directory = $configObject->get('directory', 0);
+    $introCol = $configObject->get('directory', 0);
+
 	// query of frontpage content items
-	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts, cat.title AS cat_title, sec.title AS section_title".
-			"\n FROM #__content AS a INNER JOIN #__content_frontpage AS f ON f.content_id = a.id".
-			"\n LEFT JOIN #__users AS u ON u.id = a.created_by LEFT JOIN #__categories AS cat ON cat.id = a.catid".
-			"\n LEFT JOIN #__sections AS sec ON sec.id = a.sectionid WHERE a.state = 1".
-			"\n AND cat.published = 1 AND sec.published = 1 AND a.access = 0 AND cat.access = 0".
-			"\n AND sec.access = 0 AND ( a.publish_up = ".$database->Quote($nullDate).
-			" OR a.publish_up <= ".$database->Quote($now)." ) AND ( a.publish_down = ".$database->Quote($nullDate)." OR a.publish_down >= ".$database->Quote($now)." ) ORDER BY $orderby";
+	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.date_created ) AS created_ts, cat.name AS cat_title".
+			 "\n FROM #__boss_" . $directory . "_contents AS a ".
+             "\n LEFT JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id = a.id".
+             "\n LEFT JOIN #__boss_" . $directory . "_categories AS cat ON cat.id = cch.category_id".
+			 "\n LEFT JOIN #__users AS u ON u.id = a.userid".
+             "\n WHERE a.published = 1".
+			 "\n AND a.frontpage = 1 ".
+			 "\n AND AND ( a.date_publish = ".$database->Quote($nullDate).
+			 "\n OR a.date_publish <= ".$database->Quote($now)." ) ".
+			 "\n AND ( a.date_unpublish = ".$database->Quote($nullDate).
+             "\n OR a.date_unpublish >= ".$database->Quote($now)." ) ".
+			 "\n AND cat.published = 1 ".
+			 "\n GROUP BY a.id ORDER BY $orderby";
 	$database->setQuery($query,0,$info['count']);
 	$rows = $database->loadObjectList();
 
 	foreach($rows as $row) {
 		// title for particular item
-		$item_title = htmlspecialchars($row->title);
+		$item_title = htmlspecialchars($row->name);
 		$item_title = html_entity_decode($item_title);
 
 		// url link to article
@@ -258,7 +270,7 @@ function feedFrontpage($showFeed) {
 		$item_link = sefRelToAbs($item_link);
 
 		// removes all formating from the intro text for the description text
-		$item_description = $row->introtext;
+		$item_description = @$row->content_editor;
 		$item_description = mosHTML::cleanText($item_description);
 		$item_description = html_entity_decode($item_description);
 		if($info['limit_text']) {
@@ -288,27 +300,17 @@ function feedFrontpage($showFeed) {
 		$item->description = $item_description;
 		$item->source = $info['link'];
 		$item->date = date('r',$row->created_ts);
-		$item->category = $row->section_title.' - '.$row->cat_title;
+		$item->category = $row->cat_title;
 		// патч для экспорта новостей в Yandex ленту
 
 		if(isset($yes_yandex)) {
 			// yandex export
-			$item->fulltext = $row->fulltext?$row->introtext.$row->fulltext:$row->introtext;
+			$item->fulltext = @$row->content_editorfull ? @$row->content_editor.$row->content_editorfull : @$row->content_editor;
 			$item->fulltext = htmlspecialchars(strip_tags($item->fulltext));
 			$item->fulltext = str_replace("'","&apos;",$item->fulltext);
 			$item->fulltext = preg_replace('/{mosimage\s*.*?}/iu','',$item->fulltext);
+            $item->images = array();
 
-			if($row->images) {
-				$item->images = array();
-				$row->images = explode("\n",$row->images);
-				foreach($row->images as $img) {
-					$img = trim($img);
-					if($img) {
-						$temp = explode('|',trim($img));
-						$item->images[] = '/images/stories/'.$temp[0];
-					}
-				}
-			}
 			// yandex export
 		}
 		$item->fulltext = isset($item->fulltext) ? html_optimize($item->fulltext) : '';
