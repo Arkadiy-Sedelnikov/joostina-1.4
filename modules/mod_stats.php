@@ -34,10 +34,6 @@ if ($siteinfo) {
 	$database->setQuery($query);
 	echo "<strong>"._MEMBERS_STAT.":</strong> " .$database->loadResult() . "<br />\n";
 
-	$query="SELECT COUNT( id ) AS count_items FROM #__content";
-	$database->setQuery($query);
-	echo "<strong>"._NEWS_STAT.":</strong> ".$database->loadResult() . "<br />\n";
-
 	$query="SELECT COUNT( id ) AS count_links FROM #__weblinks WHERE published = 1";
 	$database->setQuery($query);
 	echo "<strong>"._LINKS_COUNT.":</strong> ".$database->loadResult() . "<br />\n";

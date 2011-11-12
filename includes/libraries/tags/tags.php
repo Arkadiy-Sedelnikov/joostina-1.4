@@ -45,7 +45,6 @@ class contentTags extends mosDBTable {
 
 	function load_by_tag($tag) {
 		$sql = 'SELECT tag.obj_id, tag.obj_type, content.*  FROM #__content_tags AS tag
-				INNER JOIN #__content AS content ON content.id = tag.obj_id
 				WHERE tag.tag =\'' . $tag . '\'';
 		$this->_db->setQuery($sql);
 		return $this->_db->loadObjectList();

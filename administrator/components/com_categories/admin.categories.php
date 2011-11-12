@@ -32,10 +32,6 @@ switch($task) {
 		editCategory(intval($id));
 		break;
 
-	case 'moveselect':
-		moveCategorySelect($option,$cid,$section);
-		break;
-
 	case 'movesave':
 		moveCategorySave($cid,$section);
 		break;
@@ -227,21 +223,6 @@ function showCategories($section,$option) {
 	}
 
 	$new_rows = array();
-//	if(count($cat_ids)>0) {
-//		$query = "SELECT COUNT( a.id ) as count,a.state,a.catid FROM #__content AS a WHERE a.catid IN(".implode(',',$cat_ids).") GROUP BY a.catid";
-//		$database->setQuery($query);
-//		$cats_info = $database->loadObjectList();
-//		// заполняем данные о числе активных и удалённых материалах в категории
-//		foreach ($cats_info as $cat_info) {
-//			if($cat_info->state=='-2') {
-//				$rows[$cat_info->catid]->trash = $cat_info->count;
-//				$rows[$cat_info->catid]->active = 0;
-//			}else {
-//				$rows[$cat_info->catid]->active = $cat_info->count;
-//				$rows[$cat_info->catid]->trash = 0;
-//			}
-//		}
-//	}
 
 	foreach($rows as $v) {
 		$new_rows[] = $v;
@@ -709,46 +690,6 @@ function orderCategory($uid,$inc) {
 }
 
 /**
- * Form for moving item(s) to a specific menu
- */
-function moveCategorySelect($option,$cid,$sectionOld) {
-	global $database;
-
-	$redirect = mosGetParam($_POST,'section','content');
-
-
-	if(!is_array($cid) || count($cid) < 1) {
-		echo "<script> alert('"._CHOOSE_OBJECT_TO_MOVE."'); window.history.go(-1);</script>\n";
-		exit;
-	}
-
-	## query to list selected categories
-	mosArrayToInts($cid);
-	$cids = 'a.id='.implode(' OR a.id=',$cid);
-	$query = "SELECT a.name, a.section FROM #__categories AS a WHERE ( $cids )";
-	$database->setQuery($query);
-	$items = $database->loadObjectList();
-
-	## query to list items from categories
-	// mosArrayToInts( $cid ); // Just done a few lines earlier
-	$cids = 'a.catid='.implode(' OR a.catid=',$cid);
-	$query = "SELECT a.title FROM #__content AS a WHERE ( $cids ) ORDER BY a.catid, a.title";
-	$database->setQuery($query);
-	$contents = $database->loadObjectList();
-
-	## query to choose section to move to
-	$query = "SELECT a.name AS text, a.id AS value FROM #__sections AS a WHERE a.published = 1 ORDER BY a.name";
-	$database->setQuery($query);
-	$sections = $database->loadObjectList();
-
-	// build the html select list
-	$SectionList = mosHTML::selectList($sections,'sectionmove','class="inputbox" size="10"','value','text',null);
-
-	categories_html::moveCategorySelect($option,$cid,$SectionList,$items,$sectionOld,$contents,$redirect);
-}
-
-
-/**
  * Save the item(s) to the menu selected
  */
 function moveCategorySave($cid,$sectionOld) {
@@ -775,12 +716,7 @@ function moveCategorySave($cid,$sectionOld) {
 	}
 	// mosArrayToInts( $cid ); // Just done a few lines earlier
 	$cids = 'catid='.implode(' OR catid=',$cid);
-	$query = "UPDATE #__content SET sectionid = ".$sectionMove." WHERE ( $cids )";
-	$database->setQuery($query);
-	if(!$database->query()) {
-		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
+
 	$sectionNew = new mosSection($database);
 	$sectionNew->load($sectionMove);
 
@@ -814,12 +750,7 @@ function copyCategorySelect($option,$cid,$sectionOld) {
 	$database->setQuery($query);
 	$items = $database->loadObjectList();
 
-	## query to list items from categories
-	// mosArrayToInts( $cid ); // Just done a few lines earlier
-	$cids = 'a.catid='.implode(' OR a.catid=',$cid);
-	$query = "SELECT a.title, a.id"."\n FROM #__content AS a"."\n WHERE ( $cids )"."\n ORDER BY a.catid, a.title";
-	$database->setQuery($query);
-	$contents = $database->loadObjectList();
+	$contents = array();
 
 	## query to choose section to move to
 	$query = "SELECT a.name AS `text`, a.id AS `value`"."\n FROM #__sections AS a"."\n WHERE a.published = 1"."\n ORDER BY a.name";

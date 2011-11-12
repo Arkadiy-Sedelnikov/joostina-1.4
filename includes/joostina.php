@@ -6025,14 +6025,6 @@ function mosSendAdminMail($adminName, $adminEmail, $email, $type, $title='', $au
 	mosMail(Jconfig::getInstance()->config_mailfrom, Jconfig::getInstance()->config_fromname, $adminEmail, $subject, $message);
 }
 
-/*
- * Includes pathway file
- */
-
-function mosPathWay() {
-	require_once (JPATH_BASE . '/includes/pathway.php');
-}
-
 /**
  * Displays a not authorised message
  *
@@ -6745,31 +6737,6 @@ class mosCategory extends mosDBTable {
 		}
 
 		return $link;
-	}
-
-	function get_other_cats($category, $access, $params) {
-		global $my;
-
-		$xwhere = contentSqlHelper::construct_where_table_category($category, $access, $params);
-		$xwhere2 = contentSqlHelper::construct_where_other_cats($category, $access, $params);
-
-
-		// show/hide empty categories
-		$empty = '';
-		if (!$params->get('empty_cat'))
-			$empty = " HAVING COUNT( a.id ) > 0";
-
-		// get the list of other categories
-		$query = "	SELECT c.*, COUNT( a.id ) AS numitems
-					FROM #__categories AS c
-					LEFT JOIN #__content AS a ON a.catid = c.id
-					" . $xwhere2 . "
-					WHERE c.section = '" . (int) $category->section . "'
-					GROUP BY c.id
-					" . $empty . "
-					ORDER BY c.ordering";
-		$this->_db->setQuery($query);
-		return $this->_db->loadObjectList();
 	}
 
 	function get_lists($params) {

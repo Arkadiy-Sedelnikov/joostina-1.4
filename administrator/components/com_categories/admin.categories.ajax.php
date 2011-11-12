@@ -22,12 +22,6 @@ switch($task) {
 	case 'access':
 		echo x_access($id);
 		return;
-	case 'get_sec':
-		echo x_get_sections($id);
-		return;
-	case 'save_sec':
-		echo x_save_sections($id);
-		return;
 	case 'apply':
 		js_menu_cache_clear();
 		echo x_apply();
@@ -116,42 +110,6 @@ function x_apply() {
 	return _CATEGORY_CHANGES_SAVED;
 }
 
-function x_save_sections($id) {
-	global $database,$my;
-	$new_section = intval(mosGetParam($_GET,'new_sec',0));
-	$query = "UPDATE #__categories SET section = '".$new_section."' WHERE id = ".$id." AND ( checked_out = 0 OR ( checked_out = ".(int)$my->id." ) )";
-	$database->setQuery($query);
-	if(($database->query()) AND (_update_content($id,$new_section))) {
-		$row = new mosSection($database);
-		$row->load((int)$new_section);
-		return '<a href="javascript: ch_get_sec('.$id.','.$new_section.');" onclick="ch_get_sec('.$id.','.$new_section.');">'.$row->title.'</a>';
-	} else {
-		return 'error-db'; // ошибка
-	}
-}
-// обновление идентификаторов разделов
-function _update_content($id,$new_section) {
-	global $database;
-	$query = "UPDATE #__content SET sectionid = '".$new_section."' WHERE catid = ".$id." ";
-	$database->setQuery($query);
-	if($database->query()) {
-		return TRUE;
-	}
-	return FALSE;
-}
-
-function x_get_sections($id) {
-	global $database;
-	$sectionid = intval(mosGetParam($_GET,'cur_sec',0));
-	$javascript = 'onchange="ch_save_sec('.$id.',this.value)"';
-
-	$query = "SELECT id AS value, title AS text"
-			."\n FROM #__sections"
-			."\n WHERE published = 1"
-			."\n ORDER BY title";
-	$database->setQuery($query);
-	return mosHTML::selectList($database->loadObjectList(),'sectionid','class="inputbox" size="1" '.$javascript,'value','text',$sectionid);
-}
 
 function x_access($id) {
 	global $database;
