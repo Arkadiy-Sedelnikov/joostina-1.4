@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="xmap_ext" version="1.0.0">
+        <name>XMAP plugin for JoiBOSS</name>
+        <author>Arkadiy</author>
+        <creationDate>February 2011</creationDate>
+        <copyright>GNU GPL</copyright>
+        <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+        <authorEmail>admin@joostina.ru</authorEmail>
+        <authorUrl>www.joostina.ru</authorUrl>
+        <version>1.0</version>
+        <description>XMAP plugin for JoiBOSS</description>
+        <files>
+            <filename xmap_ext="com_boss">com_boss.php</filename>
+        </files>
+        
+	<params>
+        <param name="include_entries" type="list" default="1" label="Show Ads" description="Should we include ads into the sitemap?">
+            <option value="0">Never</option>
+            <option value="1">Always</option>
+            <option value="2">In XML Sitemap Only</option>
+            <option value="3">In Site Sitemap Only</option>
+        </param>
+        <param name="max_entries" type="text" default="" label="Max entries" description="Max number of entries per Category  to include on sitemap (Leave empty for no limit)" />
+        <param name="@spacer" type="spacer" default="" label="XML Sitemap" description="Options for the XML sitemap only" />
+        <param name="priority" type="list" default="0.5" label="Category Priority" description="Set the priority for the categories">
+            <option value="-1">Use Parent Menu Settings</option>
+            <option value="0.0">0.0</option>
+            <option value="0.1">0.1</option>
+            <option value="0.2">0.2</option>
+            <option value="0.3">0.3</option>
+            <option value="0.4">0.4</option>
+            <option value="0.5">0.5</option>
+            <option value="0.6">0.6</option>
+            <option value="0.7">0.7</option>
+            <option value="0.8">0.8</option>
+            <option value="0.9">0.9</option>
+            <option value="1">1</option>
+        </param>
+        <param name="changefreq" type="list" default="weekly" label="Category Change frequency" description="Set the change frequency for the categories">
+            <option value="-1">Use Parent Menu Settings</option>
+            <option value="always">Always</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="never">Never</option>
+        </param>
+        <param name="entry_priority" type="list" default="0.5" label="Ads Priority" description="Set the priority for the ads">
+            <option value="-1">Use Parent Menu Settings</option>
+            <option value="0.0">0.0</option>
+            <option value="0.1">0.1</option>
+            <option value="0.2">0.2</option>
+            <option value="0.3">0.3</option>
+            <option value="0.4">0.4</option>
+            <option value="0.5">0.5</option>
+            <option value="0.6">0.6</option>
+            <option value="0.7">0.7</option>
+            <option value="0.8">0.8</option>
+            <option value="0.9">0.9</option>
+            <option value="1">1</option>
+        </param>
+        <param name="entry_changefreq" type="list" default="weekly" label="Ads Change frequency" description="Set the change frequency for the ads">
+            <option value="-1">Use Parent Menu Settings</option>
+            <option value="always">Always</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="never">Never</option>
+        </param>
+    </params>
+
+</mosinstall>
