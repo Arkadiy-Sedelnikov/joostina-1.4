@@ -13,29 +13,27 @@ class xmap_com_boss
 
     /** Get the content tree for this kind of content */
     public static function getTree($xmap, $parent, $params)
-    {
+    { 
         $database = database::getInstance();
-        $include_entries = $params['include_entries'];
+        $include_entries = (!empty($params['include_entries'])) ? $params['include_entries'] : 1;
         $include_entries = ($include_entries == 1
                             || ($include_entries == 2 && $xmap->view == 'xml')
                             || ($include_entries == 3 && $xmap->view == 'html')
                             || $xmap->view == 'navigator');
         $params['include_entries'] = $include_entries;
-        $priority = $params['priority'];
-        $changefreq = $params['changefreq'];
-        $entry_priority = $params['entry_priority'];
-        $entry_changefreq = $params['entry_changefreq'];
+        $priority = (!empty($params['priority'])) ? $params['priority'] : '-1';
+        $changefreq = (!empty($params['changefreq'])) ? $params['changefreq'] : '-1';
+        $entry_priority = (!empty($params['entry_priority'])) ? $params['entry_priority'] : '-1';
+        $entry_changefreq = (!empty($params['entry_changefreq'])) ? $params['entry_changefreq'] : '-1';
 
         if ($priority == '-1')
             $priority = $parent->priority;
         if ($changefreq == '-1')
             $changefreq = $parent->changefreq;
-
         if ($entry_priority == '-1')
             $entry_priority = $parent->priority;
         if ($entry_changefreq == '-1')
             $entry_changefreq = $parent->changefreq;
-
 
         $params['priority'] = $priority;
         $params['changefreq'] = $changefreq;
@@ -50,11 +48,48 @@ class xmap_com_boss
                 $params['limit'] = ' LIMIT ' . $limit;
         }
 
-        $database->setQuery("SELECT id FROM #__boss_config");
-        $rows = $database->loadResultArray();
+        $linkParams = self::parseUri($parent->link);
 
-        foreach ($rows as $directory) {
-            self::getCategoryTree($xmap, $parent, $params, $directory, 0);
+        if($parent->type == 'components'){//если ссылка на компонент Босс
+            $database->setQuery("SELECT id FROM #__boss_config");
+            $rows = $database->loadResultArray();
+            foreach ($rows as $directory) {
+                self::getCategoryTree($xmap, $parent, $params, $directory, 0);
+            }
+            return true;
+        }
+        else if($parent->type == 'boss_all_content'){//если ссылка на весь контент каталога
+            if(isset($linkParams['directory']) && $linkParams['directory']>0){
+                self::getAllContent($xmap, $parent, $params, $linkParams['directory']);
+            }
+            return true;
+        }
+        else if($parent->type == 'boss_category_content'){//если ссылка на контент категории
+            if(!isset($linkParams['directory']) || $linkParams['directory'] == 0 || !isset($linkParams['catid'])){
+                return true;
+            }
+            self::getChildren($xmap, $parent, $params, $linkParams['directory'], $linkParams['catid']);
+            self::getCategoryTree($xmap, $parent, $params, $linkParams['directory'], $linkParams['catid']);
+            return true;
+        }
+        else if($parent->type == 'boss_item_content'){//если ссылка на контент
+            if(!isset($linkParams['contentid']) || $linkParams['contentid'] == 0){
+                return true;
+            }
+            $xmap->changeLevel(1);
+            $node = new stdclass;
+            $node->id = $linkParams['contentid'];
+            $node->uid = $parent->uid . 'c' . $linkParams['contentid'];
+            $node->browserNav = $parent->browserNav;
+            $node->name = stripslashes($parent->name);
+            $node->priority = $params['entry_priority'];
+            $node->changefreq = $params['entry_changefreq'];
+            $node->link = 'index.php?option=com_boss&task=show_content&contentid=' . $linkParams['contentid'] . '&directory=' . $linkParams['directory'] . '&catid=' . $linkParams['catid'] . '&Itemid=' . $parent->id;
+            $node->pid = $linkParams['contentid'];
+            $node->expandible = false;
+            $xmap->printNode($node);
+            $xmap->changeLevel(-1);
+            return true;
         }
 
         return true;
@@ -126,5 +161,51 @@ class xmap_com_boss
         }
         $xmap->changeLevel(-1);
         return true;
+    }
+
+    private static function getAllContent($xmap, $parent, $params, $directory)
+    {
+        $database = database::getInstance();
+        $limit = (!empty($params['max_entries'])) ? 'LIMIT '.$params['max_entries'] : '';
+        // get name
+        $q = "SELECT c.id, c.name, cch.category_id
+            FROM #__boss_" . $directory . "_contents as c
+            LEFT JOIN #__boss_" . $directory . "_content_category_href AS cch ON cch.content_id=c.id
+            WHERE c.published='1' 
+            GROUP BY c.id
+            $limit";
+        $database->setQuery($q);
+        $items = $database->loadObjectList();
+        // just 1 but anyway ...
+        if (count($items)) {
+            $xmap->changeLevel(1);
+            foreach ($items as $item)
+            {
+                $node = new stdclass;
+                $node->id = $parent->id;
+                $node->uid = $parent->uid . 'c' . $item->id;
+                $node->browserNav = $parent->browserNav;
+                $node->name = stripslashes($item->name);
+                $node->priority = $params['entry_priority'];
+                $node->changefreq = $params['entry_changefreq'];
+                $node->link = 'index.php?option=com_boss&task=show_content&contentid=' . $item->id . '&directory=' . $directory . '&catid=' . $item->category_id . '&Itemid=' . $parent->id;
+                $node->pid = $item->id;
+                $node->expandible = false;
+                $xmap->printNode($node);
+            }
+            $xmap->changeLevel(-1);
+        }
+        return true;
+    }
+
+    private static function parseUri($uri){
+        $uri = str_replace('index.php?', '', $uri);
+        $uri = explode('&', $uri);
+        $paramArray = array();
+        foreach($uri as $row){
+            $row = explode('=', $row);
+            $paramArray[$row[0]] = (isset($row[1])) ? $row[1] : '';
+        }
+        return $paramArray;
     }
 }

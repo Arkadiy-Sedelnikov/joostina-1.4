@@ -14,16 +14,16 @@
         </files>
         
 	<params>
-        <param name="include_entries" type="list" default="1" label="Show Ads" description="Should we include ads into the sitemap?">
-            <option value="0">Never</option>
-            <option value="1">Always</option>
-            <option value="2">In XML Sitemap Only</option>
-            <option value="3">In Site Sitemap Only</option>
+        <param name="include_entries" type="list" default="1" label="Показывать контент" description="Должны ли мы включать контент в карту сайта?">
+            <option value="0">Нигде</option>
+            <option value="1">Везде</option>
+            <option value="2">Только в XML карту</option>
+            <option value="3">Только в карту сайта</option>
         </param>
-        <param name="max_entries" type="text" default="" label="Max entries" description="Max number of entries per Category  to include on sitemap (Leave empty for no limit)" />
-        <param name="@spacer" type="spacer" default="" label="XML Sitemap" description="Options for the XML sitemap only" />
-        <param name="priority" type="list" default="0.5" label="Category Priority" description="Set the priority for the categories">
-            <option value="-1">Use Parent Menu Settings</option>
+        <param name="max_entries" type="text" default="" label="Макс. записей" description="Максимальное количество записей на категорию, чтобы включить в карту сайта (Оставьте поле пустым чтобы снять ограничения)" />
+        <param name="@spacer" type="spacer" default="" label="XML карта сайта" description="Настройки только для XML карты сайта" />
+        <param name="priority" type="list" default="0.5" label="Приоритет категорий" description="Приоритет категорий">
+            <option value="-1">Применить настройки родительского меню</option>
             <option value="0.0">0.0</option>
             <option value="0.1">0.1</option>
             <option value="0.2">0.2</option>
@@ -36,18 +36,18 @@
             <option value="0.9">0.9</option>
             <option value="1">1</option>
         </param>
-        <param name="changefreq" type="list" default="weekly" label="Category Change frequency" description="Set the change frequency for the categories">
-            <option value="-1">Use Parent Menu Settings</option>
-            <option value="always">Always</option>
-            <option value="hourly">Hourly</option>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-            <option value="never">Never</option>
+        <param name="changefreq" type="list" default="weekly" label="Частота изменения категорий" description="Установите частоту изменения для категорий">
+            <option value="-1">Применить настройки родительского меню</option>
+            <option value="always">Всегда</option>
+            <option value="hourly">Ежечасно</option>
+            <option value="daily">Ежедневно</option>
+            <option value="weekly">Еженедельно</option>
+            <option value="monthly">Ежемесячно</option>
+            <option value="yearly">Ежегодно</option>
+            <option value="never">Никогда</option>
         </param>
-        <param name="entry_priority" type="list" default="0.5" label="Ads Priority" description="Set the priority for the ads">
-            <option value="-1">Use Parent Menu Settings</option>
+        <param name="entry_priority" type="list" default="0.5" label="Приоритет контента" description="Приоритет контента">
+            <option value="-1">Применить настройки родительского меню</option>
             <option value="0.0">0.0</option>
             <option value="0.1">0.1</option>
             <option value="0.2">0.2</option>
@@ -60,15 +60,15 @@
             <option value="0.9">0.9</option>
             <option value="1">1</option>
         </param>
-        <param name="entry_changefreq" type="list" default="weekly" label="Ads Change frequency" description="Set the change frequency for the ads">
-            <option value="-1">Use Parent Menu Settings</option>
-            <option value="always">Always</option>
-            <option value="hourly">Hourly</option>
-            <option value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-            <option value="never">Never</option>
+        <param name="entry_changefreq" type="list" default="weekly" label="Частота изменения контента" description="Установите частоту изменения для контента">
+            <option value="-1">Применить настройки родительского меню</option>
+            <option value="always">Всегда</option>
+            <option value="hourly">Ежечасно</option>
+            <option value="daily">Ежедневно</option>
+            <option value="weekly">Еженедельно</option>
+            <option value="monthly">Ежемесячно</option>
+            <option value="yearly">Ежегодно</option>
+            <option value="never">Никогда</option>
         </param>
     </params>
 
