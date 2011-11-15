@@ -43,7 +43,7 @@ class xmap_com_boss
 
         if ($include_entries) {
             $params['limit'] = '';
-            $limit = $params['max_entries'];
+            $limit = (!empty($params['max_entries'])) ? $params['max_entries'] : 0;
             if (intval($limit))
                 $params['limit'] = ' LIMIT ' . $limit;
         }
