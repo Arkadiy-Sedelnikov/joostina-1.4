@@ -78,7 +78,8 @@ function JP_GetFileList() {
 	global $JPConfiguration;
 
 	$mainframe = mosMainFrame::getInstance();
-	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
+	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/file_ico';
+	$icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 
 	require_once 'engine.abstraction.php';
 	$FS = new CFSAbstraction();
@@ -109,7 +110,7 @@ function JP_GetFileList() {
 <td align="center">
 	<img src="<?php echo $cur_file_icons_path;?>/down.png" border="0">&nbsp;&nbsp;<a href="<?php echo $linkDownload; ?>"><?php echo _JP_DOWNLOAD_FILE?></a></td>
 <td align="center">
-	<img src="<?php echo $cur_file_icons_path;?>/publish_x.png" border="0">&nbsp;&nbsp;<a href="<?php echo $linkDelete; ?>"><?php echo _DELETE?></a>
+	<img src="<?php echo $icons_path;?>/publish_x.png" border="0">&nbsp;&nbsp;<a href="<?php echo $linkDelete; ?>"><?php echo _DELETE?></a>
 </td>
 </tr>
 					<?php
