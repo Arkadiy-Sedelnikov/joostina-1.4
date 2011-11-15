@@ -396,13 +396,7 @@ class mosParameters {
      * @return string The html for the element
      */
     function _form_mos_section($name,$value,&$node,$control_name) {
-        $database = database::getInstance();
-
-        $query = "SELECT id, title FROM #__sections WHERE published = 1 AND scope = 'content' ORDER BY title";
-        $options = $database->setQuery($query)->loadObjectList();
-        array_unshift($options,mosHTML::makeOption('0',_SEL_SECTION,'id','title'));
-
-        return mosHTML::selectList($options,''.$control_name.'['.$name.']','class="inputbox" id="mossection"','id','title',$value);
+        return '';
     }
     /**
      * @param string The name of the form element
@@ -421,7 +415,7 @@ class mosParameters {
 
         if($scope == 'content') {
             // This might get a conflict with the dynamic translation - TODO: search for better solution
-            $query = "SELECT c.id, CONCAT_WS( '/',s.title, c.title ) AS title FROM #__categories AS c LEFT JOIN #__sections AS s ON s.id=c.section WHERE c.published = 1 AND s.scope = ".$database->Quote($scope)."\n ORDER BY c.title";
+            $query = "SELECT c.id, c.title AS title FROM #__categories AS c WHERE c.published = 1 ORDER BY c.title";
         } else {
             $query = "SELECT c.id, c.title FROM #__categories AS c WHERE c.published = 1 AND c.section = ".$database->Quote($scope)." ORDER BY c.title";
         }

@@ -26,8 +26,10 @@
 		</param>
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="items" type="text" default="" label="Количество объектов" description="Количество показываемых объектов" />
-		<param name="catid" type="mos_category" default="0" label="Категория" description="Категория содержимого" />
+        <param name="directory" type="text" default="1" label="ИД каталога" description="ИД каталога из которого будут браться новости." />
+        <param name="catid" type="text" default="" label="ИД категории" description="Ид категории из которой будет браться контент" />
+        <param name="content_field" type="text" default="content_editor" label="Поле основного текста" description="Имя поля БД из которого будет браться контент." />
+        <param name="items" type="text" default="" label="Количество объектов" description="Количество показываемых объектов" />
 		<param name="date_type" type="list" default="created " label="По дате:" description="">
 			<option value="rdate">-создания</option>
 			<option value="rmodified">-изменения</option>

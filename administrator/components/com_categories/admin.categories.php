@@ -117,92 +117,28 @@ switch($task) {
 function showCategories($section,$option) {
 	global $database,$mainframe,$mosConfig_list_limit,$mosConfig_dbprefix;
 
-	$sectionid = intval($mainframe->getUserStateFromRequest("sectionid{$option}{$section}",'sectionid',0));
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$section}limitstart",'limitstart',0));
 
 	$section_name = '';
-	$content_add = '';
-	$content_join = '';
 	$order = "\n ORDER BY c.ordering, c.name";
-	if(intval($section) > 0) {
-		$table = 'content';
-
-		$query = "SELECT name FROM #__sections WHERE id = ".(int)$section;
-		$database->setQuery($query);
-		$section_name = $database->loadResult();
-		$section_name = _CONTENT.' : '.$section_name;
-		$where = "\n WHERE c.section = ".$database->Quote($section);
-		$type = 'content';
-	} else
-	if(strpos($section,'com_') === 0) {
-		$table = substr($section,4);
-
-		$query = "SELECT name FROM #__components WHERE link = 'option=".$database->getEscaped($section)."'";
-		$database->setQuery($query);
-		$section_name = $database->loadResult();
-		$where = "\n WHERE c.section = ".$database->Quote($section);
-		$type = 'other';
-		// special handling for contact component
-		if($section == 'com_contact_details') {
-			$section_name = _ENQUIRY;
-		}
-		$section_name = _COMPONENT.': '.$section_name;
-	} else {
-		$table = $section;
-		$where = "\n WHERE c.section = ".$database->Quote($section);
-		$type = 'other';
-	}
 
 	// get the total number of records
-	$query = "SELECT COUNT(*) FROM #__categories WHERE section = ".$database->Quote($section);
+	$query = "SELECT COUNT(*) FROM #__categories";
 	$database->setQuery($query);
 	$total = $database->loadResult();
-
-	// allows for viweing of all content categories
-	if($section == 'content') {
-		$table = 'content';
-		$content_add = "\n , z.title AS section_name";
-		$content_join = "\n LEFT JOIN #__sections AS z ON z.id = c.section";
-		//$where = "\n WHERE s1.catid = c.id";
-		$where = "\n WHERE c.section NOT LIKE '%com_%'";
-		$order = "\n ORDER BY c.section, c.ordering, c.name";
-		$section_name = _ALL_CONTENT;
-		// get the total number of records
-		$query = "SELECT COUNT(*) FROM #__categories INNER JOIN #__sections AS s ON s.id = section";
-		if($sectionid > 0) {
-			$query .= "\n WHERE section = ".$database->Quote($sectionid);
-		}
-		$database->setQuery($query);
-		$total = $database->loadResult();
-		$type = 'content';
-	}
-
-	// used by filter
-	if($sectionid > 0) {
-		$filter = "\n AND c.section = ".$database->Quote($sectionid);
-	} else {
-		$filter = '';
-	}
 
 	require_once (JPATH_BASE_ADMIN.'/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total,$limitstart,$limit);
 
 	$tablesAllowed = $database->getTableList();
-	if(!in_array($mosConfig_dbprefix.$table,$tablesAllowed)) {
-		$table = 'content';
-	}
+
 
 	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, '0' AS active, '0' AS trash,"
-			."COUNT( DISTINCT s2.checked_out ) AS checked_out"
-			.$content_add
+			."0 AS checked_out"
 			."\n FROM #__categories AS c"
 			."\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 			."\n LEFT JOIN #__groups AS g ON g.id = c.access"
-			."\n LEFT JOIN `#__$table` AS s2 ON s2.catid = c.id AND s2.checked_out > 0"
-			.$content_join
-			.$where
-			.$filter
 			."\n AND c.published != -2"
 			."\n GROUP BY c.id"
 			.$order;
@@ -491,12 +427,6 @@ function saveCategory($task) {
 		}
 	}
 
-	// Update Section Count
-	if($row->section != 'com_contact_details' && $row->section != 'com_newsfeeds' &&
-			$row->section != 'com_weblinks') {
-		$query = "UPDATE #__sections SET count=count+1 WHERE id = ".$database->Quote($row->section);
-		$database->setQuery($query);
-	}
 	if(!$database->query()) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -752,13 +682,8 @@ function copyCategorySelect($option,$cid,$sectionOld) {
 
 	$contents = array();
 
-	## query to choose section to move to
-	$query = "SELECT a.name AS `text`, a.id AS `value`"."\n FROM #__sections AS a"."\n WHERE a.published = 1"."\n ORDER BY a.name";
-	$database->setQuery($query);
-	$sections = $database->loadObjectList();
-
 	// build the html select list
-	$SectionList = mosHTML::selectList($sections,'sectionmove','class="inputbox" size="10"','value','text',null);
+	$SectionList ='';
 
 	categories_html::copyCategorySelect($option,$cid,$SectionList,$items,$sectionOld,$contents,$redirect);
 }

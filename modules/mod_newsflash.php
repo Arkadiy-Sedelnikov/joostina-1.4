@@ -10,9 +10,10 @@
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
 
-require_once( $mainframe->getPath( 'class', 'com_content') );
-require_once( $mainframe->getPath( 'front_html', 'com_content') );
 global $my, $mosConfig_link_titles;
+
+//Подключаем вспомогательный класс
+$module->get_helper($mainframe);
 
 $category = new stdClass();
 $category->id = intval($params->get('catid'));
@@ -32,8 +33,8 @@ $content_params->set('orderby_pri', '');
 $content_params->set('orderby_sec', $date_type);
 
 
-$content_items = new mosContent($mainframe->getDBO());
-$items = $content_items->_load_blog_category($category, $content_params, $access);
+
+$items = $module->helper->get_items($params);
 $params->def('numrows', count($items));
 $params->set('intro_only',1);
 
@@ -68,9 +69,6 @@ else {
 		$row = $items[$flashnum];
 	}
 }
-
-//Подключаем вспомогательный класс
-$module->get_helper($mainframe);
 
 //Подключаем шаблон
 if($module->set_template($params)) {

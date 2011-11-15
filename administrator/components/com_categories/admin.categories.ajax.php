@@ -95,12 +95,6 @@ function x_apply() {
 		}
 	}
 
-	// Update Section Count
-	if($row->section != 'com_contact_details' && $row->section != 'com_newsfeeds' &&
-			$row->section != 'com_weblinks') {
-		$query = "UPDATE #__sections SET count=count+1 WHERE id = ".$database->Quote($row->section);
-		$database->setQuery($query);
-	}
 	if(!$database->query()) return 'error-update';
 
 	if($redirect == 'content') {
