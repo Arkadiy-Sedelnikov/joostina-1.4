@@ -210,13 +210,13 @@ class CDBBackupEngine {
 							$fragmentSize = 0;
 
 							$filename = $this->_filenameCore;
-							$filesize = filesize($filename);
+							$filesize = (is_file($filename)) ? @filesize($filename) : 0;
 							$fragmentSize += $filesize;
 							$fileList[] = $filename;
 
 							if($this->_filenameCore != $this->_filenameSample) {
 								$filename = $this->_filenameSample;
-								$filesize = filesize($filename);
+								$filesize = (is_file($filename)) ? @filesize($filename) : 0;
 								$fragmentSize += $filesize;
 								$fileList[] = $filename;
 							}
@@ -292,7 +292,7 @@ class CDBBackupEngine {
 			}else {
 				$abstracttablename = $this->_nextTable;
 			}
-			if($this->_isCoreTable($abstracttablename)) {
+			if($this->_isCoreTable($this->_getTableAbstractName($this->_nextTable))) {
 				$fileName = $this->_filenameCore;
 				CJPLogger::WriteLog(_JP_LOG_INFO,_JP_KERNEL_TABLES.' : '.$this->_nextTable);
 			} else {
