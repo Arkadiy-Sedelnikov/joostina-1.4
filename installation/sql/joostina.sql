@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_content_category_href` (
   `content_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`,`content_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Привязка контента к категориям';
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Привязка контента к категориям';
 
 #
 # Table structure for table `#__boss_1_content_types`

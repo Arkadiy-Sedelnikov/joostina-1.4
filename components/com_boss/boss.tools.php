@@ -303,7 +303,7 @@ function installNewDirectory($installPlugins=1) {
                     "`category_id` INT( 11 ) NOT NULL , ".
                     "`content_id` INT( 11 ) NOT NULL , ".
                     "INDEX (  `category_id` ,  `content_id` ) ".
-                    ") ENGINE = MYISAM ".
+                    ") ENGINE = MYISAM DEFAULT CHARSET=utf8 ".
                     "COMMENT =  'Привязка контента к категориям';";
 	$database->setQuery($query);
 	$database->query();
