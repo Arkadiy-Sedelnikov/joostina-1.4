@@ -33,6 +33,9 @@
             <filename>templates.zip</filename>
 		</files>
 	</administration>
+	<params>
+        <param name="directory" type="selectlist" sql="SELECT id, name as title FROM `#__boss_config`" DEFAULT="1" label="Каталог"  description="Выбрать каталог для показа по этой ссылке" />
+    </params>
     <description>
         <h1>JoiBOSS для Joostina CMS! на основе Jdirectory от Thomas Papin</h1>
         <p>JoiBOSS - контент-конструктор, при помощи которого можно создать любой тип контента - от галереи до магазина, от доски объявлений до бизнес-каталога.</p>
