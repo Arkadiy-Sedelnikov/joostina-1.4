@@ -831,7 +831,7 @@ function show_content($contentid, $catid, $directory, $template_name) {
         //подключаем некешируемую информацию из плагинов.
         foreach($fields as $field){
             if(method_exists($plugins[$field->type],'addInHead')){
-                $params = array_merge($params, $plugins[$field->type]->addInHead($fields, $field_values[$field->fieldid]));
+                $params = array_merge($params, $plugins[$field->type]->addInHead($fields, $field_values[$field->fieldid], $directory));
             }
         }
         

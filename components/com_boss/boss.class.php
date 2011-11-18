@@ -1322,7 +1322,8 @@ class jDirectoryField extends mosDBTable {
             echo $database->stderr();
             return;
         }
-
+var_dump($id);
+var_dump($row);
         $plugin = BossPlugins::get_plugin($directory, $row->type, 'fields');
         HTML_boss::showField($row, $directory, $plugin);
     }
@@ -1346,7 +1347,10 @@ class jDirectoryField extends mosDBTable {
         if($fieldid>0){
             $task= 'edit';
         }
-        
+        else{
+            $fieldid = 0;
+        }
+
         $database = database::getInstance();
         $row = new jDirectoryField($database, $directory);
         // load the row from the db table
@@ -1453,12 +1457,9 @@ class jDirectoryField extends mosDBTable {
 
             if ($row->fieldid > 0) {
                 $database->setQuery("DELETE FROM #__boss_" . $directory . "_field_values WHERE fieldid='" . $row->fieldid . "'");
-                if (!$database->query())
-                    echo $database->getErrorMsg();
             } else {
                 $maxID = $database->setQuery("SELECT MAX(fieldid) FROM #__boss_" . $directory . "_fields")->loadResult();
                 $row->fieldid = $maxID;
-                echo $database->getErrorMsg();
             }
 
             $field_catsid = mosGetParam($_POST, "field_catsid", array());
@@ -1481,16 +1482,16 @@ class jDirectoryField extends mosDBTable {
                     //добавляем поле в таблицу профиля
                     $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile ADD `$row->name` TEXT NOT NULL")->query();
                     //удаляем поле из таблицы контента
-                    $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
+                    @$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
                 } else {
                     //удаляем поле в таблицу профиля
-                    $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
+                    @$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
                     //добавляем поле из таблицы контента
                     $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents ADD `$row->name` TEXT NOT NULL")->query();
                 }
             }
             //вычисляем филдид поля в изначальном каталоге
-            if ($directory == $dir)
+            //if ($directory == $dir)
                 $dirFieldid[$directory] = $row->fieldid;
         }
         
