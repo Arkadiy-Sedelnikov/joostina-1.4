@@ -60,6 +60,9 @@
         <span class="button">
             <input type="submit" value="<?php echo BOSS_FORM_SUBMIT_TEXT; ?>" />
         </span>
+        <span class="button">
+            <input type="button" value="<?php echo BOSS_FORM_CANCEL_TEXT; ?>" onclick="javascript:history.go(-2)"/>
+        </span>
 	<?php $this->displayFormEnd(); ?>
 	<?php } ?>
 </fieldset>
