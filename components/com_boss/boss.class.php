@@ -1252,14 +1252,10 @@ class jDirectoryField extends mosDBTable {
         $database = database::getInstance();
         $tabs = new Sliders();
         mosCommonHTML::loadJquery();
-        //mosCommonHTML::loadJqueryUI(); //не работает с этим уи
         mosCommonHTML::loadJqueryPlugins('jquery.form');
-        //$mainframe->addJS('/administrator/components/com_boss/js/formbuilder/jquery-1.3.2.min.js');
-        $mainframe->addJS('/administrator/components/com_boss/js/formbuilder/jquery-ui-1.7.1.custom.min.js');
+        mosCommonHTML::loadJqueryUI();
         $mainframe->addJS('/administrator/components/com_boss/js/formbuilder/edit_fields.js'); 
         $mainframe->addJS('/administrator/components/com_boss/js/upload.js');
-
-        $mainframe->addCSS('/administrator/components/com_boss/css/jquery.ui.css');
         $mainframe->addCSS('/administrator/components/com_boss/css/formbuilder.css');
 
         $rows = $database->setQuery("SELECT f.* FROM #__boss_" . $directory . "_fields AS f ORDER by f.ordering")->loadObjectList();
@@ -1322,8 +1318,6 @@ class jDirectoryField extends mosDBTable {
             echo $database->stderr();
             return;
         }
-var_dump($id);
-var_dump($row);
         $plugin = BossPlugins::get_plugin($directory, $row->type, 'fields');
         HTML_boss::showField($row, $directory, $plugin);
     }
@@ -1477,17 +1471,30 @@ var_dump($row);
             }
 
             if ($plugfield == false) {
+
+                //запрашиваем столбцы таблиц
+                $tableFields = $database->getTableFields(array("#__boss_" . $directory . "_profile", "#__boss_" . $directory . "_contents"));
+                //переменная определяет есть-ли в таблице профиля поле с таким названием
+                $issetProfileField = (isset( $tableFields["#__boss_" . $directory . "_profile"][$row->name])) ? true : false;
+                //переменная определяет есть-ли в таблице контента поле с таким названием
+                $issetContentField = (isset($tableFields["#__boss_" . $directory . "_contents"][$row->name])) ? true : false;
+
                 //если это поле используется в качестве поля профиля пользователя
                 if ($row->profile == 1) {
+
                     //добавляем поле в таблицу профиля
-                    $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile ADD `$row->name` TEXT NOT NULL")->query();
+                    if(!$issetProfileField)
+                        $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile ADD `$row->name` TEXT NOT NULL")->query();
                     //удаляем поле из таблицы контента
-                    @$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
+                    if($issetContentField)
+                        $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
                 } else {
-                    //удаляем поле в таблицу профиля
-                    @$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
-                    //добавляем поле из таблицы контента
-                    $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents ADD `$row->name` TEXT NOT NULL")->query();
+                    //удаляем поле из таблицы профиля
+                    if($issetProfileField)
+                        $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
+                    //добавляем поле в таблицу контента
+                    if(!$issetContentField)
+                        $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents ADD `$row->name` TEXT NOT NULL")->query();
                 }
             }
             //вычисляем филдид поля в изначальном каталоге
