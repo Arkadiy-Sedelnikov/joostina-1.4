@@ -196,6 +196,95 @@ function createImageAndThumb(
 	$desc_img = $write($dst_t_img,"$path/$thumb_name", $quality);
 }
 
+function createImage(
+        $src_file,
+        $orig_name,
+        $path,
+        $image_name,
+		$max_width,
+		$max_height,
+		$tag='',
+		$quality=75,//качество для основного изображения
+		$bg_color_hex="#ffffff",//белый для фона
+		$txt_color_hex="#000000"//черный для текста
+		)
+{
+
+	//ini_set('memory_limit', '32M');
+	$font = JPATH_BASE . "/components/com_boss/font/verdana.ttf";
+	$src_file = urldecode($src_file);
+
+	// Переводим название файла в нижний регистр
+	$orig_name = Jstring::strtolower($orig_name);
+
+	// Выясняем тип изображения
+        $type = explode('.', $orig_name);
+        $type = strval($type[count($type)-1]);
+        $type = ($type == 'jpg') ? 'jpeg' : $type;
+
+        if($type == "png"){
+            //Пересчитываем значение параметра качества для PNG
+            $quality = 9 - min( round($quality / 10), 9 );
+        }
+
+	$max_h = $max_height;
+	$max_w = $max_width;
+
+	// Если изображение с таким именем уже существует - удаляем его
+	if (file_exists( "$path/$image_name")) {
+		unlink( "$path/$image_name");
+	}
+
+	$read = 'imagecreatefrom' . $type;
+	$write = 'image' . $type;
+
+	$src_img = $read($src_file);
+
+	// Расчитываем пропорции создаваемого изображения
+	$imginfo = getimagesize($src_file);
+	$src_w = $imginfo[0];
+	$src_h = $imginfo[1];
+
+	$zoom_h = $max_h / $src_h;
+	$zoom_w = $max_w / $src_w;
+	$zoom   = min($zoom_h, $zoom_w);
+	$dst_h  = $zoom<1 ? round($src_h*$zoom) : $src_h;
+	$dst_w  = $zoom<1 ? round($src_w*$zoom) : $src_w;
+
+	$zoom   = min($zoom_h, $zoom_w);
+	$dst_thumb_h  = $zoom<1 ? round($src_h*$zoom) : $src_h;
+	$dst_thumb_w  = $zoom<1 ? round($src_w*$zoom) : $src_w;
+
+	/* ОСНОВНОЕ ИЗОБРАЖЕНИЕ */
+	//if ($type == "gif")
+	//	$dst_img = imagecreate($dst_w, $dst_h); //для GIF
+	//else
+	$dst_img = imagecreatetruecolor($dst_w, $dst_h);// JPG и PNG
+
+	// Конвертируем значение параметра цвета фона из HEX в RGB
+	$bg_color_rgb = array_map('hexdec', str_split(str_replace('#', '', $bg_color_hex), 2));
+
+	// Заливаем фон изображения
+	$white = imagecolorallocate($dst_img, $bg_color_rgb[0], $bg_color_rgb[1], $bg_color_rgb[2]);
+	imagefill($dst_img, 0, 0, $white);
+
+	// Копируем палитру цветов
+	imagepalettecopy($dst_img, $src_img);
+
+	// Изменяем размер
+	imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+
+	// Ставим копирайт
+	if (!empty($tag)) {
+		// Конвертируем значение параметра цвета текста из HEX в RGB
+		$txt_color_rgb = array_map('hexdec', str_split(str_replace('#', '', $txt_color_hex), 2));
+		$textcolor = imagecolorallocate($dst_img, $txt_color_rgb[0], $txt_color_rgb[1], $txt_color_rgb[2]);// Получаем цветовой идентификатор текста
+		imagettftext($dst_img, 12, 0, 10, 10, $textcolor, $font, urldecode($tag));// Накладываем текст копирайта на изображение
+	}
+	// Создаем основное изображение
+	$desc_img = $write($dst_img,"$path/$image_name", $quality);
+}
+
 function jdGetLangDefinition($text) {
 	if(defined($text)) $returnText = constant($text);
 	else $returnText = $text;
