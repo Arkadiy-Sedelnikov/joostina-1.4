@@ -112,12 +112,14 @@ switch ($task) {
 		}
 
     case 'search_tags': {
-			search_tags($tag,$order,$limitstart,$directory,$template_name);
+			$results = search_tags($tag,$order,$limitstart,$directory,$template_name);
+            boss_show_cached_result($results);
 			break;
 		}
 
     case 'search_alpha': {
-			search_alpha($alpha,$order,$limitstart,$directory,$template_name);
+			$results = search_alpha($alpha,$order,$limitstart,$directory,$template_name);
+            boss_show_cached_result($results);
 			break;
 		}
 
@@ -367,9 +369,6 @@ function show_all($text_search,$name_search,$order,$limitstart,$directory,$templ
 
 	$itemid = getBossItemid($directory, 0 );
 
-	// Dynamic Page Title
-        $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
-
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
@@ -386,11 +385,12 @@ function show_all($text_search,$name_search,$order,$limitstart,$directory,$templ
 	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
 
     ob_start();
-	boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_all","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
+	$params = boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_all","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-
-        return $params;
+    // Dynamic Page Title
+    $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
+    return $params;
 }
 
 function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,$template_name) {
@@ -418,9 +418,6 @@ function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,
 
 	$itemid = getBossItemid($directory, 0 );
 
-	// Dynamic Page Title
-        $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
-
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
@@ -437,9 +434,11 @@ function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,
 	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
 
     ob_start();
-	boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_frontpage","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
+	$params = boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_frontpage","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
+    // Dynamic Page Title
+    $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
 
         return $params;
 }
@@ -488,7 +487,7 @@ function show_user($userid,$text_search,$order,$limitstart,$directory,$template_
 			$user = new mosUser( $database );
 			$user->load( $userid );
 			$name_list = BOSS_LIST_USER_TEXT." ".$user->username;
-			$params['title'] = BOSS_PAGE_TITLE . $name_list;
+
 
 			//List
 			if (isset($text_search))
@@ -501,10 +500,10 @@ function show_user($userid,$text_search,$order,$limitstart,$directory,$template_
 				$update_possible = 0;
 			}
                         ob_start();
-                        boss_helpers::show_list($name_list,"",$url,"show_user","a.userid=$userid",$text_search,'',$order,0,$limitstart,$update_possible,$jDirectoryHtmlClass,$directory,$template_name);
+                        $params = boss_helpers::show_list($name_list,"",$url,"show_user","a.userid=$userid",$text_search,'',$order,0,$limitstart,$update_possible,$jDirectoryHtmlClass,$directory,$template_name);
                         $params['page_body'] = ob_get_contents();
                         ob_end_clean();
-			
+			            $params['title'] = BOSS_PAGE_TITLE . $name_list;
 	}
         return $params;
 }
@@ -555,11 +554,7 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
 		$template_name = $category->template;
 	}
         
-	// Dynamic Page Title
-	$params['title'] = (!empty($category->meta_title)) ? $category->meta_title : $cat_name;
-	//Dynamic Page meta
-	$params['description'] = (!empty($category->meta_desc)) ? $category->meta_desc : substr(strip_tags($category->description), 0, 200);
-	$params['keywords'] = $category->meta_keys;
+
         
 	$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
 
@@ -588,11 +583,15 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
 	$url ="index.php?option=com_boss&amp;task=show_category&amp;catid=".$catid.$url_text_search."&amp;directory=$directory&amp;order=".$order;
 	
     ob_start();
-	boss_helpers::show_list($cat_name,$cat_description,$url,"show_category",$search,$text_search,$name_search,$order,$catid,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,array(), $category->content_types);
+	$params = boss_helpers::show_list($cat_name,$cat_description,$url,"show_category",$search,$text_search,$name_search,$order,$catid,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,array(), $category->content_types);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-
-        return $params;
+	// Dynamic Page Title
+	$params['title'] = (!empty($category->meta_title)) ? $category->meta_title : $cat_name;
+	//Dynamic Page meta
+	$params['description'] = (!empty($category->meta_desc)) ? $category->meta_desc : substr(strip_tags($category->description), 0, 200);
+	$params['keywords'] = $category->meta_keys;
+    return $params;
 }
 
 function search_tags($tag,$order,$limitstart,$directory,$template_name) {
@@ -628,7 +627,8 @@ function search_tags($tag,$order,$limitstart,$directory,$template_name) {
 	$tagContentIds = $database->loadResultArray();
 	//List
 	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
-	boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$tagContentIds);
+	$params = boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$tagContentIds);
+    return $params;
 }
 
 function search_alpha($alpha,$order,$limitstart,$directory,$template_name) {
@@ -667,7 +667,8 @@ function search_alpha($alpha,$order,$limitstart,$directory,$template_name) {
 	
 	//List
 	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
-	boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$alphaContentIds);
+	$params = boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$alphaContentIds);
+    return $params;
 }
 
 function show_message_form($contentid,$mode,$directory,$template_name) {
@@ -756,7 +757,7 @@ function show_content($contentid, $catid, $directory, $template_name) {
 	//get configuration
 	$conf = getConfig($directory);
         $plugins = BossPlugins::get_plugins($directory, 'fields');
-        
+
         $rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
         $ratingQuery = $rating->queryString($directory, $conf);
         

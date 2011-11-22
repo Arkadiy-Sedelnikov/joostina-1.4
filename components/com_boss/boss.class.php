@@ -2167,6 +2167,7 @@ class boss_helpers {
         $conf = getConfig($directory);
         $sort = null;
         $tags = array();
+        $params = array();
 
         $rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
         $viewsPlugin = BossPlugins::get_plugin($directory, 'viewSelector', 'views');
@@ -2410,7 +2411,7 @@ class boss_helpers {
         $jDirectoryHtmlClass->field_values = $field_values;
         $jDirectoryHtmlClass->conf = $conf;
         $jDirectoryHtmlClass->profileFields = $profileFields;
-        $jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
+        $jDirectoryHtmlClass->plugins = $plugins = BossPlugins::get_plugins($directory, 'fields');
         $jDirectoryHtmlClass->directory = $directory;
         $jDirectoryHtmlClass->template_name = $template_name;
         $jDirectoryHtmlClass->rating = $rating;
@@ -2422,7 +2423,16 @@ class boss_helpers {
         }
 
         $jDirectoryHtmlClass->displayList();
-        return true;
+
+
+        $fields = $database->setQuery( "SELECT f.* FROM #__boss_".$directory."_fields AS f WHERE f.published = 1" )->loadObjectList('name');
+        //подключаем некешируемую информацию из плагинов.
+        foreach($fields as $field){
+            if(method_exists($plugins[$field->type],'addInHead')){
+                $params = array_merge($params, $plugins[$field->type]->addInHead($fields, $field_values[$field->fieldid], $directory));
+            }
+        }
+        return $params;
     }
 
     /**
