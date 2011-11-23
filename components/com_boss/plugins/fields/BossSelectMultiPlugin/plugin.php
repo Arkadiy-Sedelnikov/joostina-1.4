@@ -25,6 +25,7 @@ defined('_VALID_MOS') or die();
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
             $return = '';
+            $dataArray = array();
             if (isset($field_values)) {
 
                 if(!empty($field->text_before))
@@ -37,12 +38,12 @@ defined('_VALID_MOS') or die();
                         $fieldtitle = @$field_values[$i]->fieldtitle;
 
                             if (strpos($value, "," . $fieldvalue . ",") !== false) {
-                                $return .= jdGetLangDefinition($fieldtitle);
-                                if(!empty($field->tags_separator) && $i < ($nb-1))
-                                    $return .= html_entity_decode($field->tags_separator);
+                                $dataArray[] = jdGetLangDefinition($fieldtitle);
                             }
                         }
                     }
+
+            $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
 
             if(!empty($field->tags_close))
                 $return .= html_entity_decode($field->tags_close);

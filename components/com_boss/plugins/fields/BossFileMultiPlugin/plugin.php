@@ -42,7 +42,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
         function getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-
+            $dataArray = array();
             $return = '';
             if ($value != "") {
                 $value = json_decode($value, 1);
@@ -54,13 +54,13 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 
                 if(is_array($value) && count($value)>0){
                     foreach($value as $row){
-                        $return .= '<div class="boss_file">'
+                        $dataArray[] = '<div class="boss_file">'
                                 . '<span class="boss_file_desc">'.$row['signature'].'</span> &nbsp;&nbsp;'
 				        		.  self::displayFileLink($directory, $content, $field, $row['file'], 'joostfree', 'front')
 				        		.  '</div>';
 				    }
                 }
-
+                $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
                 $return .= '</div>';
                 if(!empty($field->tags_close))
                     $return .= html_entity_decode($field->tags_close);

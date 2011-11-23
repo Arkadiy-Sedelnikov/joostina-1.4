@@ -25,7 +25,7 @@ defined('_VALID_MOS') or die();
         function getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-
+            $dataArray = array();
             $return = '';
             if(!empty($field->text_before))
                 $return .= '<span>'.$field->text_before.'</span>';
@@ -37,12 +37,12 @@ defined('_VALID_MOS') or die();
                 $fieldtitle = @$field_values[$i]->fieldtitle;
 
                 if (strpos($value, $fieldvalue) !== false) {
-                    $return .= "<img src='" . JPATH_SITE . "/images/boss/$directory/fields/" . $fieldtitle . "' alt='$fieldtitle' />";
-                    if(!empty($field->tags_separator) && $i < ($nb-1))
-                        $return .= html_entity_decode($field->tags_separator);
+                    $dataArray[] = "<img src='" . JPATH_SITE . "/images/boss/$directory/fields/" . $fieldtitle . "' alt='$fieldtitle' />";
                 }
             }
 
+            $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
+            
             if(!empty($field->tags_close))
                 $return .= html_entity_decode($field->tags_close);
             if(!empty($field->text_after))

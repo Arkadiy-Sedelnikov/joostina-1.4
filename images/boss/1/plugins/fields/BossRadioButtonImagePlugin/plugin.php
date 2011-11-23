@@ -25,7 +25,7 @@ defined('_VALID_MOS') or die();
         function getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-
+            $dataArray = array();
             $return = '';
             if(!empty($field->text_before))
                 $return .= '<span>'.$field->text_before.'</span>';
@@ -33,17 +33,17 @@ defined('_VALID_MOS') or die();
                 $return .= html_entity_decode($field->tags_open);
 
             for ($i = 0, $nb = count($field_values); $i < $nb; $i++) {
-                        $fieldvalue = @$field_values[$i]->fieldvalue;
-                        $fieldtitle = @$field_values[$i]->fieldtitle;
-                        if ($value == $fieldvalue) {
-                            if ($field->type == 'radio')
-                                $return .= $fieldtitle;
-                            else
-                                $return .= "<img src='" . JPATH_SITE . "/images/boss/$directory/fields/" . $fieldtitle . "' alt='$fieldtitle' />";
-                            if(!empty($field->tags_separator) && $i < ($nb-1))
-                                $return .= html_entity_decode($field->tags_separator);
-                        }
-                    }
+                $fieldvalue = @$field_values[$i]->fieldvalue;
+                $fieldtitle = @$field_values[$i]->fieldtitle;
+                if ($value == $fieldvalue) {
+                    if ($field->type == 'radio')
+                        $dataArray[] = $fieldtitle;
+                    else
+                        $dataArray[] = "<img src='" . JPATH_SITE . "/images/boss/$directory/fields/" . $fieldtitle . "' alt='$fieldtitle' />";
+                }
+            }
+            
+            $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
 
             if(!empty($field->tags_close))
                 $return .= html_entity_decode($field->tags_close);

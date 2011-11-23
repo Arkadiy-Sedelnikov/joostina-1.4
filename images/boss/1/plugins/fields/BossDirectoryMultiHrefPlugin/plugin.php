@@ -25,6 +25,7 @@ defined('_VALID_MOS') or die();
             $fieldName = $field->name;
             $values = $content->$fieldName;
             $return = "";
+            $dataArray = array();
             if ($values != "") {
                 $values = explode('|', $values);
 
@@ -34,9 +35,10 @@ defined('_VALID_MOS') or die();
                     $return .= html_entity_decode($field->tags_open);
 
                 foreach($values as $value){
-                    //$return .= stripslashes(str_replace('###', $itemid, $value));
-                    $return .= '<div class="directory_multihref">' . stripslashes($value) . '</div>';
+                    $dataArray[] = '<div class="directory_multihref">' . stripslashes($value) . '</div>';
                 }
+
+                $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
 
                 if(!empty($field->tags_close))
                     $return .= html_entity_decode($field->tags_close);

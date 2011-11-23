@@ -26,6 +26,7 @@ defined('_VALID_MOS') or die();
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
             $return = '';
+            $dataArray = array();
             if(!empty($field->text_before))
                 $return .= '<span>'.$field->text_before.'</span>';
             if(!empty($field->tags_open))
@@ -35,12 +36,10 @@ defined('_VALID_MOS') or die();
                         $fieldvalue = @$field_values[$i]->fieldvalue;
                         $fieldtitle = @$field_values[$i]->fieldtitle;
                         if ($value == $fieldvalue) {
-                            $return .= $fieldtitle;
-                            
-                            if(!empty($field->tags_separator) && $i < ($nb-1))
-                                $return .= html_entity_decode($field->tags_separator);
+                            $dataArray[] = $fieldtitle;
                         }
                     }
+            $return .= implode( html_entity_decode($field->tags_separator), $dataArray);
 
             if(!empty($field->tags_close))
                 $return .= html_entity_decode($field->tags_close);
