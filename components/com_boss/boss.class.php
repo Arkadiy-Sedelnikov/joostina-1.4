@@ -1450,7 +1450,7 @@ class jDirectoryField extends mosDBTable {
             }
 
             if ($row->fieldid > 0) {
-                $database->setQuery("DELETE FROM #__boss_" . $directory . "_field_values WHERE fieldid='" . $row->fieldid . "'");
+                $database->setQuery("DELETE FROM #__boss_" . $directory . "_field_values WHERE fieldid='" . $row->fieldid . "'")->query();
             } else {
                 $maxID = $database->setQuery("SELECT MAX(fieldid) FROM #__boss_" . $directory . "_fields")->loadResult();
                 $row->fieldid = $maxID;

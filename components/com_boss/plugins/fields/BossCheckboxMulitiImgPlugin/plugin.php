@@ -313,19 +313,24 @@ defined('_VALID_MOS') or die();
 	        $fieldImagesValues = $_POST['vImagesValues'];
             $j=0;
 			$i=0;
+            $values = array();
+            
 			while(isset($fieldImagesSelect[$i])) {
 				$fieldName  = $fieldImagesSelect[$i];
 				$fieldValue = $fieldImagesValues[$i];
 				$i++;
 
 				if(trim($fieldName)!=null && trim($fieldName)!='' && trim($fieldName)!='null') {
-					$database->setQuery( "INSERT INTO #__boss_".$directory."_field_values (fieldid,fieldtitle,fieldvalue,ordering)"
-							. " VALUES('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)"
-					);
-					$database->query();
+					$values[] = "('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)";
 					$j++;
 				}
 			}
+
+            $database->setQuery( "INSERT INTO #__boss_".$directory."_field_values "
+                . "(fieldid,fieldtitle,fieldvalue,ordering)"
+				. " VALUES"
+                . implode(', ', $values)
+            )->query();
             //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
             //иначе true
             return false;

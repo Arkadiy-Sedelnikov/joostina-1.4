@@ -303,24 +303,28 @@ defined('_VALID_MOS') or die();
 
         //действия при сохранении настроек поля
         function saveFieldOptions($directory, $field) {
+            $fieldNames  = $_POST['vNames'];
+	        $fieldValues = $_POST['vValues'];
             $database = database::getInstance();
-            $fieldImagesSelect = $_POST['vSelectImages'];
-	        $fieldImagesValues = $_POST['vImagesValues'];
             $j=0;
 			$i=0;
-			while(isset($fieldImagesSelect[$i])) {
-				$fieldName  = $fieldImagesSelect[$i];
-				$fieldValue = $fieldImagesValues[$i];
-				$i++;
+            $values = array();
 
-				if(trim($fieldName)!=null && trim($fieldName)!='' && trim($fieldName)!='null') {
-					$database->setQuery( "INSERT INTO #__boss_".$directory."_field_values (fieldid,fieldtitle,fieldvalue,ordering)"
-							. " VALUES('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)"
-					);
-					$database->query();
+			while(isset($fieldNames[$i])) {
+				$fieldName  = $fieldNames[$i];
+				$fieldValue = $fieldValues[$i];
+				$i++;
+				if(trim($fieldName)!=null && trim($fieldName)!='') {
+					$values[] = "('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)";
 					$j++;
 				}
 			}
+
+            $database->setQuery( "INSERT INTO #__boss_".$directory."_field_values "
+                . "(fieldid,fieldtitle,fieldvalue,ordering)"
+				. " VALUES"
+                . implode(', ', $values)
+            )->query();
             //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
             //иначе true
             return false;

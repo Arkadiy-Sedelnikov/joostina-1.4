@@ -209,26 +209,28 @@ defined('_VALID_MOS') or die();
 
         //действия при сохранении настроек поля
         function saveFieldOptions($directory, $field) {
-                        $fieldValues = array();
-	        $fieldNames  = array();
             $fieldNames  = $_POST['vNames'];
 	        $fieldValues = $_POST['vValues'];
             $database = database::getInstance();
             $j=0;
 			$i=0;
+            $values = array();
+
 			while(isset($fieldNames[$i])) {
 				$fieldName  = $fieldNames[$i];
 				$fieldValue = $fieldValues[$i];
 				$i++;
-
 				if(trim($fieldName)!=null && trim($fieldName)!='') {
-					$database->setQuery( "INSERT INTO #__boss_".$directory."_field_values (fieldid,fieldtitle,fieldvalue,ordering)"
-							. " VALUES('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)"
-					);
-					$database->query();
+					$values[] = "('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)";
 					$j++;
 				}
 			}
+
+            $database->setQuery( "INSERT INTO #__boss_".$directory."_field_values "
+                . "(fieldid,fieldtitle,fieldvalue,ordering)"
+				. " VALUES"
+                . implode(', ', $values)
+            )->query();
             //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
             //иначе true
             return false;
