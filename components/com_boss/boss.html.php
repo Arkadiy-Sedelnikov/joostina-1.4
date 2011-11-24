@@ -1287,8 +1287,10 @@ class boss_html
         echo "<input type='hidden' name='contentid' value='$content->id' />";
         if (!empty($content->userid))
             echo "<input type='hidden' name='userid' value='" . $content->userid . "' />";
-        
-        ?><input type="hidden" name="type_content" value="<?php echo $content_type; ?>" /><?php
+        ?>
+        <input type="hidden" name="type_content" value="<?php echo $content_type; ?>" />
+        <input type="hidden" name="directory" value="<?php echo $this->directory; ?>">
+        <?php
         echo "</form>";
     }
 

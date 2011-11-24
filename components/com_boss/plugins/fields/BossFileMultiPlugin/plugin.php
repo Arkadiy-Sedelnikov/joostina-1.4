@@ -136,13 +136,15 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-
+            mosCommonHTML::loadJquery();
             $mainframe = mosMainFrame::getInstance();
             $mainframe->addJS(JPATH_SITE.'/administrator/components/com_boss/js/upload.js');
             $mainframe->addJS(JPATH_SITE.'/images/boss/'.$directory.'/plugins/fields/BossFileMultiPlugin/js/script.js');
             $mainframe->addCSS(JPATH_SITE.'/images/boss/' . $directory . '/plugins/fields/BossFileMultiPlugin/css/plugin.css');
 
             $fieldname = $field->name;
+
+            $isAdmin = ($mainframe->isAdmin() == 1) ? 1 : 0;
 
             $fValuers = array();
             foreach($field_values[$field->fieldid] as $field_value){
@@ -164,6 +166,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
                 <script type=\"text/javascript\">
 		            var boss_nb_files = ".(int)$nb_files.";
 		            var boss_enable_files = new Array('".$enable_files."');
+		            var boss_isadmin = ".$isAdmin.";
                 </script>
 
                 <div id='boss_plugin_file'>

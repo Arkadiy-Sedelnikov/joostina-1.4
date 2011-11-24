@@ -4,8 +4,13 @@ jQuery(function() {
     var status = jQuery('#status');
     var directory = jQuery('input[name="directory"]').val();
     var numFields = 0;
+    var actUrl = '/ajax.index.php?option=com_boss&act=upload_file&folder=files&directory='+ directory;
+    if(boss_isadmin == 1){
+        actUrl = '/administrator'+actUrl;
+    }
+
     new AjaxUpload(btnUpload, {
-        action: url + '/administrator/ajax.index.php?option=com_boss&act=upload_file&folder=files&directory='+ directory,
+        action: url + actUrl,
         //Name of the file input box
         name: 'uploadfile',
         onSubmit: function(file, ext) {
@@ -48,10 +53,15 @@ jQuery(function() {
 });
 
 function bossDeleteFile(file, id){
+    var actUrl = '/ajax.index.php?option=com_boss&act=delete_file&folder=files&file='+file+'&directory='+directory;
+    if(boss_isadmin == 1){
+        actUrl = '/administrator'+actUrl;
+    }
+
     var directory = jQuery('input[name="directory"]').val();
         jQuery.ajax({
         type: "POST",
-        url: url+'/administrator/ajax.index.php?option=com_boss&act=delete_file&folder=files&file='+file+'&directory='+directory,
+        url: url+actUrl,
         dataType: 'text',
         success: function (data){
             if(data == 'yes'){

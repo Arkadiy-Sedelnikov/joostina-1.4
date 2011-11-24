@@ -124,6 +124,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
+            mosCommonHTML::loadJquery();
             //создаем файловую структуру для галереи
             $path = '/images/boss/'.$directory.'/contents/gallery/';
             if(!is_dir(JPATH_BASE.$path.'origin')) {
@@ -141,6 +142,8 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             $mainframe->addJS(JPATH_SITE.'/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/js/script.js');
 
             $fieldname = $field->name;
+
+            $isAdmin = ($mainframe->isAdmin() == 1) ? 1 : 0;
 
             $fValuers = array();
             foreach($field_values[$field->fieldid] as $field_value){
@@ -161,6 +164,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                 <script type=\"text/javascript\">
 		            var boss_nb_images = ".(int)$nb_files.";
 		            var boss_enable_images = new Array('jpg', 'png', 'gif');
+		            var boss_isadmin = ".$isAdmin.";
                 </script>
 
                 <div id='boss_plugin_image'>

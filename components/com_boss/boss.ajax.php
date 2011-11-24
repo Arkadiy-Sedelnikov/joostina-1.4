@@ -12,9 +12,9 @@ require_once( JPATH_BASE . DS . 'components' . DS . 'com_boss' . DS . 'boss.tool
 require_once( $mainframe->getPath( 'front_html' ) );
 require_once($mainframe->getPath('class'));
 
-if(!boss_helpers::is_ajax()){
-    die('Is Not Ajax Query');
-}
+//if(!boss_helpers::is_ajax()){
+//    die('Is Not Ajax Query');
+//}
 
 $act = mosGetParam($_REQUEST, 'act', '');
 $task = mosGetParam($_REQUEST, 'task', '');
@@ -35,6 +35,19 @@ switch ($act) {
             default :
                 break;
         }
+        break;
+    
+    case "upload_image":
+        boss_helpers::upload_image($directory);
+        break;
+
+    case "upload_file":
+        $folder = mosGetParam($_REQUEST, 'folder', '');
+        boss_helpers::upload_file($directory, $folder);
+        break;
+    
+    case "delete_file":
+        boss_helpers::delete_file($directory);
         break;
 
     default :
