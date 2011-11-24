@@ -1,7 +1,7 @@
 //скрипт запуска загрузки файлов
 jQuery(function() {
-    var btnUpload = jQuery('#upload');
-    var status = jQuery('#status');
+    var btnUpload = jQuery('#upload_image');
+    var status = jQuery('#status_image');
     var directory = jQuery('input[name="directory"]').val();
     var numFields = 0;
     new AjaxUpload(btnUpload, {
@@ -38,7 +38,7 @@ jQuery(function() {
                     file + '<input type="hidden" name="boss_img_gallery['+numFields+'][file]" value="'+ file+'" />' +
                     '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteImage(\''+ file+'\', \'file_'+numFields+'\')" />';
                 
-                jQuery('<div id="file_'+numFields+'"></div>').appendTo('#files').html(newFile).addClass('success');
+                jQuery('<div id="file_'+numFields+'"></div>').appendTo('#gallery_images').html(newFile).addClass('success');
             } else {
                 status.text('Ошибка загрузки '+file).addClass('error');
             }
@@ -88,7 +88,7 @@ function bossDeleteImage(file, id){
 	                		else{
                                 ststusDel = ststusDel+ 'Thumb Delete Error; ';
                             }
-                            jQuery("#status").html(ststusDel);
+                            jQuery("#status_image").html(ststusDel);
                         }
                     });
                 }

@@ -164,16 +164,16 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                 </script>
 
                 <div id='boss_plugin_image'>
-                    <input id='upload' type=button value='".BOSS_PLG_FM_UPLOAD."' style='float: left;'/>
-			        <div id='status'></div>
+                    <input id='upload_image' type=button value='".BOSS_PLG_FM_UPLOAD."' style='float: left;'/>
+			        <div id='status_image'></div>
 			        <br style='clear: both;' />
-			        <div id='files'>
+			        <div id='gallery_images'>
                     ";
 
             if (!empty($value)) {
                 foreach($value as $i => $row){
                     $return .= "
-                        <div id='file_".$i."'>
+                        <div id='gallery_image_".$i."'>
                         <label>".BOSS_PLG_DESC." </label>
                         <input type='text' size='40'
                             name='boss_img_gallery[".$i."][signature]' class='inputbox boss_img_gallery' value='".urldecode($row['signature'])."' />
@@ -181,7 +181,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                         <input type='hidden' name='boss_img_gallery[".$i."][file]' value='".$row['file']."' />
                             &nbsp;&nbsp;&nbsp;"
                         .self::displayFileLink($directory, $row['file'])
-                        . "&nbsp;&nbsp;<input type='button' value='X' class='button' onclick='bossDeleteImage(\"".$row['file']."\", \"file_".$i."\")' />
+                        . "&nbsp;&nbsp;<input type='button' value='X' class='button' onclick='bossDeleteImage(\"".$row['file']."\", \"gallery_image_".$i."\")' />
                     </div>";
                 }
 
@@ -375,9 +375,9 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
         function addInHead($field, $field_values, $directory)
         {
             $params = array();
-            $params['js'][] = JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/js/jquery.exif.js';
-            $params['js'][] = JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/js/mbGallery.js';
-            $params['css'] =  JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/css/white.css';
+            $params['js']['galleryImg1'] = JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/js/jquery.exif.js';
+            $params['js']['galleryImg2'] = JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/js/mbGallery.js';
+            $params['css']['galleryImg1'] =  JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/css/white.css';
             return $params;
         }
         

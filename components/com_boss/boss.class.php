@@ -2429,7 +2429,7 @@ class boss_helpers {
         //подключаем некешируемую информацию из плагинов.
         foreach($fields as $field){
             if(method_exists($plugins[$field->type],'addInHead')){
-                $params = array_merge($params, $plugins[$field->type]->addInHead($fields, $field_values[$field->fieldid], $directory));
+                $params = array_merge_recursive($params, $plugins[$field->type]->addInHead($fields, $field_values[$field->fieldid], $directory));
             }
         }
         return $params;

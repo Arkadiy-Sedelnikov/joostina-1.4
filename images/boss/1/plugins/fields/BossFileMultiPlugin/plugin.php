@@ -202,7 +202,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
         //действия при сохранении контента
         function onFormSave($directory, $contentid, $field, $isUpdateMode, $itemid) {
             $boss_file = mosGetParam($_REQUEST, 'boss_file', '');
-            $boss_file = json_encode($boss_file);
+            $boss_file = boss_helpers::json_encode_cyr($boss_file);
             return $boss_file;
         }
 		

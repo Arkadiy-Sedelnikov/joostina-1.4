@@ -418,9 +418,9 @@ defined('_VALID_MOS') or die();
                         </script>';
                     break;
                 case 'fancybox':
-                    $params['js'][] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.js';
-                    $params['js'][] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.easing.1.3.js';
-                    $params['css'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.css';
+                    $params['js']['img1'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.js';
+                    $params['js']['img2'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.easing.1.3.js';
+                    $params['css']['img1'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.css';
                     $params['custom_script']='
                       <script type="text/javascript">
                           jQuery(document).ready(function() {
