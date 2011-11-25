@@ -421,7 +421,7 @@ defined('_VALID_MOS') or die();
                     $params['js']['img1'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.js';
                     $params['js']['img2'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.easing.1.3.js';
                     $params['css']['img1'] = JPATH_SITE . '/includes/js/jquery/plugins/fancybox/jquery.fancybox.css';
-                    $params['custom_script']='
+                    $params['custom_script']['image']='
                       <script type="text/javascript">
                           jQuery(document).ready(function() {
                             jQuery("a.fancybox").fancybox();

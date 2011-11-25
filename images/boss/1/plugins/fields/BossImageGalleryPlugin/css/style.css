@@ -1,0 +1,19 @@
+.galleryView{
+  cursor: pointer;
+  margin: 5px;
+  padding: 0 0 0 18px;
+  background:url("elements/view.gif") no-repeat left center;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+.galleryViewContent{
+  cursor: pointer;
+  margin: 5px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+.thumbsContainer img {
+    box-shadow: 2px 0 5px #999999;
+    margin: 2px;
+    padding: 5px;
+}
