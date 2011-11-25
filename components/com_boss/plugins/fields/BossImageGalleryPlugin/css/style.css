@@ -16,4 +16,8 @@
     box-shadow: 2px 0 5px #999999;
     margin: 2px;
     padding: 5px;
+    vertical-align: middle;
+}
+.imgContainer span{
+    text-align: center;
 }

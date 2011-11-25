@@ -432,7 +432,13 @@
             $(gallery).mb_gotoIDX(i+1);
         });
         img.attr("id", gallery.galleryID+"_thumb1_"+i);
-        thumbsContainer.append(img);
+          /*моя вставка*/
+        var imgDiv = $("<div>")
+            .addClass("imgContainer")
+            .html(img)
+            .append("<br/><span class='imgDescription'>"+photo.description+"</span>");
+          /*конец моей вставки*/
+        thumbsContainer.append(imgDiv);
       });
       thumbsContainer.slideDown();
     }

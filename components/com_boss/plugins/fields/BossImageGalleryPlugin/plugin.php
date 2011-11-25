@@ -454,7 +454,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                 $galleryTitle = (!empty($conf['galleryTitle'])) ? 'galleryTitle:\''.$conf['galleryTitle'].'\',' : 'galleryTitle:\'My Gallery\',';
                 $maskBgnd = (!empty($conf['maskBgnd'])) ? 'maskBgnd:\''.$conf['maskBgnd'].'\',' : 'maskBgnd:\'#ccc\',';
                 $overlayBackground = (!empty($conf['overlayBackground'])) ? 'overlayBackground:\''.$conf['overlayBackground'].'\',' : 'overlayBackground:\'#333\',';
-                $overlayOpacity = (!empty($conf['overlayOpacity'])) ? 'slideTimer:.'.(int)$conf['overlayOpacity'].',' : 'overlayOpacity:.5,';
+                $overlayOpacity = (!empty($conf['overlayOpacity'])) ? 'overlayOpacity:.'.(int)$conf['overlayOpacity'].',' : 'overlayOpacity:.5,';
                 $minWidth = (!empty($conf['minWidth'])) ? 'minWidth:'.$conf['minWidth'].',' : 'minWidth:50,';
                 $minHeight = (!empty($conf['minHeight'])) ? 'minHeight:'.$conf['minHeight'].',' : 'minHeight:50,';
                 $maxWidth = (!empty($conf['maxWidth'])) ? 'maxWidth:'.$conf['maxWidth'].',' : 'maxWidth:0,';
@@ -480,6 +480,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                                    .$overlayOpacity."\n" 
                                    .'
                                   addRaster:false,
+                                  exifData:false,
                                   printOutThumbs:true
                               });
                           });
