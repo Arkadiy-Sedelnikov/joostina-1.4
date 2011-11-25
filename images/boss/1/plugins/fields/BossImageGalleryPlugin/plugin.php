@@ -22,7 +22,19 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
         //отображение поля в категории
         function getListDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
             $return = '';
-            $conf = $this->fvalues($field_values);
+            $conf_fields = self::fvalues($field_values);
+            $galleryTitle = (!empty($conf_fields['galleryTitle'])) ? 'galleryTitle:\''.$conf_fields['galleryTitle'].'\',' : 'galleryTitle:\'My Gallery\',';
+            $maskBgnd = (!empty($conf_fields['maskBgnd'])) ? 'maskBgnd:\''.$conf_fields['maskBgnd'].'\',' : 'maskBgnd:\'#ccc\',';
+            $overlayBackground = (!empty($conf_fields['overlayBackground'])) ? 'overlayBackground:\''.$conf_fields['overlayBackground'].'\',' : 'overlayBackground:\'#333\',';
+            $overlayOpacity = (!empty($conf_fields['overlayOpacity'])) ? 'slideTimer:.'.(int)$conf_fields['overlayOpacity'].',' : 'overlayOpacity:.5,';
+            $minWidth = (!empty($conf_fields['minWidth'])) ? 'minWidth:'.$conf_fields['minWidth'].',' : 'minWidth:50,';
+            $minHeight = (!empty($conf_fields['minHeight'])) ? 'minHeight:'.$conf_fields['minHeight'].',' : 'minHeight:50,';
+            $maxWidth = (!empty($conf_fields['maxWidth'])) ? 'maxWidth:'.$conf_fields['maxWidth'].',' : 'maxWidth:0,';
+            $slideTimer = (!empty($conf_fields['slideTimer'])) ? 'slideTimer:'.$conf_fields['slideTimer'].',' : 'slideTimer:6000,';
+            $autoSlide = (!empty($conf_fields['autoSlide'])) ? 'autoSlide:'.$conf_fields['autoSlide'].',' : 'autoSlide:false,';
+            $skin = (!empty($conf_fields['skin'])) ? 'skin:\''.$conf_fields['skin'].'\',' : 'skin:\'white\',';
+
+
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
             $images = (!empty($value)) ? json_decode($value, 1): '';
@@ -45,13 +57,19 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             <a class="galleryView"
                 onclick="$(\'#g'.$content->id.'\').mbGallery({
                     galleryTitle:\''. htmlspecialchars(stripslashes(cutLongWord($content->name)), ENT_QUOTES) .'\',
-                    maskBgnd:\'#ccc\',
-                    minWidth: 50,
-                    minHeight: 50,
-                    overlayOpacity:.9,
-                    startFrom: 0,
+                    cssURL:\'' . JPATH_SITE . '/images/boss/'.$directory.'/plugins/fields/BossImageGalleryPlugin/css/\', '
+                    .$maskBgnd
+                    .$overlayBackground
+                    .$galleryTitle
+                    .$minWidth
+                    .$minHeight
+                    .$maxWidth
+                    .$slideTimer
+                    .$autoSlide
+                    .$skin
+                    .$overlayOpacity.
+                    ' startFrom:1,
                     addRaster:true,
-                    autoSlide: false,
                     printOutThumbs:false
                     });">
                 '.BOSS_PLG_GALLERY_VIEW.'
@@ -461,7 +479,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                                    .$skin."\n"
                                    .$overlayOpacity."\n" 
                                    .'
-                                  addRaster:true,
+                                  addRaster:false,
                                   printOutThumbs:true
                               });
                           });
