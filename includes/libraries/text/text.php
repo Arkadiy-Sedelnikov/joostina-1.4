@@ -359,7 +359,7 @@ class Text {
 		static $open;
 		if (!is_array($str)) {
 			$open = false;
-			return preg_replace_callback('/(?:(<[^>]+>)|(["\'](?=\w))|((?<=\w)["\'])|(["\']))/u', __FUNCTION__, $str);
+			return preg_replace_callback('/(?:(<[^>]+>)|(["\'](?=\w))|((?<=\w)["\'])|(["\']))/u', __METHOD__, $str);
 		} else {
 			switch (count($str)) {
 				case 3: $open = true;
