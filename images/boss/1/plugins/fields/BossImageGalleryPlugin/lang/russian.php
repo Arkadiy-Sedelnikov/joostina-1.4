@@ -30,3 +30,7 @@ DEFINE( "BOSS_PLG_GALLERY_AUROSLIDE", "Авто слайдшоу" );
 DEFINE( "BOSS_PLG_GALLERY_AUROSLIDE_LONG", "Автоматически либо вручную запускать слайдщоу" );
 DEFINE( "BOSS_PLG_GALLERY_SKIN", "Оформление" );
 DEFINE( "BOSS_PLG_GALLERY_SKIN_LONG", "Скин галереи" );
+DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE", "Размер изображения" );
+DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_LONG", "Размер изображения в пикселях, только число" );
+DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_T", "Размер миниатюры" );
+DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_T_LONG", "Размер миниатюры в пикселях, только число" );

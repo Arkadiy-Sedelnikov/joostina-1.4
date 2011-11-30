@@ -168,7 +168,8 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                     ";
 
             if (!empty($value)) {
-                foreach($value as $i => $row){
+                $i = 0;
+                foreach($value as $row){
                     $return .= "
                         <div id='gallery_image_".$i."'>
                         <label>".BOSS_PLG_DESC." </label>
@@ -181,7 +182,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                         . "&nbsp;&nbsp;<input type='button' value='X' class='button' onclick='bossDeleteImage(\"".$row['file']."\", \"gallery_image_".$i."\")' />
                     </div>";
                 }
-
+                $i++;
             }
 			$return .= "</div>";
             return $return;
@@ -189,43 +190,42 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
 
         function onFormSave($directory, $contentid, $field, $isUpdateMode, $itemid) {
 
-
-
+            mosMainFrame::addLib('easythumb');
             $database = database::getInstance();
             $conf = $database->setQuery("SELECT `fieldtitle`, `fieldvalue` FROM #__boss_" . $directory . "_field_values WHERE fieldid = '$field->fieldid'")->loadObjectList('fieldtitle');
-            
-            $nbImages = $conf['nb_images']->fieldvalue;
+
+            $thumb = new easyphpthumbnail;
+            $thumb->Chmodlevel = '0644';
+            $thumb->Quality = 80;
+            if(!empty($conf['tag']->fieldvalue)){
+                $thumb->Copyrighttext = $conf['tag']->fieldvalue;
+                $thumb -> Copyrightposition = '50% 90%';//todo
+                $thumb -> Copyrightfontsize = 8;//todo
+                $thumb -> Copyrightfonttype = JPATH_BASE.'/components/com_boss/font/verdana.ttf';
+                $thumb -> Copyrighttextcolor = '#FFFFFF';//todo
+            }
+            //разрешенное количество изображений
+            $nbImages = ((int)$conf['nb_images']->fieldvalue > 0) ? (int)$conf['nb_images']->fieldvalue : 1;
+            //массив изображений
             $boss_img_gallery = mosGetParam($_POST, "boss_img_gallery", array());
-            var_dump($boss_img_gallery);
-
+            //подрезаем массив изображений до разрешенного количества
+            $boss_img_gallery = array_slice($boss_img_gallery, 0, $nbImages);
+            //возвращаем json с изображениями
             $return = boss_helpers::json_encode_cyr($boss_img_gallery);
-            var_dump($return);
-            foreach ($boss_img_gallery as $boss_img) {
-                //$ext_name = chr(ord('a') + $i - 1);
 
+            foreach ($boss_img_gallery as $boss_img) {
                 $filename = $boss_img['file'];
                 // image1 upload
-                if(is_file(JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/$filename")){
+                $origin = JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/$filename";
+                if(is_file($origin)){
                     if(!is_file(JPATH_BASE . "/images/boss/$directory/contents/gallery/full/$filename"))
-                    createImage(
-                         JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/$filename",
-                         $filename,
-                         JPATH_BASE . "/images/boss/$directory/contents/gallery/full/",
-                         $filename,
-                         $conf['max_width']->fieldvalue,
-                         $conf['max_height']->fieldvalue,
-                         $conf['tag']->fieldvalue
-                         );
+                        $thumb->Thumbsize = $conf['max_size']->fieldvalue;
+                        $thumb->Thumblocation = JPATH_BASE . "/images/boss/$directory/contents/gallery/full/";
+                        $thumb->Createthumb($origin, 'file');
                     if(!is_file(JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/$filename"))
-                    createImage(
-                         JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/$filename",
-                         $filename,
-                         JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/",
-                         $filename,
-                         $conf['max_width_t']->fieldvalue,
-                         $conf['max_height_t']->fieldvalue,
-                         $conf['tag']->fieldvalue
-                         );
+                        $thumb->Thumbsize = $conf['max_size_t']->fieldvalue;
+                        $thumb->Thumblocation = JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/";
+                        $thumb->Createthumb($origin, 'file');
                 }
             }
             return $return;
@@ -251,24 +251,14 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                     <td>'.boss_helpers::bossToolTip(BOSS_MAX_IMAGE_SIZE_LONG).'</td>
                 </tr>
                 <tr>
-                    <td>'.BOSS_MAX_IMAGE_WIDTH.'</td>
-                    <td><input type="text" name="max_width" id="max_width" value="'.@$fieldvalues['max_width']->fieldvalue.'"/></td>
-                    <td>'.boss_helpers::bossToolTip(BOSS_MAX_IMAGE_WIDTH_LONG).'</td>
+                    <td>'.BOSS_PLG_GALLERY_MAX_SIZE.'</td>
+                    <td><input type="text" name="max_size" id="max_size" value="'.@$fieldvalues['max_size']->fieldvalue.'"/></td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_GALLERY_MAX_SIZE_LONG).'</td>
                 </tr>
                 <tr>
-                    <td>'.BOSS_MAX_IMAGE_HEIGHT.'</td>
-                    <td><input type="text" name="max_height" id="max_height" value="'.@$fieldvalues['max_height']->fieldvalue.'"/></td>
-                    <td>'.boss_helpers::bossToolTip(BOSS_MAX_IMAGE_HEIGHT_LONG).'</td>
-                </tr>
-                <tr>
-                    <td>'.BOSS_MAX_THUMBNAIL_WIDTH.'</td>
-                    <td><input type="text" name="max_width_t" id="max_width_t" value="'.@$fieldvalues['max_width_t']->fieldvalue.'"/></td>
-                    <td>'.boss_helpers::bossToolTip(BOSS_MAX_THUMBNAIL_WIDTH_LONG).'</td>
-                </tr>
-                <tr>
-                    <td>'.BOSS_MAX_THUMBNAIL_HEIGHT.'</td>
-                    <td><input type="text" name="max_height_t" id="max_height_t" value="'.@$fieldvalues['max_height_t']->fieldvalue.'"/></td>
-                    <td>'.boss_helpers::bossToolTip(BOSS_MAX_THUMBNAIL_HEIGHT_LONG).'</td>
+                    <td>'.BOSS_PLG_GALLERY_MAX_SIZE_T.'</td>
+                    <td><input type="text" name="max_size_t" id="max_size_t" value="'.@$fieldvalues['max_size_t']->fieldvalue.'"/></td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_GALLERY_MAX_SIZE_T_LONG).'</td>
                 </tr>
                 <tr>
                     <td>'.BOSS_IMAGE_TAG.'</td>
@@ -361,10 +351,9 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
 
             $nb_images          = mosGetParam($_POST, "nb_images", 0);
             $max_image_size     = mosGetParam($_POST, "max_image_size", 0);
-            $max_width          = mosGetParam($_POST, "max_width", 0);
-            $max_height         = mosGetParam($_POST, "max_height", 0);
-            $max_width_t        = mosGetParam($_POST, "max_width_t", 0);
-            $max_height_t       = mosGetParam($_POST, "max_height_t", 0);
+            $max_size          = mosGetParam($_POST, "max_size", 0);
+            $max_size_t        = mosGetParam($_POST, "max_size_t", 0);
+
             $tag                = mosGetParam($_POST, "tag", '');
             $image_display      = mosGetParam($_POST, "image_display", '');
             $cat_max_width      = mosGetParam($_POST, "cat_max_width", 0);
@@ -391,17 +380,14 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             VALUES
             ($fieldid,'nb_images', '$nb_images',  1,0),
             ($fieldid,'max_image_size', '$max_image_size', 2,0),
-            ($fieldid,'max_width', '$max_width', 3,0),
-            ($fieldid,'max_height', '$max_height', 4,0),
-            ($fieldid,'max_width_t', '$max_width_t', 5,0),
-            ($fieldid,'max_height_t', '$max_height_t', 6,0),
+            ($fieldid,'max_size_t', '$max_size_t', 3,0),
+            ($fieldid,'max_size', '$max_size', 6,0),
             ($fieldid,'tag', '$tag', 7,0),
             ($fieldid,'image_display', '$image_display', 8,0),
             ($fieldid,'cat_max_width', '$cat_max_width', 9,0),
             ($fieldid,'cat_max_height', '$cat_max_height', 10,0),
             ($fieldid,'cat_max_width_t', '$cat_max_width_t', 11,0),
             ($fieldid,'cat_max_height_t', '$cat_max_height_t', 12,0),
-
             ($fieldid,'galleryTitle', '$galleryTitle', 13,0),
             ($fieldid,'maskBgnd', '$maskBgnd', 14,0),
             ($fieldid,'overlayBackground', '$overlayBackground', 15,0),
