@@ -21,8 +21,8 @@ jQuery(function() {
             status.text('');
             //Add uploaded file to list
             if (response != "error" && response != "error_max_filesize") {
-                jQuery('<div></div>').appendTo('#files').html('<img src="/images/boss/'+directory+'/fields/'+file+'" alt="" /><br />' + file).addClass('success');
-                jQuery('.img_select').append('<option value="'+file+'">'+file+'</option>');
+                jQuery('<div></div>').appendTo('#files').html('<img src="/images/boss/'+directory+'/fields/'+response+'" alt="" /><br />' + response).addClass('success');
+                jQuery('.img_select').append('<option value="'+response+'">'+response+'</option>');
             } else {
                 jQuery('<div></div>').appendTo('#files').text('Ошибка загрузки '+file).addClass('error');
             }

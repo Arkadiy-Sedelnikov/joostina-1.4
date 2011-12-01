@@ -41,8 +41,8 @@ jQuery(function() {
                 numFields = jQuery('#boss_plugin_file').find('.boss_file').length;
                 var newFile =  '<label>Описание </label><input type="text" size="40" ' +
                     'name="boss_file['+numFields+'][signature]" class="inputbox boss_file" value="" />' +
-                    file + '<input type="hidden" name="boss_file['+numFields+'][file]" value="'+ file+'" />' +
-                    '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteFile(\''+ file+'\', \'file_'+numFields+'\')" />';
+                    response + '<input type="hidden" name="boss_file['+numFields+'][file]" value="'+ response+'" />' +
+                    '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteFile(\''+ response+'\', \'file_'+numFields+'\')" />';
                 
                 jQuery('<div id="file_'+numFields+'"></div>').appendTo('#files').html(newFile).addClass('success');
             } else {
