@@ -1903,10 +1903,18 @@ class boss_helpers {
      * @return void
      */
     public static function upload_file($directory, $folder) {
+
+        $max_filesize = mosGetParam($_REQUEST, 'max_filesize', 0);
+        if($max_filesize > 0 && filesize($_FILES['uploadfile']['tmp_name']) > $max_filesize){
+            echo "error_max_filesize";
+            return;
+        }
+
         if(is_array($folder)){
             $folder = implode('/', $folder);
         }
-        $file = JPATH_BASE . "/images/boss/$directory/$folder/" . basename($_FILES['uploadfile']['name']);
+        $filename = russian_transliterate(basename($_FILES['uploadfile']['name']));
+        $file = JPATH_BASE . "/images/boss/$directory/$folder/" . $filename;
 
         if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
             echo "success";

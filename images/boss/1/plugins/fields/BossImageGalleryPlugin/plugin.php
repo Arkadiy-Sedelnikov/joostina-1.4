@@ -151,11 +151,13 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             $read_only = (($mode == "write") && ($field->editable == 0)) ?  " readonly=true " : '';
             $class = (($mode == "write") && ($field->required == 1)) ? "boss_required" : 'boss';
 
-            $nb_files = (!empty($fValuers['nb_images'])) ? $fValuers['nb_images'] : 0;
+            $nb_files = (!empty($fValuers['nb_images'])) ? (int)$fValuers['nb_images'] : 0;
+            $max_image_size = (!empty($fValuers['max_image_size'])) ? (int)$fValuers['max_image_size'] : 0;
             $return = '';
             $return .= "
                 <script type=\"text/javascript\">
-		            var boss_nb_images = ".(int)$nb_files.";
+		            var boss_nb_images = ".$nb_files.";
+		            var boss_max_imgsize = ".$max_image_size.";
 		            var boss_enable_images = new Array('jpg', 'png', 'gif');
 		            var boss_isadmin = ".$isAdmin.";
                 </script>
@@ -193,16 +195,16 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             mosMainFrame::addLib('easythumb');
             $database = database::getInstance();
             $conf = $database->setQuery("SELECT `fieldtitle`, `fieldvalue` FROM #__boss_" . $directory . "_field_values WHERE fieldid = '$field->fieldid'")->loadObjectList('fieldtitle');
-
+            //общие настройки эскизов
             $thumb = new easyphpthumbnail;
             $thumb->Chmodlevel = '0644';
-            $thumb->Quality = 80;
+            $thumb->Quality = 90;
             if(!empty($conf['tag']->fieldvalue)){
                 $thumb->Copyrighttext = $conf['tag']->fieldvalue;
-                $thumb -> Copyrightposition = '50% 90%';//todo
-                $thumb -> Copyrightfontsize = 8;//todo
-                $thumb -> Copyrightfonttype = JPATH_BASE.'/components/com_boss/font/verdana.ttf';
-                $thumb -> Copyrighttextcolor = '#FFFFFF';//todo
+                $thumb->Copyrightposition = (!empty($conf['tag_position']->fieldvalue)) ? @$conf['tag_position']->fieldvalue : '50% 90%';
+                $thumb->Copyrightfontsize = ((int)$conf['tag_fontsize']->fieldvalue > 0) ? (int)$conf['tag_fontsize']->fieldvalue : 8;
+                $thumb->Copyrightfonttype = JPATH_BASE.'/components/com_boss/font/verdana.ttf';
+                $thumb->Copyrighttextcolor = (!empty($conf['tag_color']->fieldvalue)) ? @$conf['tag_color']->fieldvalue : '#FFFFFF';
             }
             //разрешенное количество изображений
             $nbImages = ((int)$conf['nb_images']->fieldvalue > 0) ? (int)$conf['nb_images']->fieldvalue : 1;
@@ -210,18 +212,25 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             $boss_img_gallery = mosGetParam($_POST, "boss_img_gallery", array());
             //подрезаем массив изображений до разрешенного количества
             $boss_img_gallery = array_slice($boss_img_gallery, 0, $nbImages);
+            //переводим в транслит названия файлов если был загружен файл с кириллическим названием
+            for($i=0; $i<count($boss_img_gallery); $i++){
+                $boss_img_gallery[$i]['file'] = russian_transliterate($boss_img_gallery[$i]['file']);
+            }
             //возвращаем json с изображениями
             $return = boss_helpers::json_encode_cyr($boss_img_gallery);
-
+            //создаем эскизы изображения
             foreach ($boss_img_gallery as $boss_img) {
                 $filename = $boss_img['file'];
                 // image1 upload
                 $origin = JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/$filename";
+                //если есть оригинальный файл
                 if(is_file($origin)){
+                    //если нету большого эскиза
                     if(!is_file(JPATH_BASE . "/images/boss/$directory/contents/gallery/full/$filename"))
                         $thumb->Thumbsize = $conf['max_size']->fieldvalue;
                         $thumb->Thumblocation = JPATH_BASE . "/images/boss/$directory/contents/gallery/full/";
                         $thumb->Createthumb($origin, 'file');
+                    //если нету маленького эскиза
                     if(!is_file(JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/$filename"))
                         $thumb->Thumbsize = $conf['max_size_t']->fieldvalue;
                         $thumb->Thumblocation = JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/";
@@ -240,6 +249,9 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
         {
             $return = '<div id="divImageOptions">
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+                <tr>
+                    <td colspan="3"><strong>'.BOSS_PLG_GALLERY_IMAGE_SETTINGS.'</strong></td>
+                </tr>
                 <tr>
                     <td>'.BOSS_NB_IMAGES.'</td>
                     <td><input type="text" name="nb_images" id="nb_images" value="'.@$fieldvalues['nb_images']->fieldvalue.'"/></td>
@@ -264,6 +276,24 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
                     <td>'.BOSS_IMAGE_TAG.'</td>
                     <td><input type="text" name="tag" id="tag" value="'.@$fieldvalues['tag']->fieldvalue.'"/></td>
                     <td>'.boss_helpers::bossToolTip(BOSS_IMAGE_TAG_LONG).'</td>
+                </tr>
+                <tr>
+                    <td>'.BOSS_PLG_GALLERY_TAG_POSITION.'</td>
+                    <td><input type="text" name="tag_position" id="tag_position" value="'.@$fieldvalues['tag_position']->fieldvalue.'"/></td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_GALLERY_TAG_POSITION_LONG).'</td>
+                </tr>
+                <tr>
+                    <td>'.BOSS_PLG_GALLERY_TAG_FONTSIZE.'</td>
+                    <td><input type="text" name="tag_fontsize" id="tag_fontsize" value="'.@$fieldvalues['tag_fontsize']->fieldvalue.'"/></td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_GALLERY_TAG_FONTSIZE_LONG).'</td>
+                </tr>
+                <tr>
+                    <td>'.BOSS_PLG_GALLERY_TAG_COLOR.'</td>
+                    <td><input type="text" name="tag_color" id="tag_color" value="'.@$fieldvalues['tag_color']->fieldvalue.'"/></td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_GALLERY_TAG_COLOR_LONG).'</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>'.BOSS_PLG_GALLERY_GALLERY_SETTINGS.'</strong></td>
                 </tr>
                 <tr>
                     <td>'.BOSS_PLG_GALLERY_GAL_NAME.'</td>
@@ -355,6 +385,10 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             $max_size_t        = mosGetParam($_POST, "max_size_t", 0);
 
             $tag                = mosGetParam($_POST, "tag", '');
+            $tag_fontsize                = mosGetParam($_POST, "tag_fontsize", '');
+            $tag_position                = mosGetParam($_POST, "tag_position", '');
+            $tag_color                = mosGetParam($_POST, "tag_color", '');
+
             $image_display      = mosGetParam($_POST, "image_display", '');
             $cat_max_width      = mosGetParam($_POST, "cat_max_width", 0);
             $cat_max_height     = mosGetParam($_POST, "cat_max_height", 0);
@@ -381,23 +415,26 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             ($fieldid,'nb_images', '$nb_images',  1,0),
             ($fieldid,'max_image_size', '$max_image_size', 2,0),
             ($fieldid,'max_size_t', '$max_size_t', 3,0),
-            ($fieldid,'max_size', '$max_size', 6,0),
-            ($fieldid,'tag', '$tag', 7,0),
-            ($fieldid,'image_display', '$image_display', 8,0),
-            ($fieldid,'cat_max_width', '$cat_max_width', 9,0),
-            ($fieldid,'cat_max_height', '$cat_max_height', 10,0),
-            ($fieldid,'cat_max_width_t', '$cat_max_width_t', 11,0),
-            ($fieldid,'cat_max_height_t', '$cat_max_height_t', 12,0),
-            ($fieldid,'galleryTitle', '$galleryTitle', 13,0),
-            ($fieldid,'maskBgnd', '$maskBgnd', 14,0),
-            ($fieldid,'overlayBackground', '$overlayBackground', 15,0),
-            ($fieldid,'overlayOpacity', '$overlayOpacity', 16,0),
-            ($fieldid,'minWidth', '$minWidth', 17,0),
-            ($fieldid,'minHeight', '$minHeight', 18,0),
-            ($fieldid,'maxWidth', '$maxWidth', 19,0),
-            ($fieldid,'slideTimer', '$slideTimer', 20,0),
-            ($fieldid,'autoSlide', '$autoSlide', 21,0),
-            ($fieldid,'skin', '$skin', 22,0)
+            ($fieldid,'max_size', '$max_size', 4,0),
+            ($fieldid,'tag', '$tag', 5,0),
+            ($fieldid,'tag_fontsize', '$tag_fontsize', 6,0),
+            ($fieldid,'tag_position', '$tag_position', 7,0),
+            ($fieldid,'tag_color', '$tag_color', 8,0),
+            ($fieldid,'image_display', '$image_display', 9,0),
+            ($fieldid,'cat_max_width', '$cat_max_width', 10,0),
+            ($fieldid,'cat_max_height', '$cat_max_height', 11,0),
+            ($fieldid,'cat_max_width_t', '$cat_max_width_t', 12,0),
+            ($fieldid,'cat_max_height_t', '$cat_max_height_t', 13,0),
+            ($fieldid,'galleryTitle', '$galleryTitle', 14,0),
+            ($fieldid,'maskBgnd', '$maskBgnd', 15,0),
+            ($fieldid,'overlayBackground', '$overlayBackground', 16,0),
+            ($fieldid,'overlayOpacity', '$overlayOpacity', 17,0),
+            ($fieldid,'minWidth', '$minWidth', 18,0),
+            ($fieldid,'minHeight', '$minHeight', 19,0),
+            ($fieldid,'maxWidth', '$maxWidth', 20,0),
+            ($fieldid,'slideTimer', '$slideTimer', 21,0),
+            ($fieldid,'autoSlide', '$autoSlide', 22,0),
+            ($fieldid,'skin', '$skin', 23,0)
             ";
             $database->setQuery($q)->query();
             //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false

@@ -4,7 +4,7 @@ jQuery(function() {
     var status = jQuery('#status_image');
     var directory = jQuery('input[name="directory"]').val();
     var numFields = 0;
-    var actUrl = '/ajax.index.php?option=com_boss&act=upload_file&folder[0]=contents&folder[1]=gallery&folder[2]=origin&directory='+ directory;
+    var actUrl = '/ajax.index.php?option=com_boss&act=upload_file&folder[0]=contents&folder[1]=gallery&folder[2]=origin&max_filesize='+boss_max_imgsize+'&directory='+ directory;
     if(boss_isadmin == 1){
         actUrl = '/administrator'+actUrl;
     }
@@ -13,6 +13,7 @@ jQuery(function() {
         //Name of the file input box
         name: 'uploadfile',
         onSubmit: function(file, ext) {
+            var file = file;
             numFields = jQuery('#boss_plugin_image').find('.boss_img_gallery').length;
             if(numFields >= boss_nb_images){
                 status.text('Only '+boss_nb_images+' files are allowed').addClass('error');
@@ -23,7 +24,7 @@ jQuery(function() {
                 var extension = ext[0];
                 if (jQuery.inArray(extension, boss_enable_images) == -1) {
                     // check for valid file extension
-                    status.text('Only '+boss_enable_images+' files are allowed');
+                    status.text('Only '+boss_enable_images+' files are allowed').addClass('error');
                     return false;
 
                 }
@@ -43,7 +44,10 @@ jQuery(function() {
                     '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteImage(\''+ file+'\', \'file_'+numFields+'\')" />';
                 
                 jQuery('<div id="file_'+numFields+'"></div>').appendTo('#gallery_images').html(newFile).addClass('success');
-            } else {
+            } else if(response == "error_max_filesize"){
+                status.text('Размер '+file+' превышает допустимый, допустимый размер '+boss_max_imgsize+' Байт.').addClass('error');
+            }
+            else{
                 status.text('Ошибка загрузки '+file).addClass('error');
             }
         }

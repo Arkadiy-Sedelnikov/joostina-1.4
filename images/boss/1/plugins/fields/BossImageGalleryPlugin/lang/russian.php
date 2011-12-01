@@ -34,3 +34,13 @@ DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE", "Размер изображения" );
 DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_LONG", "Размер изображения в пикселях, только число" );
 DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_T", "Размер миниатюры" );
 DEFINE( "BOSS_PLG_GALLERY_MAX_SIZE_T_LONG", "Размер миниатюры в пикселях, только число" );
+DEFINE( "BOSS_PLG_GALLERY_IMAGE_SETTINGS", "Настройки изображений" );
+DEFINE( "BOSS_PLG_GALLERY_GALLERY_SETTINGS", "Настройки галереи" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_POSITION", "Позизция копирайта" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_POSITION_LONG", "Позизция копирайта в процентах, первый - по горизонтали, второй - по вертикали, например '50% 90%' - по центру снизу" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_FONTSIZE", "Шрифт копирайта" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_FONTSIZE_LONG", "Высота шрифта копирайта, только число, по умолчанию 8" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_COLOR", "Цвет копирайта" );
+DEFINE( "BOSS_PLG_GALLERY_TAG_COLOR_LONG", "Цвет копирайта, по умолчанию #FFFFFF" );
+
+
