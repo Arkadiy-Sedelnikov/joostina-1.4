@@ -36,7 +36,7 @@ jQuery(function() {
             //On completion clear the status
             status.text('');
             //Add uploaded file to list
-            if (response === "success") {
+            if (response != "error" && response != "error_max_filesize") {
 
                 numFields = jQuery('#boss_plugin_file').find('.boss_file').length;
                 var newFile =  '<label>Описание </label><input type="text" size="40" ' +

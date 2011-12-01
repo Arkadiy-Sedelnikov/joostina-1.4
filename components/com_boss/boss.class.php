@@ -1913,11 +1913,23 @@ class boss_helpers {
         if(is_array($folder)){
             $folder = implode('/', $folder);
         }
+        //тарнслитерированное имя загружаемого файла
         $filename = russian_transliterate(basename($_FILES['uploadfile']['name']));
+        //целевой файл
         $file = JPATH_BASE . "/images/boss/$directory/$folder/" . $filename;
-
+        //если целевой файл есть, то даем ему уникальное имя
+        if(is_file($file)){
+            $i=0;
+            $fname = $filename;
+            while (file_exists(JPATH_BASE . "/images/boss/$directory/$folder/" . $fname)) {
+                $i++;
+                $fname = $i . "_" . $filename;
+            }
+            $file = JPATH_BASE . "/images/boss/$directory/$folder/" . $fname;
+            $filename = $fname;
+        }
         if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
-            echo "success";
+            echo $filename;
         } else {
             echo "error";
         }

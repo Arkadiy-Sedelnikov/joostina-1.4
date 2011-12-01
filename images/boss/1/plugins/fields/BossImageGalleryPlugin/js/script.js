@@ -36,12 +36,12 @@ jQuery(function() {
             //On completion clear the status
             status.text('');
             //Add uploaded file to list
-            if (response === "success") {
+            if (response != "error" && response != "error_max_filesize") {
                 numFields = jQuery('#boss_plugin_image').find('.boss_img_gallery').length;
                 var newFile =  '<label>Описание </label><input type="text" size="40" ' +
                     'name="boss_img_gallery['+numFields+'][signature]" class="inputbox boss_img_gallery" value="" />' +
-                    file + '<input type="hidden" name="boss_img_gallery['+numFields+'][file]" value="'+ file+'" />' +
-                    '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteImage(\''+ file+'\', \'file_'+numFields+'\')" />';
+                    response + '<input type="hidden" name="boss_img_gallery['+numFields+'][file]" value="'+ response+'" />' +
+                    '&nbsp;&nbsp;<input type="button" value="X" class="button" onclick="bossDeleteImage(\''+ response +'\', \'file_'+numFields+'\')" />';
                 
                 jQuery('<div id="file_'+numFields+'"></div>').appendTo('#gallery_images').html(newFile).addClass('success');
             } else if(response == "error_max_filesize"){
