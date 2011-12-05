@@ -20,7 +20,7 @@ $link				= $params->get( 'link' );
 $width				= $params->get( 'width' );
 $height				= $params->get( 'height' );
 
-$slideshow_name		= $params->get( 'slideshow_name', 'jstSlideShow_1' );
+$slideshow_name		= 'slideshow_'.$module->id;
 $s_autoplay			= $params->get( 's_autoplay', '1' );
 $s_pause			= $params->get( 's_pause', '2500' );
 $s_fadeduration		= $params->get( 's_fadeduration', '500' );
@@ -141,7 +141,7 @@ if (is_dir($abspath_folder)) {
 					<?php
 				}else {
 					$pics_str = implode(',', $pics);
-					echo mosCommonHTML::loadJqueryPlugins('jquery.simplegallery',1);
+					echo mosCommonHTML::loadJqueryPlugins('jquery.simplegallery', true, true);
 					include (JPATH_BASE.'/modules/mod_random_image/slide_show.php');
 					?>
 <div id="<?php echo $slideshow_name;?>"></div>

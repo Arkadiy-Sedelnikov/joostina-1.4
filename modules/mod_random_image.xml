@@ -27,7 +27,6 @@
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="tab1" type="tabs" default="endTab" />
 		<param name="tab2" type="tabs" default="startTab" label="Настройки слайд-шоу" />
-		<param name="slideshow_name" type="text" default="jstSlideShow_1" label="Идентификатор слайд-шоу" description="Идентификатор должен иметь уникальное имя, поскольку для вывода будет использоваться div с ID, равным данному идентификатору" />
 		<param name="img_pref" type="text" default="" label="Преффикс имени файла" description="Если преффикс указан, для ротации будут выбираться изображения, названия которых начинаются с [преффикс][порядковый номер]" />
 		<param name="s_autoplay" type="list" default="1" label="Автозапуск слайдов" description="Да - автоматическая прокрутка слайдов. Нет - смена слайдов доступна только в ручном режиме (т.е. с помощью кнопок управления) ">
 			<option value="0">Нет</option>
