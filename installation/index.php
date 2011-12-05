@@ -314,9 +314,9 @@ echo '<?xml version="1.0" encoding="utf-8"?' . '>';
 											if ($act_val == '1' || $act_val == '2' || $act_val == '') {
 												if (get_php_setting($phprec[1]) == $phprec[2]) {
 													?>
-													<font color="green"><strong>
+													<strong><font color="green">
 														<?php } else { ?>
-															<font color="red"><strong>
+															<strong><font color="red">
 																	<?php
 																}
 															}
@@ -327,7 +327,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' . '>';
 															} else
 																echo '<strong><font color="green">' . $act_val . '</font>';
 															?>
-														</strong></font>
+														</font></strong>
 													</td>
 													</tr>
 													<?php
