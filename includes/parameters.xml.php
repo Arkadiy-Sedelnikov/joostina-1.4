@@ -326,7 +326,38 @@ class mosParameters {
         if(in_array('_form_'.$type,$this->_methods)) {
             $result[1] = call_user_func(array(&$this,'_form_'.$type),$name,$value,$param,$control_name, $label);
         } else {
+            //todo пытаемся добавить обработчик неизвестного поля из модуля
+            if(mosGetParam($_REQUEST, 'option', '') == 'com_modules'){
+                $id = mosGetParam($_REQUEST, 'id', 0);
+                if($id>0){
+                    $database = database::getInstance();
+                    $query = "SELECT module"
+				        ."\n FROM #__modules"
+				        ."\n WHERE id = ".$id;
+		            $database->setQuery($query);
+		            $module = $database->loadResult();
+                    if(is_file(JPATH_BASE.'/modules/'.$module.'/elements.php')){
+                        require_once(JPATH_BASE.'/modules/'.$module.'/elements.php');
+                        $className = $module.'_elements';
+                        $methodName = 'load_'.$type;
+                        if(method_exists($className, $methodName)){
+                            $result[1] = $className::$methodName($name);
+                        }
+                        else{
             $result[1] = _HANDLER.' = '.$type;
+                        }
+                    }
+                    else{
+                        $result[1] = _HANDLER.' = '.$type;
+                    }
+                }
+                else{
+                    $result[1] = _HANDLER.' = '.$type;
+                }
+            }
+            else{
+                $result[1] = _HANDLER.' = '.$type;
+            }
         }
 
         if($description) {
