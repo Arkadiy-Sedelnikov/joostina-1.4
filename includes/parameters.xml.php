@@ -308,10 +308,8 @@ class mosParameters {
      */
     function renderParam(&$param,$control_name = 'params') {
         $result = array();
-
         $name = $param->getAttribute('name');
         $label = $param->getAttribute('label');
-
         $value = $this->get($name,$param->getAttribute('default'));
         $description = $param->getAttribute('description');
 
@@ -341,10 +339,11 @@ class mosParameters {
                         $className = $module.'_elements';
                         $methodName = 'load_'.$type;
                         if(method_exists($className, $methodName)){
-                            $result[1] = $className::$methodName($name);
+                            //$result[1] = $className::$methodName($name);
+                            $result[1] = call_user_func_array(array($className, $methodName), array($name));
                         }
                         else{
-            $result[1] = _HANDLER.' = '.$type;
+                            $result[1] = _HANDLER.' = '.$type;
                         }
                     }
                     else{
