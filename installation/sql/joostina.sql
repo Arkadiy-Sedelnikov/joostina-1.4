@@ -572,7 +572,6 @@ INSERT INTO `#__mambots` VALUES (22, 'Информация ', 'user_info', 'prof
 INSERT INTO `#__mambots` VALUES (23, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL);
 INSERT INTO `#__mambots` VALUES (24, 'System - JQuery', 'jquery', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', NULL);
 INSERT INTO `#__mambots` VALUES (25, 'elRTE Mambot', 'elrte', 'editors',    0, 1, 1, 0, 0, 0, '2011-10-22 22:19:50', NULL);
-INSERT INTO `#__mambots` VALUES (26, 'Принудительное подключение jQuery', 'jquery', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
