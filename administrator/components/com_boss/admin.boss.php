@@ -38,7 +38,7 @@ $task = mosGetParam($_REQUEST, 'task', "");
 
 $params = HTML_boss::getLayout();
 
-if($directory == 0 && $act != 'manager' && $task !=  'new'){
+if($directory == 0 && (($act != 'manager' && $task !=  'new') && $act != 'export_import')){
     $params['act'] = $_REQUEST['act']  = $act  =  'manager';
     $_REQUEST['task'] = $task =  '';
 }
@@ -366,10 +366,6 @@ switch ($act) {
                 break;
 
             default:
-                //проверяем наличие каталогов, если нет - завершаем страницу
-                if (!HTML_boss::check_dir($directory, $conf)) {
-                    break;
-                }
                 bossExportImport::showImpExpForm($directory, $conf);
                 break;
         }

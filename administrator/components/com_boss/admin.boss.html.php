@@ -2483,7 +2483,8 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
     public static function showImpExpForm($directory, $directories, $packs, $conf){
         HTML_boss::header(BOSS_EX_IM_HEADER, $directory, $directories, $conf);
-        $pack_name = str_replace(array("'",'"'), '', russian_transliterate($directories[$directory]->name).'_'.date("Ymd_His"));
+        $pack_name = (!empty($directories[$directory]->name)) ? $directories[$directory]->name : 'directory';
+        $pack_name = str_replace(array("'",'"'), '', russian_transliterate($pack_name).'_'.date("Ymd_His"));
         ?>
         <table width="100%">
             <tr>

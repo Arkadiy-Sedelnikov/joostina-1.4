@@ -3655,15 +3655,15 @@ class bossExportImport {
 
         $directories = BossDirectory::getDirectories();
         $packs = array();
-
-        if ($handle = opendir(JPATH_BASE . '/images/boss/' . $directory)) {
-            while (false !== ($file = readdir($handle))) {
-                if (substr($file, -4) == '.zip')
-                    $packs[] = $file;
+        if(is_dir(JPATH_BASE . '/images/boss/' . $directory)){
+            if ($handle = opendir(JPATH_BASE . '/images/boss/' . $directory)) {
+                while (false !== ($file = readdir($handle))) {
+                    if (substr($file, -4) == '.zip')
+                        $packs[] = $file;
+                }
+                closedir($handle);
             }
-            closedir($handle);
         }
-
         HTML_boss::showImpExpForm($directory, $directories, $packs, $conf);
     }
 
