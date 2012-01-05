@@ -135,7 +135,7 @@ class jDirectoryConf extends mosDBTable {
             echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
             exit();
         }
-        
+        $row->name = htmlspecialchars($row->name, ENT_QUOTES);
         //если активировано управление правами пользователя
         if($row->allow_rights == 1){
             $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_admin'));
