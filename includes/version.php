@@ -30,7 +30,7 @@ class joomlaVersion {
 	/** @var int Номер сборки*/
 	var $BUILD = '837';
 	/** @var string Кодовое имя*/
-	var $CODENAME = '';
+	var $CODENAME = 'Lotos';
 	/** @var string Дата*/
 	var $RELDATE = '15:11:2011';
 	/** @var string Время*/
