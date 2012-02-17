@@ -7095,6 +7095,18 @@ function _xdump($var, $text='<pre>') {
 	echo "\n";
 }
 
+function _vdump($var) {
+	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
+	var_dump($var);
+	echo "</pre>";
+}
+
+function _pdump($var) {
+	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
+	print_r($var);
+	echo "</pre>";
+}
+
 /**
   @global mosPlugin $_MAMBOTS */
 $_MAMBOTS = new mosMambotHandler();
