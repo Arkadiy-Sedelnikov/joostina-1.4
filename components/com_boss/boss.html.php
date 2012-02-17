@@ -740,17 +740,37 @@ class boss_html
             echo '<img  class="imgheading" src="' . JPATH_SITE . '/images/boss/' . $directory . '/categories/' . $catid . 'cat_t.jpg" alt="' . $name . '" />';
     }
 
-    function displayCategoryTitle($content, $type)
-    {
-        switch ($type) {
-            case 0:
-                echo $content->cat;
-                break;
-            case 1:
-                echo $content->parent . " / " . $content->cat;
-                break;
-        }
-    }
+    /**
+	 * Вывод названия категории
+	 * @param  $content
+	 * @param  $type
+	 * 		0 - показать только категорию,
+	 * 		1 - показать категория с родителем
+	 * 		2 - показать только категорию ссылкой,
+	 * 		3 - показать категория с родителем ссылками
+	 * @return void
+	 * Изменения внесены 01.02.2012 Gold Dragon
+	 */
+	function displayCategoryTitle($content, $type = 0) {
+		if ($type > 1) {
+			$link_cat = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=" . $content->catid . "&amp;directory=" . $this->directory);
+			$link_parent = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=" . $content->parentid . "&amp;directory=" . $this->directory);
+			switch ($type) {
+				case 0:
+					echo $content->cat;
+					break;
+				case 1:
+					echo $content->parent . " / " . $content->cat;
+					break;
+				case 2:
+					echo '<a href="' . $link_cat . '" >' . $content->cat . '</a>';
+					break;
+				case 3:
+					echo '<a href="' . $link_parent . '" >' . $content->parent . "</a> / " . '<a href="' . $link_cat . '" >' . $content->cat . '</a>';
+					break;
+			}
+		}
+	}
 
     function displayContentHits($content)
     {
