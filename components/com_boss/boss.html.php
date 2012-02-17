@@ -749,7 +749,7 @@ class boss_html
 	 * 		2 - показать только категорию ссылкой,
 	 * 		3 - показать категория с родителем ссылками
 	 * @return void
-	 * Изменения внесены 01.02.2012 Gold Dragon
+	 * Изменения внесены 01.02.2012 GoDr
 	 */
 	function displayCategoryTitle($content, $type = 0) {
 		if ($type > 1) {
