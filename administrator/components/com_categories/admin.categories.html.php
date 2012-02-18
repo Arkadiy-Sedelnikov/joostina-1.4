@@ -16,33 +16,29 @@ defined('_VALID_MOS') or die();
 class categories_html {
 
 	/**
-	 * Writes a list of the categories for a section
-	 * @param array An array of category objects
-	 * @param string The name of the category section
+	 * Записывает список категорий для раздела
+	 * @param  $rows - масссив данных
+	 * @param  $section - раздел категорий
+	 * @param  $section_name - название раздела
+	 * @param  $pageNav - навигация
+	 * @param string $type
+	 * @return void
+	 * @modification 18.02.2012 GoDr
 	 */
-	function show(&$rows,$section,$section_name,&$pageNav,&$lists,$type) {
+	function show(&$rows,$section,$section_name,&$pageNav, $type = '') {
 		global $my;
-		$mainframe = mosMainFrame::getInstance();
+
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 		mosCommonHTML::loadOverlib();
 		?>
 <form action="index2.php" method="post" name="adminForm">
 	<table class="adminheading">
 		<tr>
-					<?php
-					if($section == 'content') {
-						?>
-			<th class="categories">
-							<?php echo _CONTENT_CATEGORIES?> <small><small>[ <?php echo _ALL_CONTENT?> ]</small></small>
-			</th>
-			<td width="right"></td>
-						<?php
-					} else {
-						?>
-			<th class="categories"><?php echo _CATEGORIES?> <small><small>[ <?php echo $section_name; ?> ]</small></small></th>
-						<?php
-					}
-					?>
+			<?php if($section == 'content') { ?>
+			<th class="categories"><?php echo _CONTENT_CATEGORIES?> <small>[ <?php echo _ALL_CONTENT?> ]</small></th>
+			<?php } else { ?>
+			<th class="categories"><?php echo _CATEGORIES?> <small>[ <?php echo $section_name; ?> ]</small></th>
+			<?php } ?>
 		</tr>
 	</table>
 	<table class="adminlist">

@@ -106,68 +106,67 @@ switch($task) {
 		break;
 
 	default:
-		showCategories($section,$option);
+		showCategories($section);
 		break;
 }
 
 /**
- * Compiles a list of categories for a section
- * @param string The name of the category section
+ * Составляет список категорий для раздела
+ * @param string Название категории разделе
+ * @modification 18.02.2012 GoDr
  */
-function showCategories($section,$option) {
-	global $database,$mainframe,$mosConfig_list_limit,$mosConfig_dbprefix;
+function showCategories($section) {
+	global $database, $mainframe, $mosConfig_list_limit, $mosConfig_dbprefix;
 
-	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
-	$limitstart = intval($mainframe->getUserStateFromRequest("view{$section}limitstart",'limitstart',0));
+	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
+	$limitstart = intval($mainframe->getUserStateFromRequest("view{$section}limitstart", 'limitstart', 0));
 
-	$section_name = '';
 	$order = "\n ORDER BY c.ordering, c.name";
 
-	// get the total number of records
-	$query = "SELECT COUNT(*) FROM #__categories";
-	$database->setQuery($query);
+	// количество записей в таблице
+	$sql = "SELECT COUNT(*) FROM #__categories";
+	$database->setQuery($sql);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE_ADMIN.'/includes/pageNavigation.php');
-	$pageNav = new mosPageNav($total,$limitstart,$limit);
+	require_once (JPATH_BASE_ADMIN . '/includes/pageNavigation.php');
+	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
-	$tablesAllowed = $database->getTableList();
-
-
-	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, '0' AS active, '0' AS trash,"
-			."0 AS checked_out"
-			."\n FROM #__categories AS c"
-			."\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-			."\n LEFT JOIN #__groups AS g ON g.id = c.access"
-			."\n AND c.published != -2"
-			."\n GROUP BY c.id"
-			.$order;
-
-	$database->setQuery($query,$pageNav->limitstart,$pageNav->limit);
-
+	$sql = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, '0' AS active, '0' AS trash, 0 AS checked_out
+			FROM #__categories AS c
+			LEFT JOIN #__users AS u ON u.id = c.checked_out
+			LEFT JOIN #__groups AS g ON g.id = c.access
+			WHERE c.section = '" . $section . "'
+				AND c.published != -2
+			GROUP BY c.id"
+			. $order;
+	$database->setQuery($sql, $pageNav->limitstart, $pageNav->limit);
 	$rows = $database->loadObjectList('id');
 
-	if($database->getErrorNum()) {
+	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return;
 	}
-
-	$cat_ids = array();
-	foreach ($rows as $row) {
-		$cat_ids[]=$row->id;
-		unset($row);
-	}
-
 	$new_rows = array();
-
-	foreach($rows as $v) {
+	foreach ($rows as $v) {
 		$new_rows[] = $v;
 	}
-
 	$rows = $new_rows;
 	unset($new_rows);
 
-	categories_html::show($rows,$section,$section_name,$pageNav,$lists,$type);
+	switch($section){
+		case 'com_weblinks':
+			$section_name = _TABLE_LINKS_CATEGORY;
+			break;
+		case 'com_newsfeeds':
+			$section_name = _TABLE_NEWSFEEDS_CATEGORY;
+			break;
+		case 'com_contact_details':
+			$section_name = _TABLE_CATEGORY_CONTACTS;
+			break;
+		default:
+			$section_name = '';
+	}
+	categories_html::show($rows, $section, $section_name, $pageNav);
 }
 
 /**
@@ -179,7 +178,6 @@ function showCategories($section,$option) {
 function editCategory($uid = 0,$section = '') {
 	global $database,$my,$mainframe;
 
-	$type = strval(mosGetParam($_REQUEST,'type',''));
 	$redirect = strval(mosGetParam($_REQUEST,'section','content'));
 
 
