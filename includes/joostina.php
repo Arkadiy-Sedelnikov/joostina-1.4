@@ -2699,16 +2699,15 @@ class mosModule extends mosDBTable {
 	}
 
 	/**
-	 * @param string The position
-	 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
+	 * Вывод модулей в определённую позицию
+	 * @param string $position - позиция
+	 * @param int $style - стиль отображения
+	 * @param int $noindex - индексировать
+	 * @return
 	 */
 	function mosLoadModules($position = 'left', $style = 0, $noindex = 0) {
 		global $my, $Itemid;
-
 		$tp = intval(mosGetParam($_GET, 'tp', 0));
-		$style = intval($style);
-
-		$config_absolute_path = JPATH_BASE;
 		$config_caching = $this->_view->_mainframe->config->config_caching;
 
 		if ($tp && !$this->_view->_mainframe->config->config_disable_tpreview) {
@@ -2717,24 +2716,28 @@ class mosModule extends mosDBTable {
 		}
 
 		$allModules = $this->_all_modules;
-
 		$modules = (isset($allModules[$position])) ? $modules = $allModules[$position] : array();
+		$style = (count($modules) < 1) ? 0 : intval($style);
 
-		echo ($noindex == 1) ? '<span style="display:none"><![CDATA[<noindex>]]></span>' : null;
-
-		if (count($modules) < 1) {
-			$style = 0;
+		switch($style){
+			case 2:
+				$prepend = '<div>';
+				$postpend = '</div>';
+				break;
+			case 1:
+				$prepend = '<td>';
+				$postpend = '</td>';
+				break;
+			default:
+				$prepend = '';
+				$postpend = '';
 		}
 
-		echo ($style == 1) ? '<table cellspacing="1" cellpadding="0" border="0" width="100%"><tr>' : null;
+		if($noindex){echo '<!--noindex-->';}
 
-		$prepend = ($style == 1) ? '<td valign="top">' : '';
-		$postpend = ($style == 1) ? '</td>' : '';
-
+		echo ($style == 1) ? '<table><tr>' : null;
 		$count = 1;
-
 		foreach ($modules as $module) {
-
 			$params = new mosParameters($module->params);
 			$def_cachetime = ($params->get('cache_time', 0) > 0) ? $params->get('cache_time') : null;
 
@@ -2767,7 +2770,7 @@ class mosModule extends mosDBTable {
 		}
 
 		echo ($style == 1 ) ? "</tr>\n</table>\n" : null;
-		echo ($noindex == 1) ? '<span style="display:none"><![CDATA[</noindex>]]></span>' : null;
+		if($noindex){echo '<!--/noindex-->';}
 
 		return;
 	}
