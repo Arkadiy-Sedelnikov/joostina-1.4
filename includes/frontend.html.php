@@ -27,106 +27,59 @@ class modules_html {
 		$this->_mainframe = $mainframe;
 	}
 
-	/*
-	* Output Handling for Custom modules
-	*/
-	function module($module,$params,$Itemid,$style = 0) {
+	/**
+	 * Вывод пользовательских модулей
+	 * @param  $module
+	 * @param  $params
+	 * @param  $Itemid
+	 * @return void
+	 * @modification 19.02.2012 GoDr
+	 */
+	function module($module, $params, $Itemid) {
 		global $_MAMBOTS;
 
-		$database = $this->_mainframe->getDBO();
-
-		// custom module params
 		$moduleclass_sfx = $params->get('moduleclass_sfx');
-		$rssurl		= $params->get('rssurl');
-		$firebots	= $params->get('firebots',0);
+		$rssurl = $params->get('rssurl');
+		$firebots = $params->get('firebots', 0);
 
-		if($rssurl) {
+		if ($rssurl) {
 			// feed output
-			modules_html::modoutput_feed($module,$params,$moduleclass_sfx);
+			modules_html::modoutput_feed($module, $params, $moduleclass_sfx);
 		}
 
-		if($module->content != '' && $firebots) {
-			// mambot handling for custom modules
-			// load content bots
+		if ($module->content != '' && $firebots) {
 			$_MAMBOTS->loadBotGroup('content');
-
 			$row = $module;
 			$row->text = $module->content;
-
-			$results = $_MAMBOTS->trigger('onPrepareContent',array(&$row,&$params,0),true);
-
+			$results = $_MAMBOTS->trigger('onPrepareContent', array(&$row, &$params, 0), true);
 			$module->content = $row->text;
 		}
 
 		$module = mosModule::convert_to_object($module, $this->_mainframe);
-		switch($style) {
-			case - 3:
-			// allows for rounded corners
-				modules_html::modoutput_rounded($module,$params,$Itemid,$moduleclass_sfx,1);
-				break;
-
-			case - 2:
-			// xhtml (divs and font headder tags)
-				modules_html::modoutput_xhtml($module,$params,$Itemid,$moduleclass_sfx,1);
-				break;
-
-			case - 1:
-			// show a naked module - no wrapper and no title
-				modules_html::modoutput_naked($module,$params,$Itemid,$moduleclass_sfx,1);
-				break;
-
-			default:
-			// standard tabled output
-				modules_html::modoutput_table($module,$params,$Itemid,$moduleclass_sfx,1);
-				break;
-		}
+		modules_html::modoutput_xhtml($module, $params, $Itemid, $moduleclass_sfx, 1);
 	}
 
 	/**
-	 * Output Handling for 3PD modules
-	 * @param object
-	 * @param object
-	 * @param int The menu item ID
-	 * @param int -1=show without wrapper and title, -2=xhtml style
+	 * Вывод стандартных модулей
+	 * @param  $module
+	 * @param  $params
+	 * @param  $Itemid
+	 * @return void
+	 * @modification 19.02.2012 GoDr
 	 */
-	function module2($module,$params,$Itemid,$style = 0,$count = 0) {
+	function module2($module, $params, $Itemid) {
 		$config = $this->_mainframe->config;
 
 		$moduleclass_sfx = $params->get('moduleclass_sfx');
 
-		$path = JPATH_BASE.DS.'language'.DS.$config->config_lang.DS.'frontend'.DS.$module->module.'.php';
-		$path_def = JPATH_BASE.DS.'language/russian/frontend'.DS.$module->module.'.php';
+		$path = JPATH_BASE . DS . 'language' . DS . $config->config_lang . DS . 'frontend' . DS . $module->module . '.php';
+		$path_def = JPATH_BASE . DS . 'language/russian/frontend' . DS . $module->module . '.php';
 
-		file_exists($path) ? include_once ($path) : (file_exists($path_def) ? include_once ($path_def):null);
-
-		$number = '';
-		if($count > 0) {
-			$number = '<span>'.$count.'</span> ';
-		}
+		file_exists($path) ? include_once ($path) : (file_exists($path_def) ? include_once ($path_def) : null);
 
 		$module = mosModule::convert_to_object($module, $this->_mainframe);
 
-		switch($style) {
-			case - 3:
-			// allows for rounded corners
-				modules_html::modoutput_rounded($module,$params,$Itemid,$moduleclass_sfx);
-				break;
-
-			case - 2:
-			// xhtml (divs and font headder tags)
-				modules_html::modoutput_xhtml($module,$params,$Itemid,$moduleclass_sfx);
-				break;
-
-			case - 1:
-			// show a naked module - no wrapper and no title
-				modules_html::modoutput_naked($module,$params,$Itemid,$moduleclass_sfx);
-				break;
-
-			default:
-			// standard tabled output
-				modules_html::modoutput_table($module,$params,$Itemid,$moduleclass_sfx);
-				break;
-		}
+		modules_html::modoutput_xhtml($module, $params, $Itemid, $moduleclass_sfx);
 	}
 
 	// feed output
@@ -288,129 +241,33 @@ class modules_html {
 		}
 	}
 
-	/*
-	* standard tabled output
-	*/
-	function modoutput_table($module,$params,$Itemid,$moduleclass_sfx,$type = 0) {
-		global $my;
+	/**
+	 * Вывод конкретного модуля
+	 * @param  $module
+	 * @param  $params
+	 * @param  $Itemid
+	 * @param  $moduleclass_sfx
+	 * @param int $type
+	 * @return void
+	 * @modification 19.02.2012 GoDr
+	 */
+	function modoutput_xhtml($module, $params, $Itemid, $moduleclass_sfx, $type = 0) {
+		$mainframe = mosMainFrame::getInstance();
+		$database = database::getInstance();
 
-		$mainframe = $this->_mainframe;
-		$database = $this->_mainframe->getDBO();
-
-		?>
-<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
-			<?php
-			if($module->showtitle != 0) {
-				?>
-	<tr>
-		<th valign="top"><?php echo htmlspecialchars($module->title); ?></th>
-	</tr>
-				<?php
-			}
-			?>
-	<tr>
-		<td>
-					<?php
-					if($type) {
-						modules_html::CustomContent($module,$params);
-					} else {
-						include (JPATH_BASE.DS.'modules'.DS.$module->module.'.php');
-
-						if(isset($content)) {
-							echo $content;
-						}
-					}
-					?>
-		</td>
-	</tr>
-</table>
-		<?php
-	}
-
-	/*
-	* show a naked module - no wrapper and no title
-	*/
-	function modoutput_naked($module,$params,$Itemid,$moduleclass_sfx,$type = 0) {
-		global $my;
-
-		$mainframe = $this->_mainframe;
-		$database = $this->_mainframe->getDBO();
-
-		if($type) {
-			modules_html::CustomContent($module,$params);
+		echo '<div class="moduletable' . $moduleclass_sfx . '" id="module_' . $module->id . '">';
+		if ($module->showtitle != 0) {
+			echo '<h3>' . htmlspecialchars($module->title) . '</h3>';
+		}
+		if ($type) {
+			modules_html::CustomContent($module, $params);
 		} else {
-			include (JPATH_BASE.DS.'modules'.DS.$module->module.'.php');
-
-			if(isset($content)) {
+			include (JPATH_BASE . DS . 'modules' . DS . $module->module . '.php');
+			if (isset($content)) {
 				echo $content;
 			}
 		}
-	}
-
-	/*
-	* xhtml (divs and font headder tags)
-	*/
-	function modoutput_xhtml($module,$params,$Itemid,$moduleclass_sfx,$type = 0) {
-		global $my;
-
-		$mainframe = $this->_mainframe;
-		$database = $this->_mainframe->getDBO();
-
-		?>
-<div class="moduletable<?php echo $moduleclass_sfx; ?>" id="module_<?php echo $module->id; ?>">
-			<?php if($module->showtitle != 0) {?>
-	<h3><?php echo htmlspecialchars($module->title); ?></h3>
-				<?php
-			}
-
-			if($type) {
-				modules_html::CustomContent($module,$params);
-			} else {
-				include (JPATH_BASE.DS.'modules'.DS.$module->module.'.php');
-				if(isset($content)) {
-					echo $content;
-				}
-			}
-			?>
-</div>
-		<?php
-	}
-
-	/*
-	* allows for rounded corners
-	*/
-	function modoutput_rounded($module,$params,$Itemid,$moduleclass_sfx,$type = 0) {
-		global $my;
-
-		$mainframe = $this->_mainframe;
-		$database = $this->_mainframe->getDBO();
-		$config = $this->_mainframe->get('config');
-
-		?>
-<div class="module<?php echo $moduleclass_sfx; ?>">
-	<div>
-		<div>
-			<div>
-						<?php
-						if($module->showtitle != 0) {
-							echo '<h3>'.htmlspecialchars($module->title).'</h3>';
-						}
-
-						if($type) {
-							modules_html::CustomContent($module,$params);
-						} else {
-							include (JPATH_BASE.DS.'modules'.DS.$module->module.'.php');
-
-							if(isset($content)) {
-								echo $content;
-							}
-						}
-						?>
-			</div>
-		</div>
-	</div>
-</div>
-		<?php
+		echo '</div>';
 	}
 
 	function CustomContent(&$module,$params) {

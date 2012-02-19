@@ -2701,78 +2701,56 @@ class mosModule extends mosDBTable {
 	/**
 	 * Вывод модулей в определённую позицию
 	 * @param string $position - позиция
-	 * @param int $style - стиль отображения
-	 * @param int $noindex - индексировать
+	 * @param int $noindex - индексировать для поисковых систем
 	 * @return
+	 * $modification 19.02.2012 GoDr
 	 */
-	function mosLoadModules($position = 'left', $style = 0, $noindex = 0) {
+	function mosLoadModules($position = 'left', $noindex = 0) {
 		global $my, $Itemid;
+
 		$tp = intval(mosGetParam($_GET, 'tp', 0));
 		$config_caching = $this->_view->_mainframe->config->config_caching;
-
 		if ($tp && !$this->_view->_mainframe->config->config_disable_tpreview) {
 			echo '<div style="height:50px;background-color:#eee;margin:2px;padding:10px;border:1px solid #f00;color:#700;">' . $position . '</div>';
 			return;
 		}
 
 		$allModules = $this->_all_modules;
-		$modules = (isset($allModules[$position])) ? $modules = $allModules[$position] : array();
-		$style = (count($modules) < 1) ? 0 : intval($style);
-
-		switch($style){
-			case 2:
-				$prepend = '<div>';
-				$postpend = '</div>';
-				break;
-			case 1:
-				$prepend = '<td>';
-				$postpend = '</td>';
-				break;
-			default:
-				$prepend = '';
-				$postpend = '';
-		}
-
-		if($noindex){echo '<!--noindex-->';}
-
-		echo ($style == 1) ? '<table><tr>' : null;
-		$count = 1;
-		foreach ($modules as $module) {
-			$params = new mosParameters($module->params);
-			$def_cachetime = ($params->get('cache_time', 0) > 0) ? $params->get('cache_time') : null;
-
-			echo $prepend;
-
-			if ((substr($module->module, 0, 4)) == 'mod_') {
-				// normal modules
-				if (($params->get('cache', 0) == 1 OR $def_cachetime > 0) && $config_caching == 1) {
-					// module caching
-					$cache = mosCache::getCache($module->module . '_' . $module->id, 'function', null, $def_cachetime, $this->_view);
-					$cache->call('module2', $module, $params, $Itemid, $style, $my->gid);
-				} else {
-					$this->_view->module2($module, $params, $Itemid, $style, $count);
-				}
-			} else {
-				// custom or new modules
-				if ($params->get('cache') == 1 && $config_caching == 1) {
-					// module caching
-					$cache = mosCache::getCache('mod_user_' . $module->id, 'function', null, $def_cachetime, $this->_view);
-					$cache->call('module', $module, $params, $Itemid, $style, 0, $my->gid);
-				} else {
-					$this->_view->module($module, $params, $Itemid, $style);
-				}
+		$modules = (isset($allModules[$position])) ? $allModules[$position] : array();
+		if (count($modules)) {
+			if ($noindex) {
+				echo '<!--noindex-->';
 			}
-
-			echo $postpend;
-
-			$count++;
-			unset($cache);
+			$count = 1;
+			foreach ($modules as $module) {
+				$params = new mosParameters($module->params);
+				$def_cachetime = ($params->get('cache_time', 0) > 0) ? $params->get('cache_time') : null;
+				if ((substr($module->module, 0, 4)) == 'mod_') {
+					// normal modules
+					if (($params->get('cache', 0) == 1 OR $def_cachetime > 0) && $config_caching == 1) {
+						// module caching
+						$cache = mosCache::getCache($module->module . '_' . $module->id, 'function', null, $def_cachetime, $this->_view);
+						$cache->call('module2', $module, $params, $Itemid, $my->gid);
+					} else {
+						$this->_view->module2($module, $params, $Itemid);
+					}
+				} else {
+					// custom or new modules
+					if ($params->get('cache') == 1 && $config_caching == 1) {
+						// module caching
+						$cache = mosCache::getCache('mod_user_' . $module->id, 'function', null, $def_cachetime, $this->_view);
+						$cache->call('module', $module, $params, $Itemid, $my->gid);
+					} else {
+						$this->_view->module($module, $params, $Itemid);
+					}
+				}
+				$count++;
+				unset($cache);
+			}
+			if ($noindex) {
+				echo '<!--/noindex-->';
+			}
 		}
-
-		echo ($style == 1 ) ? "</tr>\n</table>\n" : null;
-		if($noindex){echo '<!--/noindex-->';}
-
-		return;
 	}
 
 	/**
