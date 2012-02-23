@@ -20,6 +20,7 @@ defined('_VALID_MOS') or die();
  * @subpackage	Cache handler
  * @since		1.3
  */
+if (!class_exists('JCache')) {
 class JCache {
 	/**
 	 * Storage Handler
@@ -474,4 +475,5 @@ class JCacheStorage {
 	function test() {
 		return true;
 	}
+}
 }
