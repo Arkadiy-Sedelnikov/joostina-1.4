@@ -48,7 +48,7 @@ jQuery(document).ready(function(){
 	jQuery(".uncheck_it").bind('click', function () {
             var id = jQuery(this).attr("id").replace('uncheck_', '');
 		jQuery("input.urights_box_"+id).each(function () {
-			jQuery(this).attr("checked","");
+			jQuery(this).removeAttr("checked");
 		});
 		jQuery(".checker").toggleClass("active");
 		return false;

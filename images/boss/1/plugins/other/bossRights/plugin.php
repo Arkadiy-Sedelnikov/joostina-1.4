@@ -205,7 +205,7 @@ class bossRights extends joiBossRights {
 		$return = '<table class="adminlist" width="100%">
                             <tr>
                              <th>
-                              <span id="check-all">
+                              <span id="check-all_' . $object . '">
                                <a class="check_it checker active" id="check_'.$object.'" href="#">Отметить все</a>
                                <a class="uncheck_it checker" id="uncheck_'.$object.'" href="#">Снять отметки</a>
                               </span>
