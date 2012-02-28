@@ -28,9 +28,6 @@ if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset
 	$mosConfig_live_site = 'https://' . substr($mosConfig_live_site,7);
 }
 
-// live_site
-define('JPATH_SITE', $mosConfig_live_site );
-
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 // ядро
