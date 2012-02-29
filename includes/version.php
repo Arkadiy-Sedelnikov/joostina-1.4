@@ -22,7 +22,7 @@ class joomlaVersion {
 	/** @var версия*/
 	var $CMS_ver = '1.4.0beta';
 	/** @var int Номер основной версии*/
-	var $RELEASE = '1.0';
+	var $RELEASE = '1.4';
 	/** @var строка  статус разработки*/
 	var $DEV_STATUS = 'beta';
 	/** @var int Подверсия*/
