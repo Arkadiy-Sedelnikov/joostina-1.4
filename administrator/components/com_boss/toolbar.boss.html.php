@@ -20,7 +20,9 @@ class menuBOSS {
         
 	public static function newTmplField() {
 		mosMenuBar::startTable();
-                mosMenuBar::addNew('new_tmpl_field');
+        mosMenuBar::back();
+		mosMenuBar::spacer();
+        mosMenuBar::addNew('new_tmpl_field');
 		mosMenuBar::endTable();
 	}
 
