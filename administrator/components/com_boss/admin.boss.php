@@ -48,7 +48,8 @@ boss_helpers::loadBossLang($directory);
 $conf = getConfig($directory);
 
 $layout = $params['layout'];
-if(@!$conf->allow_rights){
+
+if(isset($conf->allow_rights) && !$conf->allow_rights){
     $act = $params['act'];
 }
 
