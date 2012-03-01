@@ -17,6 +17,23 @@ class menuBOSS {
                 mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
+        
+	public static function newTmplField() {
+		mosMenuBar::startTable();
+        mosMenuBar::back();
+		mosMenuBar::spacer();
+        mosMenuBar::addNew('new_tmpl_field');
+		mosMenuBar::endTable();
+	}
+
+    public static function editTmplSource() {
+		mosMenuBar::startTable();
+		mosMenuBar::back();
+		mosMenuBar::spacer();
+		mosMenuBar::save('save_tmpl_source');
+        mosMenuBar::cancel();
+		mosMenuBar::endTable();
+	}
 
 	public static function addEditDelete() {
 		mosMenuBar::startTable();
@@ -32,19 +49,11 @@ class menuBOSS {
 		mosMenuBar::endTable();
 	}
 
-    public static function edit_tmpl_fields() {
+    public static function edit_tmpl_field() {
 		mosMenuBar::startTable();
 		mosMenuBar::back();
 		mosMenuBar::spacer();
-		mosMenuBar::save('save_tmpl_fields');
-                mosMenuBar::cancel();
-		mosMenuBar::endTable();
-	}
-    public static function edit_tmpl_source() {
-		mosMenuBar::startTable();
-		mosMenuBar::back();
-		mosMenuBar::spacer();
-		mosMenuBar::save('save_tmpl_source');
+		mosMenuBar::save('save_tmpl_field');
                 mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
