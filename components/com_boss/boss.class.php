@@ -2186,7 +2186,8 @@ class boss_helpers {
         }
     }
 
-    public static function show_list($text, $description, $url, $task, $search, $text_search, $name_search, $order, $catid, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds=array(), $type_content = 0) {
+    public static function show_list($text, $description, $url, $task, $search, $text_search, $name_search, $order, $catid, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds=array(), $type_content = 0)
+    {
         global $my;
         $database = database::getInstance();
         mosMainFrame::addLib('pageNavigation');
@@ -2195,6 +2196,9 @@ class boss_helpers {
         $sort = null;
         $tags = array();
         $params = array();
+
+        $order_request = mosGetParam($_REQUEST, 'order', '');
+        $direction = mosGetParam($_REQUEST, 'direction', '');
 
         $rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
         $viewsPlugin = BossPlugins::get_plugin($directory, 'viewSelector', 'views');
@@ -2267,37 +2271,38 @@ class boss_helpers {
             $show_contact = 1;
         }
 
-
-        $order_request = mosGetParam($_REQUEST, 'order', '');
+        $desc = (empty($direction)) ? 'DESC' : $direction;
 
         if ($order == -1) {
-            $order_text = "a.views DESC, a.date_created DESC ,a.id DESC";
+            $order_text = "a.views ".$desc.", a.date_created ".$desc." ,a.id ".$desc;
         } else if ($order != 0) {
             $database->setQuery("SELECT f.name,f.sort_direction,f.type FROM #__boss_" . $directory . "_fields AS f WHERE f.fieldid=$order AND f.published = 1");
             $database->loadObject($sort);
 
+            $desc = (empty($direction)) ? $sort->sort_direction : $direction;
+
             if (($sort->type == "number") || ($sort->type == "price"))
                 $order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
             else
-                $order_text = "a." . $sort->name . " " . $sort->sort_direction;
+                $order_text = "a." . $sort->name . " " . $desc;
         }
         elseif ($order_request == 'last_comment')
-            $order_text = "a.date_last_сomment DESC, a.id DESC";
+            $order_text = "a.date_last_сomment ".$desc.", a.id ".$desc;
         else {
             //default ordering
             $default_order_by = $conf->default_order_by;
             switch ($default_order_by) {
                 case 'last_comment':
-                    $order_text = "a.date_last_сomment DESC, a.id DESC";
+                    $order_text = "a.date_last_сomment ".$desc.", a.id ".$desc;
                     break;
                 case 0:
-                    $order_text = "a.date_created DESC, a.id DESC";
+                    $order_text = "a.date_created ".$desc.", a.id ".$desc;
                     break;
                 default:
                     $database->setQuery("SELECT f.name,f.sort_direction,f.type FROM #__boss_" . $directory . "_fields AS f WHERE f.fieldid='" . (int) $default_order_by . "' AND f.published = 1");
                     $database->loadObject($sort);
                     if (empty($sort))
-                        $order_text = "a.date_created DESC, a.id DESC";
+                        $order_text = "a.date_created ".$desc.", a.id ".$desc;
                     elseif (($sort->type == "number") || ($sort->type == "price"))
                         $order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
                     else
@@ -2332,6 +2337,7 @@ class boss_helpers {
                 "ORDER BY $ordering LIMIT " .
                 $limitstart . ',' . $limit;
         $contents = $database->setQuery($q)->loadObjectList('id');
+
         if ($database->getErrorNum()) {
             echo $database->stderr();
             return false;
@@ -2369,7 +2375,7 @@ class boss_helpers {
 
         $itemid = getBossItemid($directory, $catid);
 
-        $nav_link = $url . "&amp;Itemid=" . $itemid;
+        $nav_link = $url . "&amp;order=".$order."&amp;Itemid=" . $itemid;
 
         $conf->show_contact = $show_contact;
         $conf->update_possible = $update_possible;

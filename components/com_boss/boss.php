@@ -590,7 +590,7 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
 		$url_text_search = "&amp;text_search=".$text_search;
 	}
 	
-	$url ="index.php?option=com_boss&amp;task=show_category&amp;catid=".$catid.$url_text_search."&amp;directory=$directory&amp;order=".$order;
+	$url ="index.php?option=com_boss&amp;task=show_category&amp;catid=".$catid.$url_text_search."&amp;directory=".$directory;
 	
     ob_start();
 	$params = boss_helpers::show_list($cat_name,$cat_description,$url,"show_category",$search,$text_search,$name_search,$order,$catid,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,array(), $category->content_types);

@@ -910,11 +910,18 @@ class boss_html
         $fields = $this->fields;
         $url = $this->url;
         $order = mosGetParam($_REQUEST, 'order', '');
+        $direction = mosGetParam($_REQUEST, 'direction', 'ASC');
         $itemid = $this->itemid;
+        $direction = ($direction == 'ASC') ? 'DESC' : 'ASC';
+        $img = ($direction == 'ASC') ? 'arrow_up.png' : 'arrow_down.png' ;
+        $imgUrl = '/templates/com_boss/'.$this->template_name.'/images/'.$img;
+        $link = sefRelToAbs($url . "&amp;order=" . $order . "&amp;direction=" . $direction . "&amp;Itemid=" . $itemid);
+
         if (isset($fields)) {
             $this->jsJumpmenu(); ?>
         <select name="order" size="1" onchange="jumpmenu('parent',this)">
-            <option value="<?php echo sefRelToAbs($url . "&amp;order=0&amp;Itemid=" . $itemid);?>" <?php if ($order == "0") {
+            <option value="<?php echo sefRelToAbs($url . "&amp;order=0&amp;direction=" . $direction. "&amp;Itemid=" . $itemid);?>" <?php
+               if ($order == "0") {
                 echo "selected='selected'";
             } ?>>
                 <?php echo BOSS_DATE; ?>
@@ -923,7 +930,8 @@ class boss_html
             <?php foreach ($fields as $s) {
             if ($s->sort == 1) {
                 ?>
-                <option value="<?php echo sefRelToAbs($url . "&amp;order=" . $s->fieldid . "&amp;Itemid=" . $itemid);?>" <?php if ($order == $s->fieldid) {
+                <option value="<?php echo sefRelToAbs($url . "&amp;order=" . $s->fieldid . "&amp;direction=" . $direction. "&amp;Itemid=" . $itemid);?>" <?php
+                if ($order == $s->fieldid) {
                     echo "selected='selected'";
                 } ?>>
                     <?php echo jdGetLangDefinition($s->title); ?>
@@ -934,6 +942,9 @@ class boss_html
         }
             ?>
         </select>
+        <span>
+            <a href="<?php echo $link; ?>"><img src="<?php echo $imgUrl; ?>" /></a>
+        </span>
         <?php 
         }
     }
