@@ -55,22 +55,32 @@ $directory = (int) $directory;
 if ( $task != 'rss' ) {
 	boss_helpers::loadBossLang($directory);
     // get configuration
-    $conf = getConfig($directory); 
-    $template_name = $conf->template;
+    $conf = getConfig($directory);
+
+    if(!is_object($conf)){
+        $task = 'emptypage';
+    }
+    
+    $template_name = (isset($conf->template)) ? $conf->template : 'default';
     $mainframe->addCustomHeadTag('<link rel="stylesheet" href="'.$mosConfig_live_site.'/templates/com_boss/'.$template_name.'/css/boss.css" type="text/css" />');
 
     //запускаем рассылку писем просроченным абонентам
     $last_cron_date = null;
     $fileCron = JPATH_BASE.DS.'images'.DS.'boss'.DS.$directory.DS.'cron.php';
-    is_file($fileCron) ? require ($fileCron) : null;
-    
-    ($last_cron_date != date("Ymd")) ? manage_expiration($directory,$conf,$fileCron,$template_name) : null;
-	
+    if(is_file($fileCron)){
+        require ($fileCron);
+        ($last_cron_date != date("Ymd")) ? manage_expiration($directory,$conf,$fileCron,$template_name) : null;
+    }
 }
 
 switch ($task) {
 
-	case 'show_profile': {
+	case 'emptypage': {
+            echo 'Каталога #'.$directory.' не существует. Назначтье другой каталог для показа на главной странице.';
+            break;
+        }
+        
+    case 'show_profile': {
 			$cache->call( 'show_profile',$userid,$directory,$template_name);
 			break;
 		}
