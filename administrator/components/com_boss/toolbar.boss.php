@@ -17,14 +17,6 @@ $task = mosGetParam($_REQUEST, 'task', "");
 switch ($act) {
 
 	case "plugins" :
-		switch ($task) {
-			case "edit" :
-				menuBOSS::backSave();
-				break;
-			default:
-				//menuBOSS::delete();
-				break;
-		}
 	case "fieldimage" :
 		menuBOSS::delete();
 		break;
@@ -45,13 +37,12 @@ switch ($act) {
 				menuBOSS::backSave();
 				break;
 			
-			case "list_tmpl_fields" :
-				menuBOSS::newTmplField();
+			case "edit_tmpl_fields" :
+				menuBOSS::edit_tmpl_fields();
 				break;
 
-			case "edit_tmpl_field" :
-                        case "new_tmpl_field" :
-				menuBOSS::edit_tmpl_field();
+			case "edit_tmpl_source" :
+				menuBOSS::edit_tmpl_source();
 				break;
 
 			default:
@@ -71,8 +62,6 @@ switch ($act) {
 				menuBOSS::addEditDeleteCopy();
 				break;
 		}
-		break;
-	case "fields" :
 		break;
 	default:
 		switch ($task) {

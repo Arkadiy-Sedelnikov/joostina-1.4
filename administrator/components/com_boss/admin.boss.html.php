@@ -46,54 +46,14 @@ class HTML_boss {
         return array('layout'=>$layout, 'act'=>$act);
     }
 
-    public static function header($text, $directory, $directories, $conf) {
-       
-        $act = mosGetParam($_REQUEST, 'act', "");
-        $task = mosGetParam($_REQUEST, 'task', "");
+    public static function header($text, $directory, $directories) {
+
         $params = self::getLayout();
-        if($directory == 0){
-            $params['layout'] = 'full';
-            $params['act'] = 'manager';
-        }
-        //права пользователя
-        $edit_all_content = true;
-        $edit_category = true;
-        $edit_directories = true;
-        $edit_conf = true;
-        $edit_types = true;
-        $edit_fields = true;
-        $edit_fieldimages = true;
-        $edit_templates = true;
-        $edit_plugins = true;
-        $import_export = true;
-        $edit_users = true;
-
-        $conf->allow_rights = (isset($conf->allow_rights)) ? $conf->allow_rights : 0;
-        
-        if(@$conf->allow_rights){
-            global $my;
-
-            $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_admin'));
-            $rights->bind_rights(@$conf->rights);
-
-            $edit_all_content = $rights->allow_me('edit_all_content', $my->gid);
-            $edit_category = $rights->allow_me('edit_category', $my->gid);
-            $edit_directories = ($my->gid != 25) ? $rights->allow_me('edit_directories', $my->gid) : true;
-            $edit_conf = ($my->gid != 25) ? $rights->allow_me('edit_conf', $my->gid) : true;
-            $edit_types = $rights->allow_me('edit_types', $my->gid);
-            $edit_fields = $rights->allow_me('edit_fields', $my->gid);
-            $edit_fieldimages = $rights->allow_me('edit_fieldimages', $my->gid);
-            $edit_templates = $rights->allow_me('edit_templates', $my->gid);
-            $edit_plugins = $rights->allow_me('edit_plugins', $my->gid);
-            $import_export = $rights->allow_me('import_export', $my->gid);
-            $edit_users = $rights->allow_me('edit_users', $my->gid);
-        }
-        else{
-            $act = $params['act'];
-        }
-
         $layout = $params['layout'];
-        $layouts = array('edit' => BOSS_LAYOUT_EDIT, 'manage' => BOSS_LAYOUT_MANAGE, 'full' => BOSS_LAYOUT_FULL); 
+        $act = $params['act'];
+        $task = mosGetParam($_REQUEST, 'task', "");
+
+        $layouts = array('edit' => BOSS_LAYOUT_EDIT, 'manage' => BOSS_LAYOUT_MANAGE, 'full' => BOSS_LAYOUT_FULL);
         ?>
 <table border="0" class="adminheading" cellpadding="0" cellspacing="0" width="100%">
             <tr valign="middle">
@@ -105,7 +65,7 @@ class HTML_boss {
                     . $directories[$directory]->name . "";
                 ?></a>&nbsp;&rarr;&nbsp;<?php echo $text; ?>
         </th>
-    <?php if((empty($task) || $task == 'cancel') && !@$conf->allow_rights) { ?>
+    <?php if(empty($task)) { ?>
         <th>
             <select name='layout' onchange="jumpmenu('parent',this)">
                 <?php
@@ -135,7 +95,6 @@ class HTML_boss {
 <?php
 $class_manager       = ($act=="manager") ? 'id="current"' : '';
 $class_configuration = ($act=="configuration") ? 'id="current"' : '';
-$class_content_types = ($act=="content_types") ? 'id="current"' : '';
 $class_categories    = ($act=="categories") ? 'id="current"' : '';
 $class_contents      = ($act=="contents") ? 'id="current"' : '';
 $class_templates     = ($act=="templates") ? 'id="current"' : '';
@@ -153,84 +112,38 @@ if (!isset($_REQUEST['tid'])&& $task!='edit'
 							&& $task!='edit_tmpl_fields'
 							&& $task!='edit_tmpl_source') { ?>
 	<ul id="boss-menu">
-            <?php if ($layout == 'edit' || $layout == 'full' || $conf->allow_rights) : ?>
-                <?php if ($edit_category) : ?>
+            <?php if ($layout == 'edit' || $layout == 'full') : ?>
 		<li><a <?php echo $class_categories; ?> href="index2.php?option=com_boss&act=categories&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_CATEGORIES;?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_all_content) : ?>
-                <li><a <?php echo $class_contents; ?> href="index2.php?option=com_boss&act=contents&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_CONTENTS;?></a></li>
-                <?php endif; ?>
+		<li><a <?php echo $class_contents; ?> href="index2.php?option=com_boss&act=contents&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_CONTENTS;?></a></li>
             <?php endif; ?>
-            <?php if ($layout == 'manage' || $layout == 'full' || $conf->allow_rights) : ?>
-                <?php if ($edit_directories) : ?>
+            <?php if ($layout == 'manage' || $layout == 'full') : ?>
                 <li><a <?php echo $class_manager; ?> href="index2.php?option=com_boss&act=manager&directory=<?php echo $directory; ?>"><?php echo BOSS_CATALOGS; ?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_conf) : ?>
-                <li><a <?php echo $class_configuration; ?> href="index2.php?option=com_boss&act=configuration&task=edit&directory=<?php echo $directory; ?>"><?php echo BOSS_CONFIGURATION; ?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_types) : ?>
-                <li><a <?php echo $class_content_types; ?> href="index2.php?option=com_boss&act=content_types&directory=<?php echo $directory; ?>"><?php echo BOSS_CONTENT_TYPES;?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_fields) : ?>
-                <li><a <?php echo $class_fields; ?> href="index2.php?option=com_boss&act=fields&directory=<?php echo $directory; ?>"><?php echo BOSS_FIELDS; ?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_fieldimages) : ?>
-                <li><a <?php echo $class_fieldimage; ?> href="index2.php?option=com_boss&act=fieldimage&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_FIELDIMAGES;?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_templates) : ?>
-                <li><a <?php echo $class_templates; ?> href="index2.php?option=com_boss&act=templates&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_TEMPLATES;?></a></li>
-		<?php endif; ?>
-                <?php if ($edit_plugins) : ?>
-                <li><a <?php echo $class_plugins; ?> href="index2.php?option=com_boss&act=plugins&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_PLUGINS;?></a></li>
-		<?php endif; ?>
-                <?php if ($import_export) : ?>
-                <li><a <?php echo $class_export_import; ?> href="index2.php?option=com_boss&act=export_import&directory=<?php echo $directory; ?>"><?php echo BOSS_EX_IM_HEADER;?></a></li>
-                <?php endif; ?>
-                <?php if ($edit_users) : ?>
+		<li><a <?php echo $class_configuration; ?> href="index2.php?option=com_boss&act=configuration&task=edit&directory=<?php echo $directory; ?>"><?php echo BOSS_CONFIGURATION; ?></a></li>
+		<li><a <?php echo $class_templates; ?> href="index2.php?option=com_boss&act=templates&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_TEMPLATES;?></a></li>
+		<li><a <?php echo $class_fields; ?> href="index2.php?option=com_boss&act=fields&directory=<?php echo $directory; ?>"><?php echo BOSS_FIELDS; ?></a></li>
+		<li><a <?php echo $class_fieldimage; ?> href="index2.php?option=com_boss&act=fieldimage&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_FIELDIMAGES;?></a></li>
+		<li><a <?php echo $class_plugins; ?> href="index2.php?option=com_boss&act=plugins&directory=<?php echo $directory; ?>"><?php echo BOSS_LIST_PLUGINS;?></a></li>
+		<li><a <?php echo $class_export_import; ?> href="index2.php?option=com_boss&act=export_import&directory=<?php echo $directory; ?>"><?php echo BOSS_EX_IM_HEADER;?></a></li>
                 <li><a <?php echo $class_users; ?> href="index2.php?option=com_boss&act=users&directory=<?php echo $directory; ?>"><?php echo BOSS_TH_USERS;?></a></li>
-                <?php endif; ?>
             <?php endif; ?>
     </ul>
 <?php } else { ?>
 	<ul id="boss-menu" class="inactive">
-            <?php if ($layout == 'edit' || $layout == 'full' || $conf->allow_rights) : ?>
-                <?php if ($edit_category) : ?>
+            <?php if ($layout == 'edit' || $layout == 'full') : ?>
 		<li><?php echo BOSS_LIST_CATEGORIES;?></li>
-                <?php endif; ?>
-                <?php if ($edit_all_content) : ?>
-                <li><?php echo BOSS_LIST_CONTENTS;?></li>
-                <?php endif; ?>
+		<li><?php echo BOSS_LIST_CONTENTS;?></li>
             <?php endif; ?>
-            <?php if ($layout == 'manage' || $layout == 'full' || $conf->allow_rights) : ?>
-                <?php if ($edit_directories) : ?>
-                <li><?php echo BOSS_CATALOGS; ?></li>
-                <?php endif; ?>
-                <?php if ($edit_conf) : ?>
-                <li><?php echo BOSS_CONFIGURATION; ?></li>
-                <?php endif; ?>
-                <?php if ($edit_types) : ?>
-                <li><?php echo BOSS_CONTENT_TYPES; ?></li>
-                <?php endif; ?>
-                <?php if ($edit_fields) : ?>
-                <li><?php echo BOSS_LIST_TEMPLATES;?></li>
-                <?php endif; ?>
-                <?php if ($edit_fieldimages) : ?>
-                <li><?php echo BOSS_FIELDS; ?></li>
-                <?php endif; ?>
-                <?php if ($edit_templates) : ?>
-                <li><?php echo BOSS_LIST_FIELDIMAGES;?></li>
-                <?php endif; ?>
-                <?php if ($edit_plugins) : ?>
-                <li><?php echo BOSS_LIST_PLUGINS;?></li>
-                <?php endif; ?>
-                <?php if ($import_export) : ?>
-                <li><?php echo BOSS_EX_IM_HEADER;?></li>
-                <?php endif; ?>
-                <?php if ($edit_users) : ?>
+            <?php if ($layout == 'manage' || $layout == 'full') : ?>
+		<li><?php echo BOSS_CATALOGS; ?></li>
+		<li><?php echo BOSS_CONFIGURATION; ?></li>
+		<li><?php echo BOSS_LIST_TEMPLATES;?></li>
+		<li><?php echo BOSS_FIELDS; ?></li>
+		<li><?php echo BOSS_LIST_FIELDIMAGES;?></li>
+		<li><?php echo BOSS_LIST_PLUGINS;?></li>
+		<li><?php echo BOSS_EX_IM_HEADER;?></li>
                 <li><?php echo BOSS_TH_USERS;?></li>
-                <?php endif; ?>
             <?php endif; ?>
-    </ul>
+	</ul>
 <?php } ?>
 
 <div class="fl mb20">
@@ -248,7 +161,7 @@ if (!isset($_REQUEST['tid'])&& $task!='edit'
     </select>
 </div>
 <?php
-if ($act!="contents" && $act!="plugins" && $act!="categories" && $act!="content_types") echo '<br clear="all"/>';
+if ($act!="contents" && $act!="plugins" && $act!="categories") echo '<br clear="all"/>';
 if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 ?>
 
@@ -257,13 +170,102 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
     }
 
-    public static function displayMain($directory, $directories, $conf) {
-        HTML_boss::header(BOSS_MAIN_PAGE, $directory, $directories, $conf);
+    public static function displayMain($directory, $directories) {
+        HTML_boss::header(BOSS_MAIN_PAGE, $directory, $directories);
+
     }
 
-    public static function check_dir($directory, $conf, $directories = array()) {
+    public static function displayTools($directory, $directories) {
+        ?>
+        <?php HTML_boss::header(BOSS_TOOLS_MAIN_PAGE, $directory, $directories); ?>
+
+        <ul>
+            <li>
+                <a href="index2.php?option=com_boss&act=tools&task=displayMarketplace&directory=<?php echo $directory; ?>"><?php echo BOSS_CONVERT_MARKETPLACE;?></a>
+            </li>
+            <li>
+                <a href="index2.php?option=com_boss&act=tools&task=installjoomfish&directory=<?php echo $directory; ?>"><?php echo BOSS_INSTALL_JOOMFISH;?></a>
+            </li>
+            <li>
+                <a href="index2.php?option=com_boss&act=tools&task=installsef&directory=<?php echo $directory; ?>"><?php echo BOSS_INSTALL_SEF;?></a>
+            </li>
+        </ul>
+		<?php
+
+    }
+
+    public static function recurseMarketplaceCategories($id, $level, $children, $num) {
+        if (@$children[$id]) {
+            foreach ($children[$id] as $row) {
+                ?>
+<tr class="row<?php echo ($num & 1); ?>">
+
+	<td><?php echo $row->id; ?></td>
+                <?php
+                                    $text = "";
+                for ($i = 1; $i < $level; $i++)
+                    $text .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+                if ($level > 0)
+                    $text .= "&nbsp;&nbsp;&nbsp;&nbsp;<sup>L</sup>&nbsp;";
+                $text .= $row->name;
+                ?>
+                    <td>
+                    <?php echo $text; ?>
+                    </td>
+                <?php
+                                    $num++;
+                $num = HTML_boss::recurseMarketplaceCategories($row->id, $level + 1, $children, $num);
+            }
+        }
+        return $num;
+    }
+
+
+    function displayConvertMarketplace($contents, $cats, $directory, $directories) {
+        ?>
+        <?php HTML_boss::header(BOSS_CONVERT_MARKETPLACE, $directory, $directories); ?>
+
+        <h3><?php echo BOSS_TOOLS_MARKETPLACE_CATEGORIES; ?></h3>
+<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+    <tr>
+    <th class="title" width="2%">Id</th>
+    <th class="title" width="30%"><?php echo BOSS_TH_CATEGORY;?></th>
+<?php
+                HTML_boss::recurseMarketplaceCategories(0, 0, $cats, 0);
+?>
+</table>
+<h3><?php echo BOSS_TOOLS_MARKETPLACE_CONTENTS; ?></h3>
+<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+<tr>
+    <th class="title" width="2%">Id</th>
+    <th class="title" width="30%"><?php echo BOSS_TH_TITLE;?></th>
+    <th class="title" width="30%"><?php echo BOSS_TH_CATEGORY;?></th>
+<?php
+if (isset($contents)) {
+    foreach ($contents as $content) {
+        ?>
+            <tr>
+                <td align="right"><?php echo $content->id; ?></td>
+                <td><?php echo $content->name; ?></td>
+                <td><?php echo $content->cat; ?></td>
+            </tr>
+        <?php
+
+    }
+}
+?>
+</table>
+<br/>
+<h3>
+    <a href="index2.php?option=com_boss&act=tools&task=importMarketplace&directory=<?php echo $directory; ?>"><?php echo BOSS_IMPORT_MARKETPLACE;?></a>
+</h3>
+		<?php
+
+    }
+
+    public static function check_dir($directory, $directories = array()) {
         if ($directory == 0) {
-            HTML_boss::header(BOSS_CONFIGURATION_PANEL, $directory, $directories, $conf);
+            HTML_boss::header(BOSS_CONFIGURATION_PANEL, $directory, $directories);
             print "<h3>" . BOSS_NEED_CREATE . "</h3>";
             return false;
         }
@@ -271,8 +273,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             return true;
     }
 
-    public static function editConfiguration($row, $templates, $directory, $directories, $sort_fields, $filters, $ratings, $rights, $conf) {
-        HTML_boss::header(BOSS_CONFIGURATION_PANEL, $directory, $directories, $conf);
+    public static function editConfiguration($row, $templates, $directory, $directories, $sort_fields, $filters) {
+        global $mosConfig_live_site;
+        HTML_boss::header(BOSS_CONFIGURATION_PANEL, $directory, $directories);
         ?>
         <script language='JavaScript1.2' type='text/javascript'>
             function submitbutton(pressbutton) {
@@ -283,7 +286,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
             function showimage() {
                 //if (!document.images) return;
-                document.images.preview.src = '<?php echo JPATH_SITE;?>/templates/com_boss/' + getSelectedValue('adminForm', 'template') + '/template_thumbnail.png';
+                document.images.preview.src = '<?php echo $mosConfig_live_site;?>/templates/com_boss/' + getSelectedValue('adminForm', 'template') + '/template_thumbnail.png';
             }
 
             function getSelectedValue(frmName, srcListName) {
@@ -302,7 +305,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 	<tr><td>
 			<form action="index2.php" method="post" name="adminForm">
             <?php
-            $configtabs = new uiTabs(0,1);
+            $configtabs = new mosTabs(0,1);
             $configtabs->startPane("config");
             $configtabs->startTab(BOSS_TAB_GENERAL, "general-page");
             ?>
@@ -523,7 +526,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
                     ?></select>
 					<?php $tmpl_tmp = (@$row->template) ? @$row->template : 'default' ?>
-					<img class="ml10" src="<?php echo JPATH_SITE."/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
+					<img class="ml10" src="<?php echo "$mosConfig_live_site/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
                          name="preview" border="1" alt="<?php echo $tmpl_tmp;?>"/>
                 </td>
                 <td>
@@ -599,6 +602,61 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
+                    <td><?php echo BOSS_NB_IMAGES; ?></td>
+                    <td><input type="text" name="nb_images" value="<?php echo @$row->nb_images; ?>"/></td>
+                    <td><?php echo BOSS_NB_IMAGES_LONG; ?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_MAX_IMAGE_SIZE;?></td>
+                    <td><input type="text" name="max_image_size" value="<?php echo @$row->max_image_size; ?>"/></td>
+                    <td><?php echo BOSS_MAX_IMAGE_SIZE_LONG;?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_MAX_IMAGE_WIDTH;?></td>
+                    <td><input type="text" name="max_width" value="<?php echo @$row->max_width; ?>"/></td>
+                    <td><?php echo BOSS_MAX_IMAGE_WIDTH_LONG;?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_MAX_IMAGE_HEIGHT;?></td>
+                    <td><input type="text" name="max_height" value="<?php echo @$row->max_height; ?>"/></td>
+                    <td><?php echo BOSS_MAX_IMAGE_HEIGHT_LONG;?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_MAX_THUMBNAIL_WIDTH;?></td>
+                    <td><input type="text" name="max_width_t" value="<?php echo @$row->max_width_t; ?>"/></td>
+                    <td><?php echo BOSS_MAX_THUMBNAIL_WIDTH_LONG;?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_MAX_THUMBNAIL_HEIGHT;?></td>
+                    <td><input type="text" name="max_height_t" value="<?php echo @$row->max_height_t; ?>"/></td>
+                    <td><?php echo BOSS_MAX_THUMBNAIL_HEIGHT_LONG;?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_IMAGE_TAG; ?></td>
+                    <td><input type="text" name="tag" value="<?php echo @$row->tag; ?>"/></td>
+                    <td><?php echo BOSS_IMAGE_TAG_LONG; ?></td>
+                </tr>
+                <tr>
+                    <td><?php echo BOSS_IMAGE_DISPLAY; ?></td>
+                    <td>
+                        <select id='image_display' name='image_display'>
+                            <option value='default' <?php if (@$row->image_display == 'default') {
+                                echo "selected";
+                            } ?>><?php echo BOSS_IMAGE_DISPLAY_DEFAULT; ?></option>
+                            <option value='fancybox' <?php if (@$row->image_display == 'fancybox') {
+                                echo "selected";
+                            } ?>><?php echo BOSS_IMAGE_DISPLAY_FANCY; ?></option>
+                            <option value='popup' <?php if (@$row->image_display == 'popup') {
+                                echo "selected";
+                            } ?>><?php echo BOSS_IMAGE_DISPLAY_POPUP; ?></option>
+                            <option value='gallery' <?php if (@$row->image_display == 'gallery') {
+                                echo "selected";
+                            } ?>><?php echo BOSS_IMAGE_DISPLAY_GALLERY; ?></option>
+                        </select>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
                     <td><?php echo BOSS_MAX_CATIMAGE_WIDTH;?></td>
                     <td><input type="text" name="cat_max_width" value="<?php echo @$row->cat_max_width; ?>"/></td>
                     <td><?php echo BOSS_MAX_CATIMAGE_WIDTH_LONG;?></td>
@@ -620,13 +678,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 </tr>
             </table>
             <?php
-            $configtabs->endTab();
-            $configtabs->startTab(BOSS_TAB_TEXT, "text-page", array('fronttext', 'rules_text'));
+			$configtabs->endTab();
+            $configtabs->startTab(BOSS_TAB_TEXT, "text-page");
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
                     <td><?php echo BOSS_FRONTPAGE; ?></td>
-                    <td><?php editorArea('editor1', @$row->fronttext, 'fronttext', '100%;', '350', '75', '20', 1); ?></td>
+                    <td><?php editorArea('editor1', @$row->fronttext, 'fronttext', '100%;', '350', '75', '20'); ?></td>
                     <td><?php echo BOSS_FRONTPAGE_LONG; ?></td>
                 </tr>
 				<tr>
@@ -634,7 +692,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 				</tr>
                 <tr>
                     <td><?php echo BOSS_RULES; ?></td>
-                    <td><?php editorArea('editor2', @$row->rules_text, 'rules_text', '100%;', '350', '75', '20', 1); ?></td>
+                    <td><?php editorArea('editor2', @$row->rules_text, 'rules_text', '100%;', '350', '75', '20'); ?></td>
                     <td>&nbsp;</td>
                 </tr>
             </table>
@@ -675,26 +733,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                             <option value='0' <?php if (@$row->allow_ratings == 0) {
                                 echo "selected";
                             } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_RATING; ?></td>
-                    <td>
-                        <select id='rating' name='rating'>
-                            <?php
-                                if (count($ratings)>0) {
-                                foreach ($ratings as $rating) {
-                                    ?>
-                                        <option value='<?php echo $rating->value; ?>'
-                                            <?php if (@$row->rating == $rating->value) {
-                                            echo "selected";
-                                        } ?>><?php echo $rating->text; ?></option>
-                                    <?php
-
-                                }
-                            } ?>
                         </select>
                     </td>
                     <td>&nbsp;</td>
@@ -763,7 +801,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             </table>
             <?php
             $configtabs->endTab();
-            $configtabs->startTab(BOSS_TAB_EXPIRATION, "Expiration-page", array('recall_text'));
+            $configtabs->startTab(BOSS_TAB_EXPIRATION, "Expiration-page");
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
             <tr>
@@ -807,36 +845,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     <tr>
                             <td><?php echo BOSS_RECALL_TEXT; ?></td>
             <?php $recall_text = stripslashes(@$row->recall_text); ?>
-                            <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20', 1); ?></td>
+                            <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20'); ?></td>
                             <td>&nbsp;</td>
                     </tr>
-            </table>
-            <?php
-            $configtabs->endTab();
-            $configtabs->startTab(BOSS_TAB_RIGHTS, "rights-page");
-            ?>
-            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
-                <tr>
-                    <td><?php echo BOSS_ALLOW_RIGHTS;?></td>
-                    <td>
-                        <select id='allow_rights' name='allow_rights'>
-                            <option value='0' <?php if (@$row->allow_rights == 0) {
-                echo "selected";
-            } ?>><?php echo BOSS_NO; ?></option>
-                            <option value='1' <?php if (@$row->allow_rights == 1) {
-                echo "selected";
-            } ?>><?php echo BOSS_YES; ?></option>
-                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_RIGHTS_ADMIN;?></td>
-                    <td><?php echo $rights['admin']->draw_config_table('admin');?></td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_RIGHTS_FRONT;?></td>
-                    <td><?php echo $rights['front']->draw_config_table('front');?></td>
-                </tr>
             </table>
             <?php
             $configtabs->endTab();
@@ -857,6 +868,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
     }
 
     public static function recurseCategories($id, $level, $children, $pageNav, $num, $nb, $directory, $defaultTemplate) {
+        global $mosConfig_live_site;
         if (@$children[$id]) {
             $n = 0;
             $total = count($children[$id]);
@@ -883,10 +895,10 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     $pict = "../images/boss/$directory/categories/" . $row->id . "cat_t.jpg";
                     $template_name = $row->template ? $row->template : $defaultTemplate;
                     if (file_exists($pict)) {
-                        echo '<img src="' . JPATH_SITE . '/images/boss/' . $directory . '/categories/' . $row->id . 'cat_t.jpg"/>';
+                        echo '<img src="' . $mosConfig_live_site . '/images/boss/' . $directory . '/categories/' . $row->id . 'cat_t.jpg"/>';
                     }
                     else {
-                        echo '<img src="' . JPATH_SITE . '/templates/com_boss/' . $template_name . '/images/default.gif"/>';
+                        echo '<img src="' . $mosConfig_live_site . '/templates/com_boss/' . $template_name . '/images/default.gif"/>';
                     }
                     ?>
                     </td>
@@ -1074,25 +1086,10 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         }
     }
 
-    public static function listContents($cat, $rows, $pagenav, $cats, $directory, $directories, $categs, $autors, $selectedAutorId, $typesContent, $conf) {
+    public static function listContents($cat, $rows, $pagenav, $cats, $directory, $directories, $categs, $autors, $selectedAutorId) {
 
 		$certain_category = (!empty($cat->name)) ? '<span class="gray">&nbsp;('.$cat->name.')</span>' : '';
-		HTML_boss::header(BOSS_CONTENTS . $certain_category, $directory, $directories, $conf); 
-                mosCommonHTML::loadJquery();
-                ?>
-        
-        <script type="text/javascript"><!--//--><![CDATA[//><!--
-        function submitbutton(pressbutton) {
-            if(pressbutton == 'new'){
-                $('#types_content').slideDown('slow');
-            }
-            else {
-                submitform(pressbutton);
-                return true;
-            }
-	}
-	//--><!]]></script>
-        
+		HTML_boss::header(BOSS_CONTENTS . $certain_category, $directory, $directories); ?>
         <form action="index2.php" method="get" name="adminForm">
 		<div class="fr mb20">
 			<span class="gray"><?php echo BOSS_FORM_CATEGORY; ?></span>&nbsp;
@@ -1112,23 +1109,12 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 			</select>
         </div>
 		<br clear="all"/>
-                <div id="types_content" class="types_content" style="display: none">
-                    <h3><?php echo BOSS_SELECT_CONTENT_TYPE; ?></h3>
-                    <?php
-                    foreach($typesContent as $types){
-                        ?>  
-                        <a href="/administrator/index2.php?option=com_boss&act=contents&task=new&directory=<?php echo $directory; ?>&type_content=<?php echo $types->id; ?>"><?php echo $types->name; ?></a> &nbsp;
-                        <?php  
-                    }
-                    ?>
-                </div>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
                     <th width="5"><input type="checkbox" name="toggle" value=""
                                          onclick="checkAll(<?php echo count($rows); ?>);"/></th>
                     <th width="5">Id</th>
-                    <th class="title" width="40%"><?php echo BOSS_TH_TITLE;?></th>
-                    <th width="20%"><?php echo BOSS_CONTENT_TYPES;?></th>
+                    <th class="title" width="60%"><?php echo BOSS_TH_TITLE;?></th>
                     <th width="10%"><?php echo BOSS_AUTOR;?></th>
                     <th width="5%"><?php echo BOSS_TH_PUBLISH;?></th>
                     <th width="10%"><?php echo BOSS_TH_CATEGORY;?></th>
@@ -1145,7 +1131,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                                    onclick="isChecked(this.checked);"/></td>
                         <td align="right"><?php echo $row->id; ?></td>
                         <td><?php HTML_boss::displayLinkText($name, "index2.php?option=com_boss&act=contents&task=edit&&directory=" . $directory . "&tid[]=" . $row->id); ?></td>
-                        <td align="center"><?php echo $row->type_name; ?></td>
                         <td align="center"><?php echo '['.$row->userid.'] '.$autors[$row->userid]->name ?></td>
                         <td class="td-state" align="center" onclick="boss_publ('img-pub-<?php echo $row->id; ?>', '<?php echo "act=contents&task=publish&tid=" . $row->id . "&directory=$directory"; ?>');">
                         <?php HTML_boss::displayYesNoImg($row, "img-pub-" . $row->id, 'content'); ?>
@@ -1173,10 +1158,10 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
     }
 
-    public static function displayContent($row, $fields, $field_values, $cats, $users, $directory, $directories, $type_content, $selected_categ, $tags, $id, $conf) {
+    public static function displayContent($row, $fields, $field_values, $cats, $users, $nb_images, $directory, $directories, $selected_categ, $tags, $id) {
 
-        HTML_boss::header(BOSS_CONTENT_EDITION, $directory, $directories, $conf);
-        $plugins = BossPlugins::get_plugins($directory, 'fields');
+        HTML_boss::header(BOSS_CONTENT_EDITION, $directory, $directories);
+        $plugins = get_plugins($directory, 'fields');
         $tabs = new mosTabs(0,1);
         mosCommonHTML::loadCalendar();
         ?>
@@ -1187,32 +1172,18 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 submitform(pressbutton);
 		        return true;
             }
-        var mfrm = document.getElementById('adminForm');
-        var errorMSG = '';
-        var iserror = 0;
-        var category = document.getElementById('category');
         var me = document.getElementById('name');
         if (me.value == '') {
 		    me.style.background = "red";
 		    alert("<?php echo html_entity_decode(addslashes( BOSS_REGWARN_ERROR),ENT_QUOTES); ?> : <?php echo html_entity_decode(addslashes(BOSS_TH_TITLE),ENT_QUOTES); ?>");
-	}
-        else if(category.value == ''){
-                category.style.background = "red";
-		    alert("<?php echo html_entity_decode(addslashes( BOSS_REGWARN_ERROR),ENT_QUOTES); ?> : <?php echo html_entity_decode(addslashes(BOSS_TH_CATEGORY),ENT_QUOTES); ?>");
-        }
+		}
         else {
-     
-                    <?php
-        foreach($fields as $field){
-            if(method_exists($plugins[$field->type],'addInWriteScript')){
-                echo $plugins[$field->type]->addInWriteScript($field);
-            }
-        }
-        ?>
-        if (iserror == 1) {
-            alert(errorMSG);
-            return false;
-        }
+            <?php
+                foreach($fields as $field) {
+                    if($field->type == 'editor')
+                    getEditorContents('editor', $field->name);
+                }
+            ?>
             submitform(pressbutton);
 		    return true;
 		}
@@ -1249,34 +1220,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
                 </tr>
                 <tr>
-                    <td><?php echo BOSS_TH_FRONTPAGE;?></td>
-                    <td>
-                        <select name="frontpage" id="frontpage">
-                            <option value="1" <?php if ($row->frontpage == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES ?></option>
-                            <option value="0" <?php if ($row->frontpage == 0 && !is_null($row->frontpage)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO ?></option>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                <tr>
-                <tr>
-                    <td><?php echo BOSS_TH_FEATURED;?></td>
-                    <td>
-                        <select name="featured" id="featured">
-                            <option value="1" <?php if ($row->featured == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES ?></option>
-                            <option value="0" <?php if ($row->featured == 0 && !is_null($row->featured)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO ?></option>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                <tr>
-                <tr>
                     <td><?php echo BOSS_TH_TITLE;?></td>
                     <td><input name="name" id="name" value="<?php echo $row->name ?>" size="45"/></td>
                     <td>&nbsp;</td>
@@ -1309,6 +1252,37 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             </table>
         <?php
 	$tabs->endTab();
+    if($nb_images>0){
+        $tabs->startTab(BOSS_FORM_CONTENT_PICTURES, "img-page");
+        ?>
+            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+            <?php
+				for ($i = 1; $i < $nb_images + 1; $i++) {
+                $ext_name = chr(ord('a') + $i - 1);
+                ?>
+                    <tr>
+                        <td><?php echo BOSS_FORM_CONTENT_PICTURE . " " . $i; ?></td>
+                        <td>
+                            <input type="file" name="content_picture<?php echo $i;?>"/>
+                            <br/>
+                        <?php
+                        $pic = JPATH_BASE . "/images/boss/$directory/contents/" . $row->id . $ext_name . "_t.jpg";
+                        if (file_exists($pic)) {
+                            echo '<img src="/images/boss/' . $directory . '/contents/' . $row->id . $ext_name . '_t.jpg"/>';
+                            echo "<input type='checkbox' name='cb_image$i' value='delete'>" . BOSS_CONTENT_DELETE_IMAGE;
+                        }
+                        ?>
+                            <br/>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                <?php
+            }
+            ?>
+            </table>
+        <?php
+	$tabs->endTab();
+    }
         $tabs->startTab(BOSS_META, "meta-page");
         ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -1339,7 +1313,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         $tabs->endPane();
         ?>
             <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-            <input type="hidden" name="type_content" value="<?php echo $type_content; ?>"/>
             <input type="hidden" name="date_created"
                    value="<?php echo isset($row->date_created) ? $row->date_created : date("Y-m-d"); ?>"/>
             <input type="hidden" name="option" value="com_boss"/>
@@ -1351,9 +1324,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
     }
 
-    public static function listcategories($nb, $children, $pageNav, $directory, $directories, $defaultTemplate, $conf) {
+    public static function listcategories($nb, $children, $pageNav, $directory, $directories, $defaultTemplate) {
 
-        HTML_boss::header(BOSS_LIST_CATEGORIES, $directory, $directories, $conf);
+        HTML_boss::header(BOSS_LIST_CATEGORIES, $directory, $directories);
         $src_cat = mosGetParam($_REQUEST, 'src_cat', '');
         ?>
         <form action="index2.php" method="post" name="adminForm">
@@ -1404,23 +1377,18 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
     }
 
-    public static function displayCategory($row, $cats, $directory, $directories, $templates, $comtentTypes, $rights, $conf) {
+    public static function displayCategory($row, $cats, $directory, $directories, $templates) {
+        global $mosConfig_live_site;
         ?>
         <script type="text/javascript">
             function submitbutton(pressbutton) {
             <?php getEditorContents('editor1', 'description'); ?>
-
-                if($("input[name='name']").val() == ''){
-                    alert('Введите название категории');
-                }
-                else{
-                    submitform(pressbutton);
-                }
+                submitform(pressbutton);
             }
 
             function showimage() {
                 //if (!document.images) return;
-                document.images.preview.src = '<?php echo JPATH_SITE;?>/templates/com_boss/' + getSelectedValue('adminForm', 'template') + '/template_thumbnail.png';
+                document.images.preview.src = '<?php echo $mosConfig_live_site;?>/templates/com_boss/' + getSelectedValue('adminForm', 'template') + '/template_thumbnail.png';
             }
             function getSelectedValue(frmName, srcListName) {
                 var form = eval('document.' + frmName);
@@ -1436,23 +1404,23 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
         </script>
 
-        <?php HTML_boss::header(BOSS_CATEGORY_EDITION, $directory, $directories, $conf); ?>
+        <?php HTML_boss::header(BOSS_CATEGORY_EDITION, $directory, $directories); ?>
         <form action="index2.php" method="post" name="adminForm" id="adminForm" class="adminForm"
               enctype="multipart/form-data">
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
                     <td><?php echo BOSS_TH_TITLE; ?></td>
                     <td>
-			<input type="text" size="50" maxlength="100" name="name" value="<?php echo @$row->name; ?>"/>
+						<input type="text" size="50" maxlength="100" name="name" value="<?php echo @$row->name; ?>"/>
                     </td>
-                    <td>&nbsp;</td>
+					<td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_NAME_ALIAS; ?></td>
                     <td>
-			<input type="text" size="50" maxlength="100" name="slug" value="<?php echo @$row->slug; ?>"/>
+						<input type="text" size="50" maxlength="100" name="slug" value="<?php echo @$row->slug; ?>"/>
                     </td>
-                    <td>&nbsp;</td>
+					<td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_TH_PARENT; ?></td>
@@ -1490,17 +1458,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                             } ?>><?php echo BOSS_NO_PUBLISH ?></option>
                         </select>
                     </td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_SELECT_CONTENT_TYPE2;?></td>
-                    <td>
-                        <select name="content_types" id="content_types">
-                            <option value="0"><?php echo BOSS_SELECT; ?></option>
-                            <?php HTML_boss::contentTypesSelect($comtentTypes, $row->content_types); ?>
-                        </select>
-                    </td>
-                    <td><?php echo BOSS_CATEGORY_CONTENT_TYPE; ?></td>
+					<td>&nbsp;</td>
                 </tr>
                 <tr>
 					<td colspan="3">&nbsp;</td>
@@ -1524,7 +1482,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
                         ?></select>
 						<?php $tmpl_tmp = (@$row->template) ? @$row->template : 'default' ?>
-						<img class="ml10" src="<?php echo JPATH_SITE."/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
+						<img class="ml10" src="<?php echo "$mosConfig_live_site/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
 								 name="preview" border="1" alt="<?php echo $tmpl_tmp;?>"/>
                     </td>
 					<td>&nbsp;</td>
@@ -1557,13 +1515,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     <td><textarea name="meta_keys" cols="60" rows="4"><?php echo @$row->meta_keys; ?></textarea></td>                    
 					<td>&nbsp;</td>
 				</tr>
-                <?php if(@$conf->allow_rights == 1) : ?>
-                <tr>
-                    <td><?php echo BOSS_RIGHTS;?></td>
-                    <td><?php echo $rights->draw_config_table('category');?></td>
-					<td>&nbsp;</td>
-				</tr>
-                <?php endif; ?>
             </table>
             <input type="hidden" name="id" value="<?php echo @$row->id; ?>"/>
             <input type="hidden" name="option" value="com_boss"/>
@@ -1576,295 +1527,463 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
     }
 
     public static function displayFormFields($row, $fields, $field_values, $directory, $plugins) {
-        global $mainframe;
-        $isAdmin = $mainframe->isAdmin();
 
         if (isset($fields)) {
             foreach ($fields as $field) {
-                //если админка, то делаем все поля редактируемыми, если поле не редактируемое с фронта и не админка, то пропускаем поле
-                if($isAdmin == 1){
-                    $field->editable = 1;
-                }
-                else if ($isAdmin != 1 && $field->editable == 0){
-                    continue;
-                }
-                
                 $return = jDirectoryField::getFieldForm($field, $row, null, $field_values, $directory, $plugins, "write");
                 echo "<tr><td>" . $return->title . "</td>\n";
                 echo "<td>" . $return->input . "</td><td>&nbsp;</td></tr>";
             }
         }
     }
-    
-    public static function showField($row, $directory, $plugin, $tpl=array()){
+
+    public static function showFields(&$rows, $pageNav, $directory, $directories) {
         ?>
-        <li style="display: block;" id="<?php echo $row->fieldid;?>_li">
-            
+        <?php HTML_boss::header(BOSS_FIELDS_LIST, $directory, $directories); ?>
+        <script type="text/javascript">
+            function cbsaveorder(n) {
+                cbcheckAll_button(n);
+                submitform('savefieldorder');
+            }
 
-            <div class="block" id="div_field_<?php echo $row->fieldid; ?>">
-
-                <img class="field_img" src="<?php echo JPATH_SITE.$plugin->getFieldIcon($directory);?>" alt="<?php echo $plugin->name;?>" />
-                
-                
-                <span class="note pointer field_title title" id="span_title_<?php echo $row->fieldid; ?>" onmouseover="tooltip(this.id)" onclick="bossEditField(<?php echo $row->fieldid; ?>)">
-                    <?php echo $row->title;?>
-                    <span class="hidden" id="span_title_<?php echo $row->fieldid; ?>_tip"><?php echo '<h3>'.BOSS_EDIT.' '.BOSS_FIELD.'</h3><p>'.$row->title.'</p>';?></span>
-                </span>
-              
-                <span class="note name"><?php echo $row->name;?></span>
-                
-                <span class="note pointer type" id="span_type_<?php echo $row->fieldid; ?>" onclick="change_type(<?php echo $row->fieldid; ?>)" onmouseover="tooltip(this.id)">
-                    <?php echo $plugin->name;?>
-                    <span class="hidden" id="span_type_<?php echo $row->fieldid; ?>_tip"><?php echo BOSS_CH_TYPE_TIP;?></span>
-                </span>
-                
-                <span class="note pointer template" id="span_template_<?php echo $row->fieldid; ?>" onclick="change_template(<?php echo $row->fieldid; ?>)" onmouseover="tooltip(this.id)">
-                    <img src="/administrator/components/com_boss/images/formbuilder/comment.png" />
-                    <span class="hidden" id="span_template_<?php echo $row->fieldid; ?>_tip">
-                        <?php 
-                            echo '<h3>'.BOSS_FIELD_GROUP_HREF.'</h3>';
-                            echo '<p>';
-                            if(!empty($tpl)){
-                                foreach ($tpl as $tp){
-                                    echo '<hr />';
-                                    echo '<strong>'.BOSS_TEMPLATE.':</strong> '.$tp->template.'<br />';
-                                    echo '<strong>'.BOSS_WHERE.':</strong> '.$tp->type_tmpl.'<br />';
-                                    echo '<strong>'.BOSS_POZ.':</strong> '.$tp->name;
-                                }
-                            }
-                            echo '</p>';
-                        ?>
-                    </span>
-                </span>
-                
-                <span class="note pointer required" onclick="boss_publ('img-req-<?php echo $row->fieldid; ?>', '<?php echo "act=fields&task=required&tid=" . $row->fieldid . "&directory=$directory"; ?>');">
-                    <?php 
-                    HTML_boss::displayYesNoImg($row->required, "img-req-" . $row->fieldid); 
-                    ?>
-                </span>
-                <span class="note pointer published"onclick="boss_publ('img-pub-<?php echo $row->fieldid; ?>', '<?php echo "act=fields&task=publish&tid=" . $row->fieldid . "&directory=$directory"; ?>');">
-                    <?php 
-                    HTML_boss::displayYesNoImg($row->published, "img-pub-" . $row->fieldid); 
-                    ?>
-                </span>
-     
-                <span class="note handle"></span>
-                <span class="note del" onclick="deleteField('<?php echo $row->fieldid;?>','<?php echo $row->name;?>','<?php echo $row->title;?>')"></span>
-            </div>
-            <div class="clear"></div>
-            <div class="attrs clear element_<?php echo $row->name;?>">
-                <input type="hidden" name="fieldids[]" value="<?php echo $row->fieldid;?>" />
-            </div>
-        </li>
+            //needed by sbsaveorder function
+            function cbcheckAll_button(n) {
+                for (var j = 0; j <= n; j++) {
+                    box = eval("document.adminForm.cb" + j);
+                    if (box.checked == false) {
+                        box.checked = true;
+                    }
+                }
+            }
+        </script>
+        <form action="index2.php" method="post" name="adminForm">
+            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+                <tr>
+                    <th width="1%" class="title acenter">#</th>
+                    <th width="1%" class="title"><input type="checkbox" name="toggle" value=""
+                                                        onClick="checkAll(<?php echo count($rows); ?>);"/>
+                    </th>
+                    <th width="10%" class="title"><?php echo BOSS_TH_NAME;?></th>
+                    <th width="10%" class="title"><?php echo BOSS_TH_TITLE; ?></th>
+                    <th width="10%" class="title"><?php echo BOSS_TH_TYPE; ?></th>
+                    <th width="5%" class="title acenter"><?php echo BOSS_TH_REQUIRED;?></th>
+                    <th width="5%" class="title acenter"><?php echo BOSS_TH_PUBLISH;?></th>
+                    <th width="1%" class="title" colspan="2"><?php echo BOSS_ORDER; ?></th>
+                    <th width="1%"><a href="javascript: saveorder(<?php echo count($rows) - 1; ?>)"><img
+                            src="/administrator/images/filesave.png" border="0" width="16" height="16"/></a></th>
+                </tr>
+            <?php
+                    $k = 0;
+            for ($i = 0, $n = count($rows); $i < $n; $i++) {
+                $row =& $rows[$i];
+                ?>
+                    <tr class="<?php echo "row$k"; ?>">
+                        <td align="right"><?php echo $i + 1?></td>
+                        <td><input type="checkbox" id="cb<?php echo $i;?>" name="tid[]"
+                                   value="<?php echo $row->fieldid; ?>" onClick="isChecked(this.checked);"/></td>
+                        <td>
+                            <a href="index2.php?option=com_boss&act=fields&task=edit&tid=<?php echo $row->fieldid; ?>&directory=<?php echo $directory;?>">
+                            <?php echo $row->name; ?> </a></td>
+                    <?php $row->title = jdGetLangDefinition($row->title);?>
+                        <td><?php echo $row->title; ?></td>
+                        <td><?php echo $row->type; ?></td>
+                        <td width="10%" class="td-state" align="center" onclick="boss_publ('img-req-<?php echo $row->fieldid; ?>', '<?php echo "act=fields&task=required&tid=" . $row->fieldid . "&directory=$directory"; ?>');">
+                        <?php HTML_boss::displayYesNoImg($row->required, "img-req-" . $row->fieldid); ?>
+                        </td>
+                        <td width="10%" class="td-state" align="center" onclick="boss_publ('img-pub-<?php echo $row->fieldid; ?>', '<?php echo "act=fields&task=publish&tid=" . $row->fieldid . "&directory=$directory"; ?>');">
+                        <?php HTML_boss::displayYesNoImg($row->published, "img-pub-" . $row->fieldid); ?>
+                        </td>
+                        <td><?php echo $pageNav->orderUpIcon($i); ?></td>
+                        <td><?php echo $pageNav->orderDownIcon($i, $n); ?></td>
+                        <td align="center">
+                            <input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
+                                   class="text_area" style="text-align: center"/>
+                        </td>
+                    </tr>
+                <?php $k = 1 - $k;
+            } ?>
+            </table>
+            <input type="hidden" name="option" value="com_boss"/>
+            <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
+            <input type="hidden" name="task" value="showField"/>
+            <input type="hidden" name="boxchecked" value="0"/>
+            <input type="hidden" name="act" value="fields"/>
+        </form>
         <?php
-    }
-    
-    public static function showFields(&$rows, $directory, $directories, $plugins, $tpl, $conf) {
-        ?>
-        <?php HTML_boss::header(BOSS_FIELDS_LIST, $directory, $directories, $conf); ?>
-        <div id="form_builder_nav">
-            <ul id="form_builder_properties">
-				<?php echo BOSS_FIELDS_OPTIONS;?>
-			</ul>
-            <?php if(count($plugins)>0) {?>
 
-			<ul id="form_builder_toolbox">
-                <div style="text-align: center;" id="form_builder_toolbox_header"><?php echo BOSS_FIELDS_NEW;?></div>
-                <?php
-                foreach($plugins as $key => $plugin){
-                    $style = "";
-                    if(method_exists($plugin, 'getFieldIcon')){
-                        $icon = $plugin->getFieldIcon($directory);
-                        if(is_file(JPATH_BASE.$icon)){
-                            $style = 'style="background-image:url('.JPATH_SITE.$icon.');"';
+    }
+
+    public static function editfield(&$row, $lists, $fieldvalues, $tabid, $cats, $nbcats, $fieldimages, $directory, $directories) {
+        global $mosConfig_live_site;
+        $task = mosGetParam($_REQUEST, 'task', '');
+        HTML_boss::header(BOSS_EDIT_FIELD, $directory, $directories);
+        $mainframe = mosMainFrame::getInstance(true);
+        mosCommonHTML::loadJquery();
+        mosCommonHTML::loadOverlib();
+        $mainframe->addJS(JPATH_SITE . '/administrator/components/com_boss/js/upload.js');
+        //$mainframe->addJS($mosConfig_live_site.'/administrator/components/com_boss/js/function.js');
+        $plugins = get_plugins($directory, 'fields');
+        ?>
+        <script type="text/javascript">
+        function getObject(obj) {
+            var strObj;
+            if (document.all) {
+                strObj = document.all.item(obj);
+            } else if (document.getElementById) {
+                strObj = document.getElementById(obj);
+            }
+            return strObj;
+        }
+
+        function submitbutton(pressbutton) {
+            if (pressbutton == 'showField' || pressbutton == 'cancel') {
+                document.adminForm.type.disabled = false;
+                submitform(pressbutton);
+                return;
+            }
+            var coll = document.adminForm;
+            var errorMSG = '';
+            var iserror = 0;
+            if (coll != null) {
+                var elements = coll.elements;
+                // loop through all input elements in form
+                for (var i = 0; i < elements.length; i++) {
+                    // check if element is mandatory; here mosReq=1
+                    if (elements.item(i).getAttribute('mosReq') == 1) {
+                        if (elements.item(i).value == '') {
+                            //alert(elements.item(i).getAttribute('mosLabel') + ':' + elements.item(i).getAttribute('mosReq'));
+                            // add up all error messages
+                            errorMSG += elements.item(i).getAttribute('mosLabel') + ' : <?php echo BOSS_REGWARN_ERROR; ?>\n';
+                            // notify user by changing background color, in this case to red
+                            elements.item(i).style.background = "red";
+                            iserror = 1;
                         }
                     }
-                    echo "<li id=\"".$key."\" class=\"toolbox\" ".$style.">".$plugin->name."</li>";
+                    else if (elements.item(i).getAttribute('mosReq') == 2) {
+                        if (elements.item(i).value == 'null') {
+                            //alert(elements.item(i).getAttribute('mosLabel') + ':' + elements.item(i).getAttribute('mosReq'));
+                            // add up all error messages
+                            errorMSG += elements.item(i).getAttribute('mosLabel') + ' : <?php echo BOSS_REGWARN_ERROR; ?>\n';
+                            // notify user by changing background color, in this case to red
+                            elements.item(i).style.background = "red";
+                            iserror = 1;
+                        }
+                    }
                 }
+            }
+            if (iserror == 1) {
+                alert(errorMSG);
+            } else {
+                document.adminForm.type.disabled = false;
+                submitform(pressbutton);
+            }
+        }
+
+        function insertRow() {
+            var oTable = getObject("fieldValuesBody");
+            var oRow, oCell, oInput;
+            var oCell2, oInput2;
+            var i;
+            i = document.adminForm.valueCount.value;
+            i++;
+            // Create and insert rows and cells into the first body.
+            oRow = document.createElement("TR");
+            oTable.appendChild(oRow);
+
+            oCell = document.createElement("TD");
+            oInput = document.createElement("INPUT");
+            oInput.name = "vNames[" + i + "]";
+            oInput.setAttribute('mosLabel', 'Name');
+            oInput.setAttribute('mosReq', 0);
+            oCell.appendChild(oInput);
+            oCell2 = document.createElement("TD");
+            oInput2 = document.createElement("INPUT");
+            oInput2.name = "vValues[" + i + "]";
+            oInput2.setAttribute('mosLabel', 'Name');
+            oInput2.setAttribute('mosReq', 0);
+            oCell2.appendChild(oInput2);
+
+            oRow.appendChild(oCell);
+            oRow.appendChild(oCell2);
+            oInput.focus();
+
+            document.adminForm.valueCount.value = i;
+        }
+
+        function insertImageRow() {
+            var oTable = getObject("ImagesfieldValuesBody");
+            var oRow, oCell;
+            var oCell2, oInput2,oImage,oSelect;
+            var i, k;
+            i = document.adminForm.ImagevalueCount.value;
+            i++;
+            // Create and insert rows and cells into the first body.
+            oRow = document.createElement("tr");
+            oTable.appendChild(oRow);
+
+            oCell = document.createElement("td");
+            oSelect = document.createElement("select");
+            oSelect.onchange = function() {
+                showimage('preview' + i, this); //Gestion de la particularitпїЅ d'ie qui n'accepte pas d'ajouter un evement avec setAttribute. ie ignore la ligne au dessus, ff ignore cette ligne
+            };
+            oSelect.id = 'vSelectImages[' + i + ']';
+            oSelect.name = 'vSelectImages[' + i + ']';
+            oSelect.setAttribute('class', "img_select");
+            k = 0;
+            oSelect.length++;
+            oSelect.options[0].text = 'No Image';
+            oSelect.options[0].value = 'null';
+        <?php
+                if (isset($fieldimages)) {
+            foreach ($fieldimages as $image) {
                 ?>
-			</ul>
-            <?php } ?>
-		</div>
+						k++;
+						oSelect.length++;
+						oSelect.options[k].text = '<?php echo $image; ?>';
+						oSelect.options[k].value = '<?php echo $image; ?>';
+				<?php
 
-		<div id="form_builder_panel" class="fancy">
-                    <div class='contayner'>
-                        <form name="fieldList" id="fieldList">
-                            <fieldset class='sml'>
-                                <legend><?php echo BOSS_FIELDS_LIST;?></legend>                           
-                                <div class="list_fieldHeader">
-                                    <span class="field_img"></span>
-                                    <span class="note title"><?php echo BOSS_TH_TITLE;?></span>
-                                    <span class="note name"><?php echo BOSS_TH_NAME;?></span>
-                                    <span class="note type"><?php echo BOSS_FIELD_TYPE; ?></span>
-                                    <span class="note template"><?php echo BOSS_TEMPLATE; ?></span>
-                                    <span class="note required"><?php echo BOSS_FIELD_REQUIRED; ?></span>
-                                    <span class="note published"><?php echo BOSS_FIELD_PUBLISHED;?></span>
-                                    <span class="note move"><?php echo BOSS_MOVE;?></span>
-                                    <span class="note delete"><?php echo BOSS_DELETE;?></span>
-                                </div>
-                                <ol class="ui-sortable">
-                                    <?php 
-                                    foreach($rows as $row){
-                                        self::showField($row, $directory, $plugins[$row->type], @$tpl[$row->fieldid]);
-                                    }
-                                    ?>
-                                </ol>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <input class="button" type="button" id="saveFieldOrderButton" value="<?php echo BOSS_SAVE_FIELD_ORDER; ?>" onclick="bossSaveFieldOrder(<?php echo $directory;?>)" />
-                </div>
-
-        <input type="hidden" name="directory" id="directory" value="<?php echo $directory;?>" />
-        <input type="hidden" name="change_type_fieldid" id="change_type_fieldid" value="" />
-        <?php
-    }
-
-    public static function editfield(&$row, $lists, $plug, $types, $directory, $directories, $task, $fnames) {
+            }
+        }
         ?>
+            oCell.appendChild(oSelect);
+            oImage = document.createElement("img");
+            oImage.setAttribute('src', "<?php echo $mosConfig_live_site . '/images/boss/' . $directory . '/fields/' . $row->link_image; ?>");
+            oImage.setAttribute('id', "preview" + i);
+            oImage.setAttribute('name', "preview" + i);
+            oCell.appendChild(oImage);
+            oCell2 = document.createElement("td");
+            oInput2 = document.createElement("input");
+            oInput2.name = "vImagesValues[" + i + "]";
+            oInput2.setAttribute('mosLabel', 'Value');
+            oInput2.setAttribute('mosReq', 0);
+            oCell2.appendChild(oInput2);
 
-        <h4 class="edit_field_header"><?php 
-                if(!empty($row->name)) 
-                        echo $row->title.' - ';
-                echo $plug->name;
-        ?></h4>
-        <form action="index2.php?option=com_boss" method="POST" name="fieldForm" id="fieldForm">
+            oRow.appendChild(oCell);
+            oRow.appendChild(oCell2);
+            oSelect.focus();
+
+            document.adminForm.ImagevalueCount.value = i;
+        }
+
+        function disableAll() {
+            var elem;
+            elem = getObject('divValues');
+            elem.style.visibility = 'hidden';
+            elem.style.display = 'none';
+            elem = getObject('divImagesValues');
+            elem.style.visibility = 'hidden';
+            elem.style.display = 'none';
+            elem = getObject('divColsRows');
+            elem.style.visibility = 'hidden';
+            elem.style.display = 'none';
+            elem = getObject('divTextLength');
+            elem.style.visibility = 'hidden';
+            elem.style.display = 'none';
+            if (elem = getObject('vNames[0]')) {
+                elem.setAttribute('mosReq', 0);
+            }
+            if (elem = getObject('vValues[0]')) {
+                elem.setAttribute('mosReq', 0);
+            }
+            if (elem = getObject('vSelectImages[0]')) {
+                elem.setAttribute('mosReq', 0);
+            }
+            if (elem = getObject('vImagesValues[0]')) {
+                elem.setAttribute('mosReq', 0);
+            }
+            elem = getObject('divLink');
+            elem.style.visibility = 'hidden';
+            elem.style.display = 'none';
+
         <?php
-        $tabs = new Sliders();
-        $tabs->startPane("field_properties");
-        $tabs->startTab(BOSS_PARAMS, "params");
+         foreach ($plugins as $key => $plug) {
+            echo $plug->getEditFieldJavaScriptDisable() . "\n";
+        }
         ?>
+        }
+
+        function selType(sType) {
+            var elem;
+            //alert(sType);
+            switch (sType) {
+                    <?php
+                    foreach ($plugins as $key => $plug) {
+                        echo "case '$key':\n";
+                        echo $plug->getEditFieldJavaScriptActive() . "\n";
+                        echo "break\n";
+                    }
+                    ?>
+                default:
+                    disableAll();
+            }
+        }
+
+        function prep4SQL(o) {
+            if (o.value != '') {
+                o.value = o.value.replace('content_', '');
+                o.value = 'content_' + o.value.replace(/[^a-zA-Z]+/g, '');
+            }
+        }
+
+        function showimage(preview, obj) {
+            if (getSelectedValue(obj) == 'null' || !getSelectedValue(obj))
+                var imgPath = '<?php echo $mosConfig_live_site; ?>/templates/com_boss/default/images/nopic.gif';
+            else
+                imgPath = '<?php echo $mosConfig_live_site . "/images/boss/$directory";?>/fields/' + getSelectedValue(obj);
+            var img = getObject(preview);
+            img.src = imgPath;
+        }
+
+        function getSelectedValue(obj) {
+            var i = obj.selectedIndex;
+            if (i != null && i > -1) {
+                return obj.options[i].value;
+            } else {
+                return null;
+            }
+        }
+        </script>
+
+        <form action="index2.php?option=com_boss" method="POST" name="adminForm">
+        <table cellspacing="0" cellpadding="0" width="100%">
+        <tr valign="top">
+        <td width="50%">
         <table class="adminform">
+            <th colspan="3">
+            <?php echo BOSS_PARAMS;?>
+            </th>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_NAME;?></td>
-                <td align=left width="45%"><input onchange="prep4SQL(this, Array('<?php echo implode("', '", $fnames); ?>'));" type="text" name="name" mosReq=1
-                                                  mosLabel="Name" size="30" value="<?php echo $row->name; ?>"/>
+                <td width="20%"><?php echo BOSS_FIELD_TYPE;?></td>
+                <td width="20%"><?php echo $lists['type']; ?></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="20%"><?php echo BOSS_FIELD_NAME;?></td>
+                <td align=left width="20%"><input onchange="prep4SQL(this);" type="text" name="name" mosReq=1
+                                                  mosLabel="Name" class="inputbox" value="<?php echo $row->name; ?>"/>
                 </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TITLE;?></td>
-                <td width="45%" align=left><input type="text" name="title" mosReq=1 mosLabel="Title" size="30"
+                <td width="20%"><?php echo BOSS_FIELD_TITLE;?></td>
+                <td width="20%" align=left><input type="text" name="title" mosReq=1 mosLabel="Title" class="inputbox"
                                                   value="<?php echo $row->title; ?>"/></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_DISPLAY_TITLE;?></td>
-                <td width="45%"><?php echo $lists['display_title']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_DISPLAY_TITLE;?></td>
+                <td width="20%"><?php echo $lists['display_title']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_DESCRIPTION;?></td>
-                <td width="45%" align=left><input type="text" name="description" mosLabel="Description" size="30"
+                <td width="20%"><?php echo BOSS_FIELD_DESCRIPTION;?></td>
+                <td width="20%" align=left><input type="text" name="description" mosLabel="Description" size="40"
                                                   value="<?php echo $row->description; ?>"/></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TEXT_BEFORE;?></td>
-                <td width="45%" align=left><input type="text" name="text_before" mosLabel="TextBefore" size="30"
+                <td width="20%"><?php echo BOSS_FIELD_TEXT_BEFORE;?></td>
+                <td width="20%" align=left><input type="text" name="text_before" mosLabel="TextBefore" size="40"
                                                   value="<?php echo $row->text_before; ?>"/></td>
-                <td><?php echo boss_helpers::bossToolTip(BOSS_FIELD_TEXT_BEFORE_LONG);?></td>
+                <td><?php echo mosToolTip(BOSS_FIELD_TEXT_BEFORE_LONG);?></td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TEXT_AFTER;?></td>
-                <td width="45%" align=left><input type="text" name="text_after" mosLabel="TextAfter" size="30"
+                <td width="20%"><?php echo BOSS_FIELD_TEXT_AFTER;?></td>
+                <td width="20%" align=left><input type="text" name="text_after" mosLabel="TextAfter" size="40"
                                                   value="<?php echo $row->text_after; ?>"/></td>
-                <td><?php echo boss_helpers::bossToolTip(BOSS_FIELD_TEXT_AFTER_LONG);?></td>
+                <td><?php echo mosToolTip(BOSS_FIELD_TEXT_AFTER_LONG);?></td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TAGS_OPEN;?></td>
-                <td width="45%" align=left><input type="text" name="tags_open" mosLabel="TagsOpen" size="30"
+                <td width="20%"><?php echo BOSS_FIELD_TAGS_OPEN;?></td>
+                <td width="20%" align=left><input type="text" name="tags_open" mosLabel="TagsOpen" size="40"
                                                   value="<?php echo $row->tags_open; ?>"/></td>
-                <td><?php echo boss_helpers::bossToolTip(BOSS_FIELD_TAGS_OPEN_LONG);?></td>
+                <td><?php echo mosToolTip(BOSS_FIELD_TAGS_OPEN_LONG);?></td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TAGS_SEPARATOR;?></td>
-                <td width="45%" align=left>
-                    <input type="text" name="tags_separator" mosLabel="TagsSeparator" size="30" value="<?php echo $row->tags_separator; ?>"/>
-                </td>
-                <td><?php echo boss_helpers::bossToolTip(BOSS_FIELD_TAGS_SEPARATOR_LONG);?></td>
+                <td width="20%"><?php echo BOSS_FIELD_TAGS_SEPARATOR;?></td>
+                <td width="20%" align=left><input type="text" name="tags_separator" mosLabel="TagsSeparator" size="40"
+                                                  value="<?php echo $row->tags_separator; ?>"/></td>
+                <td><?php echo mosToolTip(BOSS_FIELD_TAGS_SEPARATOR_LONG);?></td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_TAGS_CLOSE;?></td>
-                <td width="45%" align=left>
-                    <input type="text" name="tags_close" mosLabel="Description" size="30" value="<?php echo $row->tags_close; ?>"/>
-                </td>
-                <td><?php echo boss_helpers::bossToolTip(BOSS_FIELD_TAGS_CLOSE_LONG);?></td>
+                <td width="20%"><?php echo BOSS_FIELD_TAGS_CLOSE;?></td>
+                <td width="20%" align=left><input type="text" name="tags_close" mosLabel="Description" size="40"
+                                                  value="<?php echo $row->tags_close; ?>"/></td>
+                <td><?php echo mosToolTip(BOSS_FIELD_TAGS_CLOSE_LONG);?></td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_SIZE;?></td>
-                <td width="45%">
-                    <input type="text" name="size" mosLabel="Size" size="30" value="<?php echo $row->size; ?>"/>
-                </td>
+                <td width="20%"><?php echo BOSS_FIELD_REQUIRED;?></td>
+                <td width="20%"><?php echo $lists['required']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_REQUIRED;?></td>
-                <td width="45%"><?php echo $lists['required']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_PUBLISHED;?></td>
+                <td width="20%"><?php echo $lists['published']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_PUBLISHED;?></td>
-                <td width="45%"><?php echo $lists['published']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_SEARCHABLE;?></td>
+                <td width="20%"><?php echo $lists['searchable']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_SEARCHABLE;?></td>
-                <td width="45%"><?php echo $lists['searchable']; ?></td>
+                <td width="20%"><?php echo BOSS_FILTER_ALLOW;?></td>
+                <td width="20%"><?php echo $lists['filter']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FILTER_ALLOW;?></td>
-                <td width="45%"><?php echo $lists['filter']; ?></td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td width="45%"><?php echo BOSS_FIELD_EDITABLE;?></td>
-                <td width="45%"><?php echo $lists['editable']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_EDITABLE;?></td>
+                <td width="20%"><?php echo $lists['editable']; ?></td>
                 <td>&nbsp;</td>
             </tr>
 
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_PROFILE;?></td>
-                <td width="45%"><?php echo $lists['profile']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_PROFILE;?></td>
+                <td width="20%"><?php echo $lists['profile']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_SORT_OPTION;?></td>
-                <td width="45%"><?php echo $lists['sort']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_SORT_OPTION;?></td>
+                <td width="20%"><?php echo $lists['sort']; ?></td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td width="45%"><?php echo BOSS_FIELD_SORT_DIRECTION;?></td>
-                <td width="45%"><?php echo $lists['sort_direction']; ?></td>
+                <td width="20%"><?php echo BOSS_FIELD_SORT_DIRECTION;?></td>
+                <td width="20%"><?php echo $lists['sort_direction']; ?></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="20%"><?php echo BOSS_FIELD_SIZE;?></td>
+                <td width="20%"><input type="text" name="size" mosLabel="Size" class="inputbox"
+                                       value="<?php echo $row->size; ?>"/></td>
                 <td>&nbsp;</td>
             </tr>
         </table>
-        <?php
-        $tabs->endTab();
-        $tabs->startTab(BOSS_CONTENT_TYPE_HREF, "field_category");
-        ?>
-        <table class="adminform">
-            <tr>
-                <td>
-                    <select name="field_catsid[]" multiple='multiple' id="field_catsid"
-                            size="5">
-                    <?php
-                            if (strpos($row->catsid, ",-1,") === false)
-                        echo "<option value='-1'>" . BOSS_ALL_CONTENT_TYPE . "</option>";
-                    else
-                        echo "<option value='-1' selected>" . BOSS_ALL_CONTENT_TYPE . "</option>";
-                    HTML_boss::contentTypesSelect($types, $row->catsid);
-                    ?>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <?php $tabs->endTab();
-
-        if($task == 'new'):
-        $tabs->startTab(BOSS_EMPTY_DIRS, "field_dir");?>
+        </td>
+        <td width="50%">
             <table class="adminform">
+                <th><?php echo BOSS_FORM_FIELD_CATEGORY; ?></th>
+                <tr>
+                    <td>
+                        <select name="field_catsid[]" multiple='multiple' id="field_catsid[]"
+                                size="<?php echo $nbcats + 2;?>">
+                        <?php
+                                if (strpos($row->catsid, ",-1,") === false)
+                            echo "<option value='-1'>" . BOSS_MENU_ALL_CONTENTS . "</option>";
+                        else
+                            echo "<option value='-1' selected>" . BOSS_MENU_ALL_CONTENTS . "</option>";
+                        HTML_boss::selectCategories(0, BOSS_ROOT . " >> ", $cats, -1, -1, 1, $row->catsid);
+                        ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin:20px; clear:both" > </div>
+<?php if($task == 'new'){ ?>
+            <table class="adminform">
+                <th><?php echo BOSS_EMPTY_DIRS; ?></th>
                 <tr>
                     <td>
                         <?php foreach ($directories as $dir){
@@ -1881,46 +2000,235 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     </td>
                 </tr>
             </table>
-            <?php $tabs->endTab();
-            endif;
-
-            if(!empty($plug->html)):
-            $tabs->startTab(BOSS_FIELD_TYPE_PARAMS, "field_plug_params"); ?>
+            <div style="margin:20px; clear:both" > </div>
+<?php } ?>
             <table class="adminform">
+                <th><?php echo BOSS_FIELD_TYPE_PARAMS; ?></th>
                 <tr>
                     <td>
+        <div id="page1" class="pagetext">
+
+        </div>
+
+        <div id="divTextLength" class="pagetext">
+            <table cellpadding="4" cellspacing="1" border="0" width="100%" class="adminform">
+                <tr>
+                    <td width="20%"><?php echo BOSS_FIELD_MAX_LENGTH;?></td>
+                <?php
+                        if (!isset($row->maxlength) || ($row->maxlength == ""))
+                    $row->maxlength = 20;
+                ?>
+                    <td width="20%"><input type="text" name="maxlength" mosLabel="Max Length" class="inputbox"
+                                           value="<?php echo $row->maxlength; ?>"/></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <div id=divLink class="pagetext">
+            <table cellpadding="4" cellspacing="1" border="0" width="100%" class="adminform">
+                <tr>
+                    <td width="20%"><?php echo BOSS_LINK_TEXT;?></td>
+                    <td width="20%"><input type="text" name="link_text" mosLabel="Link Text" class="inputbox"
+                                           value="<?php echo $row->link_text; ?>"/></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="20%"><?php echo BOSS_LINK_IMAGE;?></td>
+                    <td width="20%">
+                        <select id='link_image' mosLabel='Image' mosReq=0 name='link_image'
+                                onchange="showimage('previewlink',this)">
+                            <option value='null' selected="selected">No Image</option>
                         <?php
+                                                                                if (isset($fieldimages)) {
+                            foreach ($fieldimages as $image) {
+                                ?>
+                                    <option value='<?php echo $image; ?>' <?php if ($row->link_image == $image) {
+                                        echo "selected";
+                                    } ?>><?php echo $image; ?></option>
+                                <?php
 
-                            echo $plug->html;
-
+                            }
+                        }
                         ?>
+                        </select>
+
+                    </td>
+                    <td>
+                        <img src="<?php echo "$mosConfig_live_site/images/boss/$directory/fields/" . $row->link_image; ?>"
+                             id='previewlink' name="previewlink"/>
                     </td>
                 </tr>
             </table>
-        <?php
-        $tabs->endTab();
-        endif;
-        $tabs->endPane();
-        ?>
-        <input type="hidden" name="type" id="type" value="<?php echo $plug->type;?>" />
-        <input type="hidden" name="field_action" id="field_action" value="<?php echo $task; ?>" />
-        <input type="hidden" name="fieldid" value="<?php echo $row->fieldid; ?>"/>
-        <input type="hidden" name="ordering" value="<?php echo $row->ordering; ?>"/>        
-        <input type="hidden" name="directory" id="directory" value="<?php echo $directory; ?>"/>
-        <div class="center">
-            <input class="button" type="button" value="<?php echo BOSS_APPLY;?>" onclick="bossControlFields(<?php echo $directory; ?>)"/>
         </div>
+        <div id=divColsRows class="pagetext">
+            <table cellpadding="4" cellspacing="1" border="0" width="100%" class="adminform">
+                <tr>
+                    <td width="20%"><?php echo BOSS_FIELD_COLS;?></td>
+                    <td width="20%"><input type="text" name="cols" mosLabel="Cols" class="inputbox"
+                                           value="<?php echo $row->cols; ?>"/></td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="20%"><?php echo BOSS_FIELD_ROWS;?></td>
+                    <td width="20%"><input type="text" name="rows" mosLabel="Rows" class="inputbox"
+                                           value="<?php echo $row->rows; ?>"/></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id=divValues style="text-align:left;">
+        <?php echo BOSS_FIELD_VALUES_EXPLANATION;?>
+            <input type=button onclick="insertRow();" value="Add a Value"/>
+            <table align=left id="divFieldValues" cellpadding="4" cellspacing="1" border="0" width="100%"
+                   class="adminform">
+                <tr>
+                    <th width="20%"><?php echo BOSS_FIELD_VALUE_NAME;?></th>
+                    <th width="20%"><?php echo BOSS_FIELD_VALUE_VALUE;?></th>
+                </tr>
+                <tbody id="fieldValuesBody">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <?php
+                for ($i = 0, $n = count($fieldvalues); $i < $n; $i++) {
+                    $fieldvalue = $fieldvalues[$i];
+                    echo "<tr>\n<td width=\"20%\"><input type=text mosReq=0  mosLabel='Name' value='" . stripslashes($fieldvalue->fieldtitle) . "' id='vNames[$i]' name='vNames[$i]' /></td>\n<td width=\"20%\"><input type=text mosReq=0 mosLabel='Value' value='" . stripslashes($fieldvalue->fieldvalue) . "' id='vValues[$i]' name='vValues[$i]' /></td>\n</tr>\n";
+                }
+                if ($i > 0)
+                    $i--;
+                if (count($fieldvalues) < 1) {
+                    echo "<tr>\n<td width=\"20%\"><input type=text mosReq=0  mosLabel='Name' value='' id='vNames[0]' name='vNames[0]' /></td>\n<td width=\"20%\"><input type=text mosReq=0  mosLabel='Value' value='' name='vValues[0]' id='vValues[0]' /></td>\n</tr>\n";
+                    $i = 0;
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div id=divImagesValues style="text-align:left;">
+        <?php echo BOSS_IMAGE_FIELD_VALUES_EXPLANATION;?>
+            <input type=button onclick="insertImageRow();" value="<?php echo BOSS_FIELD_ADD_VALUES;?>"/>
+            <input id="upload" type=button value="<?php echo BOSS_FIELD_UPLOAD_FILE;?>"/>
+            <table align=left id="divImagesFieldValues" cellpadding="4" cellspacing="1" border="0" width="100%"
+                   class="adminform">
+                <tr>
+                    <th width="20%"><?php echo BOSS_FIELD_VALUE_IMAGE;?></th>
+                    <th width="20%"><?php echo BOSS_FIELD_VALUE_VALUE;?></th>
+                </tr>
+                <tbody id="ImagesfieldValuesBody">
+                <tr>
+                    <td colspan="2">
+                        <div id="files" style="text-align:center;"></div>
+                    </td>
+                </tr>
+                <?php
+                for ($j = 0, $n = count($fieldvalues); $j < $n; $j++) {
+                    $fieldvalue = $fieldvalues[$j];
+                    ?>
+                    <tr>
+                        <td width="20%">
+                            <select class='img_select' id='vSelectImages[<?php echo $j; ?>]' mosLabel='Image' mosReq=0
+                                    name='vSelectImages[<?php echo $j; ?>]'
+                                    onchange="showimage('preview<?php echo $j; ?>',this)">
+                                <option value='null' selected="selected">No Image</option>
+                            <?php
+                            if (isset($fieldimages)) {
+                                foreach ($fieldimages as $image) {
+                                    ?>
+                                        <option value='<?php echo $image; ?>' <?php if (stripslashes($fieldvalue->fieldtitle) == $image) {
+                                            echo "selected";
+                                        } ?>><?php echo $image; ?></option>
+                                    <?php
+
+                                }
+                            }
+                            ?>
+                            </select>
+                            <img src="<?php echo "$mosConfig_live_site/images/boss/$directory/fields/" . stripslashes($fieldvalue->fieldtitle); ?>"
+                                 id='preview<?php echo $j; ?>' name="preview<?php echo $j; ?>"
+                                 alt="<?php echo @$row->image;?>"/>
+                        </td>
+                        <td width="20%">
+                            <input type=text mosReq=0 mosLabel='Value'
+                                   value='<?php echo stripslashes($fieldvalue->fieldvalue); ?>'
+                                   name='vImagesValues[<?php echo $j; ?>]' id='vImagesValues[<?php echo $j; ?>]'/>
+                        </td>
+                    </tr>
+                    <?php
+
+                }
+                if ($j > 0)
+                    $j--;
+                if (count($fieldvalues) < 1) {
+                    ?>
+                    <tr>
+                        <td width="20%">
+                            <select class='img_select' id='vSelectImages[0]' name='vSelectImages[0]' mosReq=0
+                                    mosLabel='Image'
+                                    onchange="showimage('preview0',this)">
+                                <option value='null' selected="selected">No Image</option>
+                            <?php
+                                                                                            if (isset($fieldimages)) {
+                                foreach ($fieldimages as $image) {
+                                    ?>
+                                        <option value='<?php echo $image; ?>' <?php if ($row->link_image == $image) {
+                                            echo "selected";
+                                        } ?>><?php echo $image; ?></option>
+                                    <?php
+
+                                }
+                            }
+                            ?>
+                            </select>
+                            <img src="" id='preview0' name="preview0" alt="<?php echo $row->link_image;?>"/>
+                        </td>
+                        <td width="20%">
+                            <input type=text mosReq=0 mosLabel='Value' value='' name='vImagesValues[0]'
+                                   id='vImagesValues[0]'/>
+                        </td>
+                    </tr>
+                    <?php
+                                                    $j = 0;
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+        foreach ($plugins as $key => $plug) {
+            echo $plug->getEditFieldOptions($row->fieldid, $directory);
+        }
+        ?>
+                    </td>
+                </tr>
+            </table>
+            </td>
+        </tr>
+        </table>
+        <input type="hidden" name="valueCount" value="<?php echo $i; ?>"/>
+        <input type="hidden" name="ImagevalueCount" value="<?php echo $j; ?>"/>
+        <input type="hidden" name="fieldid" value="<?php echo $row->fieldid; ?>"/>
+        <input type="hidden" name="ordering" value="<?php echo $row->ordering; ?>"/>
+        <input type="hidden" name="option" value="com_boss"/>
+        <input type="hidden" name="directory" id="directory" value="<?php echo $directory; ?>"/>
+        <input type="hidden" name="act" value="fields"/>
+        <input type="hidden" name="task" value=""/>
         </form>
 
         <?php
         if ($row->fieldid > 0) {
-            print "<script type=\"text/javascript\"> document.fieldForm.name.readOnly=true; </script>";
+            print "<script type=\"text/javascript\"> document.adminForm.name.readOnly=true; </script>";
         }
+
+        print "<script type=\"text/javascript\"> disableAll(); </script>";
+        print "<script type=\"text/javascript\"> selType('" . $row->type . "'); </script>";
     }
 
-    public static function showDirectories($rows, $directory, $conf) {
+    public static function showDirectories($rows, $directory) {
         ?>
-        <?php HTML_boss::header(BOSS_LIST_DIRECTORIES, $directory, $rows, $conf); ?>
+        <?php HTML_boss::header(BOSS_LIST_DIRECTORIES, $directory, $rows); ?>
         <form action="index2.php" method="post" name="adminForm">
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
                 <tr>
@@ -1963,8 +2271,8 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             echo implode(" | ", $fields[$group_id]);
     }
 
-    public static function listTemplates($templates, $directory, $directories, $conf) {
-        HTML_boss::header(BOSS_LIST_TEMPLATES, $directory, $directories, $conf); ?>
+    public static function listTemplates($templates, $directory, $directories) {
+        HTML_boss::header(BOSS_LIST_TEMPLATES, $directory, $directories); ?>
 
         <form action="index2.php" method="post" name="adminForm">
             <table class="adminlist">
@@ -1997,19 +2305,19 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                                      border="1"/>
                             </td>
                             <td align="center">
-                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=edit_tmpl&template=<?php echo $tpl; ?>&type_tmpl=category">
+                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=edit_tmpl&template=<?php echo $tpl; ?>&type_tmpl=2">
                                     <img src="<?php echo JPATH_SITE; ?>/administrator/components/com_boss/images/16x16/categories.png"
                                          title="<?php echo BOSS_EDIT_CAT_TMPL; ?>"/>
                                 </a>
                             </td>
                             <td align="center">
-                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=edit_tmpl&template=<?php echo $tpl; ?>&type_tmpl=content">
+                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=edit_tmpl&template=<?php echo $tpl; ?>&type_tmpl=1">
                                     <img src="<?php echo JPATH_SITE; ?>/administrator/components/com_boss/images/16x16/contents.png"
                                          title="<?php echo BOSS_EDIT_CONTENT_TMPL; ?>"/>
                                 </a>
                             </td>
                             <td align="center">
-                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=list_tmpl_fields&template=<?php echo $tpl; ?>">
+                                <a href="<?php echo JPATH_SITE; ?>/administrator/index2.php?option=com_boss&directory=<?php echo $directory; ?>&act=templates&task=edit_tmpl_fields&template=<?php echo $tpl; ?>">
                                     <img src="<?php echo JPATH_SITE; ?>/administrator/components/com_boss/images/16x16/template_fields.png"
                                          title="<?php echo BOSS_EDIT_TMPL_FIELDS; ?>"/>
                                 </a>
@@ -2037,257 +2345,259 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         <?php
 
     }
-    
-    public static function change_template($directory, $fieldid, $fieldtitle, $templates, $type_tpl){
-      ?>
-        <h4 class="edit_field_header"><?php echo $fieldtitle;?></h4>
-        <form action="index2.php" method="post" name="tplForm" id="tplForm">
-            <?php echo $templates; ?>
-            <?php echo $type_tpl; ?>
-            <div id="tpl_poz"><?php echo BOSS_SELECT_TEMPLATE_TYPETPL;?></div>
-            <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
-            <input type="hidden" name="fieldid" value="<?php echo $fieldid;?>"/>
-        </form>
-        <?php
-    }
-    
-    public static function load_poz($pozition, $selected_poz){
-        foreach ($pozition as $poz){
-            $checked = '';
-            if(in_array($poz->id, $selected_poz)){
-                $checked = 'checked="checked"';
-            }    
-            ?>
-        <label>            
-            <input type="checkbox" value="<?php echo $poz->id; ?>" <?php echo $checked; ?> class="inputbox" name="pozitions[]" />
-            <?php echo $poz->name; ?>
-        </label>
-        <br />
-        <?php
-        }
-        ?>
-        <input class="button" type="button" id="savePozButton" value="<?php echo BOSS_SAVE_FIELD_POZ; ?>" onclick="bossSavePoz()" />
-        <?php
-    }
-    
-    public static function editTemplate($directory, $directories, $template, $type_tmpl, $positions, $groupfields, $fields, $cats, $conf) {
-        HTML_boss::header(BOSS_LIST_TEMPLATES, $directory, $directories, $conf);
-        if ($type_tmpl == 'category')
+
+    public static function editTemplate($directory, $directories, $template, $type_tmpl, $positions, $positionsDesc, $groupfields, $fields, $cats) {
+        HTML_boss::header(BOSS_LIST_TEMPLATES, $directory, $directories);
+        if ($type_tmpl == 2)
             $img = 'template_category.png';
         else
             $img = 'template_content.png';
         ?>
+        <script type="text/javascript">
+            var boss_positions = new Array(<?php echo '"'.implode('", "', $positions).'"'; ?>);
+            var boss_selected_group = boss_positions[0];
+        function boss_showgroup(value) {
+                var ge,ce = '';
 
-        <form action="index2.php" method="post" name="adminForm">
-            <table class="adminlist">
-                <tr>
-                    <th>
-                        <?php echo BOSS_FIELDS; ?>
-                    </th>
-                    <?php
-                    foreach ($positions as $position) {
-
-                        ?>
-                        <th>
-                            <?php
-                            echo ' <img src="/administrator/images/info.png" title="' . $position->desc . '"> ';
-                            echo $position->name;
-                            ?>
-                        </th>
-                    <?php } ?>       
-                    </tr>
-
-
-                        <?php
-                        if (isset($fields)) {
-                            foreach ($fields as $field) {
-                                ?>
-                            <tr>
-                                <th><?php echo $field->title; ?></th>
-                                <?php 
-                                foreach ($positions as $position) {
-                                    $checked = '';
-                                    if (@in_array($field->fieldid, $groupfields[$position->id]['fieldid']))
-                                        $checked = 'checked="checked"';
-
-                                ?>
-                                <td style="text-align: center;">
-                                    <input type="checkbox"
-                                           name="required|<?php echo $position->id; ?>|<?php echo $field->fieldid; ?>"
-                                           value="1" <?php echo $checked; ?> />
-
-                                    <input type="text" maxlength="2" size="2"
-                                           name="ordering|<?php echo $position->id; ?>|<?php echo $field->fieldid; ?>"
-                                           value="<?php echo @$groupfields[$position->id][$field->fieldid]['ordering']; ?>" <?php echo $checked; ?> />
-                                </td>
-                                <?php } ?>                                    
-                            </tr>
-                            <?php
-                        }
-
+                if (value == '') {
+                        value = boss_positions[0];
                 }
-                ?>
+                
+                for(i=0;i<boss_positions.length;i++) {
+                        ge = document.getElementById(boss_positions[i]);
+                        ce = document.getElementById('boss_' + boss_positions[i]);
+                        if (boss_positions[i] == value) {
+                                ge.style.display = 'block';
+                                ce.className = 'row1';
+                        }
+                }
 
-            </table>
-            <br/>
-            <div style="text-align: center;">
-                <?php echo BOSS_TPL_FIELDS_DESC; ?>
-            </div>
-            <br/>
-        <div style="text-align: center;">
-            <img src="<?php echo JPATH_SITE . "/templates/com_boss/$template/$img"; ?>"/>
-        </div>
+                if (boss_selected_group != value) {
+                        ge = document.getElementById(boss_selected_group);
+                        ce = document.getElementById('boss_'+boss_selected_group);
+                        ge.style.display = 'none';
+                        ce.className = 'row0';
+                }
+                boss_selected_group = value;
+        }
+        </script>
+    <form action="index2.php" method="post" name="adminForm">
+        <table class="adminlist">
+            <tr>
+                <td valign="top">
+                    <table class="adminlist">
+                        <tr>
+                            <th>
+                                <?php echo BOSS_SELECT_GROUP_FIELDS; ?>
+                            </th>
+                        </tr>
+                    <?php $i=0;
+                    foreach ($positions as $position) {
+                        $class= ($i == 0) ?  'class="row1"' : 'class="row0"';
+                        ?>
+                        <tr id="boss_<?php echo $position; ?>" <?php echo $class; ?> >
+                            <td style="cursor: pointer;" onclick="boss_showgroup('<?php echo $position; ?>')">
+                            <?php
+                            echo ' <img src="/administrator/images/info.png" title="'.$positionsDesc[$i].'"> ';
+                            echo $position;
+                            ?>
+                            </td>
+                        </tr>
+                    <?php $i++; } ?>
+                    </table>
+                </td>
+                <td>
+                    <?php 
+                            $j=0;
+                            foreach ($positions as $position) { 
+                            ($j == 0) ?  $style='style="display: block;"' : $style='style="display: none;"';
+                                ?>
+                            
+                    <div id="<?php echo $position; ?>" <?php echo $style; ?> >
+                        <table class="adminlist">
+                            <tr>
+                                <th class="title"><?php echo BOSS_GROUPS;?></th>
+                                <th class="title" colspan="2">
+                                    <?php
+                                        echo $position;
+                                        if (!empty($positionsDesc[$j])){
+                                            echo ' <img src="/administrator/images/info.png" title="'.$positionsDesc[$j].'">';
+                                        }
+                                    ?>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td><?php echo BOSS_PUBLISH; ?></td>
+                                <td colspan="2">
+                                    <select name="published|<?php echo $position; ?>"
+                                            id="published|<?php echo $position; ?>">
+                                        <option value="1" <?php if (@$groupfields[$position]['published'] == 1) {
+                                            echo "selected";
+                                        } ?>><?php echo BOSS_PUBLISH; ?></option>
+                                        <option value="0" <?php if (@$groupfields[$position]['published'] == 0) {
+                                            echo "selected";
+                                        } ?>><?php echo BOSS_NO_PUBLISH ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><?php echo BOSS_FORM_CATEGORY_GROUPS; ?></td>
+                                <td colspan="2">
+                                    <select name="catsid|<?php echo $position; ?>[]" multiple='multiple'
+                                            id="catsid|<?php echo $position; ?>[]" size="4">
+                                    <?php
+
+                                    if (strpos(@$groupfields[$position]['catsid'], ",-1,") === false)
+                                        echo "<option value='-1'>" . BOSS_MENU_ALL_CONTENTS . "</option>";
+                                    else
+                                        echo "<option value='-1' selected>" . BOSS_MENU_ALL_CONTENTS . "</option>";
+                                    HTML_boss::selectCategories(0, BOSS_ROOT . " >> ", $cats, -1, -1, 1, @$groupfields[$position]['catsid']);
+                                    ?>
+                                    </select>
+                                </td>
+                                </tr>
+                            <tr>
+                                <th><?php echo BOSS_GROUP_FIELDS; ?></th>
+                                <th><?php echo BOSS_TH_PUBLISH; ?></th>
+                                <th><?php echo BOSS_ORDER; ?></th>
+                            </tr>
+                            <tr>
+                                <?php
+                                if (isset($fields)) {
+                                    $k = 0;
+                                    $i = 0;
+                                    foreach ($fields as $field) {
+                                        ?>
+                                            <tr class="row<?php echo $k; ?>">
+                                                <td><?php echo $field->title; ?></td>
+                                            <?php 
+                                                if (@in_array($field->fieldid, $groupfields[$position]['fieldid']))
+                                                    $checked = 'checked';
+                                                else
+                                                    $checked = '';
+                                                ?>
+                                                    <td>
+                                                        <input type="checkbox"
+                                                               name="required|<?php echo $position; ?>|<?php echo $field->fieldid; ?>"
+                                                               value="1" <?php echo $checked; ?> />
+                                                     </td>
+                                                     <td>
+                                                        <input type="text" maxlength="2" size="2"
+                                                               name="ordering|<?php echo $position; ?>|<?php echo $field->fieldid; ?>"
+                                                               value="<?php echo @$groupfields[$position][$field->fieldid]['ordering']; ?>" <?php echo $checked; ?> />
+                                                    </td>
+                                                
+                                            </tr>
+                                        <?php
+                                                            $k = !$k;
+                                        $i++;
+                                    }
+                                }
+                                ?>
+                            </tr>
+                        </table>
+                    </div>
+                            <?php $j++; } ?>
+                </td>
+                <td valign="top">
+                    <img src="<?php echo JPATH_SITE . "/templates/com_boss/$template/$img"; ?>"/>
+                </td>
+                </tr>
+        </table>
         <input type="hidden" name="option" value="com_boss"/>
         <input type="hidden" name="act" value="templates"/>
         <input type="hidden" name="task" value="save_tmpl"/>
-        <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
-        <input type="hidden" name="template" value="<?php echo $template; ?>"/>
-        <input type="hidden" name="type_tmpl" value="<?php echo $type_tmpl; ?>"/>
+        <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
+        <input type="hidden" name="template" value="<?php echo $template;?>"/>
+        <input type="hidden" name="type_tmpl" value="<?php echo $type_tmpl;?>"/>
         <input type="hidden" name="boxchecked" value="0"/>
-        </form>
+    </form>
              
 
         <?php
 
     }
-    public static function listTemplateFields($directory,$directories, $fields, $cats, $template, $conf){
-     HTML_boss::header(BOSS_EDIT_TEMPLATE_FIELD, $directory, $directories, $conf); ?>
-        <form action="index2.php" method="post" name="adminForm" id="adminForm" class="adminForm">
+
+    public static function editTemplateFields($directory, $directories, $template, $type_tmpl, $positions) {
+        HTML_boss::header(BOSS_EDIT_TEMPLATE_FIELD, $directory, $directories);
+        ?>
+        <form action="index2.php" method="post" name="adminForm">
             <table class="adminlist">
                 <tr>
-                    <th><?php echo BOSS_NAME_DIR; ?></th>
-                    <th><?php echo BOSS_FIELD_DESCRIPTION; ?></th>
-                    <th><?php echo BOSS_CATEGORIES; ?></th>
-                    <th><?php echo BOSS_TYPETPL; ?></th>
-                    <th><?php echo BOSS_FIELD_PUBLISHED; ?></th>
-                    <th><?php echo BOSS_DELETE; ?></th>
+                    <th><?php echo "Позиции шаблонов категории";?></th>
+                    <th><?php echo "Описание позиций шаблонов категории";?></th>
+                    <th><?php echo "Позиции шаблонов контента";?></th>
+                    <th><?php echo "Описание позиций шаблонов контента";?></th>
                 </tr>
-                    <?php
-                    foreach ($fields as $field){
-                        if (empty($class)|| $class == ' class="row1"') $class = ' class="row0"';
-                        else $class = ' class="row1"';
-                        
-                        $categs = '';
-                        if($field->catsid == ''){
-                           $categs = BOSS_NO;
-                        }
-                        else if($field->catsid == ',-1,'){
-                           $categs = BOSS_ALL;
-                        }
-                        else {
-                           $catsid = explode(',', $field->catsid);
-                           foreach($catsid as $val){
-                               if(isset ($cats[$val])){
-                                   $categs .= $cats[$val]->name.'<br />';
-                               }
-                           }
-                        }
-                        
-                        ;?>
-                        <tr<?php echo $class; ?>>
-                            <td>
-                                <a href="index2.php?option=com_boss&act=templates&task=edit_tmpl_field&fieldid=<?php echo $field->id; ?>&directory=<?php echo $directory; ?>">
-                                    <?php echo $field->name; ?>
-                                </a>
-                            </td>
-                            <td><?php echo $field->desc; ?></td>
-                            <td><?php echo $categs; ?></td>
-                            <td><?php echo $field->type_tmpl; ?></td>
-                            <td class="td-state" align="center" onclick="boss_publ('img-pub-<?php echo $field->id; ?>', '<?php echo "act=template_fields&task=publish&tid=" . $field->id . "&directory=$directory"; ?>');">
-                                <?php HTML_boss::displayYesNoImg($field->published, "img-pub-" . $field->id); ?>
-                            </td>
-                            <td align="center">
-                                <a href="index2.php?option=com_boss&act=templates&task=delete_tmpl_field&fieldid=<?php echo $field->id; ?>&directory=<?php echo $directory; ?>&template=<?php echo $template; ?>">
-                                    <img src="images/trash_mini.png" />
-                                </a>
-                            </td>
-                        </tr>
-                    <?php } ?>
-               </table>
-            <input type="hidden" name="option" value="com_boss"/>
-            <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
-            <input type="hidden" name="act" value="templates"/>
-            <input type="hidden" name="task" value="new_tmpl_field"/>
-        </form>
-        <?php
-    }
-    
-    public static function editTemplateField($directory, $directories, $field, $cats, $selectedCats, $templates, $conf){
-        HTML_boss::header(BOSS_EDIT_TEMPLATE_FIELD, $directory, $directories, $conf); ?>
-        <form action="index2.php" method="post" name="adminForm" id="adminForm" class="adminForm">
-            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+                <?php for($i=0;$i<15;$i++){?>
                 <tr>
-                    <td><?php echo BOSS_TH_PUBLISH; ?></td>
-                    <td colspan="2">
-                        <select name="published" id="published">
-                            <option value="1" <?php if (@$field->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if (@$field->published == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
+                    <td><input type="text" name="category[]" value="<?php echo @$positions['category'][$i]; ?>" size="20" maxlength="20"/></td>
+                    <td><input type="text" name="category_desc[]" value="<?php echo @$positions['category_desc'][$i]; ?>" size="50" maxlength="255"/></td>
+                    <td><input type="text" name="content[]" value="<?php echo @$positions['content'][$i]; ?>" size="20" maxlength="20"/></td>
+                    <td><input type="text" name="content_desc[]" value="<?php echo @$positions['content_desc'][$i]; ?>" size="50" maxlength="255"/></td>
                 </tr>
-                <tr>
-                    <td><?php echo BOSS_TH_TITLE;?></td>
-                    <td><input name="name" id="name" value="<?php echo @$field->name ?>" size="45"/></td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_FIELD_DESCRIPTION;?></td>
-                    <td><input name="desc" id="desc" value="<?php echo @$field->desc ?>" size="45"/></td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_TEMPLATE;?></td>
-                    <td><select name="template" id="template">
-                           <?php foreach($templates as $template){ ?> 
-                            <option value="<?php echo $template;?>" <?php if (@$field->template == $template) {
-                                echo "selected";
-                            } ?>><?php echo $template;?></option>
-                            <?php } ?> 
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_TYPETPL;?></td>
-                    <td><select name="type_tmpl" id="type_tmpl">
-                            <option value="content" <?php if (@$field->type_tmpl == "content") {
-                                echo "selected";
-                            } ?>><?php echo BOSS_TH_CONTENT_TMPL;?></option>
-                            <option value="category" <?php if (@$field->type_tmpl == "category") {
-                                echo "selected";
-                            } ?>><?php echo BOSS_TH_CAT_TMPL;?></option>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_FORM_CATEGORY_GROUPS;?></td>
-                    <td><select size="10" multiple="multiple" name="catsid[]" id="catsid">
-                        <option value="-1" <?php if (in_array('-1', $selectedCats)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_ALL;?></option>    
-                        <?php HTML_boss::selectCategories(0, BOSS_ROOT . " >> ", $cats, $selectedCats, -1, 1); ?>
-                        </select>
-                    </td>
-                    <td>&nbsp;</td>
-                </tr>
+                <?php } ?>
             </table>
-            <input type="hidden" name="fieldid" value="<?php echo @$field->id; ?>"/>
             <input type="hidden" name="option" value="com_boss"/>
-            <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
             <input type="hidden" name="act" value="templates"/>
-            <input type="hidden" name="task" value="save_tmpl_field"/>
+            <input type="hidden" name="task" value="save_tmpl_fields"/>
+            <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
+            <input type="hidden" name="template" value="<?php echo $template;?>"/>
+            <input type="hidden" name="type_tmpl" value="<?php echo $type_tmpl;?>"/>
+            <input type="hidden" name="boxchecked" value="0"/>
         </form>
         <?php
     }
 
-    public static function listPlugins($directory, $directories, $plugins, $used, $conf) {
-        HTML_boss::header(BOSS_PLUGINS, $directory, $directories, $conf);?>
+    public static function editTmplSource($directory,$directories,$template,$source_file,$files,$source){
+     HTML_boss::header(BOSS_EDIT_TEMPLATE_FIELD, $directory, $directories); ?>
+        <form action="index2.php" method="post" name="adminForm">
+            <table class="adminlist">
+                <tr>
+                    <th>
+                        <?php echo BOSS_FILES; ?>
+                    </th>
+                    <th>
+                        <?php echo @$source_file; ?>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="adminlist">
+                    <?php
+                    foreach ($files as $file){
+                        if ($file == $source_file) $class = ' class="row1"';
+                        else $class = ' class="row0"';
+                        ;?>
+                        <tr<?php echo $class; ?>>
+                            <td>
+                                <a href="index2.php?option=com_boss&act=templates&task=edit_tmpl_source&source_file=<?php echo $file; ?>&template=<?php echo $template; ?>">
+                                    <?php echo $file; ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                        </table>
+                    </td>
+                    <td>
+                        <div align="center">
+                            <textarea name="source" cols="130" rows="30"><?php echo @$source; ?></textarea>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="option" value="com_boss"/>
+            <input type="hidden" name="act" value="templates"/>
+            <input type="hidden" name="task" value="saveTmplSource"/>
+            <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
+            <input type="hidden" name="template" value="<?php echo $template;?>"/>
+            <input type="hidden" name="source_file" value="<?php echo $source_file;?>"/>
+        </form>
+        <?php
+    }
+
+    public static function listPlugins($directory, $directories, $plugins, $used) {
+        HTML_boss::header(BOSS_PLUGINS, $directory, $directories);?>
         <form action="index2.php" method="post" name="filterForm">
             <div class="fr mb20">
 			    <span class="gray"><?php echo BOSS_USE; ?></span>&nbsp;
@@ -2351,13 +2661,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                                onclick="checkAll(<?php echo count($plugins); ?>);"/>
                     </th>
                     <th class="title">
-                        <?php echo BOSS_FIELD_VALUE_NAME; ?>
-                    </th>
-                    <th class="title">
-                        <?php echo BOSS_TH_TYPE; ?>
-                    </th>
-                    <th class="title">
-                        <?php echo BOSS_SETTINGS; ?>
+                    <?php echo BOSS_FIELD_VALUE_NAME; ?>
                     </th>
                 </tr>
             <?php
@@ -2373,18 +2677,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                                        onclick="isChecked(this.checked);"/>
                             </td>
                             <td>
-                                <?php echo $plugin['file']; ?>
-                            </td>
-                            <td>
-                                <?php echo $plugin['folder']; ?>
-                            </td>
-                            <td>
-                                <?php if($plugin['folder'] != 'fields'){
-                                $bossPlugin = BossPlugins::get_plugin($directory, $plugin['file'], $plugin['folder']);
-                                if(method_exists($bossPlugin, 'displaySettingsForm'))
-                                           echo '<a href="'.JPATH_SITE.'/administrator/index2.php?option=com_boss&act=plugins&task=edit&directory='.$directory.'&folder='.$plugin['folder'].'&plugin='.$plugin['file'].'">'.BOSS_EDIT.'</a>';
-                                      }
-                                ?>
+                            <?php	echo $plugin['file']; ?>
                             </td>
                         </tr>
                     <?php
@@ -2403,16 +2696,10 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         <?php
 
     }
-    
-    public static function editPlugin($directory, $directories, $plugin, $conf) {
-        HTML_boss::header(BOSS_PLUGINS, $directory, $directories, $conf);
-        if (method_exists($plugin, 'displaySettingsForm')) {
-            $plugin->displaySettingsForm($directory);
-        }  
-    }
-    
-    public static function listFieldImages($fieldimages, $directory, $directories, $conf) {
-        HTML_boss::header(BOSS_RADIOIMAGE, $directory, $directories, $conf); ?>
+
+    public static function listFieldImages($fieldimages, $directory, $directories) {
+        global $mosConfig_live_site;
+        HTML_boss::header(BOSS_RADIOIMAGE, $directory, $directories); ?>
         <form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
 
             <table class="adminform">
@@ -2462,7 +2749,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                                        value="<?php echo $fieldimage;?>" onclick="isChecked(this.checked);"/>
                             </td>
                             <td>
-                                <img src="<?php echo JPATH_SITE."/images/boss/$directory/fields/$fieldimage";?>"
+                                <img src="<?php echo "$mosConfig_live_site/images/boss/$directory/fields/$fieldimage";?>"
                                      border="1"/>
                             </td>
                             <td>
@@ -2489,10 +2776,102 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 /*
 *  Функции для загрузки csv
 */
+    public static function displaycsvpreview($directory, $directories, $filename, $csvcat, $handle, $fgetcsv_delimiter, $fgetcsv_enclosure, $line, $maxCols, $previewLimit, $actprev) {
+
+        HTML_boss::header(BOSS_CSV_HEADER, $directory, $directories);
+
+        $csv_block = "";
+        $display_block = "";
+        while (($line < $previewLimit) && ($dataprev = fgetcsv($handle, 1024, $fgetcsv_delimiter))) {
+            $numOfCols = count($dataprev);
+            if ($numOfCols > $maxCols) $maxCols = $numOfCols;
+            if ($line != 0) {
+                $csv_block .= "<tr class=\"row" . ($line & 1) . "\" >";
+                for ($index = 0; $index < $numOfCols; $index++) {
+                    if ($dataprev[$index] == "") {
+                        $csv_block .= "<td >"
+                                . ""
+                                . "&nbsp;"
+                                . "</td>";
+                    } else {
+                        $csv_block .= "<td >"
+                                . ""
+                                . stripslashes(HTML_boss::normalise($dataprev[$index]))
+                                . "</td>";
+                    }
+                }
+                $csv_block .= "</tr>";
+            }
+            $line++;
+        }
+        $display_block .= "
+		<form  action=\"index2.php?option=com_boss&act=csv&task=" . $actprev . "\" method=\"post\" name=\"csv\" id=\"csv\">
+		<table class=\"adminlist\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" align=\"center\">
+				<tr>
+					<td align=\"center\" colspan=\"" . $numOfCols . "\" >Предосмотр загружаемых данных</td>
+				</tr>
+				<tr>";
+        for ($index = 0; $index < $maxCols; $index++) {
+            $display_block .= "<th class=\"title\">Столбец" . ($index + 1) . "</th>";
+        }
+        $display_block .= "</tr>";
+        $display_block .= "</tr>";
+        $display_block .= $csv_block;
+        $display_block .= "</tr>";
+        $display_block .= "</tr>
+					<td >&nbsp;</td>
+				</tr>
+			</table>
+			    <br>
+    			<input type='hidden' name='filename' value='$filename' >
+				<input type='hidden' name='csvcat' value='$csvcat' >
+				<input type='submit' name='" . $actprev . "' value='Загрузить данные' />&nbsp&nbsp&nbsp&nbsp;
+			</form>";
+        echo $display_block;
+    }
+
+    public static function displaycsvmetod($directory, $directories) {
+
+        HTML_boss::header(BOSS_CSV_HEADER, $directory, $directories);?>
+        <ul>
+            <li><a href="index2.php?option=com_boss&act=csv&task=build_insert">Добавление новых данных</a></li>
+            <li><a href="index2.php?option=com_boss&act=csv&task=build_list">Обновление существующих данных</a></li>
+        </ul>
+        <?php
+
+    }
+
+    public static function displaycsvbuildinsert($directory, $directories, $cats, $actprev) {
+
+        HTML_boss::header(BOSS_CSV_HEADER, $directory, $directories);?>
+        <script type="text/javascript">
+            function submitbutton(pressbutton) {
+            <?php getEditorContents('editor1', 'description'); ?>
+                submitform(pressbutton);
+            }
+        </script>
+        <form enctype="multipart/form-data" action="index2.php?option=com_boss&act=csv&task=csv_preview" method="post"
+              name="csv" id="csv">
+            <p><input type="file" name="csvname"/></p>
+
+            <select name="csvcat" id="csvcat">
+                <option value="0"><?php echo BOSS_ROOT; ?></option>
+            <?php HTML_boss::selectCategories(0, BOSS_ROOT . " >> ", $cats, null, null); ?>
+            </select>
+
+            <p><?php echo BOSS_CSV_CONTINNUE_LONG; ?></p>
+            <input type="submit" name="csv_preview" value="<?php echo BOSS_CSV_CONTINNUE; ?>"/>
+            <input type="hidden" name="actprev" value="<?php echo $actprev; ?>"/>
 
 
-    public static function showImpExpForm($directory, $directories, $packs, $conf){
-        HTML_boss::header(BOSS_EX_IM_HEADER, $directory, $directories, $conf); ?>
+            <input type="hidden" name="option" value="com_boss"/>
+        </form>
+        <?php
+
+    }
+
+    public static function showImpExpForm($directory, $directories, $packs){
+        HTML_boss::header(BOSS_EX_IM_HEADER, $directory, $directories); ?>
         <table width="100%">
             <tr>
                 <td width="50%">
@@ -2635,8 +3014,8 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 <?php
     }
 
-    public static function listUsers($directory, $directories, $pageNav, $users, $conf) {
-		HTML_boss::header(BOSS_TH_USERS, $directory, $directories, $conf);
+    public static function listUsers($directory, $directories, $pageNav, $users) {
+		HTML_boss::header(BOSS_TH_USERS, $directory, $directories);
         $pathToImg = JPATH_SITE.'/administrator/components/com_boss/images/16x16/'
         ?>
         <form action="index2.php" method="get" name="adminForm">
@@ -2695,10 +3074,10 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         <?php
     }
 
-    public static function editUserInfo($directory, $directories, $userFields, $fields, $users, $selectedUserId, $conf){
+    public static function editUserInfo($directory, $directories, $userFields, $fields, $users, $selectedUserId){
 
-         HTML_boss::header(BOSS_CONTENT_EDITION, $directory, $directories, $conf);
-         $plugins = BossPlugins::get_plugins($directory, 'fields');
+         HTML_boss::header(BOSS_CONTENT_EDITION, $directory, $directories);
+         $plugins = get_plugins($directory, 'fields');
         ?>
         <form action="index2.php" method="post" name="adminForm" id="adminForm" class="adminForm">
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -2729,150 +3108,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             <input type="hidden" name="option"      value="com_boss"/>
         </form>
          <?php
-    }
-    
-    public static function listContentTypes($types, $pageNav, $directory, $directories, $nb, $conf) {
-
-        HTML_boss::header(BOSS_CONTENT_TYPES, $directory, $directories, $conf);
-        $src_cat = mosGetParam($_REQUEST, 'src_cat', '');
-        ?>
-        <form action="index2.php" method="post" name="adminForm">
-            <div class="fr mb20">
-                <span class="gray"><?php echo BOSS_CONTENT_TYPES; ?></span>&nbsp;
-                <input type="text" name="src_cat" id="src_cat" value="<?php echo $src_cat; ?>" />
-                <input type="submit" value="<?php echo BOSS_SEARCH; ?>" class="button">
-                <span class="gray"><?php echo BOSS_FIELD_PUBLISHED; ?></span>&nbsp;
-                <select name="select_publish" id="select_publish" onchange="document.adminForm.submit();">
-		    		<option value="0"><?php echo BOSS_ALL; ?></option>
-		    	    <?php self::selectPublish('select_publish', 'only_pub'); ?>
-		    	</select>
-            </div>
-            <br clear="all"/>
-            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
-                <tr>
-                    <th class="title" width="2%"><input type="checkbox" name="toggle" value=""
-                                                        onclick="checkAll(<?php echo $nb; ?>);"/></th>
-                    <th class="title" width="2%">Id</th>
-                    <th class="title" width="30%"><?php echo BOSS_CONTENT_TYPES;?></th>                
-                    <th width="3%" colspan="2"><?php echo BOSS_ORDER; ?></th>
-                    <th width="3%">
-                        <a href="javascript: saveorder(<?php echo $nb - 1; ?>)">
-                            <img src="/administrator/images/filesave.png" border="0" width="16" height="16"/>
-                        </a>
-                    </th>
-                    <th class="title" width="10%"><?php echo BOSS_TH_PUBLISH;?></th>
-                </tr>
-            <?php
-            $num =0;
-             $total = count($types);
-            foreach($types as $type){
-                ?>
-                <tr class="row<?php echo ($num & 1); ?>">
-                    <td><input type="checkbox" id="cb<?php echo $num;?>" name="tid[]" value="<?php echo $type->id; ?>"
-                               onclick="isChecked(this.checked);"/></td>
-
-                    <td align="right"><?php echo $type->id; ?></td>
-                    <td>
-                    <?php HTML_boss::displayLinkText($type->name, "index2.php?option=com_boss&directory=$directory&act=content_types&task=edit&tid[]=" . $type->id); ?>
-                    </td>
-
-                    <td align="right">
-                    <?php echo $pageNav->orderUpIcon($num, ($num > 0)); ?>
-                    </td>
-                    <td align="left">
-                    <?php echo $pageNav->orderDownIcon($num, $nb, ($num < $total - 1)); ?>
-                    </td>
-                    <td align="center">
-                        <input type="text" name="order[]" size="5" value="<?php echo $type->ordering; ?>"
-                               class="text_area" style="text-align: center"/>
-                    </td>
-                    <td class="td-state" align="center" onclick="boss_publ('img-pub-<?php echo $type->id; ?>', '<?php echo "act=content_types&task=publish&tid=" . $type->id . "&directory=$directory"; ?>');">
-                    <?php HTML_boss::displayYesNoImg($type->published, "img-pub-" . $type->id); ?>
-                    </td>
-                  
-                    
-                </tr>
-            <?php
-            $num ++;
-            }
-            ?>
-            </table>
-
-            <input type="hidden" name="option" value="com_boss"/>
-            <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
-            <input type="hidden" name="task" value=""/>
-            <input type="hidden" name="act" value="content_types"/>
-            <input type="hidden" name="boxchecked" value="0"/>
-        </form>
-        <?php
-
-    }
-    
-    public static function displayContentTypes($row, $directory, $directories, $conf) {
-        ?>
-        <script type="text/javascript">
-            function submitbutton(pressbutton) {
-            <?php getEditorContents('editor1', 'description'); ?>
-                submitform(pressbutton);
-            }
-        </script>
-
-        <?php HTML_boss::header(BOSS_CONTENT_TYPES_EDIT, $directory, $directories, $conf); ?>
-        <form action="index2.php" method="post" name="adminForm" id="adminForm" class="adminForm"
-              enctype="multipart/form-data">
-            <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
-                <tr>
-                    <td><?php echo BOSS_TH_PUBLISH; ?></td>
-                    <td>
-                        <select name="published" id="published">
-                            <option value="1" <?php if ($row->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if ($row->published == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
-                    </td>
-					<td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_TH_TITLE; ?></td>
-                    <td>
-			<input type="text" size="50" maxlength="100" name="name" value="<?php echo @$row->name; ?>"/>
-                    </td>
-					<td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><?php echo BOSS_TH_DESCRIPTION; ?></td>
-                    <td>
-                        <textarea name="desc" cols="50" rows="5"><?php echo @$row->desc; ?></textarea>
-                    </td>
-					<td>&nbsp;</td>
-                </tr>
-            </table>
-            <input type="hidden" name="id" value="<?php echo @$row->id; ?>"/>
-            <input type="hidden" name="ordering" value="<?php echo @$row->ordering; ?>"/>
-            <input type="hidden" name="option" value="com_boss"/>
-            <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
-            <input type="hidden" name="act" value="content_types"/>
-            <input type="hidden" name="task" value=""/>
-        </form>
-        <?php
-    }
-    
-    public static function contentTypesSelect($rows, $selectedTips=null) {
-        
-        if (@$rows) {  
-            $selectedTips = explode(',', $selectedTips);
-            foreach ($rows as $row) {               
-                $selected = '';
-                
-                if (is_array($selectedTips) && @in_array($row->id, $selectedTips))
-                    $selected = 'selected';
-           
-                echo "<option value='" . $row->id . "' " . $selected . ">" . $row->name . "</option>";
-            }
-        }
     }
 }
 ?>
