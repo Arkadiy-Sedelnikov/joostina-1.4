@@ -898,7 +898,8 @@ function show_content($contentid, $catid, $directory, $template_name) {
 	 $query = "SELECT g.name as gname,f.* FROM #__boss_".$directory."_groupfields as fg \n".
 		"LEFT JOIN #__boss_".$directory."_groups AS g ON fg.groupid = g.id \n".
 		"LEFT JOIN #__boss_".$directory."_fields AS f ON fg.fieldid = f.fieldid \n".
-		"WHERE g.published = 1 AND g.id IN ($groupids) AND f.published = 1 AND fg.type_tmpl = 'content' ORDER BY fg.ordering ASC ";
+		"WHERE g.published = 1 AND g.id IN ($groupids) AND f.published = 1 AND fg.type_tmpl = 'content' \n".
+		"ORDER BY f.ordering ASC, fg.ordering ASC ";
         $database->setQuery( $query );
         $fieldsgrouptemp = $database->loadObjectList();
 
