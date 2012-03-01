@@ -59,7 +59,7 @@ defined('_VALID_MOS') or die();
             }
 
 	    	foreach($fields_searchable as $key => $fsearch) {
-                      //var_dump($fsearch);
+
 	    		//if (($catid == 0)||(strpos($fsearch->catsid, ",$catid,") !== false)||(strpos($fsearch->catsid, ",-1,") !== false)) {
 	    			$return = jDirectoryField::getFieldForm($fsearch,null,null,$field_values,$directory,$plugins,"search");
 	    			$title = $return->title;
