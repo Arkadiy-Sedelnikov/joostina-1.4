@@ -1409,7 +1409,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         <script type="text/javascript">
             function submitbutton(pressbutton) {
             <?php getEditorContents('editor1', 'description'); ?>
-                submitform(pressbutton);
+
+                if($("input[name='name']").val() == ''){
+                    alert('Введите название категории');
+                }
+                else{
+                    submitform(pressbutton);
+                }
             }
 
             function showimage() {
