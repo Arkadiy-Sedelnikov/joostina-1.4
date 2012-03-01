@@ -1245,6 +1245,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                         &nbsp;&nbsp;<?php echo BOSS_TO ?>&nbsp;
                         <input name="date_unpublish" id="date_unpublish" value="<?php echo $row->date_unpublish ?>" size="20"/>
                         <input type="reset" class="button" value="..." onClick="return showCalendar('date_unpublish');" />
+                        &nbsp;&nbsp;<?php echo BOSS_DATE_CREATED ?>&nbsp;
+                        <input name="date_created" id="date_created" value="<?php echo !empty($row->date_created) ? $row->date_created : date('Y-m-d H:i:s'); ?>" size="20"/>
+
                     </td>
 
                 </tr>
@@ -1340,8 +1343,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         ?>
             <input type="hidden" name="id" value="<?php echo $id; ?>"/>
             <input type="hidden" name="type_content" value="<?php echo $type_content; ?>"/>
-            <input type="hidden" name="date_created"
-                   value="<?php echo isset($row->date_created) ? $row->date_created : date("Y-m-d"); ?>"/>
             <input type="hidden" name="option" value="com_boss"/>
             <input type="hidden" name="directory" value="<?php echo $directory; ?>"/>
             <input type="hidden" name="act" value="contents"/>

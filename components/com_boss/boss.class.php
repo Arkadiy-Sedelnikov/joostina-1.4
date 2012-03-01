@@ -647,6 +647,7 @@ class jDirectoryContent extends mosDBTable {
         $tags = mosGetParam($_REQUEST, 'tags', '');
         $act = mosGetParam($_REQUEST, 'act', '');
         $task = mosGetParam($_REQUEST, 'task', '');
+        $date_created = mosGetParam($_REQUEST, 'date_created', '');
 
         $plugins = BossPlugins::get_plugins($directory, 'fields');
 
@@ -655,13 +656,13 @@ class jDirectoryContent extends mosDBTable {
             echo "<script> alert('" . $this->getError() . "'); window.history.go(-1); </script>\n";
             exit();
         }
-        if (($this->id == "") || ($this->id == 0)) {
+        if (empty($this->id)) {
             $isUpdateMode = 0;
-            $this->date_created = date('Y-m-d H:i:s');
-            
+
             if (empty($this->date_publish) && $this->published == 1) {
                 $this->date_publish = $this->date_created;
             }
+            
         } else {
             $isUpdateMode = 1;
             $this->date_publish = (intval($this->date_publish) > 0) ? mosFormatDate($this->date_publish, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : '';
@@ -679,7 +680,8 @@ class jDirectoryContent extends mosDBTable {
         else
             $redirect_text = BOSS_UPDATE_SUCCESSFULL;
 
-        $this->date_unpublish = (intval($this->date_unpublish) > 0) ? mosFormatDate($this->date_unpublish, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : '';
+        $this->date_created = (!empty($this->date_created)) ? mosFormatDate($this->date_created, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : date('Y-m-d H:i:s');
+        $this->date_unpublish = (!empty($this->date_unpublish)) ? mosFormatDate($this->date_unpublish, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : '';
 
         if ($this->slug == '')
             $this->slug = $this->name;
