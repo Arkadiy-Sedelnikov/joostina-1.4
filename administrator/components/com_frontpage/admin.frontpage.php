@@ -27,6 +27,13 @@ $configObject = new frontpageConfig($db);
 $conf->directory = $configObject->get('directory');
 $conf->page = $configObject->get('page');
 
+if($task != 'save_settings' && $task != 'apply_settings'){
+    $directory = $database->setQuery("SELECT id FROM #__boss_config WHERE id = ".(int)$conf->directory)->loadResult();
+    if($directory != $conf->directory){
+        $task = 'settings';
+    }
+}
+
 $cid = josGetArrayInts('cid');
 
     switch($task) {
