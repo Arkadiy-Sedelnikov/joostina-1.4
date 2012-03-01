@@ -265,15 +265,8 @@ class HTML_menusections {
 			</td>
 			<td style="height: 30px;">
 				<span class="editlinktip" style="cursor: pointer;">
-<?php
-		echo mosToolTip($row->descrip,$row->name,250,'',$row->name,$link,1);
-?>
+                    <?php echo mosToolTip($row->descrip,$row->name,250,'',$row->name,$link,1); ?>
 				</span>
-			</td>
-			<td width="20">
-				<input type="radio" id="cb<?php echo $i; ?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
-			</td>
-			<td width="20">
 			</td>
 		</tr>
 <?php
