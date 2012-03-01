@@ -630,18 +630,14 @@ class boss_html
         $delete = "<a href='" . $target . "'>" . BOSS_CONTENT_DELETE . "</a>";
         
         if($this->conf->allow_rights){
-        if($this->perms->edit_all_content || ($this->perms->edit_user_content && $my->id == $content->user_id)){
-            echo '<div>';
-            echo $edit;   
-        }
-        if($this->perms->delete_all_content || ($this->perms->delete_user_content && $my->id == $content->user_id)){
-            echo $delete;
-            echo '</div>';
-        }
-        else{
-            echo '</div>';
-        }
-
+            $tmp = '';
+            if($this->perms->edit_all_content || ($this->perms->edit_user_content && $my->id == $content->user_id)){
+                $tmp .= $edit;
+            }
+            if($this->perms->delete_all_content || ($this->perms->delete_user_content && $my->id == $content->user_id)){
+                $tmp .= $delete;
+            }
+            echo ($tmp == '') ? '' : '‹div>' . $tmp . '‹/div>';
         }
         else if (($my->id == $content->user_id && $my->id != 0) || $my->usertype == 'Super Administrator') {
             echo '<div>';
