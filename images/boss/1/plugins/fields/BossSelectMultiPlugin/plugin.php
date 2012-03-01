@@ -245,7 +245,6 @@ defined('_VALID_MOS') or die();
 			if(is_array($values) && count($values)>0){
                 $search = " AND ( ".implode(" OR ", $tmp)." ) ";
             }
-            var_dump($search);
             return $search;
         }
     }
