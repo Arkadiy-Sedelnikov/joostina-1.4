@@ -62,7 +62,8 @@ $nullDate = $database->getNullDate();
 ?>
 <ul class="mostread<?php echo $moduleclass_sfx; ?>">
 	<?php
-	foreach ($rows as $row) {
+if(is_array($rows) && count($rows)>0){
+    foreach ($rows as $row) {
 		if(!$def_itemid>0) {
 			// get Itemid
             $Itemid = $mainframe->getBossItemid($directory, $row->catid, $row->id);
@@ -84,5 +85,6 @@ $nullDate = $database->getNullDate();
 		<a href="<?php echo $link; ?>" title="<?php echo $row->title; ?>"<?php echo $class ?>><?php echo $row->title; ?></a><?php echo $show_hits ? ' ('.$row->hits.')':'';?>
 	</li><?php
 	}
+}
 	?>
 </ul>
