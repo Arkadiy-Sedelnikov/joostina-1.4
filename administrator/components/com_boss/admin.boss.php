@@ -33,18 +33,19 @@ if ($directory == 0) {
     }
 }
 
+$act = mosGetParam($_REQUEST, 'act', "");
+$task = mosGetParam($_REQUEST, 'task', "");
+
 $params = HTML_boss::getLayout();
-if($directory == 0){
-    $params['act'] =  'manager';
+
+if($directory == 0 && $act != 'manager' && $task !=  'new'){
+    $params['act'] = $_REQUEST['act']  = $act  =  'manager';
+    $_REQUEST['task'] = $task =  '';
 }
 
 boss_helpers::loadBossLang($directory);
 
-$act = mosGetParam($_REQUEST, 'act', "");
-$task = mosGetParam($_REQUEST, 'task', "");
-
 $conf = getConfig($directory);
-
 
 $layout = $params['layout'];
 if(@!$conf->allow_rights){
