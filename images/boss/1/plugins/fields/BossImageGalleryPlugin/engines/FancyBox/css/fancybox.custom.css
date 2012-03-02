@@ -1,0 +1,84 @@
+.galleryView
+{
+	cursor: pointer;
+	margin: 5px;
+	padding: 0 0 0 20px;
+	background: url("images/view.gif") no-repeat left center;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.galleryViewContent
+{
+	cursor: pointer;
+	margin: 5px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.thumbsContainer img 
+{    
+	border: 1px solid #ccc;
+	background: #fff;
+    margin: 2px;
+    padding: 3px;
+    vertical-align: middle;
+}
+
+.thumbsContainer img:hover 
+{
+   border-color: #bbb;
+   box-shadow: 0 1px 7px #ddd;
+	-webkit-box-shadow: 0 1px 7px #ddd;
+	-moz-box-shadow: 0 1px 7px #ddd;
+}
+
+div.thumbsContainer 
+{
+	margin-bottom: 30px; 
+	clear: both;
+}
+
+.thumb_desc 
+{
+	display:none;
+}
+
+.thumb_link 
+{
+	float:left; 
+	margin:0 20px 0 0;
+}
+
+.thumb_img
+{
+	padding: 3px;
+	background: #fff;
+	border: 1px solid #ccc;
+	margin: 0 0 20px 0;
+}
+
+.thumb_img:hover
+{	
+	border-color:#bbb;
+	box-shadow: 0 1px 7px #ddd;
+	-webkit-box-shadow: 0 1px 7px #ddd;
+	-moz-box-shadow: 0 1px 7px #ddd;	
+}
+
+.thumbsContainer 
+{
+	margin-bottom:30px;
+}
+
+
+
+#fancybox-outer 
+{
+	background: #fff;
+	border: 1px solid #999;
+}
+#fancybox-content 
+{
+	background: #fff;
+	border: 0px solid #fff;
+}
