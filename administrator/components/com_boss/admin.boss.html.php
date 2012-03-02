@@ -2481,7 +2481,9 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 
 
     public static function showImpExpForm($directory, $directories, $packs, $conf){
-        HTML_boss::header(BOSS_EX_IM_HEADER, $directory, $directories, $conf); ?>
+        HTML_boss::header(BOSS_EX_IM_HEADER, $directory, $directories, $conf);
+        $pack_name = str_replace("'", '', russian_transliterate($directories[$directory]->name).'_'.date("Y_m_d"));
+        ?>
         <table width="100%">
             <tr>
                 <td width="50%">
@@ -2489,27 +2491,28 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                         <form action="index2.php" name="export_form" method="POST">
                             <table class="adminform">
                                 <tr style="height:40px">
-                                    <td width="50%">
+                                    <td width="50%"><label>
                                         <input type="checkbox" name="exp_tables" value="1"/>
-                                        <?php echo BOSS_EX_TABLES; ?>
+                                        <?php echo BOSS_EX_TABLES; ?> </label>
                                     </td>
-                                    <td width="50%"><input type="checkbox" name="exp_content" value="1"/>
-                                        <?php echo BOSS_EX_CONTENT; ?>
+                                    <td width="50%"><label>
+                                        <input type="checkbox" name="exp_content" value="1"/>
+                                        <?php echo BOSS_EX_CONTENT; ?></label>
                                     </td>
                                 </tr>
                                 <tr style="height:40px">
-                                    <td width="50%">
+                                    <td width="50%"><label>
                                         <input type="checkbox" name="exp_templates" value="1"/>
-                                        <?php echo BOSS_EX_TMPL; ?>
+                                        <?php echo BOSS_EX_TMPL; ?></label>
                                     </td>
-                                    <td width="50%">
+                                    <td width="50%"><label>
                                         <input type="checkbox" name="exp_plugins" value="1"/>
-                                        <?php echo BOSS_EX_PLUG; ?>
+                                        <?php echo BOSS_EX_PLUG; ?></label>
                                     </td>
                                 </tr>
                                 <tr style="height:40px">
                                     <td>
-                                        <input type="text" name="pack_name" size="20" maxlength="40" value="pack"/>
+                                        <input type="text" name="pack_name" size="40" maxlength="40" value="pack_<?php echo $pack_name;?>"/>
                                         <?php echo BOSS_EX_NAME; ?>
                                     </td>
                                     <td>
