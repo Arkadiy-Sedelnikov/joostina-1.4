@@ -14,7 +14,7 @@ function delete_pack(directory,id){
     jQuery.ajax({
         type: "POST",
         url: url+'/administrator/ajax.index.php?option=com_boss&act=delete_pack&pack='+id+'&directory='+directory,
-        dataType: 'JSON',
+        dataType: 'text',
         success: function (data){
             if(data == 'yes')
                 jQuery("#"+id).html('<div>Deleted</div>');
