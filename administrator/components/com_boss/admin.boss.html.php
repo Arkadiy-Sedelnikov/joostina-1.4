@@ -107,18 +107,14 @@ class HTML_boss {
         </th>
     <?php if((empty($task) || $task == 'cancel') && !@$conf->allow_rights) { ?>
         <th>
-            <select name='layout' onchange="jumpmenu('parent',this)">
-                <?php
-                foreach ($layouts as $key => $val) {
-                    if ($key == $layout) {
-                        $selected = "selected='selected'";
-                    }
-                    else
-                        $selected = "";
-                    echo "<option value='index2.php?option=com_boss&directory=" . $directory . "&act=" . $act . "&layout=" . $key . "' $selected>" . $val . "</option>";
-                }
-                ?>
-            </select>
+            <?php
+            $options = array();
+            foreach ($layouts as $key => $val) {
+                $options[] = mosHTML::makeOption("index2.php?option=com_boss&directory=" . $directory . "&act=" . $act . "&layout=" . $key, $val);
+            }
+            $selected = (!empty($layout)) ? $layout : '';
+            echo mosHTML::selectList($options, 'layout', 'id="layout" onchange="jumpmenu(\'parent\',this)"', 'value', 'text', $selected);
+            ?>
         </th>
     <?php } ?>
     </tr>
@@ -325,115 +321,96 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             <tr>
                 <td><?php echo BOSS_ORDER_BY_DEFAULT; ?></td>
                 <td>
-                    <select id='default_order_by' name='default_order_by'>
-                        <option value='0' <?php if (@$row->default_order_by == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_DATE; ?></option>
-
-                        <option value='last_comment' <?php if (@$row->default_order_by == 'last_comment') {
-                            echo "selected";
-                        } ?>><?php echo BOSS_DATE_LAST_COMMENT; ?></option>
-
-                    <?php foreach ($sort_fields as $s) { ?>
-                        <option value="<?php echo $s->fieldid;?>" <?php
-                                                                    if (@$row->default_order_by == $s->fieldid) echo "selected='selected'"; ?>>
-                        <?php echo $s->title; ?>
-                        </option>
                     <?php
-
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_DATE);
+                    $options[] = mosHTML::makeOption(1, BOSS_DATE_LAST_COMMENT);
+                    foreach ($sort_fields as $s) {
+                        $options[] = mosHTML::makeOption($s->fieldid, $s->title);
                     }
+                    $selected = (!empty($row->default_order_by)) ? $row->default_order_by : '';
+                    echo mosHTML::selectList($options, 'default_order_by', 'id="default_order_by"', 'value', 'text', $selected);
                     ?>
-                    </select>
                 </td>
                 <td><?php echo BOSS_ORDER_BY_DEFAULT_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_AUTO_PUBLISH; ?></td>
                 <td>
-                    <select id='auto_publish' name='auto_publish'>
-                        <option value='2' <?php if (@$row->auto_publish == 2) {
-                            echo "selected";
-                        } ?>><?php echo "Backlink"; ?></option>
-                        <option value='1' <?php if (@$row->auto_publish == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->auto_publish == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(2, "Backlink");
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->auto_publish)) ? $row->auto_publish : '';
+                    echo mosHTML::selectList($options, 'auto_publish', 'id="auto_publish"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_AUTO_PUBLISH_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_SUBMISSION_TYPE; ?></td>
                 <td>
-                    <select id='submission_type' name='submission_type'>
-                        <option value='0' <?php if (@$row->submission_type == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_SUBMISION_WITH_ACCOUNT_CREATION; ?></option>
-                        <option value='1' <?php if (@$row->submission_type == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_SUBMISSION_ALLOWED_ONLY_FOR_REGISTERS; ?></option>
-                        <option value='2' <?php if (@$row->submission_type == 2) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_SUBMISSION_ALLOWED_FOR_VISITORS; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_SUBMISION_WITH_ACCOUNT_CREATION);
+                    $options[] = mosHTML::makeOption(1, BOSS_SUBMISSION_ALLOWED_ONLY_FOR_REGISTERS);
+                    $options[] = mosHTML::makeOption(2, BOSS_SUBMISSION_ALLOWED_FOR_VISITORS);
+                    $selected = (!empty($row->submission_type)) ? $row->submission_type : '';
+                    echo mosHTML::selectList($options, 'submission_type', 'id="submission_type"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
                 <td><?php echo BOSS_SECURE_NEW_CONTENT; ?></td>
                 <td>
-                    <select id='secure_new_content' name='secure_new_content'>
-                        <option value='1' <?php if (@$row->secure_new_content == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->secure_new_content == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->secure_new_content)) ? $row->secure_new_content : '';
+                    echo mosHTML::selectList($options, 'secure_new_content', 'id="secure_new_content"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_SECURE_NEW_CONTENT_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_CONTENT_MAMBOT; ?></td>
                 <td>
-                    <select id='use_content_mambot' name='use_content_mambot'>
-                        <option value='1' <?php if (@$row->use_content_mambot == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->use_content_mambot == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->use_content_mambot)) ? $row->use_content_mambot : '';
+                    echo mosHTML::selectList($options, 'use_content_mambot', 'id="use_content_mambot"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_CONTENT_MAMBOT_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_ROOT_SUBMIT; ?></td>
                 <td>
-                    <select id='root_allowed' name='root_allowed'>
-                        <option value='1' <?php if (@$row->root_allowed == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_ROOT_SUBMIT_ALLOWED; ?></option>
-                        <option value='0' <?php if (@$row->root_allowed == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_ROOT_SUBMIT_NOT_ALLOWED; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_ROOT_SUBMIT_ALLOWED);
+                    $options[] = mosHTML::makeOption(0, BOSS_ROOT_SUBMIT_NOT_ALLOWED);
+                    $selected = (!empty($row->root_allowed)) ? $row->root_allowed : '';
+                    echo mosHTML::selectList($options, 'root_allowed', 'id="root_allowed"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_ROOT_SUBMIT_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_EMPTY_CAT; ?></td>
                 <td>
-                    <select id='empty_cat' name='empty_cat'>
-                        <option value='0' <?php if (@$row->empty_cat == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_EMPTY_CAT_ALLOW; ?></option>
-                        <option value='1' <?php if (@$row->empty_cat == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_EMPTY_CAT_NOT_ALLOW; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_EMPTY_CAT_ALLOW);
+                    $options[] = mosHTML::makeOption(1, BOSS_EMPTY_CAT_NOT_ALLOW);
+                    $selected = (!empty($row->empty_cat)) ? $row->empty_cat : '';
+                    echo mosHTML::selectList($options, 'empty_cat', 'id="empty_cat"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_EMPTY_CAT_LONG; ?></td>
             </tr>
@@ -446,83 +423,69 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             <tr>
                 <td><?php echo BOSS_EMAIL_ON_NEW; ?></td>
                 <td>
-                    <select id='send_email_on_new' name='send_email_on_new'>
-                        <option value='1' <?php if (@$row->send_email_on_new == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->send_email_on_new == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->send_email_on_new)) ? $row->send_email_on_new : '';
+                    echo mosHTML::selectList($options, 'send_email_on_new', 'id="send_email_on_new"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_EMAIL_ON_NEW_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_EMAIL_ON_UPDATE; ?></td>
                 <td>
-                    <select id='send_email_on_update' name='send_email_on_update'>
-                        <option value='1' <?php if (@$row->send_email_on_update == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->send_email_on_update == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->send_email_on_update)) ? $row->send_email_on_update : '';
+                    echo mosHTML::selectList($options, 'send_email_on_update', 'id="send_email_on_update"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td><?php echo BOSS_EMAIL_ON_UPDATE_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_SHOW_RSS; ?></td>
                 <td>
-                    <select id='show_rss' name='show_rss'>
-                        <option value='1' <?php if (@$row->show_rss == 1) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_YES; ?></option>
-                        <option value='0' <?php if (@$row->show_rss == 0) {
-                            echo "selected";
-                        } ?>><?php echo BOSS_NO; ?></option>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $selected = (!empty($row->show_rss)) ? $row->show_rss : '';
+                    echo mosHTML::selectList($options, 'show_rss', 'id="show_rss"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td>&nbsp;<?php echo BOSS_SHOW_RSS_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_FILTER; ?></td>
                 <td>
-                    <select id='filter' name='filter'>
-                        <option value='no'><?php echo BOSS_NO; ?></option>
-                    <?php if (count($filters)>0) {
-                        foreach ($filters as $filter) {
-                            ?>
-                                <option value='<?php echo $filter->value; ?>'
-                                    <?php if (@$row->filter == $filter->value) {
-                                    echo "selected";
-                                } ?>><?php echo $filter->text; ?></option>
-                            <?php
-
-                        }
-                    } ?>
-                    </select>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    foreach ($filters as $filter) {
+                        $options[] = mosHTML::makeOption($filter->value, $filter->text);
+                    }
+                    $selected = (!empty($row->filter)) ? $row->filter : '';
+                    echo mosHTML::selectList($options, 'filter', 'id="filter"', 'value', 'text', $selected);
+                    ?>
                 </td>
                 <td>&nbsp;<?php echo BOSS_FILTER_LONG; ?></td>
             </tr>
             <tr>
                 <td><?php echo BOSS_TEMPLATE; ?></td>
                 <td>
-                    
-                    <select id='template' name='template' onchange="showimage()">
-                    <?php if (isset($templates)) {
-                        foreach ($templates as $tpl) {
-                            ?>
-                                <option value='<?php echo $tpl; ?>' <?php if (@$row->template == $tpl) {
-                                    echo "selected";
-                                } ?>><?php echo $tpl; ?></option>
-                            <?php
-
-                        }
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    foreach ($templates as $tpl) {
+                        $options[] = mosHTML::makeOption($tpl, $tpl);
                     }
-
-                    ?></select>
-					<?php $tmpl_tmp = (@$row->template) ? @$row->template : 'default' ?>
+                    $selected = (!empty($row->template)) ? $row->template : '';
+                    echo mosHTML::selectList($options, 'template', 'id="template" onchange="showimage()"', 'value', 'text', $selected);
+                    $tmpl_tmp = (!empty($row->template)) ? $row->template : 'default' ?>
 					<img class="ml10" src="<?php echo JPATH_SITE."/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
                          name="preview" border="1" alt="<?php echo $tmpl_tmp;?>"/>
                 </td>
@@ -539,56 +502,53 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_SHOW_CONTACT; ?></td>
                     <td>
-                        <select id='show_contact' name='show_contact'>
-                            <option value='1' <?php if (@$row->show_contact == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_SHOW_CONTACT_LOGGED_ONLY; ?></option>
-                            <option value='0' <?php if (@$row->show_contact == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_SHOW_CONTACT_ALL; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_SHOW_CONTACT_ALL);
+                        $options[] = mosHTML::makeOption(1, BOSS_SHOW_CONTACT_LOGGED_ONLY);
+                        $options[] = mosHTML::makeOption(2, BOSS_NO_SHOW_CONTACT);
+                        $selected = (!empty($row->show_contact)) ? $row->show_contact : '';
+                        echo mosHTML::selectList($options, 'show_contact', 'id="show_contact"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_SHOW_CONTACT_LONG; ?></td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_DISPLAY_FULLNAME; ?></td>
                     <td>
-                        <select id='display_fullname' name='display_fullname'>
-                            <option value='1' <?php if (@$row->display_fullname == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->display_fullname == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->display_fullname)) ? $row->display_fullname : '';
+                        echo mosHTML::selectList($options, 'display_fullname', 'id="display_fullname"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_DISPLAY_FULLNAME_LONG; ?></td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_ALLOW_ATTACHMENT; ?></td>
                     <td>
-                        <select id='allow_attachement' name='allow_attachement'>
-                            <option value='1' <?php if (@$row->allow_attachement == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->allow_attachement == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->allow_attachement)) ? $row->allow_attachement : '';
+                        echo mosHTML::selectList($options, 'allow_attachement', 'id="allow_attachement"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_ALLOW_ATTACHMENT_LONG; ?></td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_CONTACT_BY_PMS; ?></td>
                     <td>
-                        <select id='allow_contact_by_pms' name='allow_contact_by_pms'>
-                            <option value='1' <?php if (@$row->allow_contact_by_pms == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->allow_contact_by_pms == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->allow_contact_by_pms)) ? $row->allow_contact_by_pms : '';
+                        echo mosHTML::selectList($options, 'allow_contact_by_pms', 'id="allow_contact_by_pms"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_CONTACT_BY_PMS_LONG; ?></td>
                 </tr>
@@ -668,95 +628,82 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_ALLOW_RATINGS; ?></td>
                     <td>
-                        <select id='allow_ratings' name='allow_ratings'>
-                            <option value='1' <?php if (@$row->allow_ratings == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->allow_ratings == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->allow_ratings)) ? $row->allow_ratings : '';
+                        echo mosHTML::selectList($options, 'allow_ratings', 'id="allow_ratings"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_RATING; ?></td>
                     <td>
-                        <select id='rating' name='rating'>
-                            <?php
-                                if (count($ratings)>0) {
-                                foreach ($ratings as $rating) {
-                                    ?>
-                                        <option value='<?php echo $rating->value; ?>'
-                                            <?php if (@$row->rating == $rating->value) {
-                                            echo "selected";
-                                        } ?>><?php echo $rating->text; ?></option>
-                                    <?php
-
-                                }
-                            } ?>
-                        </select>
+                        <?php
+                        $options = array();
+                        foreach ($ratings as $rating) {
+                            $options[] = mosHTML::makeOption($rating->value, $rating->text);
+                        }
+                        $selected = (!empty($row->rating)) ? $row->rating : '';
+                        echo mosHTML::selectList($options, 'rating', 'id="rating"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_ALLOW_COMMENTS; ?></td>
                     <td>
-                        <select id='allow_comments' name='allow_comments'>
-                            <option value='1' <?php if (@$row->allow_comments == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->allow_comments == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->allow_comments)) ? $row->allow_comments : '';
+                        echo mosHTML::selectList($options, 'allow_comments', 'id="allow_comments"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_SECURE_COMMENT; ?></td>
                     <td>
-                        <select id='secure_comment' name='secure_comment'>
-                            <option value='1' <?php if (@$row->secure_comment == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->secure_comment == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->secure_comment)) ? $row->secure_comment : '';
+                        echo mosHTML::selectList($options, 'secure_comment', 'id="secure_comment"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_SECURE_COMMENT_LONG; ?></td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_REVIEWS_SYS; ?></td>
                     <td>
-                        <select id='comment_sys' name='comment_sys'>
-                            <option value='1' <?php if (@$row->comment_sys == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_REVIEWS_SYS_IN; ?></option>
-
-                        <?php //Если установлен jComments, то разрешаем его включить.
-                        if (is_file(JPATH_BASE . "/components/com_jcomments/jcomments.php")) : ?>
-                            <option value='0' <?php if (@$row->comment_sys == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_REVIEWS_SYS_OUT; ?></option>
-                        <?php endif; ?>
-
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_REVIEWS_SYS_IN);
+                        //Если установлен jComments, то разрешаем его включить.
+                        if (is_file(JPATH_BASE . "/components/com_jcomments/jcomments.php")){
+                            $options[] = mosHTML::makeOption(0, BOSS_REVIEWS_SYS_OUT);
+                        }
+                        $selected = (!empty($row->comment_sys)) ? $row->comment_sys : '';
+                        echo mosHTML::selectList($options, 'comment_sys', 'id="comment_sys"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_REVIEWS_SYS; ?></td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_ALLOW_UNREG_COMMENTS; ?></td>
                     <td>
-                        <select id='allow_unregisered_comment' name='allow_unregisered_comment'>
-                            <option value='1' <?php if (@$row->allow_unregisered_comment == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES; ?></option>
-                            <option value='0' <?php if (@$row->allow_unregisered_comment == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO; ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->allow_unregisered_comment)) ? $row->allow_unregisered_comment : '';
+                        echo mosHTML::selectList($options, 'allow_unregisered_comment', 'id="allow_unregisered_comment"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td><?php echo BOSS_ALLOW_UNREG_COMMENTS; ?></td>
                 </tr>
@@ -767,49 +714,47 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
             ?>
             <table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
             <tr>
-                            <td><?php echo BOSS_EXPIRATION; ?></td>
-                            <td>
-                            <select id='expiration' name='expiration'>
-                                <option value='0' <?php if (@$row->expiration == 0) {
-                echo "selected";
-            } ?>><?php echo BOSS_NO; ?></option>
-                                <option value='1' <?php if (@$row->expiration == 1) {
-                echo "selected";
-            } ?>><?php echo BOSS_YES; ?></option>
-                            </select>
-                            </td>
-                            <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                            <td><?php echo BOSS_CONTENT_DURATION; ?></td>
-                            <td><input type="text" name="content_duration" value="<?php echo @$row->content_duration; ?>" /></td>
-                            <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                            <td><?php echo BOSS_RECALL; ?></td>
-                            <td>
-                            <select id='recall' name='recall'>
-                                    <option value='1' <?php if (@$row->recall == 1) {
-                echo "selected";
-            } ?>><?php echo BOSS_YES; ?></option>
-                                    <option value='0' <?php if (@$row->recall == 0) {
-                echo "selected";
-            } ?>><?php echo BOSS_NO; ?></option>
-                            </select>
-                            </td>
-                            <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                            <td><?php echo BOSS_RECALL_TIME; ?></td>
-                            <td><input type="text" name="recall_time" value="<?php echo @$row->recall_time; ?>" /></td>
-                            <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                            <td><?php echo BOSS_RECALL_TEXT; ?></td>
+                <td><?php echo BOSS_EXPIRATION; ?></td>
+                <td>
+                    <?php
+                    $options = array();
+                    $options[] = mosHTML::makeOption(0, BOSS_NO);
+                    $options[] = mosHTML::makeOption(1, BOSS_YES);
+                    $selected = (!empty($row->expiration)) ? $row->expiration : '';
+                    echo mosHTML::selectList($options, 'expiration', 'id="expiration"', 'value', 'text', $selected);
+                    ?>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                    <td><?php echo BOSS_CONTENT_DURATION; ?></td>
+                    <td><input type="text" name="content_duration" value="<?php echo @$row->content_duration; ?>" /></td>
+                    <td>&nbsp;</td>
+            </tr>
+            <tr>
+                    <td><?php echo BOSS_RECALL; ?></td>
+                    <td>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $selected = (!empty($row->recall)) ? $row->recall : '';
+                        echo mosHTML::selectList($options, 'recall', 'id="recall"', 'value', 'text', $selected);
+                        ?>
+                    </td>
+                    <td>&nbsp;</td>
+            </tr>
+            <tr>
+                    <td><?php echo BOSS_RECALL_TIME; ?></td>
+                    <td><input type="text" name="recall_time" value="<?php echo @$row->recall_time; ?>" /></td>
+                    <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td><?php echo BOSS_RECALL_TEXT; ?></td>
             <?php $recall_text = stripslashes(@$row->recall_text); ?>
-                            <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20', 1); ?></td>
-                            <td>&nbsp;</td>
-                    </tr>
+                <td><?php editorArea('editor3', "$recall_text", 'recall_text', '100%;', '350', '75', '20', 1); ?></td>
+                <td>&nbsp;</td>
+            </tr>
             </table>
             <?php
             $configtabs->endTab();
@@ -819,14 +764,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_ALLOW_RIGHTS;?></td>
                     <td>
-                        <select id='allow_rights' name='allow_rights'>
-                            <option value='0' <?php if (@$row->allow_rights == 0) {
-                echo "selected";
-            } ?>><?php echo BOSS_NO; ?></option>
-                            <option value='1' <?php if (@$row->allow_rights == 1) {
-                echo "selected";
-            } ?>><?php echo BOSS_YES; ?></option>
-                         </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $selected = (!empty($row->allow_rights)) ? $row->allow_rights : '';
+                        echo mosHTML::selectList($options, 'allow_rights', 'id="allow_rights"', 'value', 'text', $selected);
+                        ?>
                     </td>
                 </tr>
                 <tr>
@@ -1231,14 +1175,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_TH_PUBLISH; ?></td>
                     <td colspan="2">
-                        <select name="published" id="published">
-                            <option value="1" <?php if ($row->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if ($row->published == 0 && !is_null($row->published)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_PUBLISH);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO_PUBLISH);
+                        $selected = (!empty($row->published)) ? $row->published : '';
+                        echo mosHTML::selectList($options, 'published', 'id="published"', 'value', 'text', $selected);
+                        ?>
                         &nbsp;&nbsp;<?php echo BOSS_FROM ?>&nbsp;
                         <input name="date_publish" id="date_publish" value="<?php echo $row->date_publish ?>" size="20"/>
                         <input type="reset" class="button" value="..." onClick="return showCalendar('date_publish');" />
@@ -1254,28 +1197,26 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_TH_FRONTPAGE;?></td>
                     <td>
-                        <select name="frontpage" id="frontpage">
-                            <option value="1" <?php if ($row->frontpage == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES ?></option>
-                            <option value="0" <?php if ($row->frontpage == 0 && !is_null($row->frontpage)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $selected = (!empty($row->frontpage)) ? $row->frontpage : '';
+                        echo mosHTML::selectList($options, 'frontpage', 'id="frontpage"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 <tr>
                 <tr>
                     <td><?php echo BOSS_TH_FEATURED;?></td>
                     <td>
-                        <select name="featured" id="featured">
-                            <option value="1" <?php if ($row->featured == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_YES ?></option>
-                            <option value="0" <?php if ($row->featured == 0 && !is_null($row->featured)) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_NO);
+                        $options[] = mosHTML::makeOption(1, BOSS_YES);
+                        $selected = (!empty($row->featured)) ? $row->featured : '';
+                        echo mosHTML::selectList($options, 'featured', 'id="featured"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 <tr>
@@ -1482,14 +1423,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_TH_PUBLISH; ?></td>
                     <td>
-                        <select name="published" id="published">
-                            <option value="1" <?php if ($row->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if ($row->published == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_PUBLISH);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO_PUBLISH);
+                        $selected = (!empty($row->published)) ? $row->published : '';
+                        echo mosHTML::selectList($options, 'published', 'id="published"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
@@ -1509,21 +1449,15 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
 				<tr>
                     <td><?php echo BOSS_TEMPLATE; ?></td>
                     <td>
-                        
-                        <select id='template' name='template' onchange="showimage()">
-                            <option value='0'><?php echo BOSS_TEMPLATE_SELECT; ?></option>
-                        <?php if (isset($templates)) {
-                            foreach ($templates as $tpl) {
-                                ?>
-                                    <option value='<?php echo $tpl; ?>' <?php if (@$row->template == $tpl) {
-                                        echo "selected";
-                                    } ?>><?php echo $tpl; ?></option>
-                                <?php
-
-                            }
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_TEMPLATE_SELECT);
+                        foreach ($templates as $tpl) {
+                            $options[] = mosHTML::makeOption($tpl, $tpl);
                         }
-
-                        ?></select>
+                        $selected = (!empty($row->template)) ? $row->template : '';
+                        echo mosHTML::selectList($options, 'template', 'id="template"', 'value', 'text', $selected);
+                        ?>
 						<?php $tmpl_tmp = (@$row->template) ? @$row->template : 'default' ?>
 						<img class="ml10" src="<?php echo JPATH_SITE."/templates/com_boss/" . $tmpl_tmp . "/template_thumbnail.png";?>"
 								 name="preview" border="1" alt="<?php echo $tmpl_tmp;?>"/>
@@ -2221,14 +2155,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_TH_PUBLISH; ?></td>
                     <td colspan="2">
-                        <select name="published" id="published">
-                            <option value="1" <?php if (@$field->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if (@$field->published == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_PUBLISH);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO_PUBLISH);
+                        $selected = (!empty($field->published)) ? $field->published : '';
+                        echo mosHTML::selectList($options, 'published', 'id="published"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
@@ -2244,26 +2177,29 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 </tr>
                 <tr>
                     <td><?php echo BOSS_TEMPLATE;?></td>
-                    <td><select name="template" id="template">
-                           <?php foreach($templates as $template){ ?> 
-                            <option value="<?php echo $template;?>" <?php if (@$field->template == $template) {
-                                echo "selected";
-                            } ?>><?php echo $template;?></option>
-                            <?php } ?> 
-                        </select>
+                    <td>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(0, BOSS_TEMPLATE_SELECT);
+                        foreach ($templates as $tpl) {
+                            $options[] = mosHTML::makeOption($tpl, $tpl);
+                        }
+                        $selected = (!empty($field->template)) ? $field->template : '';
+                        echo mosHTML::selectList($options, 'template', 'id="template"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
                     <td><?php echo BOSS_TYPETPL;?></td>
-                    <td><select name="type_tmpl" id="type_tmpl">
-                            <option value="content" <?php if (@$field->type_tmpl == "content") {
-                                echo "selected";
-                            } ?>><?php echo BOSS_TH_CONTENT_TMPL;?></option>
-                            <option value="category" <?php if (@$field->type_tmpl == "category") {
-                                echo "selected";
-                            } ?>><?php echo BOSS_TH_CAT_TMPL;?></option>
-                        </select>
+                    <td>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption("content", BOSS_TH_CONTENT_TMPL);
+                        $options[] = mosHTML::makeOption("category", BOSS_TH_CAT_TMPL);
+                        $selected = (!empty($field->type_tmpl)) ? $field->type_tmpl : '';
+                        echo mosHTML::selectList($options, 'type_tmpl', 'id="type_tmpl"', 'value', 'text', $selected);
+                        ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>
@@ -2341,11 +2277,14 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
         <form action="index2.php" method="post" name="filterForm">
             <div class="fr mb20">
 			    <span class="gray"><?php echo BOSS_USE; ?></span>&nbsp;
-                <select name="used" id="catid" onchange="document.filterForm.submit();">
-			    	<option value=""><?php echo BOSS_ALL; ?></option>
-			        <option value="0" <?php if ($used === '0') echo 'selected="selected"'; ?>><?php echo BOSS_NOTUSED; ?></option>
-                    <option value="1" <?php if ($used === '1') echo 'selected="selected"'; ?>><?php echo BOSS_USED; ?></option>
-			    </select>
+                <?php
+                $options = array();
+                $options[] = mosHTML::makeOption('', BOSS_ALL);
+                $options[] = mosHTML::makeOption(0, BOSS_NOTUSED);
+                $options[] = mosHTML::makeOption(1, BOSS_USED);
+                $selected = (!empty($used)) ? $used : '';
+                echo mosHTML::selectList($options, 'used', 'id="used" onchange="document.filterForm.submit();"', 'value', 'text', $selected);
+                ?>
                 <input type="hidden" name="act" value="plugins"/>
                 <input type="hidden" name="option" value="com_boss"/>
                 <input type="hidden" name="directory" value="<?php echo $directory;?>"/>
@@ -2874,14 +2813,13 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                 <tr>
                     <td><?php echo BOSS_TH_PUBLISH; ?></td>
                     <td>
-                        <select name="published" id="published">
-                            <option value="1" <?php if ($row->published == 1) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_PUBLISH; ?></option>
-                            <option value="0" <?php if ($row->published == 0) {
-                                echo "selected";
-                            } ?>><?php echo BOSS_NO_PUBLISH ?></option>
-                        </select>
+                        <?php
+                        $options = array();
+                        $options[] = mosHTML::makeOption(1, BOSS_PUBLISH);
+                        $options[] = mosHTML::makeOption(0, BOSS_NO_PUBLISH);
+                        $selected = (!empty($row->published)) ? $row->published : '';
+                        echo mosHTML::selectList($options, 'published', 'id="published"', 'value', 'text', $selected);
+                        ?>
                     </td>
 					<td>&nbsp;</td>
                 </tr>

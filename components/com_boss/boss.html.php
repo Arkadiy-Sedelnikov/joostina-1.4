@@ -637,7 +637,7 @@ class boss_html
             if($this->perms->delete_all_content || ($this->perms->delete_user_content && $my->id == $content->user_id)){
                 $tmp .= $delete;
             }
-            echo ($tmp == '') ? '' : '‹div>' . $tmp . '‹/div>';
+            echo ($tmp == '') ? '' : '<div>' . $tmp . '</div>';
         }
         else if (($my->id == $content->user_id && $my->id != 0) || $my->usertype == 'Super Administrator') {
             echo '<div>';

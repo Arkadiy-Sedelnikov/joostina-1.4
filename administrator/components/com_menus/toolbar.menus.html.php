@@ -18,15 +18,15 @@ class TOOLBAR_menus {
 	/**
 	* Draws the menu for a New top menu item
 	*/
-    public static function _NEW(){
-        mosMenuBar::startTable();
-        mosMenuBar::cancel();
-        mosMenuBar::spacer();
-        mosMenuBar::help('screen.menus.new');
-        mosMenuBar::endTable();
-    }
+   public static function _NEW() {
+		mosMenuBar::startTable();
+		mosMenuBar::cancel();
+		mosMenuBar::spacer();
+		mosMenuBar::help('screen.menus.new');
+		mosMenuBar::endTable();
+	}
 
-    /**
+	/**
 	* Draws the menu to Move Menut Items
 	*/
 	public static function _MOVEMENU() {

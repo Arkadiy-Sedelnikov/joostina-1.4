@@ -197,7 +197,8 @@ DEFINE( "BOSS_FORM_CONTENT_PICTURE", "Изображение");
 DEFINE("BOSS_SHOW_CONTACT","Показать контакты");
 DEFINE("BOSS_SHOW_CONTACT_LONG","Посмотреть подробные контактные данные");
 DEFINE("BOSS_SHOW_CONTACT_LOGGED_ONLY","Только для авторизованных");
-DEFINE("BOSS_SHOW_CONTACT_ALL","для всех");
+DEFINE("BOSS_SHOW_CONTACT_ALL","Для всех");
+DEFINE("BOSS_NO_SHOW_CONTACT","Не показывать");
 
 DEFINE("BOSS_ROOT_SUBMIT","Разрешить контент в родительских категориях");
 DEFINE("BOSS_ROOT_SUBMIT_LONG","Пользователь может публиковать контент в родительских категориях (категории, которые содержат подкатегории)");
