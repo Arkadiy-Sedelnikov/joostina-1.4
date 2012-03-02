@@ -364,10 +364,6 @@ switch ($act) {
                 bossExportImport::importDirectory();
                 break;
 
-            case "import_joostina" :
-                bossExportImport::importJoostina($directory);
-                break;
-
             default:
                 //проверяем наличие каталогов, если нет - завершаем страницу
                 if (!HTML_boss::check_dir($directory, $conf)) {

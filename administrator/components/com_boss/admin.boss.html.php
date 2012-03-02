@@ -2587,42 +2587,6 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
                     </fieldset>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <br />
-                    <fieldset><legend><?php echo BOSS_IM_JOOS_HEADER; ?></legend>
-                       <form name="import_joostina" action="index2.php" method="post">
-                           <table class="adminform">
-                               <tr style="height:40px">
-                                   <td>
-                                       <input type="checkbox" name="imp_category" value="1"/>
-                                       <?php echo BOSS_IM_JOOS_CATS; ?>&nbsp;&nbsp;&nbsp;
-                                   </td>
-                                   <td>
-                                       <input type="checkbox" name="imp_content" value="1"/>
-                                       <?php echo BOSS_IM_JOOS_CONTENT; ?>&nbsp;&nbsp;&nbsp;
-                                   </td>
-                                   <td rowspan="2"><input class="button" type="submit" value="<?php echo BOSS_IM_HEADER;?>"/></td>
-                               </tr>
-                               <tr style="height:40px">
-                                   <td>
-                                       <input type="text" size="10" maxlength="30"  name="introtext" value="content_"/>
-                                       <?php echo BOSS_IM_JOOS_INTRO; ?>&nbsp;&nbsp;&nbsp;
-                                   </td>
-                                   <td>
-                                       <input type="text" size="10" maxlength="30" name="fulltext" value="content_"/>
-                                       <?php echo BOSS_IM_JOOS_FULL; ?>&nbsp;&nbsp;&nbsp;
-                                   </td>
-                               </tr>
-                           </table>
-                            <input type="hidden" name="directory"   value="<?php echo $directory; ?>"/>
-                            <input type="hidden" name="task"        value="import_joostina"/>
-                            <input type="hidden" name="act"         value="export_import"/>
-                            <input type="hidden" name="option"      value="com_boss"/>
-                       </form>
-                    </fieldset>
-                </td>
-            </tr>
         </table>
 <?php
     }
