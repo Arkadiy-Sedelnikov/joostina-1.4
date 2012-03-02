@@ -212,7 +212,7 @@ DEFINE("BOSS_EMPTY_CAT_LONG","Разрешает показ категорий, 
 
 //v1.2.1
 DEFINE('BOSS_SEND_EMAIL_BUTTON','Отправить');
-DEFINE('BOSS_EMAIL_FORM','Отправить по E-mail');
+DEFINE('BOSS_EMAIL_FORM','Отправить E-mail');
 DEFINE('BOSS_FORM_TITLE','Заголовок письма');
 DEFINE('BOSS_FORM_EMAIL_BODY','Текст письма');
 DEFINE('BOSS_EMAIL_TITLE',"Ответ : ");
