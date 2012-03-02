@@ -779,10 +779,18 @@ function show_content($contentid, $catid, $directory, $template_name) {
 
         $fields = $database->setQuery( "SELECT f.* FROM #__boss_".$directory."_fields AS f WHERE f.published = 1" )->loadObjectList('name');
 	//Show Ad
+
 	if (($conf->show_contact == 1) && ($my->id == "0")) {
 		$show_contact = 0;
-	} else {
+	}
+    else if(($conf->show_contact == 1) && ($my->id > 0)) {
 		$show_contact = 1;
+	}
+    else if($conf->show_contact == 0) {
+		$show_contact = 1;
+	}
+    else{
+		$show_contact = 0;
 	}
 
 	$q = "SELECT a.*, a.userid as user_id, p.name as parent, p.id as parentid, c.rights as rights, ";
