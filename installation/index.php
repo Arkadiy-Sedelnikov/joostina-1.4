@@ -275,10 +275,9 @@ echo '<?xml version="1.0" encoding="utf-8"?' . '>';
 					<div class="install-text">
 								Бывает так, что при установке Joostina возникают разного рода ошибки. Ошибки бывают как системные - например красные пункты выше и ниже этого текста, так и человеческие - отсутствие опыта или просто лень. Ссылки ниже могут помочь справиться с любыми возникшими пробелами.
 						<ul>
-							<li><a href="http://www.joostina.ru/" target="_blank"><b>Официльный сайт проекта Joostina</b></a></li>
-							<li><a href="http://forum.joostina.ru/categories/all" target="_blank"><b>Форум поддержки Joostina 1.3.*</b></a></li>
-							<li><a href="http://joomlaforum.ru/index.php#13" target="_blank"><b>Поддержка на дружественном Joomla - форуме</b></a></li>
-							<li>Служба поддержки вашего хостера</li>
+							<li><a href="http://joostinadev.ru/" target="_blank"><b>Официльный сайт проекта Joostina</b></a></li>
+							<li><a href="http://joostinadev.ru/index.php?option=com_yarbbforum&Itemid=22" target="_blank"><b>Форум поддержки Joostina</b></a></li>
+							<li><a href="http://wiki.joostinadev.ru/" target="_blank"><b>Техническая документация по CMS Joostina</b></a></li>
 						</ul>
 					</div>
 					<!-- // первая рекламная позиция -->
