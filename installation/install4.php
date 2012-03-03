@@ -296,7 +296,7 @@ if($siteUrl) {
 	$config .= "\$mosConfig_favicon = 'favicon.ico';\n";
 	$config .= "\$mosConfig_fileperms = '".$configArray['filePerms']."';\n";
 	$config .= "\$mosConfig_dirperms = '".$configArray['dirPerms']."';\n";
-	$config .= "\$mosConfig_helpurl = 'http://help.joom.ru';\n";
+	$config .= "\$mosConfig_helpurl = 'http://wiki.joostinadev.ru/';\n";
 	$config .= "\$mosConfig_multilingual_support = '0';\n";
 	$config .= "\$mosConfig_editor = 'elrte';\n";
 	$config .= "\$mosConfig_admin_expired = '1';\n";
