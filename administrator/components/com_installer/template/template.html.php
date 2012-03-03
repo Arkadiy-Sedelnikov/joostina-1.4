@@ -24,9 +24,11 @@ class HTML_templates {
         $mainframe = mosMainFrame::getInstance();
         $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
-		if(isset($row->authorUrl) && $row->authorUrl != '') {
-			$row->authorUrl = str_replace('http://','',$row->authorUrl);
-		}
+        foreach($rows as $row){
+            if(isset($row->authorUrl) && $row->authorUrl != '') {
+                $row->authorUrl = str_replace('http://','',$row->authorUrl);
+            }
+        }
 		mosCommonHTML::loadOverlib();
 		?>
 <script language="Javascript">
@@ -56,8 +58,8 @@ class HTML_templates {
 			<td align="right"><input type="checkbox" name="doPreview" checked="checked"/></td>
 		</tr>
 		<tr>
-					<?php HTML_installer::cPanel(); ?>
-			</td>
+			<?php HTML_installer::cPanel(); ?>
+		</tr>
 	</table>
 	<table class="adminlist">
 		<tr>
@@ -168,7 +170,7 @@ class HTML_templates {
 					SRAX.get('tb-apply').className='tb-apply';
 				}});
 		}
-		-->
+
 </script>
 
 <form action="index2.php" method="post" name="adminForm" id="adminForm" <?php if($mosConfig_codepress) echo 'onsubmit="document.adminForm.filecontent.value=codearea.getCode();document.adminForm.submit();"';?>>
@@ -252,7 +254,7 @@ class HTML_templates {
 					SRAX.get('tb-apply').className='tb-apply';
 				}});
 		}
-		-->
+
 </script>
 
 <form action="index2.php" method="post" name="adminForm" id="adminForm" <?php if($mosConfig_codepress) echo 'onsubmit="document.adminForm.filecontent.value=codearea.getCode();document.adminForm.submit();"';?>>

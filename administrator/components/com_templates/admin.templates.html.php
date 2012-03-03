@@ -25,9 +25,11 @@ class HTML_templates {
         $mainframe = mosMainFrame::getInstance();
         $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
-		if(isset($rows->authorUrl) && $rows->authorUrl != '') {
-			$rows->authorUrl = str_replace('http://','',$rows->authorUrl);
-		}
+        foreach($rows as $row){
+            if(isset($row->authorUrl) && $row->authorUrl != '') {
+                $row->authorUrl = str_replace('http://','',$row->authorUrl);
+            }
+        }
 		mosCommonHTML::loadOverlib();
 		?>
 <script language="Javascript">
@@ -183,23 +185,16 @@ class HTML_templates {
 			</td>
 					<?php
 					if(mosIsChmodable($template_path)) {
-						if(is_writable($template_path)) {
-							?>
-			<td>
-				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write"><?php echo _MAKE_UNWRITEABLE_AFTER_SAVING?></label>
-			</td>
-							<?php
-						} else {
-							?>
-			<td>
-				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write"><?php echo _IGNORE_WRITE_PROTECTION_WHEN_SAVE?></label>
-			</td>
-							<?php
-						} // if
-					} // if
 
+						$n = (is_writable($template_path)) ? 'disable_write' : 'enable_write';
+						$l = (is_writable($template_path)) ? _MAKE_UNWRITEABLE_AFTER_SAVING : _IGNORE_WRITE_PROTECTION_WHEN_SAVE;
+						?>
+			<td>
+				<input type="checkbox" id="<?php echo $n; ?>" name="<?php echo $n; ?>" value="1"/>
+				<label for="<?php echo $n; ?>"><?php echo $l; ?></label>
+			</td>
+				<?php
+					} // if
 					?>
 		</tr>
 	</table>
@@ -255,7 +250,7 @@ class HTML_templates {
 					SRAX.get('tb-apply').className='tb-apply';
 				}});
 		}
-		-->
+
 </script>
 
 <form action="index2.php" method="post" name="adminForm" id="adminForm" <?php if($mosConfig_codepress) echo 'onsubmit="document.adminForm.filecontent.value=codearea.getCode();document.adminForm.submit();"';?>>

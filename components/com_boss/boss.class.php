@@ -1237,9 +1237,8 @@ class jDirectoryField extends mosDBTable {
         mosCommonHTML::loadJquery();
         mosCommonHTML::loadJqueryPlugins('jquery.form');
         mosCommonHTML::loadJqueryUI();
-        $mainframe->addJS('/administrator/components/com_boss/js/formbuilder/edit_fields.js'); 
+        $mainframe->addJS('/administrator/components/com_boss/js/edit_fields.js');
         $mainframe->addJS('/administrator/components/com_boss/js/upload.js');
-        $mainframe->addCSS('/administrator/components/com_boss/css/formbuilder.css');
 
         $rows = $database->setQuery("SELECT f.* FROM #__boss_" . $directory . "_fields AS f ORDER by f.ordering")->loadObjectList();
 

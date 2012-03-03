@@ -1170,6 +1170,7 @@ class mosMainFrame {
 		$user->usertype = $this->_session->usertype;
 		$user->gid = intval($this->_session->gid);
 		if ($user->id) {
+            $my = null;
 			$query = "SELECT id, name, email, avatar, block, sendEmail, registerDate, lastvisitDate, activation, params, gid FROM #__users WHERE id = " . (int) $user->id;
 			$this->_db->setQuery($query, 0, 1)->loadObject($my);
 
@@ -1213,7 +1214,7 @@ class mosMainFrame {
 
 			$query = "SELECT id, name, username, usertype, email, avatar, block, sendEmail, registerDate, lastvisitDate, activation, params
 			FROM #__users WHERE id = " . (int) $user->id;
-
+            $my = null;
 			$database->setQuery($query, 0, 1)->loadObject($my);
 
 			$user->params = $my->params;
@@ -2207,7 +2208,7 @@ class JConfig {
 	 */
 	function bindGlobals() {
 		// странное место с двойным проходом по массиву переменных
-		//$vars = $this->getPublicVars();
+		global $mosConfig_live_site;
 		$vars = array_keys(get_class_vars('JConfig'));
 		sort($vars);
 		foreach ($vars as $v) {
