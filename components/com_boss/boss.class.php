@@ -926,7 +926,11 @@ class jDirectoryContent extends mosDBTable {
     function delete($directory, $conf) {
 
         $database = database::getInstance();
+
         $plugins = BossPlugins::get_plugins($directory, 'fields');
+        foreach ($plugins as $plugin) {
+            $plugin->onDelete($directory, $this);
+        }
 
         $database->setQuery("DELETE FROM #__boss_" . $directory . "_contents WHERE id=$this->id");
         if ($database->getErrorNum()) {
@@ -940,9 +944,6 @@ class jDirectoryContent extends mosDBTable {
             echo $database->stderr();
         } else {
             $database->query();
-        }
-        foreach ($plugins as $plugin) {
-            $plugin->onDelete($directory, $this);
         }
     }
 

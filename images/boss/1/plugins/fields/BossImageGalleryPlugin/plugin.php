@@ -224,7 +224,25 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
         }
 
         function onDelete($directory, $content) {
-            return;
+            $database = database::getInstance();
+            $contents = null;
+            $database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents WHERE `id` = '".$content->id."'");
+            $database->loadObject($contents);
+            $database->setQuery("SELECT name FROM #__boss_" . $directory . "_fields WHERE `type` = '".$this->type."'");
+            $file_fields = $database->loadObjectList();
+            if(is_array($file_fields) && count($file_fields)>0){
+                foreach ($file_fields as $file_field) {
+                    $fileFieldName = $file_field->name;
+                    $files = json_decode($contents->$fileFieldName);
+                    if(is_array($files) && count($files)>0){
+                        foreach ($files as $file){
+                            @unlink(JPATH_BASE . "/images/boss/$directory/contents/gallery/origin/" . $file->file);
+                            @unlink(JPATH_BASE . "/images/boss/$directory/contents/gallery/full/" . $file->file);
+                            @unlink(JPATH_BASE . "/images/boss/$directory/contents/gallery/thumb/" . $file->file);
+                        }
+                    }
+                }
+            }
         }
 
         //отображение поля в админке в настройках поля

@@ -204,11 +204,14 @@ defined('_VALID_MOS') or die();
 
         function onDelete($directory, $content) {
             $database = database::getInstance();
+            $contents = null;
+            $database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents WHERE `id` = '".$content->id."'");
+            $database->loadObject($contents);
             $database->setQuery("SELECT name FROM #__boss_" . $directory . "_fields WHERE `type` = '".$this->type."'");
             $file_fields = $database->loadObjectList();
             foreach ($file_fields as $file_field) {
                 $fileFieldName = $file_field->name;
-                $filename = $content->$fileFieldName;
+                $filename = $contents->$fileFieldName;
                 @unlink(JPATH_BASE . "/images/boss/$directory/files/" . $filename);
             }
             return;
