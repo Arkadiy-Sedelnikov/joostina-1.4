@@ -1161,7 +1161,10 @@ class mosMainFrame {
 			$user->groop_id = 0;
 			return $user; // если сессии (авторизация) на фронте отключены - возвращаем пустой объект
 		}
-
+        else if(empty($this->_session)){
+            $mainframe = mosMainFrame::getInstance();
+            $mainframe->initSession();
+        }
 		$user->id = intval($this->_session->userid);
 		$user->username = $this->_session->username;
 		$user->usertype = $this->_session->usertype;

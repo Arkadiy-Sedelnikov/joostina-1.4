@@ -64,6 +64,7 @@ if (file_exists(JPATH_BASE . DS . 'components' . DS . 'com_sef' . DS . 'sef.php'
 
 // проверяем, разрешено ли использование системных мамботов
 if ($mosConfig_mmb_system_off == 0) {
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	$_MAMBOTS->loadBotGroup('system');
 	// триггер событий onStart
 	$_MAMBOTS->trigger('onStart');
