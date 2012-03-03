@@ -193,14 +193,14 @@ defined('_VALID_MOS') or die();
             return 1;
         }
 
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
 
             $i = 0;
             $isfile = true;
             while($isfile) {
                 $ext_name = chr(ord('a') + $i);
-                $pict = JPATH_BASE . "/images/boss/$directory/contents/" . $contentid . $ext_name . "_t.jpg";
-                $pic = JPATH_BASE . "/images/boss/$directory/contents/" . $contentid . $ext_name . ".jpg";
+                $pict = JPATH_BASE . "/images/boss/$directory/contents/" . $content->id . $ext_name . "_t.jpg";
+                $pic = JPATH_BASE . "/images/boss/$directory/contents/" . $content->id . $ext_name . ".jpg";
 
                 (file_exists($pict)) ? unlink($pict) : null;
                 (file_exists($pic))  ? unlink($pic)  : $isfile = false;

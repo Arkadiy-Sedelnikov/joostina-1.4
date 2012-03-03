@@ -229,7 +229,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 			return $str;
 		}
 
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
             return;
         }
 

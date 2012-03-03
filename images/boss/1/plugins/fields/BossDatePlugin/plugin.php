@@ -82,7 +82,7 @@ defined('_VALID_MOS') or die();
             return $return;
         }
 
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
             return;
         }
 

@@ -220,7 +220,7 @@
         }
 
         //действия при удалении контента
-        function onDelete($directory, $contentid = -1)
+        function onDelete($directory, $content)
         {
             return;
         }

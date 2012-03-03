@@ -928,14 +928,6 @@ class jDirectoryContent extends mosDBTable {
         $database = database::getInstance();
         $plugins = BossPlugins::get_plugins($directory, 'fields');
 
-        $database->setQuery("SELECT name FROM #__boss_" . $directory . "_fields WHERE `type` = 'file'");
-        $file_fields = $database->loadObjectList();
-        foreach ($file_fields as $file_field) {
-            $filename = "\$content->" . $file_field->name;
-            eval("\$filename = \"$filename\";");
-            @unlink(JPATH_BASE . "/images/boss/$directory/files/" . $filename);
-        }
-
         $database->setQuery("DELETE FROM #__boss_" . $directory . "_contents WHERE id=$this->id");
         if ($database->getErrorNum()) {
             echo $database->stderr();
@@ -950,20 +942,7 @@ class jDirectoryContent extends mosDBTable {
             $database->query();
         }
         foreach ($plugins as $plugin) {
-            $plugin->onDelete($directory, $this->id);
-        }
-        $nbImages = $conf->nb_images;
-
-        for ($i = 1; $i < $nbImages + 1; $i++) {
-            $ext_name = chr(ord('a') + $i - 1);
-            $pict = JPATH_BASE . "/images/boss/$directory/contents/" . $this->id . $ext_name . "_t.jpg";
-            if (file_exists($pict)) {
-                unlink($pict);
-            }
-            $pic = JPATH_BASE . "/images/boss/$directory/contents/" . $this->id . $ext_name . ".jpg";
-            if (file_exists($pic)) {
-                unlink($pic);
-            }
+            $plugin->onDelete($directory, $this);
         }
     }
 

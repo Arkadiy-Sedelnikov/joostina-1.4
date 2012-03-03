@@ -190,7 +190,7 @@ defined('_VALID_MOS') or die();
             return $return;
         }
         //действия при удалении контента
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
              return;
         }
 

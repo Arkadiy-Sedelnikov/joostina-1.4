@@ -223,7 +223,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin')
             return $return;
         }
 
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
             return;
         }
 

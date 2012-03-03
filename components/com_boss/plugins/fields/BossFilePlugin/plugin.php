@@ -202,7 +202,15 @@ defined('_VALID_MOS') or die();
 			return $str;
 		}
 
-        function onDelete($directory, $contentid = -1) {
+        function onDelete($directory, $content) {
+            $database = database::getInstance();
+            $database->setQuery("SELECT name FROM #__boss_" . $directory . "_fields WHERE `type` = '".$this->type."'");
+            $file_fields = $database->loadObjectList();
+            foreach ($file_fields as $file_field) {
+                $fileFieldName = $file_field->name;
+                $filename = $content->$fileFieldName;
+                @unlink(JPATH_BASE . "/images/boss/$directory/files/" . $filename);
+            }
             return;
         }
 
