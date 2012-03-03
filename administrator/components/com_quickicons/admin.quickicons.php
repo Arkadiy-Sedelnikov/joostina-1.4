@@ -182,7 +182,7 @@ function show($option) {
  * @param string	$option	internal task
  */
 function editIcon($id,$option) {
-    global $acl;
+    $acl = &gacl::getInstance();
     $mainframe = mosMainFrame::getInstance();
     $my = $mainframe->getUser();
     $database = database::getInstance();

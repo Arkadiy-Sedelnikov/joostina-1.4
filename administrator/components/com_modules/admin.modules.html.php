@@ -191,7 +191,9 @@ class HTML_modules {
 	 * @param object Parameters
 	 */
 	public static function editModule(&$row,&$orders2,&$lists,&$params,$option) {
-		global $mosConfig_cachepath,$my;
+		global $mosConfig_cachepath;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$row->title = htmlspecialchars($row->title);
 		$row->titleA = '';
 		if($row->id) {

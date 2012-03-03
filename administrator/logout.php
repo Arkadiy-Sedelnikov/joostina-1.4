@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 $database = database::getInstance();
-
+if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
 // check to see if site is a production site
 // allows multiple logins with same user for a demo site
 if(joomlaVersion::get('SITE') == 1) {

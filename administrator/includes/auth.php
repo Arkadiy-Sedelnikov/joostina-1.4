@@ -31,7 +31,8 @@ if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset
 
 require(JPATH_BASE.DS.'includes/joostina.php');
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 session_name(md5($mosConfig_live_site));
 session_start();

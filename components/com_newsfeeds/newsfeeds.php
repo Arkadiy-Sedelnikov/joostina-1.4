@@ -137,10 +137,11 @@ function listFeeds($catid) {
 }
 
 function showFeed($feedid) {
-	global $Itemid, $my;
+	global $Itemid;
 
-	$mainframe = mosMainFrame::getInstance();
-	$database = $mainframe->getDBO();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$config = &$mainframe->config;
 
 	// check if cache directory is writeable

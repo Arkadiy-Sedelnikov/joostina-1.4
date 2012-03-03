@@ -22,7 +22,7 @@ $_MAMBOTS->registerFunction('onSearch','botSearchCategories');
  * @param определяет порядок сортировки: newest|oldest|popular|alpha|category
  */
 function botSearchCategories($text,$phrase = '',$ordering = '') {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
     $mainframe = mosMainFrame::getInstance();
     $my = $mainframe->getUser();
     $mambot = null;

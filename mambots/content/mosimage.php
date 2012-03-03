@@ -15,7 +15,7 @@ $_MAMBOTS->registerFunction('onPrepareContent','botMosImage');
 /**
  */
 function botMosImage($published,&$row,&$params) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
     $mainframe = mosMainFrame::getInstance();
     $my = $mainframe->getUser();
     $database = database::getInstance();

@@ -109,10 +109,11 @@ function search_by_tag($tag) {
 
 function viewSearch() {
 	global $mosConfig_lang;
-	global $Itemid, $database, $_MAMBOTS;
+	global $Itemid;
 	global $mosConfig_list_limit;
     $mainframe = mosMainFrame::getInstance();
-
+    $_MAMBOTS = mosMambotHandler::getInstance();
+    $database = database::getInstance();
 	$restriction = 0;
 
 	// try to find search component's Itemid

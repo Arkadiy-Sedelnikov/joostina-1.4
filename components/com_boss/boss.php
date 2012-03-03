@@ -703,7 +703,7 @@ function show_message_form($contentid,$mode,$directory,$template_name) {
 	if($my->id > 0){
 		$user->load( $my->id );
 	}
-		
+
 	if ($mode == 0) //Email
 	{
 		//get configuration
@@ -722,7 +722,7 @@ function show_message_form($contentid,$mode,$directory,$template_name) {
 }
 
 function send_message($mode,$directory) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
     $mainframe = mosMainFrame::getInstance();
     $my = $mainframe->getUser();
 
@@ -1122,8 +1122,10 @@ function write_content($contentid,$catid,$directory,$template_name) {
 }
 
 function save_content($directory) {
-	global $mosConfig_mailfrom, $my, $mosConfig_fromname;
-	$database = database::getInstance();
+	global $mosConfig_mailfrom, $mosConfig_fromname;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$row = new jDirectoryContent($database,$directory);
     $catid = (int) mosGetParam( $_POST, 'category', 0 );
 	$itemid = getBossItemid($directory, $catid);

@@ -33,7 +33,7 @@ switch($task) {
 }
 
 function messageForm($option) {
-	global $acl;
+    $acl = &gacl::getInstance();
 
 	$gtree = array(mosHTML::makeOption(0,_ALL_USER_GROUPS));
 
@@ -47,7 +47,7 @@ function messageForm($option) {
 }
 
 function sendMail() {
-	global $acl;
+    $acl = &gacl::getInstance();
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom,$mosConfig_fromname;
     $mainframe = mosMainFrame::getInstance();

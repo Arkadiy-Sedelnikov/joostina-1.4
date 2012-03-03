@@ -32,7 +32,7 @@ defined('_VALID_MOS') or die();
                     $return .= html_entity_decode($field->tags_open);
 
                 if($conf->use_content_mambot == 1){
-                    global $_MAMBOTS;
+                    $_MAMBOTS = mosMambotHandler::getInstance();
                     $_MAMBOTS->loadBotGroup( 'content' );
                     $params = new mosParameters('');
                     $row = null;
@@ -59,7 +59,7 @@ defined('_VALID_MOS') or die();
         //функция вставки фрагмента ява-скрипта в скрипт
         //сохранения формы при редактировании контента с фронта.
         function addInWriteScript($field){
-            global $_MAMBOTS;
+            $_MAMBOTS = mosMambotHandler::getInstance();
             $return = '';
             $arrayEditors = $_MAMBOTS->trigger('onGetEditorContents',array('editor_'.$field->name, $field->name));
             foreach($arrayEditors as $editor) {

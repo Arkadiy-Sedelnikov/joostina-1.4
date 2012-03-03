@@ -26,7 +26,7 @@ $_MAMBOTS->registerFunction('onSearch','botSearchBoss');
  * @param определяет параметр сортировки: newest|oldest|popular|alpha|category
  */
 function botSearchBoss($text,$phrase = '',$ordering = '') {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 
 	$database = &database::getInstance();
 	// check if param query has previously been processed

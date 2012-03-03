@@ -58,7 +58,7 @@ EOD;
 * @param int - Число строк области редактора
 */
 function botNoEditorEditorArea($name,$content,$hiddenField,$width,$height,$col,$row) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	$results = $_MAMBOTS->trigger('onCustomEditorButton');
 	$buttons = array();
 	foreach($results as $result) {

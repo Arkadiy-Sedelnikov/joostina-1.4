@@ -357,7 +357,8 @@ class HTML_admin_misc {
 	}
 	// получение информации о базе данных
 	public static function db_info() {
-		global $database,$mosConfig_db;
+		global $mosConfig_db;
+        $database = database::getInstance();
 		$sql = 'SHOW TABLE STATUS FROM '.$mosConfig_db;
 		$database->setQuery($sql);
 		return $database->loadObjectList();

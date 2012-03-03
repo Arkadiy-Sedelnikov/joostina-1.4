@@ -29,7 +29,7 @@ defined('_VALID_MOS') or die();
                 return false;
 
             if($conf->use_content_mambot == 1){
-                global $_MAMBOTS;
+                $_MAMBOTS = mosMambotHandler::getInstance();
                 $_MAMBOTS->loadBotGroup( 'content' );
                 $params = new mosParameters('');
                 $row = null;

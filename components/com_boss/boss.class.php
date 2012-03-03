@@ -2561,7 +2561,7 @@ class boss_helpers {
      * @return
      */
     public static function saveRegistration() {
-        global $acl;
+        $acl = &gacl::getInstance();
         $database = database::getInstance();
 
         josSpoofCheck();

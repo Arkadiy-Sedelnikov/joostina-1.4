@@ -22,7 +22,7 @@ include_once(mosMainFrame::getInstance()->getLangFile('com_users'));
 class userlist_menu_html {
 
 	function edit($menu,$lists,$params,$option) {
-		global $acl;
+        $acl = &gacl::getInstance();
 		mosCommonHTML::loadOverlib();
 
 		$gtree = $acl->get_group_children_tree(null,'USERS',false);

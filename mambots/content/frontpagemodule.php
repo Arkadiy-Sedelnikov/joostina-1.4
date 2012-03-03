@@ -13,7 +13,8 @@ defined('_VALID_MOS') or die();
 $_MAMBOTS->registerFunction('onAfterDisplayContent','frontpagemodule');
 
 function frontpagemodule($row,&$params) {
-	global $option,$_MAMBOTS;
+	global $option;
+    $_MAMBOTS = mosMambotHandler::getInstance();
     $database = database::getInstance();
 
 	// исключаем работу мамбота в модулях и при выводе на печать

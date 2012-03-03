@@ -27,8 +27,8 @@ $_MAMBOTS->registerFunction('onPrepareContent','botMosPaging');
  *
  */
 function botMosPaging($published,&$row,&$params,$page = 0) {
-	global $Itemid,$_MAMBOTS;
-
+	global $Itemid;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	$mainframe = mosMainFrame::getInstance();
 	$database = $mainframe->getDBO();
 

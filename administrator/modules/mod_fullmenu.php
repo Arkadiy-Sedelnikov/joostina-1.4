@@ -24,7 +24,7 @@ if(!defined('_JOS_FULLMENU_MODULE')) {
 		 * @param string The current user type
 		 */
 		public static function show($usertype = '') {
-			global $acl;
+            $acl = &gacl::getInstance();
             $mainframe = mosMainFrame::getInstance();
             $my = $mainframe->getUser();
             $database = database::getInstance();
@@ -312,7 +312,7 @@ cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
 		 * @param string The current user type
 		 */
 		public static function showDisabled($usertype = '') {
-			global $acl;
+            $acl = &gacl::getInstance();
 
 			$canConfig = $acl->acl_check('administration','config','users',$usertype);
 			$installModules = $acl->acl_check('administration','install','users',$usertype,'modules','all');

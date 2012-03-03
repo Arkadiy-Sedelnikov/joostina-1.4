@@ -36,7 +36,7 @@ class modules_html {
 	 * @modification 19.02.2012 GoDr
 	 */
 	function module($module, $params, $Itemid) {
-		global $_MAMBOTS;
+        $_MAMBOTS = mosMambotHandler::getInstance();
 
 		$moduleclass_sfx = $params->get('moduleclass_sfx');
 		$rssurl = $params->get('rssurl');
@@ -271,7 +271,7 @@ class modules_html {
 	}
 
 	function CustomContent(&$module,$params) {
-		global $_MAMBOTS;
+        $_MAMBOTS = mosMambotHandler::getInstance();
 
 		$firebots = $params->get('firebots',0);
 

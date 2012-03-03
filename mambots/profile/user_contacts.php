@@ -27,7 +27,7 @@ function botUserContacts_tab($user) {
 /**
  */
 function botUserContacts($user) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	//Подключение плагина всплывающего окна
 	mosCommonHTML::loadJqueryPlugins('fancybox/jquery.fancybox', false, true);
 	//основной вывод

@@ -153,7 +153,7 @@ class PageModel {
 
 		// активация мамботов группы mainbody
 		if($mainframe->getCfg('mmb_mainbody_off') == 0) {
-			global $_MAMBOTS;
+            $_MAMBOTS = mosMambotHandler::getInstance();
 			$_MAMBOTS->loadBotGroup('mainbody');
 			$_MAMBOTS->trigger('onMainbody',array(&$_body));
 		}
@@ -169,9 +169,9 @@ class PageModel {
 	}
 
 	function ShowHead($params=array('js'=>1,'css'=>1)) {
-		global $option,$my,$task,$id;
-
-		$mainframe = $this->_mainframe;
+		global $option,$task,$id;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$description = '';
 		$keywords = '';

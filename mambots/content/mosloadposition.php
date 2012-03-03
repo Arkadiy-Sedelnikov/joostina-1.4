@@ -16,7 +16,7 @@ $_MAMBOTS->registerFunction('onPrepareContent','botMosLoadPosition');
  * Мамбот, загружающий модули в пределах содержимого
  */
 function botMosLoadPosition($published,&$row) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
     $database = database::getInstance();
 
 	// simple performance check to determine whether bot should process further

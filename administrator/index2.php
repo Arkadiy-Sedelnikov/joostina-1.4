@@ -29,7 +29,7 @@ if ((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isse
 
 // live_site
 define('JPATH_SITE', $mosConfig_live_site);
-
+if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
 // подключаем ядро
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
@@ -80,6 +80,7 @@ if ($option == '') {
 }
 
 if ($mosConfig_mmb_system_off == 0) {
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	$_MAMBOTS->loadBotGroup('admin');
 	$_MAMBOTS->trigger('onAfterAdminStart');
 }

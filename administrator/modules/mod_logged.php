@@ -10,8 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $mosConfig_list_limit,$my,$option;
+global $mosConfig_list_limit, $option;
 $mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 $cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 
 require_once (JPATH_BASE_ADMIN.'/includes/pageNavigation.php');

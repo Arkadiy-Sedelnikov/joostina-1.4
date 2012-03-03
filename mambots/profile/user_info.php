@@ -27,7 +27,7 @@ function botUserInfo_tab($user) {
 /**
  */
 function botUserInfo(&$user) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 
 	$database = database::getInstance();
 	$params = new mosParameters($_MAMBOTS->_mambot_params['user_info']);

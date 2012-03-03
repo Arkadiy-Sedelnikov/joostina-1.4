@@ -67,7 +67,7 @@ function mosCountAdminModules($position = 'left') {
  * @param int 0 = no style, 1 = tabbed
  */
 function mosLoadAdminModules($position = 'left',$style = 0) {
-	global $acl;
+    $acl = &gacl::getInstance();
     $mainframe = mosMainFrame::getInstance();
     $my = $mainframe->getUser();
 
@@ -142,10 +142,12 @@ function mosLoadAdminModules($position = 'left',$style = 0) {
  * Loads an admin module
  */
 function mosLoadAdminModule($name,$params = null) {
-	global $task,$acl,$my,$option;
+	global $task, $option;
 
-	$mainframe = mosMainFrame::getInstance(true);
-	$database = $mainframe->getDBO();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
+    $acl = &gacl::getInstance();
 
 	// legacy support for $act
 	$act = mosGetParam($_REQUEST,'act','');

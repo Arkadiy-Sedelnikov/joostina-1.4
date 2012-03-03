@@ -128,7 +128,9 @@ function showContacts($option) {
  * @param string The current GET/POST option
  */
 function editContact($id,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$row = new mosContact($database);
 	// load the row from the db table
@@ -244,10 +246,12 @@ function removeContacts(&$cid,$option) {
  * @param string The current option
  */
 function changeContact($cid = null,$state = 0,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(!is_array($cid) || count($cid) < 1) {
-		$action = $publish?'publish':'unpublish';
+		$action = $publish?'publish':'unpublish'; //TODO  $publish
 		mosErrorAlert( "Select an item to $action" );
 	}
 

@@ -15,7 +15,7 @@ define('DS', DIRECTORY_SEPARATOR );
 define('JPATH_BASE', dirname(dirname(__FILE__)) );
 // корень файлов админкиы
 define('JPATH_BASE_ADMIN', dirname(__FILE__) );
-
+if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
 require_once (JPATH_BASE.DS.'includes'.DS.'globals.php');
 require_once (JPATH_BASE.DS.'configuration.php');
 

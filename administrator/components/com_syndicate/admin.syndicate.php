@@ -37,7 +37,8 @@ switch($task) {
  * @param string The current GET/POST option
  */
 function showSyndicate($option) {
-	global $database,$mainframe;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$query = "SELECT a.id FROM #__components AS a WHERE ( a.admin_menu_link = 'option=com_syndicate' OR a.admin_menu_link = 'option=com_syndicate&hidemainmenu=1' ) AND a.option = 'com_syndicate'";
 	$database->setQuery($query);

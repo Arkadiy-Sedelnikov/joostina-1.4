@@ -13,7 +13,10 @@ defined('_VALID_MOS') or die();
 // load the html drawing class
 require_once ($mainframe->getPath('front_html'));
 
-global $database,$my,$mainframe;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
+$database = database::getInstance();
+$acl = &gacl::getInstance();
 global $mosConfig_frontend_login,$mosConfig_db,$mosConfig_no_session_front;
 
 if($mosConfig_frontend_login != null && ($mosConfig_frontend_login === 0 || $mosConfig_frontend_login === '0' || $mosConfig_no_session_front != 0)) {

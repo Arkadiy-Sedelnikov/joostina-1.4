@@ -20,7 +20,10 @@ class ContentView {
 	 * @param array An array of content objects
 	 */
 	function showList(&$rows,$search,$pageNav,$option,$lists, $directory) {
-		global $my,$acl,$database;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
+        $acl = &gacl::getInstance();
 		mosCommonHTML::loadOverlib();
 		$nullDate = $database->getNullDate();
 

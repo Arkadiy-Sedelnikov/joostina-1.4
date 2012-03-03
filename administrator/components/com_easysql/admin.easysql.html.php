@@ -11,7 +11,8 @@
 defined('_VALID_MOS') or die();
 
 function ExecSQL($task = 'execsql') {
-	global $database,$mosConfig_db;
+	global $mosConfig_db;
+    $database = database::getInstance();
 
 	$nDisplayRecords	= intval(mosGetParam($_POST,'easysql_records',10));
 
@@ -360,7 +361,6 @@ function DeleteRecord($table,$id) {
 		@$database->loadResult();
 		if(!empty($database->_errorMsg)) {
 			echo '<small style="color:red;">'.$database->_errorMsg.'</small><br/>';
-			break;
 			return false;
 		} else {
 			return true;

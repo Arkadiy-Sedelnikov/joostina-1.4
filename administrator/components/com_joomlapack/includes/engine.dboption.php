@@ -42,7 +42,8 @@ switch($task) {
 
 // отображение списка таблиц
 function viewTables($option) {
-	global $database,$mosConfig_db;
+	global $mosConfig_db;
+    $database = database::getInstance();
 	$sql = 'SHOW TABLE STATUS FROM `'.$mosConfig_db.'`';
 	$database->setQuery($sql);
 	$table_lists = $database->loadObjectList();
@@ -82,7 +83,8 @@ function viewTables($option) {
 
 // работа с базой, оптимизация, восстановление и т.д.
 function checkDatabase($option,$func) {
-	global $tables,$database;
+	global $tables;
+    $database = database::getInstance();
 	$i = 0;
 	$tables = mosGetParam($_POST,'tables','');
 	if(is_array($tables)) {

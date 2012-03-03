@@ -102,7 +102,7 @@ function saveConfig($option) {
 }
 
 function newMessage($option) {
-	global $acl;
+    $acl = &gacl::getInstance();
 
 	$database = database::getInstance();
 

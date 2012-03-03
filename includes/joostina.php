@@ -1144,6 +1144,14 @@ class mosMainFrame {
 	 */
 	function getUser() {
 
+        if(defined('IS_ADMIN')){
+            $mainframe = mosMainFrame::getInstance(true);
+            $option = strval(strtolower(mosGetParam($_REQUEST, 'option', '')));
+            $task = strval(mosGetParam($_REQUEST, 'task', ''));
+            $my = $mainframe->initSessionAdmin($option, $task);
+            return $my;
+        }
+
 		$user = new mosUser($this->_db);
 
 		if ($this->get('config')->config_no_session_front == 1) {
@@ -4292,6 +4300,12 @@ class mosMambotHandler {
 	var $_config = null;
 	var $_db = null;
 
+    /**
+     * The Singleton instance of the class
+     * @var mosMainframe
+     */
+    private static $_instance = null;
+
 	/**
 	 * Constructor
 	 */
@@ -4302,6 +4316,15 @@ class mosMambotHandler {
 		$this->_events = array();
 		unset($config);
 	}
+
+    public static function &getInstance() {
+
+        if (!is_object( self::$_instance )) {
+            self::$_instance = new mosMambotHandler();
+        }
+
+        return self::$_instance;
+    }
 
 	/**
 	 * Loads all the bot files for a particular group

@@ -148,7 +148,7 @@ function showPageImpressions($option,$task) {
 }
 
 function showSearches($option,$task,$showResults = null) {
-	global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 
 	$database = database::getInstance();
 	$mainframe = mosMainFrame::getInstance(true);

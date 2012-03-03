@@ -39,7 +39,8 @@ class CCUBE {
 	 * database tables
 	 */
 	function CCUBE($OnlyDBMode = false) {
-		global $database,$JPConfiguration;
+		global $JPConfiguration;
+        $database = database::getInstance();
 		$this->_OnlyDBMode = $OnlyDBMode;
 		// Remove old entries from 'packvars' table
 		$sql = 'DELETE FROM #__jp_packvars WHERE `key` LIKE "%CUBE%"';
@@ -116,7 +117,8 @@ class CCUBE {
 	 * Post work clean-up of files & database
 	 */
 	function _cleanup() {
-		global $database,$JPConfiguration;
+		global $JPConfiguration;
+        $database = database::getInstance();
 
 		CJPLogger::WriteLog(_JP_LOG_INFO,_JP_CLEANUP);
 		// Define which entries to keep in #__jp_packvars
@@ -464,7 +466,8 @@ class CCUBE {
  * creates a new object
  */
 function loadJPCUBE($forceNew = false) {
-	global $database,$JPConfiguration,$CUBE;
+	global $JPConfiguration,$CUBE;
+    $database = database::getInstance();
 
 	if($forceNew) {
 		$CUBE = new CCUBE();
@@ -518,7 +521,8 @@ function saveJPCUBE() {
  * Returns the current CUBE Array from the database
  */
 function loadJPCUBEArray() {
-	global $database,$CUBE;
+	global $CUBE;
+    $database = database::getInstance();
 
 	// Search for CUBEObject entry in database
 	$sql = 'SELECT COUNT(*) FROM #__jp_packvars WHERE `key`=\'CUBEArray\'';

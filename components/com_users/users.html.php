@@ -27,7 +27,8 @@ class HTML_user {
 	}
 
 	public static function profile($user,$option, &$params, $config) {
-		global $_MAMBOTS,$Itemid;
+		global $Itemid;
+        $_MAMBOTS = mosMambotHandler::getInstance();
         $mainframe = mosMainFrame::getInstance();
         $my = $mainframe->getUser();
 

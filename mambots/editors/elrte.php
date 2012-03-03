@@ -166,7 +166,7 @@ function botElrteGetContents($editorArea, $hiddenField)
  */
 function botElrteArea($name, $content, $hiddenField, $width, $height, $col, $row, $delayInit = null)
 {
-    global $_MAMBOTS;
+    $_MAMBOTS = mosMambotHandler::getInstance();
 	$results = $_MAMBOTS->trigger('onCustomEditorButton');
 	$buttons = array();
 	foreach($results as $result) {

@@ -26,7 +26,8 @@ class categories_html {
 	 * @modification 18.02.2012 GoDr
 	 */
 	function show(&$rows,$section,$section_name,&$pageNav, $type = '') {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 		mosCommonHTML::loadOverlib();

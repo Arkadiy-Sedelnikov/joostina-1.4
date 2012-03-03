@@ -807,7 +807,7 @@ class userPlugins {
     var $_plugins = null;
 
     function get_plugins($group = 'profile') {
-        global $_MAMBOTS;
+        $_MAMBOTS = mosMambotHandler::getInstance();
 
         $plugins = $_MAMBOTS->loadBotGroup($group, 1);
         $this->_group = $group;
