@@ -99,8 +99,8 @@ $cid = josGetArrayInts('cid');
  * Compiles a list of frontpage items
  */
 function viewFrontPage($option, $directory) {
-	global $mainframe,$mosConfig_list_limit;
-
+	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
 
 	$catid = intval($mainframe->getUserStateFromRequest("catid{$option}",'catid',0));
@@ -186,9 +186,10 @@ function viewFrontPage($option, $directory) {
  * @param integer 0 if unpublishing, 1 if publishing
  */
 function changeFrontPage($cid = null,$state = 0,$option) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
     $directory = mosGetParam($_REQUEST,'directory',0);
-	$database = database::getInstance();
 
 	josSpoofCheck();
 	if(count($cid) < 1) {

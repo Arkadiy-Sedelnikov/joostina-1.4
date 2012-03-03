@@ -63,7 +63,8 @@ class CPackerEngine {
 	var $_currentBytes;
 
 	function CPackerEngine() {
-		global $JPConfiguration,$database;
+		global $JPConfiguration;
+        $database = database::getInstance();
 
 		$this->_isFinished = false;
 		$this->_archiveFile = $JPConfiguration->OutputDirectory.'/'.$this->_expandTarName($JPConfiguration->TarNameTemplate,$JPConfiguration->boolCompress);
@@ -143,7 +144,7 @@ class CPackerEngine {
 	 * Loads a fragment's filelist
 	 */
 	function _importFragment($fragmentID) {
-		global $database;
+		$database = database::getInstance();
 		$sql = 'SELECT `value2` FROM #__jp_packvars WHERE `key` = \'fragment'.$fragmentID.'\'';
 		$database->setQuery($sql);
 		$this->_fileListDescriptor = unserialize($database->loadResult());
@@ -189,7 +190,8 @@ class CPackerEngine {
 	 * Performs the actual archiving of the current file list
 	 */
 	function _archiveFileList() {
-		global $JPConfiguration,$database;
+		global $JPConfiguration;
+        $database = database::getInstance();
 
 		include_once (JPATH_BASE_ADMIN.'/includes/pcl/pclzip.lib.php');
 

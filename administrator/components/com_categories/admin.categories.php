@@ -116,7 +116,9 @@ switch($task) {
  * @modification 18.02.2012 GoDr
  */
 function showCategories($section) {
-	global $database, $mainframe, $mosConfig_list_limit, $mosConfig_dbprefix;
+	global $mosConfig_list_limit, $mosConfig_dbprefix;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$section}limitstart", 'limitstart', 0));
@@ -176,7 +178,9 @@ function showCategories($section) {
  * @param string The name of the current user
  */
 function editCategory($uid = 0,$section = '') {
-	global $database,$my,$mainframe;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$redirect = strval(mosGetParam($_REQUEST,'section','content'));
 
@@ -358,7 +362,7 @@ function editCategory($uid = 0,$section = '') {
  * @param string The name of the category section
  */
 function saveCategory($task) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$menu = strval(mosGetParam($_POST,'menu','mainmenu'));
@@ -471,7 +475,8 @@ function saveCategory($task) {
  * @param array An array of unique category id numbers
  */
 function removeCategories($section,$cid) {
-	global $database,$mosConfig_dbprefix;
+	global $mosConfig_dbprefix;
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid) < 1) {
 		echo "<script> alert('"._CHOOSE_CATEGORY_TO_REMOVE."'); window.history.go(-1);</script>\n";
@@ -543,7 +548,9 @@ function removeCategories($section,$cid) {
  * @param string The name of the current user
  */
 function publishCategories($section,$categoryid = null,$cid = null,$publish = 1) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 
 	if(!is_array($cid)) {
@@ -587,7 +594,7 @@ function publishCategories($section,$categoryid = null,$cid = null,$publish = 1)
  * @param integer A unique category id
  */
 function cancelCategory() {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$redirect = strval(mosGetParam($_POST,'redirect',''));
@@ -604,7 +611,7 @@ function cancelCategory() {
  * @param integer The increment to reorder by
  */
 function orderCategory($uid,$inc) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$row = new mosCategory($database);
@@ -621,7 +628,7 @@ function orderCategory($uid,$inc) {
  * Save the item(s) to the menu selected
  */
 function moveCategorySave($cid,$sectionOld) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	if(!is_array($cid) || count($cid) < 1) {
@@ -661,7 +668,7 @@ function moveCategorySave($cid,$sectionOld) {
  * Form for copying item(s) to a specific menu
  */
 function copyCategorySelect($option,$cid,$sectionOld) {
-	global $database;
+	$database = database::getInstance();
 
 	$redirect = mosGetParam($_POST,'section','content');
 	;
@@ -691,7 +698,7 @@ function copyCategorySelect($option,$cid,$sectionOld) {
  * Save the item(s) to the menu selected
  */
 function copyCategorySave($cid,$sectionOld) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$sectionMove = intval(mosGetParam($_REQUEST,'sectionmove',''));
@@ -766,7 +773,7 @@ function copyCategorySave($cid,$sectionOld) {
  * @param integer The increment to reorder by
  */
 function accessMenu($uid,$access,$section) {
-	global $database;
+	$database = database::getInstance();
 
 	$row = new mosCategory($database);
 	$row->load((int)$uid);
@@ -788,7 +795,7 @@ function accessMenu($uid,$access,$section) {
 }
 
 function menuLink($id) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$category = new mosCategory($database);
@@ -869,7 +876,7 @@ function menuLink($id) {
 }
 
 function saveOrder(&$cid,$section) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$total = count($cid);

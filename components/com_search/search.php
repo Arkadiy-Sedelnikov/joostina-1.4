@@ -108,9 +108,10 @@ function search_by_tag($tag) {
 }
 
 function viewSearch() {
-	global $mainframe, $mosConfig_lang;
+	global $mosConfig_lang;
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
 
 	$restriction = 0;
 
@@ -326,7 +327,7 @@ function viewSearch() {
 }
 
 function mosLogSearch($search_term) {
-	global $database;
+	$database = database::getInstance();
 	global $mosConfig_enable_log_searches;
 
 	if (@$mosConfig_enable_log_searches) {

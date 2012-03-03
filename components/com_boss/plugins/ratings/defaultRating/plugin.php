@@ -23,7 +23,8 @@ class defaultRating extends mosDBTable
     }
     
     function save_vote($directory) {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $database = database::getInstance();
 
         //get configuration
@@ -108,7 +109,8 @@ class defaultRating extends mosDBTable
     
         function displayVoteForm($content, $directory, $conf)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
         if ($my->id == 0 && $conf->allow_unregisered_comment == 0) {
             $link = sefRelToAbs("index.php?option=com_boss&amp;task=login&amp;directory=$directory");

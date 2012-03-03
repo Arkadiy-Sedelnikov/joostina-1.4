@@ -50,7 +50,9 @@ switch($task) {
 }
 
 function editConfig($option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$query = "SELECT cfg_name, cfg_value FROM #__messages_cfg WHERE user_id = ".(int)$my->id;
 	$database->setQuery($query);
@@ -77,9 +79,10 @@ function editConfig($option) {
 }
 
 function saveConfig($option) {
-	global $my;
 	josSpoofCheck();
-	$database = database::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$query = "DELETE FROM #__messages_cfg WHERE user_id = ".(int)$my->id;
 	$database->setQuery($query);
@@ -147,9 +150,9 @@ function saveMessage($option) {
 }
 
 function showMessages($option) {
-	global $mainframe,$my;
-
-	$database = database::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$limit = $mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mainframe->getCfg('list_limit'));
 	$limitstart = $mainframe->getUserStateFromRequest("view{$option}limitstart",'limitstart',0);
@@ -186,7 +189,6 @@ function showMessages($option) {
 }
 
 function viewMessage($uid = '0',$option) {
-	global $my,$acl;
 
 	$database = database::getInstance();
 

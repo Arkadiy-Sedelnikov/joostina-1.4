@@ -20,8 +20,8 @@ class mod_ml_login_Helper {
 	}
 
 	function prepare_logout_form($params) {
-		global $my;
-		$mainframe = $this->_mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		//Отображаемое имя пользователя
 		if ($params->get('user_name', 1)) {
@@ -47,8 +47,8 @@ class mod_ml_login_Helper {
 	}
 
 	function prepare_login_form($params) {
-		global $my;
-		$mainframe = $this->_mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$params->def('ml_login_text', _USER);
 		$params->def('ml_pass_text', _PASSWORDWORD);

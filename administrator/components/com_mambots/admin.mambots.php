@@ -74,7 +74,9 @@ switch($task) {
  * Compiles a list of installed or defined modules
  */
 function viewMambots($option,$client) {
-	global $database,$mainframe,$mosConfig_list_limit;
+	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}limitstart",'limitstart',0));
@@ -140,7 +142,7 @@ function viewMambots($option,$client) {
  * Saves the module after an edit form submit
  */
 function saveMambot($option,$client,$task) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$params = mosGetParam($_POST,'params','');
 	if(is_array($params)) {
@@ -192,7 +194,9 @@ function saveMambot($option,$client,$task) {
  * @param integer The unique id of the record to edit
  */
 function editMambot($option,$uid,$client) {
-	global $database,$my,$mainframe;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$lists = array();
 	$row = new mosMambot($database);
@@ -289,7 +293,9 @@ function editMambot($option,$uid,$client) {
  * @param array An array of unique category id numbers
  */
 function removeMambot(&$cid,$option,$client) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid) < 1) {
 		echo "<script> alert('"._CHOOSE_OBJ_DELETE."'); window.history.go(-1);</script>\n";
@@ -305,7 +311,9 @@ function removeMambot(&$cid,$option,$client) {
  * @param integer 0 if unpublishing, 1 if publishing
  */
 function publishMambot($cid = null,$publish = 1,$option,$client) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid) < 1) {
 		$action = $publish?'publish':'unpublish';
@@ -335,7 +343,7 @@ function publishMambot($cid = null,$publish = 1,$option,$client) {
  * Cancels an edit operation
  */
 function cancelMambot($option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosMambot($database);
 	$row->bind($_POST);
@@ -350,7 +358,7 @@ function cancelMambot($option,$client) {
  * @param integer The increment to reorder by
  */
 function orderMambot($uid,$inc,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	// Currently Unsupported
 	if($client == 'admin') {
@@ -370,7 +378,7 @@ function orderMambot($uid,$inc,$option,$client) {
  * @param integer The increment to reorder by
  */
 function accessMenu($uid,$access,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	switch($access) {
 		case 'accesspublic':
@@ -401,7 +409,7 @@ function accessMenu($uid,$access,$option,$client) {
 }
 
 function saveOrder(&$cid) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$total = count($cid);
 	$order = josGetArrayInts('order');

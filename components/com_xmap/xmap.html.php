@@ -106,7 +106,6 @@ class XmapHtml extends Xmap {
 
 	/** Print component heading, etc. Then call getHtmlList() to print list */
 	function startOutput(&$menus,&$config,$title) {
-		global $database, $Itemid;
 
 		$sitemap = &$this->sitemap;
 
@@ -127,7 +126,6 @@ class XmapHtml extends Xmap {
 
 	/** Print component heading, etc. Then call getHtmlList() to print list */
 	function endOutput(&$menus) {
-		global $database, $Itemid;
 		$sitemap = &$this->sitemap;
 		echo '<div style="clear:left"></div>';
 		echo '</div>';

@@ -18,7 +18,9 @@ defined('_VALID_MOS') or die();
 class wrapper_menu {
 
 	function edit(&$uid,$menutype,$option,$menu) {
-		global $database,$my,$mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 
 		// fail if checked out not by 'me'
 		if($menu->checked_out && $menu->checked_out != $my->id) {
@@ -59,7 +61,7 @@ class wrapper_menu {
 
 
 	function saveMenu($option,$task) {
-		global $database;
+		$database = database::getInstance();
 
 		$params = mosGetParam($_POST,'params','');
 		$params[url] = mosGetParam($_POST,'url','');

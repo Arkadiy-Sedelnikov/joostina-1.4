@@ -20,7 +20,7 @@ class CDirExclusionFilter {
 	 * Class initializer, loads existing filters
 	 */
 	function CDirExclusionFilter() {
-		global $database;
+		$database = database::getInstance();
 
 		// Initialize by loading any exisiting filters
 		$sql = 'SELECT* FROM #__jp_def';
@@ -109,7 +109,7 @@ class CDirExclusionFilter {
 	}
 
 	function modifyFilter($root,$dir,$checked) {
-		global $database;
+		$database = database::getInstance();
 
 		$activate = ($checked == 'on') || ($checked == 'yes') || ($checked == 'checked')?true:false;
 

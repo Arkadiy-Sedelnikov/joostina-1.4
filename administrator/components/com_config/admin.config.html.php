@@ -16,7 +16,8 @@ defined('_VALID_MOS') or die();
  */
 class HTML_config {
 	public static function showconfig(&$row,&$lists,$option) {
-		global $mosConfig_session_type,$mainframe;
+		global $mosConfig_session_type;
+        $mainframe = mosMainFrame::getInstance();
 		$tabs = new mosTabs(1,1);
 		mosCommonHTML::loadOverlib();
 

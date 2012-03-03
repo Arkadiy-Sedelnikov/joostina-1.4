@@ -67,7 +67,7 @@ class CFilelistEngine {
 	 * initializing this task's algorithm
 	 */
 	function CFilelistEngine() {
-		global $database;
+		$database = database::getInstance();
 
 		// Remove old entries from filelist database
 		$sql = "DELETE FROM #__jp_packvars WHERE `key` like 'fragment%'";
@@ -192,7 +192,7 @@ class CFilelistEngine {
 	}
 
 	function _saveFragment() {
-		global $database;
+		$database = database::getInstance();
 
 		$fragmentDescriptor = array();
 		$fragmentDescriptor['type'] = 'site'; // Other possible values are 'installer', 'sql', 'external'

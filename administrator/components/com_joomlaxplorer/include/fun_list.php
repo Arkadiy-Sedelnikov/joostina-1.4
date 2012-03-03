@@ -300,7 +300,8 @@ function print_table($dir, $list, $allow) {
 	}
 }
 function list_dir($dir) {
-	global $dir_up, $mainframe;
+	global $dir_up;
+    $mainframe = mosMainFrame::getInstance();
 	mosCommonHTML::loadOverlib();
 	$mainframe->addJS(JPATH_SITE.'/'.JADMIN_BASE.'/components/com_joomlaxplorer/scripts/joomlaxplorer.js');
 	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';

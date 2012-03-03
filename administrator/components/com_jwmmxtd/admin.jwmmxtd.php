@@ -485,9 +485,10 @@ function listofdirectories($base) {
 
 // отображение медиа-менеджера
 function viewMediaManager($curdirectory = "",$mosmsg = "",$selectedfile = "") {
-	global $my,$subtask;
+	global $subtask;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
-	$mainframe = mosMainFrame::getInstance();
 	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/file_ico';
 
 	$imgFiles = listofdirectories(JWMMXTD_STARTABSPATH);

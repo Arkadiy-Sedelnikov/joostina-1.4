@@ -18,7 +18,9 @@ defined('_VALID_MOS') or die();
 class component_item_link_menu {
 
 	function edit(&$uid,$menutype,$option,$menu) {
-		global $database,$my,$mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 
 		// fail if checked out not by 'me'
 		if($menu->checked_out && $menu->checked_out != $my->id) {

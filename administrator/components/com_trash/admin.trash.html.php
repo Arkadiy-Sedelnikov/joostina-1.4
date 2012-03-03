@@ -20,7 +20,6 @@ class HTML_trash {
 	 * Writes a list of the Trash items
 	 */
 	public static function showList($option,$content,$pageNav) {
-		global $my;
 		?>
 <script language="javascript" type="text/javascript">
 	/**

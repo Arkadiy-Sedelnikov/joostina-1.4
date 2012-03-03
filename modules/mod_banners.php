@@ -13,8 +13,8 @@ defined( '_VALID_MOS' ) or die();
 if(!function_exists('showBanners')) {
 	// function that selecting one or more banner/s
 	function showBanners(&$params, $mainframe) {
-		global $my;
-
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$database = $mainframe->getDBO();
 
 		$random = $params->get('random', 0);

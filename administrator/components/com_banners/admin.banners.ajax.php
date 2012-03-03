@@ -10,7 +10,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $task = mosGetParam($_GET,'task','publish');
 $act = mosGetParam($_GET,'act','');
@@ -32,7 +33,8 @@ switch($task) {
 }
 
 function x_cat_publish($id = null) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
@@ -62,7 +64,8 @@ function x_cat_publish($id = null) {
 }
 
 function x_client_publish($id = null) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';

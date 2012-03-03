@@ -54,6 +54,7 @@ $directory = (int) $directory;
 
 if ( $task != 'rss' ) {
 	boss_helpers::loadBossLang($directory);
+    boss_helpers::addDirectoryScript($directory);
     // get configuration
     $conf = getConfig($directory);
 
@@ -286,7 +287,8 @@ switch ($task) {
 }
 
 function show_search($catid,$directory,$template_name) {
-    global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     //get configuration
     $conf = getConfig($directory);
     //права пользователя
@@ -361,7 +363,8 @@ function show_all($text_search,$name_search,$order,$limitstart,$directory,$templ
     
     //права пользователя
     if($conf->allow_rights){
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
         $rights->bind_rights(@$conf->rights);
         $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
@@ -410,7 +413,8 @@ function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,
 
     //права пользователя
     if($conf->allow_rights){
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
         $rights->bind_rights(@$conf->rights);
         $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
@@ -454,7 +458,8 @@ function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,
 }
 
 function show_user($userid,$text_search,$order,$limitstart,$directory,$template_name) {
-    global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     //get configuration
     $conf = getConfig($directory);
     //права пользователя
@@ -538,7 +543,8 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
         $conf = getConfig($directory);
         //права пользователя
         if($conf->allow_rights){
-            global $my;
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
             $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
             $rights->bind_rights(@$conf->rights);
             $rights->bind_rights(@$category->rights);
@@ -682,7 +688,8 @@ function search_alpha($alpha,$order,$limitstart,$directory,$template_name) {
 }
 
 function show_message_form($contentid,$mode,$directory,$template_name) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     $database = database::getInstance();
     $content = null;
     $conf = null;       
@@ -715,8 +722,10 @@ function show_message_form($contentid,$mode,$directory,$template_name) {
 }
 
 function send_message($mode,$directory) {
-	global $my,$_MAMBOTS;
-	
+	global $_MAMBOTS;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+
 	$database = database::getInstance();
     $content = null;
     
@@ -754,9 +763,8 @@ function send_message($mode,$directory) {
 }
 
 function show_content($contentid, $catid, $directory, $template_name) {
-	global $my;
- 
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
         $params = array();
 	$content = null;
@@ -950,10 +958,10 @@ function show_content($contentid, $catid, $directory, $template_name) {
 }
 
 function write_content($contentid,$catid,$directory,$template_name) {
-    global $my;
-    //get configuration
-    $conf = getConfig($directory);       
     $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    //get configuration
+    $conf = getConfig($directory);
     $database = database::getInstance();
     $content_type = mosGetParam( $_REQUEST, 'content_types', 0 );
     $paths = null;
@@ -1258,7 +1266,8 @@ function manage_expiration($directory,$conf,$fileCron,$template_name) {
 }
 
 function show_expiration($contentid, $directory, $template_name) {
-	global $my, $mainframe;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
     $content = null;
 	// get configuration
@@ -1307,8 +1316,8 @@ function extend_expiration($contentid, $directory) {
 }
 
 function delete_content($contentid, $directory, $template_name) {
-	global $my;
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	//get configuration
@@ -1432,9 +1441,10 @@ function show_profile($userid, $directory, $template_name) {
 
 function save_profile($directory) {
 
-        josSpoofCheck();
-        
-	global $my;
+    josSpoofCheck();
+
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if ($my->id == 0){

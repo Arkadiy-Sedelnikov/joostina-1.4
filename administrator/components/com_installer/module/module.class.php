@@ -133,7 +133,7 @@ class mosInstallerModule extends mosInstaller {
 	 * @param int The client id
 	 */
 	function uninstall($id,$option,$client = 0) {
-		global $database;
+		$database = database::getInstance();
 		josSpoofCheck();
 		$id = intval($id);
 
@@ -218,7 +218,8 @@ class mosInstallerModule extends mosInstaller {
 	 * Uninstall method
 	 */
 	function cleanAfterError() {
-		global $database, $client;
+		global $client;
+        $database = database::getInstance();
 		josSpoofCheck();
 
 		$mosinstall = &$this->i_xmldoc->documentElement;

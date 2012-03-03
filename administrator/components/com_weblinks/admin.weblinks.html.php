@@ -17,8 +17,8 @@ defined('_VALID_MOS') or die();
 class HTML_weblinks {
 
 	public static function showWeblinks($option,&$rows,&$lists,&$search,&$pageNav) {
-		global $my;
-		$mainframe = mosMainFrame::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 
 		mosCommonHTML::loadOverlib();

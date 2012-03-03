@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my, $task, $option;
+global $task, $option;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 userHelper::_load_core_js();
 ?>
@@ -184,11 +186,12 @@ function userEdit($option,$uid,$submitvalue) {
 }
 
 function userSave($option,$uid) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	// simple spoof check security
 	josSpoofCheck();
-	$mainframe = mosMainFrame::getInstance();
+
 	$config = &$mainframe->config;
 	$database = $mainframe->getDBO();
 
@@ -709,9 +712,8 @@ function saveRegistration() {
 }
 
 function activate() {
-	global $my;
-
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = $mainframe->getDBO();
 
 	if($my->id) {

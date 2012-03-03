@@ -22,7 +22,9 @@ $_MAMBOTS->registerFunction('onSearch','botSearchContacts');
  * @param определяет порядок сортировки: newest|oldest|popular|alpha|category
  */
 function botSearchContacts($text,$phrase = '',$ordering = '') {
-	global $my,$_MAMBOTS;
+	global $_MAMBOTS;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$database = database::getInstance();
 

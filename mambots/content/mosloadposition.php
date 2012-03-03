@@ -16,7 +16,8 @@ $_MAMBOTS->registerFunction('onPrepareContent','botMosLoadPosition');
  * Мамбот, загружающий модули в пределах содержимого
  */
 function botMosLoadPosition($published,&$row) {
-	global $database,$_MAMBOTS;
+	global $_MAMBOTS;
+    $database = database::getInstance();
 
 	// simple performance check to determine whether bot should process further
 	if(strpos($row->text,'mosloadposition') === false) {
@@ -63,7 +64,7 @@ function botMosLoadPosition($published,&$row) {
 }
 
 function processPositions(&$row,&$matches,$count,$regex,$style) {
-	global $database;
+	$database = database::getInstance();
 
 	$query = "SELECT position"."\n FROM #__template_positions"."\n ORDER BY position";
 	$database->setQuery($query);

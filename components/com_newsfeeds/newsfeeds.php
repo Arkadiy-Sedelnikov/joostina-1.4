@@ -27,7 +27,9 @@ switch ($task) {
 }
 
 function listFeeds($catid) {
-	global $my, $Itemid;
+	global $Itemid;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$mainframe = mosMainFrame::getInstance();
 	$database = $mainframe->getDBO();

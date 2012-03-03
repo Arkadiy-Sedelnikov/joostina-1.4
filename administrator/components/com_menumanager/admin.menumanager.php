@@ -172,7 +172,7 @@ function showMenu($option) {
  * @param cid	menu id
  */
 function editMenu($option,$menu) {
-	global $database;
+	$database = database::getInstance();
         $row = null;
 	if($menu) {
 		$row->menutype = $menu;
@@ -194,7 +194,7 @@ function editMenu($option,$menu) {
  * this is a workaround until a new dedicated table for menu management can be created
  */
 function saveMenu() {
-	global $database;
+	$database = database::getInstance();
 
 	$menutype = stripslashes(strval(mosGetParam($_POST,'menutype','')));
 	$old_menutype = stripslashes(strval(mosGetParam($_POST,'old_menutype','')));
@@ -318,7 +318,7 @@ function saveMenu() {
  * Compiles a list of the items you have selected to permanently delte
  */
 function deleteConfirm($option,$type) {
-	global $database;
+	$database = database::getInstance();
 
 	if($type == 'mainmenu') {
 		echo "<script> alert('"._CANNOT_RENAME_MAINMENU."'); window.history.go(-1); </script>\n";
@@ -363,7 +363,7 @@ function deleteConfirm($option,$type) {
  * Deletes menu items(s) you have selected
  */
 function deleteMenu($option,$cid,$type) {
-	global $database;
+	$database = database::getInstance();
 
 	if($type == 'mainmenu') {
 		echo "<script> alert('"._CANNOT_RENAME_MAINMENU."'); window.history.go(-1); </script>\n";
@@ -422,7 +422,7 @@ function deleteMenu($option,$cid,$type) {
  * Compiles a list of the items you have selected to Copy
  */
 function copyConfirm($option,$type) {
-	global $database;
+	$database = database::getInstance();
 
 	// Content Items query
 	$query = 'SELECT a.name, a.id FROM #__menu AS a WHERE a.menutype ='. $database->Quote($type).' ORDER BY a.name';
@@ -437,7 +437,7 @@ function copyConfirm($option,$type) {
  * Copies a complete menu, all its items and creates a new module, using the name speified
  */
 function copyMenu($option,$cid,$type) {
-	global $database;
+	$database = database::getInstance();
 
 	$menu_name = stripslashes(strval(mosGetParam($_POST,'menu_name',_NEW_MENU)));
 	$module_name = stripslashes(strval(mosGetParam($_POST,'module_name',_NEW_MENU_MODULE)));

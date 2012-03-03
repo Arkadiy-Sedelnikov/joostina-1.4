@@ -56,7 +56,7 @@ defined('_VALID_MOS') or die();
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-            global $mainframe;
+            $mainframe = mosMainFrame::getInstance();;
             $return  = '';
             $fieldname = $field->name;
             $values = (isset ($content->$fieldname)) ? stripslashes($content->$fieldname) : '';

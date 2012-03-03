@@ -115,10 +115,9 @@ function save_config() {
 }
 
 function showUsers($option) {
-	global $my;
-
-	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance(true);
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$acl = &gacl::getInstance();
 
 	$filter_type = $mainframe->getUserStateFromRequest("filter_type{$option}",'filter_type',0);
@@ -223,10 +222,9 @@ function showUsers($option) {
  * @param string The URL option
  */
 function editUser($uid = '0',$option = 'users') {
-	global $my;
-
-	$mainframe = mosMainFrame::getInstance(true);
-	$database = $mainframe->getDBO();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$acl = &gacl::getInstance();
 
 	$msg = checkUserPermissions(array($uid),"edit",true);
@@ -301,13 +299,13 @@ function editUser($uid = '0',$option = 'users') {
 }
 
 function saveUser($task) {
-	global $my;
 	global $mosConfig_mailfrom,$mosConfig_fromname,$mosConfig_sitename;
 
 	josSpoofCheck();
 
-	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance(true);
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$acl = &gacl::getInstance();
 
 	$userIdPosted = mosGetParam($_POST,'id');
@@ -528,11 +526,10 @@ function cancelUser($option) {
 }
 
 function removeUsers($cid,$option) {
-	global $my;
 	josSpoofCheck();
-
-	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance(true);
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$acl = &gacl::getInstance();
 
 	if(!is_array($cid) || count($cid) < 1) {
@@ -628,10 +625,11 @@ function changeUserBlock($cid = null,$block = 1,$option) {
  * @param string The current url option
  */
 function logoutUser($cid = null,$option,$task) {
-	global $my;
-	josSpoofCheck(null, null, 'request');
 
-	$database = database::getInstance();
+	josSpoofCheck(null, null, 'request');
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	if(is_array($cid)) {
 		if(count($cid) < 1) {
@@ -691,9 +689,9 @@ function logoutUser($cid = null,$option,$task) {
  * Added 1.0.11
  */
 function checkUserPermissions($cid,$actionName,$allowActionToMyself = false) {
-	global $my;
-
-	$database = database::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	$acl = &gacl::getInstance();
 
 	$msg = null;

@@ -77,7 +77,8 @@ class boss_html
 
     function displayWriteForm()
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $plugins = $this->plugins;
         ?>
     <script type="text/javascript" src="<?php echo JPATH_SITE;?>/includes/js/overlib_mini.js"></script>
@@ -352,7 +353,8 @@ class boss_html
 
     function recurseCategories($id, $level, &$children, $itemid, $showChildren=1, $showDesc=1, $showImg=1)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $directory = $this->directory;
         $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
         
@@ -619,7 +621,8 @@ class boss_html
 
     function displayContentEditDelete($content)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $directory = $this->directory;
         $itemid = $this->itemid;
         $catid = mosGetParam($_REQUEST, 'catid', '');
@@ -804,7 +807,8 @@ class boss_html
 
     function loadFieldsInGroup($content, $groupname, $betweenfields = null, $fieldheader = null, $fieldfooter = null, $private = 0, $titleEnable = 1, $hrefNum = 0, $divider = null)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $fieldsgroup = $this->fieldsgroup[$groupname];
         $database = database::getInstance();
         $jDirectoryField = new jDirectoryField($database, $this->directory);
@@ -962,8 +966,9 @@ class boss_html
     function displayContents($listTemplate='default')
     {
         if (isset($this->contents)) {
-            
-            global $my;
+
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
             $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
             
             foreach($this->contents as $content) {
@@ -1041,7 +1046,10 @@ class boss_html
 
     function displayShowOther($content)
     {
-        global $itemid, $my;
+        global $itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+
         $row = null;
         $directory = $this->directory;
         $update_possible = 0;
@@ -1070,7 +1078,8 @@ class boss_html
 
     function displayPms($content, $private = 0)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $conf = $this->conf;
         $directory = $this->directory;
         $itemid = $this->itemid;
@@ -1142,7 +1151,8 @@ class boss_html
 
     function displayWarningNoAccount()
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         if (($this->conf->submission_type == 2) && ($my->id == "0")) {
             echo BOSS_WARNING_NEW_CONTENT_NO_ACCOUNT;
             ;
@@ -1323,8 +1333,8 @@ class boss_html
 
     function isAccountCreation()
     {
-        global $my;
-
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         if (($this->conf->submission_type == 0) && ($my->id == 0)) {
             return 1;
         }
@@ -1334,7 +1344,8 @@ class boss_html
 
     function displayAccountCreationFields()
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
         $catid = $this->content_type;
         $conf = $this->conf;

@@ -159,8 +159,8 @@ class Xmap {
 
 	/** Default constructor, requires the config as parameter. */
 	function Xmap( &$config, &$sitemap ) {
-		global $my;
-
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		/* класс работы с правами пользователей */
 		mosMainFrame::addLib('gacl');
 		$acl = &gacl::getInstance();

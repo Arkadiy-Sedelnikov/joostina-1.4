@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my,$task;
+global $task;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 // cache some acl checks
 $canConfig = $acl->acl_check('administration','config','users',$my->usertype);

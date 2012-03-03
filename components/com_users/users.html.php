@@ -27,7 +27,9 @@ class HTML_user {
 	}
 
 	public static function profile($user,$option, &$params, $config) {
-		global $my, $_MAMBOTS,$Itemid;
+		global $_MAMBOTS,$Itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$mainframe = mosMainFrame::getInstance();
 		$database = $mainframe->getDBO();

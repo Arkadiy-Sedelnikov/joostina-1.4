@@ -10,7 +10,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $task	= mosGetParam($_GET,'task','publish');
 $id		= intval(mosGetParam($_REQUEST,'id',0));

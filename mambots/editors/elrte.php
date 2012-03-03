@@ -10,7 +10,9 @@ $_MAMBOTS->registerFunction('onEditorArea', 'botElrteArea');
  */
 function botElrteInit()
 {
-    global $mosConfig_lang, $my, $mainframe;
+    global $mosConfig_lang;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     $database = database::getInstance();
     $html ='';
     

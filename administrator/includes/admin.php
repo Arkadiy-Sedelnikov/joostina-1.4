@@ -67,7 +67,9 @@ function mosCountAdminModules($position = 'left') {
  * @param int 0 = no style, 1 = tabbed
  */
 function mosLoadAdminModules($position = 'left',$style = 0) {
-	global $acl,$my;
+	global $acl;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	static $all_modules;
 	if(!isset($all_modules)) {
@@ -400,7 +402,9 @@ function josSecurityCheck($width = '95%') {
 
 //boston, удаление кэша меню панели управления
 function js_menu_cache_clear($echo = true) {
-	global $my,$mosConfig_secret,$mosConfig_adm_menu_cache;
+	global $mosConfig_secret,$mosConfig_adm_menu_cache;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	if(!$mosConfig_adm_menu_cache) return;
 

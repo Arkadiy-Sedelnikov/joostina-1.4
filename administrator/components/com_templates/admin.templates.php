@@ -218,7 +218,7 @@ function viewTemplates($option,$client) {
  * Publish, or make current, the selected template
  */
 function defaultTemplate($p_tname,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	if($client == 'admin') {
 		$query = "DELETE FROM #__templates_menu WHERE client_id = 1 AND menuid = 0";
@@ -247,7 +247,7 @@ function defaultTemplate($p_tname,$option,$client) {
  * Remove the selected template
  */
 function removeTemplate($cid,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$client_id = $client == 'admin'?1:0;
 
@@ -394,7 +394,7 @@ function saveTemplateCSS($option,$client) {
 
 
 function assignTemplate($p_tname,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	// get selected pages for $menulist
 	if($p_tname) {
@@ -411,7 +411,7 @@ function assignTemplate($p_tname,$option,$client) {
 
 
 function saveTemplateAssign($option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$menus = josGetArrayInts('selections');
 
@@ -447,7 +447,7 @@ function saveTemplateAssign($option,$client) {
 /**
  */
 function editPositions($option) {
-	global $database;
+	$database = database::getInstance();
 
 	$query = "SELECT* FROM #__template_positions";
 	$database->setQuery($query);
@@ -459,7 +459,7 @@ function editPositions($option) {
 /**
  */
 function savePositions($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$positions = mosGetParam($_POST,'position',array());
 	$descriptions = mosGetParam($_POST,'description',array());

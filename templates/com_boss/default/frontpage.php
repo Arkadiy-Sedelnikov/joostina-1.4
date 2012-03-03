@@ -3,7 +3,8 @@
   <?php
         if (isset($this->contents)) {
 
-            global $my;
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
             $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
             //путь до шаблона контента
             $pathToTemplate = JPATH_BASE .'/templates/com_boss/'.$this->template_name.'/frontpage_list_item.php';

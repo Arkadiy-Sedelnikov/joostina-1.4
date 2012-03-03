@@ -52,7 +52,7 @@ class XmapAdmin {
 	 * @param integer  configuration save success
 	 */
 	function showSettingsDialog( $success = 0 ) {
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 
 		$database = database::getInstance();
 

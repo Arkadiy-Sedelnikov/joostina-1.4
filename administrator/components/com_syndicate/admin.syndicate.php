@@ -58,7 +58,7 @@ function showSyndicate($option) {
  * @param string The current GET/POST option
  */
 function saveSyndicate($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$params = mosGetParam($_POST,'params','');
 	if(is_array($params)) {

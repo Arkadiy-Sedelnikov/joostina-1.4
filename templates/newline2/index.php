@@ -1,7 +1,9 @@
 <?php
 
 defined('_VALID_MOS') or die();
-global $task,$my, $mosConfig_mailfrom;
+global $task, $mosConfig_mailfrom;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 $iso = explode('=',_ISO); echo '<?xml version="1.0" encoding="'.$iso[1].'"?'.'>'."\n";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

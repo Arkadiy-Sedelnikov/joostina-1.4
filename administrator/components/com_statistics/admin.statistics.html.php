@@ -200,7 +200,7 @@ class HTML_statistics {
 	}
 
 	function showSearches(&$rows,$pageNav,$option,$task,$showResults) {
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 		mosCommonHTML::loadOverlib();
 		?>
 <form action="index2.php" method="post" name="adminForm">

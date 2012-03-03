@@ -50,7 +50,7 @@ defined('_VALID_MOS') or die();
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-            global $mainframe;
+            $mainframe = mosMainFrame::getInstance();;
             if($mainframe->isAdmin()!=1) return;
             ?>
             <script type="text/javascript">

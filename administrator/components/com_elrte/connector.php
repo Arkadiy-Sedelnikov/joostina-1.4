@@ -5,7 +5,8 @@ error_reporting(0); // Set E_ALL for debuging
 if (function_exists('date_default_timezone_set')) {
 	date_default_timezone_set('Europe/Moscow');
 }
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 include_once(JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_elrte' . DS . 'config_elfinder.php');
 
 //подготавливаем массив разрешенных для загрузки типов файлов

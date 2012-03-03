@@ -67,8 +67,8 @@ class defaultComment
     
     public function displayAddReview($directory, $content, $conf)
     {
-        global $my;
-
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $name = '';
         if($my->id != 0)
             $name = $my->name;
@@ -108,8 +108,9 @@ class defaultComment
     
     public function save_review($directory) 
     {
-	global $my;
-	$database = database::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 	//get configuration
 	$conf = getConfig($directory);
 

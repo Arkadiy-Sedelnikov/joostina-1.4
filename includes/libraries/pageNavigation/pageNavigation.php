@@ -100,7 +100,7 @@ class mosPageNav {
 	 */
 	function writePagesLinks($link) {
 
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 		$txt = '<div class="pagenavigation"><ul>';
 
 		$displayed_pages = 10;

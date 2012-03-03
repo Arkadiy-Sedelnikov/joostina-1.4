@@ -20,7 +20,7 @@ class mosTemplatePosition extends mosDBTable {
 	var $description = null;
 
 	function mosTemplatePosition() {
-		global $database;
+		$database = database::getInstance();
 		$this->mosDBTable('#__template_positions','id',$database);
 	}
 }

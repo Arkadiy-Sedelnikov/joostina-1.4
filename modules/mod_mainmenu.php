@@ -18,7 +18,10 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	 * Сервисная функция записи ссылки на меню
 	 */
 	function mosGetMenuLink($mitem, $level=0, &$params, $open=null) {
-		global $Itemid, $mainframe;
+		global $Itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 
 		$txt = '';
 
@@ -153,8 +156,11 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	 * Вертикальный отступ меню
 	 */
 	function mosShowVIMenu(&$params) {
-		global $database, $my, $cur_template, $Itemid;
+		global $cur_template, $Itemid;
 		global $mosConfig_shownoauth;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 
 		$and = '';
 		if (!$mosConfig_shownoauth) {
@@ -276,7 +282,8 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	 * Прорисовка горизонтального 'плоского' стиля меню (выбираемого очень просто)
 	 */
 	function mosShowHFMenu(&$params, $style=0) {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$all_menu = mosMenu::get_all();
 

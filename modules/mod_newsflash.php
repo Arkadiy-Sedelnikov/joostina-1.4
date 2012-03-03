@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
 
-global $my, $mosConfig_link_titles;
+global $mosConfig_link_titles;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 //Подключаем вспомогательный класс
 $module->get_helper($mainframe);

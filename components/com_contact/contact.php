@@ -44,7 +44,9 @@ switch($task) {
 
 
 function listContacts($option,$catid) {
-	global $my,$Itemid;
+	global $Itemid;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$mainframe = mosMainFrame::getInstance();
 	$config = &$mainframe->config;
@@ -200,7 +202,8 @@ function listContacts($option,$catid) {
 
 
 function contactpage($contact_id) {
-	global $my,$Itemid;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$mainframe = mosMainFrame::getInstance();
 	$config = &$mainframe->config;

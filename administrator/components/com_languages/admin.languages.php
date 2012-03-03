@@ -63,7 +63,7 @@ switch($task) {
  */
 function viewLanguages($option) {
 	global $languages;
-	global $mainframe;
+	$mainframe = mosMainFrame::getInstance();;
 	global $mosConfig_lang,$mosConfig_list_limit;
 
 	$limit = $mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit);

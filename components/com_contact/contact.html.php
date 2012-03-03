@@ -184,8 +184,8 @@ class HTML_contact {
 
 
 	public static function viewcontact(&$contact,&$params,$count,&$list,&$menu_params) {
-		global $mainframe,$Itemid;
-
+		global $Itemid;
+        $mainframe = mosMainFrame::getInstance();
 		$template = JTEMPLATE;
 		$sitename = $mainframe->getCfg('sitename');
 		$hide_js = intval(mosGetParam($_REQUEST,'hide_js',0));

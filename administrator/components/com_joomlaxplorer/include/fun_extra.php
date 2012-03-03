@@ -514,7 +514,7 @@ function jx_isXHR() {
 		'xmlhttprequest';
 }
 function jx_exit() {
-	global $mainframe;
+	$mainframe = mosMainFrame::getInstance();;
 	if(is_callable(array($mainframe, 'close'))) {
 		$mainframe->close();
 	} else {

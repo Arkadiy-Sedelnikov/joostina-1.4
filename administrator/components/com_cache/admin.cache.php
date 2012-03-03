@@ -57,7 +57,7 @@ class CacheController {
 	 * @since	1.3
 	 */
 	function showCache() {
-		global $mainframe, $option;
+		$mainframe = mosMainFrame::getInstance();, $option;
 
 		$client = intval(mosGetParam($_REQUEST, 'client', 0));
 

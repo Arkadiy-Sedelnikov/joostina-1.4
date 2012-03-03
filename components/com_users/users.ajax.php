@@ -31,7 +31,8 @@ switch($task) {
 }
 
 function upload_avatar() {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$database = database::getInstance();
 
@@ -75,7 +76,8 @@ function upload_avatar() {
 
 
 function x_delavatar() {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$database = database::getInstance();
 

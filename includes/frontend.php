@@ -22,9 +22,9 @@ function mosMainBody() {
  * not used?
  */
 function mosLoadComponent($name) {
-	global $my,$task,$Itemid,$id,$option,$gid;
-
-	$mainframe = mosMainFrame::getInstance();
+	global $task,$Itemid,$id,$option,$gid;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = $mainframe->getDBO();
 	include (JPATH_BASE.DS."components/com_$name/$name.php");
 }

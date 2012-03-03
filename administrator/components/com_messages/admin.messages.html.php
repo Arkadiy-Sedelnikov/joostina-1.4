@@ -166,7 +166,8 @@ class HTML_messages {
 	}
 
 	public static function newMessage($option,$recipientslist,$subject) {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		?>
 <script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {

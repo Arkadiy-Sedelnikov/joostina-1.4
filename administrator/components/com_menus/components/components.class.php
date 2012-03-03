@@ -20,7 +20,9 @@ class components_menu {
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
 	function edit($uid,$menutype,$option,$menu) {
-		global $database,$my,$mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
 
 		$row = new mosComponent($database);
 		// load the row from the db table

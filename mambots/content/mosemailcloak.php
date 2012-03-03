@@ -16,7 +16,8 @@ $_MAMBOTS->registerFunction('onPrepareContent', 'botMosEmailCloak');
  * Сокрытие от спамботов адресов электронной почты в содержимом, используя javascript
  */
 function botMosEmailCloak($published, &$row) {
-	global $database, $_MAMBOTS;
+	global $_MAMBOTS;
+    $database = database::getInstance();
 
 	// check whether mambot has been unpublished
 	if (!$published) {

@@ -72,7 +72,9 @@ switch($task) {
  * @param string The current GET/POST option
  */
 function showNewsFeeds($option) {
-	global $database,$mainframe,$mosConfig_list_limit;
+	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$catid = intval($mainframe->getUserStateFromRequest("catid{$option}",'catid',0));
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
@@ -111,7 +113,9 @@ function showNewsFeeds($option) {
  * @param string The current GET/POST option
  */
 function editNewsFeed($id,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$catid = intval(mosGetParam($_REQUEST,'catid',0));
 
@@ -149,7 +153,9 @@ function editNewsFeed($id,$option) {
  * @param string The current GET/POST option
  */
 function saveNewsFeed($option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 
 	$row = new mosNewsFeed($database);
@@ -182,7 +188,9 @@ function saveNewsFeed($option) {
  * @param string The current GET/POST option
  */
 function publishNewsFeeds($cid,$publish,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 
 	if(count($cid) < 1) {
@@ -215,7 +223,7 @@ function publishNewsFeeds($cid,$publish,$option) {
  * @param string The current GET/POST option
  */
 function removeNewsFeeds(&$cid,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	if(!is_array($cid) || count($cid) < 1) {
@@ -240,7 +248,7 @@ function removeNewsFeeds(&$cid,$option) {
  * @param string The current GET/POST option
  */
 function cancelNewsFeed($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$row = new mosNewsFeed($database);
@@ -256,7 +264,7 @@ function cancelNewsFeed($option) {
  * @param string The current GET/POST option
  */
 function orderNewsFeed($id,$inc,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 
 	$limit = intval(mosGetParam($_REQUEST,'limit',0));

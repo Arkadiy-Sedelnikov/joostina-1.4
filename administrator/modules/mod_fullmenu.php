@@ -24,8 +24,10 @@ if(!defined('_JOS_FULLMENU_MODULE')) {
 		 * @param string The current user type
 		 */
 		public static function show($usertype = '') {
-			global $acl,$my;
-			$database = database::getInstance();
+			global $acl;
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
+            $database = database::getInstance();
 			$config = Jconfig::getInstance();
 
 			echo '<div id="myMenuID"></div>'; // в этот слой выводится содержимое меню
@@ -386,7 +388,8 @@ cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
 }
 $hide = intval(mosGetParam($_REQUEST,'hidemainmenu',0));
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 if($hide) {
 	mosFullAdminMenu::showDisabled($my->usertype);

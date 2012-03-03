@@ -21,11 +21,12 @@ class HTML_templates {
 	 * @param string The option
 	 */
 	function showTemplates(&$rows,&$pageNav,$option,$client) {
-		global $my,$mosConfig_one_template;
-		$mainframe = mosMainFrame::getInstance();
+		global $mosConfig_one_template;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
-		if(isset($row->authorUrl) && $row->authorUrl != '') {
-			$row->authorUrl = str_replace('http://','',$row->authorUrl);
+		if(isset($rows->authorUrl) && $rows->authorUrl != '') {
+			$rows->authorUrl = str_replace('http://','',$rows->authorUrl);
 		}
 		mosCommonHTML::loadOverlib();
 		?>
@@ -170,7 +171,7 @@ class HTML_templates {
 					SRAX.get('tb-apply').className='tb-apply';
 				}});
 		}
-		-->
+
 </script>
 
 <form action="index2.php" method="post" name="adminForm" id="adminForm" <?php if($mosConfig_codepress) echo 'onsubmit="document.adminForm.filecontent.value=codearea.getCode();document.adminForm.submit();"';?>>

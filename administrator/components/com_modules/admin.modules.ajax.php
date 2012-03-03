@@ -10,7 +10,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $acl = &gacl::getInstance();
 
@@ -158,8 +159,8 @@ function x_access($id) {
 }
 
 function x_publish($id = null) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
@@ -209,8 +210,9 @@ function x_get_position($id) {
 	return mosHTML::selectList($pos,'position','class="inputbox" size="1" onchange="ch_sav_pos('.$id.',this.value)"','value','text',$active);
 }
 function x_save_position($id) {
-	global $my;
-	$database = database::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$new_pos = strval(mosGetParam($_GET,'new_pos','left'));
 	if($new_pos=='0') return 1;

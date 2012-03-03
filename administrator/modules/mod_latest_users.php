@@ -9,7 +9,8 @@
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 

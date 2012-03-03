@@ -31,7 +31,7 @@ class TOOLBAR_poll {
 	 * Draws the menu for Editing an existing category
 	 */
 	public static function _EDIT($pollid,$cur_template) {
-		global $database;
+		$database = database::getInstance();
 		global $id;
 
 		$sql = "SELECT template FROM #__templates_menu WHERE client_id = 0 AND menuid = 0";

@@ -204,7 +204,8 @@ if (!defined( '_MOS_MLJOOSTINAMENU_MODULE' )) {
 		return $txt;
 	}
 	function mosJoostinaLinkReplacer ($count_link,$link,$style,$params,$full_count) {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$moduleclass_sfx		= $params->get('moduleclass_sfx') ;
 		$ml_separated_element	= $params->get('ml_separated_element') ;
 		// joostina patch
@@ -360,8 +361,9 @@ if (!defined( '_MOS_MLJOOSTINAMENU_MODULE' )) {
 
 	// подготовка ссылок ,замена стилей в ссылках
 	function mosJoostinaPrepareLink (&$params, $style=0) {
-		global $my,$mosConfig_shownoauth,$mosConfig_disable_access_control;
-
+		global $mosConfig_shownoauth,$mosConfig_disable_access_control;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$rows = mosJoostinaGetmenu($params,$my->gid);
 
@@ -450,8 +452,10 @@ if (!defined( '_MOS_MLJOOSTINAMENU_MODULE' )) {
 	}
 
 	function mosShowVIMenuMLZ( &$params ) {
-		global $my, $cur_template, $Itemid,$mosConfig_disable_access_control;
+		global $cur_template, $Itemid,$mosConfig_disable_access_control;
 		global $mosConfig_shownoauth;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$database = database::getInstance();
 

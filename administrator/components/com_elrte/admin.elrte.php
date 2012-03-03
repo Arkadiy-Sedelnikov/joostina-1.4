@@ -56,7 +56,8 @@ function elfinder()
 
 function config_elrte()
 {
-    global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     if ($my->gid < 25)
             mosRedirect('index2.php?option=com_elrte', _ELRTE_NO_SUPERADMIN_REDIRECT);
     $database = database::getInstance();
@@ -106,7 +107,8 @@ function config_elrte()
 
 function config_elfinder()
 {
-    global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
     if ($my->gid < 25)
             mosRedirect('index2.php?option=com_elrte', _ELRTE_NO_SUPERADMIN_REDIRECT);
     $database = database::getInstance();

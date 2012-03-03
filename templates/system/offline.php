@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $database;
+$database = database::getInstance();
 global $mosConfig_lang;
 
 include_once (JPATH_BASE.DS.'language'.DS.$mosConfig_lang.DS.'system.php');

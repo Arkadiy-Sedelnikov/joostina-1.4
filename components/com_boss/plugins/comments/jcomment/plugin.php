@@ -16,7 +16,8 @@ class jcomment
     
     public  function displayAddReview($directory, $content, $conf)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         if ($conf->allow_comments == 0) {
             return;
         }

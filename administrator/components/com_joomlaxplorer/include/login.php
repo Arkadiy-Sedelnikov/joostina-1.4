@@ -20,7 +20,8 @@ elseif(isset($HTTP_SESSION_VARS))
 else
 	logout();
 function login() {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	if(isset($GLOBALS['__SESSION']["s_user"])) {
 		if(!activate_user($GLOBALS['__SESSION']["s_user"], $GLOBALS['__SESSION']["s_pass"])) {
 			logout();

@@ -74,7 +74,9 @@ switch($task) {
  * @param database A database connector object
  */
 function showWeblinks($option) {
-	global $database,$mainframe,$mosConfig_list_limit;
+	global $$mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$catid = intval($mainframe->getUserStateFromRequest("catid{$option}",'catid',0));
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
@@ -128,7 +130,9 @@ function showWeblinks($option) {
  * @param integer The unique id of the record to edit (0 if new)
  */
 function editWeblink($option,$id) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$lists = array();
 
@@ -172,7 +176,9 @@ function editWeblink($option,$id) {
  * @param database A database connector object
  */
 function saveWeblink($option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosWeblink($database);
 	if(!$row->bind($_POST)) {
@@ -210,7 +216,7 @@ function saveWeblink($option) {
  * @param string The current url option
  */
 function removeWeblinks($cid,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	if(!is_array($cid) || count($cid) < 1) {
 		echo "<script> alert('"._CHOOSE_OBJ_DELETE."'); window.history.go(-1);</script>\n";
@@ -237,7 +243,9 @@ function removeWeblinks($cid,$option) {
  * @param string The current url option
  */
 function publishWeblinks($cid = null,$publish = 1,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(!is_array($cid) || count($cid) < 1) {
 		$action = $publish?'publish':'unpublish';
@@ -268,7 +276,7 @@ function publishWeblinks($cid = null,$publish = 1,$option) {
  * @param integer The increment to reorder by
  */
 function orderWeblinks($uid,$inc,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosWeblink($database);
 	$row->load((int)$uid);
@@ -284,7 +292,7 @@ function orderWeblinks($uid,$inc,$option) {
  * @param string The current url option
  */
 function cancelWeblink($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosWeblink($database);
 	$row->bind($_POST);

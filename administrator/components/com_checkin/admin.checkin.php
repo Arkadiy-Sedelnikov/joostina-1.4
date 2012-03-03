@@ -43,7 +43,8 @@ switch($task) {
 }
 
 function checkall() {
-	global $database,$mosConfig_dbprefix;
+	global $mosConfig_dbprefix;
+    $database = database::getInstance();
 	$nullDate = $database->getNullDate();
 	$mainframe = mosMainFrame::getInstance();
 	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
@@ -131,7 +132,10 @@ function checkall() {
  * @param string The current GET/POST option
  */
 function showMyCheckin($option) {
-	global $mainframe,$mosConfig_db,$database;
+	global $mosConfig_db;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$lt = mysql_list_tables($mosConfig_db);
 	$k = 0;
@@ -240,7 +244,7 @@ function showMyCheckin($option) {
 }
 
 function checkin($pkey,$checkid,$component,$editor) {
-	global $database;
+	$database = database::getInstance();
 
 	$mainframe = mosMainFrame::getInstance();
 	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';

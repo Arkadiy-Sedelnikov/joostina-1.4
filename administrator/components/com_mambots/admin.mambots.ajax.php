@@ -9,7 +9,9 @@
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
+$database = database::getInstance();
 
 $acl = &gacl::getInstance();
 
@@ -40,7 +42,7 @@ switch($task) {
  * Saves the module after an edit form submit
  */
 function x_apply() {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$params = mosGetParam($_POST,'params','');
 	$client = strval(mosGetParam($_REQUEST,'client',''));
@@ -77,7 +79,7 @@ function x_apply() {
 
 
 function x_access($id) {
-	global $database;
+	$database = database::getInstance();
 	$access = mosGetParam($_GET,'chaccess','accessregistered');
 	$option = strval(mosGetParam($_REQUEST,'option',''));
 	switch($access) {
@@ -118,7 +120,9 @@ function x_access($id) {
 }
 
 function x_publish($id = null) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	if(!$id) return 'error-id';
 

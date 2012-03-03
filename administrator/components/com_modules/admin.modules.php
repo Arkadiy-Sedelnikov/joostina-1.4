@@ -87,7 +87,10 @@ switch($task) {
  * Compiles a list of installed or defined modules
  */
 function viewModules($option,$client) {
-	global $database,$my,$mainframe,$mosConfig_list_limit;
+	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$filter_position = $mainframe->getUserStateFromRequest("filter_position{$option}{$client}",'filter_position',0);
 	$filter_type = $mainframe->getUserStateFromRequest("filter_type{$option}{$client}",	'filter_type',0);
@@ -177,7 +180,9 @@ function viewModules($option,$client) {
  * @param integer The unique id of the record to edit
  */
 function copyModule($option,$uid,$client) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosModule($database);
 	// load the row from the db table
@@ -307,7 +312,9 @@ function saveModule($option,$client,$task) {
  * @param integer The unique id of the record to edit
  */
 function editModule($option,$uid,$client) {
-	global $database,$my,$mainframe;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$lists = array();
 	$row = new mosModule($database);
@@ -443,7 +450,9 @@ function editModule($option,$uid,$client) {
  * @param array An array of unique category id numbers
  */
 function removeModule(&$cid,$option,$client) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid) < 1) {
 		echo "<script> alert('Select a module to delete'); window.history.go(-1);</script>\n";
@@ -516,7 +525,9 @@ function removeModule(&$cid,$option,$client) {
  * @param integer 0 if unpublishing, 1 if publishing
  */
 function publishModule($cid = null,$publish = 1,$option,$client) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid) < 1) {
 		$action = $publish?'publish':'unpublish';
@@ -548,7 +559,7 @@ function publishModule($cid = null,$publish = 1,$option,$client) {
  * Cancels an edit operation
  */
 function cancelModule($option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosModule($database);
 	// ignore array elements
@@ -564,7 +575,7 @@ function cancelModule($option,$client) {
  * @param integer The increment to reorder by
  */
 function orderModule($uid,$inc,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$client = strval(mosGetParam($_POST,'client',''));
 
@@ -593,7 +604,7 @@ function orderModule($uid,$inc,$option) {
  * @param integer The increment to reorder by
  */
 function accessMenu($uid,$access,$option,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	switch($access) {
 		case 'accesspublic':
@@ -626,7 +637,7 @@ function accessMenu($uid,$access,$option,$client) {
 }
 
 function saveOrder(&$cid,$client) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$total = count($cid);
 	$order = josGetArrayInts('order');

@@ -1075,7 +1075,8 @@ class HTML_bannerCategory {
 	public static function showCategories(&$rows, $myid, &$pageNav, $option, $stateslist) {
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		?>
 <form action="index2.php" method="POST" name="adminForm">
 	<table border="0" class="adminheading">

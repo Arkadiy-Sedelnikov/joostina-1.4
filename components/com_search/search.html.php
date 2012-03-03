@@ -22,7 +22,7 @@ class search_html {
 	}
 
 	public static function searchbox($searchword, &$lists, $params) {
-		global $Itemid, $mainframe;
+		global $Itemid;
 		?>
 		<br />
 

@@ -27,7 +27,7 @@ function savefile($file_name) {
 	}
 }
 function edit_file($dir, $item) {
-	global $mainframe;
+	$mainframe = mosMainFrame::getInstance();;
 	if(($GLOBALS["permissions"] & 01) != 01)
 		show_error($GLOBALS["error_msg"]["accessfunc"]);
 	$fname = get_abs_item($dir, $item);

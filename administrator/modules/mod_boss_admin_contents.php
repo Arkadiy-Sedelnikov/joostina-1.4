@@ -12,8 +12,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my;
 $mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 $mainframe->addJS( JPATH_SITE . '/' . JADMIN_BASE . '/components/com_boss/js/function.js');
 
 //Подключаем языковой файл 

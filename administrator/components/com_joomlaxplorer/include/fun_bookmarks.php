@@ -30,7 +30,8 @@ if(!function_exists('file_put_contents')) {
 	}
 }
 function read_bookmarks() {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.
 		$my->id.'.php';
 	if(file_exists($bookmarkfile)) {
@@ -46,7 +47,8 @@ function read_bookmarks() {
 	}
 }
 function modify_bookmark($task, $dir) {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$alias = substr(mosGetParam($_REQUEST, 'alias'), 0, 150);
 	$bookmarks = read_bookmarks();
 	$bookmarkfile = _QUIXPLORER_PATH.'/config/bookmarks_'.$GLOBALS['file_mode'].'_'.

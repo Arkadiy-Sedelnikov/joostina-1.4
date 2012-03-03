@@ -46,10 +46,9 @@ switch($task) {
 }
 
 function listWeblinks($catid) {
-	global $my;
-
 	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$config = Jconfig::getInstance();
 
 	$rows = array();
@@ -167,8 +166,8 @@ function listWeblinks($catid) {
 
 
 function showItem($id) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 	$config = Jconfig::getInstance();
 
@@ -235,8 +234,8 @@ function showItem($id) {
 }
 
 function editWebLink($id,$option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if($my->gid < 1) {
@@ -280,8 +279,8 @@ function editWebLink($id,$option) {
 }
 
 function cancelWebLink() {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if($my->gid < 1) {
@@ -302,8 +301,8 @@ function cancelWebLink() {
  * @param database A database connector object
  */
 function saveWeblink() {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	// simple spoof check security
 	josSpoofCheck();
 

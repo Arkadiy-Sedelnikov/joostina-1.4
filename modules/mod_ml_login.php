@@ -11,7 +11,8 @@
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 if ( $mainframe->getCfg('frontend_login') != NULL && ($mainframe->getCfg('frontend_login') === 0 || $mainframe->getCfg('frontend_login') === '0')) {
 	return;

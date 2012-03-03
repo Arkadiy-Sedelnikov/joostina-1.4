@@ -137,7 +137,7 @@ function ExecSQL($task = 'execsql') {
 // Make grid table from result query
 ////////////////////////////////////////////////////////////////
 function is_table($table) {
-	global $database;
+	$database = database::getInstance();
 	$tables = $database->getTableList();
 	$table = str_replace("#__",$database->_table_prefix,$table);
 	return (strpos(implode(";",$tables),$table) > 0);
@@ -145,7 +145,7 @@ function is_table($table) {
 
 
 function record_html($query) {
-	global $database;
+	$database = database::getInstance();
 
 	$mainframe = mosMainFrame::getInstance();
 	$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images';
@@ -222,7 +222,7 @@ function prepare( $text ) {
 // Get unique field of table
 ////////////////////////////////////////////////////////////////
 function GetUniqFld($table) {
-	global $database;
+	$database = database::getInstance();
 
 	$database->setQuery('SHOW KEYS FROM '.$table);
 	$indexes = $database->loadAssocList();
@@ -252,7 +252,7 @@ function TableFromSQL($sql) {
 // Display page for editing record of grid
 ////////////////////////////////////////////////////////////////
 function EditRecord($task,$table,$id) {
-	global $database;
+	$database = database::getInstance();
 	$sql = base64_decode(mosGetParam($_GET,'prm2',null));
 	$key = mosGetParam($_GET,'key',mosGetParam($_POST,'key',null));
 	if($task == 'edit') {
@@ -320,7 +320,7 @@ function EditRecord($task,$table,$id) {
 // Save record
 ////////////////////////////////////////////////////////////////
 function SaveRecord() {
-	global $database;
+	$database = database::getInstance();
 	$table = base64_decode(mosGetParam($_POST,'easysql_table',null));
 	$key = mosGetParam($_POST,'key',null);
 	$sql = base64_decode(mosGetParam($_POST,'easysql_query',null));
@@ -351,7 +351,7 @@ function SaveRecord() {
 // Delete record
 ////////////////////////////////////////////////////////////////
 function DeleteRecord($table,$id) {
-	global $database;
+	$database = database::getInstance();
 	$task = mosGetParam($_GET,'task',null);
 	$sql = base64_decode(mosGetParam($_GET,'prm2',null));
 	$key = mosGetParam($_GET,'key',null);

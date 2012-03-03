@@ -290,10 +290,10 @@ function cPanel($option) {
 }
 
 function viewBanners($option) {
-	global $my;
 
 	$database = database::getInstance();
 	$mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}bannerslimitstart", 'limitstart', 0));
@@ -368,10 +368,9 @@ function viewBanners($option) {
 }
 
 function editBanner($bannerid, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance();
 
 	$banner = new mosArtBanner($database);
 
@@ -628,8 +627,8 @@ function cancelEditBanner($option) {
 }
 
 function publishBanner($cid, $publish = 1, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!is_array($cid) || count($cid) == 0) {
@@ -663,8 +662,8 @@ function publishBanner($cid, $publish = 1, $option) {
 }
 
 function removeBanner($cid, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!is_array($cid) || count($cid) == 0) {
@@ -701,10 +700,9 @@ function removeBanner($cid, $option) {
 // ---------- BANNER CLIENTS ----------
 
 function viewBannerClients($option) {
-	global $my;
-
 	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}clientslimitstart", 'limitstart', 0));
@@ -784,8 +782,8 @@ function viewBannerClients($option) {
 }
 
 function editBannerClient($clientid, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$client = new mosArtBannerClient($database);
@@ -834,8 +832,8 @@ function saveBannerClient($option) {
 }
 
 function publishClient($cid = null, $publish = 1) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!is_array($cid) || count($cid) == 0) {
@@ -871,8 +869,8 @@ function cancelEditClient($option) {
 }
 
 function removeBannerClients($cid, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!is_array($cid) || count($cid) == 0) {
@@ -928,10 +926,9 @@ function removeBannerClients($cid, $option) {
  * @param string The name of the current user
  */
 function viewCategories($option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}categorieslimitstart", 'limitstart', 0));
@@ -980,8 +977,8 @@ function viewCategories($option) {
  * @param string The name of the current user
  */
 function editCategory($cid, $option) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$category = new mosArtCategory($database);
@@ -1086,8 +1083,8 @@ function removeCategories($cid, $option) {
  * @param integer 0 if unpublishing, 1 if publishing
  */
 function publishCategories($cid = null, $publish = 1) {
-	global $my;
-
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!is_array($cid) || count($cid) == 0) {

@@ -10,8 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
+;
 /* всех не авторизованных игнорируем*/
 if(!$my->id) exit;
 
@@ -33,7 +34,7 @@ switch($task) {
 * $id - идентификатор объекта
 */
 function x_publish($id = null) {
-	global $database;
+	$database = database::getInstance();
 	// id содержимого для обработки не получен - выдаём ошибку
 	if(!$id) return _UNKNOWN_ID;
 

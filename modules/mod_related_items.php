@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
 
-global $mosConfig_offset, $option, $task,$my;
+global $mosConfig_offset, $option, $task;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $id		    = intval( mosGetParam( $_REQUEST, 'contentid', null ) );
 $directory  = intval( mosGetParam( $_REQUEST, 'directory', null ) );

@@ -83,7 +83,7 @@ defined('_VALID_MOS') or die();
 
         //отображение поля в админке в редактировании контента
         function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-            global $mainframe;
+            $mainframe = mosMainFrame::getInstance();;
             $fieldname = $field->name;
             $return = "";
             if($mode == "search"){
@@ -93,7 +93,7 @@ defined('_VALID_MOS') or die();
             }
             else{
                 $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-                global $mainframe,$_MAMBOTS;
+                $mainframe = mosMainFrame::getInstance();
                 $mainframe->set('allow_wysiwyg', 1);
 		        $mainframe->set('loadEditor',true);
                 initEditor();

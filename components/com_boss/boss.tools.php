@@ -23,7 +23,7 @@ function getIp() {
 }
 
 function getBossItemid($directory, $catid) {
-        global $mainframe;
+        $mainframe = mosMainFrame::getInstance();;
         $contentid = intval(mosGetParam($_REQUEST, 'contentid', 0));
         $itemid = $mainframe->getBossItemid($directory, $catid, $contentid);
         return $itemid;

@@ -228,7 +228,7 @@ class CConfiguration {
 	 * @param mixed The value of the variable to write / update
 	 */
 	function WriteDebugVar($varName,&$value,$boolLongText = false) {
-		global $database;
+		$database = database::getInstance();
 
 		$varName	=$database->getEscaped($varName);
 		$value		=$database->getEscaped($value);
@@ -252,7 +252,7 @@ class CConfiguration {
 	 * Reads a debug variable out of #__jp_packvars
 	 */
 	function ReadDebugVar($key,$boolLongText = false) {
-		global $database;
+		$database = database::getInstance();
 
 		$key =$database->getEscaped($key);
 
@@ -270,7 +270,7 @@ class CConfiguration {
 	 * Deletes a debug variable from #__jp_packvars
 	 */
 	function DeleteDebugVar($key) {
-		global $database;
+		$database = database::getInstance();
 
 		$key =$database->getEscaped($key);
 

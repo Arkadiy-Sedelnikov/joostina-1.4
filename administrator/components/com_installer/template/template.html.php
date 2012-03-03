@@ -21,8 +21,8 @@ class HTML_templates {
 	 * @param string The option
 	 */
 	public static function showTemplates(&$rows,&$pageNav,$option,$client) {
-		global $my;
-		$mainframe = mosMainFrame::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 		if(isset($row->authorUrl) && $row->authorUrl != '') {
 			$row->authorUrl = str_replace('http://','',$row->authorUrl);

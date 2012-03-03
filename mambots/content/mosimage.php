@@ -15,7 +15,10 @@ $_MAMBOTS->registerFunction('onPrepareContent','botMosImage');
 /**
  */
 function botMosImage($published,&$row,&$params) {
-	global $database,$_MAMBOTS;
+	global $_MAMBOTS;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	// simple performance check to determine whether bot should process further
 	if(strpos($row->text,'mosimage') === false) {
@@ -81,7 +84,7 @@ function botMosImage($published,&$row,&$params) {
 }
 
 function processImages(&$row,&$params,&$introCount) {
-	global $mainframe;
+	$mainframe = mosMainFrame::getInstance();;
 
 	$images = array();
 	$div_style ='';

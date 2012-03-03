@@ -10,8 +10,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $my;
-
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 $database = database::getInstance();
 
 function quickiButton($row,$newWindow) {

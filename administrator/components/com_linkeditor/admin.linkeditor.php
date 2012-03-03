@@ -225,8 +225,8 @@ function saveLink() {
 }
 
 function viewLinks() {
-	global $mainframe,$mosConfig_list_limit,$option,$section,$menutype;
-
+	global $mosConfig_list_limit,$option,$section,$menutype;
+    $mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));

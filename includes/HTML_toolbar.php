@@ -234,7 +234,7 @@ class mosToolBar {
 			 * @param string The name of the popup file (excluding the file extension)
 			 */
 			function preview($popup = '') {
-				global $database;
+				$database = database::getInstance();
 				$sql = "SELECT template FROM #__templates_menu WHERE client_id = 0 AND menuid = 0";
 				$database->setQuery($sql);
 				$cur_template = $database->loadResult();

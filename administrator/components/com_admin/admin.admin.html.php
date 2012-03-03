@@ -20,7 +20,7 @@ class HTML_admin_misc {
 	 * Control panel
 	 */
 	public static function controlPanel() {
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 		$path = JPATH_BASE_ADMIN.'/templates/'.JTEMPLATE.'/html/cpanel.php';
 		if(file_exists($path)) {
 			require $path;
@@ -364,7 +364,7 @@ class HTML_admin_misc {
 	}
 
 	public static function ListComponents() {
-		global $database;
+		$database = database::getInstance();
 
 		$query = "SELECT params FROM #__modules WHERE module = 'mod_components'";
 		$database->setQuery($query);

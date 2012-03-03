@@ -10,8 +10,6 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $mainframe,$task;
-
 class HTML_mmxtd {
 // отображения подкаталога текущего каталога
 	function show_dir($path,$dir,$listdir) {

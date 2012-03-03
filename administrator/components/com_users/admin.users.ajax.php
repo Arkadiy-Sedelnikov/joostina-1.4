@@ -43,7 +43,10 @@ switch($task) {
 }
 
 function upload_avatar() {
-	global $database, $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
+
 	$id = intval(mosGetParam($_REQUEST,'id',0));
 
 	mosMainFrame::getInstance()->addLib('images');
@@ -88,7 +91,7 @@ function upload_avatar() {
 
 
 function x_delavatar() {
-	global $database;
+	$database = database::getInstance();
 	$file_name = mosGetParam($_REQUEST,'file_name','');
 
 	$user = new mosUser($database);
@@ -100,7 +103,9 @@ function x_delavatar() {
 
 // блокировка пользователя
 function x_user_block($id) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	if($my->id==$id) return 'info.png';
 

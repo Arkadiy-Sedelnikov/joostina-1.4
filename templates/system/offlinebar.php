@@ -13,7 +13,8 @@ defined('_VALID_MOS') or die();
 require_once (JPATH_BASE.'/includes/joostina.php');
 include_once (JPATH_BASE.DS.'language'.DS.$mosConfig_lang.DS.'system.php');
 
-global $option,$database;
+global $option;
+$database = database::getInstance();
 
 // получение шаблона страницы
 $cur_template = @JTEMPLATE;

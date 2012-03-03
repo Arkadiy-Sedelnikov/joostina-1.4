@@ -126,7 +126,7 @@ class JCachePage extends JCache {
 	 * @since	1.3
 	 */
 	function _noChange() {
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 
 		// Send not modified header and exit gracefully
 		header( 'HTTP/1.x 304 Not Modified', true );

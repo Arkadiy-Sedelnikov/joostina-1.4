@@ -59,7 +59,9 @@ switch($task) {
 }
 
 function showPolls($option) {
-	global $database,$mainframe,$mosConfig_list_limit;
+	global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit",'limit',$mosConfig_list_limit));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}limitstart",'limitstart',0));
@@ -84,7 +86,9 @@ function showPolls($option) {
 }
 
 function editPoll($uid = 0,$option = 'com_poll') {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
 	$row = new mosPoll($database);
 	// load the row from the db table
@@ -126,7 +130,9 @@ function editPoll($uid = 0,$option = 'com_poll') {
 }
 
 function savePoll($option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	// save the poll parent information
 	$row = new mosPoll($database);
@@ -183,7 +189,7 @@ function savePoll($option) {
 }
 
 function removePoll($cid,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$msg = '';
 	for($i = 0,$n = count($cid); $i < $n; $i++) {
@@ -202,7 +208,9 @@ function removePoll($cid,$option) {
  * @param string The current url option
  */
 function publishPolls($cid = null,$publish = 1,$option) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	if(!is_array($cid) || count($cid) < 1) {
 		$action = $publish?'publish':'unpublish';
@@ -228,7 +236,7 @@ function publishPolls($cid = null,$publish = 1,$option) {
 }
 
 function cancelPoll($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosPoll($database);
 	$row->bind($_POST);

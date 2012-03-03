@@ -47,9 +47,12 @@ function messageForm($option) {
 }
 
 function sendMail() {
-	global $database,$my,$acl;
+	global $acl;
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom,$mosConfig_fromname;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	josSpoofCheck();
 	$mode = intval(mosGetParam($_POST,'mm_mode',0));
 	$subject = strval(mosGetParam($_POST,'mm_subject',''));

@@ -8,7 +8,8 @@
  */
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 
 $module->helper->prepare_login_form($params);

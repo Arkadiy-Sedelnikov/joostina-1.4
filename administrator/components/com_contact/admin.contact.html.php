@@ -17,8 +17,8 @@ defined('_VALID_MOS') or die();
 class HTML_contact {
 
 	function showContacts(&$rows,&$pageNav,$search,$option,&$lists) {
-		global $my;
-		$mainframe = mosMainFrame::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 
 		mosCommonHTML::loadOverlib();

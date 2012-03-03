@@ -41,7 +41,7 @@ class mosInstallerTemplate extends mosInstaller {
 	 * @param boolean True if installing from directory
 	 */
 	function install($p_fromdir = null) {
-		global $database;
+		$database = database::getInstance();
 		$database = database::getInstance();
 
 		josSpoofCheck();
@@ -108,7 +108,7 @@ class mosInstallerTemplate extends mosInstaller {
 	 * @param int The client id
 	 */
 	function uninstall($id, $option, $client = 0) {
-		global $database;
+		$database = database::getInstance();
 		josSpoofCheck(null, null, 'request');
 		// Delete directories
 		$path = JPATH_BASE . ($client == 'admin' ? '/' . JADMIN_BASE : '') . '/templates/' . $id;
@@ -133,7 +133,8 @@ class mosInstallerTemplate extends mosInstaller {
 	 * @param int The client id
 	 */
 	function cleanAfterError() {
-		global $database, $client;
+		global $client;
+        $database = database::getInstance();
 		josSpoofCheck(null, null, 'request');
 		// Delete directories
 		$path = JPATH_BASE . ($client == 'admin' ? '/' . JADMIN_BASE : '') . '/templates/' . $this->elementName();

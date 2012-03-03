@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 class xmap_com_weblinks {
 	public static function getTree( $xmap, $parent ) {
-		global $my, $Itemid;
+		global $Itemid;
 		$list = array();
 
 		$database = database::getInstance();

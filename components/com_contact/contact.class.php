@@ -91,7 +91,7 @@ class mosContact extends mosDBTable {
 	 * @param database A database connector object
 	 */
 	function mosContact() {
-		global $database;
+		$database = database::getInstance();
 		$this->mosDBTable('#__contact_details','id',$database);
 	}
 

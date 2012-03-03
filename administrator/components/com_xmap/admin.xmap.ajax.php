@@ -21,7 +21,7 @@ $value = mosGetParam($_REQUEST ,'value','');
 
 $action = mosGetParam($_REQUEST ,'action','');
 
-global $database;
+$database = database::getInstance();
 
 global $mosConfig_lang,$xmapComponentURL,$xmapSiteURL,$xmapComponentPath,$xmapAdministratorURL,$xmapLang,$xmapAdministratorPath;
 

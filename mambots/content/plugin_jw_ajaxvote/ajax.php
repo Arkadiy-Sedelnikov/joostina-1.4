@@ -32,7 +32,7 @@ switch($_GET['task']) {
 }
 
 function recordVote() {
-	global $database;
+	$database = database::getInstance();
 
 	$user_rating 	= intval( $_GET['user_rating'] );
 	$cid 			= intval( $_GET['cid'] );
@@ -67,7 +67,7 @@ function recordVote() {
 }
 
 function getPercentage () {
-	global $database;
+	$database = database::getInstance();
 	$result = 0;
 
 	$id = intval( $_GET['cid'] );

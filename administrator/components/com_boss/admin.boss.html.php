@@ -71,7 +71,8 @@ class HTML_boss {
         $conf->allow_rights = (isset($conf->allow_rights)) ? $conf->allow_rights : 0;
         
         if(@$conf->allow_rights){
-            global $my;
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
 
             $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_admin'));
             $rights->bind_rights(@$conf->rights);
@@ -1511,7 +1512,7 @@ if ($act=="categories" && $task == 'edit') echo '<br clear="all"/>';
     }
 
     public static function displayFormFields($row, $fields, $field_values, $directory, $plugins) {
-        global $mainframe;
+        $mainframe = mosMainFrame::getInstance();;
         $isAdmin = $mainframe->isAdmin();
 
         if (isset($fields)) {

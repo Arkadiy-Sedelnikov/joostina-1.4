@@ -21,8 +21,8 @@ class HTML_modules {
 	 * @param array An array of category objects
 	 */
 	public static function showModules(&$rows,$myid,$client,&$pageNav,$option,&$lists,$search) {
-		global $my;
-		$mainframe = mosMainFrame::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 
 		mosCommonHTML::loadOverlib();

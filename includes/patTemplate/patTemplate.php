@@ -1200,7 +1200,7 @@ return $this->getParsedTemplate();
 }
 class patFactory {
 function &createTemplate($files = null) {
-global $mainframe;
+$mainframe = mosMainFrame::getInstance();;
 $tmpl = new patTemplate;
 
 if($GLOBALS['mosConfig_caching']) {

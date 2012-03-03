@@ -10,7 +10,9 @@
 // запрет прямого доступа
 defined( '_VALID_MOS' ) or die();
 
-global $mosConfig_offset,$my,$moduleclass_sfx;
+global $mosConfig_offset, $moduleclass_sfx;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $count		= intval( $params->get( 'count', 5 ) );
 $catid		= trim( $params->get( 'catid' ) );

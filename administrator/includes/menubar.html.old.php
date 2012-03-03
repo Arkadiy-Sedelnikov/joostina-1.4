@@ -503,7 +503,7 @@ if(!class_exists('mosMenuBar')) {
 				 * @param string The sub-drectory to upload the media to
 				 */
 				function media_manager($directory = '',$alt = _TASK_UPLOAD) {
-					global $mainframe;
+					$mainframe = mosMainFrame::getInstance();;
 					$cur_template = JTEMPLATE;
 					?>
 		<td>

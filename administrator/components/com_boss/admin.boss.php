@@ -44,6 +44,7 @@ if($directory == 0 && $act != 'manager' && $task !=  'new'){
 }
 
 boss_helpers::loadBossLang($directory);
+boss_helpers::addDirectoryScript($directory);
 
 $conf = getConfig($directory);
 

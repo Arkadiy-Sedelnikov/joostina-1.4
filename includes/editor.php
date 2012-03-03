@@ -34,7 +34,8 @@ if(!defined('_JOS_EDITOR_INCLUDED')) {
 	 * При вызове функции происходит загрузка мамботов группы редакторов и выводятся данные их настройки
 	 */
 	function initEditor() {
-		global $mainframe,$_MAMBOTS;
+		global $_MAMBOTS;
+        $mainframe = mosMainFrame::getInstance();
 		if($mainframe->get('loadEditor')) {
 			$results = $_MAMBOTS->trigger('onInitEditor');
 			foreach($results as $result) {
@@ -49,7 +50,8 @@ if(!defined('_JOS_EDITOR_INCLUDED')) {
 	 * Проверяется функция соответствующая триггеру onGetEditorContents
 	 */
 	function getEditorContents($editorArea,$hiddenField) {
-		global $mainframe,$_MAMBOTS;
+		global $_MAMBOTS;
+        $mainframe = mosMainFrame::getInstance();
 		$mainframe->set('loadEditor',true);
 		$results = $_MAMBOTS->trigger('onGetEditorContents',array($editorArea,$hiddenField));
 		foreach($results as $result) {
@@ -60,7 +62,8 @@ if(!defined('_JOS_EDITOR_INCLUDED')) {
 	}
 	// just present a textarea
 	function editorArea($name,$content,$hiddenField,$width,$height,$col,$row, $params=null) {
-		global $mainframe,$_MAMBOTS,$my;
+		global $_MAMBOTS;
+        $mainframe = mosMainFrame::getInstance();
 		// загрузка ботов раздела editor-xtd, константа _JOS_EDITORXTD_INCLUDED сигнализирует что мамботы загружены
 		if(!defined('_JOS_EDITORXTD_INCLUDED')) {
 			define('_JOS_EDITORXTD_INCLUDED',1);
@@ -75,7 +78,8 @@ if(!defined('_JOS_EDITOR_INCLUDED')) {
 		}
 	}
 	function editorBox($name,$content,$hiddenField,$width,$height,$col,$row) {
-		global $mainframe,$_MAMBOTS,$my;
+		global $_MAMBOTS;
+        $mainframe = mosMainFrame::getInstance();
 		// загрузка ботов раздела editor-xtd, константа _JOS_EDITORXTD_INCLUDED сигнализирует что мамботы загружены
 		if(!defined('_JOS_EDITORXTD_INCLUDED')) {
 			define('_JOS_EDITORXTD_INCLUDED',1);

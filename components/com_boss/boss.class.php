@@ -566,7 +566,8 @@ class jDirectoryContent extends mosDBTable {
      */
     public static function newContent($directory, $conf) {
 
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $database = database::getInstance();
         $children = jDirectoryCategory::getAllCategories($directory);
         $type_content = mosGetParam($_REQUEST, 'type_content', 0);
@@ -641,7 +642,7 @@ class jDirectoryContent extends mosDBTable {
      * @return
      */
     function save($directory, $fields, $conf, $isUpdateMode = 0, $itemid = 0) {
-        global $mainframe;
+        $mainframe = mosMainFrame::getInstance();;
         $database = database::getInstance();
         $category = mosGetParam($_REQUEST, 'category', array());
         $tags = mosGetParam($_REQUEST, 'tags', '');
@@ -1719,6 +1720,18 @@ class boss_helpers {
             return $str2;
         }
 
+    /** Функция подключения индивидуального скрипта каталога если он есть
+     * @static
+     * @param $directory
+     */
+    public static function addDirectoryScript($directory){
+        $mainframe = mosMainFrame::getInstance();
+        $script = '/images/boss/'.$directory.'/js/';
+        if($mainframe->isAdmin()){ $script .= 'admin.js'; }
+        else{ $script .= 'front.js'; }
+        (is_file(JPATH_BASE.$script)) ? $mainframe->addJS(JPATH_SITE.$script) : null;
+    }
+
     /**
 	 * Получение параметра из заголовков сервера или клиенского браузера
 	 *
@@ -2023,7 +2036,8 @@ class boss_helpers {
         
         //права пользователя
         if($conf->allow_rights){
-            global $my;
+            $mainframe = mosMainFrame::getInstance();
+            $my = $mainframe->getUser();
             $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
             $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('category'));
             if($mode=='read'){
@@ -2168,7 +2182,8 @@ class boss_helpers {
 
     public static function show_list($text, $description, $url, $task, $search, $text_search, $name_search, $order, $catid, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds=array(), $type_content = 0)
     {
-        global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
         $database = database::getInstance();
         mosMainFrame::addLib('pageNavigation');
         // get configuration

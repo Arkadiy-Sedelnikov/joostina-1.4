@@ -2641,7 +2641,9 @@ class mosModule extends mosDBTable {
 	 * @return array
 	 */
 	function initModules() {
-		global $my, $Itemid;
+		global $Itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$cache = mosCache::getCache('init_modules');
 		$this->_all_modules = $cache->call('mosModule::_initModules', $Itemid, $my->gid);
@@ -2706,7 +2708,9 @@ class mosModule extends mosDBTable {
 	 * $modification 19.02.2012 GoDr
 	 */
 	function mosLoadModules($position = 'left', $noindex = 0) {
-		global $my, $Itemid;
+		global $Itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$tp = intval(mosGetParam($_GET, 'tp', 0));
 		$config_caching = $this->_view->_mainframe->config->config_caching;
@@ -2758,7 +2762,9 @@ class mosModule extends mosDBTable {
 	 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 	 */
 	function mosLoadModule($name = '', $title = '', $style = 0, $noindex = 0, $inc_params = null) {
-		global $my, $Itemid;
+		global $Itemid;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$database = $this->_view->_mainframe->getDBO();
 		$config = $this->_view->_mainframe->get('config');
@@ -4302,7 +4308,8 @@ class mosMambotHandler {
 	 * @param string The group name, relates to the sub-directory in the mambots directory
 	 */
 	function loadBotGroup($group, $load = 0) {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 
 		$config = $this->_config;
 		$database = $this->_db;
@@ -4803,7 +4810,7 @@ class mosAdminMenus {
 	 * build the link/url of a menu item
 	 */
 	public static function Link(&$row, $id, $link = null) {
-		global $mainframe;
+		$mainframe = mosMainFrame::getInstance();;
 
 		if ($id) {
 			switch ($row->type) {
@@ -5845,7 +5852,8 @@ class mosCommonHTML {
 	 */
 
 	public static function CheckedOutProcessing(&$row, $i) {
-		global $my;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
 		if ($row->checked_out) {
 			$checked = mosCommonHTML::checkedOut($row);
 		} else {
@@ -6012,7 +6020,8 @@ function mosSendAdminMail($adminName, $adminEmail, $email, $type, $title='', $au
  * If the user is not logged in then an addition message is displayed.
  */
 function mosNotAuth() {
-	global $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 	echo _NOT_AUTH;
 	if ($my->id < 1) {
 		echo "<br />" . _DO_LOGIN;
@@ -6282,7 +6291,8 @@ function _josSpoofCheck($array, $badStrings) {
  * @static
  */
 function josSpoofValue($alt=NULL) {
-	global $mainframe, $my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	if ($alt) {
 		if ($alt == 1) {

@@ -22,8 +22,9 @@ class HTML_language {
 	 * @param string The option
 	 */
 	public static function showLanguages($cur_lang,&$rows,&$pageNav,$option) {
-		global $my;
-		$mainframe = mosMainFrame::getInstance();
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+
 		$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
 		?><form action="index2.php" method="post" name="adminForm">
 	<table class="adminheading">

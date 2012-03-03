@@ -20,7 +20,9 @@ class boss_category_content_menu {
 	* @param integer The unique id of the category to edit (0 if new)
 	*/
 	function editCategory($uid,$menutype,$option,$menu, $directory) {
-		global $database,$my,$mainframe;
+        $mainframe = mosMainFrame::getInstance();
+        $my = $mainframe->getUser();
+        $database = database::getInstance();
         
 		// fail if checked out not by 'me'
 		if($menu->checked_out && $menu->checked_out != $my->id) {

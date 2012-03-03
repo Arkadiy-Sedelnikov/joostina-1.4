@@ -32,10 +32,9 @@ switch ($act) {
  * Форма отправки сообщения пользователю
  */
 function display_form() {
-	global $my;
-
 	$database = database::getInstance();
-	$mainframe = mosMainFrame::getInstance();
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
 
 	$ajax_handler = JPATH_SITE.'/ajax.index.php?option=com_users&task=request_from_plugin&plugin=user_contacts';
 	$user_id = intval(mosGetParam( $_REQUEST, 'user_id', 0 ));

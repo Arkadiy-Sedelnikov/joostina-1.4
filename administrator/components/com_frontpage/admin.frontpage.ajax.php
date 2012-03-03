@@ -11,7 +11,8 @@
 defined('_VALID_MOS') or die();
 
 
-global $my;
+$mainframe = mosMainFrame::getInstance();
+$my = $mainframe->getUser();
 
 $task = mosGetParam($_GET,'task','rem_front');
 $id = intval(mosGetParam($_GET,'id','0'));
@@ -34,7 +35,7 @@ switch($task) {
 
 
 function x_access($id) {
-	global $database;
+	$database = database::getInstance();
 	$access = mosGetParam($_GET,'chaccess','accessregistered');
 	$option = strval(mosGetParam($_REQUEST,'option',''));
 	switch($access) {
@@ -80,7 +81,9 @@ function x_access($id) {
 * $id - идентификатор объекта
 */
 function x_publish($id = null) {
-	global $database,$my;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 	// id содержимого для обработки не получен - выдаём ошибку
 	if(!$id) return _UNKNOWN_ID;
     $directory = mosGetParam($_REQUEST,'directory',0);

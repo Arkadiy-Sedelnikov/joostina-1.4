@@ -62,7 +62,7 @@ class CustomQuickIcons extends mosDBTable {
     var $gid = null;
 
     function CustomQuickIcons() {
-        global $database;
+        $database = database::getInstance();
         $this->mosDBTable('#__quickicons','id',$database);
     }
 
@@ -143,7 +143,9 @@ switch($task) {
 
 // show the Items
 function show($option) {
-    global $database,$mainframe,$mosConfig_list_limit;
+    global $mosConfig_list_limit;
+    $mainframe = mosMainFrame::getInstance();
+    $database = database::getInstance();
 
     $limit		= intval($mainframe->getUserStateFromRequest('viewlistlimit','limit',$mosConfig_list_limit));
     $limitstart	= intval($mainframe->getUserStateFromRequest("view{$option}limitstart",'limitstart',0));
@@ -180,7 +182,10 @@ function show($option) {
  * @param string	$option	internal task
  */
 function editIcon($id,$option) {
-    global $database,$my,$acl;
+    global $acl;
+    $mainframe = mosMainFrame::getInstance();
+    $my = $mainframe->getUser();
+    $database = database::getInstance();
 
     // Load Item
     $row = new CustomQuickIcons();
@@ -254,7 +259,7 @@ function editIcon($id,$option) {
 
 // Publish an Item
 function changeIcon($cid,$action,$option) {
-    global $database;
+    $database = database::getInstance();
 
     if(!is_array($cid) || count($cid) < 1) {
         $errMsg = $action ? _BUTTON_ERROR_PUBLISHING:_BUTTON_ERROR_UNPUBLISHING;
@@ -318,7 +323,7 @@ function saveIcon($redirect,$option) {
 
 // Reorder an Item
 function orderIcon($id,$inc,$option) {
-    global $database;
+    $database = database::getInstance();
 
     // Cleaning ordering
     $query = 'SELECT id, ordering FROM #__quickicons ORDER BY ordering';
@@ -374,7 +379,7 @@ function orderIcon($id,$inc,$option) {
 /* This feature (save order) is added by Eric C. Thanks Eric!*/
 //Save ordering of icons
 function saveOrder(&$cid,$option) {
-    global $database;
+    $database = database::getInstance();
 
     $total = count($cid);
     $order = mosGetParam($_POST,'order',array(0));
@@ -399,7 +404,7 @@ function saveOrder(&$cid,$option) {
 
 // Delete icons
 function deleteIcon(&$cid,$option) {
-    global $database;
+    $database = database::getInstance();
 
     if(count($cid)) {
         $cids = implode(',',$cid);

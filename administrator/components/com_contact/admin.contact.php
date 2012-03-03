@@ -174,7 +174,7 @@ function editContact($id,$option) {
  * @param string The current GET/POST option
  */
 function saveContact($option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosContact($database);
 	if(!$row->bind($_POST)) {
@@ -221,7 +221,7 @@ function saveContact($option) {
  * @param string The current GET/POST option
  */
 function removeContacts(&$cid,$option) {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	if(count($cid)) {
 		mosArrayToInts($cid);
@@ -276,7 +276,7 @@ function changeContact($cid = null,$state = 0,$option) {
  * @param integer The increment to reorder by
  */
 function orderContacts($uid,$inc,$option) {
-	global $database;
+	$database = database::getInstance();
 
 	$row = new mosContact($database);
 	$row->load((int)$uid);
@@ -291,7 +291,7 @@ function orderContacts($uid,$inc,$option) {
  * Cancels editing and checks in the record
  */
 function cancelContact() {
-	global $database;
+	$database = database::getInstance();
 	josSpoofCheck();
 	$row = new mosContact($database);
 	$row->bind($_POST);
