@@ -131,6 +131,8 @@ class mosMainFrame {
 	 */
 	private static $_instance = null;
 
+    private static $staticUser = null;
+
 	/**
 	 * Class constructor
 	 * @param database A database connection object
@@ -713,6 +715,10 @@ class mosMainFrame {
 
 	function initSessionAdmin($option, $task) {
 
+        if(!empty(self::$staticUser)){
+            return self::$staticUser;
+        }
+
 		$_config = $this->get('config');
 
 		// logout check
@@ -834,6 +840,7 @@ class mosMainFrame {
 			exit();
 		}
 
+        self::$staticUser = $my;
 		return $my;
 	}
 
@@ -1144,6 +1151,10 @@ class mosMainFrame {
 	 */
 	function getUser() {
 
+        if(!empty(self::$staticUser)){
+            return self::$staticUser;
+        }
+
         if(defined('IS_ADMIN')){
             $mainframe = mosMainFrame::getInstance(true);
             $option = strval(strtolower(mosGetParam($_REQUEST, 'option', '')));
@@ -1187,6 +1198,7 @@ class mosMainFrame {
 		}
 		/* чистка памяти */
 		unset($user->_db);
+        self::$staticUser = $user;
 		return $user;
 	}
 
