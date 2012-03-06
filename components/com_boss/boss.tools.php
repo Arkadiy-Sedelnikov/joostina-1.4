@@ -355,7 +355,12 @@ function Txt2Png( $text, $directory) {
 	return $text;
 }
 
-// создание нового каталога, sql + необходимае каталоги
+/**
+ * создание нового каталога, sql + необходимае каталоги
+ * @param int $installPlugins
+ * @return array
+ * modification 06.03.2012 GoDr
+ */
 function installNewDirectory($installPlugins=1) {
 
 	$database = database::getInstance();
@@ -364,6 +369,9 @@ function installNewDirectory($installPlugins=1) {
 ( 'directory', 'dir', 20, 1, 10, 1, 1, 1, 'Текст приветствия\r\n', 0, 1, 'Это правила...\r\n', 30, 0, -1, 0, 0, 1, 1, 1, 1, 0, 'default', 1, 'defaultRating');");
     $database->query();
 	$id = $database->insertid();
+
+	$database->setQuery("UPDATE `#__boss_config` SET `name` = 'directory".$id."' WHERE `id` =".$id);
+	$database->query();
 
 	$query =    "CREATE TABLE IF NOT EXISTS `#__boss_".$id."_categories` ( ".
                     "`id` int(10) unsigned NOT NULL auto_increment, ".
@@ -612,7 +620,16 @@ function installNewDirectory($installPlugins=1) {
         @copy(JPATH_BASE . "/images/index.html", JPATH_BASE . "/images/boss/$id/lang/index.html");
 	};
 
-    if($installPlugins == 1){
+	if(!is_dir(JPATH_BASE . "/images/boss/$id/js/")) {
+		@mkdir(JPATH_BASE . "/images/boss/$id/js/");
+		@copy(JPATH_BASE . "/images/index.html", JPATH_BASE . "/images/boss/$id/js/index.html");
+		$f = fopen (JPATH_BASE . "/images/boss/$id/js/front.js", "w");
+		fclose($f);
+		$f = fopen (JPATH_BASE . "/images/boss/$id/js/admin.js", "w");
+		fclose($f);
+	};
+
+	if($installPlugins == 1){
         boss_helpers::copy_folder_rf(JPATH_BASE . "/components/com_boss/plugins", JPATH_BASE . "/images/boss/$id/plugins");
     }
     
