@@ -3671,9 +3671,10 @@ class bossExportImport {
      * @static
      * @param  $directory
      * @return void
+	 * modification 06.03.2012 GoDr
      */
     public static function exportDirectory($directory) {
-
+		static $name;
         $exp_tables = mosGetParam($_REQUEST, 'exp_tables', 0);
         $exp_content = mosGetParam($_REQUEST, 'exp_content', 0);
         $exp_templates = mosGetParam($_REQUEST, 'exp_templates', 0);
@@ -3738,6 +3739,7 @@ class bossExportImport {
             $content .= "\n(";
             $first2 = true;
             foreach ($result as $index => $field) {
+				if($index == 'name'){$name = $field;}
                 if (isset($not_num[$index])) {
                     $field = addslashes($field);
                     $field = preg_replace("/\n/", "/\/\n/", $field);
@@ -3774,13 +3776,44 @@ class bossExportImport {
             copyFolder($patchToContentFolders . DS . 'email', $patch . DS . 'content' . DS . 'email');
             copyFolder($patchToContentFolders . DS . 'fields', $patch . DS . 'content' . DS . 'fields');
             copyFolder($patchToContentFolders . DS . 'files', $patch . DS . 'content' . DS . 'files');
-        }
+			copyFolder($patchToContentFolders . DS . 'js', $patch . DS . 'content' . DS . 'js');
+			copyFolder($patchToContentFolders . DS . 'lang', $patch . DS . 'content' . DS . 'lang');
+		}
+
+		// Формируем файл описания каталога
+		$f = fopen($patch . DS . 'boss_expansion.xml',"w");
+		fwrite($f, self::extFile($directory, $name));
+		fclose($f);
+
         //архивируем файлы
         zipFolder($patch, JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . $pack_name . '.zip');
         //удаляем файлы после архивирования
         boss_helpers::rmdir_rf($patch);
         mosRedirect("index2.php?option=com_boss&act=export_import&directory=" . $directory);
     }
+
+	/**
+	 * Содержимое файла описания каталога
+	 * @static
+	 * @param $directory
+	 * @return string
+	 */
+	private static function extFile($directory, $name){
+		$result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+			. "<boss_expansion>\n"
+			. "\t<cmsVer>".joomlaVersion::get('CMS_ver')."</cmsVer>\n"
+			. "\t<cmsBuild>".joomlaVersion::get('BUILD')."</cmsBuild>\n"
+			. "\t<directoryId>".$directory."</directoryId>\n"
+			. "\t<directoryName>".htmlspecialchars($name)."</directoryName>\n"
+			. "\t<creationDate>".date("d.m.Y H:i:s")."</creationDate>\n"
+			. "\t<author>".joomlaVersion::get('CMS')." ".joomlaVersion::get('CODENAME')."</author>\n"
+			. "\t<authorEmail>mail@joostinadev.ru</authorEmail>\n"
+			. "\t<authorUrl>Joostinadev.ru</authorUrl>\n"
+			. "\t<copyright>Авторские права &copy; 2011-2012 Joostina Dev.</copyright>\n"
+			. "\t<version>1.0</version>\n"
+			. "</boss_expansion>";
+		return $result;
+	}
 
     /** импорт каталога
      * @static

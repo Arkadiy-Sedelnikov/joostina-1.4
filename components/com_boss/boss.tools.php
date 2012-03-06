@@ -623,10 +623,12 @@ function installNewDirectory($installPlugins=1) {
 	if(!is_dir(JPATH_BASE . "/images/boss/$id/js/")) {
 		@mkdir(JPATH_BASE . "/images/boss/$id/js/");
 		@copy(JPATH_BASE . "/images/index.html", JPATH_BASE . "/images/boss/$id/js/index.html");
+		/*
 		$f = fopen (JPATH_BASE . "/images/boss/$id/js/front.js", "w");
 		fclose($f);
 		$f = fopen (JPATH_BASE . "/images/boss/$id/js/admin.js", "w");
 		fclose($f);
+		*/
 	};
 
 	if($installPlugins == 1){
