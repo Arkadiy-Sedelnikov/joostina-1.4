@@ -475,22 +475,20 @@ class mosMainFrame {
 			}
 		}
 
-		foreach ($this->_head['custom'] as $html) {
-			$head[] = $html;
-		}
+        if (isset($params['jquery']) && $params['jquery'] == 1) {
+      		$head[] = mosCommonHTML::loadJquery(true, true);
+      	}
 
-		if (isset($params['jquery']) && $params['jquery'] == 1) {
-			$head[] = mosCommonHTML::loadJquery(true, true);
-		}
 
 		if (isset($params['js']) && $params['js'] == 1 && isset($this->_head['js'])) {
-			$i = 0;
 			foreach ($this->_head['js'] as $html) {
 				$head[] = $html;
-				//unset($this->_head['js'][$i]);
-				$i++;
 			}
 		}
+
+        foreach ($this->_head['custom'] as $html) {
+      		$head[] = $html;
+      	}
 
 		if (isset($params['css']) && $params['css'] == 1 && isset($this->_head['css'])) {
 			foreach ($this->_head['css'] as $html) {

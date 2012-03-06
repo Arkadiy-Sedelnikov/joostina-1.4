@@ -569,9 +569,10 @@ INSERT INTO `#__mambots` VALUES (18, 'Первый обработчик соде
 INSERT INTO `#__mambots` VALUES (19, 'Модуль на главной странице', 'frontpagemodule', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 'mod_position=banner\nmod_type=1\nmod_after=1');
 INSERT INTO `#__mambots` VALUES (20, 'Контактные данные пользователя', 'user_contacts', 'profile', 0, 2, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (22, 'Информация ', 'user_info', 'profile', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'header=Информация\nshow_header=1\nshow_location=1\ngender=1');
-INSERT INTO `#__mambots` VALUES (23, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (24, 'elRTE Mambot', 'elrte', 'editors', 0, 1, 1, 0, 0, 62, '2011-10-22 22:19:50', NULL);
-INSERT INTO `#__mambots` VALUES (25, 'Принудительное подключение jQuery', 'jquery', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (23, 'Библиотека MyLib', 'mylib', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL);
+INSERT INTO `#__mambots` VALUES (24, 'System - JQuery', 'jquery', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', NULL);
+INSERT INTO `#__mambots` VALUES (25, 'elRTE Mambot', 'elrte', 'editors',    0, 1, 1, 0, 0, 0, '2011-10-22 22:19:50', NULL);
+INSERT INTO `#__mambots` VALUES (26, 'Принудительное подключение jQuery', 'jquery', 'system', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 
