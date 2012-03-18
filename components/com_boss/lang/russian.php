@@ -50,6 +50,8 @@ DEFINE( "BOSS_ORDER_BY_DEFAULT_LONG", "Сортировка контента п�
 //List Type
 DEFINE( "BOSS_DATE", "Дата");
 DEFINE( "BOSS_DATE_LAST_COMMENT", "Дата последнего комментария");
+DEFINE( "BOSS_DATE_FORMAT", "Формат даты");
+DEFINE( "BOSS_DATE_FORMAT_DESC", "Введите формат вывода даты на фронте.");
 DEFINE( "BOSS_LIST_TEXT", "Весь контент");
 DEFINE( "BOSS_LIST_USER_TEXT", "Контент от");
 
