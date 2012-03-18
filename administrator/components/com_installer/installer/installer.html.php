@@ -131,7 +131,7 @@ class HTML_installer_core {
 	<tr>
 		<td>
 			<!-- третья рекламная позиция // -->
-			<div class="message"><a href="http://www.joostina.ru/?from_3" target="_blank">Купить тут рекламу</a></div>
+<!--			<div class="message"><a href="http://www.joostina.ru/?from_3" target="_blank">Купить тут рекламу</a></div>-->
 			<!--  // третья рекламная позиция  -->
 		</td>
 	</tr>
