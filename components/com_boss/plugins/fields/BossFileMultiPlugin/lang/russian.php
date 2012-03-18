@@ -18,3 +18,6 @@ DEFINE( "BOSS_PLG_FM_UPLOAD", "Загрузить файл");
 DEFINE( "BOSS_PLG_ENABLE_EXT", "Разрешенные файлы");
 DEFINE( "BOSS_PLG_ENABLE_EXT_LONG", "Впишите через запятую без пробелов и точек расширения разрешенных файлов, если не заполнено, то ограничений нет.");
 DEFINE( "BOSS_PLG_DESC", "Описание");
+DEFINE( "BOSS_PLG_ENABLE_COUNTER", "Счетчик загрузок");
+DEFINE( "BOSS_PLG_ENABLE_COUNTER_LONG", "Включает счетчик загрузок файла.");
+DEFINE( "BOSS_PLG_COUNTER", "Загрузок");

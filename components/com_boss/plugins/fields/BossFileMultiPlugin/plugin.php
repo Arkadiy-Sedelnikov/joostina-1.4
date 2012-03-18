@@ -54,9 +54,10 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 
                 if(is_array($value) && count($value)>0){
                     foreach($value as $row){
+                        $row['counter'] = (!empty($row['counter'])) ? $row['counter'] : 0;
                         $dataArray[] = '<div class="boss_file">'
                                 . '<span class="boss_file_desc">'.$row['signature'].'</span> &nbsp;&nbsp;'
-				        		.  self::displayFileLink($directory, $content, $field, $row['file'], 'joostfree', 'front')
+				        		.  self::displayFileLink($directory, $content, $field, $field_values, $row['file'], 'joostfree', $row['counter'], 'front')
 				        		.  '</div>';
 				    }
                 }
@@ -72,9 +73,24 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
         }
 		
 		//отображение ссылки на скачивание 
-        private function displayFileLink($directory, $content, $field, $filename, $template, $type = "admin") {
-            $fieldname = $field->name;			
+        private function displayFileLink($directory, $content, $field, $field_values, $filename, $template, $downloads=0, $type = "admin") {
+
+            $mainframe = mosMainFrame::getInstance();;
+            if($mainframe->isAdmin()){
+                $fv = $field_values[$field->fieldid];
+            }
+            else{
+                $fv = $field_values;
+            }
+
+            $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
+
+            $fValuers = array();
+            foreach($fv as $field_value){
+                $fValuers[$field_value->fieldtitle] = $field_value->fieldvalue;
+            }
+            $counter = (!empty($fValuers['counter'])) ? $fValuers['counter'] : 0;
 
 			$date_created = (isset ($content->date_created)) ? ', <span class="boss_file_date">'. Jstring::strtolower(BOSS_DATE) . ':&nbsp;<span>' . mosFormatDate($content->date_created) . '</span></span>' : '';
             $ext = explode('.', $filename);
@@ -119,9 +135,17 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
             $return = '';
             if ($filename) {
 				if ($type == "front") {//отображение ссылки на фронте
+                    if($counter){
+                        $url = sefRelToAbs('ajax.index.php?option=com_boss&act=plugins&task=run_plugins_func&directory='.$directory.'&class=BossFileMultiPlugin&function=download&file='.$filename.'&cid='.$content->id.'&fname='.$fieldname);
+                        $counterPrint = '['.BOSS_PLG_COUNTER.' '.$downloads.']';
+                    }
+                    else{
+                        $url = JPATH_SITE . "/images/boss/" . $directory . "/files/" . $filename;
+                        $counterPrint = '';
+                    }
 					$return .= "<img src=\"" . JPATH_SITE . "/administrator/templates/" .$template. "/images/file_ico/" . $image . "\" alt=\"".$ext."\" align=\"middle\" border=\"0\" />" 
 							. "&nbsp;" . $filename . "&nbsp;"
-							. "[&nbsp;<a href=\"" . JPATH_SITE . "/images/boss/" . $directory . "/files/" . $filename . "\" target=\"_blank\">" . BOSS_DOWNLOAD_FILE . "</a>&nbsp;]"
+							. "[&nbsp;<a href=\"" . $url . "\" target=\"_blank\">" . BOSS_DOWNLOAD_FILE . "</a>&nbsp;]" . $counterPrint
 							. "<span class='boss_file_info'> &mdash;&nbsp;" . Jstring::strtolower(BOSS_FIELD_SIZE) . "&nbsp;<span class='boss_file_size'>" . $size . $date_created.'</span>';
 					}
 				else {//отображение ссылки в админке
@@ -160,6 +184,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
             $class = (($mode == "write") && ($field->required == 1)) ? "boss_required" : 'boss';
 
             $nb_files = (!empty($fValuers['nb_files'])) ? $fValuers['nb_files'] : 0;
+            $counter = (!empty($fValuers['counter'])) ? $fValuers['counter'] : 0;
             $enable_files = (!empty($fValuers['enable_files'])) ? implode("', '", explode(',', $fValuers['enable_files'])) : 'all';
             $return = '';
             $return .= "
@@ -178,15 +203,25 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 
             if (!empty($value)) {
                 foreach($value as $i => $row){
+
                     $return .= "
                         <div id='file_".$i."'>
                         <label>".BOSS_PLG_DESC." </label>
                         <input type='text' size='40'
-                            name='boss_file[".$i."][signature]' class='inputbox boss_file' value='".$row['signature']."' />
+                            name='boss_file[".$i."][signature]' class='inputbox boss_file' value='".$row['signature']."' />";
 
+                    if($counter){
+                        $row['counter'] = (!empty($row['counter'])) ? $row['counter'] : 0;
+                        $return .= "
+                        <label>".BOSS_PLG_COUNTER." </label>
+                        <input type='text' size='3' readonly='true'
+                            name='boss_file[".$i."][counter]' class='inputbox boss_file' value='".$row['counter']."' />";
+                    }
+
+                    $return .= "
                         <input type='hidden' name='boss_file[".$i."][file]' value='".$row['file']."' />
                             &nbsp;&nbsp;&nbsp;"
-                        .self::displayFileLink($directory, $content, $field, $row['file'], JTEMPLATE, 'admin')
+                        .self::displayFileLink($directory, $content, $field, $field_values, $row['file'], JTEMPLATE, 0, 'admin')
                         . "&nbsp;&nbsp;<input type='button' value='X' class='button' onclick='bossDeleteFile(\"".$row['file']."\", \"file_".$i."\")' />
                     </div>";
                 }
@@ -264,6 +299,11 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
                     <td><input type="text" name="enable_files" id="enable_files" value="'.@$fieldvalues['enable_files']->fieldvalue.'"/></td>
                     <td>'.boss_helpers::bossToolTip(BOSS_PLG_ENABLE_EXT_LONG).'</td>
                 </tr>
+                <tr>
+                    <td>'.BOSS_PLG_ENABLE_COUNTER.'</td>
+                    <td>'.mosHTML::yesnoRadioList('counter','class="inputbox"',@$fieldvalues['counter']->fieldvalue).'</td>
+                    <td>'.boss_helpers::bossToolTip(BOSS_PLG_ENABLE_COUNTER_LONG).'</td>
+                </tr>
             </table>';
             $return .= BOSS_PLG_NB_FILES_DESC.'
                 <a href="#" id="filesize" onClick="setFileSizeFocus();">'. BOSS_PLG_NB_FILES_DESC_1 .'</a>
@@ -284,14 +324,15 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
             $database = database::getInstance();
             $nb_files = mosGetParam($_POST, "nb_files", 0);
             $enable_files = str_replace(' ', '', mosGetParam($_POST, "enable_files", ''));
-            $data = mosGetParam($_POST, "nb_files", 0);
+            $counter = mosGetParam($_POST, "counter", 0);
             $database->setQuery("DELETE FROM `#__boss_" . $directory . "_field_values` WHERE `fieldid` = '" . $fieldId . "' ");
             $database->query();
             $database->setQuery("INSERT INTO #__boss_" . $directory . "_field_values
     		                    (fieldid, fieldtitle, fieldvalue, ordering, sys)
     		                    VALUES
     		                    ($fieldId,'nb_files',       '$nb_files',        1,0),
-    		                    ($fieldId,'enable_files',   '$enable_files',    2,0)
+    		                    ($fieldId,'enable_files',   '$enable_files',    2,0),
+    		                    ($fieldId,'counter',   '$counter',    3,0)
     		                    ");
             $database->query();
             //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
@@ -322,6 +363,35 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 						$search .= " AND a.$fieldName LIKE '%$value%'";
 					}
             return $search;
+        }
+
+        function download(){
+
+            $directory = mosGetParam($_REQUEST, 'directory', 0);
+            $file = mosGetParam($_REQUEST, 'file', '');
+            $fname = mosGetParam($_REQUEST, 'fname', '');
+            $cid = mosGetParam($_REQUEST, 'cid', 0);
+
+            $database = database::getInstance();
+            $database->setQuery("SELECT ".$fname." FROM #__boss_" . $directory . "_contents WHERE `id` = '".$cid."'");
+            $field = $database->loadResult();
+
+            if(!empty($field)){
+                $field = json_decode($field, 1);
+
+                $newVal = array();
+                foreach($field as $f){
+                    if($f['file'] == $file){
+                       $f['counter'] = (!empty($f['counter'])) ? $f['counter'] + 1 : 1;
+                    }
+                    $newVal[] = $f;
+                }
+                $newVal = boss_helpers::json_encode_cyr($newVal);
+
+                $database->setQuery("UPDATE #__boss_" . $directory . "_contents SET ".$fname." = '$newVal' WHERE `id` = '".$cid."'");
+                $database->query();
+            }
+            mosRedirect(JPATH_SITE . "/images/boss/" . $directory . "/files/" . $file);
         }
     }
 
