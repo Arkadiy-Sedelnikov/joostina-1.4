@@ -148,6 +148,8 @@ defined('_VALID_MOS') or die();
 
         function onFormSave($directory, $contentid, $field, $isUpdateMode, $itemid) {
 
+            $mainframe = mosMainFrame::getInstance();;
+            $isAdmin = $mainframe->isAdmin();
             $database = database::getInstance();
             $conf = $database->setQuery("SELECT `fieldtitle`, `fieldvalue` FROM #__boss_" . $directory . "_field_values WHERE fieldid = '$field->fieldid'")->loadObjectList('fieldtitle');
             
@@ -170,7 +172,13 @@ defined('_VALID_MOS') or die();
 
                 if (isset($_FILES["content_picture$i"])) {
                     if ($_FILES["content_picture$i"]['size'] > $conf['max_image_size']->fieldvalue) {
-                        mosRedirect("index.php?option=com_boss&amp;act=contents&amp;catid=&amp;directory=$directory&amp;Itemid=" . $itemid, BOSS_IMAGETOOBIG);
+                        if($isAdmin){
+                            $url = JPATH_SITE . "/administrator/index2.php?option=com_boss&act=contents&task=edit&&directory=$directory&tid[]=$contentid";
+                        }
+                        else{
+                            $url = JPATH_SITE . "/index.php?option=com_boss&amp;act=contents&amp;catid=&amp;directory=$directory&amp;Itemid=" . $itemid;
+                        }
+                        mosRedirect($url, BOSS_IMAGETOOBIG);
                     }
                 }
 
