@@ -76,7 +76,7 @@ function search_by_tag($tag) {
 	 */
 	$groups = array();
 	$comcontent_params = array(
-		'group_name' => 'com_content',
+		'group_name' => 'com_boss',
 		'group_title' => _CONTENT,
 		'table' => 'content',
 		'id' => 'id',
@@ -90,7 +90,7 @@ function search_by_tag($tag) {
 		'where' => 'item.state=1',
 		'order' => 'id DESC'
 	);
-	$groups['com_content'] = $comcontent_params;
+	$groups['com_boss'] = $comcontent_params;
 
 	$items->items = array();
 	foreach ($groups as $v) {

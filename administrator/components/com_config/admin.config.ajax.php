@@ -111,7 +111,7 @@ function x_saveconfig($task) {
 				mosChmodRecursive(JPATH_BASE.DS.$file,$filemode,$dirmode);
 			}
 		} // if
-		mosCache::cleanCache('com_content');
+		mosCache::cleanCache('com_boss');
 		echo $msg;
 	} else {
 		if($enable_write) {

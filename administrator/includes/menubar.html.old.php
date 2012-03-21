@@ -374,32 +374,7 @@ if(!class_exists('mosMenuBar')) {
 				function help($ref,$com = false) {
 					global $mosConfig_disable_button_help;
 					if($mosConfig_disable_button_help) return; // при активном отключении кнопки "Помощь" функция прерывается в самом начале
-					$helpUrl = mosGetParam($GLOBALS,'mosConfig_helpurl','');
-					if($helpUrl == 'http://help.mamboserver.com') {
-						$helpUrl = 'http://help.joomla.org';
-					}
-
-					if($com) {
-						// help file for 3PD Components
-						$url = JPATH_SITE.'/'.JADMIN_BASE.'/components/'.$GLOBALS['option'].'/help/';
-						if(!preg_match('/\.html$/',$ref) && !preg_match('/\.xml$/',$ref)) {
-							$ref = $ref.'.html';
-						}
-						$url .= $ref;
-					} else
-					if($helpUrl) {
-						// Online help site as defined in GC
-						$ref .= $GLOBALS['_VERSION']->getHelpVersion();
-						$url = $helpUrl.'/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref='.
-								urlencode($ref);
-					} else {
-						// Included html help files
-						$url = JPATH_SITE.'/help/';
-						if(!preg_match('/\.html$/',$ref) && !preg_match('/\.xml$/',$ref)) {
-							$ref = $ref.'.html';
-						}
-						$url .= $ref;
-					}
+					$url = 'http://wiki.joostinadev.ru/';
 					?>
 		<td>
 			<a class="tb-help" href="#" onclick="window.open('<?php echo $url; ?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');"><span><?php echo _HELP?></span></a>

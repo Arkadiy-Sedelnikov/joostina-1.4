@@ -199,7 +199,7 @@ class search_by_tag_HTML {
 	}
 
 	public static function view_group($items, $params, $groups) {
-		if (count($items->items['com_content']) > 0) {
+		if (count($items->items['com_boss']) > 0) {
 			foreach ($groups as $key => $group) {
 				foreach ($items->items[$key] as $item) {
 					$item->link = searchByTag::construct_url($item, $group);

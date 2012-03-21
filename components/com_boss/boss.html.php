@@ -661,25 +661,6 @@ class boss_html
     function PdfIcon(&$row, &$params, $hide_js)
     {
 
-        if ($params->get('pdf') && !$params->get('popup') && !$hide_js) {
-            $status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-            $link = JPATH_SITE . '/index2.php?option=com_content&amp;do_pdf=1&amp;id=' . $row->id;
-
-            if ($params->get('icons')) {
-                $image = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, _CMN_PDF, _CMN_PDF);
-            } else {
-                $image = _CMN_PDF . '&nbsp;';
-            }
-            ?>
-        <td align="right" width="100%" class="buttonheading">
-            <a href="<?php echo $link; ?>" target="_blank"
-               onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;"
-               title="<?php echo _CMN_PDF;?>">
-                <?php echo $image; ?></a>
-        </td>
-        <?php
-
-        }
     }
 
     function PrintIcon($content, $text = null)

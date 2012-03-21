@@ -68,7 +68,7 @@ class HTML_user {
 
 		$lastvisitDate = ($user->lastvisitDate !='0000-00-00 00:00:00') ? mosFormatDate($user->lastvisitDate) : _USER_NONE_LAST_VISIT;
 
-		$user_content_href=sefRelToAbs('index.php?option=com_content&task=mycontent&user='.$user_id.'&Itemid='.$Itemid);
+		$user_content_href=sefRelToAbs('index.php?option=com_boss&task=show_user&userid='.$user_id.'&directory=1&Itemid='.$Itemid);
 
 		//Шаблон
 		$template = 'default.php';

@@ -109,7 +109,7 @@ function x_apply() {
 		}
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = $row->title.' - '._ALL_MODULE_CHANGES_SAVED;
 	return $msg;

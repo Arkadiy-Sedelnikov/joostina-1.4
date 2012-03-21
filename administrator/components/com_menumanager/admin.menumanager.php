@@ -411,7 +411,7 @@ function deleteMenu($option,$cid,$type) {
 	}
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = _MENU_DELETED;
 	mosRedirect('index2.php?option='.$option,$msg);
@@ -510,7 +510,7 @@ function copyMenu($option,$cid,$type) {
 	}
 
 	// clean any existing cache files
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = _MENU_COPY_FINISHED.' `'.$type.'`'. _MENU_COPY_FINISHED_ITEMS . $total;
 	mosRedirect('index2.php?option='.$option,$msg);

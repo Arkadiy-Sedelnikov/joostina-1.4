@@ -142,7 +142,7 @@ function x_publish($id = null) {
 	if(!$database->query()) {
 		return 'error-db';
 	} else {
-		mosCache::cleanCache('com_content');
+		mosCache::cleanCache('com_boss');
 		return $ret_img;
 	}
 }

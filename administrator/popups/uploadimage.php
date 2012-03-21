@@ -45,7 +45,7 @@ switch($option) {
 		break;
 
 	case 'com_categories':
-	case 'com_content':
+	case 'com_boss':
 	case 'com_sections':
 	case 'com_typedcontent':
 		if($task != 'edit' && $task != 'editA' && $task != 'new') {

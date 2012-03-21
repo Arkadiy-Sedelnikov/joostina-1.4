@@ -96,7 +96,7 @@ class XmapConfig {
 		require_once(JPATH_BASE . '/'.JADMIN_BASE.'/components/com_xmap/classes/XmapPlugin.php');
 		$extensions = array (
 				//	name			published
-				array(	'com_content',		1)
+				array(	'com_boss',		1)
 		);
 		foreach ( $extensions as $ext ) {
 			$extension = new XmapPlugin($database);

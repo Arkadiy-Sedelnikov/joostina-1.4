@@ -384,8 +384,8 @@ class HTML_admin_misc {
 		if($helpurl == 'http://help.mamboserver.com') {
 			$helpurl = 'http://help.joomla.org';
 		}
-
-		$fullhelpurl = $helpurl.'/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
+        //TODO исправить когда будет куда
+		$fullhelpurl = $helpurl.'/index2.php?option=com_boss&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = strval(mosGetParam($_REQUEST,'helpsearch',''));
 		$helpsearch = addslashes(htmlspecialchars($helpsearch));

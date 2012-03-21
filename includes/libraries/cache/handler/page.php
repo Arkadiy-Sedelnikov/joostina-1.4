@@ -37,7 +37,7 @@ class JCachePage extends JCache {
 		}
 
 		if($option=='com_frontpage')
-			$option='com_content';
+			$option='com_boss';
 
 		$this->_uri = $URI;
 		//$this->_data = $data;
@@ -68,7 +68,7 @@ class JCachePage extends JCache {
 		if($option==null)
 			$option = isset($this) ? $this->_option : '';
 		if($option=='com_frontpage')
-			$option='com_content';
+			$option='com_boss';
 		if($dh=@opendir($GLOBALS['mosConfig_cachepath'] . '/page/')) {
 			while(($file=readdir($dh))!==false) {
 				if($this->_cache_filename==($GLOBALS['mosConfig_cachepath'] . '/page/' . $file)) {

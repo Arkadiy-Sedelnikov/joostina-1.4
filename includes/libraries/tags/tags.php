@@ -37,7 +37,7 @@ class contentTags extends mosDBTable {
 	function load_by($obj) {
 
 		if (!isset($obj->obj_type) || !$obj->obj_type) {
-			$obj->obj_type = 'com_content';
+			$obj->obj_type = 'com_boss';
 		};
 		$sql = 'SELECT tag FROM #__content_tags WHERE obj_id = ' . $obj->id . ' AND obj_type=' . $this->_db->Quote($obj->obj_type);
 		return $this->_db->setQuery($sql)->loadResultArray();

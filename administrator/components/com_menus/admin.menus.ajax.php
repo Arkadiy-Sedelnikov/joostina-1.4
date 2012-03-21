@@ -74,7 +74,7 @@ function x_access($id){
 		$text_href = _USER_GROUP_SPECIAL;
 	}
 	// чистим кэш
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 	return '<a href="#" onclick="ch_access('.$row->id.',\''.$task_access.'\',\''.$option.'\')" '.$color_access.'>'.$text_href.'</a>';
 }
 
@@ -102,7 +102,7 @@ function x_publish($id = null) {
 	if(!$database->query()) {
 		return 'error-db';
 	} else {
-		mosCache::cleanCache('com_content');
+		mosCache::cleanCache('com_boss');
 		return $ret_img;
 	}
 }

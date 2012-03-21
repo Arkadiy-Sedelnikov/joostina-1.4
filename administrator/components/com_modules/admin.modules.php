@@ -219,7 +219,7 @@ function copyModule($option,$uid,$client) {
 		$database->query();
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = _MODULE_COPIED.' ['.$row->title.']';
 	mosRedirect('index2.php?option='.$option.'&client='.$client,$msg);
@@ -290,7 +290,7 @@ function saveModule($option,$client,$task) {
 		}
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	switch($task) {
 		case 'apply':
@@ -514,7 +514,7 @@ function removeModule(&$cid,$option,$client) {
 		echo "<script>alert('$cids "._CANNOT_DELETE_MODULES."');</script>\n";
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect('index2.php?option='.$option.'&client='.$client);
 }
@@ -550,7 +550,7 @@ function publishModule($cid = null,$publish = 1,$option,$client) {
 		$row->checkin($cid[0]);
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect('index2.php?option='.$option.'&client='.$client);
 }
@@ -594,7 +594,7 @@ function orderModule($uid,$inc,$option) {
 		$client = '';
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect('index2.php?option='.$option.'&client='.$client);
 }
@@ -631,7 +631,7 @@ function accessMenu($uid,$access,$option,$client) {
 		return $row->getError();
 	}
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	mosRedirect('index2.php?option='.$option.'&client='.$client);
 }
@@ -673,7 +673,7 @@ function saveOrder(&$cid,$client) {
 		$row->updateOrder($cond[1]);
 	} // foreach
 
-	mosCache::cleanCache('com_content');
+	mosCache::cleanCache('com_boss');
 
 	$msg = _NEW_ORDER_SAVED;
 	mosRedirect('index2.php?option=com_modules&client='.$client,$msg);

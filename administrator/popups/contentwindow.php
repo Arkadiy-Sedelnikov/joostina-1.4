@@ -20,8 +20,7 @@ $option = strval(mosGetParam($_SESSION,'option',''));
 $task = strval(mosGetParam($_SESSION,'task',''));
 
 switch($option) {
-	case 'com_content':
-	case 'com_typedcontent':
+	case 'com_boss':
 		if($task != 'edit' && $task != 'editA' && $task != 'new') {
 			echo _NOT_AUTH;
 			return;

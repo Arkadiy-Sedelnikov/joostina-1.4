@@ -383,17 +383,7 @@ if (!class_exists('mosMenuBar')) {
 						$url .= $ref;
 					} else
 					if ($helpUrl) {
-						// Online help site as defined in GC
-						$_VERSION = new joomlaVersion();
-						$ref .= $_VERSION->getHelpVersion();
-						$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode($ref);
-					} else {
-						// Included html help files
-						$url = JPATH_SITE . '/help/';
-						if (!preg_match('/\.html$/', $ref) && !preg_match('/\.xml$/', $ref)) {
-							$ref = $ref . '.html';
-						}
-						$url .= $ref;
+						$url = 'http://wiki.joostinadev.ru/';
 					}
 		?>
 					<li>

@@ -1801,8 +1801,6 @@ class mosMainFrame {
 	/* проверка доступа к активному компоненту */
 
 	function check_option($option) {
-		if ($option == 'com_content')
-			return true;
 		$sql = 'SELECT menuid FROM #__components WHERE #__components.option=\'' . $option . '\' AND parent=0';
 
 		($this->_db->setQuery($sql)->loadResult() == 0) ? null : mosRedirect(JPATH_SITE);
@@ -6673,24 +6671,6 @@ class mosCategory extends mosDBTable {
 		return $r;
 	}
 
-	public static function get_category_url($params) {
-		if ($params->get('cat_link_type') == 'blog') {
-			return self::get_category_blog_url($params);
-		} else {
-			return self::get_category_table_url($params);
-		}
-	}
-
-	public static function get_category_table_url($params) {
-		$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid=' . $params->get('sectionid') . '&amp;id=' . $params->get('catid') . $params->get('Itemid'));
-		return $link;
-	}
-
-	public static function get_category_blog_url($params) {
-		$link = sefRelToAbs('index.php?option=com_content&amp;task=blogcategory&amp;id=' . $params->get('catid') . $params->get('Itemid'));
-		return $link;
-	}
-
 	public static function get_category_menu($cat_id, $type = null) {
 		$database = database::getInstance();
 
@@ -6719,52 +6699,6 @@ class mosCategory extends mosDBTable {
 		$result = $database->loadRow();
 
 		return $result;
-	}
-
-	public static function get_category_link($row, $params) {
-		$mainframe = mosMainFrame::getInstance();
-
-		$catLinkID = $mainframe->get('catID_' . $row->catid, -1);
-		$catLinkURL = $mainframe->get('catURL_' . $row->catid);
-
-		// check if values have already been placed into mainframe memory
-		if ($catLinkID == -1) {
-			$result = self::get_category_menu($row->catid, $params->get('cat_link_type'));
-
-			$catLinkID = $result[0];
-			$catLinkURL = $result[1];
-
-			if ($catLinkID == null) {
-				$catLinkID = 0;
-				// save 0 query result to mainframe
-				$mainframe->set('catID_' . $row->catid, 0);
-			} else {
-				// save query result to mainframe
-				$mainframe->set('catID_' . $row->catid, $catLinkID);
-				$mainframe->set('catURL_' . $row->catid, $catLinkURL);
-			}
-		}
-
-		$_Itemid = '';
-		// use Itemid for category found in query
-		if ($catLinkID != -1 && $catLinkID) {
-			$_Itemid = '&amp;Itemid=' . $catLinkID;
-		} else if ($mainframe->get('secID_' . $row->sectionid, -1) != -1 && $mainframe->get('secID_' . $row->sectionid, -1)) {
-			// use Itemid for section found in query
-			$_Itemid = '&amp;Itemid=' . $mainframe->get('secID_' . $row->sectionid, -1);
-		}
-
-		$params->set('catid', $row->catid);
-		$params->set('sectionid', $row->sectionid);
-		$params->set('Itemid', $_Itemid);
-
-		if ($params->get('cat_link_type') == 'blog') {
-			$link = mosCategory::get_category_blog_url($params);
-		} else {
-			$link = mosCategory::get_category_table_url($params);
-		}
-
-		return $link;
 	}
 
 	function get_lists($params) {
@@ -6906,188 +6840,6 @@ class contentMeta {
 		if ($this->_params->get('robots') == 3) {
 			$mainframe->addMetaTag('robots', 'noindex, nofollow');
 		}
-	}
-
-}
-
-class ContentTemplate {
-
-	var $page_type = null;
-	var $template_dir = null;
-	var $template_file = null;
-
-	function get_template_dir($page_type) {
-
-		$dir = str_replace('_', '/', $page_type);
-
-		/* 			switch($page_type){
-		  case 'blog_section':
-		  $dir = 'section/blog';
-		  break;
-
-		  case 'groupcats_section':
-		  $dir = 'section/groupcats';
-		  break;
-
-		  case 'table_cats_section':
-		  $dir = 'section/table_cats';
-		  break;
-
-		  case 'table_items_section':
-		  $dir = 'section/table_items';
-		  break;
-
-		  case 'blog_category':
-		  $dir = 'category/blog';
-		  break;
-
-		  case 'table_category':
-		  $dir = 'category/table';
-		  break;
-
-		  case 'archive':
-		  $dir = 'archive';
-		  break;
-
-		  case 'item':
-		  $dir = 'item/full_view';
-		  break;
-
-		  case 'item_static':
-		  $dir = 'item/static_content';
-		  break;
-
-		  case 'item_editform':
-		  $dir = 'item/edit_form';
-		  break;
-
-		  default:
-		  $dir = null;
-		  break;
-
-		  } */
-		return $dir;
-	}
-
-	function set_template($page_type, $templates = null) {
-
-		$this->page_type = $page_type;
-		$this->template_dir = self::get_system_path($this->page_type);
-		$this->template_file = 'default.php';
-
-		//если найдены записи о шаблонах
-		if ($templates) {
-			$tpl_arr = self::parse_curr_templates($templates);
-			$template_file = $tpl_arr[$page_type];
-
-			if (isset($template_file)) {
-				$template_pref = substr($template_file, 0, 3);
-				$template_file = str_replace($template_pref, '', $template_file);
-
-				switch ($template_pref) {
-					case '[t]':
-						$this->template_dir = self::get_currtemplate_path($page_type);
-						break;
-
-					default:
-						break;
-				}
-				if (is_file(JPATH_BASE . DS . $this->template_dir . DS . $template_file)) {
-					$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $template_file;
-				}
-			}
-		}
-		//смотрим, что у нас в глобальной конфигурации сказано по поводу размещения шаблонов по-умолчанию
-		else if (Jconfig::getInstance()->config_global_templates == 1) {
-			if (is_file(JPATH_BASE . DS . self::get_currtemplate_path($page_type) . DS . $this->template_file)) {
-				$this->template_file = JPATH_BASE . DS . self::get_currtemplate_path($page_type) . DS . $this->template_file;
-			} else {
-				$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $this->template_file;
-			}
-		}
-		//шаблон мы так и не нашли, так что цепляем что-нибудь по-умолчанию
-		else {
-			$this->template_file = JPATH_BASE . DS . $this->template_dir . DS . $this->template_file;
-		}
-	}
-
-	function get_system_path($page_type) {
-		$template_dir = self::get_template_dir($page_type);
-		$system_path = 'components' . DS . 'com_content' . DS . 'view' . DS . $template_dir;
-		return $system_path;
-	}
-
-	function get_currtemplate_path($page_type) {
-		$mainframe = mosMainFrame::getInstance();
-		$mainframe->_setTemplate();
-		$template = $mainframe->getTemplate();
-		$template_dir = self::get_template_dir($page_type);
-		$currtemplate_path = 'templates' . DS . $template . DS . 'html' . DS . 'com_content' . DS . $template_dir;
-		return $currtemplate_path;
-	}
-
-	function templates_select_list($page_type, $curr_value_arr = null) {
-		$curr_value = null;
-
-		$system_path = self::get_system_path($page_type);
-		$currtemplate_path = self::get_currtemplate_path($page_type);
-
-		$files_system = mosReadDirectory(JPATH_BASE . DS . $system_path, '\.php$');
-		$files_from_currtemplate = mosReadDirectory(JPATH_BASE . DS . $currtemplate_path, '\.php$');
-
-		$options = array();
-		$options[] = mosHTML::makeOption('0', _DEFAULT);
-		foreach ($files_system as $file) {
-			$options[] = mosHTML::makeOption('[s]' . $file, '[s]' . $file);
-		}
-		foreach ($files_from_currtemplate as $file) {
-			$options[] = mosHTML::makeOption('[t]' . $file, '[t]' . $file);
-		}
-		//return $options;
-
-		if ($curr_value_arr && isset($curr_value_arr[$page_type])) {
-			$curr_value = $curr_value_arr[$page_type];
-		}
-		return mosHTML::selectList($options, 'templates[' . $page_type . ']', 'class="inputbox"', 'value', 'text', $curr_value);
-	}
-
-	function prepare_for_save($templates) {
-		$txt = array();
-		foreach ($templates as $k => $v) {
-			if ($v) {
-				$txt[] = "$k=$v";
-			}
-		}
-		return implode('|', $txt);
-	}
-
-	function parse_curr_templates($templates) {
-		if ($templates) {
-			$tpls = array();
-			$tpls = explode('|', $templates);
-
-			$return = array();
-
-			foreach ($tpls as $tpl) {
-				$arr = explode('=', $tpl);
-				$key = $arr[0];
-				$value = $arr[1];
-				$return[$key] = $value;
-			}
-			return $return;
-		}
-		return null;
-	}
-
-	function isset_settings($page_type, $templates) {
-		if ($page_type && $templates) {
-			$templates = self::parse_curr_templates($templates);
-			if (isset($templates[$page_type])) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 }

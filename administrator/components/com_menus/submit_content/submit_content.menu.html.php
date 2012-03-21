@@ -34,12 +34,6 @@ class submit_content_menu_html {
 
 			var form = document.adminForm;
 
-             if(document.getElementById('mossection').value==0) {
-                form.link.value = "index.php?option=com_content&task=new";
-			 }else{
-                form.link.value = "index.php?option=com_content&task=new&section="+document.getElementById('mossection').value+"";
-			 }
-
             if (form.name.value == '') {
                 alert( '<?php echo _OBJECT_MUST_HAVE_NAME?>' );
 			} else {

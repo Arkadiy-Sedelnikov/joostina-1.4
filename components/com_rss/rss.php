@@ -266,7 +266,7 @@ function feedFrontpage($showFeed) {
 			$_Itemid = '&Itemid='.$itemid;
 		}
 
-		$item_link = 'index.php?option=com_content&task=view&id='.$row->id.$_Itemid;
+		$item_link = 'index.php?option=com_boss&task=show_content&contentid='.$row->id.'&catid=1&directory='.$directory.$_Itemid;
 		$item_link = sefRelToAbs($item_link);
 
 		// removes all formating from the intro text for the description text

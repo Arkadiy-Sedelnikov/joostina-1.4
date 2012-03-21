@@ -16,7 +16,7 @@ switch($task) {
 
 	// очистка кэша содержимого
 	case 'clean_cache':
-		mosCache::cleanCache('com_content');
+		mosCache::cleanCache('com_boss');
 		mosRedirect('index2.php',_CACHE_CLEAR_CONTENT);
 		break;
 
