@@ -387,9 +387,6 @@ function show_all($text_search, $name_search, $order, $limitstart, $directory, $
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 
-	/**
-	 * @todo boston - переменная $subcats не определена
-	 */
 	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
 	$paths[0]->text = $conf->name;
 	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
@@ -439,9 +436,6 @@ function show_frontpage($text_search, $name_search, $order, $limitstart, $direct
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 
-	/**
-	 * @todo boston - переменная $subcats не определена
-	 */
 	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
 	$paths[0]->text = $conf->name;
 	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
