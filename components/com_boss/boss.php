@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Joostina BOSS
  * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
@@ -6,157 +7,160 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined( '_VALID_MOS' ) or die();
+defined('_VALID_MOS') or die();
 
-require_once( $mainframe->getPath( 'front_html', 'com_boss' ) );
-require_once( $mainframe->getPath( 'class', 'com_boss' ) );
-require_once( JPATH_BASE.'/components/com_boss/boss.tools.php' );
+require_once( $mainframe->getPath('front_html', 'com_boss') );
+require_once( $mainframe->getPath('class', 'com_boss') );
+require_once( JPATH_BASE . '/components/com_boss/boss.tools.php' );
 // cache activation
-$cache = mosCache::getCache( 'com_boss' );
+$cache = mosCache::getCache('com_boss');
 
-$task           = (isset($frontpageConf->task)) ? $frontpageConf->task : mosGetParam( $_REQUEST, 'task', "front" );
-$text_search    = mosGetParam( $_REQUEST, 'text_search', "" );
-$name_search    = mosGetParam( $_REQUEST, 'name_search', "" );
-$limitstart     = (int) mosGetParam( $_REQUEST, 'limitstart', 0 );
-$userid         = (int) mosGetParam( $_REQUEST, 'userid', $my->id );
-$catid          = (int) mosGetParam( $_REQUEST, 'catid', 0 );
-$contentid      = (int) mosGetParam( $_REQUEST, 'contentid', 0 );
-$order          = (int) mosGetParam( $_REQUEST, 'order', 0 );
-$mode           = mosGetParam( $_REQUEST, 'mode', 'email');
-$tag            = mosGetParam( $_REQUEST, 'tag', '');
-$alpha          = urldecode(mosGetParam( $_REQUEST, 'alpha', ''));
-$directory      = (isset($frontpageConf->directory)) ? (int)$frontpageConf->directory : (int) mosGetParam( $_REQUEST, 'directory', 0 );
-$itemid         = (int) mosGetParam( $_REQUEST, 'Itemid', 0 );
-$isFrontpage    = (isset($isFrontpage)) ? 1 : 0;
+$task = (isset($frontpageConf->task)) ? $frontpageConf->task : mosGetParam($_REQUEST, 'task', "front");
+$text_search = mosGetParam($_REQUEST, 'text_search', "");
+$name_search = mosGetParam($_REQUEST, 'name_search', "");
+$limitstart = (int) mosGetParam($_REQUEST, 'limitstart', 0);
+$userid = (int) mosGetParam($_REQUEST, 'userid', $my->id);
+$catid = (int) mosGetParam($_REQUEST, 'catid', 0);
+$contentid = (int) mosGetParam($_REQUEST, 'contentid', 0);
+$order = (int) mosGetParam($_REQUEST, 'order', 0);
+$mode = mosGetParam($_REQUEST, 'mode', 'email');
+$tag = mosGetParam($_REQUEST, 'tag', '');
+$alpha = urldecode(mosGetParam($_REQUEST, 'alpha', ''));
+$directory = (isset($frontpageConf->directory)) ? (int) $frontpageConf->directory : (int) mosGetParam($_REQUEST, 'directory', 0);
+$itemid = (int) mosGetParam($_REQUEST, 'Itemid', 0);
+$isFrontpage = (isset($isFrontpage)) ? 1 : 0;
 
 //пробуем разобрать ссылки меню если ид каталога не известен
-if ($directory==0) {
-    $database = database::getInstance();
-    if($itemid > 0){
-        $params = $database->setQuery( "SELECT `params` FROM #__menu WHERE `id` =".$itemid )->loadResult();
-        $params = explode("\n", $params);
-        foreach($params as $param){
-            $param = explode('=', $param);
-            if($param[0] == 'directory' && isset($param[1])) $directory = $param[1];
-            if($param[0] == 'catid' && isset($param[1]) && $catid == 0) $catid = $param[1];
-            if($param[0] == 'task' && isset($param[1])) $task = $param[1];
-        }
-    }
+if ($directory == 0) {
+	$database = database::getInstance();
+	if ($itemid > 0) {
+		$params = $database->setQuery("SELECT `params` FROM #__menu WHERE `id` =" . $itemid)->loadResult();
+		$params = explode("\n", $params);
+		foreach ($params as $param) {
+			$param = explode('=', $param);
+			if ($param[0] == 'directory' && isset($param[1]))
+				$directory = $param[1];
+			if ($param[0] == 'catid' && isset($param[1]) && $catid == 0)
+				$catid = $param[1];
+			if ($param[0] == 'task' && isset($param[1]))
+				$task = $param[1];
+		}
+	}
 }
 //если все-таки не нашлось каталога, выводим первый.
-if ($directory==0) {
-    $directory = $database->setQuery( "SELECT MIN(id) FROM #__boss_config" )->loadResult();
-    if (!$directory) {
+if ($directory == 0) {
+	$directory = $database->setQuery("SELECT MIN(id) FROM #__boss_config")->loadResult();
+	if (!$directory) {
 		$directory = 0;
 	}
 }
 $directory = (int) $directory;
 
-if ( $task != 'rss' ) {
+if ($task != 'rss') {
 	boss_helpers::loadBossLang($directory);
-    boss_helpers::addDirectoryScript($directory);
-    // get configuration
-    $conf = getConfig($directory);
+	boss_helpers::addDirectoryScript($directory);
+	// get configuration
+	$conf = getConfig($directory);
 
-    if(!is_object($conf)){
-        $task = 'emptypage';
-    }
-    
-    $template_name = (isset($conf->template)) ? $conf->template : 'default';
-    $mainframe->addCustomHeadTag('<link rel="stylesheet" href="'.$mosConfig_live_site.'/templates/com_boss/'.$template_name.'/css/boss.css" type="text/css" />');
+	if (!is_object($conf)) {
+		$task = 'emptypage';
+	}
 
-    //запускаем рассылку писем просроченным абонентам
-    $last_cron_date = null;
-    $fileCron = JPATH_BASE.DS.'images'.DS.'boss'.DS.$directory.DS.'cron.php';
-    if(is_file($fileCron)){
-        require ($fileCron);
-        ($last_cron_date != date("Ymd")) ? manage_expiration($directory,$conf,$fileCron,$template_name) : null;
-    }
+	$template_name = (isset($conf->template)) ? $conf->template : 'default';
+	$mainframe->addCustomHeadTag('<link rel="stylesheet" href="' . $mosConfig_live_site . '/templates/com_boss/' . $template_name . '/css/boss.css" type="text/css" />');
+
+	//запускаем рассылку писем просроченным абонентам
+	$last_cron_date = null;
+	$fileCron = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'cron.php';
+	if (is_file($fileCron)) {
+		require ($fileCron);
+		($last_cron_date != date("Ymd")) ? manage_expiration($directory, $conf, $fileCron, $template_name) : null;
+	}
 }
 
 switch ($task) {
 
 	case 'emptypage': {
-            echo 'Каталога #'.$directory.' не существует. Назначьте другой каталог для показа на главной странице.';
-            break;
-        }
-        
-    case 'show_profile': {
-			$cache->call( 'show_profile',$userid,$directory,$template_name);
+			echo 'Каталога #' . $directory . ' не существует. Назначьте другой каталог для показа на главной странице.';
+			break;
+		}
+
+	case 'show_profile': {
+			$cache->call('show_profile', $userid, $directory, $template_name);
 			break;
 		}
 
 	case 'save_profile': {
-			mosCache::cleanCache( "com_boss" );
+			mosCache::cleanCache("com_boss");
 			save_profile($directory);
 			break;
 		}
 
 	case 'search': {
-            if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call( 'show_search',$catid,$directory,$template_name);
-			}else{
-				$results = show_search($catid,$directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_search', $catid, $directory, $template_name);
+			} else {
+				$results = show_search($catid, $directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
 		}
 
 	case 'show_user': {
-                        if( $my->id != $userid && $mainframe->getCfg('caching') == 1 ){
-                                $results = $cache->call( 'show_user',$userid,$text_search,$order,$limitstart,$directory,$template_name);
-                        }else{
-                                $results = show_user($userid,$text_search,$order,$limitstart,$directory,$template_name);
-                        } 
-                        boss_show_cached_result($results);
-			break;
-		}
-
-	case 'show_category': {
-            if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call( 'show_category',$catid,$text_search,$name_search,$order,$limitstart,$directory,$template_name);
-			}else{
-				$results = show_category($catid,$text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			if ($my->id != $userid && $mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_user', $userid, $text_search, $order, $limitstart, $directory, $template_name);
+			} else {
+				$results = show_user($userid, $text_search, $order, $limitstart, $directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
 		}
 
-    case 'search_tags': {
-			$results = search_tags($tag,$order,$limitstart,$directory,$template_name);
-            boss_show_cached_result($results);
+	case 'show_category': {
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_category', $catid, $text_search, $name_search, $order, $limitstart, $directory, $template_name);
+			} else {
+				$results = show_category($catid, $text_search, $name_search, $order, $limitstart, $directory, $template_name);
+			}
+			boss_show_cached_result($results);
 			break;
 		}
 
-    case 'search_alpha': {
-			$results = search_alpha($alpha,$order,$limitstart,$directory,$template_name);
-            boss_show_cached_result($results);
+	case 'search_tags': {
+			$results = search_tags($tag, $order, $limitstart, $directory, $template_name);
+			boss_show_cached_result($results);
+			break;
+		}
+
+	case 'search_alpha': {
+			$results = search_alpha($alpha, $order, $limitstart, $directory, $template_name);
+			boss_show_cached_result($results);
 			break;
 		}
 
 	case 'show_rules': {
-             if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call('show_rules',$directory,$template_name);
-			}else{
-				$results = show_rules($directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_rules', $directory, $template_name);
+			} else {
+				$results = show_rules($directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
 		}
 
 	case 'show_content': {
-            if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call( 'show_content',$contentid,$catid,$directory,$template_name);
-			}else{
-				$results = show_content($contentid,$catid,$directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_content', $contentid, $catid, $directory, $template_name);
+			} else {
+				$results = show_content($contentid, $catid, $directory, $template_name);
 			}
 			boss_show_cached_result($results['params']);
 
 			$content_userid = $results['contentid'];
 
 			// increment views. views from item author are not counted to prevent highclicking views of own item
-			if ( $my->id <> $content_userid) {
-				$sql = "UPDATE #__boss_".$directory."_contents SET views = LAST_INSERT_ID(views+1) WHERE id = $contentid";
+			if ($my->id <> $content_userid) {
+				$sql = "UPDATE #__boss_" . $directory . "_contents SET views = LAST_INSERT_ID(views+1) WHERE id = $contentid";
 				$database->setQuery($sql);
 
 				if ($database->getErrorNum()) {
@@ -169,71 +173,71 @@ switch ($task) {
 		}
 
 	case 'emailform': {
-			$cache->call('emailform',$contentid,$directory,$template_name);
+			$cache->call('emailform', $contentid, $directory, $template_name);
 			break;
 		}
 
 	case 'emailsend': {
-			emailsend($directory,$template_name);
+			emailsend($directory, $template_name);
 			break;
 		}
 
 	case 'login': {
-			login_form($directory,$template_name);
+			login_form($directory, $template_name);
 			break;
 		}
 
 	case 'write_content': {
-			write_content($contentid,$catid,$directory,$template_name);
+			write_content($contentid, $catid, $directory, $template_name);
 			break;
 		}
 
 	case 'save_content': {
-			mosCache::cleanCache( 'com_boss' );
+			mosCache::cleanCache('com_boss');
 			save_content($directory);
 
 			break;
 		}
 
 	case 'save_vote': {
-			mosCache::cleanCache( 'com_boss' );
-                        $rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
-                        $rating->save_vote($directory);
+			mosCache::cleanCache('com_boss');
+			$rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
+			$rating->save_vote($directory);
 			break;
 		}
 
 	case 'save_review': {
-			mosCache::cleanCache( 'com_boss' );
-                        if($conf->comment_sys == 1) 
-                            $comment_sys = 'defaultComment';
-                        else
-                            $comment_sys = 'jcomment';
-                        $comments = BossPlugins::get_plugin($directory, $comment_sys, 'comments');
-                        $comments->save_review($directory);
-			
+			mosCache::cleanCache('com_boss');
+			if ($conf->comment_sys == 1)
+				$comment_sys = 'defaultComment';
+			else
+				$comment_sys = 'jcomment';
+			$comments = BossPlugins::get_plugin($directory, $comment_sys, 'comments');
+			$comments->save_review($directory);
+
 
 			break;
 		}
 
 	case 'delete_content': {
-			mosCache::cleanCache( 'com_boss' );
-			delete_content($contentid,$directory,$template_name);
+			mosCache::cleanCache('com_boss');
+			delete_content($contentid, $directory, $template_name);
 			break;
 		}
 
 	case 'show_result':
-		if (($catid == 0)||(!isset($catid)))
-			$results = show_all($text_search,$name_search,$order,$limitstart,$directory,$template_name);
+		if (($catid == 0) || (!isset($catid)))
+			$results = show_all($text_search, $name_search, $order, $limitstart, $directory, $template_name);
 		else
-			$results = show_category($catid,$text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			$results = show_category($catid, $text_search, $name_search, $order, $limitstart, $directory, $template_name);
 		boss_show_cached_result($results);
-                break;
+		break;
 
 	case 'show_all': {
-                        if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call( 'show_all',$text_search,$name_search,$order,$limitstart,$directory,$template_name);
-			}else{
-				$results = show_all($text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_all', $text_search, $name_search, $order, $limitstart, $directory, $template_name);
+			} else {
+				$results = show_all($text_search, $name_search, $order, $limitstart, $directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
@@ -241,102 +245,102 @@ switch ($task) {
 
 
 	case 'show_frontpage': {
-                        if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call( 'show_frontpage',$text_search,$name_search,$order,$limitstart,$directory,$template_name);
-			}else{
-				$results = show_frontpage($text_search,$name_search,$order,$limitstart,$directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('show_frontpage', $text_search, $name_search, $order, $limitstart, $directory, $template_name);
+			} else {
+				$results = show_frontpage($text_search, $name_search, $order, $limitstart, $directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
 		}
 
 	case 'show_message_form': {
-			$cache->call( 'show_message_form',$contentid,$mode,$directory,$template_name);
+			$cache->call('show_message_form', $contentid, $mode, $directory, $template_name);
 			break;
 		}
 
 	case 'send_message': {
-			send_message($mode,$directory);
+			send_message($mode, $directory);
 			break;
 		}
 
 	case 'expiration': {
-			show_expiration($contentid,$directory,$template_name);
+			show_expiration($contentid, $directory, $template_name);
 			break;
 		}
 
 	case 'extend_expiration': {
-			extend_expiration($contentid,$directory);
+			extend_expiration($contentid, $directory);
 			break;
 		}
 
 	case 'rss': {
-			show_rss($catid,$directory);
+			show_rss($catid, $directory);
 			return;
 		}
 
 	default: {
-			if( $mainframe->getCfg('caching') == 1 ){
-				$results = $cache->call('front',$directory,$template_name);
-			}else{
-				$results = front($directory,$template_name);
+			if ($mainframe->getCfg('caching') == 1) {
+				$results = $cache->call('front', $directory, $template_name);
+			} else {
+				$results = front($directory, $template_name);
 			}
 			boss_show_cached_result($results);
 			break;
 		}
 }
 
-function show_search($catid,$directory,$template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    //get configuration
-    $conf = getConfig($directory);
-    //права пользователя
-    if($conf->allow_rights){
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-        $rights->bind_rights(@$conf->rights);
-        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-        if(!$rights->allow_me('show_search', $my->groop_id) ){
-            echo '<div class="error">'.$rights->error('show_search').'</div>';
-            return; 
-        } 
-    }
-        $mainframe = mosMainFrame::getInstance();
-        $database = database::getInstance();
+function show_search($catid, $directory, $template_name) {
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	//get configuration
+	$conf = getConfig($directory);
+	//права пользователя
+	if ($conf->allow_rights) {
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		$rights->bind_rights(@$conf->rights);
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+		if (!$rights->allow_me('show_search', $my->groop_id)) {
+			echo '<div class="error">' . $rights->error('show_search') . '</div>';
+			return;
+		}
+	}
+
 	$params = array();
-        $paths = array();
+	$paths = array();
 	$jDirectoryHtmlClass = new boss_html();
-        $field_values = boss_helpers::loadFieldValues($directory);
+	$field_values = boss_helpers::loadFieldValues($directory);
 	$itemid = getBossItemid($directory, $catid);
 
-        $content_type = mosGetParam( $_REQUEST, 'content_types' , 0  );
+	$content_type = mosGetParam($_REQUEST, 'content_types', 0);
 
-        $where =  ($content_type>0) ? "AND (FIND_IN_SET($content_type, `catsid`) > 0 OR `catsid` = ',-1,')" : '';
-  
+	$where = ($content_type > 0) ? "AND (FIND_IN_SET($content_type, `catsid`) > 0 OR `catsid` = ',-1,')" : '';
+
 	// Dynamic Page Title
 	$params['title'] = BOSS_PAGE_TITLE . BOSS_ADVANCED_SEARCH;
 
-	$fields_searchable = $database->setQuery( "SELECT * FROM #__boss_".$directory."_fields ".
-	"WHERE searchable = 1 AND published = 1 AND profile = 0 " . $where )->loadObjectList();
+	$database = database::getInstance();
+	$fields_searchable = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields " .
+					"WHERE searchable = 1 AND published = 1 AND profile = 0 " . $where)->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return false;
 	}
-        
-	$content_types = $database->setQuery( "SELECT * FROM #__boss_".$directory."_content_types WHERE published = 1" )->loadObjectList();
+
+	$content_types = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_content_types WHERE published = 1")->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return false;
 	}
 
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-        $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-        $jDirectoryHtmlClass->paths  = $paths;
-        
-	$cats = boss_helpers::get_cattree($directory,$conf,$conf->empty_cat);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
 
-        $jDirectoryHtmlClass->user = $my;
+	$cats = boss_helpers::get_cattree($directory, $conf, $conf->empty_cat);
+
+	$jDirectoryHtmlClass->user = $my;
 	$jDirectoryHtmlClass->conf = $conf;
 	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->fields = $fields_searchable;
@@ -348,231 +352,226 @@ function show_search($catid,$directory,$template_name) {
 	$jDirectoryHtmlClass->content_types = $content_types;
 	$jDirectoryHtmlClass->content_type = $content_type;
 	$jDirectoryHtmlClass->content->id = 0;
-        ob_start();
-            $jDirectoryHtmlClass->displaySearch();
-            $params['page_body'] = ob_get_contents();
+	ob_start();
+	$jDirectoryHtmlClass->displaySearch();
+	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
 
-    return $params;
+	return $params;
 }
 
-function show_all($text_search,$name_search,$order,$limitstart,$directory,$template_name) {
-    
-    //get configuration
-    $conf = getConfig($directory);
-    
-    //права пользователя
-    if($conf->allow_rights){
-        $mainframe = mosMainFrame::getInstance();
-        $my = $mainframe->getUser();
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-        $rights->bind_rights(@$conf->rights);
-        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-        if(!$rights->allow_me('show_all', $my->groop_id) ){
-            echo '<div class="error">'.$rights->error('show_all').'</div>';
-            return; 
-        } 
-    }
-    
-    $mainframe = mosMainFrame::getInstance();
-    $database = database::getInstance();
-    $paths = null;
-    $params = array();
+function show_all($text_search, $name_search, $order, $limitstart, $directory, $template_name) {
+
+	//get configuration
+	$conf = getConfig($directory);
+
+	$mainframe = mosMainFrame::getInstance();
+	//права пользователя
+	if ($conf->allow_rights) {
+		$my = $mainframe->getUser();
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		$rights->bind_rights(@$conf->rights);
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+		if (!$rights->allow_me('show_all', $my->groop_id)) {
+			echo '<div class="error">' . $rights->error('show_all') . '</div>';
+			return;
+		}
+	}
+
+	$paths = null;
+	$params = array();
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0 );
+	$itemid = getBossItemid($directory, 0);
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
-	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-    $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-	$jDirectoryHtmlClass->paths  = $paths;
-	$jDirectoryHtmlClass->subcats  = $subcats;
-	//List
-	if (isset($text_search)){
-		$url_text_search = "&amp;text_search=".$text_search;
-	}
-	
-	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
 
-    ob_start();
-	$params = boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_all","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
+	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
+	$paths[0]->text = $conf->name;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
+	$jDirectoryHtmlClass->subcats = $subcats;
+	//List
+	if (isset($text_search)) {
+		$url_text_search = "&amp;text_search=" . $text_search;
+	}
+
+	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
+
+	ob_start();
+	$params = boss_helpers::show_list(BOSS_LIST_TEXT, "", $url, "show_all", "1", $text_search, $name_search, $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-    // Dynamic Page Title
-    $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
-    return $params;
+	// Dynamic Page Title
+	$params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
+	return $params;
 }
 
-function show_frontpage($text_search,$name_search,$order,$limitstart,$directory,$template_name) {
+function show_frontpage($text_search, $name_search, $order, $limitstart, $directory, $template_name) {
 
-    //get configuration
-    $conf = getConfig($directory);
+	//get configuration
+	$conf = getConfig($directory);
 
-    //права пользователя
-    if($conf->allow_rights){
-        $mainframe = mosMainFrame::getInstance();
-        $my = $mainframe->getUser();
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-        $rights->bind_rights(@$conf->rights);
-        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-        if(!$rights->allow_me('show_all', $my->groop_id) ){
-            echo '<div class="error">'.$rights->error('show_all').'</div>';
-            return;
-        }
-    }
+	$mainframe = mosMainFrame::getInstance();
+	//права пользователя
+	if ($conf->allow_rights) {
+		$my = $mainframe->getUser();
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		$rights->bind_rights(@$conf->rights);
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+		if (!$rights->allow_me('show_all', $my->groop_id)) {
+			echo '<div class="error">' . $rights->error('show_all') . '</div>';
+			return;
+		}
+	}
 
-    $mainframe = mosMainFrame::getInstance();
-    $database = database::getInstance();
-    $paths = null;
-    $params = array();
+	$paths = null;
+	$params = array();
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0 );
+	$itemid = getBossItemid($directory, 0);
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
+
+	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-    $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-	$jDirectoryHtmlClass->paths  = $paths;
-	$jDirectoryHtmlClass->subcats  = $subcats;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
+	$jDirectoryHtmlClass->subcats = $subcats;
 	//List
-	if (isset($text_search)){
-		$url_text_search = "&amp;text_search=".$text_search;
+	if (isset($text_search)) {
+		$url_text_search = "&amp;text_search=" . $text_search;
 	}
 
-	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
+	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
 
-    ob_start();
-	$params = boss_helpers::show_list(BOSS_LIST_TEXT,"",$url,"show_frontpage","1",$text_search,$name_search,$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name);
+	ob_start();
+	$params = boss_helpers::show_list(BOSS_LIST_TEXT, "", $url, "show_frontpage", "1", $text_search, $name_search, $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-    // Dynamic Page Title
-    $params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
+	// Dynamic Page Title
+	$params['title'] = BOSS_PAGE_TITLE . BOSS_LIST_TEXT;
 
-        return $params;
+	return $params;
 }
 
-function show_user($userid,$text_search,$order,$limitstart,$directory,$template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    //get configuration
-    $conf = getConfig($directory);
-    //права пользователя
-    if($conf->allow_rights){
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-        $rights->bind_rights(@$conf->rights);
-        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-        
-        if( !$rights->allow_me('show_user_content', $my->groop_id) ){ 
-            if( !($my->id == $userid && $rights->allow_me('show_my_content', $my->groop_id)) ){
-                echo '<div class="error">'.$rights->error('show_user_content').'</div>';
-                return; 
-            }
-        } 
-    }
-                
-    $params = array();
-    $mainframe = mosMainFrame::getInstance();
-    $database = database::getInstance();
-	
-    $paths = null;
-    $jDirectoryHtmlClass = new boss_html();
+function show_user($userid, $text_search, $order, $limitstart, $directory, $template_name) {
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	//get configuration
+	$conf = getConfig($directory);
+	//права пользователя
+	if ($conf->allow_rights) {
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		$rights->bind_rights(@$conf->rights);
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
 
-    $itemid = getBossItemid($directory, 0);
+		if (!$rights->allow_me('show_user_content', $my->groop_id)) {
+			if (!($my->id == $userid && $rights->allow_me('show_my_content', $my->groop_id))) {
+				echo '<div class="error">' . $rights->error('show_user_content') . '</div>';
+				return;
+			}
+		}
+	}
 
-    //PathWay
-    $paths[0]->text = $conf->name;
-    $paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-    $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-    $jDirectoryHtmlClass->paths  = $paths;
+	$params = array();
+
+	$paths = null;
+	$jDirectoryHtmlClass = new boss_html();
+
+	$itemid = getBossItemid($directory, 0);
+
+	//PathWay
+	$paths[0]->text = $conf->name;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
 
 	if ($userid == 0) {
 		$jDirectoryHtmlClass->conf = $conf;
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->displayLoginForm($_SERVER['REQUEST_URI']);
+	} else {
+		//Dynamic Page Title
+
+		$database = database::getInstance();
+		$user = new mosUser($database);
+		$user->load($userid);
+		$name_list = BOSS_LIST_USER_TEXT . " " . $user->username;
+
+		//List
+		if (isset($text_search))
+			$url_text_search = "&amp;text_search=" . $text_search;
+		$url = "index.php?option=com_boss&amp;task=show_user&amp;userid=" . $userid . $url_text_search . "&amp;directory=$directory&amp;order=" . $order;
+
+		if ($my->id == $userid) {
+			$update_possible = 1;
+		} else {
+			$update_possible = 0;
+		}
+
+		ob_start();
+		$params = boss_helpers::show_list($name_list, "", $url, "show_user", "a.userid=$userid", $text_search, '', $order, 0, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name);
+		$params['page_body'] = ob_get_contents();
+		ob_end_clean();
+		$params['title'] = BOSS_PAGE_TITLE . $name_list;
 	}
-	else {
-			//Dynamic Page Title
-			$user = new mosUser( $database );
-			$user->load( $userid );
-			$name_list = BOSS_LIST_USER_TEXT." ".$user->username;
-
-
-			//List
-			if (isset($text_search))
-				$url_text_search = "&amp;text_search=".$text_search;
-			$url ="index.php?option=com_boss&amp;task=show_user&amp;userid=".$userid.$url_text_search."&amp;directory=$directory&amp;order=".$order;
-
-			if ($my->id == $userid){
-				$update_possible = 1;
-			}else{
-				$update_possible = 0;
-			}
-                        ob_start();
-                        $params = boss_helpers::show_list($name_list,"",$url,"show_user","a.userid=$userid",$text_search,'',$order,0,$limitstart,$update_possible,$jDirectoryHtmlClass,$directory,$template_name);
-                        $params['page_body'] = ob_get_contents();
-                        ob_end_clean();
-			            $params['title'] = BOSS_PAGE_TITLE . $name_list;
-	}
-        return $params;
+	return $params;
 }
 
-function show_category($catid,$text_search,$name_search,$order,$limitstart,$directory,$template_name) {
-    
-        $mainframe = mosMainFrame::getInstance();
-        $database = database::getInstance();
+function show_category($catid, $text_search, $name_search, $order, $limitstart, $directory, $template_name) {
+
+	$mainframe = mosMainFrame::getInstance();
+	$database = database::getInstance();
 	$params = array();
-        $category = null;
-        $search_user = '';
+	$category = null;
+	$search_user = '';
 	$jDirectoryHtmlClass = new boss_html();
-        
+
 	$itemid = getBossItemid($directory, $catid);
 
 	// get category-name: #__boss_".$directory."_category
-	$database->setQuery("SELECT c.* ".
-			" FROM #__boss_".$directory."_categories as c WHERE c.published='1' AND c.id=$catid");
+	$database->setQuery("SELECT c.* " .
+			" FROM #__boss_" . $directory . "_categories as c WHERE c.published='1' AND c.id=$catid");
 	$database->loadObject($category);
-        
-        //get configuration
-        $conf = getConfig($directory);
-        //права пользователя
-        if($conf->allow_rights){
-            $mainframe = mosMainFrame::getInstance();
-            $my = $mainframe->getUser();
-            $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-            $rights->bind_rights(@$conf->rights);
-            $rights->bind_rights(@$category->rights);
-            $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-            if(!$rights->allow_me('show_category', $my->groop_id) ){
-                echo '<div class="error">'.$rights->error('show_category').'</div>';
-                return; 
-            } 
-            if(!$rights->allow_me('show_category_content', $my->groop_id) && $rights->allow_me('show_my_content', $my->groop_id)){
-                $search_user = " AND a.userid = '$my->id'";
-            }
-            else if(!$rights->allow_me('show_category_content', $my->groop_id) && !$rights->allow_me('show_my_content', $my->groop_id)){
-                echo '<div class="error">'.$rights->error('show_category').'</div>';
-                return; 
-            }
-        }
+
+	//get configuration
+	$conf = getConfig($directory);
+	//права пользователя
+	if ($conf->allow_rights) {
+		$my = $mainframe->getUser();
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		$rights->bind_rights(@$conf->rights);
+		$rights->bind_rights(@$category->rights);
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+		if (!$rights->allow_me('show_category', $my->groop_id)) {
+			echo '<div class="error">' . $rights->error('show_category') . '</div>';
+			return;
+		}
+		if (!$rights->allow_me('show_category_content', $my->groop_id) && $rights->allow_me('show_my_content', $my->groop_id)) {
+			$search_user = " AND a.userid = '$my->id'";
+		} else if (!$rights->allow_me('show_category_content', $my->groop_id) && !$rights->allow_me('show_my_content', $my->groop_id)) {
+			echo '<div class="error">' . $rights->error('show_category') . '</div>';
+			return;
+		}
+	}
 
 	$cat_name = $category->name;
 	$cat_description = $category->description;
-	$parent = $category->parent;
+	//$parent = $category->parent;
 
 	if ($category->template) {
 		$template_name = $category->template;
 	}
-        
 
-        
-	$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
+
+
+	//$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
 
 	$listcats = boss_helpers::loadCats($directory);
 	boss_helpers::get_pathlist($listcats, $catid, $cat_name, $paths, $itemid, $order, $directory);
@@ -582,24 +581,25 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
 	for ($i = $nb; $i >= 0; $i--) {
 		$mainframe->appendPathWay('<a href ="' . $paths[$i]->link . '">' . $paths[$i]->text . '</a>');
 	}
+
 	boss_helpers::get_subpathlist($listcats, $catid, $subcats, $itemid, $order, $directory);
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
 
 	//List
 	$list[] = $catid;
-	boss_helpers::recurse_search($listcats,$list,$catid);
+	boss_helpers::recurse_search($listcats, $list, $catid);
 	$listids = implode(',', $list);
 
-	$search = "cch.category_id IN ($listids)".$search_user;
-	if (isset($text_search)){
-		$url_text_search = "&amp;text_search=".$text_search;
+	$search = "cch.category_id IN ($listids)" . $search_user;
+	if (isset($text_search)) {
+		$url_text_search = "&amp;text_search=" . $text_search;
 	}
-	
-	$url ="index.php?option=com_boss&amp;task=show_category&amp;catid=".$catid.$url_text_search."&amp;directory=".$directory;
-	
-    ob_start();
-	$params = boss_helpers::show_list($cat_name,$cat_description,$url,"show_category",$search,$text_search,$name_search,$order,$catid,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,array(), $category->content_types);
+
+	$url = "index.php?option=com_boss&amp;task=show_category&amp;catid=" . $catid . $url_text_search . "&amp;directory=" . $directory;
+
+	ob_start();
+	$params = boss_helpers::show_list($cat_name, $cat_description, $url, "show_category", $search, $text_search, $name_search, $order, $catid, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name, array(), $category->content_types);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
 	// Dynamic Page Title
@@ -607,197 +607,196 @@ function show_category($catid,$text_search,$name_search,$order,$limitstart,$dire
 	//Dynamic Page meta
 	$params['description'] = (!empty($category->meta_desc)) ? $category->meta_desc : substr(strip_tags($category->description), 0, 200);
 	$params['keywords'] = $category->meta_keys;
-    return $params;
+	return $params;
 }
 
-function search_tags($tag,$order,$limitstart,$directory,$template_name) {
+function search_tags($tag, $order, $limitstart, $directory, $template_name) {
+
 	$mainframe = mosMainFrame::getInstance();
-    $database = database::getInstance();
-	
-    $url_text_search = null;
-    $paths = null;
+	$database = database::getInstance();
+
+	$url_text_search = null;
+	$paths = null;
 	$jDirectoryHtmlClass = new boss_html();
 
 	$itemid = getBossItemid($directory, 0);
-    $tag = urldecode(cutLongWord($tag, 255));
+	$tag = urldecode(cutLongWord($tag, 255));
 
-    //header
-    $header = BOSS_TAGS_HEADER.' &laquo;'.$tag.'&raquo;';
+	//header
+	$header = BOSS_TAGS_HEADER . ' &laquo;' . $tag . '&raquo;';
 
-    // Dynamic Page Title
-	$mainframe->SetPageTitle( $header );
+	// Dynamic Page Title
+	$mainframe->SetPageTitle($header);
 
-    //get configuration
-    $conf = getConfig($directory);
+	//get configuration
+	$conf = getConfig($directory);
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
+	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-        $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-	$jDirectoryHtmlClass->paths  = $paths;
-	$jDirectoryHtmlClass->subcats  = $subcats;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
+	$jDirectoryHtmlClass->subcats = $subcats;
 
-    $database->setQuery("SELECT `obj_id` FROM #__content_tags WHERE `tag` = '".$tag."' AND `obj_type` = 'com_boss_".$directory."'");
+	$database->setQuery("SELECT `obj_id` FROM #__content_tags WHERE `tag` = '" . $tag . "' AND `obj_type` = 'com_boss_" . $directory . "'");
 	$tagContentIds = $database->loadResultArray();
 	//List
-	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
-	$params = boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$tagContentIds);
-    return $params;
+	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
+	$params = boss_helpers::show_list($header, "", $url, "show_all", "1", '', '', $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds);
+	return $params;
 }
 
-function search_alpha($alpha,$order,$limitstart,$directory,$template_name) {
+function search_alpha($alpha, $order, $limitstart, $directory, $template_name) {
 	$mainframe = mosMainFrame::getInstance();
-    $database = database::getInstance();
-	
-    $url_text_search = null;
-    $paths = null;
+	$database = database::getInstance();
+
+	$url_text_search = null;
+	$paths = null;
 	$jDirectoryHtmlClass = new boss_html();
 
 	$itemid = getBossItemid($directory, 0);
 
-    //header
-    $header = BOSS_ALPHA_HEADER.' &laquo;'.$alpha.'&raquo;';
+	//header
+	$header = BOSS_ALPHA_HEADER . ' &laquo;' . $alpha . '&raquo;';
 
-    // Dynamic Page Title
-	$mainframe->SetPageTitle( $header );
+	// Dynamic Page Title
+	$mainframe->SetPageTitle($header);
 
-    //get configuration
-    $conf = getConfig($directory);
+	//get configuration
+	$conf = getConfig($directory);
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	boss_helpers::get_subpathlist($list,0,$subcats,$itemid,$order,$directory);
+	boss_helpers::get_subpathlist($list, 0, $subcats, $itemid, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-    $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-	
-	$jDirectoryHtmlClass->paths  = $paths;
-	$jDirectoryHtmlClass->subcats  = $subcats;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 
-	$alpha = Jstring::strtolower ($alpha);
+	$jDirectoryHtmlClass->paths = $paths;
+	$jDirectoryHtmlClass->subcats = $subcats;
 
-    $database->setQuery("SELECT `id` FROM #__boss_".$directory."_contents WHERE LOWER(`name`) LIKE '" . $alpha . "%'");
+	$alpha = Jstring::strtolower($alpha);
+
+	$database->setQuery("SELECT `id` FROM #__boss_" . $directory . "_contents WHERE LOWER(`name`) LIKE '" . $alpha . "%'");
 	$alphaContentIds = $database->loadResultArray();
-	
+
 	//List
-	$url ="index.php?option=com_boss&amp;task=show_all".$url_text_search."&amp;directory=".$directory."&amp;order=".$order;
-	$params = boss_helpers::show_list($header,"",$url,"show_all","1",'','',$order,0,$limitstart,0,$jDirectoryHtmlClass,$directory,$template_name,$alphaContentIds);
-    return $params;
+	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
+	$params = boss_helpers::show_list($header, "", $url, "show_all", "1", '', '', $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name, $alphaContentIds);
+	return $params;
 }
 
-function show_message_form($contentid,$mode,$directory,$template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
-    $content = null;
-    $conf = null;       
+function show_message_form($contentid, $mode, $directory, $template_name) {
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
+	$content = null;
+	$conf = null;
 
 	$jDirectoryHtmlClass = new boss_html();
 	$itemid = getBossItemid($directory, 0);
 
-	$database->setQuery("SELECT a.* FROM #__boss_".$directory."_contents as a WHERE a.id=$contentid")->loadObject($content);
+	$database->setQuery("SELECT a.* FROM #__boss_" . $directory . "_contents as a WHERE a.id=$contentid")->loadObject($content);
 
-	$user = new mosUser( $database );
-	if($my->id > 0){
-		$user->load( $my->id );
+	$user = new mosUser($database);
+	if ($my->id > 0) {
+		$user->load($my->id);
 	}
 
-	if ($mode == 0) //Email
-	{
+	if ($mode == 0) { //Email
 		//get configuration
-        $conf = getConfig($directory);
+		$conf = getConfig($directory);
 
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
-		$jDirectoryHtmlClass->displayMessageForm($content,$user,$mode,$conf->allow_attachement,$itemid);
-	}
-	else // PMS
-	{
+		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, $conf->allow_attachement, $itemid);
+	} else { // PMS
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
-		$jDirectoryHtmlClass->displayMessageForm($content,$user,$mode,0,$itemid);
+		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, 0, $itemid);
 	}
 }
 
-function send_message($mode,$directory) {
-    $_MAMBOTS = mosMambotHandler::getInstance();
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function send_message($mode, $directory) {
+
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 
 	$database = database::getInstance();
-    $content = null;
-    
-	$itemid = getBossItemid($directory, 0);
-	$contentid = intval( mosGetParam( $_POST, 'contentid' , 0  ));
+	$content = null;
 
-	$database->setQuery("SELECT * FROM #__boss_".$directory."_contents as a WHERE a.id=$contentid")->loadObject($content);
+	$itemid = getBossItemid($directory, 0);
+	$contentid = intval(mosGetParam($_POST, 'contentid', 0));
+
+	$database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents as a WHERE a.id=$contentid")->loadObject($content);
 
 	if (isset($content)) {
-		$name = mosGetParam($_POST,  'name' , "" );
-		$email = mosGetParam($_POST, 'email', "" );
-		$title = mosGetParam($_POST, 'title', "" );
-		$body = mosGetParam($_POST,  'body' , "" );
+		$name = mosGetParam($_POST, 'name', "");
+		$email = mosGetParam($_POST, 'email', "");
+		$title = mosGetParam($_POST, 'title', "");
+		$body = mosGetParam($_POST, 'body', "");
 
 		if ($mode == 1) {
-			$_MAMBOTS->loadBotGroup( 'com_boss' );
-			$results = $_MAMBOTS->trigger( 'onSendPMS', array( $content->userid,$my->id,$title,$body ), false );
-		}
-		else {
+			$_MAMBOTS = mosMambotHandler::getInstance();
+			$_MAMBOTS->loadBotGroup('com_boss');
+			$results = $_MAMBOTS->trigger('onSendPMS', array($content->userid, $my->id, $title, $body), false);
+		} else {
 			if ($_FILES['attach_file']['tmp_name'] != "") {
-				$directory = ini_get('uplocontent_tmp_dir')."";
+				$directory = ini_get('uplocontent_tmp_dir') . "";
 				if ($directory == "")
-					$directory = ini_get('session.save_path')."";
+					$directory = ini_get('session.save_path') . "";
 
-				$filename = $directory."/".basename($_FILES['attach_file']['name']);
+				$filename = $directory . "/" . basename($_FILES['attach_file']['name']);
 				rename($_FILES['attach_file']['tmp_name'], $filename);
-				mosMail($email,$name,$content->email,$title,$body,1,NULL,NULL,$filename);
+				mosMail($email, $name, $content->email, $title, $body, 1, NULL, NULL, $filename);
 			}
 			else
-				mosMail($email,$name,$content->email,$title,$body,1);
+				mosMail($email, $name, $content->email, $title, $body, 1);
 		}
 	}
 
-	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory&amp;Itemid=$itemid"),BOSS_MESSAGE_SENT);
+	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory&amp;Itemid=$itemid"), BOSS_MESSAGE_SENT);
 }
 
 function show_content($contentid, $catid, $directory, $template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
-        $params = array();
+
+	$params = array();
 	$content = null;
 	$jDirectoryHtmlClass = new boss_html();
 	$itemid = getBossItemid($directory, $catid);
-        //get value fields
+
+	//get value fields
 	$field_values = boss_helpers::loadFieldValues($directory);
+
 	//get configuration
 	$conf = getConfig($directory);
-        $plugins = BossPlugins::get_plugins($directory, 'fields');
+	$plugins = BossPlugins::get_plugins($directory, 'fields');
 
-        $rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
-        $ratingQuery = $rating->queryString($directory, $conf);
-        
-        if($conf->comment_sys == 1) 
-            $comment_sys = 'defaultComment';
-        else
-            $comment_sys = 'jcomment';
-        $comments = BossPlugins::get_plugin($directory, $comment_sys, 'comments');
+	$rating = BossPlugins::get_plugin($directory, $conf->rating, 'ratings');
+	$ratingQuery = $rating->queryString($directory, $conf);
 
-        $fields = $database->setQuery( "SELECT f.* FROM #__boss_".$directory."_fields AS f WHERE f.published = 1" )->loadObjectList('name');
+	if ($conf->comment_sys == 1)
+		$comment_sys = 'defaultComment';
+	else
+		$comment_sys = 'jcomment';
+	$comments = BossPlugins::get_plugin($directory, $comment_sys, 'comments');
+
+	$fields = $database->setQuery("SELECT f.* FROM #__boss_" . $directory . "_fields AS f WHERE f.published = 1")->loadObjectList('name');
 	//Show Ad
 
 	if (($conf->show_contact == 1) && ($my->id == "0")) {
 		$show_contact = 0;
-	}
-    else if(($conf->show_contact == 1) && ($my->id > 0)) {
+	} else if (($conf->show_contact == 1) && ($my->id > 0)) {
 		$show_contact = 1;
-	}
-    else if($conf->show_contact == 0) {
+	} else if ($conf->show_contact == 0) {
 		$show_contact = 1;
-	}
-    else{
+	} else {
 		$show_contact = 0;
 	}
 
@@ -806,18 +805,18 @@ function show_content($contentid, $catid, $directory, $template_name) {
 		$q .= "profile.*, \n";
 		$q .= "u.email as user_email, u.name as user_fio, \n";
 	}
-	
+
 	$q .= $ratingQuery['fields'];
-        
+
 	$q .= " c.name as cat, c.id as catid, u.username as user " .
 			"FROM #__boss_" . $directory . "_contents as a ";
-	
+
 	if ($show_contact == 1) {
 		$q .= "LEFT JOIN #__boss_" . $directory . "_profile as profile ON a.userid = profile.userid \n";
 	}
-        
+
 	$q .= $ratingQuery['tables'];
-        
+
 	$q .= "LEFT JOIN  #__boss_" . $directory . "_content_category_href AS cch ON a.id = cch.content_id " .
 			"LEFT JOIN #__users as u ON a.userid = u.id " .
 			"LEFT JOIN #__boss_" . $directory . "_categories as c ON cch.category_id = c.id " .
@@ -830,44 +829,42 @@ function show_content($contentid, $catid, $directory, $template_name) {
 	$q .= "GROUP by a.id";
 
 	$database->setQuery($q)->loadObject($content);
-        
-        $perms = null;
-        //права пользователя
-        if($conf->allow_rights){
-            $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-            $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-            if($catid > 0){
-                $rights->bind_rights($content->rights);
-            }
-            else{
-                $rights->bind_rights(@$conf->rights);
-            }
-            $perms = $rights->loadRights(array('show_my_content', 'show_all_content', 'edit_user_content', 'edit_all_content', 'delete_user_content', 'delete_all_content'), $my->groop_id);
-            if(!($perms->show_all_content || ($perms->show_my_content && $my->id == $content->user_id))){
-                echo '<div class="error">'.$rights->error('show_category').'</div>';
-                return; 
-            }
-        }
-        
+
+	$perms = null;
+	//права пользователя
+	if ($conf->allow_rights) {
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		if ($catid > 0) {
+			$rights->bind_rights($content->rights);
+		} else {
+			$rights->bind_rights(@$conf->rights);
+		}
+		$perms = $rights->loadRights(array('show_my_content', 'show_all_content', 'edit_user_content', 'edit_all_content', 'delete_user_content', 'delete_all_content'), $my->groop_id);
+		if (!($perms->show_all_content || ($perms->show_my_content && $my->id == $content->user_id))) {
+			echo '<div class="error">' . $rights->error('show_category') . '</div>';
+			return;
+		}
+	}
+
 	// Dynamic Page Title
 	$params['title'] = (isset($content->meta_title)) ? $content->meta_title : $content->cat . " - " . $content->name;
 	//Dynamic Page meta
 	$params['description'] = $content->meta_desc;
 	$params['keywords'] = $content->meta_keys;
 
-        //подключаем некешируемую информацию из плагинов.
-        foreach($fields as $field){
-            if(method_exists($plugins[$field->type],'addInHead')){
-                $fv = isset($field_values[$field->fieldid]) ? $field_values[$field->fieldid] : array();
-				$params = array_merge_recursive($params, $plugins[$field->type]->addInHead($fields, $fv, $directory)); 
-            }
-        }
-        
+	//подключаем некешируемую информацию из плагинов.
+	foreach ($fields as $field) {
+		if (method_exists($plugins[$field->type], 'addInHead')) {
+			$fv = isset($field_values[$field->fieldid]) ? $field_values[$field->fieldid] : array();
+			$params = array_merge_recursive($params, $plugins[$field->type]->addInHead($fields, $fv, $directory));
+		}
+	}
+
 	if ($show_contact == 1) { //вычисляем название полей профиля пользователя для идентификации их в контенте.
 		$database->setQuery("SELECT f.name, f.title FROM #__boss_" . $directory . "_fields AS f WHERE f.profile = 1 ORDER BY f.ordering");
 		$profileFields = $database->loadObjectList();
-	}
-	else{
+	} else {
 		$profileFields = array();
 	}
 	$jDirectoryHtmlClass->profileFields = $profileFields;
@@ -875,7 +872,7 @@ function show_content($contentid, $catid, $directory, $template_name) {
 	//PathWay
 	$listcats = boss_helpers::loadCats($directory);
 
-	boss_helpers::get_pathlist($listcats,$content->catid,$content->cat,$paths,$itemid,0,$directory);
+	boss_helpers::get_pathlist($listcats, $content->catid, $content->cat, $paths, $itemid, 0, $directory);
 	$nb = count($paths);
 	$paths[$nb]->text = $conf->name;
 	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
@@ -884,174 +881,171 @@ function show_content($contentid, $catid, $directory, $template_name) {
 	}
 	$jDirectoryHtmlClass->paths = $paths;
 
-    //теги
-    require_once(JPATH_BASE.'/includes/libraries/tags/tags.php');
-    $jDirectoryContentTags = new contentTags($database);
-    $obj = null;
-    $obj->id = $contentid;
-    $obj->obj_type = 'com_boss_'.$directory;
-    $tags = $jDirectoryContentTags->load_by($obj);
-    $tags = boss_helpers::arr_to_links($directory, $tags, ', ');
-    $jDirectoryHtmlClass->tags  = $tags;
-    unset($tags, $obj);
-    //конец тегов
+	//теги
+	require_once(JPATH_BASE . '/includes/libraries/tags/tags.php');
+	$jDirectoryContentTags = new contentTags($database);
+	$obj = null;
+	$obj->id = $contentid;
+	$obj->obj_type = 'com_boss_' . $directory;
+	$tags = $jDirectoryContentTags->load_by($obj);
+	$tags = boss_helpers::arr_to_links($directory, $tags, ', ');
+	$jDirectoryHtmlClass->tags = $tags;
+	unset($tags, $obj);
+	//конец тегов
 
-	$database->setQuery( "SELECT * FROM #__boss_".$directory."_groups WHERE published = 1 AND template='".$template_name."'" );
+	$database->setQuery("SELECT * FROM #__boss_" . $directory . "_groups WHERE published = 1 AND template='" . $template_name . "'");
 	$groupstemp = $database->loadObjectList('name');
 
-        if(!empty($groupstemp)){
-	$groups = array();
-	foreach($groupstemp as $grp) {
-		if ((strpos($grp->catsid, ",$catid,") !== false)||(strpos($grp->catsid, ",-1,") !== false)) {
-			$groups[] = $grp->id;
+	if (!empty($groupstemp)) {
+		$groups = array();
+		foreach ($groupstemp as $grp) {
+			if ((strpos($grp->catsid, ",$catid,") !== false) || (strpos($grp->catsid, ",-1,") !== false)) {
+				$groups[] = $grp->id;
+			}
 		}
+		$groupids = implode(',', $groups);
 	}
-	$groupids = implode(',', $groups);
-        } 
-        if (empty ($groupids))
-            $groupids = 0;
-        
-	 $query = "SELECT g.name as gname,f.* FROM #__boss_".$directory."_groupfields as fg \n".
-		"LEFT JOIN #__boss_".$directory."_groups AS g ON fg.groupid = g.id \n".
-		"LEFT JOIN #__boss_".$directory."_fields AS f ON fg.fieldid = f.fieldid \n".
-		"WHERE g.published = 1 AND g.id IN ($groupids) AND f.published = 1 AND fg.type_tmpl = 'content' \n".
-		"ORDER BY fg.ordering, f.ordering";
-        $database->setQuery( $query );
-        $fieldsgrouptemp = $database->loadObjectList();
+	if (empty($groupids))
+		$groupids = 0;
+
+	$query = "SELECT g.name as gname,f.* FROM #__boss_" . $directory . "_groupfields as fg \n" .
+			"LEFT JOIN #__boss_" . $directory . "_groups AS g ON fg.groupid = g.id \n" .
+			"LEFT JOIN #__boss_" . $directory . "_fields AS f ON fg.fieldid = f.fieldid \n" .
+			"WHERE g.published = 1 AND g.id IN ($groupids) AND f.published = 1 AND fg.type_tmpl = 'content' \n" .
+			"ORDER BY fg.ordering, f.ordering";
+	$database->setQuery($query);
+	$fieldsgrouptemp = $database->loadObjectList();
 
 	$jDirectoryHtmlClass->fieldsgroup = array();
 	$jDirectoryHtmlClass->fields = array();
 
-	foreach($fieldsgrouptemp as $f) {
-			if (!isset($jDirectoryHtmlClass->fieldsgroup[$f->gname])){
-				$jDirectoryHtmlClass->fieldsgroup[$f->gname] = array();
-			}
+	foreach ($fieldsgrouptemp as $f) {
+		if (!isset($jDirectoryHtmlClass->fieldsgroup[$f->gname])) {
+			$jDirectoryHtmlClass->fieldsgroup[$f->gname] = array();
+		}
 
-			if (!isset($jDirectoryHtmlClass->fields[$f->name])){
-				$jDirectoryHtmlClass->fields[$f->name] = $f;
-			}
+		if (!isset($jDirectoryHtmlClass->fields[$f->name])) {
+			$jDirectoryHtmlClass->fields[$f->name] = $f;
+		}
 
-			$jDirectoryHtmlClass->fieldsgroup[$f->gname][] = $f;
+		$jDirectoryHtmlClass->fieldsgroup[$f->gname][] = $f;
 	}
 
-        $jDirectoryHtmlClass->fields = $fields;
-        $jDirectoryHtmlClass->perms = $perms;
+	$jDirectoryHtmlClass->fields = $fields;
+	$jDirectoryHtmlClass->perms = $perms;
 	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->field_values = $field_values;
 	$conf->show_contact = $show_contact;
 	$jDirectoryHtmlClass->conf = $conf;
 	$jDirectoryHtmlClass->reviews = $comments->queryStringContent($directory, $conf, $content->id);
 	$jDirectoryHtmlClass->comments = $comments;
-        $jDirectoryHtmlClass->rating = $rating;
-	$jDirectoryHtmlClass->popup = intval(mosGetParam( $_GET, 'popup', 0 ));
-        $jDirectoryHtmlClass->plugins = $plugins;
+	$jDirectoryHtmlClass->rating = $rating;
+	$jDirectoryHtmlClass->popup = intval(mosGetParam($_GET, 'popup', 0));
+	$jDirectoryHtmlClass->plugins = $plugins;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
 
-    ob_start();
+	ob_start();
 	$jDirectoryHtmlClass->displayContent($content);
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-	
 
-	return array('contentid'=>$content->id,'params'=>$params);
+	return array('contentid' => $content->id, 'params' => $params);
 }
 
-function write_content($contentid,$catid,$directory,$template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    //get configuration
-    $conf = getConfig($directory);
-    $database = database::getInstance();
-    $content_type = mosGetParam( $_REQUEST, 'content_types', 0 );
-    $paths = null;
-    $user = null;
-    $content = null;
-  
-    if( $contentid > 0) {
-        $isUpdateMode = 1;
-    }
-    else{
-        $isUpdateMode = 0;
-    }
-    
-    // Update Ad ?
-    if( $contentid > 0) { // edit ad
-            // 1. get data
-            $database->setQuery("SELECT * FROM #__boss_".$directory."_contents WHERE `id`='$contentid' LIMIT 1");
-            $database->loadObject($content);
-            if ($database->getErrorNum()) {
-                    echo $database->stderr();
-                    return false;
-            }
+function write_content($contentid, $catid, $directory, $template_name) {
 
-            $content->name = stripslashes($content->name);
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 
-            if ($catid == 0){
-                    $catid = (int) mosGetParam($_REQUEST, 'catid', 0);
-            }
-    }
-                
-    //права пользователя
-    if($conf->allow_rights){
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-        if($catid > 0){
-            $catRights = $database->setQuery( "SELECT `rights` FROM #__boss_".$directory."_categories WHERE `id` = '$catid' LIMIT 1")->loadResult();
-            $rights->bind_rights($catRights);
-        }
-        else{
-            $rights->bind_rights(@$conf->rights);
-        }
+	//get configuration
+	$conf = getConfig($directory);
 
-        $my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
-        
-        $edit_user_content = $rights->allow_me('edit_user_content', $my->groop_id);
-        $edit_all_content = $rights->allow_me('edit_all_content', $my->groop_id);
-        $create_content = $rights->allow_me('create_content', $my->groop_id);
-        
-        if ($contentid > 0 && $content->userid == $my->id && !($edit_user_content || $edit_all_content)) {
-                echo '<div class="error">'.$rights->error('edit_all_content').'</div>';
-                return; 
-	}
-        else if ($contentid > 0 && $content->userid != $my->id && !$edit_all_content) {
-                echo '<div class="error">'.$rights->error('edit_all_content').'</div>';
-                return; 
-	}
-        else if ($contentid == 0 && !$create_content) {
-                echo '<div class="error">'.$rights->error('$create_content').'</div>';
-                return; 
+	$database = database::getInstance();
+	$content_type = mosGetParam($_REQUEST, 'content_types', 0);
+
+	$paths = null;
+	$user = null;
+	$content = null;
+
+	if ($contentid > 0) {
+		$isUpdateMode = 1;
+	} else {
+		$isUpdateMode = 0;
 	}
 
-    }
-    else{
-        if (@$content->userid == $my->id || $my->usertype == 'Super Administrator') {
-            $isUpdateMode = 1;
-        } else {
-            $isUpdateMode = 0;
-            $content = null;
-        }
-    }
+	// Update Ad ?
+	if ($contentid > 0) { // edit ad
+		// 1. get data
+		$database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents WHERE `id`='$contentid' LIMIT 1");
+		$database->loadObject($content);
+		if ($database->getErrorNum()) {
+			echo $database->stderr();
+			return false;
+		}
+
+		$content->name = stripslashes($content->name);
+
+		if ($catid == 0) {
+			$catid = (int) mosGetParam($_REQUEST, 'catid', 0);
+		}
+	}
+
+	//права пользователя
+	if ($conf->allow_rights) {
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+		if ($catid > 0) {
+			$catRights = $database->setQuery("SELECT `rights` FROM #__boss_" . $directory . "_categories WHERE `id` = '$catid' LIMIT 1")->loadResult();
+			$rights->bind_rights($catRights);
+		} else {
+			$rights->bind_rights(@$conf->rights);
+		}
+
+		$my->groop_id = (isset($my->groop_id)) ? $my->groop_id : 0;
+
+		$edit_user_content = $rights->allow_me('edit_user_content', $my->groop_id);
+		$edit_all_content = $rights->allow_me('edit_all_content', $my->groop_id);
+		$create_content = $rights->allow_me('create_content', $my->groop_id);
+
+		if ($contentid > 0 && $content->userid == $my->id && !($edit_user_content || $edit_all_content)) {
+			echo '<div class="error">' . $rights->error('edit_all_content') . '</div>';
+			return;
+		} else if ($contentid > 0 && $content->userid != $my->id && !$edit_all_content) {
+			echo '<div class="error">' . $rights->error('edit_all_content') . '</div>';
+			return;
+		} else if ($contentid == 0 && !$create_content) {
+			echo '<div class="error">' . $rights->error('$create_content') . '</div>';
+			return;
+		}
+	} else {
+		if (@$content->userid == $my->id || $my->usertype == 'Super Administrator') {
+			$isUpdateMode = 1;
+		} else {
+			$isUpdateMode = 0;
+			$content = null;
+		}
+	}
 
 	$jDirectoryHtmlClass = new boss_html();
-	$itemid  = getBossItemid($directory, $catid);
-	$errorMsg = mosGetParam( $_POST, 'errorMsg', "" );
+	$itemid = getBossItemid($directory, $catid);
+	$errorMsg = mosGetParam($_POST, 'errorMsg', "");
 
 
 
 	if (($contentid == 0) && ($my->id != "0") && ($conf->nb_contents_by_user != -1)) {
-		$database->setQuery( "SELECT count(*) FROM #__boss_".$directory."_contents as a WHERE a.userid =".$my->id);
+		$database->setQuery("SELECT count(*) FROM #__boss_" . $directory . "_contents as a WHERE a.userid =" . $my->id);
 		$nb = $database->loadResult();
 		if ($nb >= $conf->nb_contents_by_user) {
-			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED,$conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"),$redirect_text);
+			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"), $redirect_text);
 		}
 	}
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;Itemid='.$itemid);
-        $mainframe->appendPathWay('<a href ="'.$paths[0]->link.'">'.$paths[0]->text.'</a>');
-	$jDirectoryHtmlClass->paths  = $paths;
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
+	$jDirectoryHtmlClass->paths = $paths;
 
 	/* submission_type = 1->Account needed */
 	if (($conf->submission_type == 1) && ($my->id == "0")) {
@@ -1059,10 +1053,9 @@ function write_content($contentid,$catid,$directory,$template_name) {
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->displayLoginForm($_SERVER['REQUEST_URI']);
-	}
-	else {
+	} else {
 		//get fields
-		$database->setQuery( "SELECT * FROM #__boss_".$directory."_fields WHERE `published` = 1 AND `profile` = 0 ORDER BY `ordering`, `fieldid`");
+		$database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields WHERE `published` = 1 AND `profile` = 0 ORDER BY `ordering`, `fieldid`");
 		$fields = $database->loadObjectList();
 		if ($database->getErrorNum()) {
 			echo $database->stderr();
@@ -1074,29 +1067,28 @@ function write_content($contentid,$catid,$directory,$template_name) {
 
 		/* No need to user query, if errorMsg */
 		if ($errorMsg == "") {
-             if(@$content->userid > 0){
-                 $uid = $content->userid;
-             }
-             else{
-                 $uid = $my->id;
-             }
-				$database->setQuery("SELECT p.*,u.* FROM #__users as u ".
-						"LEFT JOIN #__boss_".$directory."_profile as p ON u.id = p.userid ".
-						"WHERE u.id=".$uid);
-				$database->loadObject($user);
-                $user->userid = $uid;
+			if (@$content->userid > 0) {
+				$uid = $content->userid;
+			} else {
+				$uid = $my->id;
+			}
+			$database->setQuery("SELECT p.*,u.* FROM #__users as u " .
+					"LEFT JOIN #__boss_" . $directory . "_profile as p ON u.id = p.userid " .
+					"WHERE u.id=" . $uid);
+			$database->loadObject($user);
+			$user->userid = $uid;
 		}
 
 		if (!isset($content)) {
 			$content = new jDirectoryContent($database, $directory);
 		}
-                
-		$content_types = $database->setQuery( "SELECT id, name FROM #__boss_".$directory."_content_types WHERE `published` = 1 ORDER BY `ordering`")->loadObjectList();
+
+		$content_types = $database->setQuery("SELECT id, name FROM #__boss_" . $directory . "_content_types WHERE `published` = 1 ORDER BY `ordering`")->loadObjectList();
 		if ($database->getErrorNum()) {
 			echo $database->stderr();
 			return false;
 		}
-                
+
 		$tree = boss_helpers::get_cattree($directory, $conf, 0, 'write', $isUpdateMode);
 		$jDirectoryHtmlClass->content = $content;
 		$jDirectoryHtmlClass->content_types = $content_types;
@@ -1111,40 +1103,46 @@ function write_content($contentid,$catid,$directory,$template_name) {
 		$jDirectoryHtmlClass->category->id = $catid;
 		$jDirectoryHtmlClass->categories = $tree;
 		$jDirectoryHtmlClass->directory = $directory;
-		$jDirectoryHtmlClass->template_name = $template_name;		
+		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
 		$jDirectoryHtmlClass->displayWriteForm();
 		if ($errorMsg != "") {
+			/**
+			 * @todo boston - тут или ненужное действие или потенциальная уязвимость
+			 */
 			$user = (object) $_POST;
 		}
 	}
-    return true;
+	return true;
 }
 
 function save_content($directory) {
+
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
-	$row = new jDirectoryContent($database,$directory);
-    $catid = (int) mosGetParam( $_POST, 'category', 0 );
+
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
+
+	$row = new jDirectoryContent($database, $directory);
+	$catid = (int) mosGetParam($_POST, 'category', 0);
 	$itemid = getBossItemid($directory, $catid);
 
 	//get configuration
-    $conf = getConfig($directory);
+	$conf = getConfig($directory);
 
 	if ($conf->secure_new_content == 1 && $my->id == 0) {
-            session_name(mosMainFrame::sessionCookieName());
-			session_start();
-			$captcha = strval(mosGetParam($_POST, 'captcha', null));
-			$captcha_keystring =mosGetParam($_SESSION,'captcha_keystring');
-			if($captcha_keystring!== $captcha) {
+		session_name(mosMainFrame::sessionCookieName());
+		session_start();
+		$captcha = strval(mosGetParam($_POST, 'captcha', null));
+		$captcha_keystring = mosGetParam($_SESSION, 'captcha_keystring');
+		if ($captcha_keystring !== $captcha) {
 			$errorMsg = "bad_captcha";
-			
+
 			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&Itemid=$itemid&errorMsg=$errorMsg");
-			echo "<form name='form' action='".$url."' method='post'>";
-			foreach($_POST as $key=>$val) {
-				echo "<input type='hidden' name='".$key."' value='".stripslashes($val)."'>";
+			echo "<form name='form' action='" . $url . "' method='post'>";
+			foreach ($_POST as $key => $val) {
+				echo "<input type='hidden' name='" . $key . "' value='" . stripslashes($val) . "'>";
 			}
 			echo "<input type='hidden' name='errorMsg' value='$errorMsg'>";
 			echo '</form>';
@@ -1153,33 +1151,33 @@ function save_content($directory) {
 			echo '</script>';
 			return false;
 		}
-        session_unset();
+		session_unset();
 		session_write_close();
 	}
 
-	$id = (int) mosGetParam( $_POST, 'id', 0 );
+	$id = (int) mosGetParam($_POST, 'id', 0);
 
 	if (($id == 0) && ($my->id != "0") && ($conf->nb_contents_by_user != -1)) {
-		$database->setQuery( "SELECT count(*) FROM #__boss_".$directory."_contents as a WHERE a.userid =".$my->id);
+		$database->setQuery("SELECT count(*) FROM #__boss_" . $directory . "_contents as a WHERE a.userid =" . $my->id);
 		$nb = $database->loadResult();
 		if ($nb >= $conf->nb_contents_by_user) {
-			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED,$conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"),$redirect_text);
+			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"), $redirect_text);
 		}
 	}
 
 	if (($conf->submission_type == 0) && ($my->id == 0)) {
-		$username = mosGetParam( $_POST, 'username', "" );
-		$password = mosGetParam( $_POST, 'password', ""  );
-		$email = mosGetParam( $_POST, 'email', ""  );
-		$errorMsg = boss_helpers::check_account($username,$password,$email,$userid,$conf);
+		$username = mosGetParam($_POST, 'username', "");
+		$password = mosGetParam($_POST, 'password', "");
+		$email = mosGetParam($_POST, 'email', "");
+		$errorMsg = boss_helpers::check_account($username, $password, $email, $userid, $conf);
 		if (isset($errorMsg)) {
-			$catid = (int) mosGetParam( $_POST, 'category', 0 );
+			$catid = (int) mosGetParam($_POST, 'category', 0);
 			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&Itemid=$itemid");
-			echo "<form name='form' action='".$url."' method='post'>";
+			echo "<form name='form' action='" . $url . "' method='post'>";
 
-			foreach($_POST as $key=>$val) {
-				echo "<input type='hidden' name='$key' value='".stripslashes($val)."'>";
+			foreach ($_POST as $key => $val) {
+				echo "<input type='hidden' name='$key' value='" . stripslashes($val) . "'>";
 			}
 			echo "<input type='hidden' name='errorMsg' value='$errorMsg'>";
 			echo '</form>';
@@ -1190,88 +1188,89 @@ function save_content($directory) {
 		}
 
 		$row->userid = $userid;
-	}
-	else {
+	} else {
 		$row->userid = $my->id;
 	}
 
 
 	//get fields
-	$database->setQuery( "SELECT * FROM #__boss_".$directory."_fields WHERE published = 1 AND profile = 0");
+	$database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields WHERE published = 1 AND profile = 0");
 	$fields = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return false;
 	}
 
-	$isUpdateMode  = (int) mosGetParam( $_POST, 'isUpdateMode', 0);
+	$isUpdateMode = (int) mosGetParam($_POST, 'isUpdateMode', 0);
 
 	//Save Field
-	$redirect_text = $row->save($directory,$fields,$conf,$isUpdateMode,$itemid);
-	if ((($conf->send_email_on_new == 1) && ($isUpdateMode == 0))||(($conf->send_email_on_update == 1) && ($isUpdateMode == 1))) {
-		$title = mosGetParam( $_POST, "name", "" );
-        $body = '';
-        foreach($fields as $field){
-           if($field->searchable == 1){
-               $body ='<div>';
-               $body .= "<strong>".$field->title."</strong><br/>";
-               $body .= mosGetParam( $_POST, $field->name, "" );
-               $body ='</div>';
-           }
-        }
+	$redirect_text = $row->save($directory, $fields, $conf, $isUpdateMode, $itemid);
+	if ((($conf->send_email_on_new == 1) && ($isUpdateMode == 0)) || (($conf->send_email_on_update == 1) && ($isUpdateMode == 1))) {
+		$title = mosGetParam($_POST, "name", "");
+		$body = '';
+		foreach ($fields as $field) {
+			if ($field->searchable == 1) {
+				$body = '<div>';
+				$body .= "<strong>" . $field->title . "</strong><br/>";
+				$body .= mosGetParam($_POST, $field->name, "");
+				$body = '</div>';
+			}
+		}
 
 		if ($isUpdateMode == 1) {
-			$subject = BOSS_EMAIL_UPDATE.$title;
+			$subject = BOSS_EMAIL_UPDATE . $title;
+		} else {
+			$subject = BOSS_EMAIL_NEW . $title;
 		}
-		else {
-			$subject = BOSS_EMAIL_NEW.$title;
-		}
-		mosMail($mosConfig_mailfrom,$mosConfig_fromname,$mosConfig_mailfrom, $subject , $body,1);
+		mosMail($mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $subject, $body, 1);
 	}
-    return true;
+	return true;
 }
 
-function manage_expiration($directory,$conf,$fileCron,$template_name) {
-    global $mosConfig_mailfrom, $mosConfig_fromname;
-    $database=database::getInstance();
-		
-    if ($conf->expiration == 1) {
-            $q = "SELECT c.id, u.email, c.name "
-            ."FROM #__boss_".$directory."_contents as c, "
-            ."#__users as u "
-            ."WHERE DATE_SUB(date_created, INTERVAL " . $conf->recall_time . " DAY) < (CURDATE() - " . $conf->content_duration . ") "
-            ."AND u.id = c.userid";   
-            $contents = $database->setQuery($q)->loadObjectList();
-            if ($database->getErrorNum()) {
-                echo $database->stderr();
-                return false;
-            }
-            if (isset($contents)) {
-                foreach ($contents as $content) {                 
-                    if ($conf->recall == 1){
-                        $subject = BOSS_EMAIL_EXPIRATION.' '.$content->name;
-                        $link = sefRelToAbs('index.php?option=com_boss&amp;directory='.$directory.'&amp;task=expiration&amp;contentid='.$content->id);
-                        $href = "<a href='$link'>$link</a>";
-                        $body  = BOSS_EMAIL_EXPIRATION.' '.$content->name;
-                        $body .= $conf->recall_text;
-                        $body .= sprintf(BOSS_RENEW_CONTENT_MAIL,$content->name,  $href);
-                        mosMail($mosConfig_mailfrom,$mosConfig_fromname,$mosConfig_mailfrom, $subject , $body,1);
-                    }                   
-                    delete_content($content->id,$directory,$template_name);
-                }
-                mosCache::cleanCache( 'com_boss' );
-            }
-    }
-    $last_cron_date = '<?php $last_cron_date=' . date("Ymd") . ';?>';
-    file_put_contents($fileCron, $last_cron_date);
-    return true;
+function manage_expiration($directory, $conf, $fileCron, $template_name) {
+	global $mosConfig_mailfrom, $mosConfig_fromname;
+
+	if ($conf->expiration == 1) {
+
+		$database = database::getInstance();
+		$q = "SELECT c.id, u.email, c.name "
+				. "FROM #__boss_" . $directory . "_contents as c, "
+				. "#__users as u "
+				. "WHERE DATE_SUB(date_created, INTERVAL " . $conf->recall_time . " DAY) < (CURDATE() - " . $conf->content_duration . ") "
+				. "AND u.id = c.userid";
+		$contents = $database->setQuery($q)->loadObjectList();
+		if ($database->getErrorNum()) {
+			echo $database->stderr();
+			return false;
+		}
+		if (isset($contents)) {
+			foreach ($contents as $content) {
+				if ($conf->recall == 1) {
+					$subject = BOSS_EMAIL_EXPIRATION . ' ' . $content->name;
+					$link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;task=expiration&amp;contentid=' . $content->id);
+					$href = "<a href='$link'>$link</a>";
+					$body = BOSS_EMAIL_EXPIRATION . ' ' . $content->name;
+					$body .= $conf->recall_text;
+					$body .= sprintf(BOSS_RENEW_CONTENT_MAIL, $content->name, $href);
+					mosMail($mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $subject, $body, 1);
+				}
+				delete_content($content->id, $directory, $template_name);
+			}
+			mosCache::cleanCache('com_boss');
+		}
+	}
+	$last_cron_date = '<?php $last_cron_date=' . date("Ymd") . ';?>';
+	file_put_contents($fileCron, $last_cron_date);
+	return true;
 }
 
 function show_expiration($contentid, $directory, $template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
-    $content = null;
+
+	$content = null;
 	// get configuration
 	$conf = getConfig($directory);
 
@@ -1304,8 +1303,9 @@ function show_expiration($contentid, $directory, $template_name) {
 }
 
 function extend_expiration($contentid, $directory) {
+
 	$database = database::getInstance();
-	
+
 	$q = "UPDATE #__boss_" . $directory . "_contents SET date_created = '" . date('Y-m-d H:i:s') . "' WHERE id=$contentid";
 	$database->setQuery($q)->query();
 	if ($database->getErrorNum()) {
@@ -1314,12 +1314,14 @@ function extend_expiration($contentid, $directory) {
 	}
 	mosCache::cleanCache('com_boss');
 	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), BOSS_CONTENT_RESUBMIT);
-    return true;
+
+	return true;
 }
 
 function delete_content($contentid, $directory, $template_name) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	//get configuration
@@ -1382,10 +1384,11 @@ function delete_content($contentid, $directory, $template_name) {
 			$jDirectoryHtmlClass->displayConfirmation();
 		}
 	} // user logged in
-    return true;
+	return true;
 }
 
 function show_profile($userid, $directory, $template_name) {
+
 	$mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
 
@@ -1430,8 +1433,8 @@ function show_profile($userid, $directory, $template_name) {
 			$database->loadObject($user);
 		}
 
-                $jDirectoryHtmlClass->field_values = boss_helpers::loadFieldValues($directory);
-                $jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
+		$jDirectoryHtmlClass->field_values = boss_helpers::loadFieldValues($directory);
+		$jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
 		$jDirectoryHtmlClass->fields = $fields;
 		$jDirectoryHtmlClass->user = $user;
 		$jDirectoryHtmlClass->itemid = $itemid;
@@ -1443,16 +1446,16 @@ function show_profile($userid, $directory, $template_name) {
 
 function save_profile($directory) {
 
-    josSpoofCheck();
+	josSpoofCheck();
 
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if ($my->id == 0){
+	if ($my->id == 0) {
 		return;
 	}
-	
+
 	$catid = (int) mosGetParam($_POST, 'category', 0);
 	$itemid = getBossItemid($directory, $catid);
 
@@ -1488,14 +1491,14 @@ function save_profile($directory) {
 	$database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields " .
 			"WHERE profile = 1 AND published = 1");
 	$fields = $database->loadObjectList();
-        $plugins = BossPlugins::get_plugins($directory, 'fields');
+	$plugins = BossPlugins::get_plugins($directory, 'fields');
 
 	$sql = "UPDATE #__boss_" . $directory . "_profile SET ";
 
 	for ($i = 0, $nb = count($fields); $i < $nb; $i++) {
-                $value = $plugins[$fields[$i]->type]->onFormSave($directory, $fields[$i]->fieldid, $fields[$i], 0, 0);
+		$value = $plugins[$fields[$i]->type]->onFormSave($directory, $fields[$i]->fieldid, $fields[$i], 0, 0);
 		$sql .= $fields[$i]->name . " = '" . $value . "'";
-		if ($i != $nb - 1){
+		if ($i != $nb - 1) {
 			$sql .=",";
 		}
 	}
@@ -1506,68 +1509,67 @@ function save_profile($directory) {
 	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid", BOSS_UPDATE_PROFILE_SUCCESSFULL));
 }
 
-function front($directory,$template_name) {
+function front($directory, $template_name) {
 
-    if($directory == 0){
-        return false;
+	if ($directory == 0) {
+		return false;
 	}
 
-	$mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
 
 	// сюда будем складывать все данные формируемые в функции и попадающие в кеш - тело страницы, title + description + keywords
 	$return_params = array();
-	
-    //get configuration
-    $conf = getConfig($directory);
-    
-    //права пользователя
-    $rights = null;
-    if($conf->allow_rights){
-        $rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
-    }
+
+	//get configuration
+	$conf = getConfig($directory);
+
+	//права пользователя
+	$rights = null;
+	if ($conf->allow_rights) {
+		$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
+	}
 
 	$jDirectoryHtmlClass = new boss_html();
-	$catid = (int) mosGetParam( $_POST, 'category', 0 );
+	$catid = (int) mosGetParam($_POST, 'category', 0);
 	$itemid = getBossItemid($directory, $catid);
 
-	$tree = boss_helpers::get_cattree($directory,$conf,$conf->empty_cat);
+	$tree = boss_helpers::get_cattree($directory, $conf, $conf->empty_cat);
 
-	$database->setQuery("SELECT a.id, a.name, a.date_created,p.id as parentid, \n".
-                        "p.name as parent,c.id as catid, c.id as category, c.name as cat \n".
-			            "FROM #__boss_".$directory."_contents as a, \n".
-                        "#__boss_".$directory."_content_category_href as cch, \n".
-			            "#__boss_".$directory."_categories as c, \n".
-			            "#__boss_".$directory."_categories as p \n".
-			            "WHERE a.id = cch.content_id AND c.parent = p.id \n".
-                        "AND c.id = cch.category_id AND c.published = 1 \n".
-                        "AND a.published = 1 \n".
-                        "ORDER BY a.date_created DESC, a.id DESC \n".
-                        "LIMIT 0, 3");
+	$database->setQuery("SELECT a.id, a.name, a.date_created,p.id as parentid, \n" .
+			"p.name as parent,c.id as catid, c.id as category, c.name as cat \n" .
+			"FROM #__boss_" . $directory . "_contents as a, \n" .
+			"#__boss_" . $directory . "_content_category_href as cch, \n" .
+			"#__boss_" . $directory . "_categories as c, \n" .
+			"#__boss_" . $directory . "_categories as p \n" .
+			"WHERE a.id = cch.content_id AND c.parent = p.id \n" .
+			"AND c.id = cch.category_id AND c.published = 1 \n" .
+			"AND a.published = 1 \n" .
+			"ORDER BY a.date_created DESC, a.id DESC \n" .
+			"LIMIT 0, 3");
 	$contents = $database->loadObjectList();
-	
+
 	// Dynamic Page Title
-    $return_params['title'] = (!empty($conf->meta_title)) ? $conf->meta_title : $conf->name;
-    //Dynamic Page meta
-    $return_params['description'] = (isset($conf->meta_desc)) ? $conf->meta_desc : Jstring::substr(strip_tags($conf->fronttext), 0, 200);
+	$return_params['title'] = (!empty($conf->meta_title)) ? $conf->meta_title : $conf->name;
+	//Dynamic Page meta
+	$return_params['description'] = (isset($conf->meta_desc)) ? $conf->meta_desc : Jstring::substr(strip_tags($conf->fronttext), 0, 200);
 	$return_params['keywords'] = $conf->meta_keys;
 
-        
+
 	$jDirectoryHtmlClass->itemid = $itemid;
-    $jDirectoryHtmlClass->directory_name = $conf->name;
+	$jDirectoryHtmlClass->directory_name = $conf->name;
 	$jDirectoryHtmlClass->contents = $contents;
 	$jDirectoryHtmlClass->conf = $conf;
 	$jDirectoryHtmlClass->rights = $rights;
 	$jDirectoryHtmlClass->categories = $tree;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
-	
+
 	// а тут посложнее - функция цепляет шаблон вывода, поэтому захватим её в буфер и заберём как переменную
 	ob_start();
 	$jDirectoryHtmlClass->displayFront();
 	$boss_page_body = ob_get_contents();
 	ob_end_clean();
-	
+
 	// главные текст страницы выдаваемый компонентом
 	$return_params['page_body'] = $boss_page_body;
 
@@ -1575,6 +1577,7 @@ function front($directory,$template_name) {
 }
 
 function show_rules($directory, $template_name) {
+
 	$mainframe = mosMainFrame::getInstance();
 	$params = array();
 	$paths = null;
@@ -1585,7 +1588,7 @@ function show_rules($directory, $template_name) {
 
 	//get configuration
 	$conf = getConfig($directory);
-    $params['title'] = BOSS_RULES;
+	$params['title'] = BOSS_RULES;
 	//PathWay
 	$paths[0]->text = $conf->name;
 	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
@@ -1594,19 +1597,17 @@ function show_rules($directory, $template_name) {
 	$jDirectoryHtmlClass->conf->rules_text = $conf->rules_text;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
-    ob_start();
+	ob_start();
 	$jDirectoryHtmlClass->displayRules();
 	$params['page_body'] = ob_get_contents();
 	ob_end_clean();
-
 
 	return $params;
 }
 
 function login_form($directory, $template_name) {
 	$mainframe = mosMainFrame::getInstance();
-	$database = database::getInstance();
-	
+
 	$itemid = getBossItemid($directory, 0);
 	$conf = null;
 	$paths = null;
@@ -1630,15 +1631,16 @@ function login_form($directory, $template_name) {
  * Shows the email form for a given content item.
  * @param int The content item id
  */
-function emailform( $contentid ,$directory,$template_name) {
+function emailform($contentid, $directory, $template_name) {
+
 	$mainframe = mosMainFrame::getInstance();
 
 	$jDirectoryHtmlClass = new boss_html();
 
-	$catid = (int) mosGetParam( $_REQUEST, 'catid', 0 );
+	$catid = (int) mosGetParam($_REQUEST, 'catid', 0);
 	$itemid = getBossItemid($directory, $catid);
 
-	$mainframe->setPageTitle( BOSS_SEND_TO_FRIEND );
+	$mainframe->setPageTitle(BOSS_SEND_TO_FRIEND);
 	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->content->id = $contentid;
 	$jDirectoryHtmlClass->directory = $directory;
@@ -1652,6 +1654,7 @@ function emailform( $contentid ,$directory,$template_name) {
  * @param int The content item id
  */
 function emailsend($directory) {
+
 	global $mosConfig_sitename;
 	$database = database::getInstance();
 
@@ -1677,10 +1680,10 @@ function emailsend($directory) {
 			mosErrorAlert(BOSS_EMAIL_ERR_NOINFO);
 		}
 
-		if (isset($itemid)){
+		if (isset($itemid)) {
 			$_itemid = '&Itemid=' . $itemid;
 		}
-			
+
 		// link sent in email
 		$link = sefRelToAbs('index.php?option=com_boss&task=show_content&contentid=' . $contentid . $_itemid . '&directory=' . $directory);
 
@@ -1701,14 +1704,17 @@ function emailsend($directory) {
 }
 
 function show_rss($catid, $directory) {
+
 	global $mosConfig_live_site, $mosConfig_cachepath;
 	$database = database::getInstance();
-	
+
 	$category = null;
 	// load feed creator class
 	require_once( JPATH_BASE . '/includes/feedcreator.class.php' );
 
 	$itemid = getBossItemid($directory, $catid);
+
+	$info = array();
 
 	// parameter intilization
 	$info['date'] = date('r');
@@ -1773,15 +1779,15 @@ function show_rss($catid, $directory) {
 
 		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
 
-		$listcats = boss_helpers::loadCats($directory);
-		
+		//$listcats = boss_helpers::loadCats($directory);
+
 		$list[] = $catid;
 		$listids = implode(',', $list);
 		$search = "category IN ($listids)";
 	}
 
-	$order_text = "a.date_created DESC ,a.id DESC";
-	$limitstart = 0;
+	//$order_text = "a.date_created DESC ,a.id DESC";
+	//$limitstart = 0;
 
 	$database->setQuery("SELECT a.*, p.name as parent, p.id as parentid, c.name as cat, c.id as catid, u.username as user, " .
 			"FROM #__boss_" . $directory . "_contents as a " .
@@ -1870,7 +1876,7 @@ function show_rss($catid, $directory) {
 
 	// save feed file
 	$rss->saveFeed($info['feed'], $info['file'], 1);
-    return true;
+	return true;
 }
 
 /**
@@ -1885,60 +1891,62 @@ function show_rss($catid, $directory) {
  * @page_body - тело страницы (string)
  * @custom_script - скрипт, который надо печатать ниже головы (string, array)
  */
-function boss_show_cached_result( $params ){
+function boss_show_cached_result($params) {
+
 	$mainframe = mosMainFrame::getInstance();
 	// выставляем на страницу наш закешированный  title
-	isset($params['title']) ? $mainframe->SetPageTitle( $params['title'] ) : null;
+	isset($params['title']) ? $mainframe->SetPageTitle($params['title']) : null;
 	// и дополнительные мета-тэги
-	isset($params['description']) ? $mainframe->addMetaTag('description',$params['description']) : null;
-	isset($params['keywords']) ? $mainframe->addMetaTag('keywords', $params['keywords'] ) : null;
+	isset($params['description']) ? $mainframe->addMetaTag('description', $params['description']) : null;
+	isset($params['keywords']) ? $mainframe->addMetaTag('keywords', $params['keywords']) : null;
 
-        //ява-скрипты
-        if(isset($params['js'])){
-            if(is_array($params['js'])){
-                foreach($params['js'] as $param){
-                    $mainframe->addJS($param);
-                }
-            }else{
-                $mainframe->addJS($params['js'], 'js');
-            }
-        }
-        
-        //стили
-        if(isset($params['css'])){
-            if(is_array($params['css'])){
-                foreach($params['css'] as $param){
-                    $mainframe->addCSS($param);
-                }
-            }else{
-                $mainframe->addCSS($params['css']);
-            }
-        }
+	//ява-скрипты
+	if (isset($params['js'])) {
+		if (is_array($params['js'])) {
+			foreach ($params['js'] as $param) {
+				$mainframe->addJS($param);
+			}
+		} else {
+			$mainframe->addJS($params['js'], 'js');
+		}
+	}
 
-        //произвольный тег в голову
-        if(isset($params['custom_head_tag'])){
-            if(is_array($params['custom_head_tag'])){
-                foreach($params['custom_head_tag'] as $param){
-                    $mainframe->addCustomHeadTag($param);
-                }
-            }else{
-                $mainframe->addCustomHeadTag($params['custom_head_tag']);
-            }
-        }
+	//стили
+	if (isset($params['css'])) {
+		if (is_array($params['css'])) {
+			foreach ($params['css'] as $param) {
+				$mainframe->addCSS($param);
+			}
+		} else {
+			$mainframe->addCSS($params['css']);
+		}
+	}
 
-        //скрипт, который надо печатать ниже головы
-        if(isset($params['custom_script'])){
-            if(is_array($params['custom_script'])){
-                foreach($params['custom_script'] as $param){
-                    echo ($param);
-                }
-            }else{
-                echo ($params['custom_script']);
-            }
-        }
-	
+	//произвольный тег в голову
+	if (isset($params['custom_head_tag'])) {
+		if (is_array($params['custom_head_tag'])) {
+			foreach ($params['custom_head_tag'] as $param) {
+				$mainframe->addCustomHeadTag($param);
+			}
+		} else {
+			$mainframe->addCustomHeadTag($params['custom_head_tag']);
+		}
+	}
+
+	//скрипт, который надо печатать ниже головы
+	if (isset($params['custom_script'])) {
+		if (is_array($params['custom_script'])) {
+			foreach ($params['custom_script'] as $param) {
+				echo ($param);
+			}
+		} else {
+			echo ($params['custom_script']);
+		}
+	}
+
 	// а тут основное содержимое страницы - его просто надо вывести
-	if(isset($params['page_body']))
-        echo $params['page_body'];
+	if (isset($params['page_body'])) {
+		echo $params['page_body'];
+	}
 }
 
