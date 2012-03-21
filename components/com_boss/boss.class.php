@@ -2131,8 +2131,9 @@ class boss_helpers {
         return $tree;
     }
 
-    public static function get_subpathlist($cats, $catid, &$list, $itemid, $order, $directory) {
+    public static function get_subpathlist($cats, $catid, $itemid, $order, $directory) {
         $i = 0;
+        $list = array();
         if (isset($cats)) {
             foreach ($cats as $cat) {
                 if ($cat->parent == $catid) {
@@ -2141,6 +2142,7 @@ class boss_helpers {
                 }
             }
         }
+        return $list;
     }
 
     public static function get_pathlist($cats, $catid, $catname, &$list, $itemid, $order, $directory) {
