@@ -32,8 +32,15 @@ $publ 				  = intval($params->get( 'publ' , 0 ));
 $displaycategory	  = intval($params->get( 'displaycategory' , 1 ));
 $limit 			 	  = intval($params->get( 'limit', 5 ));
 $sort_sql 			  = intval($params->get( 'sort', 0 ));
-$directory 			  = intval($params->get( 'directory', mosGetParam( $_GET, 'directory', 1 ) )) ;
 $display_author  	  = intval($params->get( 'display_author', 3 ));
+$directory 			  = intval($params->get( 'directory', 0));
+
+//если каталог 0, то запрашиваем каталог из конфига фронтпейджа
+if($directory == 0){
+    require_once ($mainframe->getPath('class', 'com_frontpage'));
+    $configObject = new frontpageConfig($database);
+    $directory =  $configObject->get('directory', 1);
+}
 
 // Сортировка объектов
 switch($sort_sql) {	
@@ -153,17 +160,17 @@ if (isset($rows[0])) {// если есть объекты -> продолжае�
 		$k = 0;
 		foreach($rows as $row) {
 			// получение значка статуса содержимого
-			$date = date('Y-m-d');
+            $date = date('Y-m-d h:i:s');
 
 			if ($row->published == 0){
 				$img = 'publish_x.png';
 				$alt = BOSS_NO;
 			}
-			elseif($row->published == 1 && ($row->date_publish > $date && $row->date_publish != '0000-00-00')){
+			elseif($row->published == 1 && ($row->date_publish > $date && $row->date_publish != '0000-00-00 00:00:00')){
 			   $img = 'publish_y.png';
 			   $alt = BOSS_NOT_STARTED;
 			}
-			elseif($row->published == 1 && ($row->date_unpublish < $date && $row->date_unpublish != '0000-00-00')){
+			elseif($row->published == 1 && ($row->date_unpublish < $date && $row->date_unpublish != '0000-00-00 00:00:00')){
 			   $img = 'publish_r.png';
 			   $alt = BOSS_DELAYED;
 			}
