@@ -1,13 +1,13 @@
 <?php
 /**
  * @package Joostina
- * @copyright Àâòîðñêèå ïðàâà (C) 2008-2010 Joostina team. Âñå ïðàâà çàùèùåíû.
- * @license Ëèöåíçèÿ http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, èëè help/license.php
- * Joostina! - ñâîáîäíîå ïðîãðàììíîå îáåñïå÷åíèå ðàñïðîñòðàíÿåìîå ïî óñëîâèÿì ëèöåíçèè GNU/GPL
- * Äëÿ ïîëó÷åíèÿ èíôîðìàöèè î èñïîëüçóåìûõ ðàñøèðåíèÿõ è çàìå÷àíèé îá àâòîðñêîì ïðàâå, ñìîòðèòå ôàéë help/copyright.php.
+ * @copyright ÐÐ²Ñ‚Ð¾Ñ€ÑÐºÐ¸Ðµ Ð¿Ñ€Ð°Ð²Ð° (C) 2008-2010 Joostina team. Ð’ÑÐµ Ð¿Ñ€Ð°Ð²Ð° Ð·Ð°Ñ‰Ð¸Ñ‰ÐµÐ½Ñ‹.
+ * @license Ð›Ð¸Ñ†ÐµÐ½Ð·Ð¸Ñ http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, Ð¸Ð»Ð¸ help/license.php
+ * Joostina! - ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ðµ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð½Ð¾Ðµ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ðµ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÐµÐ¼Ð¾Ðµ Ð¿Ð¾ ÑƒÑÐ»Ð¾Ð²Ð¸ÑÐ¼ Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ð¸ GNU/GPL
+ * Ð”Ð»Ñ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ñ… Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸ÑÑ… Ð¸ Ð·Ð°Ð¼ÐµÑ‡Ð°Ð½Ð¸Ð¹ Ð¾Ð± Ð°Ð²Ñ‚Ð¾Ñ€ÑÐºÐ¾Ð¼ Ð¿Ñ€Ð°Ð²Ðµ, ÑÐ¼Ð¾Ñ‚Ñ€Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð» help/copyright.php.
  */
 
-// çàïðåò ïðÿìîãî äîñòóïà
+// Ð·Ð°Ð¿Ñ€ÐµÑ‚ Ð¿Ñ€ÑÐ¼Ð¾Ð³Ð¾ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð°
 defined('_VALID_MOS') or die();
 /**
  * @package Joostina
@@ -16,11 +16,11 @@ defined('_VALID_MOS') or die();
 class categories_html {
 
 	/**
-	 * Çàïèñûâàåò ñïèñîê êàòåãîðèé äëÿ ðàçäåëà
-	 * @param  $rows - ìàñññèâ äàííûõ
-	 * @param  $section - ðàçäåë êàòåãîðèé
-	 * @param  $section_name - íàçâàíèå ðàçäåëà
-	 * @param  $pageNav - íàâèãàöèÿ
+	 * Ð—Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÑ‚ ÑÐ¿Ð¸ÑÐ¾Ðº ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¹ Ð´Ð»Ñ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°
+	 * @param  $rows - Ð¼Ð°ÑÑÑÐ¸Ð² Ð´Ð°Ð½Ð½Ñ‹Ñ…
+	 * @param  $section - Ñ€Ð°Ð·Ð´ÐµÐ» ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¹
+	 * @param  $section_name - Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°
+	 * @param  $pageNav - Ð½Ð°Ð²Ð¸Ð³Ð°Ñ†Ð¸Ñ
 	 * @param string $type
 	 * @return void
 	 * @modification 18.02.2012 GoDr
@@ -57,7 +57,7 @@ class categories_html {
 					?>
 			<th width="2%"><?php echo _ORDER_DROPDOWN?></th>
 			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count($rows) - 1; ?> )"><img src="<?php echo $cur_file_icons_path;?>/filesave.png" border="0" width="16" height="16" alt="Ñîõðàíèòü ïîðÿäîê" /></a>
+				<a href="javascript: saveorder( <?php echo count($rows) - 1; ?> )"><img src="<?php echo $cur_file_icons_path;?>/filesave.png" border="0" width="16" height="16" alt="Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº" /></a>
 			</th>
 			<th width="8%"><?php echo _ACCESS?></th>
 					<?php
@@ -90,7 +90,6 @@ class categories_html {
 					$row->sect_link = 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='.$row->section;
 
 					$link = 'index2.php?option=com_categories&section='.$section.'&task=editA&hidemainmenu=1&id='.$row->id;
-					$link_aktiv = 'index2.php?option=com_content&sectionid=0&catid='.$row->id;
 					if($row->checked_out_contact_category) {
 						$row->checked_out = $row->checked_out_contact_category;
 					}
@@ -137,7 +136,7 @@ class categories_html {
 						}
 						if($type == 'content') {
 							?>
-			<td align="center"><a href="<?php echo $link_aktiv;?>" title="<?php echo _VIEW_CATEGORY_CONTENT?>"><?php echo $row->active; ?></a></td>
+			<td align="center"></td>
 			<td align="center"><?php echo $row->trash; ?></td>
 							<?php
 						} else {
@@ -199,7 +198,7 @@ class categories_html {
 					form: 'adminForm',
 					callback:
 						function(resp){
-						log('Ïîëó÷åí îòâåò: ' + resp.responseText);
+						log('ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½ Ð¾Ñ‚Ð²ÐµÑ‚: ' + resp.responseText);
 						mess_cool(resp.responseText);
 						SRAX.get('tb-apply').className='tb-apply';
 					}});

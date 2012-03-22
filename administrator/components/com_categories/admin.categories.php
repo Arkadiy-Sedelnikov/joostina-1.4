@@ -1,13 +1,13 @@
 <?php
 /**
  * @package Joostina
- * @copyright Àâòîðñêèå ïðàâà (C) 2008-2010 Joostina team. Âñå ïðàâà çàùèùåíû.
- * @license Ëèöåíçèÿ http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, èëè help/license.php
- * Joostina! - ñâîáîäíîå ïðîãðàììíîå îáåñïå÷åíèå ðàñïðîñòðàíÿåìîå ïî óñëîâèÿì ëèöåíçèè GNU/GPL
- * Äëÿ ïîëó÷åíèÿ èíôîðìàöèè î èñïîëüçóåìûõ ðàñøèðåíèÿõ è çàìå÷àíèé îá àâòîðñêîì ïðàâå, ñìîòðèòå ôàéë help/copyright.php.
+ * @copyright ÐÐ²Ñ‚Ð¾Ñ€ÑÐºÐ¸Ðµ Ð¿Ñ€Ð°Ð²Ð° (C) 2008-2010 Joostina team. Ð’ÑÐµ Ð¿Ñ€Ð°Ð²Ð° Ð·Ð°Ñ‰Ð¸Ñ‰ÐµÐ½Ñ‹.
+ * @license Ð›Ð¸Ñ†ÐµÐ½Ð·Ð¸Ñ http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, Ð¸Ð»Ð¸ help/license.php
+ * Joostina! - ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ðµ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð½Ð¾Ðµ Ð¾Ð±ÐµÑÐ¿ÐµÑ‡ÐµÐ½Ð¸Ðµ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÐµÐ¼Ð¾Ðµ Ð¿Ð¾ ÑƒÑÐ»Ð¾Ð²Ð¸ÑÐ¼ Ð»Ð¸Ñ†ÐµÐ½Ð·Ð¸Ð¸ GNU/GPL
+ * Ð”Ð»Ñ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼Ñ‹Ñ… Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸ÑÑ… Ð¸ Ð·Ð°Ð¼ÐµÑ‡Ð°Ð½Ð¸Ð¹ Ð¾Ð± Ð°Ð²Ñ‚Ð¾Ñ€ÑÐºÐ¾Ð¼ Ð¿Ñ€Ð°Ð²Ðµ, ÑÐ¼Ð¾Ñ‚Ñ€Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð» help/copyright.php.
  */
 
-// çàïðåò ïðÿìîãî äîñòóïà
+// Ð·Ð°Ð¿Ñ€ÐµÑ‚ Ð¿Ñ€ÑÐ¼Ð¾Ð³Ð¾ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð°
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
@@ -111,8 +111,8 @@ switch($task) {
 }
 
 /**
- * Ñîñòàâëÿåò ñïèñîê êàòåãîðèé äëÿ ðàçäåëà
- * @param string Íàçâàíèå êàòåãîðèè ðàçäåëå
+ * Ð¡Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÑ‚ ÑÐ¿Ð¸ÑÐ¾Ðº ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¹ Ð´Ð»Ñ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°
+ * @param string ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ
  * @modification 18.02.2012 GoDr
  */
 function showCategories($section) {
@@ -125,7 +125,7 @@ function showCategories($section) {
 
 	$order = "\n ORDER BY c.ordering, c.name";
 
-	// êîëè÷åñòâî çàïèñåé â òàáëèöå
+	// ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð·Ð°Ð¿Ð¸ÑÐµÐ¹ Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ðµ
 	$sql = "SELECT COUNT(*) FROM #__categories";
 	$database->setQuery($sql);
 	$total = $database->loadResult();
@@ -410,8 +410,8 @@ function saveCategory($task) {
 		exit();
 	}
 
-	$templates = new ContentTemplate();
-	$row->templates = $templates->prepare_for_save(mosGetParam($_POST,'templates',array()));
+//	$templates = new ContentTemplate();
+//	$row->templates = $templates->prepare_for_save(mosGetParam($_POST,'templates',array()));
 
 	if(!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -434,11 +434,6 @@ function saveCategory($task) {
 		exit();
 	}
 
-	if($redirect == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
-
 	switch($task) {
 		case 'go2menu':
 			mosRedirect('index2.php?option=com_menus&menutype='.$menu);
@@ -456,7 +451,7 @@ function saveCategory($task) {
 			mosRedirect('index2.php?option=com_categories&section='.$redirect.'&task=editA&hidemainmenu=1&id='.$row->id,_CATEGORY_CHANGES_SAVED);
 			break;
 
-		/* boston, ïîñëå ñîõðàíåíèÿ âîçâðàùàåìñÿ â îêíî äîáàâëåíèÿ íîâîé êàòåãîðèè*/
+		/* boston, Ð¿Ð¾ÑÐ»Ðµ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ÑÑ Ð² Ð¾ÐºÐ½Ð¾ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð½Ð¾Ð²Ð¾Ð¹ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸*/
 		case 'save_and_new':
 			$msg = $row->title._COM_CATEGORIES_SAVED_2;
 			mosRedirect('index2.php?option=com_categories&task=new',$msg);
@@ -525,11 +520,6 @@ function removeCategories($section,$cid) {
 		}
 	}
 
-	if($section == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
-
 	if(count($err)) {
 		$cids = implode("\', \'",$err);
 		$msg = str_replace("#CIDS#",$cids,_CANNOT_REMOVE_CATEGORY);
@@ -581,10 +571,6 @@ function publishCategories($section,$categoryid = null,$cid = null,$publish = 1)
 		$row->checkin($cid[0]);
 	}
 
-	if($section == 'content') {
-		mosCache::cleanCache('com_content');
-	}
-
 	mosRedirect('index2.php?option=com_categories&section='.$section);
 }
 
@@ -617,9 +603,6 @@ function orderCategory($uid,$inc) {
 	$row = new mosCategory($database);
 	$row->load((int)$uid);
 	$row->move($inc,"section = ".$database->Quote($row->section));
-
-	// clean any existing cache files
-	mosCache::cleanCache('com_content');
 
 	mosRedirect('index2.php?option=com_categories&section='.$row->section);
 }
@@ -654,11 +637,6 @@ function moveCategorySave($cid,$sectionOld) {
 
 	$sectionNew = new mosSection($database);
 	$sectionNew->load($sectionMove);
-
-	if($sectionOld == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
 
 	$msg = ((count($cid) - 1)? _CATEGORIES_MOVED_TO : _CATEGORY_MOVED_TO ).''.$sectionNew->name;
 	mosRedirect('index2.php?option=com_categories&section='.$sectionOld.'&mosmsg='.$msg);
@@ -759,11 +737,6 @@ function copyCategorySave($cid,$sectionOld) {
 	$sectionNew = new mosSection($database);
 	$sectionNew->load($sectionMove);
 
-	if($sectionOld == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
-
 	$msg = ((count($cid) - 1)? _CATEGORIES_COPIED_TO : _CATEGORY_COPIED_TO).''.$sectionNew->name;
 	mosRedirect('index2.php?option=com_categories&section='.$sectionOld.'&mosmsg='.$msg);
 }
@@ -786,11 +759,6 @@ function accessMenu($uid,$access,$section) {
 		return $row->getError();
 	}
 
-	if($section == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
-
 	mosRedirect('index2.php?option=com_categories&section='.$section);
 }
 
@@ -811,21 +779,6 @@ function menuLink($id) {
 	$name = stripslashes(ampReplace($name));
 
 	switch($type) {
-		case 'content_category':
-			$link = 'index.php?option=com_content&task=category&sectionid='.$sectionid.
-					'&id='.$id;
-			$menutype = _TABLE_CATEGORY_CONTENT;
-			break;
-
-		case 'content_blog_category':
-			$link = 'index.php?option=com_content&task=blogcategory&id='.$id;
-			$menutype = _BLOG_CATEGORY_CONTENT;
-			break;
-
-		case 'content_archive_category':
-			$link = 'index.php?option=com_content&task=archivecategory&id='.$id;
-			$menutype = _BLOG_CATEGORY_ARCHIVE;
-			break;
 
 		case 'contact_category_table':
 			$link = 'index.php?option=com_contact&catid='.$id;
@@ -866,10 +819,6 @@ function menuLink($id) {
 	}
 	$row->checkin();
 	$row->updateOrder("menutype = ".$database->Quote($menu));
-
-	if($redirect == 'content') {
-		mosCache::cleanCache('com_content');
-	}
 
 	$msg = $name.' ( '.$menutype.' ) in menu: '.$menu.' successfully created';
 	mosRedirect('index2.php?option=com_categories&section='.$redirect.'&task=editA&hidemainmenu=1&id='.$id,$msg);
@@ -915,11 +864,6 @@ function saveOrder(&$cid,$section) {
 		$row->load($cond[0]);
 		$row->updateOrder($cond[1]);
 	} // foreach
-
-	if($section == 'content') {
-		// clean any existing cache files
-		mosCache::cleanCache('com_content');
-	}
 
 	$msg = _NEW_ORDER_SAVED;
 	mosRedirect('index2.php?option=com_categories&section='.$section,$msg);
