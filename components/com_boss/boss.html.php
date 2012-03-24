@@ -185,6 +185,7 @@ class boss_html
         $itemid = $this->itemid;
         $user = $this->user;
         $directory = $this->directory;
+        $plugins = BossPlugins::get_plugins($directory, 'fields');
         ?>
     <br/>
     <script language="javascript" type="text/javascript">
@@ -206,6 +207,13 @@ class boss_html
             } else if (r.exec(form.password.value)) {
                 alert("<?php printf(BOSS_VALID_AZ09, BOSS_REGISTER_PASS, 6);?>");
             } else {
+                <?php
+                foreach($this->fields as $field){
+                    if(method_exists($plugins[$field->type],'addInWriteScript')){
+                        echo $plugins[$field->type]->addInWriteScript($field);
+                    }
+                }
+                ?>
                 form.submit();
             }
         }
