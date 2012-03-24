@@ -1716,9 +1716,14 @@ class boss_html
 
     function alpaPrint($directory, $itemid, $alphabet, $alphaContent)
     {
+        $order = mosGetParam($_REQUEST, 'order', '');
+        $order = ($order == '') ? '' : '&order='. $order;
+        $direction = mosGetParam($_REQUEST, 'direction', '');
+        $direction = ($direction == '') ? '' : '&direction='. $direction;
+
         foreach ($alphabet as $alf) {
             if (in_array($alf, $alphaContent)) {
-                echo '<a class="alphaindex" href="' . sefRelToAbs('index.php?option=com_boss&task=search_alpha&directory=' . $directory . '&alpha=' . urlencode($alf) . '&Itemid=' . $itemid) . '">' . $alf . '</a> ';
+                echo '<a class="alphaindex" href="' . sefRelToAbs('index.php?option=com_boss&task=search_alpha&directory=' . $directory . '&alpha=' . urlencode($alf) . $order . $direction . '&Itemid=' . $itemid) . '">' . $alf . '</a> ';
             }
             else {
                 echo $alf . ' ';
