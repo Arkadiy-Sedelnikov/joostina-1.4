@@ -278,16 +278,22 @@ class boss_html
             var form = document.forms["saveForm"];// document.getElementById("saveForm");
             var r = new RegExp("[^0-9\.,]", "i");
 
-            <?php if ($mode == 0) { ?>
+            <?php if ($mode == 0) : ?>
                 // do field validation
-                    if (form.email.value == "") {
-                alert("<?php echo _REGWARN_EMAIL;?>");
-            } else {
-                <?php } ?>
-            form.submit();
-            <?php if ($mode == 0) { ?>
+                if (form.email.value == "") {
+                    alert("<?php echo _REGWARN_EMAIL;?>");
+                    return false;
+                }
+            <?php endif; ?>
+            if (form.name.value == "") {
+                alert("<?php echo _REGWARN_NAME;?>");
+                return false;
             }
-                <?php } ?>
+            if (form.body.value == "") {
+                alert("<?php echo _REGWARN_BODY;?>");
+                return false;
+            }
+            form.submit();
         }
     </script>
     <fieldset id="boss_fieldset">
@@ -302,39 +308,41 @@ class boss_html
             <?php if ($mode == 0) { ?>
             <!-- name -->
             <label for="name"><?php echo BOSS_FORM_NAME; ?></label>
-            <?php echo "<input class='boss_required' id='name' type='text' name='name' maxlength='50' value='" . $user->name . "' />"; ?>
+            <input class='boss_required inputbox' size="50" id='name' type='text' name='name' maxlength='50' value='<?php echo $user->name; ?>' />
             <!-- name -->
             <br/>
             <!-- email -->
             <label for="email"><?php echo BOSS_FORM_EMAIL; ?></label>
-            <?php echo "<input class='boss_required' id='email' type='text' name='email' maxlength='50' value='" . $user->email . "' />"; ?>
+            <input class='boss_required inputbox' size="50" id='email' type='text' name='email' maxlength='50' value='<?php echo $user->email; ?>' />
             <!-- email -->
             <br/>
             <?php } ?>
             <!-- title -->
             <label for="title"><?php echo BOSS_FORM_MESSAGE_TITLE; ?></label>
-            <?php echo "<input class='boss_required' id='title' type='text' name='title' maxlength='50' value=\"" . BOSS_EMAIL_TITLE . htmlspecialchars(stripslashes($content->name), ENT_QUOTES) . "\" />"; ?>
+            <input class='inputbox' size="50" id='title' type='text' name='title' maxlength='50' value="<?php echo BOSS_EMAIL_TITLE . htmlspecialchars(stripslashes($content->name), ENT_QUOTES); ?>" />
             <!-- title -->
 
             <br/>
             <!-- body -->
             <label for="body"><?php echo BOSS_FORM_MESSAGE_BODY; ?></label>
-            <?php  echo "<textarea class='boss_required' id='body' name='body' cols='40' rows='10' wrap='VIRTUAL'>" . BOSS_EMAIL_BODY . htmlspecialchars(stripslashes('text' /*TODO@$content->content_text*/), ENT_QUOTES) . "</textarea>"; ?>
+            <textarea class='boss_required inputbox' id='body' name='body' cols='50' rows='10' wrap='VIRTUAL'>
+                <?php echo BOSS_EMAIL_BODY . htmlspecialchars(stripslashes('text' /*TODO@$content->content_text*/), ENT_QUOTES); ?>
+            </textarea>
             <!-- body -->
             <br/>
             <?php if (($mode == 0) && ($allow_attachement == 1)) { ?>
             <!-- Attach -->
-            <label for="body"><?php echo BOSS_ATTACH_FILE; ?></label>
-            <input id="attach_file" type="file" name="attach_file"/>
+            <label for="attach_file"><?php echo BOSS_ATTACH_FILE; ?></label>
+            <input id="attach_file" type="file" class=" inputbox" name="attach_file"/>
             <br/>
             <?php } ?>
-            <!-- buttons -->
-            <label for="contentid"></label>
+
             <input type="hidden" name="gflag" value="0">
-            <?php
-                echo "<input type='hidden' name='contentid' value='" . $content->id . "' />";
-            ?>
-            <input type="button" value=<?php echo BOSS_SEND_EMAIL_BUTTON; ?> onclick="submitbutton()" />
+            <input type='hidden' name='contentid' id='contentid' value='<?php echo $content->id ?>' />
+            <!-- buttons -->
+            <span class="button">
+                <input type="button" class="button" value=<?php echo BOSS_SEND_EMAIL_BUTTON; ?> onclick="submitbutton()" />
+            </span>
             <!-- buttons -->
 
         </form>
@@ -376,7 +384,7 @@ class boss_html
                         $this->rights->bind_rights($row->rights);
                     }
                     else{
-                        $this->rights->bind_rights(@$conf->rights);
+                        $this->rights->bind_rights($this->conf->rights);
                     }                  
                     
                     if(!$this->rights->allow_me('show_category', $my->groop_id)){
