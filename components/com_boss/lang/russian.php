@@ -380,6 +380,7 @@ DEFINE("BOSS_ATTACH_FILE","Файл");
 
 DEFINE("BOSS_TAB_CONTACT","Контакты");
 DEFINE("BOSS_MESSAGE_SENT","Сообщение отправлено");
+DEFINE("BOSS_MESSAGE_NOT_SENT","Ошибка отправки сообщения");
 DEFINE("BOSS_CONTACT_BY_PMS","Приватные сообщения");
 DEFINE("BOSS_CONTACT_BY_PMS_LONG","Позволяет связаться с автором через систему приватных сообщений, необходимо установить  компонент приватных сообщений, например JIM, Missus и проассоциировать contentsmanager мамбот");
 DEFINE("BOSS_ALLOW_ATTACHMENT","Разрешить вложения");

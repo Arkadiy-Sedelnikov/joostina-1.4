@@ -723,41 +723,45 @@ function send_message($mode, $directory) {
 
 	$mainframe = mosMainFrame::getInstance();
 	$my = $mainframe->getUser();
-
 	$database = database::getInstance();
-	$content = null;
-
 	$itemid = getBossItemid($directory, 0);
 	$contentid = intval(mosGetParam($_POST, 'contentid', 0));
+    $url = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory&amp;Itemid=$itemid");
 
-	$database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents as a WHERE a.id=$contentid")->loadObject($content);
+    $name = mosGetParam($_POST, 'name', "");
+    $from_email = mosGetParam($_POST, 'email', "");
+    $title = mosGetParam($_POST, 'title', "");
+    $body = mosGetParam($_POST, 'body', "");
 
-	if (isset($content)) {
-		$name = mosGetParam($_POST, 'name', "");
-		$email = mosGetParam($_POST, 'email', "");
-		$title = mosGetParam($_POST, 'title', "");
-		$body = mosGetParam($_POST, 'body', "");
+    $userid = $database->setQuery("SELECT `userid` FROM #__boss_" . $directory . "_contents as a WHERE a.id=$contentid LIMIT 1")->loadResult();
+    if (empty($userid)) {
+        mosRedirect($url, BOSS_MESSAGE_NOT_SENT);
+    }
 
-		if ($mode == 1) {
-			$_MAMBOTS = mosMambotHandler::getInstance();
-			$_MAMBOTS->loadBotGroup('com_boss');
-			$results = $_MAMBOTS->trigger('onSendPMS', array($content->userid, $my->id, $title, $body), false);
-		} else {
-			if ($_FILES['attach_file']['tmp_name'] != "") {
-				$directory = ini_get('uplocontent_tmp_dir') . "";
-				if ($directory == "")
-					$directory = ini_get('session.save_path') . "";
+    $to_email = $database->setQuery("SELECT `email` FROM #__users as a WHERE a.id=$userid")->loadResult();
+    if(empty($to_email)){
+        mosRedirect($url, BOSS_MESSAGE_NOT_SENT);
+    }
 
-				$filename = $directory . "/" . basename($_FILES['attach_file']['name']);
-				rename($_FILES['attach_file']['tmp_name'], $filename);
-				mosMail($email, $name, $content->email, $title, $body, 1, NULL, NULL, $filename);
-			}
-			else
-				mosMail($email, $name, $content->email, $title, $body, 1);
+	if ($mode == 1) {
+		$_MAMBOTS = mosMambotHandler::getInstance();
+		$_MAMBOTS->loadBotGroup('com_boss');
+		$results = $_MAMBOTS->trigger('onSendPMS', array($userid, $my->id, $title, $body), false);
+	} else {
+		if (!empty($_FILES['attach_file']['tmp_name'])) {
+			$directory = ini_get('uplocontent_tmp_dir') . "";
+			if ($directory == "")
+				$directory = ini_get('session.save_path') . "";
+
+			$filename = $directory . "/" . basename($_FILES['attach_file']['name']);
+			rename($_FILES['attach_file']['tmp_name'], $filename);
+			mosMail($from_email, $name, $to_email, $title, $body, 1, NULL, NULL, $filename);
 		}
+		else{
+            mosMail($from_email, $name, $to_email, $title, $body, 1);
+        }
 	}
-
-	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory&amp;Itemid=$itemid"), BOSS_MESSAGE_SENT);
+	mosRedirect($url, BOSS_MESSAGE_SENT);
 }
 
 function show_content($contentid, $catid, $directory, $template_name) {
