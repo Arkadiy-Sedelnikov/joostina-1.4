@@ -9,5 +9,5 @@
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-DEFINE('_LOGIN_TEXT','Вход');
+if(!defined('_LOGIN_TEXT')) define ('_LOGIN_TEXT','Вход');
 DEFINE('_SITE_AUTH','Авторизация на сайте');
