@@ -79,7 +79,7 @@ class loginHTML {
 									<?php echo _REMEMBER_ME; ?>
 							<input type="checkbox" name="remember" class="inputbox" value="yes" />
 							<br/>
-							<a href="<?php echo sefRelToAbs('index.php?option=com_registration&amp;task=lostPassword'); ?>">
+							<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=lostPassword'); ?>">
 										<?php echo _LOST_PASSWORDWORD; ?>
 							</a>
 									<?php
@@ -87,7 +87,7 @@ class loginHTML {
 										?>
 							<br/>
 										<?php echo _NO_ACCOUNT; ?>
-							<a href="<?php echo sefRelToAbs('index.php?option=com_registration&amp;task=register'); ?>">
+							<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=register'); ?>">
 											<?php echo _CREATE_ACCOUNT; ?>
 							</a>
 										<?php
