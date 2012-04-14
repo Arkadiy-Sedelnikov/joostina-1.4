@@ -413,7 +413,7 @@ DEFINE('BOSS_ADD_REVIEWS','Добавить свой комментарий');
 DEFINE('BOSS_SUBMIT','Передать');
 DEFINE('BOSS_GALLERY','Изображения');
 DEFINE('BOSS_NUM_VOTES','голосов - %s');
-DEFINE('BOSS_NUM_REVIEWS','комментариев - %s');
+DEFINE('BOSS_NUM_REVIEWS','Комментариев - %s');
 DEFINE('BOSS_SUBMIT_VOTE','Проголосовать');
 
 DEFINE('BOSS_LINK_TEXT','Текст ссылки');
