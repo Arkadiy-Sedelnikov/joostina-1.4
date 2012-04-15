@@ -247,15 +247,14 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_profile` (
 #
 
 CREATE TABLE IF NOT EXISTS `#__boss_1_rating` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `contentid` int(10) unsigned DEFAULT NULL,
-  `userid` int(10) unsigned DEFAULT NULL,
-  `note` int(10) unsigned DEFAULT NULL,
-  `ip` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `published` tinyint(1) DEFAULT '1',
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `contentid` int(10) DEFAULT '0',
+  `userid` int(10) DEFAULT '0',
+  `value` tinyint(1) DEFAULT '5',
+  `ip` int(11) DEFAULT '0',
+  `date` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
 
 #
 # Table structure for table `#__boss_1_reviews`

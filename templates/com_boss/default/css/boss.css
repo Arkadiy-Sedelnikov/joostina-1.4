@@ -473,9 +473,10 @@ h1.detailstitle img{
 }
 
 .list_item_50 {
-	width: 49%;
+	width: 45%;
 	border-bottom: 1px dashed #CCCCCC;
 	margin-bottom: 10px;
+    padding: 7px;
     float: left;
 }
 
@@ -483,7 +484,8 @@ h1.detailstitle img{
 	width: 100%;
 	border: 1px solid purple;
 	margin-bottom: 10px;
-        background-color: #ccffcc;
+    background-color: #ccffcc;
+    padding: 10px;
 }
 
 .list_image {

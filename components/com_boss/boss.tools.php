@@ -517,17 +517,16 @@ function installNewDirectory($installPlugins=1) {
         if ($database->getErrorNum()) {
             $errors .= '<br />'.$database->stderr();
         }
-        
-        $query =    "CREATE TABLE IF NOT EXISTS `#__boss_".$id."_rating` ( ".
-                    "`id` int(10) unsigned NOT NULL auto_increment, ".
-                    "`contentid` int(10) unsigned default NULL, ".
-                    "`userid` int(10) unsigned default NULL, ".
-                    "`note` int(10) unsigned default NULL, ".
-                    "`ip` varchar(255) CHARACTER SET utf8 default NULL, ".
-                    "`date` datetime default NULL, ".
-                    "`published` tinyint(1) default '1', ".
-                    "PRIMARY KEY  (`id`) ".
-                    ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1; ";
+        $query = "CREATE TABLE IF NOT EXISTS `#__boss_" . $id . "_rating` (
+					`id` int(10) NOT NULL AUTO_INCREMENT,
+  					`contentid` int(10) DEFAULT '0',
+  					`userid` int(10) DEFAULT '0',
+  					`value` tinyint(1) DEFAULT '5',
+  					`ip` int(11) DEFAULT '0',
+  					`date` int(10) DEFAULT '0',
+  				PRIMARY KEY (`id`)
+				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1; ";
+
 	$database->setQuery($query);
 	$database->query();
         if ($database->getErrorNum()) {
