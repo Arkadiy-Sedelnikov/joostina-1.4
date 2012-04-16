@@ -534,7 +534,7 @@ return patErrorManager::raiseError(PATTEMPLATE_ERROR_MODULE_NOT_FOUND,"Could not
 if(!class_exists($moduleClass)) {
 return patErrorManager::raiseError(PATTEMPLATE_ERROR_MODULE_NOT_FOUND,"Module file $moduleFile does not contain class $moduleClass.");
 }
-$this->_modules[$moduleType][$sig] = &new $moduleClass;
+$this->_modules[$moduleType][$sig] = new $moduleClass;
 if(method_exists($this->_modules[$moduleType][$sig],'setTemplateReference')) {
 $this->_modules[$moduleType][$sig]->setTemplateReference($this);
 }
