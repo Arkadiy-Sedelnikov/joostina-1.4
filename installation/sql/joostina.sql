@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `#__boss_1_rating` (
   `ip` int(11) DEFAULT '0',
   `date` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 #
 # Table structure for table `#__boss_1_reviews`
