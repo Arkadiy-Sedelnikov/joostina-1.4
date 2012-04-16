@@ -12,7 +12,7 @@ class defaultRating extends mosDBTable{
 	var $id = null;
 	var $contentid = null;
 	var $userid = null;
-	var $note = null;
+	var $value = null;
 	var $ip = null;
 	var $date = null;
 
@@ -56,8 +56,8 @@ class defaultRating extends mosDBTable{
 			}
 
 			$row->userid = $my->id;
-			$row->date = date("Y-m-d H:i:s");
-			$row->ip = getIp();
+			$row->date = time();
+			$row->ip = ip2long(getIp());
 
 			// store it in the db
 			if(!$row->store()){
@@ -71,18 +71,22 @@ class defaultRating extends mosDBTable{
 		}
 	}
 
-	//действия при установке плагина
+	/**
+	 * действия при установке плагина
+	 * @param $directory
+	 * @return void
+	 */
 	public function install($directory){
-		$query = "CREATE TABLE IF NOT EXISTS `#__boss_" . $directory . "_rating` (
-					`id` int(10) NOT NULL AUTO_INCREMENT,
+		$sql = "CREATE TABLE IF NOT EXISTS `#__boss_" . $directory . "_rating` (
+  					`id` int(10) NOT NULL AUTO_INCREMENT,
   					`contentid` int(10) DEFAULT '0',
   					`userid` int(10) DEFAULT '0',
   					`value` tinyint(1) DEFAULT '5',
   					`ip` int(11) DEFAULT '0',
   					`date` int(10) DEFAULT '0',
   				PRIMARY KEY (`id`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1; ";
-		$this->_db->setQuery($query)->query();
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ";
+		$this->database->setQuery($sql)->query();
 	}
 
 	public function uninstall($directory){
@@ -95,7 +99,7 @@ class defaultRating extends mosDBTable{
 		$query = array();
 		if($conf->allow_ratings == 1){
 			$query['tables'] = " LEFT JOIN #__boss_" . $directory . "_rating as rat ON a.id = rat.contentid \n";
-			$query['fields'] = " count(DISTINCT rat.id) as num_votes, AVG(rat.note) as sum_votes, rat.id as not_empty, \n";
+			$query['fields'] = " count(DISTINCT rat.id) as num_votes, AVG(rat.value) as sum_votes, rat.id as not_empty, \n";
 			$query['wheres'] = '';
 		}
 		else{
@@ -116,10 +120,11 @@ class defaultRating extends mosDBTable{
 				echo sprintf(BOSS_VOTE_LOGIN_REQUIRED, $link);
 			}
 			else{
+				$this->displayVoteResult($content, $directory, $conf);
 				$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_vote&amp;directory=$directory");
 				?>
 			<form action="<?php echo $target;?>" method="post" name="reviewForm">
-				<select name="note">
+				<select name="value">
 					<option value="0">0</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -133,6 +138,7 @@ class defaultRating extends mosDBTable{
 			</form>
 			<?php
 			}
+			$this->displayNumVotes($content);
 			return true;
 		} else{
 			return false;
@@ -165,6 +171,7 @@ class defaultRating extends mosDBTable{
 					echo '<img src="' . JPATH_SITE . '/images/boss/' . $directory . '/plugins/ratings/defaultRating/images/star_00.png" alt="star_00" align="middle" />';
 				}
 			}
+			$this->displayNumVotes($content);
 			return true;
 		} else{
 			return false;

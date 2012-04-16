@@ -30,7 +30,7 @@ class GDRating{
 		// количество звёздочек
 		$this->units = 10;
 		// ширина звёздочки
-		$this->rating_unitwidth = 30;
+		$this->rating_unitwidth = 16;
 		// включаем показ рейтинга полностью
 		$this->result_only = true;
 	}
@@ -43,7 +43,7 @@ class GDRating{
 	 * @internal param bool $gust - разрешение голосовать гостям (принудительно)
 	 * @return bool|string
 	 */
-	public function displayShowForm($content, $directory, $conf){
+	public function displayVoteForm($content, $directory, $conf){
 		// проверяем разрешёл ли рейтинг
 		if($conf->allow_ratings){
 			$this->content = $content;
@@ -81,9 +81,9 @@ class GDRating{
 	 * @param $conf - данные конфигурации
 	 * @internal param bool $gust - разрешение голосовать гостям (принудительно)
 	 */
-	public function displayShowResult($content, $directory, $conf){
+	public function displayVoteResult($content, $directory, $conf){
 		$this->result_only = false;
-		$this->displayShowForm($content, $directory, $conf);
+		$this->displayVoteForm($content, $directory, $conf);
 	}
 	/**
 	 * Вывод рейтинга
@@ -106,68 +106,68 @@ class GDRating{
 			$rating2 = ($row->count) ? number_format($row->sum / $row->count, 2) : "0.00";
 
 			$tense = Text::declension($row->count, array(_GDRATING_MES01, _GDRATING_MES02, _GDRATING_MES03));
+			if(!$this->result_only){
+				$result = '<span>' . _GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')' . '</span>';
+				return $result;
+			}else{
+				if($this->my->id == 0 AND $this->conf->allow_unregisered_comment == 0){
+					$result = array();
+					$result[] .= '<div class="ratingblock" id="ratingblock_' . $this->content->id . '">';
+					$result[] .= '<div id="unit_long' . $this->content->id . '">';
+					$result[] .= '<ul id="unit_ul' . $this->content->id . '" class="unit-rating" style="width:' . $this->rating_unitwidth * $this->units . 'px;">';
+					$result[] .= '<li class="current-rating" style="width:' . $rating_width . 'px;">' . _GDRATING_MES04 . ' ' . $rating2 . '/' . $this->units . '</li>';
+					$result[] .= '</ul>';
+					$result[] .= '<p class="static">';
+					$result[] .= '<span>' . _GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')' . '</span>';
+					$result[] .= '<br /><span style="font-size:90%">' . _GDRATING_MES07 . '.</span></p>';
+					$result[] .= '</div>';
+					$result[] .= '</div>';
+					return join("", $result);
+				} else{
+					// получаем IP
+					$ip = getIp();
 
-			if((($this->my->id == 0 AND $this->conf->allow_unregisered_comment == 0) AND $this->gust == false) OR $this->result_only==false){
-				$static_rater = array();
-				if($this->result_only){
-					$static_rater[] .= '<div class="ratingblock" id="ratingblock_' . $this->content->id . '">';
-					$static_rater[] .= '<div id="unit_long' . $this->content->id . '">';
-					$static_rater[] .= '<ul id="unit_ul' . $this->content->id . '" class="unit-rating" style="width:' . $this->rating_unitwidth * $this->units . 'px;">';
-					$static_rater[] .= '<li class="current-rating" style="width:' . $rating_width . 'px;">' . _GDRATING_MES04 . ' ' . $rating2 . '/' . $this->units . '</li>';
-					$static_rater[] .= '</ul>';
-					$static_rater[] .= '<p class="static">';
-				}
-				$static_rater[] .= '<span>' . _GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')' . '</span>';
-				if($this->result_only){
-					$static_rater[] .= '<br /><span style="font-size:90%">' . _GDRATING_MES07 . '.</span></p>';
-					$static_rater[] .= '</div>';
-					$static_rater[] .= '</div>';
-				}
-				return join("", $static_rater);
-			} else{
-				// получаем IP
-				$ip = getIp();
+					// проверяем голосовавших
+					if($this->my->id)
+						$sql = "SELECT * FROM #__boss_" . $this->directory . "_rating WHERE contentid =" . $this->content->id . " AND userid =" . $this->my->id;
+					else
+						$sql = "SELECT * FROM #__boss_" . $this->directory . "_rating WHERE contentid =" . $this->content->id . " AND userid =0 AND ip =" . ip2long($ip);
+					$this->database->setQuery($sql);
+					$res = $this->database->query();
+					$voted = $this->database->getNumRows($res);
 
-				// проверяем голосовавших
-				if($this->my->id)
-					$sql = "SELECT * FROM #__boss_" . $this->directory . "_rating WHERE contentid =" . $this->content->id . " AND userid =" . $this->my->id;
-				else
-					$sql = "SELECT * FROM #__boss_" . $this->directory . "_rating WHERE contentid =" . $this->content->id . " AND ip =" . ip2long($ip);
-				$this->database->setQuery($sql);
-				$res = $this->database->query();
-				$voted = $this->database->getNumRows($res);
-
-				$rater = '<div class="ratingblock" id="ratingblock_' . $this->content->id . '">';
-				$rater .= '<div id="unit_long' . $this->content->id . '">';
-				$rater .= '<ul id="unit_ul' . $this->content->id . '" class="unit-rating" style="width:' . $this->rating_unitwidth * $this->units . 'px;">';
-				$rater .= '<li class="current-rating" style="width:' . $rating_width . 'px;">' . _GDRATING_MES04 . ' ' . $rating2 . '/' . $this->units . '</li>';
-				for($ncount = 1; $ncount <= $this->units; $ncount++){
-					if(!$voted){
-						$rater .= '<li><a
+					$result = '<div class="ratingblock" id="ratingblock_' . $this->content->id . '">';
+					$result .= '<div id="unit_long' . $this->content->id . '">';
+					$result .= '<ul id="unit_ul' . $this->content->id . '" class="unit-rating" style="width:' . $this->rating_unitwidth * $this->units . 'px;">';
+					$result .= '<li class="current-rating" style="width:' . $rating_width . 'px;">' . _GDRATING_MES04 . ' ' . $rating2 . '/' . $this->units . '</li>';
+					for($i = 1; $i <= $this->units; $i++){
+						if(!$voted){
+							$result .= '<li><a
 						 onclick="gd_rating_plugin('
-							. $ncount . ','
-							. $this->content->id . ','
-							. ip2long($ip) . ','
-							. $this->units . ','
-							. $this->rating_unitwidth . ','
-							. $this->directory . ','
-							. $this->my->id . ', \''
-							. JPATH_SITE . '/images/boss/' . $this->directory . '/plugins/ratings/GDRating/db.php\')"
+								. $i . ','
+								. $this->content->id . ','
+								. ip2long($ip) . ','
+								. $this->units . ','
+								. $this->rating_unitwidth . ','
+								. $this->directory . ','
+								. $this->my->id . ', \''
+								. JPATH_SITE . '/images/boss/' . $this->directory . '/plugins/ratings/GDRating/db.php\')"
 						href="javascript:void(0)"
-						title="' . $ncount . ' out of ' . $this->units . '"
-						class="r' . $ncount . '-unit rater"
-						rel="nofollow">' . $ncount . '</a></li>';
+						title="' . $i . ' out of ' . $this->units . '"
+						class="r' . $i . '-unit rater"
+						rel="nofollow">' . $i . '</a></li>';
+						}
 					}
+					$result .= '</ul>';
+					$result .= '<p>' ._GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')'.'</span></p>';
+					$result .= '</div>';
+					$result .= '</div>';
+					if(!defined('_GDRATING_JS')){
+						define('_GDRATING_JS', 1);
+						$this->mainframe->addJS(JPATH_SITE . '/images/boss/' . $this->directory . '/plugins/ratings/GDRating/script.js');
+					}
+					return $result;
 				}
-				$rater .= '</ul>';
-				$rater .= '<p>' ._GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')'.'</span></p>';
-				$rater .= '</div>';
-				$rater .= '</div>';
-				if(!defined('_GDRATING_JS')){
-					define('_GDRATING_JS', 1);
-					$this->mainframe->addJS(JPATH_SITE . '/images/boss/' . $this->directory . '/plugins/ratings/GDRating/script.js');
-				}
-				return $rater;
 			}
 		} else{
 			return false;
@@ -208,7 +208,7 @@ class GDRating{
   					`ip` int(11) DEFAULT '0',
   					`date` int(10) DEFAULT '0',
   				PRIMARY KEY (`id`)
-				) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ";
+				) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ";
 		$this->database->setQuery($sql)->query();
 	}
 

@@ -7,13 +7,7 @@
 </h3>
 <?php if ($this->isRatingAllowed()||$this->isReviewAllowed()) { ?>
 <div>
-	<?php if ($this->isRatingAllowed()) {
-		$this->rating->displayVoteResult($content, $this->directory);
-        			echo "&nbsp;";
-        			$this->rating->displayNumVotes($content);
-                                echo "&nbsp;&nbsp;";
-	}
-	?>
+	<?php $this->rating->displayVoteResult($content, $this->directory);	?>
 	<?php if ($this->isReviewAllowed()) {
 		   echo " - ";
 		   $this->comments->displayNumReviews($content, $this->reviews, $this->conf);

@@ -10,7 +10,7 @@
         <div class="list_header">
         	<?php if ($this->isRatingAllowed()||$this->isReviewAllowed()) { ?>
 			<div>
-				<?php if($this->isRatingAllowed()){ $this->rating->displayShowResult($content, $this->directory, $this->conf); } ?>
+				<?php $this->rating->displayVoteResult($content, $this->directory, $this->conf); ?>
         		<?php if ($this->isReviewAllowed()) {
         			   $this->comments->displayNumReviews($content, $this->reviews, $this->conf);
         			   echo "<br/><br/>";

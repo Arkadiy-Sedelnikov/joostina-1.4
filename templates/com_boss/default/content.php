@@ -14,11 +14,7 @@
 
 <div class="details">
 	<div class="boss_vote">
-		<?php if($this->isRatingAllowed()){
-		$this->rating->displayShowForm($content, $this->directory, $this->conf);
-	} ?>
-	</div>
-	<div class="boss_vote">
+		<?php $this->rating->displayVoteForm($content, $this->directory, $this->conf); ?>
 		<div>
 			<?php
 			if($this->isReviewAllowed()){
