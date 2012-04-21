@@ -21,6 +21,7 @@ if (file_exists($lang_file = JPATH_BASE.'/components/com_boss/lang/'.$mainframe-
      $lang_file = $lang_file;
 else $lang_file = JPATH_BASE.'/components/com_boss/lang/russian.php';
 require_once ($lang_file);
+require_once(JPATH_BASE . '/components/com_boss/boss.tools.php');
 
 // Получаем настройки модуля
 $cat_ids      	 	  = $params->get( 'cat_ids' );
@@ -40,6 +41,19 @@ if($directory == 0){
     require_once ($mainframe->getPath('class', 'com_frontpage'));
     $configObject = new frontpageConfig($database);
     $directory =  $configObject->get('directory', 1);
+}
+
+$conf = getConfig($directory);
+if(empty($conf)){
+    ?>
+        <p>
+           Каталога с идентификатором <?php echo $directory; ?> не существует. Настройте модуль
+           <a href="http://joostina14/administrator/index2.php?option=com_modules&client=admin&task=editA&hidemainmenu=1&id=21">
+               mod_boss_admin_contents
+           </a>
+        </p>
+    <?php
+    return;
 }
 
 // Сортировка объектов
@@ -138,7 +152,7 @@ $autors = $database->setQuery(
 	"WHERE u.id = c.userid ORDER BY u.name" )->loadObjectList('userid');
 
 if ($database->getErrorNum()) {	
-	echo 'Проверьте настройки модуля <strong>mod_boss_contents_admin</strong>. ' . $database->stderr();
+	echo 'Проверьте настройки модуля <strong>mod_boss_admin_contents</strong>. ' . $database->stderr();
 	return false;
 }
 
