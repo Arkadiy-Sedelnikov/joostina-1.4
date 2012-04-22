@@ -112,7 +112,7 @@ class File_Archive {
 				if($symbolic === null) {
 					$realSymbolic = '';
 				}
-				$tmp = &new File_Archive_Reader_AddBaseName($realSymbolic,$result);
+				$tmp = new File_Archive_Reader_AddBaseName($realSymbolic,$result);
 				unset($result);
 				$result = &$tmp;
 			}
