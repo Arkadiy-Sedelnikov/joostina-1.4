@@ -61,7 +61,6 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
 
                 if(is_array($value) && count($value)>0){
                     foreach($value as $row){
-                        $row['counter'] = (!empty($row['counter'])) ? $row['counter'] : 0;
                         $html = '<div class="boss_file">';
 				        $html .= self::displayFileLink($directory, $content, $field, $field_values, $row, 'joostfree', 'front', $field_conf);
 				        $html .= '</div>';
@@ -91,7 +90,7 @@ boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
             }
 
             $filename = $row['file'];
-            $downloads = $row['counter'];
+            $downloads =  (!empty($row['counter'])) ? $row['counter'] : 0;
 
             $fieldname = $field->name;
             $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
