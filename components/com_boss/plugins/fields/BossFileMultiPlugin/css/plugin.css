@@ -37,3 +37,7 @@ div.boss_file img {vertical-align:middle!important;}
 #status{
     font-size: 10pt;
 }
+
+span.boss_file{
+    margin: 0 3px;
+}
