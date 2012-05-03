@@ -295,6 +295,7 @@ DEFINE('_SEL_POSITION','- Выберите позицию -');
 DEFINE('_SEL_TYPE','- Выберите тип -'); 
 DEFINE('_DEFAULT_IMAGE','- Изображение по умолчанию -');
 DEFINE('_DONT_USE_IMAGE','- Не использовать изображение -');
+DEFINE('_DEFAULT_FILE','- Файл по умолчанию -');
 DEFINE('_ET_MENU','- Выберите меню -');
 DEFINE('_HANDLER','Обработчик для данного типа отсутствует');
 DEFINE('_NO_PARAMS','Объект не содержит настраиваемых параметров');
