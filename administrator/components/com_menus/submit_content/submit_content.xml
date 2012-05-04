@@ -14,7 +14,7 @@
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Изображение меню" description="Маленькое изображение, располагаемое слева или справа от пункта меню. Изображение должно находиться в папке images/stories/" />
 		<param name="form_title_add" type="text" default="" label="Заголовок формы при добавлении записи" description="" />
 		<param name="form_title_edit" type="text" default="" label="Заголовок формы при редактировании записи" description="" />
-		<param name="for_section" type="mos_section" default="0" label="Параметры добавления для:" hide_none="0" hide_default="0" description="Выберите, для какого раздела будут дейстовать данные настройки" />
+		<param name="for_section" type="directory" default="0" label="Параметры добавления для:" hide_none="0" hide_default="0" description="Выберите, для какого раздела будут дейстовать данные настройки" />
 		<param name="ids_user" type="text" default="" label="ID разделов или категорий, в которые разрешено/запрещено добавление материалов" description="Укажите через запятую ID разделов или категорий, в которые пользователям разрешено/запрещено добавлять материалы. Тип использования введенных ID укажите ниже - с помощью выпадающего списка. " />
 		<param name="ids_action" type="list" default="0" label="Тип использования введенных ID разделов или категорий" description="Выберите, каким образом обрабатывать введенные Вами исключения. Если выбрано 'Не использовать' - пользователям будет разрешено добавление записей во все разделы/категории">
 			<option value="0">Не использовать</option>

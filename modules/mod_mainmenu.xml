@@ -16,7 +16,7 @@
 		<param name="class_sfx" type="text" default="" label="CSS-суффикс класса меню" description="Суффикс, используемый в классе CSS для объектов меню" />
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="menutype" type="mos_menu" default="" label="Название меню" description="Название меню (по умолчанию - `mainmenu`)" />
+		<param name="menutype" type="menu" default="" label="Название меню" description="Название меню (по умолчанию - `mainmenu`)" />
 		<param name="menu_style" type="list" default="vert_indent" label="Стиль меню" description="Стиль (вид) меню">
 			<option value="vert_indent">Вертикально</option>
 			<option value="horiz_flat">Горизонтально</option>

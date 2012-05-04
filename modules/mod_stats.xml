@@ -13,7 +13,7 @@
 		<filename module="mod_stats">mod_stats.php</filename>
 	</files>
 	<params>
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="serverinfo" type="radio" default="0" label="Информация о сервере" description="Показывать ли информацию о сервере">
 			<option value="1">Да</option>
 			<option value="0">Нет</option>

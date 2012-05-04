@@ -22,7 +22,7 @@
 		</param>
 		<param name="header" type="text" size="30" default="" label="Заголовок страницы" description="Текст, отображаемый вверху страницы. Если заполнено, то будет взамен будет использоваться название меню" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="catid" type="mos_category" default="0" scope="com_contact_details" label="Определенная категория" description="Показывать контакты только из определенной категории" />
+		<param name="catid" type="category" default="0" scope="com_contact_details" label="Определенная категория" description="Показывать контакты только из определенной категории" />
 		<param name="other_cat_section" type="radio" default="1" label="Список категорий - Раздел" description="Показать/Скрыть список категорий на странице просмотра списка">
 			<option value="0">Скрыть</option>
 			<option value="1">Показать</option>

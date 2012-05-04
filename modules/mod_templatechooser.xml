@@ -13,7 +13,7 @@
 		<filename module="mod_templatechooser">mod_templatechooser.php</filename>
 	</files>
 	<params>
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="title_length" type="text" default="20" label="Максимальная длина имени" description="Максимальная длина названия показываемого шаблона (по умолчанию -  20)" />
 		<param name="show_preview" type="radio" default="0" label="Показывать предпросмотр" description="Выберите, показывать ли изображение предварительного просмотра шаблона">
 			<option value="0">Скрыть</option>

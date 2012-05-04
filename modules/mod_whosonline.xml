@@ -13,7 +13,7 @@
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 	</files>
 	<params>
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="module_orientation" type="radio" default="0" label="Ориентация модуля" description="">
 			<option value="0">Горизонтально</option>

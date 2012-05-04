@@ -13,7 +13,7 @@
 		<filename module="mod_rssfeed">mod_rssfeed.php</filename>
 	</files>
 	<params>
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="text" type="text" default="" label="Текст" description="Введите текст, который будет показываться вместе со ссылками экспорта новостей (RSS)" />
 		<param name="yandex" type="radio" default="1" label="Yandex" description="Надо ли показывать ссылку стандарта Yandex">

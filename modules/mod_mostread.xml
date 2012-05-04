@@ -15,7 +15,7 @@
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="noncss" type="radio" default="1" label="Отключить дублирование стилей" description="Удалить дублирование стилей на всю ветку ul-li-a">
 			<option value="0">Нет</option>
 			<option value="1">Да</option>

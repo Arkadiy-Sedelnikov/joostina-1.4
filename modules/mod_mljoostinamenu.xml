@@ -22,7 +22,7 @@
 		<param name="@spacer" type="spacer" default="&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt; &lt;div class=&quot;tab-page&quot; id=&quot;moduledgm&quot;&gt;&lt;script type=&quot;text/javascript&quot;&gt;var tabPane1 = new WebFXTabPane( document.getElementById( &quot;moduledgm&quot; ), 1 )&lt;/script&gt; &lt;div class=&quot;tab-page&quot;id=&quot;module32&quot;&gt;&lt;h2 class=&quot;tab&quot;&gt;Основные&lt;/h2&gt;&lt;script type=&quot;text/javascript&quot;&gt;tabPane1.addTabPage(document.getElementById(&quot;module32&quot;));&lt;/script&gt;&lt;table width=&quot;100%&quot; class=&quot;paramlist-m&quot;&gt;&lt;tr&gt;&lt;td&gt;" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="" />
 		<param name="class_sfx" type="text" default="" label="Суффикс класса ссылки меню" description="" />
-		<param name="menutype" type="mos_menu" default="mainmenu" label="Используемое меню" description="" />
+		<param name="menutype" type="menu" default="mainmenu" label="Используемое меню" description="" />
 		<param name="menu_style" type="list" default="horizontal" label="Тип вывода меню" description="">
 			<option value="vertical">Вертикальное многоуровневое</option>
 			<option value="ml_vertical">Вертикальное одноуровневое</option>

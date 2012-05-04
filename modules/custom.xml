@@ -13,7 +13,7 @@
 		<param type="tabs" default="startPane" name="one" />
 		<param type="tabs" default="startTab" name="0" label="Базовые"/>
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="rssurl" type="text" size="50" default="" label="URL-адрес RSS" description="Введите URL-адрес ленты RSS/RDF" />
 		<param name="rsstitle" type="radio" default="1" label="Заголовок ленты" description="Отображение заголовка ленты новостей">
 			<option value="1">Да</option>

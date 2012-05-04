@@ -13,7 +13,7 @@
 		<filename module="mod_poll">mod_poll.php</filename>
 	</files>
 	<params>
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
 		<param name="def_itemid" type="text" default="0" label="ItemId по умолчанию" description="Параметр ItemId для ссылок. 0 для ипользования автоматического рассчета." />
 	</params>

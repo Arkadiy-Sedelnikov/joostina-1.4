@@ -14,7 +14,7 @@
 	</files>
 	<params>
 		<param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля." />
-		<param type="cache_list" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
+		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль. По умолчанию используется время, указанное в глобальной конфигураци." />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="template" type="text" default="default.php" label="Шаблон модуля (название.расширение)" description="Введите название файла (например: template.php). Если оставить поле пустым - будет использован шаблон по-умолчанию." />
 		<param name="template_dir" type="radio" default="0" label="Директория шаблона" description="Системная - шаблон находится в modules/название_модуля/view. Папка шаблона сайта - шаблон находится в templates/текущий_шаблон_сайта/html/название_модуля ">
