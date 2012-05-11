@@ -467,12 +467,12 @@ class mosParameters{
 		$database->setQuery($sql);
 		$rows = $database->loadObjectList();
 		foreach($rows as $directory){
-			$q = "SELECT c.* FROM #__boss_" . $directory->id . "_categories as c ";
+			$q = "SELECT * FROM #__boss_" . $directory->id . "_categories ";
 			if($published==1)
 				$q .= " WHERE published=1 ";
 			elseif($published==2)
 				$q .= " WHERE published=0 ";
-			$q .= "ORDER BY c.parent,c.ordering";
+			$q .= "ORDER BY parent,ordering";
 			$rows = $database->setQuery($q)->loadObjectList();
 			if($database->getErrorNum())
 				echo $database->stderr();
@@ -517,6 +517,49 @@ class mosParameters{
 			}
 		}
 	}
+
+	/**
+     * Выпадающий список полей
+     * @param string Название элемента
+     * @param string Значение элемента
+     * @param object XML-элементы
+     * @param string Управляющее имя
+     * @return string HTML-форма
+     */
+    private function _form_field($name, $value, $node, $control_name){
+        $html = false;
+        $published= intval($node->getAttribute('published'));
+        $database = database::getInstance();
+        $sql = "SELECT id, name FROM #__boss_config";
+        $database->setQuery($sql);
+        $rows = $database->loadObjectList();
+        foreach($rows as $directory){
+            $q = "SELECT fieldid AS id, name FROM #__boss_" . $directory->id . "_fields ";
+            if($published==1)
+                $q .= " WHERE published=1 ";
+            elseif($published==2)
+                $q .= " WHERE published=0 ";
+            $q .= "ORDER BY name";
+            $rows = $database->setQuery($q)->loadObjectList();
+            if($database->getErrorNum())
+                echo $database->stderr();
+
+			$html .= '<optgroup label="' . $directory->name . '">';
+            foreach($rows as $row){
+				if($row->name == $value)
+					$selected = ' selected="selected"';
+				else
+					$selected = '';
+				$html .= '<option value="' . $directory->id . '-' . $row->name . '"' . $selected . '>' . $row->name . '</option>';
+            }
+            $html .= '</optgroup>';
+        }
+        if($html){
+            $html = '<option value="0">' . _SEL_FIELD . '</option>' . $html;
+            $html = '<select name="' . $control_name . '[' . $name . ']" class="inputbox">' . $html . "</select>";
+        }
+        return $html;
+    }
 
 	/**
 	 * Выпадающий список меню
@@ -580,6 +623,21 @@ class mosParameters{
 		if($filter=='')
 			$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
 		return $this->_form_filelist($name, $value, $node, $control_name, $label, _DONT_USE_IMAGE, _DEFAULT_IMAGE);
+	}
+
+	/**
+	 * Выпадающий список ДА/НЕТ
+	 * @param        $name Название элемента
+	 * @param        $value Значение элемента
+	 * @param        $node XML-элементы
+	 * @param        $control_name Управляющее имя
+	 * @return string HTML-форма
+	 */
+	private function _form_yesno($name, $value, $node, $control_name){
+		$no = $node->getAttribute('no');
+		$yes = $node->getAttribute('yes');
+		$options = array(mosHTML::makeOption('0', $no), mosHTML::makeOption('1', $yes),);
+		return mosHTML::selectList($options, '' . $control_name . '[' . $name . ']', 'class="inputbox"', 'value', 'text', $value);
 	}
 
 	/**
