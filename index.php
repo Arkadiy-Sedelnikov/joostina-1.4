@@ -6,6 +6,7 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
+session_start();
 // Установка флага родительского файла
 define('_VALID_MOS', 1);
 // корень файлов
@@ -30,6 +31,13 @@ if (!file_exists('configuration.php') || filesize('configuration.php') < 10) {
 // подключение файла конфигурации
 require_once (JPATH_BASE . DS . 'configuration.php');
 
+// live_site
+define('JPATH_SITE', $mosConfig_live_site);
+
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::run($mosConfig_sef, $mosConfig_com_frontpage_clear);
+
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 
@@ -43,9 +51,6 @@ if ((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isse
 }
 unset($http_host);
 
-// live_site
-define('JPATH_SITE', $mosConfig_live_site);
-
 // подключение главного файла - ядра системы
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
@@ -54,12 +59,6 @@ if (file_exists('installation/index.php') && joomlaVersion::get('SVN') == 0) {
 	define('_INSTALL_CHECK', 1);
 	include (JPATH_BASE . DS . 'templates' . DS . 'system' . DS . 'offline.php');
 	exit();
-}
-
-if (file_exists(JPATH_BASE . DS . 'components' . DS . 'com_sef' . DS . 'sef.php')) {
-	require_once (JPATH_BASE . DS . 'components' . DS . 'com_sef' . DS . 'sef.php');
-} else {
-	require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
 }
 
 $_MAMBOTS = mosMambotHandler::getInstance();
