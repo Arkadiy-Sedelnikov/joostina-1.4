@@ -1,0 +1,1 @@
+<div class="gdn_df_date[MODULECLASS_SFX]">[DATE]</div>

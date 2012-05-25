@@ -1,0 +1,119 @@
+.moduletable-default{
+	border: 1px solid #cccccc;
+	padding: 0 10px 10px 10px;
+	margin-bottom: 10px;
+	background-color:#e0e0e0;
+}
+.moduletable-default h3 {
+	background-color: #b8d59c;
+	color: #ffffff;
+	padding: 5px;
+	text-align: center;
+	vertical-align: top;
+	font-family: Arial,sans-serif;;
+	font-size: 12pt;
+	font-weight: bold;
+	width: 250px;
+	margin: 5px 0 0 -20px;
+	border: none;
+	border-radius: 10px 0 0 0;
+	box-shadow: 0.2em 0.2em 5px rgba(122,122,122,0.5);
+}
+.moduletable-default a h3:hover{
+	color: #000000;
+}
+.gdn_df_special-default{
+	background-color:#f0f0f0;
+	padding:3px;
+	margin: 5px 3px 0 0;
+}
+.gdn_df_basic-default{
+}
+.gdn_df_ref-default{
+	margin-left: 10px;
+}
+/********************************************* название статьи */
+.gdn_df_title-default {
+	font-size: 11pt;
+	color: #990000;
+	font-weight: bold;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.gdn_df_title-default a {
+	color: #990000;
+	text-decoration: none;
+	border-bottom: black dotted 1px;
+}
+
+.gdn_df_title-default a:hover {
+	color: #ff0000;
+	border-bottom: #990000 dotted 1px;
+}
+
+/************************************************ дате */
+.gdn_df_date-default {
+	margin-top: 5px;
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-image: url("/modules/mod_gdnlotos/templates/default/date.png");
+	background-color: transparent;
+	background-attachment: scroll;
+	font-size: 8pt;
+	padding: 2px 0 2px 20px;
+	float:left;
+}
+/************************************************ изображение */
+.gdn_df_image-default img{
+	margin:2px 5px 2px 0;
+	padding:1px;
+	box-shadow: 0.2em 0.2em 3px rgba(122,122,122,0.5);
+	/*border: #cccccc solid 1px;*/
+	float:left;
+}
+.gdn_df_image-default a img{
+	text-decoration:none;
+}
+/************************************************ Автор */
+.gdn_df_author-default{
+	margin-top: 5px;
+	font-size: 8pt;
+}
+/************************************************ Текст */
+.gdn_df_text-default{
+
+}
+/************************************************ Далее */
+.gdn_df_but-default a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #444444;
+	text-decoration: underline;
+	padding-left: 10px;
+	background-image: url("/images/M_images/arrow.png");
+	background-position: left;
+	background-repeat: no-repeat;
+	float:left;
+	border:none;
+}
+
+.gdn_df_but-default a:hover {
+	text-decoration: none;
+}
+/************************************************ Просмотров */
+.gdn_df_hits-default{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #444444;
+	padding-left: 10px;
+	background-image: url("/images/M_images/arrow.png");
+	background-position: left;
+	background-repeat: no-repeat;
+}
+/********************************************* ссылки */
+.gdn_df_ref-default a{
+	font-size: 90%;
+}

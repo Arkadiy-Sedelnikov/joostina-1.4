@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall version="1.0.15" type="mambot" group="editors">
+	<name>Spaw</name>
+	<version>2.0.8-j14</version>
+	<creationDate>Октябрь 2008</creationDate>
+	<author>UAB "SOLMETRA"</author>
+	<authorEmail>info@solmetra.com</authorEmail>
+	<authorUrl>www.solmetra.com</authorUrl>
+	<copyright>Solmetra, joomlaforum.ru, Components Lab</copyright>
+	<license>GPL</license>
+	<description>Авторские права на редактор SPAW принадлежат Solmetra. Портирование для Joostina и общая оптимизация редактора выполнена rav, boston, Hammer, TK, joomlaforum.ru, Components Lab. Ver. 2.0.8-j14</description>
+	<files>
+		<filename mambot="spaw">spaw.php</filename>
+		<filename>spaw/class/index.html</filename>
+		<filename>spaw/class/config.class.php</filename>
+		<filename>spaw/class/editor.class.php</filename>
+		<filename>spaw/class/lang.class.php</filename>
+		<filename>spaw/class/output.class.php</filename>
+		<filename>spaw/class/theme.class.php</filename>
+		<filename>spaw/class/toolbar.class.php</filename>
+		<filename>spaw/class/util.class.php</filename>
+		<filename>spaw/config/index.html</filename>
+		<filename>spaw/config/config.php</filename>
+		<filename>spaw/dialogs/index.html</filename>
+		<filename>spaw/dialogs/dialog.php</filename>
+		<filename>spaw/dialogs/img/spacer.gif</filename>
+		<filename>spaw/empty/empty.html</filename>
+		<filename>spaw/empty/index.html</filename>
+		<filename>spaw/empty/empty.php</filename>
+		<filename>spaw/img/flash.gif</filename>
+		<filename>spaw/img/spacer100.gif</filename>
+		<filename>spaw/img/index.html</filename>
+		<filename>spaw/js/common/index.html</filename>
+		<filename>spaw/js/common/color.js</filename>
+		<filename>spaw/js/common/contextmenu.js</filename>
+		<filename>spaw/js/common/editor.js</filename>
+		<filename>spaw/js/common/editorpage.js</filename>
+		<filename>spaw/js/common/engine.js</filename>
+		<filename>spaw/js/common/entities.js</filename>
+		<filename>spaw/js/common/events.js</filename>
+		<filename>spaw/js/common/tab.js</filename>
+		<filename>spaw/js/common/toolbar.js</filename>
+		<filename>spaw/js/common/utils.js</filename>
+		<filename>spaw/js/gecko/index.html</filename>
+		<filename>spaw/js/gecko/editor.js</filename>
+		<filename>spaw/js/ie/index.html</filename>
+		<filename>spaw/js/ie/editor.js</filename>
+		<filename>spaw/js/opera/index.html</filename>
+		<filename>spaw/js/opera/editor.js</filename>
+		<filename>spaw/js/safari/editor.js</filename>
+		<filename>spaw/js/index.html</filename>
+		<filename>spaw/js/spaw.js.php</filename>
+		<filename>spaw/js/jsmin.php</filename>
+		<filename>spaw/plugins/index.html</filename>
+		<filename>spaw/plugins/changecase/docs/index.html</filename>
+		<filename>spaw/plugins/changecase/docs/license.txt</filename>
+		<filename>spaw/plugins/changecase/docs/readme.txt</filename>
+		<filename>spaw/plugins/changecase/js/common/index.html</filename>
+		<filename>spaw/plugins/changecase/js/common/changecase.js</filename>
+		<filename>spaw/plugins/changecase/js/index.html</filename>
+		<filename>spaw/plugins/changecase/lib/lang/index.html</filename>
+		<filename>spaw/plugins/changecase/lib/lang/en.lang.inc.php</filename>
+		<filename>spaw/plugins/changecase/lib/lang/lt.lang.inc.php</filename>
+		<filename>spaw/plugins/changecase/lib/lang/ru.lang.inc.php</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_tolower.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_tolower_down.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_tolower_off.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_tolower_over.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_toupper.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_toupper_down.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_toupper_off.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw1/img/tb_toupper_over.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_tolower.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_tolower_down.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_tolower_off.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_tolower_over.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_toupper.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_toupper_down.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_toupper_off.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/spaw2/img/tb_toupper_over.gif</filename>
+		<filename>spaw/plugins/changecase/lib/theme/index.html</filename>
+		<filename>spaw/plugins/changecase/lib/toolbars/index.html</filename>
+		<filename>spaw/plugins/changecase/lib/toolbars/plugins.toolbar.php</filename>
+		<filename>spaw/plugins/changecase/lib/index.html</filename>
+		<filename>spaw/plugins/changecase/index.html</filename>
+		<filename>spaw/plugins/core/dialogs/colorpicker.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/colorpicker.js</filename>
+		<filename>spaw/plugins/core/dialogs/flash_prop.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/flash_prop.js</filename>
+		<filename>spaw/plugins/core/dialogs/hyperlink.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/hyperlink.js</filename>
+		<filename>spaw/plugins/core/dialogs/image_prop.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/image_prop.js</filename>
+		<filename>spaw/plugins/core/dialogs/table_cell_prop.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/table_cell_prop.js</filename>
+		<filename>spaw/plugins/core/dialogs/table_prop.inc.php</filename>
+		<filename>spaw/plugins/core/dialogs/table_prop.js</filename>
+		<filename>spaw/plugins/core/dialogs/img/crosshair.gif</filename>
+		<filename>spaw/plugins/core/dialogs/img/huesaturation.jpg</filename>
+		<filename>spaw/plugins/core/dialogs/img/leftarrow.gif</filename>
+		<filename>spaw/plugins/core/dialogs/img/spacer.gif</filename>
+		<filename>spaw/plugins/core/js/common/format.js</filename>
+		<filename>spaw/plugins/core/js/common/general.js</filename>
+		<filename>spaw/plugins/core/js/common/insert.js</filename>
+		<filename>spaw/plugins/core/js/common/mode.js</filename>
+		<filename>spaw/plugins/core/js/common/table.js</filename>
+		<filename>spaw/plugins/core/js/common/tools.js</filename>
+		<filename>spaw/plugins/core/js/gecko/format_gecko.js</filename>
+		<filename>spaw/plugins/core/js/ie/format_ie.js</filename>
+		<filename>spaw/plugins/core/js/opera/format_opera.js</filename>
+		<filename>spaw/plugins/core/js/safari/format_safari.js</filename>
+		<filename>spaw/plugins/core/lib/lang/en.lang.inc.php</filename>
+		<filename>spaw/plugins/core/lib/lang/ru.lang.inc.php</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/config/theme.config.php</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/css/dialog.css</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/css/theme.css</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/atab_bg.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/atab_left.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/atab_right.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/bg_pattern.jpg</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/btbg.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/checkmark.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/graydot.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/sizing_grip.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/spacer.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tab_bg.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tab_left.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tab_right.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_baseline.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_baseline_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_baseline_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_baseline_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bg_color.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bg_color_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bg_color_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bg_color_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bold.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bold_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bold_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bold_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bottom.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bottom_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bottom_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_bottom_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cleanup.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cleanup_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cleanup_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cleanup_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_colorpicker.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_colorpicker_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_colorpicker_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_colorpicker_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_copy.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_copy_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_copy_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_copy_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cut.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cut_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cut_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_cut_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_delete.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_delete_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_delete_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_delete_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_design.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_design_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_design_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_design_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_flash_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_flash_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_flash_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_flash_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_fore_color.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_fore_color_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_fore_color_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_fore_color_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_html.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_html_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_html_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_html_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_hyperlink.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_hyperlink_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_hyperlink_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_hyperlink_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_map.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_map_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_map_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_map_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_popup.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_popup_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_popup_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_popup_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_image_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_indent.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_indent_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_indent_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_indent_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_inserthorizontalrule.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_inserthorizontalrule_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_inserthorizontalrule_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_inserthorizontalrule_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertorderedlist.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertorderedlist_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertorderedlist_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertorderedlist_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertunorderedlist.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertunorderedlist_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertunorderedlist_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_insertunorderedlist_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_internal_link.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_internal_link_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_internal_link_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_internal_link_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_italic.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_italic_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_italic_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_italic_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifycenter.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifycenter_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifycenter_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifycenter_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyfull.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyfull_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyfull_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyfull_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyleft.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyleft_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyleft_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyleft_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyright.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyright_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyright_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_justifyright_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_middle.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_middle_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_middle_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_middle_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_new.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_new_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_new_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_new_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_outdent.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_outdent_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_outdent_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_outdent_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_page_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_page_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_page_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_page_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_paste.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_paste_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_paste_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_paste_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_preview.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_preview_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_preview_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_preview_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_redo.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_redo_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_redo_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_redo_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_all.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_all_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_all_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_all_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_save_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_separator.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_special_chars.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_special_chars_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_special_chars_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_special_chars_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_strikethrough.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_strikethrough_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_strikethrough_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_strikethrough_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_subscript.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_subscript_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_subscript_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_subscript_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_superscript.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_superscript_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_superscript_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_superscript_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_down_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_down_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_down_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_right.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_right_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_right_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_merge_right_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_horizontal.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_horizontal_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_horizontal_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_horizontal_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_vertical.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_vertical_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_vertical_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_cell_split_vertical_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_delete.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_delete_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_delete_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_delete_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_insert.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_insert_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_insert_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_column_insert_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_create.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_create_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_create_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_create_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_delete.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_delete_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_delete_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_delete_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_insert.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_insert_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_insert_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_insert_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_prop.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_prop_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_prop_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_table_row_prop_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_toggle_borders.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_toggle_borders_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_toggle_borders_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_toggle_borders_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_top.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_top_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_top_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_top_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_underline.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_underline_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_underline_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_underline_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_undo.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_undo_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_undo_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_undo_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_unlink.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_unlink_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_unlink_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb_unlink_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__empty.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__empty_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__empty_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__empty_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__plugin.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__plugin_down.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__plugin_off.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/img/tb__plugin_over.gif</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/js/common/spaw2.js</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/templates/dialog_footer.tpl</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/templates/dialog_header.tpl</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/templates/editor.tpl</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/templates/editor_floating.tpl</filename>
+		<filename>spaw/plugins/core/lib/theme/spaw2/templates/toolbar_floating.tpl</filename>
+		<filename>spaw/plugins/core/lib/toolbars/edit.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/font.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/format.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/format_mini.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/insert.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/mode_strip.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/style.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/table.toolbar.php</filename>
+		<filename>spaw/plugins/core/lib/toolbars/tools.toolbar.php</filename>
+		<filename>spaw/plugins/core/index.html</filename>
+		<filename>spaw/plugins/customdropdown/config/config.php</filename>
+		<filename>spaw/plugins/customdropdown/docs/license.txt</filename>
+		<filename>spaw/plugins/customdropdown/docs/readme.txt</filename>
+		<filename>spaw/plugins/customdropdown/js/common/customdropdown.js</filename>
+		<filename>spaw/plugins/customdropdown/lib/lang/en.lang.inc.php</filename>
+		<filename>spaw/plugins/customdropdown/lib/lang/ru.lang.inc.php</filename>
+		<filename>spaw/plugins/customdropdown/lib/toolbars/plugins.toolbar.php</filename>
+		<filename>spaw/plugins/spawfm/class/spawfm.class.php</filename>
+		<filename>spaw/plugins/spawfm/config/config.php</filename>
+		<filename>spaw/plugins/spawfm/dialogs/spawfm.inc.php</filename>
+		<filename>spaw/plugins/spawfm/dialogs/spawfm.js</filename>
+		<filename>spaw/plugins/spawfm/img/btn_new_folder.gif</filename>
+		<filename>spaw/plugins/spawfm/img/btn_new_folder_off.gif</filename>
+		<filename>spaw/plugins/spawfm/img/btn_up.gif</filename>
+		<filename>spaw/plugins/spawfm/img/btn_up_off.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_default.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_default_big.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_flash.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_flash_big.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_folder.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_folder_big.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_image.gif</filename>
+		<filename>spaw/plugins/spawfm/img/ico_image_big.gif</filename>
+		<filename>spaw/plugins/spawfm/lib/filelist0.css</filename>
+		<filename>spaw/plugins/spawfm/lib/filelist1.css</filename>
+		<filename>spaw/plugins/spawfm/lib/lang/en.lang.inc.php</filename>
+		<filename>spaw/plugins/spawfm/lib/lang/ru.lang.inc.php</filename>
+		<filename>spaw/plugins/spawfm/lib/theme/spaw2/img/btn_view_details.gif</filename>
+		<filename>spaw/plugins/spawfm/lib/theme/spaw2/img/btn_view_list.gif</filename>
+		<filename>spaw/plugins/spawfm/lib/theme/spaw2/img/btn_view_thumbs.gif</filename>
+		<filename>spaw/index.html</filename>
+		<filename>spaw/spacer.gif</filename>
+		<filename>spaw/spaw.inc.php</filename>
+		<filename>spaw/spaw_control.class.php</filename>
+		<filename>spaw/wysiwyg.css</filename>
+	</files>
+	<params>
+		<param name='default_width' type="text" default="98%" size="20" label="Ширина редактора" description="Ширина поля редактора в процентах или полных пикселях" />
+		<param name='default_height' type="text" default="400px" size="20" label="Высота редактора" description="Высота поля редактора в процентах или полных пикселях" />
+		<param name="resizing_directions" type="list" default="vertical" label="Изменять размер" description="Направление в которых разрешено изменять размер поля редактора">
+			<option value="vertical">Вертикально</option>
+			<option value="horizontal">Горизонтально</option>
+			<option value="both">Вертикально и горизонтально</option>
+			<option value="none">Не растягивать</option>
+		</param>
+		<param name="beautify_xhtml_output" type="list" default="1" label="Понятный HTML код" description="Вставлять отступы в HTML код для лучшего восприятия">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="default_toolbarset" type="list" default="all" label="Панель кнопок" description="Панель кнопок форматирования">
+			<option value="all">Полная</option>
+			<option value="standard">Стандартная</option>
+			<option value="mini">Упрощенная</option>
+		</param>
+		<param name="template" type="list" default="1" label="Использовать CSS шаблона" description="Использовать в редакторе template_css.css (таблицу стилей шаблона сайта)">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="strip_absolute_urls" type="list" default="1" label="Относительные ссылки" description="Заменять все абсолютные ссылки (src, href и т.д..) на относительные, т.е. удаление название Вашего сайта. (Рекомендуется).">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="rendering_mode" type="list" default="xhtml" label="интерпретации xhtml" description="Режим интерпретации xhtml кода - редактора (рекомендуется) или встроенная браузера .">
+			<option value="xhtml">редактора</option>
+			<option value="builtin">встроенная</option>
+		</param>
+		<param name="convert_html_entities" type="list" default="0" label="Преобразовывать спец-символы" description="Заменять спец-символы соответствующими html-обозначениями. (не рекомендуется).">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="allow_modify" type="list" default="0" label="Разрешить изменять файлы" description="Заменять/удалять файлы на сервере в каталогах загрузки. (Не рекомендуется).">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="allow_upload" type="list" default="1" label="Разрешить загрузку файлов" description="Разрешить загрузку новых файлов на сервер в каталоги загрузки. (Рекомендуется).">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name="user_dir" type="list" default="0" label="Индивидуальные каталоги пользователей" description="Загрузка файлов в индивидуальный каталог пользователя /images/stories/users/UserID/">
+			<option value="1">Да</option>
+			<option value="0">Нет</option>
+		</param>
+		<param name='max_upload_filesize' type="text" default="200000" size="20" label="Максимальный размер файлов" description="Максимальный размер файлов для загрузки на сервер, байт" />
+		<param name="dropdown_data_core_style" type="textarea" rows="4" cols="50" default="contact_email&lt;br /&gt;sectiontableheader&lt;br /&gt;sectiontableentry1&lt;br /&gt;sectiontableentry2 &lt;br /&gt;date&lt;br /&gt;small&lt;br /&gt;smalldark&lt;br /&gt;contentheading&lt;br /&gt;footer&lt;br /&gt;lcol&lt;br /&gt;rcol&lt;br /&gt;contentdescription&lt;br /&gt;blog_more" label="CSS классы редактора" description="Список CSS классов шаблона сайта для использования в редакторе. формат записи (по одному на строчке): идентификатор[ небязательное понятное наименование]" />
+		<param name="table_styles" type="textarea" rows="4" cols="50" default="moduletable&lt;br /&gt;content&lt;br /&gt;contenttoc&lt;br /&gt;contentpane&lt;br /&gt;prctable пример таблицы" label="CSS классы для таблиц" description="Список CSS классов шаблона сайта для использования в стилях таблиц. формат записи (по одному на строчке): идентификатор[ небязательное понятное наименование]" />
+	</params>
+</mosinstall>

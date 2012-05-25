@@ -1,0 +1,47 @@
+.mod_gdnews-top{
+	margin-top: 10px;
+}
+.mod_gdnews-top td{
+	border: #cccccc solid 1px;
+	padding:2px;
+	background-color: #f9f9f9;
+}
+.mod_gdnews-top td:hover{
+	background-color: #ffffff;
+}
+.mod_gdnews-top table{
+	border-spacing: 5px;
+}
+.gdn_df_special-top{
+}
+.gdn_df_basic-top{
+}
+.gdn_df_ref-top{
+}
+/********************************************* название статьи */
+.gdn_df_title-top {
+	font-size: 10pt;
+	color: #0000cc;
+	font-weight: normal;
+}
+
+.gdn_df_title-top a {
+	color: #0000cc;
+	text-decoration: none;
+	border-bottom: #ff0000 dotted 1px;
+}
+
+.gdn_df_title-top a:hover {
+	color: #ff0000;
+	border-bottom: #0000cc dotted 1px;
+}
+/************************************************ изображение */
+.gdn_df_image-top img{
+	margin:3px 7px 3px 3px;
+	padding:1px;
+	border: #cccccc solid 1px;
+	float:left;
+}
+.gdn_df_image-top a img{
+	text-decoration:none;
+}
