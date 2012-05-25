@@ -72,7 +72,6 @@ class JSef{
 				if(ltrim(strpos($_SERVER['REQUEST_URI'], 'index.php'), '/') == 1 AND $_SERVER['REQUEST_METHOD'] == 'GET'){
 					//Преобразование URL`а
 					$link = self::getUrlToSef('index.php?' . $_SERVER['QUERY_STRING']);
-
 					// Переадресация на SEF-адрес
 					header("Location: " . $link, TRUE, 301);
 					exit(301);
@@ -118,7 +117,6 @@ class JSef{
 			// получаем Sef-ссылку
 			$link = $sefclass::getUrlToSef($link);
 		}
-
 		return $link;
 	}
 

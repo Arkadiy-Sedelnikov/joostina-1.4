@@ -515,7 +515,7 @@ DEFINE("BOSS_SUBJECT_PROMPT","Тема");
 DEFINE("BOSS_BUTTON_SUBMIT_MAIL","Отправить");
 DEFINE("BOSS_BUTTON_CANCEL","Отмена");
 DEFINE('BOSS_EMAIL_ERR_NOINFO','Вы должны указать свой адрес электронной почты и адрес электронной почты друга, чтобы отправить сообщение.');
-DEFINE('BOSS_EMAIL_MSG','На следующей странице в "%s" веб-сайт был отправлен на ваш %s ( %s ).
+DEFINE('BOSS_EMAIL_MSG','%s (%s) с сайта "%s" Вам отправил уведомление на тему "%s".
 Ознакомиться с ним можно по адресу:
 %s');
 

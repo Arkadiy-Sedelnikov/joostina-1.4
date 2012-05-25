@@ -35,7 +35,7 @@ function display_module($params_aray,$database) {
 	}
 
 	if($params_aray['online_user_count'] !== '2') {
-		$count_online = '<span>Online:</span> ' . online_users($params_aray,$database);
+		$count_online = '<span>'._ONLINE.':</span> ' . online_users($params_aray,$database);
 	} else {
 		$count_online = '';
 	}
@@ -58,9 +58,8 @@ function display_module($params_aray,$database) {
 		echo $all_user;
 		echo '<br />';
 		echo $count_online;
-		echo '<br />';
+		echo '<hr />';
 		echo $online_users;
-
 	}
 	echo '</div>';
 
@@ -91,34 +90,13 @@ function online_users($params_aray,$database) {
 		return $itogo;
 	}
 	// check if any guest or member is on the site
-	if($guest_array != 0 || $user_array != 0) {
+	if($guest_array != 0 or $user_array != 0) {
+		$output .= '<ul>';
 		// guest count handling
-		if($guest_array == 1) {
-			// 1 guest only
-			$output .= sprintf(_GUEST_COUNT, $guest_array);
-		} else
-		if($guest_array > 1) {
-			// more than 1 guest
-			$output .= sprintf(_GUESTS_COUNT, $guest_array);
-		}
+		$output .= '<li>' . sprintf(_GUESTS_COUNT, $guest_array) . '</li>';
 
-		// if there are guests and members online
-
-		if($guest_array != 0 && $user_array != 0) {
-			$output .= _AND;
-		}
-
-		// member count handling
-		if($user_array == 1) {
-			// 1 member only
-			$output .= sprintf(_MEMBER_COUNT, $user_array);
-		} else
-		if($user_array > 1) {
-			// more than 1 member
-			$output .= sprintf(_MEMBERS_COUNT, $user_array);
-		}
-
-		$output .= _ONLINE;
+		$output .= '<li>' . sprintf(_MEMBERS_COUNT, $user_array) . '</li>';
+		$output .= '</ul>';
 	}
 
 	return $output;
@@ -151,7 +129,7 @@ function who_online($params_aray,$database) {
 			}
 			$user_link = 'index.php?option=com_users&amp;task=profile&amp;user=' . $row->userid;
 			$user_seflink = '<a href="' . sefRelToAbs($user_link) . '">' . $user_name . '</a>';
-			$avatar = '<img id="user_avatar_img" src="' . JPATH_SITE .'/'. mosUser::get_avatar($row) . '" style="width:30px" alt="' . $user_name . '"/>';
+			$avatar = '<img class="user_avatar_img" src="' . JPATH_SITE .'/'. mosUser::get_avatar($row) . '" alt="' . $user_name . '"/>';
 			$avatar_link = '<a href="' . sefRelToAbs($user_link) . '">' . $avatar . '</a>';
 			if($params_aray['user_avatar'] == '1') {
 				$user_item = $avatar_link . $user_seflink;

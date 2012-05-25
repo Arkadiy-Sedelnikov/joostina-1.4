@@ -1,55 +1,31 @@
-<div class="list_item_featured">
+<div class="boss_content_featured">
 	<h3>
 		<?php $this->displayContentTitle($content); ?>
-		<span class="boss_cat_featured">(
-			<?php $this->displayCategoryTitle($content, 1); ?>
-			)</span>
+		<span class="boss_cat">
+            (<?php $this->displayCategoryTitle($content, 2); ?>)
+        </span>
 	</h3>
 
-	<div class="list_header_featured">
-		<?php if($this->isRatingAllowed() || $this->isReviewAllowed()){ ?>
-		<div>
-			<?php $this->rating->displayVoteResult($content, $this->directory, $this->conf); ?>
-			<?php if($this->isReviewAllowed()){
-			$this->comments->displayNumReviews($content, $this->reviews, $this->conf);
-			echo "<br/><br/>";
-		}
-			?>
-		</div>
-		<?php } ?>
-		<div class="tags">
-			<?php $this->displayListTags($content); ?>
-		</div>
-		<?php $this->displayContentEditDelete($content); ?>
+	<div class="date">
+		<?php $this->displayContentDate($content); ?>
 	</div>
-	<div class="list_subtitle_featured">
-		<?php
-		if($this->countFieldsInGroup("ListSubtitle")) $this->loadFieldsInGroup($content, "ListSubtitle", " <br/> ");
-		?>
+	<div class="content_list">
+		<?php if($this->countFieldsInGroup("CatShort")){
+		$this->loadFieldsInGroup($content, "CatShort", "&nbsp;");
+	} ?>
 	</div>
-	<div>
-		<div class="list_image_featured">
-			<?php
-			if($this->countFieldsInGroup("ListImage")) $this->loadFieldsInGroup($content, "ListImage", " <br/> ");
-			?>
-		</div>
-		<div class="list_content_featured">
-			<?php
-			if($this->countFieldsInGroup("ListDescription")) $this->loadFieldsInGroup($content, "ListDescription", " <br/> ");
-			?>
-		</div>
+
+	<div class="cf"></div>
+
+	<div class="comments">
+		<?php echo $this->displayListTags($content); ?>
 	</div>
-	<div class="list_bottom_featured">
-		<?php
-		if($this->countFieldsInGroup("ListBottom")) $this->loadFieldsInGroup($content, "ListBottom", " <br/> ");
-		?>
+	<div class="comments">
+		<?php $this->displayContentHits($content); ?>
+		<?php if($this->isReviewAllowed()){
+		echo '&nbsp;&nbsp;';
+		$this->comments->displayNumReviews($content, $this->reviews, $this->conf);
+	} ?>
 	</div>
-	<div class="list_footer_featured">
-		<div class="list_date">
-			<?php $this->displayContentDate($content); echo " - "; $this->displayContentBy($content);  ?>
-		</div>
-		<div class="list_hits">
-			<?php $this->displayContentHits($content); ?>
-		</div>
-	</div>
+	<div class="edit"><?php $this->displayContentEditDelete($content); ?></div>
 </div>

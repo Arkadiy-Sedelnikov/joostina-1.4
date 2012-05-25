@@ -23,14 +23,18 @@ $mosConfig_absolute_path = JPATH_BASE;
 // подключение файла конфигурации
 require_once (JPATH_BASE.DS.'configuration.php');
 
+// live_site
+define('JPATH_SITE', $mosConfig_live_site );
+
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::run($mosConfig_sef, $mosConfig_com_frontpage_clear);
+
 // SSL check - $http_host returns <live site url>:<port number if it is 443>
 $http_host = explode(':',$_SERVER['HTTP_HOST']);
 if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site,0,8) != 'https://') {
 	$mosConfig_live_site = 'https://'.substr($mosConfig_live_site,7);
 }
-
-// live_site
-define('JPATH_SITE', $mosConfig_live_site );
 
 // подключение главного файла - ядра системы
 require_once (JPATH_BASE.DS.'includes'.DS.'joostina.php');
@@ -45,12 +49,6 @@ if($mosConfig_mmb_system_off == 0) {
 	$_MAMBOTS->loadBotGroup('system');
 	// триггер событий onStart
 	$_MAMBOTS->trigger('onStart');
-}
-
-if(file_exists(JPATH_BASE.DS.'components'.DS.'com_sef'.DS.'sef.php')) {
-	require_once (JPATH_BASE.DS.'components'.DS.'com_sef'.DS.'sef.php');
-} else {
-	require_once (JPATH_BASE.DS.'includes'.DS.'sef.php');
 }
 
 require_once (JPATH_BASE.DS.'includes'.DS.'frontend.php');

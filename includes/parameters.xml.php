@@ -635,7 +635,9 @@ class mosParameters{
 	 */
 	private function _form_yesno($name, $value, $node, $control_name){
 		$no = $node->getAttribute('no');
+		if(!$no) $no = _NO;
 		$yes = $node->getAttribute('yes');
+		if(!$yes) $yes = _YES;
 		$options = array(mosHTML::makeOption('0', $no), mosHTML::makeOption('1', $yes),);
 		return mosHTML::selectList($options, '' . $control_name . '[' . $name . ']', 'class="inputbox"', 'value', 'text', $value);
 	}
@@ -671,17 +673,13 @@ class mosParameters{
 	}
 
 	function _form_tabs($name, $value, $param, $control_name, $label){
-
-		$css = '<link rel="stylesheet" type="text/css" media="all" href="' . JPATH_SITE . '/includes/js/tabs/tabpane.css" id="luna-tab-style-sheet" />';
-		$js = '<script type="text/javascript" src="' . JPATH_SITE . '/includes/js/tabs/tabpane.js"></script>';
-
 		$return = '';
-
 		switch($value){
 			case 'startPane':
 				$return .= '<tr><td></td></tr></table>';
-				$return .= $css;
-				$return .= $js;
+				$mainframe = mosMainFrame::getInstance();
+				$mainframe->addCSS(JPATH_SITE . '/includes/js/tabs/tabpane.css');
+				$mainframe->addJS(JPATH_SITE . '/includes/js/tabs/tabpane.js');
 				$return .= '<div class="tab-page" id="' . $name . '">';
 				$return .= '<script type="text/javascript">var tabPane1 = new WebFXTabPane( document.getElementById( "' . $name . '" ),0)</script>';
 				break;

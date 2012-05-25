@@ -244,7 +244,7 @@ function feedFrontpage($showFeed) {
 			 "\n LEFT JOIN #__users AS u ON u.id = a.userid".
              "\n WHERE a.published = 1".
 			 "\n AND a.frontpage = 1 ".
-			 "\n AND AND ( a.date_publish = ".$database->Quote($nullDate).
+			 "\n AND ( a.date_publish = ".$database->Quote($nullDate).
 			 "\n OR a.date_publish <= ".$database->Quote($now)." ) ".
 			 "\n AND ( a.date_unpublish = ".$database->Quote($nullDate).
              "\n OR a.date_unpublish >= ".$database->Quote($now)." ) ".

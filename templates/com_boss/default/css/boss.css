@@ -1,526 +1,125 @@
-/*                                */
-/* Stylesheet for com_boss  */
-/*                                */
-/*    (c) 2006 Thomas PAPIN       */
-/*         GPL License            */
-/*                                */
-/*     thomas.papin@free.fr       */
-/*                                */
-
-#boss_fieldset form br {
-	clear: left;
-}
-
-.boss_main_cat,.boss_main_cat a:link,.boss_main_cat a:visited{
- font-size: 16px;
- margin: 0px;
- margin-top: 10px;
- padding: 0px ;
- color: #000000;
-}
-
-.boss_sub_cat,.boss_sub_cat a:link,.boss_sub_cat a:visited {
- font-size: 11px;
- font-family: arial;
- margin-top: 2px;
- padding: 0 ;
- color: #7333B3;
- font-weight:normal;
- text-decoration:none;
-}
-
-.imgcat {
- border : 0;
-}
-
-.boss_contents form {
-	display:inline;
-}
-
-.boss_footer {
- font-size: 10px;
- color: #555555;
-}
-
-.boss_cat {
- font-size: 10px;
- font-style: italic;
- color: #BBBBBB;
-}
-.list_title {
- text-align: right;
-}
-
-.boss_pathway {
- margin-bottom:10px;
-}
-
-.boss_search_title {
- /*background: url(../images/system/title.png) no-repeat;*/
- height: 24px;
- color: #7333B3;
- padding-top: 1px; 
- padding-left: 24px; 
- margin-bottom: 2px;
- margin-top: 2px;
- font-weight: bold;
- font-size: 14px;
- }
- 
-.boss_subtitle {
- text-align : right;
- margin-bottom: 2px; 
-}
-
-.boss_search_box {
-	position :relative;
-	width: 96%;
-	left: 2%;
-	border: 1px solid #CCCCCC;
-	color: #000000;
-	padding: 2px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.boss_box_module {
-	width: 95%;
-	border: 1px solid #CCCCCC;
-	color: #000000;
-	padding: 2px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.boss_box {
-    position :relative;
-	width: 75%;
-	left: 10%;
-	border: 1px solid #CCCCCC;
-	color: #000000;
-	padding: 2px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.boss_inner_box {
-	font-size: 12px;
-	color: #000000;
-	border: 1px dotted #CCCCCC;
-	background-color: #FFFFCC;
-	padding: 5px; 
-	text-align:right;
-}
-
-.boss_inner_box tr td {
-	padding-right: 5px;
-}
-
-.boss_search_box form {
-	display : inline;
-}
-
-.imgheading {
-    margin-right : 5px;
-}
-
-div.boss_contents {
-  border: 1px solid #CCCCCC;
-  color: #000000;
-  padding: 2px;
-  margin: 0px;
-}
-
-div.boss_top_contents {
-	font-size: 10px;
-	color: #000000;
-	border: 1px dotted #CCCCCC;
-	background-color: #FFEEDD;
-	padding: 5px; 
-}
-
-div.boss_contents_kindof {
-	text-align : right;
-}
-
-div.boss_contents_state {
-	text-align : right;
-}
-
-h2.boss_contents_title {
-	font-size: 18px;
-	font-weight: bold;
-	padding: 0px; 
-	margin: 0px;
-}
-
-div.boss_contents_main {
-	background-color: #F0F0F0; 
-}
-
-div.boss_contents_body {
-	float: left;
-	width: 67%;
-}
-
-div.boss_contents_desc {
-	border: 1px solid #FFFFFF;
-	padding: 5px; 
-}
-
-div.boss_contents_price {
-	border: 1px solid #FFFFFF;
-	padding: 5px; 
-}
-
-div.boss_contents_contact {
-	border: 1px solid #FFFFFF;
-	padding: 5px; 
-}
-
-div.boss_contents_image div {
-	border: 1px solid #FFFFFF;
-	float: left;
-	/*width:30%;*/
-	padding: 5px; 
-	text-align : center;
-}
-
-div.boss_contents_image a{
-	display : block;
-	margin-top: 10px;	
-}
-
-div.boss_contents_image a img{
-	border: none;
-}
-
-
-.boss_spacer {
-	clear: both;
-}
-
-div.boss_footer {
-	clear: both;
-	text-align: center;
-	margin-top: 10px;
-
-}
-
-
-
-fieldset.boss {
-	color: #000000;
-	border: 1px solid #CCCCCC;
-	/* background_color: #555555; */
-	/* padding: 5; */
-}
-
-
-legend.boss {
-	color: #000000;
-	font-weight: bold;
-	border: 1px solid #CCCCCC;
-	/* background_color: #DDDDDD; */
-	padding: 10px;
-}
-
-
-
-.boss {
-	border: 1px solid #CCCCCC;
-	background-color: #F0F0F0;
-	margin: 2px;
-	padding: 2px;
-}
-
-.boss_required {
-	border: 1px solid #CCCCCC;
-    background-image:none !important;
-	background-color: #FFEEDD !important;
-	margin: 2px;
-	padding: 2px;
-}
-
-#boss_fieldset label {
-	/* border: 1px solid #CCCCCC; */
-	width: 15%;
-	float: left;
-	margin: 2px;
-	padding: 2px;
-	text-align: right;
-}
-
-#boss_fieldset label.right {
-	/* border: 1px solid #CCCCCC; */
-	width: 14em;
-	float: left;
-	margin: 5px;
-	padding: 2px;
-	text-align: left;
-}
-
-#boss_writecontent_header{
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
-
-.boss_innermenu {
-text-align:center;
-}
-
-.boss_innermenu h2{
-font-size: 12px;
-}
-
-
-#writecontent_header1 {
-    display: inline;
-	border: 1px solid #CCCCCC;
-	background-color: #FFEEDD;
-	width: 7em;
-	margin: 5px;
-	padding: 2px;
-}
-#writecontent_header2 {
-    display: inline;
-	border: 1px solid #CCCCCC;
-	background-color: #EEEEEE;
-	width: 7em;
-	margin: 5px;
-	padding: 2px;
-}
-
-/* v1.1.1 */
-.boss_ver_list {
-    list-style: none;
-    text-align: left;
-}
-
-.boss_ver_list li {
-	background-image: none;
-}
-
-div.module .boss_short {
-	width: 100%;
-}
-
-div.module .boss_left {
-	float: left;
-	width: 75%;
-}
-
-div.module .boss_left img{
-	float: left;
-	margin : 5px;
-}
-
-div.module .boss_right {
-	float: right;
-	width: 160px;
-}
-
-div.module .boss_right img {
-	vertical-align: middle ;
-	margin-right: 5px;
-	margin-bottom: 5px;
-}
-
-div.module .boss_top {
-	padding-bottom: 5px;
-}
-
-div.module .boss_bottom {
-	padding-top: 5px;
-	padding-bottom: 10px;
-}
-
-.boss_vote div {
-	margin-right : 10px;
-}
-.boss_vote{
-    float: left;
-}
-div.module h3 a {
-font-size: 1em;
-color: #484848;
-text-decoration: none;
-}
-
-div.boss_categories {
-	margin-top: 10px;
-	width: 100%;
-	margin-left: 0px;
-}
-
-div.boss_maincat {
-width: 45%;
-float: left;
-/*padding-left: 20px;*/
-}
-
-div.boss_maincat img {
-margin-right : 5px;
-text-align: center;
-}
-
-h2.boss_maincat_title {
-margin: 5px;
-padding-top:5px;
-}
-
-h2.boss_maincat_title a:link,h2.boss_maincat_title a:visited{
-color: #000000;
-text-decoration:none;
-}
-
-h2.boss_maincat_title a:hover{
-color: #0000FF;
-text-decoration:none;
-}
-
-div.boss_sub_cat {
-width : 75%;
-}
-
-h3.boss_subcat_title {
-display:inline;
-}
-
-div.boss_content_box {
-	float: left;
-	width: 33%;
-	text-align:center;
-}
-
-div.boss_latest {
-	width: 100%;
-	
-}
-
-div.boss_content_box a{
-	text-align: center;
-	display: block; 
-}
-
-span.boss_content_date {
-	text-align: center;
-	display: block; 
-}
-
-.details {
-	width: 100%;
-	border-bottom: 1px dashed #CCCCCC;
-}
-
-h1.detailstitle {
-	color: #333333;
-	font-size: 18px;
-}
-h1.detailstitle img{
-	border: 0px;
-}
-
-.details td {
-	border: 1px solid #cccccc;
-	
-}
-
-
-.details .description {
-	float: left;
-	width : 60%;
-	padding-right :1px;
-}
-
-.details .description .other img{
-	display: block;
-	margin-bottom: 5px;
-}
-
-.details .right {
-	text-align:right;
-}
-
-.details .center {
-	text-align:center;
-}
-
-.details div div {
-	border : none;
-}
-
-.vote {
-	text-align : center;
-}
-
-.dotteddiv {
-	border-bottom: 1px dotted #cccccc;
-	margin-top : 10px;
-	margin-left : 5%;
-	margin-right: 5%;
-	padding-bottom: 10px;
-}
-
-.bold {
-	 font-weight:bold;
-}
-
-.list_item {
-	width: 100%;
-	border-bottom: 1px dashed #CCCCCC;
-	margin-bottom: 10px;
-}
-
-.list_item_50 {
-	width: 45%;
-	border-bottom: 1px dashed #CCCCCC;
-	margin-bottom: 10px;
-    padding: 7px;
-    float: left;
-}
-
-.list_item_featured {
-	width: 100%;
-	border: 1px solid purple;
-	margin-bottom: 10px;
-    background-color: #ccffcc;
+/* [ Основной контейнер ] */
+.boss_content,
+.boss_content_featured {
+    font-family: Arial;
+    width: auto;
     padding: 10px;
+    margin: 10px;
 }
 
-.list_image {
-    float:left;
-    margin:5px 10px 5px 0;
+/* Заголовок каталога */
+.boss_content > h1 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin: -10px 40px 20px -30px;
+    padding: 10px;
+    background-color: #e0e6d1;
+}
+.boss_content > h1 span a{
+    text-decoration: none;
+    border: none;
+}
+.boss_content .boss_categories,
+.boss_content_featured .boss_categories {
+    margin: 0 auto;
+    text-align: center;
 }
 
-.list_bottom{
-    clear:both;
-    float:none;
-}
-.details_bottom{
-    clear:both;
+.boss_content .boss_categories a,
+.boss_content_featured .boss_categories a {
+    text-decoration: none;
+    border: none;
 }
 
-.details_profile{
-   float: right;
+.boss_content .boss_maincat,
+.boss_content_featured .boss_maincat {
+    float: left;
+    margin: 20px;
 }
 
-.list_profile{
-   margin: 5px;
-   
-}
-table.show_profile{
-   border: none;
-}
-
-div.boss_subcats a{
-	background: url(/templates/com_boss/default/images/cat_arrow.png) no-repeat center right;
-	padding:0 12px 0 5px;
-	display: block;
-	float:left;
-	margin:2px 0;
+/* Заголовок категории */
+.boss_content > h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 0 -30px 20px -30px;
+    padding: 10px;
+    background-color: #e0e6d1;
+    width: auto;
 }
 
-div.boss_subcats a.last{
-	background:none;
+/* Заголовок категории */
+.boss_content_featured > h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 0 -30px 20px -30px;
+    padding: 10px;
+    background-color: #ffffff;
+    width: auto;
+}
+
+.boss_content .boss_cat,
+.boss_content .boss_cat a,
+.boss_content_featured .boss_cat,
+.boss_content_featured .boss_cat a {
+    font-size: 9pt;
+    font-weight: normal;
+    color: #666666;
+}
+
+.boss_content .content_list img,
+.boss_content_featured .content_list img {
+    padding: 2px;
+    border: #aaaaaa solid 1px;
+    margin: 3px;
+}
+
+.boss_content .comments,
+.boss_content_featured .comments {
+    font-size: 8pt;
+    color: #666666;
+    margin: 2px 0;
+}
+
+.boss_content .edit,
+.boss_content_featured .edit {
+    margin: 7px 0;
+}
+
+.boss_content .edit a,
+.boss_content_featured .edit a {
+    color: #990000;
+    font-weight: bold;
+    font-size: 9pt;
+}
+/* комментарии */
+.dotteddiv{
+    padding: 10px;
+    margin: 15px 0;
+    border: #eeeeee solid 1px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(122, 122, 122, 0.5);
+}
+.dotteddiv h3{
+    color: #990000;
+    font-weight: normal;
+    display: block;
+    border-bottom: #999999 solid 1px;
+}
+
+.boss_content .addcomment td{
+    padding: 5px;
+}
+/**************************************************** [ коррекция стиля ] */
+.cf:after {
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+    content: ' ';
+    font-size: 0;
+}
+
+.cf {
+    *zoom: 1;
 }

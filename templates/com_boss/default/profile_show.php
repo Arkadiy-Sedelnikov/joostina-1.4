@@ -1,5 +1,4 @@
-<table class ="show_profile">
- <tr>
+<table cellpadding="5" cellspacing="0" border="0" width="200px">
 	<td colspan="2">
 		<?php echo BOSS_PROFILE_CONTACT; ?>
 	</td>

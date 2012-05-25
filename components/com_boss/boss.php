@@ -1658,10 +1658,10 @@ function emailform($contentid, $directory, $template_name) {
  * @param int The content item id
  */
 function emailsend($directory) {
+	$mainframe = mosMainFrame::getInstance();
+	$mosConfig_sitename = $mainframe->getCfg('sitename');
 
-	global $mosConfig_sitename;
 	$database = database::getInstance();
-
 	$content = null;
 	$contentid = (int) mosGetParam($_POST, 'contentid', 0);
 	$database->setQuery("SELECT c.* " .
@@ -1690,17 +1690,20 @@ function emailsend($directory) {
 
 		// link sent in email
 		$link = sefRelToAbs('index.php?option=com_boss&task=show_content&contentid=' . $contentid . $_itemid . '&directory=' . $directory);
+		if(trim(strpos($link, 'index.php')) === '0'){
+			$link = JPATH_SITE . '/' .$link;
+		}
 
 		// message text
-		$msg = sprintf(BOSS_EMAIL_MSG, html_entity_decode($mosConfig_sitename, ENT_QUOTES), $yourname, $youremail, $link);
+		$msg = sprintf(BOSS_EMAIL_MSG, $yourname, $youremail, $mosConfig_sitename, $subject, $link);
 
 		// mail function
 		$success = mosMail($youremail, $yourname, $email, $subject, $msg);
 		if (!$success) {
 			mosErrorAlert(BOSS_EMAIL_ERR_NOINFO);
 		}
-
-		mosRedirect(sefRelToAbs('index.php?option=com_boss&amp;task=show_content&amp;contentid=' . $contentid . '&amp;directory=' . $directory . $_itemid), BOSS_EMAIL_SENT);
+		echo '<script>window.close();</script>';
+		//mosRedirect(sefRelToAbs('index.php?option=com_boss&amp;task=show_content&amp;contentid=' . $contentid . '&amp;directory=' . $directory . $_itemid), BOSS_EMAIL_SENT);
 	} else {
 		mosNotAuth();
 		return;

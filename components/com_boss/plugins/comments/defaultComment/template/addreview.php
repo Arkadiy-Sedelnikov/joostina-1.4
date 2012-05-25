@@ -1,4 +1,4 @@
-<table>
+<table class="addcomment">
     <tr>
         <td>
             <?php if ($this->isReviewCaptchaActivated($conf) && $my->id == 0) {
