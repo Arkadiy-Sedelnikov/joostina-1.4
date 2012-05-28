@@ -1,6 +1,11 @@
+.boss_vote{
+    font-size: 8pt;
+    margin: -5px 0 5px 0;
+    color: #444444;
+}
+
 .ratingblock {
     display: block;
-    border-bottom: 1px solid #999;
 }
 
 .loading {

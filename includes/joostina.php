@@ -1395,7 +1395,6 @@ class mosMainFrame {
 			$temp = $this->_path;
 			$this->_setAdminPaths($option, JPATH_BASE);
 		}
-
 		$result = null;
 		if (isset($this->_path->$varname)) {
 			$result = $this->_path->$varname;

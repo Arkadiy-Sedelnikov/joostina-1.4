@@ -44,7 +44,7 @@ global $my, $mainframe;
 			<?php mosLoadModules('user2'); ?>
 		</div>
 		<div id="main-2">
-			<?php mosLoadModules('user3'); ?>
+			<?php  if(($option == '') || ($option == 'com_frontpage')){ mosLoadModules('user3');} ?>
 			<div id="main-2-2"><?php mosMainbody(); ?></div>
 			<?php mosLoadModules('user4'); ?>
 		</div>

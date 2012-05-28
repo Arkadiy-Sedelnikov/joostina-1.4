@@ -74,7 +74,7 @@ class poll_html {
 		}
 		?>
 <div class="poll_quest"><h4><?php echo $graphtitle; ?>  </h4></div>
-<table class="com_poll" cellspacing="0" cellpadding="0" border="0">
+<table class="com_poll">
 	<tr>
 		<th class="poll_question"><?php echo _POLL_OPTION ?></th>
 		<th class="poll_hits"><?php _POLL_VOTES?></th>

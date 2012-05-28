@@ -8,6 +8,10 @@
 		</span>
 	</h1>
 
+	<div class="boss_vote">
+		<?php $this->rating->displayVoteForm($content, $this->directory, $this->conf); ?>
+	</div>
+
 	<div class="date">
 		<?php $this->displayContentDate($content); ?>
 	</div>

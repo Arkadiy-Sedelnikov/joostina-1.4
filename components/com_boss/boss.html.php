@@ -696,10 +696,15 @@ class boss_html{ //implements  bossUI {
 		$params->set('icons', 1);
 		$itemid = $this->itemid;
 		$print_link = JPATH_SITE . '/index2.php?option=com_boss&amp;task=show_content&amp;contentid=' . $content->id . '&amp;popup=1&amp;directory=' . $directory . '&amp;Itemid=' . $itemid;
+
+		// TODO GoDr Временная заглушка (проблемы с печатью)
+		mosHTML::PrintIcon(null, $params, 0, $print_link);
+		/*
 		if(isset($text)){
 			echo '<a href="' . $print_link . '" target="_blank">'.$text.'</a>';
 		} else
 			mosHTML::PrintIcon(null, $params, 0, $print_link);
+		*/
 	}
 
 	/**

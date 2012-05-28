@@ -95,9 +95,18 @@ function botSearchBoss($text,$phrase = '',$ordering = '') {
 			    $order = 'a.date_created DESC';
 			    break;
 	    }
+		// проверка существует ли поле
+		$sql = "SELECT count(*) AS count FROM #__boss_" . $directory . "_fields WHERE type='".$content_field."'";
+		$database->setQuery($sql);
+
+		if($database->loadResult()){
+			$field_content = 'a.'.$content_field.' AS text';
+		}else{
+			$field_content = "'' AS text";
+		}
 
         // search content items
-	    $query = "SELECT a.name AS title,"."\n a.date_created AS created,"."\n a.$content_field AS text,".
+	    $query = "SELECT a.name AS title,"."\n a.date_created AS created,"."\n ".$field_content.",".
 	    		"\n cat.name AS section,".
                 "\n CONCAT( 'index.php?option=com_boss&directory=$directory&task=show_content&contentid=', a.id, '&catid=', cch.category_id ) AS href,".
 	    		"\n '2' AS browsernav,".

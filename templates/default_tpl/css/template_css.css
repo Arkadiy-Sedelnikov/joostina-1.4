@@ -1,6 +1,7 @@
 @import "reset.css";
 @import "template.css";
 @import "modules.css";
+@import "components.css";
 
 body{
 	color:#000000;

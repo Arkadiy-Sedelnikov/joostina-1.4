@@ -19,6 +19,30 @@
 	color:#990000;
 	text-decoration:none;
 }
+/**************************************************** [ Модуль Верхнего меню ] */
+.moduletable-topnemu{
+    width: 250px;
+    height: 33px;
+    margin: 5px 0 0 0;
+    position: relative;
+}
+.moduletable-topnemu .maindiv{
+    width: 120px;
+    height: inherit;
+    position: absolute;
+    right: 5px;
+}
+.moduletable-topnemu .maindiv div{
+    float: left;
+    margin: 0 5px;
+}
+.moduletable-topnemu a,
+.moduletable-topnemu a:hover{
+    text-decoration: none;
+    border: none;
+}
+
+
 /**************************************************** [ Модуль Дополнительного меню ] */
 .moduletable-menu2{
 	margin:2px auto 5px auto;

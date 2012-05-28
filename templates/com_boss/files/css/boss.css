@@ -1,0 +1,281 @@
+/******************************************* [ контейнер Главная страница: вывод каталогов ] */
+.boss_tpl_front {
+	font-family: arial;
+}
+/************************************************************* [ контейнер вывода контента ] */
+.boss_tpl_content{
+}
+/* [ хлебные крошки ] */
+.boss_pathway{
+    margin: 5px;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #990000;
+}
+/* [ название материала при детальном выводе ] */
+.detailstitle{
+	padding: 5px;
+	font-size: 12pt;
+	color: #665555;
+	text-decoration: none;
+	border-bottom: #665555 solid 1px;
+	font-weight: bold;
+	margin: 7px 0;
+}
+/* [ тэги ] */
+.boss_tpl_content .tags{
+}
+.boss_subcats a{
+    font-size: 10pt;
+    font-weight: bold;
+    margin: 5px;
+    padding: 2px;
+}
+/* [ основной контент ] */
+.boss_tpl_content .details{
+	border: #cccccc solid 1px;
+	margin: 10px;
+	padding: 10px;
+	box-shadow: 0 0 3px rgba(122, 122, 122, 0.5);
+	border-radius: 5px;
+    background-color: #fbfbfb;
+}
+/* [ заголовок субкатегории ] */
+h3.boss_subcat_title a {
+    font-size: 11pt;
+    color: #665555;
+    text-decoration: none;
+    border-bottom: #000000 dashed 1px;
+    font-weight: normal;
+    margin: 5px 0 5px 20px;
+}
+
+h3.boss_subcat_title a:hover{
+    color: #000000;
+    border-bottom: #ff0000 solid 1px;
+}
+
+/******************************************** [ контейнер Главная страница: вывод контента ] */
+.boss_tpl_frontpage{
+}
+.boss_tpl_flist_item{
+	border: #cccccc solid 1px;
+	margin: 10px;
+	padding: 10px;
+	display: table;
+	background-color: #f9f9f9;
+	font-family: arial;
+	width: 80%;
+	box-shadow: 0 0 3px rgba(122, 122, 122, 0.5);
+	border-radius: 5px;
+}
+/***************************************** [ контейнер для материалов при выводе категорий ] */
+.boss_tpl_featured, .boss_tpl_list_item {
+	border: #cccccc solid 1px;
+	clear: both;
+	margin: 10px;
+	padding: 10px;
+	display: table;
+	width: auto;
+	background-color: #f9f9f9;
+	font-family: arial;
+	box-shadow: 0 0 3px rgba(122, 122, 122, 0.5);
+	border-radius: 5px;
+}
+
+/* [ контейнер для выделенных материалов при выводе категорий ] */
+.boss_tpl_featured {
+	background-color: #fffbe4;
+}
+
+/*************************************************************************************************/
+/* [ контейнер категории ] */
+.boss_tpl_categories{
+	text-align: left;
+}
+.boss_maincat{
+	float: left;
+	padding: 10px;
+	margin: 10px;
+	width: 40%;
+}
+.boss_maincat_title a{
+	font-size: 12pt;
+	font-weight: bold;
+	color: #7d411c;
+	text-decoration: none
+}
+.boss_maincat_title a:hover{
+	color: #CD6600;
+	text-decoration: underline;
+}
+/* [ контейнер меню ] */
+.boss_tpl_innermenu {
+	text-align: right;
+	width: 100%;
+}
+
+.boss_tpl_innermenu ul, .boss_tpl_innermenu ul li {
+	list-style: none;
+}
+
+.boss_tpl_innermenu ul li {
+	float: left;
+}
+
+.boss_tpl_innermenu ul li a {
+	display: inline;
+	font-size: 10pt;
+	margin: 0 8px;
+	color: #7d411c;
+}
+
+.boss_tpl_innermenu ul li a:hover {
+	color: #CD6600;
+}
+
+/* [ контейнер для текстовых полей ] */
+.boss_tpl_txt {
+	margin-left: 220px;
+}
+
+/* [ название материала ] */
+.boss_tpl_txt h3 {
+
+}
+
+.boss_tpl_txt h3 a {
+	font-size: 11pt;
+	color: #665555;
+	text-decoration: none;
+	border-bottom: #000000 dashed 1px;
+	font-weight: bold;
+	margin: 5px 0;
+}
+
+.boss_tpl_txt h3 a:hover{
+	color: #000000;
+	border-bottom: #ff0000 solid 1px;
+}
+
+/* [ название категории ] */
+.boss_tpl_txt h5, .boss_tpl_txt h5 a {
+	font-size: 8pt;
+	font-weight: normal;
+	margin: 5px 0;
+	color: #666666;
+}
+.boss_tpl_txt h5 a:hover {
+	color: #000000;
+}
+
+/* [ контейнер для изображения ] */
+.boss_tpl_image {
+	width: 220px;
+	text-align: center;
+	float: left;
+}
+
+/* [ контейнер для позиции Subtitle ] */
+.boss_tpl_description{
+	margin: 0;
+	padding: 15px;
+	background-color: #fbfbfb;
+}
+.boss_tpl_description .field_title {
+	color: #666666;
+	font-size: 8pt;
+}
+
+.boss_tpl_description .field_value, .boss_tpl_description a {
+	color: #000000;
+}
+.boss_tpl_description .boss_files{
+	margin: 5px 0;
+}
+/* [ контейнер для кнопок/ссылок редактирования ] */
+.boss_tpl_edit > div{
+	border: #CC8500 dotted 1px;
+	padding: 5px;
+	margin: 10px 0 0 220px;
+
+}
+.boss_tpl_edit a {
+	font-size: 9pt;
+	font-weight: normal;
+	margin: 5px 0;
+	color: #666666;
+}
+.boss_tpl_edit a:hover {
+	color: #000000;
+}
+
+/* [ контейнер сортировки ] */
+.boss_tpl_search {
+	line-height: 25px;
+	text-align: center;
+}
+
+/* [ картинка направления сортировки ] */
+.boss_tpl_search image {
+	vertical-align: middle;
+}
+
+.boss_tpl_content > h1 a{
+    text-decoration: none;
+    border: none;
+}
+/* создание контента */
+div.boss_top_contents {
+    font-size: 10px;
+    color: #000000;
+    border: 1px dotted #CCCCCC;
+    background-color: #FFEEDD;
+    padding: 5px;
+}
+.boss_required {
+    border: 1px solid #CCCCCC;
+    background-color: #FFEEDD;
+    margin: 2px;
+    padding: 2px;
+}
+
+#writecontent_header1 {
+    display: inline;
+    border: 1px solid #CCCCCC;
+    background-color: #FFEEDD;
+    width: 7em;
+    margin: 5px;
+    padding: 2px;
+}
+#writecontent_header2 {
+    display: inline;
+    border: 1px solid #CCCCCC;
+    background-color: #EEEEEE;
+    width: 7em;
+    margin: 5px;
+    padding: 2px;
+}
+#boss_fieldset .boss_table_tr > td{
+    padding: 5px;
+}
+
+/* комментарии */
+.dotteddiv{
+    padding: 10px;
+    margin: 15px 0;
+    border: #eeeeee solid 1px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(122, 122, 122, 0.5);
+}
+.dotteddiv h3{
+    color: #990000;
+    font-weight: normal;
+    display: block;
+    border-bottom: #999999 solid 1px;
+}
+
+.boss_content .addcomment td{
+    padding: 5px;
+}

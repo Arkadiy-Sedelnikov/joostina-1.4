@@ -155,6 +155,7 @@ if($print) {
 }else {
 	$mainframe->addCSS($mosConfig_live_site.'/templates/'.$cur_template.'/css/template_css.css');
 }
+
 // подключение js библиотеки системы
 if($my->id || $mainframe->get('joomlaJavascript')) {
 	$mainframe->addJS($mosConfig_live_site.'/includes/js/joomla.javascript.js');

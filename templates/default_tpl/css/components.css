@@ -1,0 +1,37 @@
+/* ----------------------------------------------------- com_poll - "Опросы" */
+.poll_quest {
+    /* Текст вопроса   */
+    background: url(../images/elements/arrow2.png) no-repeat left;
+    padding: 2px 0 2px 20px;
+    vertical-align: middle;
+}
+table.com_poll {
+    width: 100%;
+}
+table.com_poll th{
+    padding: 10px 0 0 0;
+}
+table.com_poll th.poll_question {
+    width: 35%;
+}
+table.com_poll th.poll_hits {
+    width: 7%;
+}
+table.com_poll th.poll_percent {
+    width: 7%;
+}
+table.com_poll th.poll_graph {
+}
+table.com_poll td {
+    font-size: 11px;
+    padding: 4px;
+}
+table.com_poll td.poll_hits {
+    text-align: center;
+}
+table.com_poll td.poll_percent {
+    text-align: center;
+}
+table.com_poll th.poll_graph {
+    text-align: center;
+}

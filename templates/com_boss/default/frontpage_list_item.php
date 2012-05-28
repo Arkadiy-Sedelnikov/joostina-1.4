@@ -3,6 +3,10 @@
 	<span class="boss_cat">(<?php $this->displayCategoryTitle($content, 2); ?>)</span>
 </h3>
 
+<div class="boss_vote">
+	<?php $this->rating->displayVoteResult($content, $this->directory, $this->conf); ?>
+</div>
+
 <div class="date">
 	<?php $this->displayContentDate($content); ?>
 </div>

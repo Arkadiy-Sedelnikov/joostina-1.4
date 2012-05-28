@@ -1,11 +1,11 @@
 .moduletable-default{
 	border: 1px solid #cccccc;
 	padding: 0 10px 10px 10px;
-	margin-bottom: 10px;
-	background-color:#e0e0e0;
+	margin: 16px 10px 5px 10px;
+	background-color:#ffffff;
 }
 .moduletable-default h3 {
-	background-color: #b8d59c;
+	background-color: #990000;
 	color: #ffffff;
 	padding: 5px;
 	text-align: center;
@@ -13,11 +13,9 @@
 	font-family: Arial,sans-serif;;
 	font-size: 12pt;
 	font-weight: bold;
-	width: 250px;
-	margin: 5px 0 0 -20px;
+	width: 230px;
+	margin: -1px 0 5px -11px;
 	border: none;
-	border-radius: 10px 0 0 0;
-	box-shadow: 0.2em 0.2em 5px rgba(122,122,122,0.5);
 }
 .moduletable-default a h3:hover{
 	color: #000000;
@@ -66,7 +64,7 @@
 }
 /************************************************ изображение */
 .gdn_df_image-default img{
-	margin:2px 5px 2px 0;
+	margin:2px 10px 2px 0;
 	padding:1px;
 	box-shadow: 0.2em 0.2em 3px rgba(122,122,122,0.5);
 	/*border: #cccccc solid 1px;*/
@@ -81,8 +79,8 @@
 	font-size: 8pt;
 }
 /************************************************ Текст */
-.gdn_df_text-default{
-
+.gdn_df_text-default a:hover{
+    border-bottom: #990000 solid 1px;
 }
 /************************************************ Далее */
 .gdn_df_but-default a {
@@ -116,4 +114,7 @@
 /********************************************* ссылки */
 .gdn_df_ref-default a{
 	font-size: 90%;
+}
+.gdn_df_ref-default a:hover{
+    border-bottom: #990000 solid 1px;
 }
