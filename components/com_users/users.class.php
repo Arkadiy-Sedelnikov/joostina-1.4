@@ -63,7 +63,7 @@ class mosUser extends mosDBTable {
     /**
      * @param database A database connector object
      */
-    function mosUser(&$database) {
+    function mosUser($database) {
         $this->mosDBTable('#__users','id',$database);
     }
 
@@ -132,7 +132,7 @@ class mosUser extends mosDBTable {
     function store($updateNulls = false) {
         global $migrate;
 
-        $acl = &gacl::getInstance();
+        $acl = gacl::getInstance();
 
         $section_value = 'users';
 
@@ -169,7 +169,7 @@ class mosUser extends mosDBTable {
 
     function delete($oid = null) {
 
-        $acl = &gacl::getInstance();
+        $acl = gacl::getInstance();
 
         $k = $this->_tbl_key;
         if($oid) {
@@ -215,7 +215,7 @@ class mosUser extends mosDBTable {
      */
     function getUserListFromGroup($value,$name,$recurse = 'NO_RECURSE',$order ='name') {
 
-        $acl = &gacl::getInstance();
+        $acl = gacl::getInstance();
 
         $group_id = $acl->get_group_id($name, 'ARO');
         $objects = $acl->get_group_objects($group_id,'ARO','RECURSE');
@@ -439,7 +439,7 @@ class userUsersExtra extends mosDBTable {
     /**
      * @param database A database connector object
      */
-    function userUsersExtra(&$db) {
+    function userUsersExtra($db) {
         $this->mosDBTable('#__users_extra','user_id',$db);
     }
     function insert($id) {
@@ -548,7 +548,7 @@ class userHelper {
         <?php
     }
 
-    public static function _build_img_upload_form(&$obj, $form_params) {
+    public static function _build_img_upload_form($obj, $form_params) {
         self::_load_jquery_form();
 
 
@@ -650,7 +650,7 @@ class mosSession extends mosDBTable {
     /**
      * @param database A database connector object
      */
-    function mosSession(&$db) {
+    function mosSession($db) {
         $this->mosDBTable('#__session','session_id',$db);
     }
 
