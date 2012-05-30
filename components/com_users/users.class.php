@@ -785,7 +785,7 @@ class mosUserParameters extends mosParameters {
      * @param string The control name
      * @return string The html for the element
      */
-    function _form_editor_list($name,$value,&$node,$control_name) {
+    function _form_editor_list($name,$value,$node,$control_name) {
         $database = database::getInstance();
         // compile list of the editors
         $query = "SELECT element AS value, name AS text"
