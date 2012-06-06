@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 function writableCell($folder) {
 	echo '<tr><td class="item">'.$folder.'/</td><td align="left">';
-	echo is_writable(JPATH_BASE.'/'.$folder)?'<b><font color="green">'._WRITEABLE.'</font></b>':'<b><font color="red">'._UNWRITEABLE.'</font></b></td>';
+	echo is_writable(JPATH_BASE.'/'.$folder)?'<b><span style="color:green">'._WRITEABLE.'</span></b>':'<b><span style="color:#ff0000">'._UNWRITEABLE.'</span></b></td>';
 	echo '</tr>';
 }
 

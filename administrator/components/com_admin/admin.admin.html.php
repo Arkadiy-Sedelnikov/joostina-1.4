@@ -342,7 +342,7 @@ class HTML_admin_misc {
 			$db_info = HTML_admin_misc::db_info();
 			$k = 0;
 			foreach($db_info as $table) {
-				if($table->Collation != 'utf8_general_ci') $table->Collation ='<font color="red"><b>'.$table->Collation.'</b></font>';
+				if($table->Collation != 'utf8_general_ci') $table->Collation ='<span style="color:#ff0000"><b>'.$table->Collation.'</b></span>';
 				echo '<tr class="row'.$k.'"><td><b>'.$table->Name.'</b></td><td>'.$table->Collation.'</td><td>'.$table->Rows.'</td><td>'.$table->Data_length.'</td></tr>';
 				$k = 1 - $k;
 			}

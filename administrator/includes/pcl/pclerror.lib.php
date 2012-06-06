@@ -25,8 +25,8 @@ if(!defined("PCLERROR_LIB")) {
 		global $g_pcl_error_string;
 		global $g_pcl_error_code;
 		$v_message = "<html><body>";
-		$v_message .= "<p align=center><font color=red bgcolor=white><b>PclError Library has detected a fatal error on file '$p_file', line $p_line</b></font></p>";
-		$v_message .= "<p align=center><font color=red bgcolor=white><b>$p_error_string</b></font></p>";
+		$v_message .= "<p align=center><span style=\"color:red;background-color: #ffffff;\"><b>PclError Library has detected a fatal error on file '$p_file', line $p_line</b></span></p>";
+		$v_message .= "<p align=center><span style=\"color:red;background-color: #ffffff;\"><b>$p_error_string</b></span></p>";
 		$v_message .= "</body></html>";
 		die($v_message);
 	}

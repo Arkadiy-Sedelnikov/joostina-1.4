@@ -397,7 +397,7 @@ class XmapAdminHtml {
 								echo '<tr>';
 								echo '<td class="item">' . $folder . '/</td>';
 								echo '<td align="left">';
-								echo is_writable( JPATH_BASE.DS.$folder ) ? '<b><font color="green">'._XMAP_WRITEABLE.'</font></b>' : '<b><font color="red">'._XMAP_UNWRITEABLE.'</font></b>' . '</td>';
+								echo is_writable( JPATH_BASE.DS.$folder ) ? '<b><span style="color:green">'._XMAP_WRITEABLE.'</span></b>' : '<b><span style="color:#ff0000">'._XMAP_UNWRITEABLE.'</span></b>' . '</td>';
 		echo '</tr>';
 	}
 

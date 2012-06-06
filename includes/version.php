@@ -20,35 +20,37 @@ class joomlaVersion {
 	/** @var строка CMS*/
 	var $CMS = 'Joostina';
 	/** @var версия*/
-	var $CMS_ver = '1.4.0beta';
+	var $CMS_ver = '1.4.0';
 	/** @var int Номер основной версии*/
 	var $RELEASE = '1.4';
 	/** @var строка  статус разработки*/
-	var $DEV_STATUS = 'beta';
+	var $DEV_STATUS = 'stable';
 	/** @var int Подверсия*/
 	var $DEV_LEVEL = '1400';
 	/** @var int Номер сборки*/
-	var $BUILD = '837';
+	var $BUILD = '5ba2b8edf0';
 	/** @var string Кодовое имя*/
 	var $CODENAME = 'Lotos';
 	/** @var string Дата*/
-	var $RELDATE = '15:11:2011';
+	var $RELDATE = '01.06.2012';
 	/** @var string Время*/
-	var $RELTIME = '01:57';
+	var $RELTIME = '01:01';
 	/** @var string Временная зона*/
-	var $RELTZ = '+5 GMT';
+	var $RELTZ = '+3 GMT';
 	/** @var string Текст авторских прав*/
-	var $COPYRIGHT = 'Авторские права &copy; 2007-2011 Joostina Team. Все права защищены.';
+	var $COPYRIGHT = 'Авторские права &copy; 2011-2012 Joostina Lotos. Все права защищены.';
 	/** @var string URL*/
-	var $URL = '<a href="http://www.joostina.ru" target="_blank" title="Система создания и управления сайтами Joostina CMS">Joostina!</a> - бесплатное и свободное программное обеспечение для создания сайтов, распространяемое по лицензии GNU/GPL.';
+	var $URL = '<a href="http://www.joostina.ru" target="_blank" title="Система создания и управления сайтами Joostina Lotos CMS">Joostina Lotos!</a> - бесплатное и свободное программное обеспечение для создания сайтов, распространяемое по лицензии GNU/GPL.';
 	/** @var string для реального использования сайта установите = 1 для демонстраций = 0: 1 используется по умолчанию*/
 	var $SITE = 1;
 	/** @var string Whether site has restricted functionality mostly used for demo sites: 0 is default*/
 	var $RESTRICT = 0;
 	/** @var string Whether site is still in development phase (disables checks for /installation folder) - should be set to 0 for package release: 0 is default*/
 	var $SVN = 0;
+	/** @var string центр поддержки */
+	var $SUPPORT_CENTER = 'http://joostina-cms.ru';
 	/** @var string ссылки на сайты поддержки*/
-	var $SUPPORT = 'Поддержка: <a href="http://www.joostina.ru" target="_blank" title="Официальный сайт CMS Joostina">www.joostina.ru</a> | <a href="http://www.joomlaportal.ru" target="_blank" title="Joomla! CMS по-русски">www.joomlaportal.ru</a> | <a href="http://www.joom.ru" target="_blank" title="Русский дом Joomla">www.joom.ru</a> | <a href="http://www.joomla.ru" target="_blank" title="Бесплатная система управления сайтом Joomla!">www.joomla.ru</a>';
+	var $SUPPORT = 'Поддержка: <a href="http://www.joostina-cms.ru" target="_blank" title="Официальный сайт CMS Joostina">www.joostina-cms.ru</a> | <a href="http://wiki.joostina-cms.ru" target="_blank" title="Wiki-документация">wiki.joostina-cms.ru</a>';
 	/** * @return string Длинный формат версии */
 	function getLongVersion() {
 		return $this->CMS.' '.$this->RELEASE.'. '.$this->CMS_ver.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '.$this->RELTIME.' '.$this->RELTZ;

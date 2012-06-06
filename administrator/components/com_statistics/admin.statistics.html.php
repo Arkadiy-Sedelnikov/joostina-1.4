@@ -209,7 +209,7 @@ class HTML_statistics {
 			<th class="searchtext">
 						<?php echo _SEARCH_QUERIES?>:
 				<span class="componentheading"><?php echo _LOG_SEARCH_QUERIES?>:
-							<?php echo $mainframe->getCfg('enable_log_searches')?'<b><font color="green">'._ALLOWED.'</font></b>':'<b><font color="red">'._DISALLOWED.'</font></b>' ?>
+							<?php echo $mainframe->getCfg('enable_log_searches')?'<b><span style="color:green">'._ALLOWED.'</span></b>':'<b><span style="color:#ff0000">'._DISALLOWED.'</span></b>' ?>
 				</span>
 			</th>
 			<td align="right">

@@ -1130,7 +1130,7 @@ function buildReccurTypeSelect($reccurtype, $args) {
 }
 
 function buildWeekDaysCheck($reccurweekdays, $args) {
-	$day_name = array("<font color=red>" . _ABP_SUN . "</font>", _ABP_MON, _ABP_TUE, _ABP_WED, _ABP_THU, _ABP_FRI, _ABP_SAT);
+	$day_name = array('<span style="color:#ff0000">' . _ABP_SUN . "</span>", _ABP_MON, _ABP_TUE, _ABP_WED, _ABP_THU, _ABP_FRI, _ABP_SAT);
 
 	$tosend = '';
 	$split = array();
@@ -1155,7 +1155,7 @@ function buildWeekDaysCheck($reccurweekdays, $args) {
 function getLongDayName($daynb) {
 
 	if($daynb == "0") {
-		$dayname = "<font color=red>" . _ABP_SUNDAY . "</font>";
+		$dayname = '<span style="color:#ff0000">' . _ABP_SUNDAY . "</span>";
 	} elseif($daynb == "1") {
 		$dayname = _ABP_MONDAY;
 	} elseif($daynb == "2") {
@@ -1175,7 +1175,7 @@ function getLongDayName($daynb) {
 
 function getShortDayName($daynb) {
 	if($daynb == "0") {
-		$dayname = "<font color=red>" . _ABP_SUN . "</font>";
+		$dayname = '<span style="color:#ff0000">' . _ABP_SUN . "</span>";
 	} elseif($daynb == "1") {
 		$dayname = _ABP_MON;
 	} elseif($daynb == "2") {

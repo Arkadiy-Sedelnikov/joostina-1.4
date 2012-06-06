@@ -20,7 +20,7 @@ DEFINE('_MENU_ITEM_ICON','Значок пункта меню');
 DEFINE('_MENU_ITEM_DESCRIPTION','Описание пункта меню.');
 DEFINE('_MENU_ITEM_LINK','Ссылка на компонент. Если пункт меню не содержит подменю то поле обязательно для заполнения.');
 DEFINE('_PARENT_MENU_ITEM2','Родительский пункт меню. Допускается всего 1 уровень вложенности.');
-DEFINE('_THIS_FILEDS_REQUIRED','<font color="red">*</font> пункты обязательны для заполнения');
+DEFINE('_THIS_FILEDS_REQUIRED','<span style="color:#ff0000">*</span> пункты обязательны для заполнения');
 DEFINE('_MENU_ITEM_DELETED','Пункт меню удалён');
 DEFINE('_FIRST_LEVEL','Первый уровень');
 DEFINE('_C_LINKEDITOR_LINK','Ссылка');

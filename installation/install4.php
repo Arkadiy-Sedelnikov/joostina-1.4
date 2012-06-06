@@ -1,69 +1,50 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
-define("_VALID_MOS",1);
+define("_VALID_MOS", 1);
 
 // Include common.php
 require_once ('common.php');
 // используем оригинальный класс работы с базой данных - без кэширования
 //выбор класса базыданных
-$DBtype	= trim(mosGetParam($_POST,'DBtype','mysql'));
+$DBtype = trim(mosGetParam($_POST, 'DBtype', 'mysql'));
 if($DBtype == 'mysqli'){
-    require_once ('../includes/libraries/database/database.php');
-}
-else{
-    require_once ('../includes/libraries/database_old/database_old.php');
+	require_once ('../includes/libraries/database/database.php');
+} else{
+	require_once ('../includes/libraries/database_old/database_old.php');
 }
 
-$DBhostname		= mosGetParam($_POST,'DBhostname','');
-$DBuserName		= mosGetParam($_POST,'DBuserName','');
-$DBpassword		= mosGetParam($_POST,'DBpassword','');
-$DBname			= mosGetParam($_POST,'DBname','');
-$DBPrefix		= mosGetParam($_POST,'DBPrefix','');
-$sitename		= htmlspecialchars(stripslashes(mosGetParam($_POST,'sitename','')));
-$adminEmail		= mosGetParam($_POST,'adminEmail','');
-$siteUrl		= mosGetParam($_POST,'siteUrl','');
-$absolutePath	= mosGetParam($_POST,'absolutePath','');
-$adminPassword	= mosGetParam($_POST,'adminPassword','');
-$adminLogin		= mosGetParam($_POST,'adminLogin','');
-$filePerms		= '';
+$DBhostname = mosGetParam($_POST, 'DBhostname', '');
+$DBuserName = mosGetParam($_POST, 'DBuserName', '');
+$DBpassword = mosGetParam($_POST, 'DBpassword', '');
+$DBname = mosGetParam($_POST, 'DBname', '');
+$DBPrefix = mosGetParam($_POST, 'DBPrefix', '');
+$sitename = htmlspecialchars(stripslashes(mosGetParam($_POST, 'sitename', '')));
+$adminEmail = mosGetParam($_POST, 'adminEmail', '');
+$siteUrl = mosGetParam($_POST, 'siteUrl', '');
+$absolutePath = mosGetParam($_POST, 'absolutePath', '');
+$adminPassword = mosGetParam($_POST, 'adminPassword', '');
+$adminLogin = mosGetParam($_POST, 'adminLogin', '');
+$filePerms = '';
 
-if(get_magic_quotes_gpc()) {
+if(get_magic_quotes_gpc()){
 	$sitename = stripslashes(stripslashes($sitename));
 }
 
-if(mosGetParam($_POST,'filePermsMode',0))
-		$filePerms = '0'.(
-		mosGetParam($_POST,'filePermsUserRead',0)* 4
-		+ mosGetParam($_POST,'filePermsUserWrite',0)* 2
-		+ mosGetParam($_POST,'filePermsUserExecute',0)).
-		(mosGetParam($_POST,'filePermsGroupRead',0)* 4
-		+ mosGetParam($_POST,'filePermsGroupWrite',0)* 2
-		+ mosGetParam($_POST,'filePermsGroupExecute',0)).
-		(mosGetParam($_POST,'filePermsWorldRead',0)* 4
-		+ mosGetParam($_POST,'filePermsWorldWrite',0)* 2
-		+ mosGetParam($_POST,'filePermsWorldExecute',0));
+if(mosGetParam($_POST, 'filePermsMode', 0))
+	$filePerms = '0' . (mosGetParam($_POST, 'filePermsUserRead', 0) * 4 + mosGetParam($_POST, 'filePermsUserWrite', 0) * 2 + mosGetParam($_POST, 'filePermsUserExecute', 0)) . (mosGetParam($_POST, 'filePermsGroupRead', 0) * 4 + mosGetParam($_POST, 'filePermsGroupWrite', 0) * 2 + mosGetParam($_POST, 'filePermsGroupExecute', 0)) . (mosGetParam($_POST, 'filePermsWorldRead', 0) * 4 + mosGetParam($_POST, 'filePermsWorldWrite', 0) * 2 + mosGetParam($_POST, 'filePermsWorldExecute', 0));
 
 $dirPerms = '';
-if(mosGetParam($_POST,'dirPermsMode',0))
-		$dirPerms = '0'.(
-		mosGetParam($_POST,'dirPermsUserRead',0)* 4
-		+ mosGetParam($_POST,'dirPermsUserWrite',0)* 2
-		+ mosGetParam($_POST,'dirPermsUserSearch',0)).
-		(mosGetParam($_POST,'dirPermsGroupRead',0)* 4
-		+ mosGetParam($_POST,'dirPermsGroupWrite',0)* 2
-		+ mosGetParam($_POST,'dirPermsGroupSearch',0)).
-		(mosGetParam($_POST,'dirPermsWorldRead',0)* 4
-		+ mosGetParam($_POST,'dirPermsWorldWrite',0)* 2
-		+ mosGetParam($_POST,'dirPermsWorldSearch',0));
+if(mosGetParam($_POST, 'dirPermsMode', 0))
+	$dirPerms = '0' . (mosGetParam($_POST, 'dirPermsUserRead', 0) * 4 + mosGetParam($_POST, 'dirPermsUserWrite', 0) * 2 + mosGetParam($_POST, 'dirPermsUserSearch', 0)) . (mosGetParam($_POST, 'dirPermsGroupRead', 0) * 4 + mosGetParam($_POST, 'dirPermsGroupWrite', 0) * 2 + mosGetParam($_POST, 'dirPermsGroupSearch', 0)) . (mosGetParam($_POST, 'dirPermsWorldRead', 0) * 4 + mosGetParam($_POST, 'dirPermsWorldWrite', 0) * 2 + mosGetParam($_POST, 'dirPermsWorldSearch', 0));
 
-if((trim($adminEmail == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/",$adminEmail) == false)) {
+if((trim($adminEmail == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $adminEmail) == false)){
 	echo "<head></head><body><form name=\"stepBack\" method=\"post\" action=\"install3.php\" id=\"stepBack\">
                 <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
@@ -86,14 +67,14 @@ if((trim($adminEmail == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/"
 	return;
 }
 
-if($DBhostname && $DBuserName && $DBname) {
+if($DBhostname && $DBuserName && $DBname){
 	$configArray['DBtype'] = $DBtype;
 	$configArray['DBhostname'] = $DBhostname;
 	$configArray['DBuserName'] = $DBuserName;
 	$configArray['DBpassword'] = $DBpassword;
 	$configArray['DBname'] = $DBname;
 	$configArray['DBPrefix'] = $DBPrefix;
-} else {
+} else{
 	echo "<form name=\"stepBack\" method=\"post\" action=\"install3.php\">
                 <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
@@ -116,13 +97,13 @@ if($DBhostname && $DBuserName && $DBname) {
 	return;
 }
 
-if($sitename) {
-	if(!get_magic_quotes_gpc()) {
+if($sitename){
+	if(!get_magic_quotes_gpc()){
 		$configArray['sitename'] = addslashes($sitename);
-	} else {
+	} else{
 		$configArray['sitename'] = $sitename;
 	}
-} else {
+} else{
 	echo "<form name=\"stepBack\" method=\"post\" action=\"install3.php\">
                 <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
@@ -145,16 +126,16 @@ if($sitename) {
 	return;
 }
 
-if(file_exists('../configuration.php')) {
+if(file_exists('../configuration.php')){
 	$canWrite = is_writable('../configuration.php');
-} else {
+} else{
 	$canWrite = is_writable('..');
 }
 
-if($siteUrl) {
+if($siteUrl){
 	$configArray['siteUrl'] = $siteUrl;
 	// Fix for Windows
-	$absolutePath = str_replace("\\\\","/",$absolutePath);
+	$absolutePath = str_replace("\\\\", "/", $absolutePath);
 	$configArray['absolutePath'] = $absolutePath;
 	$configArray['filePerms'] = $filePerms;
 	$configArray['dirPerms'] = $dirPerms;
@@ -288,14 +269,14 @@ if($siteUrl) {
 	$config .= "\$mosConfig_smtphost = 'localhost';\n";
 	$config .= "\$mosConfig_back_button = '1';\n";
 	$config .= "\$mosConfig_item_navigation = '1';\n";
-	$config .= "\$mosConfig_secret = '".mosMakePassword(16)."';\n";
+	$config .= "\$mosConfig_secret = '" . mosMakePassword(16) . "';\n";
 	$config .= "\$mosConfig_pagetitles = '1';\n";
 	$config .= "\$mosConfig_readmore = '1';\n";
 	$config .= "\$mosConfig_hits = '1';\n";
 	$config .= "\$mosConfig_icons = '1';\n";
 	$config .= "\$mosConfig_favicon = 'favicon.ico';\n";
-	$config .= "\$mosConfig_fileperms = '".$configArray['filePerms']."';\n";
-	$config .= "\$mosConfig_dirperms = '".$configArray['dirPerms']."';\n";
+	$config .= "\$mosConfig_fileperms = '" . $configArray['filePerms'] . "';\n";
+	$config .= "\$mosConfig_dirperms = '" . $configArray['dirPerms'] . "';\n";
 	$config .= "\$mosConfig_helpurl = 'http://wiki.joostinadev.ru/';\n";
 	$config .= "\$mosConfig_multilingual_support = '0';\n";
 	$config .= "\$mosConfig_editor = 'elrte';\n";
@@ -314,22 +295,32 @@ if($siteUrl) {
 	$config .= "\$mosConfig_author_name = '4';\n";
 	$config .= "\$mosConfig_mmb_ajax_starts_off = '0';\n";
 
-
 	$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";
 	$config .= "?>";
 
-	if($canWrite && ($fp = fopen("../configuration.php","w"))) {
-		fputs($fp,$config,strlen($config));
+	if($canWrite && ($fp = fopen("../configuration.php", "w"))){
+		fputs($fp, $config, strlen($config));
 		fclose($fp);
-	} else {
+	} else{
 		$canWrite = false;
 	} // if
 
-	$salt = mosMakePassword(16);
-	$crypt = md5($adminPassword.$salt);
-	$cryptpass = $crypt.':'.$salt;
+	//Joostina ver. 1.4
+	// Отправка информации о сайте на центральный сервер
+	$date_send_server = time() + (30 * 24 * 60 * 60);
+	$info_server = "<?php\n";
+	$info_server .= "\$date_send_server = '" . $date_send_server . "';\n";
 
-	$database = new database($DBhostname,$DBuserName,$DBpassword,$DBname,$DBPrefix);
+	if($fp = fopen("../jserver.php", "w")){
+		fputs($fp, $info_server, strlen($info_server));
+		fclose($fp);
+	}
+
+	$salt = mosMakePassword(16);
+	$crypt = md5($adminPassword . $salt);
+	$cryptpass = $crypt . ':' . $salt;
+
+	$database = new database($DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 	$nullDate = $database->getNullDate();
 
 	// создание администратора
@@ -349,66 +340,70 @@ if($siteUrl) {
 
 	// chmod files and directories if desired
 	$chmod_report = "Права доступа к файлам и каталогам не изменены.";
-	if($filePerms != '' || $dirPerms != '') {
-		$mosrootfiles = array('administrator','cache','components','images','language','mambots','media','modules','templates','configuration.php');
+	if($filePerms != '' || $dirPerms != ''){
+		$mosrootfiles = array('administrator', 'cache', 'components', 'images', 'language', 'mambots', 'media', 'modules', 'templates', 'configuration.php');
 		$filemode = null;
-		if($filePerms != '') $filemode = octdec($filePerms);
+		if($filePerms != '')
+			$filemode = octdec($filePerms);
 		$dirmode = null;
-		if($dirPerms != '') $dirmode = octdec($dirPerms);
+		if($dirPerms != '')
+			$dirmode = octdec($dirPerms);
 		$chmodOk = true;
-		foreach($mosrootfiles as $file) {
-			if(!mosChmodRecursive($absolutePath.'/'.$file,$filemode,$dirmode)) {
+		foreach($mosrootfiles as $file){
+			if(!mosChmodRecursive($absolutePath . '/' . $file, $filemode, $dirmode)){
 				$chmodOk = false;
 			}
 		}
-		if($chmodOk) {
+		if($chmodOk){
 			$chmod_report = 'Права доступа к файлам и каталогам успешно изменены.';
-		} else {
+		} else{
 			$chmod_report = 'Права доступа к файлам и каталогам не могут быть изменены.<br />Пожалуйста, установите CHMOD каталогов и файлов Joostina вручную.';
 		}
 	} // if chmod wanted
-} else {
-?>
-        <form action="install3.php" method="post" name="stepBack3" id="stepBack3">
-          <input type="hidden" name="DBtype" value="<?php echo $DBtype; ?>" />
-          <input type="hidden" name="DBhostname" value="<?php echo $DBhostname; ?>" />
-          <input type="hidden" name="DBusername" value="<?php echo $DBuserName; ?>" />
-          <input type="hidden" name="DBpassword" value="<?php echo $DBpassword; ?>" />
-          <input type="hidden" name="DBname" value="<?php echo $DBname; ?>" />
-          <input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix; ?>" />
-          <input type="hidden" name="DBcreated" value="1" />
-          <input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
-          <input type="hidden" name="adminEmail" value="$adminEmail" />
-          <input type="hidden" name="siteUrl" value="$siteUrl" />
-          <input type="hidden" name="absolutePath" value="$absolutePath" />
-          <input type="hidden" name="filePerms" value="$filePerms" />
-          <input type="hidden" name="dirPerms" value="$dirPerms" />
-        </form>
-        <script>alert('URL сайта не введен'); document.stepBack3.submit();</script>
+} else{
+	?>
+<form action="install3.php" method="post" name="stepBack3" id="stepBack3">
+	<input type="hidden" name="DBtype" value="<?php echo $DBtype; ?>"/>
+	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname; ?>"/>
+	<input type="hidden" name="DBusername" value="<?php echo $DBuserName; ?>"/>
+	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword; ?>"/>
+	<input type="hidden" name="DBname" value="<?php echo $DBname; ?>"/>
+	<input type="hidden" name="DBPrefix" value="<?php echo $DBPrefix; ?>"/>
+	<input type="hidden" name="DBcreated" value="1"/>
+	<input type="hidden" name="sitename" value="<?php echo $sitename; ?>"/>
+	<input type="hidden" name="adminEmail" value="$adminEmail"/>
+	<input type="hidden" name="siteUrl" value="$siteUrl"/>
+	<input type="hidden" name="absolutePath" value="$absolutePath"/>
+	<input type="hidden" name="filePerms" value="$filePerms"/>
+	<input type="hidden" name="dirPerms" value="$dirPerms"/>
+</form>
+<script>alert('URL сайта не введен');
+document.stepBack3.submit();</script>
 <?php
 }
-echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">";?>
+echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Joostina - Web-установка. Шаг 4 - установка завершена</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="shortcut icon" href="../images/favicon.ico" />
-		<link rel="stylesheet" href="install.css" type="text/css" />
-<?php echo '<script language="JavaScript" src="'.$siteUrl.'/includes/js/jquery/jquery.js" type="text/javascript"></script>'; ?>
+<head>
+	<title>Joostina Lotos - Web-установка. Установка завершена.</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="shortcut icon" href="../images/favicon.ico"/>
+	<link rel="stylesheet" href="install.css" type="text/css"/>
+	<?php echo '<script language="JavaScript" src="' . $siteUrl . '/includes/js/jquery/jquery.js" type="text/javascript"></script>'; ?>
 </head>
 <body>
 
- <div id="ctr" align="center">
-  <form action="dummy" name="form" id="form">
-   <div class="install">
-	<div id="header">
+<div id="ctr" align="center">
+	<form action="dummy" name="form" id="form">
+		<div class="install">
+			<div id="header">
 				<p><?php echo $version; ?></p>
-				<p class="jst"><a href="http://www.joostina.ru">Joostina</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</p>
-			</div>	
-			
+
+				<p class="jst"><a href="http://www.joostina.ru">Joostina Lotos CMS</a> - свободное программное обеспечение (лицензия GNU/GPL)</p>
+			</div>
+
 			<div id="navigator">
-				<big>Установка Joostina CMS</big>
+				<h1>Установка Joostina Lotos CMS</h1>
 				<ul>
 					<li class="step"><strong>1</strong><span>Проверка системы</span></li>
 					<li class="arrow">&nbsp;</li>
@@ -421,64 +416,64 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?".">";?>
 					<li class="step"><strong>5</strong><span>Конфигурация сайта</span></li>
 					<li class="arrow">&nbsp;</li>
 					<li class="step  step-on"><strong>6</strong><span>Завершение установки</span></li>
-				</ul>				
+				</ul>
 			</div>
-   <div id="wrap">
-   
-    <div class="install-form">
-     <div class="form-block">
-     	<div class="install-text">ПОЖАЛУЙСТА, <b> УДАЛИТЕ КАТАЛОГ 'INSTALLATION'</b>, ИНАЧЕ ВАШ САЙТ НЕ ЗАГРУЗИТСЯ</div>
-     
-     
+			<div id="wrap">
 
-<input class="button small" type="button" name="runSite" value="Просмотр сайта"
-<?php
-if($siteUrl) {
-	echo "onClick=\"window.location.href='$siteUrl/' \"";
-} else {
-	echo "onClick=\"window.location.href='".$configArray['siteURL']."/index.php' \"";
-}
-?>/>
-&nbsp;<input class="button small" type="button" name="Admin" value="Панель управления"
-<?php
-if($siteUrl) {
-	echo "onClick=\"window.location.href='$siteUrl/administrator/index.php' \"";
-} else {
-	echo "onClick=\"window.location.href='".$configArray['siteURL']."/administrator/index.php' \"";
-}
-?>/>
-<?php
-$url = $siteUrl.'/installation/install.ajax.php?task=rminstalldir';
-$clk = 'onclick=\'$.ajax({url: "'.$url.'", beforeSend: function(response){$("#status").show("normal")}, success: function(response){$("#delbutton").val(response); $("#delbutton").click(function(){if(response == "www.joostina.ru") window.location.href="http://www.joostina.ru"}); $("#alert_mess").hide("fast")}, dataType: "html"}); return false;\'';
-$delbutton = '&nbsp;<input class="button small" '.$clk.' type="button" id="delbutton" name="delbutton" value="Удалить installation" />';
-echo $delbutton;
-?>
-<div id="status" style="display:none;"></div>
-<h2>Данные для авторизации Главного Администратора сайта:</h2>
-                       Логин: <b><?php echo $adminLogin;?></b> Пароль: <b><?php echo $adminPassword; ?></b>
-       <?php if(!$canWrite) { ?>
-       <div class="install-text">
-         Ваш конфигурационный файл или нужный каталог недоступны для записи,
-         или есть какая-то проблема с созданием основного конфигурационного файла.
-         Вам придется загрузить этот код вручную.<br />
-         ОБЯЗАТЕЛЬНО выделите и скопируйте весь следующий код:
-        </div>
-        
-      
-         <textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();" ><?php echo htmlspecialchars($config); ?></textarea>
-       
-       <?php } ?>
+				<div class="install-form">
+					<div class="form-block">
+						<div class="install-text">ПОЖАЛУЙСТА, <b> УДАЛИТЕ КАТАЛОГ 'INSTALLATION'</b>, ИНАЧЕ ВАШ САЙТ НЕ ЗАГРУЗИТСЯ</div>
+
+
+						<input class="button small" type="button" name="runSite" value="Просмотр сайта"
+							<?php
+							if($siteUrl){
+								echo "onClick=\"window.location.href='$siteUrl/' \"";
+							} else{
+								echo "onClick=\"window.location.href='" . $configArray['siteURL'] . "/index.php' \"";
+							}
+							?>/>
+						&nbsp;<input class="button small" type="button" name="Admin" value="Панель управления"
+						<?php
+						if($siteUrl){
+							echo "onClick=\"window.location.href='$siteUrl/administrator/index.php' \"";
+						} else{
+							echo "onClick=\"window.location.href='" . $configArray['siteURL'] . "/administrator/index.php' \"";
+						}
+						?>/>
+						<?php
+						$url = $siteUrl . '/installation/install.ajax.php?task=rminstalldir';
+						$clk = 'onclick=\'$.ajax({url: "' . $url . '", beforeSend: function(response){$("#status").show("normal")}, success: function(response){$("#delbutton").val(response); $("#delbutton").click(function(){if(response == "www.joostina-cms.ru") window.location.href="http://www.joostina-cms.ru"}); $("#alert_mess").hide("fast")}, dataType: "html"}); return false;\'';
+						$delbutton = '&nbsp;<input class="button small" ' . $clk . ' type="button" id="delbutton" name="delbutton" value="Удалить installation" />';
+						echo $delbutton;
+						?>
+						<div id="status" style="display:none;"></div>
+						<h2>Данные для авторизации Главного Администратора сайта:</h2>
+						Логин: <b><?php echo $adminLogin;?></b> Пароль: <b><?php echo $adminPassword; ?></b>
+						<?php if(!$canWrite){ ?>
+						<div class="install-text">
+							Ваш конфигурационный файл или нужный каталог недоступны для записи,
+							или есть какая-то проблема с созданием основного конфигурационного файла.
+							Вам придется загрузить этот код вручную.<br/>
+							ОБЯЗАТЕЛЬНО выделите и скопируйте весь следующий код:
+						</div>
+
+
+						<textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();"><?php echo htmlspecialchars($config); ?></textarea>
+
+						<?php } ?>
 						<div><?php /*echo $chmod_report*/; ?></div>
- 
-     </div>
-    </div>
-    <div id="break"></div>
-   </div>
-   <div class="clr"></div>
-	</div>
-  </form>
- </div>
- <div class="clr"></div>
- 
+
+					</div>
+				</div>
+				<div id="break"></div>
+			</div>
+			<div class="clr"></div>
+		</div>
+	</form>
+</div>
+<div class="clr"></div>
+<div class="ctr" id="footer"><a href="http://www.joostina-cms.ru" target="_blank">Joostina Lotos</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</div>
+
 </body>
 </html>

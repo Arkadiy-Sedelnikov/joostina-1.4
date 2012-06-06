@@ -151,7 +151,7 @@ class HTML_config {
 			</tr>
 		</table>
 		<div class="message"><?php echo _CONFIG_SAVING?>:
-					<?php echo is_writable('../configuration.php')?' <b><font color="green">'._AVAILABLE_CHECK_RIGHTS.'</font></b>':' <b><font color="red">'._NOT_AVAILABLE_CHECK_RIGHTS.'</font></b>' ?>
+					<?php echo is_writable('../configuration.php')?' <b><span style="color:green">'._AVAILABLE_CHECK_RIGHTS.'</span></b>':' <b><span style="color:#ff0000">'._NOT_AVAILABLE_CHECK_RIGHTS.'</span></b>' ?>
 		</div>
 		<br />
 				<?php
@@ -913,7 +913,7 @@ class HTML_config {
 					} else {
 						?>				<tr>
 				<td width="350"><?php echo _CANNOT_CACHE?>:</td>
-				<td><font color="red"><b><?php echo _CANNOT_CACHE2?></b></font></td>
+				<td><span style="color:#ff0000"><b><?php echo _CANNOT_CACHE2?></b></span></td>
 			</tr>
 						<?php
 					}

@@ -123,7 +123,7 @@ class HTML_languages {
 				</table>
 			</td>
 			<td width="240">
-				<span class="componentheading"> system.php :<b><?php echo is_writable($language_path)?'<font color="green"> '._WRITEABLE.'</font>':'<font color="red"> '._UNWRITEABLE.'</font>' ?></b>
+				<span class="componentheading"> system.php :<b><?php echo is_writable($language_path)?'<span style="color:green"> '._WRITEABLE.'</span>':'<span style="color:#ff0000"> '._UNWRITEABLE.'</span>' ?></b>
 				</span>
 			</td>
 					<?php

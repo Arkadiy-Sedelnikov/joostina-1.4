@@ -69,7 +69,7 @@ DEFINE('_NOT_EXISTS','Отсутствуют');
 DEFINE('_SYSERR1','Нет поддержки MySQL');
 DEFINE('_SYSERR2','Невозможно подключиться к серверу базы данных');
 DEFINE('_SYSERR3','Невозможно подключиться к базе данных');
-DEFINE('_TEMPLATE_WARN','<font color=\"red\"><strong>Файл шаблона не найден:</strong></font> <br /> Зайдите в Панель управления сайтом и выберите новый шаблон ');
+DEFINE('_TEMPLATE_WARN','<span style="red"><strong>Файл шаблона не найден:</strong></span> <br /> Зайдите в Панель управления сайтом и выберите новый шаблон ');
 
 
 /** pageNavigation - front*/

@@ -12,11 +12,11 @@ defined('_VALID_MOS') or die();
 
 DEFINE('_OBJECT_DELETION','Удаление объектов');
 DEFINE('_OBJECTS_TO_DELETE','Удаляемые объекты');
-DEFINE('_THIS_ACTION_WILL_DELETE_O_FOREVER','* Это действие <strong><font color="#FF0000">насовсем удалит</font></strong> <br />перечисленные объекты из базы данных*');
+DEFINE('_THIS_ACTION_WILL_DELETE_O_FOREVER','* Это действие <strong><span style="color:#ff0000">насовсем удалит</span></strong> <br />перечисленные объекты из базы данных*');
 DEFINE('_REALLY_DELETE_OBJECTS','Вы действительно хотите удалить перечисленные объекты? \nЭто действие насовсем удалит перечисленные объекты из базы данных.');
 DEFINE('_OBJECT_RESTORE','Восстановление объектов');
 DEFINE('_OBECTS_TO_RESTORE','Восстанавливаемые объекты');
-DEFINE('_THIS_ACTION_WILL_RESTORE_O_FOREVER','* Это действие <strong><font color="#FF0000">восстановит</font></strong> эти объекты,<br />затем они будут возвращены на прежние места, как неопубликованные объекты*');
+DEFINE('_THIS_ACTION_WILL_RESTORE_O_FOREVER','* Это действие <strong><span style="color:#ff0000">восстановит</span></strong> эти объекты,<br />затем они будут возвращены на прежние места, как неопубликованные объекты*');
 DEFINE('_REALLY_RESTORE_OBJECTS','Вы действительно хотите восстановить перечисленные объекты?');
 DEFINE('_RESTORE','Восстановить');
 DEFINE('_CONTENT_ITEMS','Объекты содержимого');

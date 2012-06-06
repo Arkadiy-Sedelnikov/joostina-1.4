@@ -147,7 +147,7 @@ class HTML_trash {
 			<td align="left" valign="top" width="20%">
 				<strong><?php echo _COM_TRASH_OBJECT_COUNT?>:</strong>
 				<br />
-				<font color="#000066"><strong><?php echo count($cid); ?></strong></font>
+				<span style="color:#000066"><strong><?php echo count($cid); ?></strong></span>
 				<br /><br />
 			</td>
 			<td align="left" valign="top" width="25%">
@@ -209,7 +209,7 @@ class HTML_trash {
 			<td align="left" valign="top" width="20%">
 				<strong><?php echo _COM_TRASH_OBJECT_COUNT?>:</strong>
 				<br />
-				<font color="#000066"><strong><?php echo count($cid); ?></strong></font>
+				<span style="color:#000066"><strong><?php echo count($cid); ?></strong></span>
 				<br /><br />
 			</td>
 			<td align="left" valign="top" width="25%">

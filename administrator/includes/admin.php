@@ -263,9 +263,9 @@ function mosShowSource($filename,$withLineNums = false) {
 	foreach($source as $line) {
 		$txt .= "<code>";
 		if($withLineNums) {
-			$txt .= "<font color=\"#aaaaaa\">";
+			$txt .= '<span style="color:#aaaaaa">';
 			$txt .= str_replace(' ','&nbsp;',sprintf("%4d:",$ln));
-			$txt .= "</font>";
+			$txt .= "</span>";
 		}
 		$txt .= "$line<br /><code>";
 		$ln++;

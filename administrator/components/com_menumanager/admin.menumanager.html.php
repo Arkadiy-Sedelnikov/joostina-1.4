@@ -255,9 +255,9 @@ class HTML_menumanager {
 								foreach($modules as $module) {
 									?>
 					<li>
-						<font color="#000066">
+						<span style="color:#000066">
 							<strong><?php echo $module->title; ?></strong>
-						</font>
+						</span>
 					</li>
 					<input type="hidden" name="cid[]" value="<?php echo $module->id; ?>" />
 									<?php
@@ -276,9 +276,9 @@ class HTML_menumanager {
 							foreach($items as $item) {
 								?>
 					<li>
-						<font color="#000066">
+						<span style="color:#000066">
 										<?php echo $item->name; ?>
-						</font>
+						</span>
 					</li>
 					<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
 								<?php
@@ -361,11 +361,11 @@ class HTML_menumanager {
 							<?php echo _MENU_TO_COPY?>:
 				</strong>
 				<br />
-				<font color="#000066">
+				<span style="color:##000066">
 					<strong>
 								<?php echo $type; ?>
 					</strong>
-				</font>
+				</span>
 				<br /><br />
 				<strong>
 							<?php echo _MENU_ITEMS_TO_COPY?>:
@@ -376,9 +376,9 @@ class HTML_menumanager {
 							foreach($items as $item) {
 								?>
 					<li>
-						<font color="#000066">
+						<span style="color:#ff0000">
 										<?php echo $item->name; ?>
-						</font>
+						</span>
 					</li>
 					<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
 								<?php

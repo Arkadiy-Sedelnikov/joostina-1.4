@@ -181,7 +181,7 @@ class HTML_templates {
 		<tr>
 			<td width="290"><table class="adminheading"><tr><th class="templates"><?php echo _TEMPLATE_EDITOR_HEADER;?></th></tr></table></td>
 			<td width="220" class="jtd_nowrap">
-				<span class="componentheading">index.php:<b><?php echo is_writable($template_path)?'<font color="green">'._WRITEABLE.'</font>':'<font color="red">'._UNWRITEABLE.'</font>' ?></b></span>
+				<span class="componentheading">index.php:<b><?php echo is_writable($template_path)?'<span style="color:green">'._WRITEABLE.'</span>':'<span style="color:#ff0000">'._UNWRITEABLE.'</span>' ?></b></span>
 			</td>
 					<?php
 					if(mosIsChmodable($template_path)) {
@@ -260,7 +260,7 @@ class HTML_templates {
 				<table class="adminheading"><tr><th class="templates"><?php echo _CSS_TEMPLATE_EDITOR?></th></tr></table></td>
 			<td width="260" class="jtd_nowrap">
 				<span class="componentheading">template_css.css:
-					<b><?php echo is_writable($css_path)?'<font color="green">'._WRITEABLE.'</font>':'<font color="red">'._UNWRITEABLE.'</font>' ?></b>
+					<b><?php echo is_writable($css_path)?'<span style="color:green">'._WRITEABLE.'</span>':'<span style="color:#ff0000">'._UNWRITEABLE.'</span>' ?></b>
 				</span>
 			</td>
 					<?php

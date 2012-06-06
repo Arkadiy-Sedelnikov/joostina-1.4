@@ -166,6 +166,9 @@ if ($option == 'login') {
 	}
 }
 
+// проверка и отсылка информации на центральный сервер
+$mainframe->verifInfoServer();
+
 // получение шаблона страницы
 $cur_template = $mainframe->getTemplate();
 define('JTEMPLATE', $cur_template);
@@ -240,6 +243,7 @@ if ($mosConfig_mmb_mainbody_off == 0) {
 	$_MAMBOTS->loadBotGroup('mainbody');
 	$_MAMBOTS->trigger('onTemplate', array(&$_template_body));
 }
+
 unset($_MAMBOTS, $mainframe, $my, $_MOS_OPTION);
 
 // вывод стека всего тела страницы, уже после обработки мамботами группы onTemplate

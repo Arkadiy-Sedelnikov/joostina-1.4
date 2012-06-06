@@ -66,10 +66,10 @@ function botMosCode_replacer(&$matches) {
 
 	$text = str_replace('&amp;nbsp;','&nbsp;',$text);
 	$text = str_replace('&lt;br/&gt;','<br />',$text);
-	$text = str_replace('<font color="#007700">&lt;</font><font color="#0000BB">br</font><font color="#007700">/&gt;','<br />',$text);
-	$text = str_replace('&amp;</font><font color="#0000CC">nbsp</font><font color="#006600">;','&nbsp;',$text);
-	$text = str_replace('&amp;</font><font color="#0000BB">nbsp</font><font color="#007700">;','&nbsp;',$text);
-	$text = str_replace('<font color="#007700">;&lt;</font><font color="#0000BB">br</font><font color="#007700">/&gt;','<br />',$text);
+	$text = str_replace('<span style="color:#007700">&lt;</span><span style="color:#0000BB">br</span><span style="color:#007700">/&gt;','<br />',$text);
+	$text = str_replace('&amp;</span><span style="color:#0000CC">nbsp</span><span style="color:#006600">;','&nbsp;',$text);
+	$text = str_replace('&amp;</span><span style="color:#0000BB">nbsp</span><span style="color:#007700">;','&nbsp;',$text);
+	$text = str_replace('<span style="color:#007700">;&lt;</span><span style="color:#0000BB">br</span><span style="color:#007700">/&gt;','<br />',$text);
 
 	return $text;
 }

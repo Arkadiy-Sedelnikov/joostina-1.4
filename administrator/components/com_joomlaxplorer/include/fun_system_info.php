@@ -194,9 +194,9 @@ function system_info($version, $option) {
 					<?php echo $GLOBALS['messages']['sixmlenabled']; ?>:
 				</td>
 				<td>
-					<?php echo extension_loaded('xml')?'<font style="color: green;">'.$GLOBALS['messages']['miscyesno'][0].
-	'</font>':'<font style="color: red;">'.$GLOBALS['messages']['miscyesno'][1].
-		'</font>'; ?>
+					<?php echo extension_loaded('xml')?'<span style="color: green;">'.$GLOBALS['messages']['miscyesno'][0].
+	'</span>':'<span style="color: red;">'.$GLOBALS['messages']['miscyesno'][1].
+		'</span>'; ?>
 				</td>
 			</tr>
 			<tr>
@@ -204,9 +204,9 @@ function system_info($version, $option) {
 					<?php echo $GLOBALS['messages']['sizlibenabled']; ?>:
 				</td>
 				<td>
-				<?php echo extension_loaded('zlib')?'<font style="color: green;">'.$GLOBALS['messages']['miscyesno'][0].
-	'</font>':'<font style="color: red;">'.$GLOBALS['messages']['miscyesno'][1].
-		'</font>'; ?>
+				<?php echo extension_loaded('zlib')?'<span style="color: green;">'.$GLOBALS['messages']['miscyesno'][0].
+	'</span>':'<span style="color: red;">'.$GLOBALS['messages']['miscyesno'][1].
+		'</span>'; ?>
 				</td>
 			</tr>
 			<tr>
