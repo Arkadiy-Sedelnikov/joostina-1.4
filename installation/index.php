@@ -86,14 +86,19 @@ $sp = ini_get('session.save_path');
 					<?php echo extension_loaded('zlib') ? '<b><span style="color:green">Доступна</span></b>' : '<b><span style="color:#ff0000">Недоступна</span></b>'; ?>	</td>
 			</tr>
 			<tr>
-				<td>	&nbsp; - поддержка XML</td>
+				<td>&nbsp; - поддержка XML</td>
 				<td align="left">
 					<?php echo extension_loaded('xml') ? '<b><span style="color:green">Доступна</span></b>' : '<b><span style="color:#ff0000">Недоступна</span></b>'; ?>	</td>
 			</tr>
 			<tr>
-				<td>	&nbsp; - поддержка MySQL</td>
+				<td>&nbsp; - поддержка MySQLi</td>
 				<td align="left">
-					<?php echo function_exists('mysql_connect') ? '<b><span style="color:green">Доступна</span></b>' : '<b><span style="color:#ff0000">Недоступна</span></b>'; ?>	</td>
+					<?php echo class_exists('mysqli') ? '<b><span style="color:green">Доступна</span></b>' : '<b><span style="color:#ff0000">Недоступна</span></b>'; ?>	</td>
+			</tr>
+			<tr>
+				<td>&nbsp; - поддержка MySQLi_Result</td>
+				<td align="left">
+					<?php echo class_exists('mysqli_result') ? '<b><span style="color:green">Доступна</span></b>' : '<b><span style="color:#ff0000">Недоступна</span></b>'; ?>	</td>
 			</tr>
 			<tr>
 				<td valign="top" class="item"> Файл <strong>configuration.php</strong></td>

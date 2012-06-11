@@ -162,7 +162,7 @@ class mod_gdnlotos_Helper{
 
 		// определение путей до шаблона
 		if($this->template_dir and is_dir(JPATH_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'html' . DS . 'modules' . DS . 'mod_gdnlotos' . DS . $this->template)){
-			$this->tpl_dir = JPATH_BASE . DS . 'templates' . JTEMPLATE . DS . 'html' . DS . 'modules' . DS . 'mod_gdnlotos' . DS . $this->template;
+			$this->tpl_dir = JPATH_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'html' . DS . 'modules' . DS . 'mod_gdnlotos' . DS . $this->template;
 			$this->tpl_dir_style = JPATH_SITE . '/templates/' . JTEMPLATE . '/html/modules/mod_gdnlotos/' . $this->template . '/style.css';
 		} elseif(is_dir(JPATH_BASE . DS . 'modules' . DS . 'mod_gdnlotos' . DS . 'templates' . DS . $this->template)){
 			$this->tpl_dir = JPATH_BASE . DS . 'modules' . DS . 'mod_gdnlotos' . DS . 'templates' . DS . $this->template;

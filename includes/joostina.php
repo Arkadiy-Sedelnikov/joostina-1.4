@@ -48,10 +48,8 @@ require_once (JPATH_BASE . '/includes/version.php');
 require_once (JPATH_BASE . '/includes/parameters.xml.php');
 /* класс фильтрации данных */
 mosMainFrame::addLib('inputfilter');
-/*определяем дип бвзы данных*/
-$dbType = (!empty($mosConfig_dbtype) && $mosConfig_dbtype == 'mysqli') ? 'database' : 'database_old';
 /* класс работы с базой данных */
-mosMainFrame::addLib($dbType);
+mosMainFrame::addLib('database');
 
 // TODO запретить к 1.3.2!!!
 $database = database::getInstance();
@@ -1991,8 +1989,6 @@ class JConfig{
 	var $config_password = null;
 	/** @var string */
 	var $config_db = null;
-	/** @var string */
-	var $config_dbtype = 'mysql';
 	/** @var string */
 	var $config_dbprefix = null;
 	/** @var string */

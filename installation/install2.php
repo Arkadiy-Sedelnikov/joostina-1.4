@@ -17,17 +17,7 @@ if(!defined('JPATH_BASE')){
 // Подключение common.php
 require_once ('common.php');
 
-//выбор класса базыданных
-$DBtype = trim(mosGetParam($_POST, 'DBtype', 'mysql'));
-
-// TODO GoDr временная заглушка
-$DBtype == 'mysql';
-
-if($DBtype == 'mysqli'){
-	require_once ('../includes/libraries/database/database.php');
-} else{
-	require_once ('../includes/libraries/database_old/database_old.php');
-}
+require_once ('../includes/libraries/database/database.php');
 
 $DBhostname = trim(mosGetParam($_POST, 'DBhostname', ''));
 $DBuserName = trim(mosGetParam($_POST, 'DBuserName', ''));
@@ -64,7 +54,6 @@ if(!$DBcreated){
 	}
 
 	// Does this code actually do anything???
-	$configArray['DBtype'] = $DBtype;
 	$configArray['DBhostname'] = $DBhostname;
 	$configArray['DBuserName'] = $DBuserName;
 	$configArray['DBpassword'] = $DBpassword;
@@ -139,9 +128,8 @@ if(!$DBcreated){
 }
 
 function db_err($step, $alert){
-	global $DBhostname, $DBuserName, $DBpassword, $DBDel, $DBname, $DBtype;
+	global $DBhostname, $DBuserName, $DBpassword, $DBDel, $DBname;
 	echo "<form name=\"$step\" method=\"post\" action=\"install1.php\">
-	<input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\">
 	<input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\">
 	<input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\">
 	<input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\">

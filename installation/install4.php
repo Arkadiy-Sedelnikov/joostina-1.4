@@ -12,13 +12,7 @@ define("_VALID_MOS", 1);
 // Include common.php
 require_once ('common.php');
 // используем оригинальный класс работы с базой данных - без кэширования
-//выбор класса базыданных
-$DBtype = trim(mosGetParam($_POST, 'DBtype', 'mysql'));
-if($DBtype == 'mysqli'){
-	require_once ('../includes/libraries/database/database.php');
-} else{
-	require_once ('../includes/libraries/database_old/database_old.php');
-}
+require_once ('../includes/libraries/database/database.php');
 
 $DBhostname = mosGetParam($_POST, 'DBhostname', '');
 $DBuserName = mosGetParam($_POST, 'DBuserName', '');
@@ -46,7 +40,6 @@ if(mosGetParam($_POST, 'dirPermsMode', 0))
 
 if((trim($adminEmail == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $adminEmail) == false)){
 	echo "<head></head><body><form name=\"stepBack\" method=\"post\" action=\"install3.php\" id=\"stepBack\">
-                <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
                 <input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\" />
                 <input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\" />
@@ -68,7 +61,6 @@ if((trim($adminEmail == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/"
 }
 
 if($DBhostname && $DBuserName && $DBname){
-	$configArray['DBtype'] = $DBtype;
 	$configArray['DBhostname'] = $DBhostname;
 	$configArray['DBuserName'] = $DBuserName;
 	$configArray['DBpassword'] = $DBpassword;
@@ -76,7 +68,6 @@ if($DBhostname && $DBuserName && $DBname){
 	$configArray['DBPrefix'] = $DBPrefix;
 } else{
 	echo "<form name=\"stepBack\" method=\"post\" action=\"install3.php\">
-                <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
                 <input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\" />
                 <input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\" />
@@ -105,7 +96,6 @@ if($sitename){
 	}
 } else{
 	echo "<form name=\"stepBack\" method=\"post\" action=\"install3.php\">
-                <input type=\"hidden\" name=\"DBtype\" value=\"$DBtype\" />
                 <input type=\"hidden\" name=\"DBhostname\" value=\"$DBhostname\" />
                 <input type=\"hidden\" name=\"DBuserName\" value=\"$DBuserName\" />
                 <input type=\"hidden\" name=\"DBpassword\" value=\"$DBpassword\" />
@@ -142,7 +132,6 @@ if($siteUrl){
 
 	$config = "<?php\n";
 	$config .= "\$mosConfig_offline = '0';\n";
-	$config .= "\$mosConfig_dbtype = '{$configArray['DBtype']}';\n";
 	$config .= "\$mosConfig_host = '{$configArray['DBhostname']}';\n";
 	$config .= "\$mosConfig_user = '{$configArray['DBuserName']}';\n";
 	$config .= "\$mosConfig_password = '{$configArray['DBpassword']}';\n";
@@ -363,7 +352,6 @@ if($siteUrl){
 } else{
 	?>
 <form action="install3.php" method="post" name="stepBack3" id="stepBack3">
-	<input type="hidden" name="DBtype" value="<?php echo $DBtype; ?>"/>
 	<input type="hidden" name="DBhostname" value="<?php echo $DBhostname; ?>"/>
 	<input type="hidden" name="DBusername" value="<?php echo $DBuserName; ?>"/>
 	<input type="hidden" name="DBpassword" value="<?php echo $DBpassword; ?>"/>

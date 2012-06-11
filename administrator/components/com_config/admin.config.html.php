@@ -1017,7 +1017,6 @@ class HTML_config {
 		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 		<input type="hidden" name="config_absolute_path" value="<?php echo $row->config_absolute_path; ?>"/>
 		<input type="hidden" name="config_live_site" value="<?php echo $row->config_live_site; ?>"/>
-		<input type="hidden" name="config_dbtype" value="<?php echo $row->config_dbtype; ?>"/>
 		<input type="hidden" name="config_secret" value="<?php echo $row->config_secret; ?>"/>
 		<input type="hidden" name="config_auto_activ_login" value="0"/>
 		<input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support ?>" />

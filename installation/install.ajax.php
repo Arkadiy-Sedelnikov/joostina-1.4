@@ -19,7 +19,7 @@ require_once ('../configuration.php');
 // попытка удаления каталогу установки
 if(!deldir('../installation/')) echo 'Error!';
 	else
-echo 'www.joostina.ru';
+echo 'www.joostina-cms.ru';
 
 
 function deldir($dir) {
