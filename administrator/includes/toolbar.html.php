@@ -13,11 +13,11 @@ defined('_VALID_MOS') or die();
 /**
  * @package Joostina
  */
-class MENU_Default {
+class MENU_Default{
 	/**
 	 * Draws a default set of menu icons
 	 */
-	function MENU_Default() {
+	function MENU_Default(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::unpublishList();

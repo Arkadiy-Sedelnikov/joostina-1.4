@@ -1,28 +1,28 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-require_once(JPATH_BASE.'/administrator/components/com_boss/admin.boss.html.php');
+require_once(JPATH_BASE . '/administrator/components/com_boss/admin.boss.html.php');
 mosAdminMenus::menuItem($type);
 
 $directory = getDirectory($menu);
 
-switch($task) {
+switch($task){
 
 	case 'edit':
-		boss_item_content_menu::editCategory($cid[0],$menutype,$option,$menu, $directory);
+		boss_item_content_menu::editCategory($cid[0], $menutype, $option, $menu, $directory);
 		break;
 
 	case 'save':
 	case 'apply':
 	case 'save_and_new':
-		saveMenu($option,$task);
+		saveMenu($option, $task);
 		break;
 }

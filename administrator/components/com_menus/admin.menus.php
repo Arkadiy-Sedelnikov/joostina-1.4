@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 //подключаем класс босса
-require_once(JPATH_BASE.'/components/com_boss/boss.class.php');
+require_once(JPATH_BASE . '/components/com_boss/boss.class.php');
 
 $path = JPATH_BASE_ADMIN . DS . 'components' . DS . 'com_menus' . DS;
 
@@ -22,7 +22,7 @@ $menu = stripslashes(strval(mosGetParam($_POST, 'menu', '')));
 
 $cid = josGetArrayInts('cid');
 
-switch ($task) {
+switch($task){
 	case 'new':
 		addMenuItem($cid, $menutype, $option, $task);
 		break;
@@ -30,13 +30,13 @@ switch ($task) {
 	case 'edit':
 		$cid[0] = ($id ? $id : intval($cid[0]));
 		$menu = new mosMenu($database);
-		if ($cid[0]) {
+		if($cid[0]){
 			$menu->load($cid[0]);
-		} else {
+		} else{
 			$menu->type = $type;
 		}
 
-		if ($menu->type) {
+		if($menu->type){
 			$type = $menu->type;
 			require_once ($path . $menu->type . DS . $menu->type . '.menu.php');
 		}
@@ -114,10 +114,10 @@ switch ($task) {
 
 	default:
 		$type = stripslashes(strval(mosGetParam($_REQUEST, 'type')));
-		if ($type) {
+		if($type){
 			// adding a new item - type selection form
 			require_once ($path . $type . DS . $type . '.menu.php');
-		} else {
+		} else{
 			viewMenuItems($menutype, $option);
 		}
 		break;
@@ -126,7 +126,7 @@ switch ($task) {
 /**
  * Shows a list of items for a menu
  */
-function viewMenuItems($menutype, $option) {
+function viewMenuItems($menutype, $option){
 
 	$database = database::getInstance();
 	$mainframe = mosMainFrame::getInstance();
@@ -136,24 +136,24 @@ function viewMenuItems($menutype, $option) {
 	$levellimit = intval($mainframe->getUserStateFromRequest("view{$option}limit$menutype", 'levellimit', 10));
 	$search = $mainframe->getUserStateFromRequest("search{$option}$menutype", 'search', '');
 
-	if (get_magic_quotes_gpc()) {
+	if(get_magic_quotes_gpc()){
 		$search = stripslashes($search);
 	}
 
 	// select the records
 	// note, since this is a tree we have to do the limits code-side
-	if ($search) {
+	if($search){
 		$query = "SELECT m.id FROM #__menu AS m WHERE menutype = " . $database->Quote($menutype) . "\n AND LOWER( m.name ) LIKE '%" . $database->getEscaped(Jstring::trim(Jstring::strtolower($search))) . "%'";
 		$database->setQuery($query);
 		$search_rows = $database->loadResultArray();
 	}
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, com.name AS com_name" .
-			"\n FROM #__menu AS m" .
-			"\n LEFT JOIN #__users AS u ON u.id = m.checked_out" . "\n LEFT JOIN #__groups AS g ON g.id = m.access" .
-			"\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'" .
-			"\n WHERE m.menutype = " . $database->Quote($menutype) . "\n AND m.published != -2" .
-			"\n ORDER BY parent, ordering";
+		"\n FROM #__menu AS m" .
+		"\n LEFT JOIN #__users AS u ON u.id = m.checked_out" . "\n LEFT JOIN #__groups AS g ON g.id = m.access" .
+		"\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'" .
+		"\n WHERE m.menutype = " . $database->Quote($menutype) . "\n AND m.published != -2" .
+		"\n ORDER BY parent, ordering";
 
 	$database->setQuery($query);
 	$rows = $database->loadObjectList();
@@ -161,7 +161,7 @@ function viewMenuItems($menutype, $option) {
 	// создание иерархии меню
 	$children = array();
 	// first pass - collect children
-	foreach ($rows as $v) {
+	foreach($rows as $v){
 		$pt = $v->parent;
 		$list = @$children[$pt] ? $children[$pt] : array();
 		array_push($list, $v);
@@ -171,12 +171,12 @@ function viewMenuItems($menutype, $option) {
 	// second pass - get an indent list of the items
 	$list = mosTreeRecurse(0, '', array(), $children, max(0, $levellimit - 1));
 	// eventually only pick out the searched items.
-	if ($search) {
+	if($search){
 		$list1 = array();
 
-		foreach ($search_rows as $sid) {
-			foreach ($list as $item) {
-				if ($item->id == $sid) {
+		foreach($search_rows as $sid){
+			foreach($list as $item){
+				if($item->id == $sid){
 					$list1[] = $item;
 				}
 			}
@@ -196,35 +196,19 @@ function viewMenuItems($menutype, $option) {
 	$list = array_slice($list, $pageNav->limitstart, $pageNav->limit);
 
 	$i = 0;
-	foreach ($list as $mitem) {
+	foreach($list as $mitem){
 		$edit = '';
-		switch ($mitem->type) {
+		switch($mitem->type){
 			case 'separator':
 			case 'component_item_link':
 				break;
 
 			case 'url':
-				if (preg_match('/index.php\?/i', $mitem->link)) {
-					if (!preg_match('/Itemid=/i', $mitem->link)) {
-						$mitem->link .= '&Itemid=' . $mitem->id;
-					}
+				if(preg_match('/index.php\?/i', $mitem->link)){
 				}
 				break;
 
-			case 'newsfeed_link':
-				$edit = 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1A&id=' . $mitem->componentid;
-				$list[$i]->descrip = _CHANGE_THIS_NEWSFEED;
-				$mitem->link .= '&Itemid=' . $mitem->id;
-				break;
-
-			case 'contact_item_link':
-				$edit = 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id=' . $mitem->componentid;
-				$list[$i]->descrip = _CHANGE_THIS_CONTACT;
-				$mitem->link .= '&Itemid=' . $mitem->id;
-				break;
-
 			default:
-				$mitem->link .= '&Itemid=' . $mitem->id;
 				break;
 		}
 		$list[$i]->link = $mitem->link;
@@ -232,7 +216,7 @@ function viewMenuItems($menutype, $option) {
 
 		$row = ReadMenuXML($mitem->type, $mitem->com_name);
 		$list[$i]->type = $row[0];
-		if (!isset($list[$i]->descrip)) {
+		if(!isset($list[$i]->descrip)){
 			$list[$i]->descrip = $row[1];
 		}
 		unset($row, $mitem);
@@ -245,23 +229,23 @@ function viewMenuItems($menutype, $option) {
 /**
  * Displays a selection list for menu item types
  */
-function addMenuItem(&$cid, $menutype, $option, $task) {
+function addMenuItem(&$cid, $menutype, $option, $task){
 	$types = array();
-    
-    //вычисляем каталоги
-    $directories = BossDirectory::getDirectories();
+
+	//вычисляем каталоги
+	$directories = BossDirectory::getDirectories();
 	// list of directories
 	$dirs = mosReadDirectory(JPATH_BASE_ADMIN . DS . 'components/com_menus');
 
 	// load files for menu types
 	$n = 0;
-	foreach ($dirs as $dir) {
+	foreach($dirs as $dir){
 		// needed within menu type .php files
 		$type = $dir;
 		$dir = JPATH_BASE_ADMIN . DS . 'components/com_menus/' . $dir;
-		if (is_dir($dir)) {
+		if(is_dir($dir)){
 			$files = mosReadDirectory($dir, ".\.menu\.php$");
-			foreach ($files as $file) {
+			foreach($files as $file){
 				//require_once ("$dir/$file");
 				// type of menu type
 				$types[$n] = new stdClass();
@@ -272,7 +256,7 @@ function addMenuItem(&$cid, $menutype, $option, $task) {
 	}
 
 	$i = 0;
-	foreach ($types as $type) {
+	foreach($types as $type){
 		// pulls name and description from menu type xml
 		$row = ReadMenuXML($type->type);
 		$types[$i]->name = $row[0];
@@ -286,38 +270,38 @@ function addMenuItem(&$cid, $menutype, $option, $task) {
 	SortArrayObjects($types, 'name', 1);
 
 	$types_content = array();
-    $types_link = array();
-    $types_component = array();
-    $types_other = array();
-    $types_submit = array();
+	$types_link = array();
+	$types_component = array();
+	$types_other = array();
+	$types_submit = array();
 
 	$i = 0;
-	foreach ($types as $type) {
-        // split into Content
-		if (strstr($type->group, 'Boss')) {
+	foreach($types as $type){
+		// split into Content
+		if(strstr($type->group, 'Boss')){
 			$types_content[] = $types[$i];
 		}
 
-        // split into Links
-        if (strstr($type->group, 'Link')) {
+		// split into Links
+		if(strstr($type->group, 'Link')){
 			$types_link[] = $types[$i];
 		}
 
-        // split into Component
-        if (strstr($type->group, 'Component')) {
+		// split into Component
+		if(strstr($type->group, 'Component')){
 			$types_component[] = $types[$i];
 		}
 
-        // split into Other
-        if (strstr($type->group, 'Other') || !$type->group) {
+		// split into Other
+		if(strstr($type->group, 'Other') || !$type->group){
 			$types_other[] = $types[$i];
 		}
 
-        // split into Submit
-        if (strstr($type->group, 'Submit') || !$type->group) {
+		// split into Submit
+		if(strstr($type->group, 'Submit') || !$type->group){
 			$types_submit[] = $types[$i];
 		}
-        
+
 		$i++;
 	}
 
@@ -327,15 +311,15 @@ function addMenuItem(&$cid, $menutype, $option, $task) {
 /**
  * Generic function to save the menu
  */
-function saveMenu($option, $task = 'save') {
+function saveMenu($option, $task = 'save'){
 	josSpoofCheck();
 
 	$database = database::getInstance();
 
 	$params = mosGetParam($_POST, 'params', '');
-	if (is_array($params)) {
+	if(is_array($params)){
 		$txt = array();
-		foreach ($params as $k => $v) {
+		foreach($params as $k => $v){
 			$txt[] = "$k=$v";
 		}
 		$_POST['params'] = mosParameters::textareaHandling($txt);
@@ -343,26 +327,26 @@ function saveMenu($option, $task = 'save') {
 
 	$row = new mosMenu($database);
 
-	if (!$row->bind($_POST)) {
+	if(!$row->bind($_POST)){
 		echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	$row->name = ampReplace($row->name);
 
-	if (!$row->check()) {
+	if(!$row->check()){
 		echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	if (!$row->store()) {
+	if(!$row->store()){
 		echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder('menutype = ' . $database->Quote($row->menutype) . ' AND parent = ' . (int) $row->parent);
+	$row->updateOrder('menutype = ' . $database->Quote($row->menutype) . ' AND parent = ' . (int)$row->parent);
 
 	$msg = _MENU_ITEM_SAVED;
-	switch ($task) {
+	switch($task){
 		case 'apply':
 			mosRedirect('index2.php?option=' . $option . '&menutype=' . $row->menutype . '&task=edit&id=' . $row->id . '&hidemainmenu=1', $msg);
 			break;
@@ -386,27 +370,27 @@ function saveMenu($option, $task = 'save') {
  * @param array An array of id numbers
  * @param integer 0 if unpublishing, 1 if publishing
  */
-function publishMenuSection($cid = null, $publish = 1, $menutype) {
+function publishMenuSection($cid = null, $publish = 1, $menutype){
 
 	$database = database::getInstance();
 
-	if (!is_array($cid) || count($cid) < 1) {
+	if(!is_array($cid) || count($cid) < 1){
 		return _CHOOSE_OBJECT_FOR . ' ' . ($publish ? 'publish' : 'unpublish');
 	}
 
 	$menu = new mosMenu($database);
-	foreach ($cid as $id) {
+	foreach($cid as $id){
 		$menu->load($id);
 		$menu->published = $publish;
 
-		if (!$menu->check()) {
+		if(!$menu->check()){
 			return $menu->getError();
 		}
-		if (!$menu->store()) {
+		if(!$menu->store()){
 			return $menu->getError();
 		}
 
-		if ($menu->type) {
+		if($menu->type){
 			$database = &$database;
 			$task = $publish ? 'publish' : 'unpublish';
 			// $type value is used in*.menu.php
@@ -424,21 +408,21 @@ function publishMenuSection($cid = null, $publish = 1, $menutype) {
 /**
  * Trashes a menu record
  */
-function TrashMenuSection($cid = null, $menutype = 'mainmenu') {
+function TrashMenuSection($cid = null, $menutype = 'mainmenu'){
 	$database = database::getInstance();
 
 	$nullDate = $database->getNullDate();
 	$state = -2;
 
-	$query = "SELECT* FROM #__menu WHERE menutype = " . $database->Quote($menutype) . "\n AND published != " . (int) $state . "\n ORDER BY menutype, parent, ordering";
+	$query = "SELECT* FROM #__menu WHERE menutype = " . $database->Quote($menutype) . "\n AND published != " . (int)$state . "\n ORDER BY menutype, parent, ordering";
 	$database->setQuery($query);
 	$mitems = $database->loadObjectList();
 
 	// determine if selected item has an child items
 	$children = array();
-	foreach ($cid as $id) {
-		foreach ($mitems as $item) {
-			if ($item->parent == $id) {
+	foreach($cid as $id){
+		foreach($mitems as $item){
+			if($item->parent == $id){
 				$children[] = $item->id;
 			}
 		}
@@ -449,9 +433,9 @@ function TrashMenuSection($cid = null, $menutype = 'mainmenu') {
 	mosArrayToInts($list);
 	$ids = 'id=' . implode(' OR id=', $list);
 
-	$query = "UPDATE #__menu SET published = " . (int) $state . ", ordering = 0, checked_out = 0, checked_out_time = " . $database->Quote($nullDate) . " WHERE ( $ids )";
+	$query = "UPDATE #__menu SET published = " . (int)$state . ", ordering = 0, checked_out = 0, checked_out_time = " . $database->Quote($nullDate) . " WHERE ( $ids )";
 	$database->setQuery($query);
-	if (!$database->query()) {
+	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -468,7 +452,7 @@ function TrashMenuSection($cid = null, $menutype = 'mainmenu') {
 /**
  * Cancels an edit operation
  */
-function cancelMenu($option) {
+function cancelMenu($option){
 	josSpoofCheck();
 
 	$database = database::getInstance();
@@ -476,7 +460,7 @@ function cancelMenu($option) {
 	$menu = new mosMenu($database);
 	$menu->bind($_POST);
 	$menuid = intval(mosGetParam($_POST, 'menuid', 0));
-	if ($menuid) {
+	if($menuid){
 		$menu->id = $menuid;
 	}
 	$menu->checkin();
@@ -488,12 +472,12 @@ function cancelMenu($option) {
  * Moves the order of a record
  * @param integer The increment to reorder by
  */
-function orderMenu($uid, $inc, $option) {
+function orderMenu($uid, $inc, $option){
 	$database = database::getInstance();
 
 	$row = new mosMenu($database);
 	$row->load($uid);
-	$row->move($inc, "menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int) $row->parent);
+	$row->move($inc, "menutype = " . $database->Quote($row->menutype) . " AND parent = " . (int)$row->parent);
 
 	// clean any existing cache files
 	mosCache::cleanCache('com_boss');
@@ -505,17 +489,17 @@ function orderMenu($uid, $inc, $option) {
  * changes the access level of a record
  * @param integer The increment to reorder by
  */
-function accessMenu($uid, $access, $option, $menutype) {
+function accessMenu($uid, $access, $option, $menutype){
 	$database = database::getInstance();
 
 	$menu = new mosMenu($database);
 	$menu->load($uid);
 	$menu->access = $access;
 
-	if (!$menu->check()) {
+	if(!$menu->check()){
 		return $menu->getError();
 	}
-	if (!$menu->store()) {
+	if(!$menu->store()){
 		return $menu->getError();
 	}
 
@@ -528,10 +512,10 @@ function accessMenu($uid, $access, $option, $menutype) {
 /**
  * Form for moving item(s) to a specific menu
  */
-function moveMenu($option, $cid, $menutype) {
+function moveMenu($option, $cid, $menutype){
 	$database = database::getInstance();
 
-	if (!is_array($cid) || count($cid) < 1) {
+	if(!is_array($cid) || count($cid) < 1){
 		echo "<script> alert('" . _CHOOSE_OBJECT_TO_MOVE . "'); window.history.go(-1);</script>\n";
 		exit;
 	}
@@ -545,7 +529,7 @@ function moveMenu($option, $cid, $menutype) {
 
 	$menuTypes = mosAdminMenus::menutypes();
 
-	foreach ($menuTypes as $menuType) {
+	foreach($menuTypes as $menuType){
 		$menu[] = mosHTML::makeOption($menuType, $menuType);
 	}
 
@@ -558,24 +542,24 @@ function moveMenu($option, $cid, $menutype) {
 /**
  * Add all descendants to list of meni id's
  */
-function addDescendants($id, &$cid) {
+function addDescendants($id, &$cid){
 	$database = database::getInstance();
 
-	$query = "SELECT id FROM #__menu WHERE parent = " . (int) $id;
+	$query = "SELECT id FROM #__menu WHERE parent = " . (int)$id;
 	$database->setQuery($query);
 	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();
 	} // if
-	foreach ($rows as $row) {
+	foreach($rows as $row){
 		$found = false;
-		foreach ($cid as $idx)
-			if ($idx == $row->id) {
+		foreach($cid as $idx)
+			if($idx == $row->id){
 				$found = true;
 				break;
 			} // if
-		if (!$found)
+		if(!$found)
 			$cid[] = $row->id;
 		addDescendants($row->id, $cid);
 	} // foreach
@@ -586,44 +570,44 @@ function addDescendants($id, &$cid) {
 /**
  * Save the item(s) to the menu selected
  */
-function moveMenuSave($option, $cid, $menu, $menutype) {
+function moveMenuSave($option, $cid, $menu, $menutype){
 	$database = database::getInstance();
 
 	// add all decendants to the list
-	foreach ($cid as $id)
+	foreach($cid as $id)
 		addDescendants($id, $cid);
 
 	$row = new mosMenu($database);
 	$ordering = 1000000;
 	$firstroot = 0;
-	foreach ($cid as $id) {
+	foreach($cid as $id){
 		$row->load($id);
 
 		// is it moved together with his parent?
 		$found = false;
-		if ($row->parent != 0)
-			foreach ($cid as $idx)
-				if ($idx == $row->parent) {
+		if($row->parent != 0)
+			foreach($cid as $idx)
+				if($idx == $row->parent){
 					$found = true;
 					break;
 				} // if
-				if (!$found) {
+		if(!$found){
 			$row->parent = 0;
 			$row->ordering = $ordering++;
-			if (!$firstroot)
+			if(!$firstroot)
 				$firstroot = $row->id;
 		} // if
 
 		$row->menutype = $menu;
-		if (!$row->store()) {
+		if(!$row->store()){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 			exit();
 		} // if
 	} // foreach
 
-	if ($firstroot) {
+	if($firstroot){
 		$row->load($firstroot);
-		$row->updateOrder('menutype = ' . $database->Quote($row->menutype) . ' AND parent = ' . (int) $row->parent);
+		$row->updateOrder('menutype = ' . $database->Quote($row->menutype) . ' AND parent = ' . (int)$row->parent);
 	} // if
 	// clean any existing cache files
 	mosCache::cleanCache('com_boss');
@@ -637,10 +621,10 @@ function moveMenuSave($option, $cid, $menu, $menutype) {
 /**
  * Form for copying item(s) to a specific menu
  */
-function copyMenu($option, $cid, $menutype) {
+function copyMenu($option, $cid, $menutype){
 	$database = database::getInstance();
 
-	if (!is_array($cid) || count($cid) < 1) {
+	if(!is_array($cid) || count($cid) < 1){
 		echo "<script> alert('" . _CHOOSE_OBJECT_TO_MOVE . "'); window.history.go(-1);</script>\n";
 		exit;
 	}
@@ -654,7 +638,7 @@ function copyMenu($option, $cid, $menutype) {
 
 	$menuTypes = mosAdminMenus::menutypes();
 
-	foreach ($menuTypes as $menuType) {
+	foreach($menuTypes as $menuType){
 		$menu[] = mosHTML::makeOption($menuType, $menuType);
 	}
 	// build the html select list
@@ -666,40 +650,40 @@ function copyMenu($option, $cid, $menutype) {
 /**
  * Save the item(s) to the menu selected
  */
-function copyMenuSave($option, $cid, $menu, $menutype) {
+function copyMenuSave($option, $cid, $menu, $menutype){
 	$database = database::getInstance();
 
 	$curr = new mosMenu($database);
 	$cidref = array();
-	foreach ($cid as $id) {
+	foreach($cid as $id){
 		$curr->load($id);
 		$curr->id = null;
-		if (!$curr->store()) {
+		if(!$curr->store()){
 			mosErrorAlert($curr->getError());
 			exit();
 		}
 		$cidref[] = array($id, $curr->id);
 	}
-	foreach ($cidref as $ref) {
+	foreach($cidref as $ref){
 		$curr->load($ref[1]);
-		if ($curr->parent != 0) {
+		if($curr->parent != 0){
 			$found = false;
-			foreach ($cidref as $ref2)
-				if ($curr->parent == $ref2[0]) {
+			foreach($cidref as $ref2)
+				if($curr->parent == $ref2[0]){
 					$curr->parent = $ref2[1];
 					$found = true;
 					break;
 				} // if
-			if (!$found && $curr->menutype != $menu)
+			if(!$found && $curr->menutype != $menu)
 				$curr->parent = 0;
 		} // if
 		$curr->menutype = $menu;
 		$curr->ordering = '9999';
-		if (!$curr->store()) {
+		if(!$curr->store()){
 			mosErrorAlert($curr->getError());
 			exit();
 		}
-		$curr->updateOrder('menutype = ' . $database->Quote($curr->menutype) . ' AND parent = ' . (int) $curr->parent);
+		$curr->updateOrder('menutype = ' . $database->Quote($curr->menutype) . ' AND parent = ' . (int)$curr->parent);
 	} // foreach
 	// clean any existing cache files
 	mosCache::cleanCache('com_boss');
@@ -708,7 +692,7 @@ function copyMenuSave($option, $cid, $menu, $menutype) {
 	mosRedirect('index2.php?option=' . $option . '&menutype=' . $menutype, $msg);
 }
 
-function ReadMenuXML($type, $component = -1) {
+function ReadMenuXML($type, $component = -1){
 
 	// XML library
 	require_once (JPATH_BASE . '/includes/domit/xml_domit_lite_include.php');
@@ -720,11 +704,11 @@ function ReadMenuXML($type, $component = -1) {
 
 	$name = $descrip = $group = '';
 
-	if ($xmlDoc->loadXML($xmlfile, false, true)) {
+	if($xmlDoc->loadXML($xmlfile, false, true)){
 
 		$root = $xmlDoc->documentElement;
 
-		if ($root->getTagName() == 'mosinstall' && ($root->getAttribute('type') == 'component' || $root->getAttribute('type') == 'menu')) {
+		if($root->getTagName() == 'mosinstall' && ($root->getAttribute('type') == 'component' || $root->getAttribute('type') == 'menu')){
 			// Menu Type Name
 			$element = $root->getElementsByPath('name', 1);
 			$name = $element ? trim($element->getText()) : '';
@@ -737,7 +721,7 @@ function ReadMenuXML($type, $component = -1) {
 		}
 	}
 
-	if (($component != -1) && ($name == 'Component')) {
+	if(($component != -1) && ($name == 'Component')){
 		$name .= ' - ' . $component;
 	}
 
@@ -749,7 +733,7 @@ function ReadMenuXML($type, $component = -1) {
 	return $row;
 }
 
-function saveOrder(&$cid, $menutype) {
+function saveOrder(&$cid, $menutype){
 	josSpoofCheck();
 
 	$database = database::getInstance();
@@ -761,29 +745,29 @@ function saveOrder(&$cid, $menutype) {
 	$conditions = array();
 
 	// update ordering values
-	for ($i = 0; $i < $total; $i++) {
-		$row->load((int) $cid[$i]);
-		if ($row->ordering != $order[$i]) {
+	for($i = 0; $i < $total; $i++){
+		$row->load((int)$cid[$i]);
+		if($row->ordering != $order[$i]){
 			$row->ordering = $order[$i];
-			if (!$row->store()) {
+			if(!$row->store()){
 				echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 				exit();
 			}
 			// remember to updateOrder this group
-			$condition = "menutype = " . $database->Quote($menutype) . " AND parent = " . (int) $row->parent . " AND published >= 0";
+			$condition = "menutype = " . $database->Quote($menutype) . " AND parent = " . (int)$row->parent . " AND published >= 0";
 			$found = false;
-			foreach ($conditions as $cond)
-				if ($cond[1] == $condition) {
+			foreach($conditions as $cond)
+				if($cond[1] == $condition){
 					$found = true;
 					break;
 				}
-			if (!$found)
+			if(!$found)
 				$conditions[] = array($row->id, $condition);
 		}
 	}
 
 	// execute updateOrder for each group
-	foreach ($conditions as $cond) {
+	foreach($conditions as $cond){
 		$row->load($cond[0]);
 		$row->updateOrder($cond[1]);
 	}
@@ -797,22 +781,22 @@ function saveOrder(&$cid, $menutype) {
 
 /**
  * Returns list of child items for a given set of ids from menu items supplied
- *
+
  */
-function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level = 0) {
+function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level = 0){
 	// check to reduce recursive processing
-	if ($level <= $maxlevel && count($parents)) {
+	if($level <= $maxlevel && count($parents)){
 		$children = array();
-		foreach ($parents as $id) {
-			foreach ($mitems as $item) {
-				if ($item->parent == $id) {
+		foreach($parents as $id){
+			foreach($mitems as $item){
+				if($item->parent == $id){
 					$children[] = $item->id;
 				}
 			}
 		}
 
 		// check to reduce recursive processing
-		if (count($children)) {
+		if(count($children)){
 			$list = josMenuChildrenRecurse($mitems, $children, $list, $maxlevel, $level + 1);
 
 			$list = array_merge($list, $children);
@@ -824,40 +808,40 @@ function josMenuChildrenRecurse($mitems, $parents, $list, $maxlevel = 20, $level
 
 //вычисляет ид каталога из ссылки меню
 function getDirectory($menu){
-    $directory = mosGetParam($_REQUEST, 'directory', 0);
-    if($directory == 0){
-        $linkArr = uriToArray($menu->link);
-        $directory = (int)$linkArr['directory'];
-    }
-    return $directory;
+	$directory = mosGetParam($_REQUEST, 'directory', 0);
+	if($directory == 0){
+		$linkArr = uriToArray($menu->link);
+		$directory = (int)$linkArr['directory'];
+	}
+	return $directory;
 }
 
 //вычисляет ид категории из ссылки меню
 function getBossSelectedCat($menu){
-        $linkArr = uriToArray($menu->link);
-        $return = (isset($linkArr['catid']) && $linkArr['catid'] > 0) ? (int)$linkArr['catid'] : 0;
-    return $return;
+	$linkArr = uriToArray($menu->link);
+	$return = (isset($linkArr['catid']) && $linkArr['catid'] > 0) ? (int)$linkArr['catid'] : 0;
+	return $return;
 }
 
 //вычисляет ид кщнтента из ссылки меню
 function getBossSelectedContent($menu){
-        $linkArr = uriToArray($menu->link);
-        $return = (isset($linkArr['content_id']) && $linkArr['content_id'] > 0) ? (int)$linkArr['content_id'] : 0;
-    return $return;
+	$linkArr = uriToArray($menu->link);
+	$return = (isset($linkArr['content_id']) && $linkArr['content_id'] > 0) ? (int)$linkArr['content_id'] : 0;
+	return $return;
 }
 
 //преобразует ссылку в ассоциативный массив
 function uriToArray($link){
-    $linkValues = str_replace('index.php?', '', $link);
-    $linkValues = explode('&', $linkValues);
-    $linkArr = array();
-    
-    if(!((count($linkValues) == 1 && $linkValues[0] == '') || count($linkValues) == 0)){
-        foreach($linkValues as $linkValue){
-            $tmp = explode('=', $linkValue);
-            $linkArr[$tmp[0]] = $tmp[1];
-        }
-    }
+	$linkValues = str_replace('index.php?', '', $link);
+	$linkValues = explode('&', $linkValues);
+	$linkArr = array();
 
-    return $linkArr;
+	if(!((count($linkValues) == 1 && $linkValues[0] == '') || count($linkValues) == 0)){
+		foreach($linkValues as $linkValue){
+			$tmp = explode('=', $linkValue);
+			$linkArr[$tmp[0]] = $tmp[1];
+		}
+	}
+
+	return $linkArr;
 }

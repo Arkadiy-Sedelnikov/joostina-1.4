@@ -1,16 +1,13 @@
 <?php
 /**
-* 
-* prettyPhoto
-* 
-* Ссылки:
-* 1. http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/
-* 2. http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/prettyphoto-faqs/
-*
-* Лицензия:
-* 1. Creative Commons Attribution 2.5.
-* 
-*/
+ * prettyPhoto
+ * Ссылки:
+ * 1. http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/
+ * 2. http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/prettyphoto-faqs/
+ * Лицензия:
+ * 1. Creative Commons Attribution 2.5.
+
+ */
 
 
 animation_speed: 'fast', /* fast/slow/normal */
@@ -31,8 +28,10 @@ modal: false, /* If set to true, only the close button will close the window */
 deeplinking: true, /* Allow prettyPhoto to update the url to enable deeplinking. */
 overlay_gallery: true, /* If set to true, a gallery will overlay the fullscreen image on mouse over */
 keyboard_shortcuts: true, /* Set to false if you open forms inside prettyPhoto */
-changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
-callback: function(){}, /* Called when prettyPhoto is closed */
+changepicturecallback: function(){
+}, /* Called everytime an item is shown/changed */
+callback: function(){
+}, /* Called when prettyPhoto is closed */
 ie6_fallback: true,
 markup: '<div class="pp_pic_holder"> \
 			<div class="ppt">&nbsp;</div> \

@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="component">
-	<name>boss</name>
-	<creationDate>14:10:2011</creationDate>
-	<author>Joostina Team</author>
-	<copyright>This component is released under the GNU/GPL License.</copyright>
-	<authorEmail>info@joostina.ru</authorEmail>
-	<authorUrl>www.joostina.ru</authorUrl>
-	<version>1.1.0.1 alpha3</version>
-	<files>
-		<filename>front.zip</filename>		
-	</files>
+    <name>boss</name>
+    <creationDate>14:10:2011</creationDate>
+    <author>Joostina Team</author>
+    <copyright>This component is released under the GNU/GPL License.</copyright>
+    <authorEmail>info@joostina.ru</authorEmail>
+    <authorUrl>www.joostina.ru</authorUrl>
+    <version>1.1.0.1 alpha3</version>
+    <files>
+        <filename>front.zip</filename>
+    </files>
 
-	<installfile>install.boss.php</installfile>
-	<uninstallfile>uninstall.boss.php</uninstallfile>
+    <installfile>install.boss.php</installfile>
+    <uninstallfile>uninstall.boss.php</uninstallfile>
 
-	<administration>
-		<menu>JoiBOSS CCK</menu>
-		<submenu>
-			<menu act="categories">Категории</menu>
-			<menu act="contents">Контент</menu>
-			<menu act="manager">Управление</menu>
-			<menu act="configuration" task="edit">Конфигурация</menu>
-			<menu act="fields">Поля</menu>			
-			<menu act="templates">Шаблоны</menu>
-			<menu act="plugins">Расширения</menu>
-			<menu act="fieldimage">Изображения</menu>
+    <administration>
+        <menu>JoiBOSS CCK</menu>
+        <submenu>
+            <menu act="categories">Категории</menu>
+            <menu act="contents">Контент</menu>
+            <menu act="manager">Управление</menu>
+            <menu act="configuration" task="edit">Конфигурация</menu>
+            <menu act="fields">Поля</menu>
+            <menu act="templates">Шаблоны</menu>
+            <menu act="plugins">Расширения</menu>
+            <menu act="fieldimage">Изображения</menu>
             <menu act="export_import">Импорт / экспорт</menu>
             <menu act="users">Пользователи</menu>
-		</submenu>
-		<files>
-            <filename>admin.zip</filename>            
+        </submenu>
+        <files>
+            <filename>admin.zip</filename>
             <filename>templates.zip</filename>
-		</files>
-	</administration>
-	<params>
-        <param name="directory" type="selectlist" sql="SELECT id, name as title FROM `#__boss_config`" DEFAULT="1" label="Каталог"  description="Выбрать каталог для показа по этой ссылке" />
+        </files>
+    </administration>
+    <params>
+        <param name="directory" type="selectlist" sql="SELECT id, name as title FROM `#__boss_config`" DEFAULT="1" label="Каталог" description="Выбрать каталог для показа по этой ссылке"/>
     </params>
     <description>
         <h1>JoiBOSS для Joostina CMS! на основе Jdirectory от Thomas Papin</h1>

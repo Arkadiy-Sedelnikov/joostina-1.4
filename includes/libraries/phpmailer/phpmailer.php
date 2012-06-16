@@ -42,7 +42,7 @@ defined('_VALID_MOS') or die();
  * @copyright 2004 - 2009 Andy Prevost
  */
 
-class mosPHPMailer {
+class mosPHPMailer{
 	/////////////////////////////////////////////////
 	// PROPERTIES, PUBLIC
 	/////////////////////////////////////////////////
@@ -240,7 +240,7 @@ class mosPHPMailer {
 	var $sign_key_file = "";
 	var $sign_key_pass = "";
 
-	public function mosPHPMailer() {
+	public function mosPHPMailer(){
 		$this->PluginDir = JPATH_BASE . DS . 'includes/libraries/phpmailer/';
 	}
 
@@ -253,10 +253,10 @@ class mosPHPMailer {
 	 * @param bool $bool
 	 * @return void
 	 */
-	function IsHTML($bool) {
-		if ($bool == true) {
+	function IsHTML($bool){
+		if($bool == true){
 			$this->ContentType = 'text/html';
-		} else {
+		} else{
 			$this->ContentType = 'text/plain';
 		}
 	}
@@ -265,7 +265,7 @@ class mosPHPMailer {
 	 * Sets Mailer to send message using SMTP.
 	 * @return void
 	 */
-	function IsSMTP() {
+	function IsSMTP(){
 		$this->Mailer = 'smtp';
 	}
 
@@ -273,7 +273,7 @@ class mosPHPMailer {
 	 * Sets Mailer to send message using PHP mail() function.
 	 * @return void
 	 */
-	function IsMail() {
+	function IsMail(){
 		$this->Mailer = 'mail';
 	}
 
@@ -281,7 +281,7 @@ class mosPHPMailer {
 	 * Sets Mailer to send message using the $Sendmail program.
 	 * @return void
 	 */
-	function IsSendmail() {
+	function IsSendmail(){
 		$this->Mailer = 'sendmail';
 	}
 
@@ -289,7 +289,7 @@ class mosPHPMailer {
 	 * Sets Mailer to send message using the qmail MTA.
 	 * @return void
 	 */
-	function IsQmail() {
+	function IsQmail(){
 		$this->Sendmail = '/var/qmail/bin/sendmail';
 		$this->Mailer = 'sendmail';
 	}
@@ -304,7 +304,7 @@ class mosPHPMailer {
 	 * @param string $name
 	 * @return void
 	 */
-	function AddAddress($address, $name = '') {
+	function AddAddress($address, $name = ''){
 		$cur = count($this->to);
 		$this->to[$cur][0] = trim($address);
 		$this->to[$cur][1] = $name;
@@ -318,7 +318,7 @@ class mosPHPMailer {
 	 * @param string $name
 	 * @return void
 	 */
-	function AddCC($address, $name = '') {
+	function AddCC($address, $name = ''){
 		$cur = count($this->cc);
 		$this->cc[$cur][0] = trim($address);
 		$this->cc[$cur][1] = $name;
@@ -332,7 +332,7 @@ class mosPHPMailer {
 	 * @param string $name
 	 * @return void
 	 */
-	function AddBCC($address, $name = '') {
+	function AddBCC($address, $name = ''){
 		$cur = count($this->bcc);
 		$this->bcc[$cur][0] = trim($address);
 		$this->bcc[$cur][1] = $name;
@@ -344,7 +344,7 @@ class mosPHPMailer {
 	 * @param string $name
 	 * @return void
 	 */
-	function AddReplyTo($address, $name = '') {
+	function AddReplyTo($address, $name = ''){
 		$cur = count($this->ReplyTo);
 		$this->ReplyTo[$cur][0] = trim($address);
 		$this->ReplyTo[$cur][1] = $name;
@@ -360,18 +360,18 @@ class mosPHPMailer {
 	 * variable to view description of the error.
 	 * @return bool
 	 */
-	function Send() {
+	function Send(){
 		$header = '';
 		$body = '';
 		$result = true;
 
-		if ((count($this->to) + count($this->cc) + count($this->bcc)) < 1) {
+		if((count($this->to) + count($this->cc) + count($this->bcc)) < 1){
 			$this->SetError($this->Lang('provide_address'));
 			return false;
 		}
 
 		/* Set whether the message is multipart/alternative */
-		if (!empty($this->AltBody)) {
+		if(!empty($this->AltBody)){
 			$this->ContentType = 'multipart/alternative';
 		}
 
@@ -380,12 +380,12 @@ class mosPHPMailer {
 		$header .= $this->CreateHeader();
 		$body = $this->CreateBody();
 
-		if ($body == '') {
+		if($body == ''){
 			return false;
 		}
 
 		/* Choose the mailer */
-		switch ($this->Mailer) {
+		switch($this->Mailer){
 			case 'sendmail':
 				$result = $this->SendmailSend($header, $body);
 				break;
@@ -411,14 +411,14 @@ class mosPHPMailer {
 	 * @access private
 	 * @return bool
 	 */
-	function SendmailSend($header, $body) {
-		if ($this->Sender != '') {
+	function SendmailSend($header, $body){
+		if($this->Sender != ''){
 			$sendmail = sprintf("%s -oi -f %s -t", escapeshellcmd($this->Sendmail), escapeshellarg($this->Sender));
-		} else {
+		} else{
 			$sendmail = sprintf("%s -oi -t", escapeshellcmd($this->Sendmail));
 		}
 
-		if (!@$mail = popen($sendmail, 'w')) {
+		if(!@$mail = popen($sendmail, 'w')){
 			$this->SetError($this->Lang('execute') . $this->Sendmail);
 			return false;
 		}
@@ -427,10 +427,10 @@ class mosPHPMailer {
 		fputs($mail, $body);
 
 		$result = pclose($mail);
-		if (version_compare(phpversion(), '4.2.3') == -1) {
+		if(version_compare(phpversion(), '4.2.3') == -1){
 			$result = $result >> 8 & 0xFF;
 		}
-		if ($result != 0) {
+		if($result != 0){
 			$this->SetError($this->Lang('execute') . $this->Sendmail);
 			return false;
 		}
@@ -442,11 +442,11 @@ class mosPHPMailer {
 	 * @access private
 	 * @return bool
 	 */
-	function MailSend($header, $body) {
+	function MailSend($header, $body){
 
 		$to = '';
-		for ($i = 0; $i < count($this->to); $i++) {
-			if ($i != 0) {
+		for($i = 0; $i < count($this->to); $i++){
+			if($i != 0){
 				$to .= ', ';
 			}
 			$to .= $this->AddrFormat($this->to[$i]);
@@ -455,31 +455,31 @@ class mosPHPMailer {
 		$toArr = explode(',', $to);
 
 		$params = sprintf("-oi -f %s", $this->Sender);
-		if ($this->Sender != '' && strlen(ini_get('safe_mode')) < 1) {
+		if($this->Sender != '' && strlen(ini_get('safe_mode')) < 1){
 			$old_from = ini_get('sendmail_from');
 			ini_set('sendmail_from', $this->Sender);
-			if ($this->SingleTo === true && count($toArr) > 1) {
-				foreach ($toArr as $key => $val) {
+			if($this->SingleTo === true && count($toArr) > 1){
+				foreach($toArr as $key => $val){
 					$rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
 				}
-			} else {
+			} else{
 				$rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
 			}
-		} else {
-			if ($this->SingleTo === true && count($toArr) > 1) {
-				foreach ($toArr as $key => $val) {
+		} else{
+			if($this->SingleTo === true && count($toArr) > 1){
+				foreach($toArr as $key => $val){
 					$rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
 				}
-			} else {
+			} else{
 				$rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header);
 			}
 		}
 
-		if (isset($old_from)) {
+		if(isset($old_from)){
 			ini_set('sendmail_from', $old_from);
 		}
 
-		if (!$rt) {
+		if(!$rt){
 			$this->SetError($this->Lang('instantiate'));
 			return false;
 		}
@@ -494,17 +494,17 @@ class mosPHPMailer {
 	 * @access private
 	 * @return bool
 	 */
-	function SmtpSend($header, $body) {
+	function SmtpSend($header, $body){
 		include_once($this->PluginDir . 'smtp.php');
 		$error = '';
 		$bad_rcpt = array();
 
-		if (!$this->SmtpConnect()) {
+		if(!$this->SmtpConnect()){
 			return false;
 		}
 
 		$smtp_from = ($this->Sender == '') ? $this->From : $this->Sender;
-		if (!$this->smtp->Mail($smtp_from)) {
+		if(!$this->smtp->Mail($smtp_from)){
 			$error = $this->Lang('from_failed') . $smtp_from;
 			$this->SetError($error);
 			$this->smtp->Reset();
@@ -512,25 +512,25 @@ class mosPHPMailer {
 		}
 
 		/* Attempt to send attach all recipients */
-		for ($i = 0; $i < count($this->to); $i++) {
-			if (!$this->smtp->Recipient($this->to[$i][0])) {
+		for($i = 0; $i < count($this->to); $i++){
+			if(!$this->smtp->Recipient($this->to[$i][0])){
 				$bad_rcpt[] = $this->to[$i][0];
 			}
 		}
-		for ($i = 0; $i < count($this->cc); $i++) {
-			if (!$this->smtp->Recipient($this->cc[$i][0])) {
+		for($i = 0; $i < count($this->cc); $i++){
+			if(!$this->smtp->Recipient($this->cc[$i][0])){
 				$bad_rcpt[] = $this->cc[$i][0];
 			}
 		}
-		for ($i = 0; $i < count($this->bcc); $i++) {
-			if (!$this->smtp->Recipient($this->bcc[$i][0])) {
+		for($i = 0; $i < count($this->bcc); $i++){
+			if(!$this->smtp->Recipient($this->bcc[$i][0])){
 				$bad_rcpt[] = $this->bcc[$i][0];
 			}
 		}
 
-		if (count($bad_rcpt) > 0) { // Create error message
-			for ($i = 0; $i < count($bad_rcpt); $i++) {
-				if ($i != 0) {
+		if(count($bad_rcpt) > 0){ // Create error message
+			for($i = 0; $i < count($bad_rcpt); $i++){
+				if($i != 0){
 					$error .= ', ';
 				}
 				$error .= $bad_rcpt[$i];
@@ -541,14 +541,14 @@ class mosPHPMailer {
 			return false;
 		}
 
-		if (!$this->smtp->Data($header . $body)) {
+		if(!$this->smtp->Data($header . $body)){
 			$this->SetError($this->Lang('data_not_accepted'));
 			$this->smtp->Reset();
 			return false;
 		}
-		if ($this->SMTPKeepAlive == true) {
+		if($this->SMTPKeepAlive == true){
 			$this->smtp->Reset();
-		} else {
+		} else{
 			$this->SmtpClose();
 		}
 
@@ -561,8 +561,8 @@ class mosPHPMailer {
 	 * @access private
 	 * @return bool
 	 */
-	function SmtpConnect() {
-		if ($this->smtp == NULL) {
+	function SmtpConnect(){
+		if($this->smtp == NULL){
 			$this->smtp = new SMTP();
 		}
 
@@ -572,26 +572,26 @@ class mosPHPMailer {
 		$connection = ($this->smtp->Connected());
 
 		/* Retry while there is no connection */
-		while ($index < count($hosts) && $connection == false) {
+		while($index < count($hosts) && $connection == false){
 			$hostinfo = array();
-			if (preg_match('/^(.+):([0-9]+)$/i', $hosts[$index], $hostinfo)) {
+			if(preg_match('/^(.+):([0-9]+)$/i', $hosts[$index], $hostinfo)){
 				$host = $hostinfo[1];
 				$port = $hostinfo[2];
-			} else {
+			} else{
 				$host = $hosts[$index];
 				$port = $this->Port;
 			}
 
-			if ($this->smtp->Connect(((!empty($this->SMTPSecure)) ? $this->SMTPSecure . '://' : '') . $host, $port, $this->Timeout)) {
-				if ($this->Helo != '') {
+			if($this->smtp->Connect(((!empty($this->SMTPSecure)) ? $this->SMTPSecure . '://' : '') . $host, $port, $this->Timeout)){
+				if($this->Helo != ''){
 					$this->smtp->Hello($this->Helo);
-				} else {
+				} else{
 					$this->smtp->Hello($this->ServerHostname());
 				}
 
 				$connection = true;
-				if ($this->SMTPAuth) {
-					if (!$this->smtp->Authenticate($this->Username, $this->Password)) {
+				if($this->SMTPAuth){
+					if(!$this->smtp->Authenticate($this->Username, $this->Password)){
 						$this->SetError($this->Lang('authenticate'));
 						$this->smtp->Reset();
 						$connection = false;
@@ -600,7 +600,7 @@ class mosPHPMailer {
 			}
 			$index++;
 		}
-		if (!$connection) {
+		if(!$connection){
 			$this->SetError($this->Lang('connect_host'));
 		}
 
@@ -611,9 +611,9 @@ class mosPHPMailer {
 	 * Closes the active SMTP session if one exists.
 	 * @return void
 	 */
-	function SmtpClose() {
-		if ($this->smtp != NULL) {
-			if ($this->smtp->Connected()) {
+	function SmtpClose(){
+		if($this->smtp != NULL){
+			if($this->smtp->Connected()){
 				$this->smtp->Quit();
 				$this->smtp->Close();
 			}
@@ -629,21 +629,21 @@ class mosPHPMailer {
 	 * @access public
 	 * @return bool
 	 */
-	function SetLanguage($lang_type, $lang_path = 'language/') {
-		if (file_exists($lang_path . 'phpmailer.lang-' . $lang_type . '.php')) {
+	function SetLanguage($lang_type, $lang_path = 'language/'){
+		if(file_exists($lang_path . 'phpmailer.lang-' . $lang_type . '.php')){
 			include($lang_path . 'phpmailer.lang-' . $lang_type . '.php');
-		} elseif (file_exists($lang_path . 'phpmailer.lang-en.php')) {
+		} elseif(file_exists($lang_path . 'phpmailer.lang-en.php')){
 			include($lang_path . 'phpmailer.lang-en.php');
-		} else {
+		} else{
 			$PHPMAILER_LANG = array();
 			$PHPMAILER_LANG["provide_address"] = 'You must provide at least one ' .
-					$PHPMAILER_LANG["mailer_not_supported"] = ' mailer is not supported.';
+				$PHPMAILER_LANG["mailer_not_supported"] = ' mailer is not supported.';
 			$PHPMAILER_LANG["execute"] = 'Could not execute: ';
 			$PHPMAILER_LANG["instantiate"] = 'Could not instantiate mail function.';
 			$PHPMAILER_LANG["authenticate"] = 'SMTP Error: Could not authenticate.';
 			$PHPMAILER_LANG["from_failed"] = 'The following From address failed: ';
 			$PHPMAILER_LANG["recipients_failed"] = 'SMTP Error: The following ' .
-					$PHPMAILER_LANG["data_not_accepted"] = 'SMTP Error: Data not accepted.';
+				$PHPMAILER_LANG["data_not_accepted"] = 'SMTP Error: Data not accepted.';
 			$PHPMAILER_LANG["connect_host"] = 'SMTP Error: Could not connect to SMTP host.';
 			$PHPMAILER_LANG["file_access"] = 'Could not access file: ';
 			$PHPMAILER_LANG["file_open"] = 'File Error: Could not open file: ';
@@ -664,11 +664,11 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function AddrAppend($type, $addr) {
+	function AddrAppend($type, $addr){
 		$addr_str = $type . ': ';
 		$addr_str .= $this->AddrFormat($addr[0]);
-		if (count($addr) > 1) {
-			for ($i = 1; $i < count($addr); $i++) {
+		if(count($addr) > 1){
+			for($i = 1; $i < count($addr); $i++){
 				$addr_str .= ', ' . $this->AddrFormat($addr[$i]);
 			}
 		}
@@ -682,10 +682,10 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function AddrFormat($addr) {
-		if (empty($addr[1])) {
+	function AddrFormat($addr){
+		if(empty($addr[1])){
 			$formatted = $this->SecureHeader($addr[0]);
-		} else {
+		} else{
 			$formatted = $this->EncodeHeader($this->SecureHeader($addr[1]), 'phrase') . " <" . $this->SecureHeader($addr[0]) . ">";
 		}
 
@@ -699,68 +699,68 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function WrapText($message, $length, $qp_mode = false) {
+	function WrapText($message, $length, $qp_mode = false){
 		$soft_break = ($qp_mode) ? sprintf(" =%s", $this->LE) : $this->LE;
 		// If utf-8 encoding is used, we will need to make sure we don't
 		// split multibyte characters when we wrap
 		$is_utf8 = (strtolower($this->CharSet) == "utf-8");
 
 		$message = $this->FixEOL($message);
-		if (substr($message, -1) == $this->LE) {
+		if(substr($message, -1) == $this->LE){
 			$message = substr($message, 0, -1);
 		}
 
 		$line = explode($this->LE, $message);
 		$message = '';
-		for ($i = 0; $i < count($line); $i++) {
+		for($i = 0; $i < count($line); $i++){
 			$line_part = explode(' ', $line[$i]);
 			$buf = '';
-			for ($e = 0; $e < count($line_part); $e++) {
+			for($e = 0; $e < count($line_part); $e++){
 				$word = $line_part[$e];
-				if ($qp_mode and (strlen($word) > $length)) {
+				if($qp_mode and (strlen($word) > $length)){
 					$space_left = $length - strlen($buf) - 1;
-					if ($e != 0) {
-						if ($space_left > 20) {
+					if($e != 0){
+						if($space_left > 20){
 							$len = $space_left;
-							if ($is_utf8) {
+							if($is_utf8){
 								$len = $this->UTF8CharBoundary($word, $len);
-							} elseif (substr($word, $len - 1, 1) == "=") {
+							} elseif(substr($word, $len - 1, 1) == "="){
 								$len--;
-							} elseif (substr($word, $len - 2, 1) == "=") {
+							} elseif(substr($word, $len - 2, 1) == "="){
 								$len -= 2;
 							}
 							$part = substr($word, 0, $len);
 							$word = substr($word, $len);
 							$buf .= ' ' . $part;
 							$message .= $buf . sprintf("=%s", $this->LE);
-						} else {
+						} else{
 							$message .= $buf . $soft_break;
 						}
 						$buf = '';
 					}
-					while (strlen($word) > 0) {
+					while(strlen($word) > 0){
 						$len = $length;
-						if ($is_utf8) {
+						if($is_utf8){
 							$len = $this->UTF8CharBoundary($word, $len);
-						} elseif (substr($word, $len - 1, 1) == "=") {
+						} elseif(substr($word, $len - 1, 1) == "="){
 							$len--;
-						} elseif (substr($word, $len - 2, 1) == "=") {
+						} elseif(substr($word, $len - 2, 1) == "="){
 							$len -= 2;
 						}
 						$part = substr($word, 0, $len);
 						$word = substr($word, $len);
 
-						if (strlen($word) > 0) {
+						if(strlen($word) > 0){
 							$message .= $part . sprintf("=%s", $this->LE);
-						} else {
+						} else{
 							$buf = $part;
 						}
 					}
-				} else {
+				} else{
 					$buf_o = $buf;
-					$buf .= ( $e == 0) ? $word : (' ' . $word);
+					$buf .= ($e == 0) ? $word : (' ' . $word);
 
-					if (strlen($buf) > $length and $buf_o != '') {
+					if(strlen($buf) > $length and $buf_o != ''){
 						$message .= $buf_o . $soft_break;
 						$buf = $word;
 					}
@@ -781,31 +781,31 @@ class mosPHPMailer {
 	 * @param int    $maxLength   find last character boundary prior to this length
 	 * @return int
 	 */
-	function UTF8CharBoundary($encodedText, $maxLength) {
+	function UTF8CharBoundary($encodedText, $maxLength){
 		$foundSplitPos = false;
 		$lookBack = 3;
-		while (!$foundSplitPos) {
+		while(!$foundSplitPos){
 			$lastChunk = substr($encodedText, $maxLength - $lookBack, $lookBack);
 			$encodedCharPos = strpos($lastChunk, "=");
-			if ($encodedCharPos !== false) {
+			if($encodedCharPos !== false){
 				// Found start of encoded character byte within $lookBack block.
 				// Check the encoded byte value (the 2 chars after the '=')
 				$hex = substr($encodedText, $maxLength - $lookBack + $encodedCharPos + 1, 2);
 				$dec = hexdec($hex);
-				if ($dec < 128) { // Single byte character.
+				if($dec < 128){ // Single byte character.
 					// If the encoded char was found at pos 0, it will fit
 					// otherwise reduce maxLength to start of the encoded char
 					$maxLength = ($encodedCharPos == 0) ? $maxLength :
-							$maxLength - ($lookBack - $encodedCharPos);
+						$maxLength - ($lookBack - $encodedCharPos);
 					$foundSplitPos = true;
-				} elseif ($dec >= 192) { // First byte of a multi byte character
+				} elseif($dec >= 192){ // First byte of a multi byte character
 					// Reduce maxLength to split at start of character
 					$maxLength = $maxLength - ($lookBack - $encodedCharPos);
 					$foundSplitPos = true;
-				} elseif ($dec < 192) { // Middle byte of a multi byte character, look further back
+				} elseif($dec < 192){ // Middle byte of a multi byte character, look further back
 					$lookBack += 3;
 				}
-			} else {
+			} else{
 				// No encoded character found
 				$foundSplitPos = true;
 			}
@@ -818,14 +818,14 @@ class mosPHPMailer {
 	 * @access private
 	 * @return void
 	 */
-	function SetWordWrap() {
-		if ($this->WordWrap < 1) {
+	function SetWordWrap(){
+		if($this->WordWrap < 1){
 			return;
 		}
 
-		switch ($this->message_type) {
+		switch($this->message_type){
 			case 'alt':
-			/* fall through */
+				/* fall through */
 			case 'alt_attachments':
 				$this->AltBody = $this->WrapText($this->AltBody, $this->WordWrap);
 				break;
@@ -840,7 +840,7 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function CreateHeader() {
+	function CreateHeader(){
 		$result = '';
 
 		/* Set the boundaries */
@@ -849,17 +849,17 @@ class mosPHPMailer {
 		$this->boundary[2] = 'b2_' . $uniq_id;
 
 		$result .= $this->HeaderLine('Date', $this->RFCDate());
-		if ($this->Sender == '') {
+		if($this->Sender == ''){
 			$result .= $this->HeaderLine('Return-Path', trim($this->From));
-		} else {
+		} else{
 			$result .= $this->HeaderLine('Return-Path', trim($this->Sender));
 		}
 
 		/* To be created automatically by mail() */
-		if ($this->Mailer != 'mail') {
-			if (count($this->to) > 0) {
+		if($this->Mailer != 'mail'){
+			if(count($this->to) > 0){
 				$result .= $this->AddrAppend('To', $this->to);
-			} elseif (count($this->cc) == 0) {
+			} elseif(count($this->cc) == 0){
 				$result .= $this->HeaderLine('To', 'undisclosed-recipients:;');
 			}
 		}
@@ -870,41 +870,41 @@ class mosPHPMailer {
 		$result .= $this->AddrAppend('From', $from);
 
 		/* sendmail and mail() extract Cc from the header before sending */
-		if ((($this->Mailer == 'sendmail') || ($this->Mailer == 'mail')) && (count($this->cc) > 0)) {
+		if((($this->Mailer == 'sendmail') || ($this->Mailer == 'mail')) && (count($this->cc) > 0)){
 			$result .= $this->AddrAppend('Cc', $this->cc);
 		}
 
 		/* sendmail and mail() extract Bcc from the header before sending */
-		if ((($this->Mailer == 'sendmail') || ($this->Mailer == 'mail')) && (count($this->bcc) > 0)) {
+		if((($this->Mailer == 'sendmail') || ($this->Mailer == 'mail')) && (count($this->bcc) > 0)){
 			$result .= $this->AddrAppend('Bcc', $this->bcc);
 		}
 
-		if (count($this->ReplyTo) > 0) {
+		if(count($this->ReplyTo) > 0){
 			$result .= $this->AddrAppend('Reply-To', $this->ReplyTo);
 		}
 
 		/* mail() sets the subject itself */
-		if ($this->Mailer != 'mail') {
+		if($this->Mailer != 'mail'){
 			$result .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader($this->Subject)));
 		}
 
-		if ($this->MessageID != '') {
+		if($this->MessageID != ''){
 			$result .= $this->HeaderLine('Message-ID', $this->MessageID);
-		} else {
+		} else{
 			$result .= sprintf("Message-ID: <%s@%s>%s", $uniq_id, $this->ServerHostname(), $this->LE);
 		}
 		$result .= $this->HeaderLine('X-Priority', $this->Priority);
 		$result .= $this->HeaderLine('X-Mailer', 'PHPMailer (phpmailer.sourceforge.net) [version ' . $this->Version . ']');
 
-		if ($this->ConfirmReadingTo != '') {
+		if($this->ConfirmReadingTo != ''){
 			$result .= $this->HeaderLine('Disposition-Notification-To', '<' . trim($this->ConfirmReadingTo) . '>');
 		}
 
 		// Add custom headers
-		for ($index = 0; $index < count($this->CustomHeader); $index++) {
+		for($index = 0; $index < count($this->CustomHeader); $index++){
 			$result .= $this->HeaderLine(trim($this->CustomHeader[$index][0]), $this->EncodeHeader(trim($this->CustomHeader[$index][1])));
 		}
-		if (!$this->sign_key_file) {
+		if(!$this->sign_key_file){
 			$result .= $this->HeaderLine('MIME-Version', '1.0');
 			$result .= $this->GetMailMIME();
 		}
@@ -917,19 +917,19 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function GetMailMIME() {
+	function GetMailMIME(){
 		$result = '';
-		switch ($this->message_type) {
+		switch($this->message_type){
 			case 'plain':
 				$result .= $this->HeaderLine('Content-Transfer-Encoding', $this->Encoding);
 				$result .= sprintf("Content-Type: %s; charset=\"%s\"", $this->ContentType, $this->CharSet);
 				break;
 			case 'attachments':
-			/* fall through */
+				/* fall through */
 			case 'alt_attachments':
-				if ($this->InlineImageExists()) {
+				if($this->InlineImageExists()){
 					$result .= sprintf("Content-Type: %s;%s\ttype=\"text/html\";%s\tboundary=\"%s\"%s", 'multipart/related', $this->LE, $this->LE, $this->boundary[1], $this->LE);
-				} else {
+				} else{
 					$result .= $this->HeaderLine('Content-Type', 'multipart/mixed;');
 					$result .= $this->TextLine("\tboundary=\"" . $this->boundary[1] . '"');
 				}
@@ -940,7 +940,7 @@ class mosPHPMailer {
 				break;
 		}
 
-		if ($this->Mailer != 'mail') {
+		if($this->Mailer != 'mail'){
 			$result .= $this->LE . $this->LE;
 		}
 
@@ -952,15 +952,15 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function CreateBody() {
+	function CreateBody(){
 		$result = '';
-		if ($this->sign_key_file) {
+		if($this->sign_key_file){
 			$result .= $this->GetMailMIME();
 		}
 
 		$this->SetWordWrap();
 
-		switch ($this->message_type) {
+		switch($this->message_type){
 			case 'alt':
 				$result .= $this->GetBoundary($this->boundary[1], '', 'text/plain', '');
 				$result .= $this->EncodeString($this->AltBody, $this->Encoding);
@@ -993,24 +993,24 @@ class mosPHPMailer {
 				break;
 		}
 
-		if ($this->IsError()) {
+		if($this->IsError()){
 			$result = '';
-		} else if ($this->sign_key_file) {
+		} else if($this->sign_key_file){
 			$file = tempnam("", "mail");
 			$fp = fopen($file, "w");
 			fwrite($fp, $result);
 			fclose($fp);
 			$signed = tempnam("", "signed");
 
-			if (@openssl_pkcs7_sign($file, $signed, "file://" . $this->sign_cert_file, array("file://" . $this->sign_key_file, $this->sign_key_pass), null)) {
+			if(@openssl_pkcs7_sign($file, $signed, "file://" . $this->sign_cert_file, array("file://" . $this->sign_key_file, $this->sign_key_pass), null)){
 				$fp = fopen($signed, "r");
 				$result = fread($fp, filesize($this->sign_key_file));
 				$result = '';
-				while (!feof($fp)) {
+				while(!feof($fp)){
 					$result = $result . fread($fp, 1024);
 				}
 				fclose($fp);
-			} else {
+			} else{
 				$this->SetError($this->Lang("signing") . openssl_error_string());
 				$result = '';
 			}
@@ -1026,15 +1026,15 @@ class mosPHPMailer {
 	 * Returns the start of a message boundary.
 	 * @access private
 	 */
-	function GetBoundary($boundary, $charSet, $contentType, $encoding) {
+	function GetBoundary($boundary, $charSet, $contentType, $encoding){
 		$result = '';
-		if ($charSet == '') {
+		if($charSet == ''){
 			$charSet = $this->CharSet;
 		}
-		if ($contentType == '') {
+		if($contentType == ''){
 			$contentType = $this->ContentType;
 		}
-		if ($encoding == '') {
+		if($encoding == ''){
 			$encoding = $this->Encoding;
 		}
 		$result .= $this->TextLine('--' . $boundary);
@@ -1050,7 +1050,7 @@ class mosPHPMailer {
 	 * Returns the end of a message boundary.
 	 * @access private
 	 */
-	function EndBoundary($boundary) {
+	function EndBoundary($boundary){
 		return $this->LE . '--' . $boundary . '--' . $this->LE;
 	}
 
@@ -1059,17 +1059,17 @@ class mosPHPMailer {
 	 * @access private
 	 * @return void
 	 */
-	function SetMessageType() {
-		if (count($this->attachment) < 1 && strlen($this->AltBody) < 1) {
+	function SetMessageType(){
+		if(count($this->attachment) < 1 && strlen($this->AltBody) < 1){
 			$this->message_type = 'plain';
-		} else {
-			if (count($this->attachment) > 0) {
+		} else{
+			if(count($this->attachment) > 0){
 				$this->message_type = 'attachments';
 			}
-			if (strlen($this->AltBody) > 0 && count($this->attachment) < 1) {
+			if(strlen($this->AltBody) > 0 && count($this->attachment) < 1){
 				$this->message_type = 'alt';
 			}
-			if (strlen($this->AltBody) > 0 && count($this->attachment) > 0) {
+			if(strlen($this->AltBody) > 0 && count($this->attachment) > 0){
 				$this->message_type = 'alt_attachments';
 			}
 		}
@@ -1080,7 +1080,7 @@ class mosPHPMailer {
 	 * @return string
 	 */
 
-	function HeaderLine($name, $value) {
+	function HeaderLine($name, $value){
 		return $name . ': ' . $value . $this->LE;
 	}
 
@@ -1089,7 +1089,7 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function TextLine($value) {
+	function TextLine($value){
 		return $value . $this->LE;
 	}
 
@@ -1107,14 +1107,14 @@ class mosPHPMailer {
 	 * @param string $type File extension (MIME) type.
 	 * @return bool
 	 */
-	function AddAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream') {
-		if (!@is_file($path)) {
+	function AddAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream'){
+		if(!@is_file($path)){
 			$this->SetError($this->Lang('file_access') . $path);
 			return false;
 		}
 
 		$filename = basename($path);
-		if ($name == '') {
+		if($name == ''){
 			$name = $filename;
 		}
 
@@ -1137,17 +1137,17 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function AttachAll() {
+	function AttachAll(){
 		/* Return text of body */
 		$mime = array();
 
 		/* Add all attachments */
-		for ($i = 0; $i < count($this->attachment); $i++) {
+		for($i = 0; $i < count($this->attachment); $i++){
 			/* Check for string attachment */
 			$bString = $this->attachment[$i][5];
-			if ($bString) {
+			if($bString){
 				$string = $this->attachment[$i][0];
-			} else {
+			} else{
 				$path = $this->attachment[$i][0];
 			}
 
@@ -1162,22 +1162,22 @@ class mosPHPMailer {
 			$mime[] = sprintf("Content-Type: %s; name=\"%s\"%s", $type, $this->EncodeHeader($this->SecureHeader($name)), $this->LE);
 			$mime[] = sprintf("Content-Transfer-Encoding: %s%s", $encoding, $this->LE);
 
-			if ($disposition == 'inline') {
+			if($disposition == 'inline'){
 				$mime[] = sprintf("Content-ID: <%s>%s", $cid, $this->LE);
 			}
 
 			$mime[] = sprintf("Content-Disposition: %s; filename=\"%s\"%s", $disposition, $this->EncodeHeader($this->SecureHeader($name)), $this->LE . $this->LE);
 
 			/* Encode as string attachment */
-			if ($bString) {
+			if($bString){
 				$mime[] = $this->EncodeString($string, $encoding);
-				if ($this->IsError()) {
+				if($this->IsError()){
 					return '';
 				}
 				$mime[] = $this->LE . $this->LE;
-			} else {
+			} else{
 				$mime[] = $this->EncodeFile($path, $encoding);
-				if ($this->IsError()) {
+				if($this->IsError()){
 					return '';
 				}
 				$mime[] = $this->LE . $this->LE;
@@ -1195,8 +1195,8 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function EncodeFile($path, $encoding = 'base64') {
-		if (!@$fd = fopen($path, 'rb')) {
+	function EncodeFile($path, $encoding = 'base64'){
+		if(!@$fd = fopen($path, 'rb')){
 			$this->SetError($this->Lang('file_open') . $path);
 			return '';
 		}
@@ -1216,9 +1216,9 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function EncodeString($str, $encoding = 'base64') {
+	function EncodeString($str, $encoding = 'base64'){
 		$encoded = '';
-		switch (strtolower($encoding)) {
+		switch(strtolower($encoding)){
 			case 'base64':
 				/* chunk_split is found in PHP >= 3.0.6 */
 				$encoded = chunk_split(base64_encode($str), 76, $this->LE);
@@ -1226,7 +1226,7 @@ class mosPHPMailer {
 			case '7bit':
 			case '8bit':
 				$encoded = $this->FixEOL($str);
-				if (substr($encoded, -(strlen($this->LE))) != $this->LE)
+				if(substr($encoded, -(strlen($this->LE))) != $this->LE)
 					$encoded .= $this->LE;
 				break;
 			case 'binary':
@@ -1247,17 +1247,17 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function EncodeHeader($str, $position = 'text') {
+	function EncodeHeader($str, $position = 'text'){
 		$x = 0;
 
-		switch (strtolower($position)) {
+		switch(strtolower($position)){
 			case 'phrase':
-				if (!preg_match('/[\200-\377]/u', $str)) {
+				if(!preg_match('/[\200-\377]/u', $str)){
 					/* Can't use addslashes as we don't know what value has magic_quotes_sybase. */
 					$encoded = addcslashes($str, "\0..\37\177\\\"");
-					if (($str == $encoded) && !preg_match('/[^A-Za-z0-9!#$%&\'*+\/=?^_`{|}~ -]/u', $str)) {
+					if(($str == $encoded) && !preg_match('/[^A-Za-z0-9!#$%&\'*+\/=?^_`{|}~ -]/u', $str)){
 						return ($encoded);
-					} else {
+					} else{
 						return ("\"$encoded\"");
 					}
 				}
@@ -1272,24 +1272,24 @@ class mosPHPMailer {
 				break;
 		}
 
-		if ($x == 0) {
+		if($x == 0){
 			return ($str);
 		}
 
 		$maxlen = 75 - 7 - strlen($this->CharSet);
 		/* Try to select the encoding which should produce the shortest output */
-		if (strlen($str) / 3 < $x) {
+		if(strlen($str) / 3 < $x){
 			$encoding = 'B';
-			if (function_exists('mb_strlen') && $this->HasMultiBytes($str)) {
+			if(function_exists('mb_strlen') && $this->HasMultiBytes($str)){
 				// Use a custom function which correctly encodes and wraps long
 				// multibyte strings without breaking lines within a character
 				$encoded = $this->Base64EncodeWrapMB($str);
-			} else {
+			} else{
 				$encoded = base64_encode($str);
 				$maxlen -= $maxlen % 4;
 				$encoded = trim(chunk_split($encoded, $maxlen, "\n"));
 			}
-		} else {
+		} else{
 			$encoding = 'Q';
 			$encoded = $this->EncodeQ($str, $position);
 			$encoded = $this->WrapText($encoded, $maxlen, true);
@@ -1308,10 +1308,10 @@ class mosPHPMailer {
 	 * @param string $str multi-byte text to wrap encode
 	 * @return bool
 	 */
-	function HasMultiBytes($str) {
-		if (function_exists('mb_strlen')) {
+	function HasMultiBytes($str){
+		if(function_exists('mb_strlen')){
 			return (strlen($str) > mb_strlen($str, $this->CharSet));
-		} else { // Assume no multibytes (we can't handle without mbstring functions anyway)
+		} else{ // Assume no multibytes (we can't handle without mbstring functions anyway)
 			return False;
 		}
 	}
@@ -1324,7 +1324,7 @@ class mosPHPMailer {
 	 * @param string $str multi-byte text to wrap encode
 	 * @return string
 	 */
-	function Base64EncodeWrapMB($str) {
+	function Base64EncodeWrapMB($str){
 		$start = "=?" . $this->CharSet . "?B?";
 		$end = "?=";
 		$encoded = "";
@@ -1337,15 +1337,15 @@ class mosPHPMailer {
 		// Base64 has a 4:3 ratio
 		$offset = $avgLength = floor($length * $ratio * .75);
 
-		for ($i = 0; $i < $mb_length; $i += $offset) {
+		for($i = 0; $i < $mb_length; $i += $offset){
 			$lookBack = 0;
 
-			do {
+			do{
 				$offset = $avgLength - $lookBack;
 				$chunk = mb_substr($str, $i, $offset, $this->CharSet);
 				$chunk = base64_encode($chunk);
 				$lookBack++;
-			} while (strlen($chunk) > $length);
+			} while(strlen($chunk) > $length);
 
 			$encoded .= $chunk . $this->LE;
 		}
@@ -1360,37 +1360,37 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function EncodeQP($input = '', $line_max = 76, $space_conv = false) {
+	function EncodeQP($input = '', $line_max = 76, $space_conv = false){
 		$hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
 		$lines = preg_split('/(?:\r\n|\r|\n)/', $input);
 		$eol = "\r\n";
 		$escape = '=';
 		$output = '';
-		while (list(, $line) = each($lines)) {
+		while(list(, $line) = each($lines)){
 			$linlen = strlen($line);
 			$newline = '';
-			for ($i = 0; $i < $linlen; $i++) {
+			for($i = 0; $i < $linlen; $i++){
 				$c = substr($line, $i, 1);
 				$dec = ord($c);
-				if (( $i == 0 ) && ( $dec == 46 )) { // convert first point in the line into =2E
+				if(($i == 0) && ($dec == 46)){ // convert first point in the line into =2E
 					$c = '=2E';
 				}
-				if ($dec == 32) {
-					if ($i == ( $linlen - 1 )) { // convert space at eol only
+				if($dec == 32){
+					if($i == ($linlen - 1)){ // convert space at eol only
 						$c = '=20';
-					} else if ($space_conv) {
+					} else if($space_conv){
 						$c = '=20';
 					}
-				} elseif (($dec == 61) || ($dec < 32 ) || ($dec > 126)) { // always encode "\t", which is *not* required
+				} elseif(($dec == 61) || ($dec < 32) || ($dec > 126)){ // always encode "\t", which is *not* required
 					$h2 = floor($dec / 16);
 					$h1 = floor($dec % 16);
 					$c = $escape . $hex[$h2] . $hex[$h1];
 				}
-				if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
+				if((strlen($newline) + strlen($c)) >= $line_max){ // CRLF is not counted
 					$output .= $newline . $escape . $eol; //  soft line break; " =\r\n" is okay
 					$newline = '';
 					// check if newline first character will be point or not
-					if ($dec == 46) {
+					if($dec == 46){
 						$c = '=2E';
 					}
 				}
@@ -1406,11 +1406,11 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function EncodeQ($str, $position = 'text') {
+	function EncodeQ($str, $position = 'text'){
 		/* There should not be any EOL in the string */
 		$encoded = preg_replace("[\r\n]", '', $str);
 
-		switch (strtolower($position)) {
+		switch(strtolower($position)){
 			case 'phrase':
 				$encoded = preg_replace("/([^A-Za-z0-9!*+\/ -])/e", "'='.sprintf('%02X', ord('\\1'))", $encoded);
 				break;
@@ -1439,7 +1439,7 @@ class mosPHPMailer {
 	 * @param string $type File extension (MIME) type.
 	 * @return void
 	 */
-	function AddStringAttachment($string, $filename, $encoding = 'base64', $type = 'application/octet-stream') {
+	function AddStringAttachment($string, $filename, $encoding = 'base64', $type = 'application/octet-stream'){
 		/* Append to $attachment array */
 		$cur = count($this->attachment);
 		$this->attachment[$cur][0] = $string;
@@ -1465,15 +1465,15 @@ class mosPHPMailer {
 	 * @param string $type File extension (MIME) type.
 	 * @return bool
 	 */
-	function AddEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = 'application/octet-stream') {
+	function AddEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = 'application/octet-stream'){
 
-		if (!@is_file($path)) {
+		if(!@is_file($path)){
 			$this->SetError($this->Lang('file_access') . $path);
 			return false;
 		}
 
 		$filename = basename($path);
-		if ($name == '') {
+		if($name == ''){
 			$name = $filename;
 		}
 
@@ -1496,10 +1496,10 @@ class mosPHPMailer {
 	 * @access private
 	 * @return bool
 	 */
-	function InlineImageExists() {
+	function InlineImageExists(){
 		$result = false;
-		for ($i = 0; $i < count($this->attachment); $i++) {
-			if ($this->attachment[$i][6] == 'inline') {
+		for($i = 0; $i < count($this->attachment); $i++){
+			if($this->attachment[$i][6] == 'inline'){
 				$result = true;
 				break;
 			}
@@ -1516,7 +1516,7 @@ class mosPHPMailer {
 	 * Clears all recipients assigned in the TO array.  Returns void.
 	 * @return void
 	 */
-	function ClearAddresses() {
+	function ClearAddresses(){
 		$this->to = array();
 	}
 
@@ -1524,7 +1524,7 @@ class mosPHPMailer {
 	 * Clears all recipients assigned in the CC array.  Returns void.
 	 * @return void
 	 */
-	function ClearCCs() {
+	function ClearCCs(){
 		$this->cc = array();
 	}
 
@@ -1532,7 +1532,7 @@ class mosPHPMailer {
 	 * Clears all recipients assigned in the BCC array.  Returns void.
 	 * @return void
 	 */
-	function ClearBCCs() {
+	function ClearBCCs(){
 		$this->bcc = array();
 	}
 
@@ -1540,7 +1540,7 @@ class mosPHPMailer {
 	 * Clears all recipients assigned in the ReplyTo array.  Returns void.
 	 * @return void
 	 */
-	function ClearReplyTos() {
+	function ClearReplyTos(){
 		$this->ReplyTo = array();
 	}
 
@@ -1549,7 +1549,7 @@ class mosPHPMailer {
 	 * array.  Returns void.
 	 * @return void
 	 */
-	function ClearAllRecipients() {
+	function ClearAllRecipients(){
 		$this->to = array();
 		$this->cc = array();
 		$this->bcc = array();
@@ -1560,7 +1560,7 @@ class mosPHPMailer {
 	 * attachments.  Returns void.
 	 * @return void
 	 */
-	function ClearAttachments() {
+	function ClearAttachments(){
 		$this->attachment = array();
 	}
 
@@ -1568,7 +1568,7 @@ class mosPHPMailer {
 	 * Clears all custom headers.  Returns void.
 	 * @return void
 	 */
-	function ClearCustomHeaders() {
+	function ClearCustomHeaders(){
 		$this->CustomHeader = array();
 	}
 
@@ -1582,7 +1582,7 @@ class mosPHPMailer {
 	 * @access private
 	 * @return void
 	 */
-	function SetError($msg) {
+	function SetError($msg){
 		$this->error_count++;
 		$this->ErrorInfo = $msg;
 	}
@@ -1592,11 +1592,11 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function RFCDate() {
+	function RFCDate(){
 		$tz = date('Z');
 		$tzs = ($tz < 0) ? '-' : '+';
 		$tz = abs($tz);
-		$tz = (int) ($tz / 3600) * 100 + ($tz % 3600) / 60;
+		$tz = (int)($tz / 3600) * 100 + ($tz % 3600) / 60;
 		$result = sprintf("%s %s%04d", date('D, j M Y H:i:s'), $tzs, $tz);
 
 		return $result;
@@ -1609,20 +1609,20 @@ class mosPHPMailer {
 	 * @access private
 	 * @return mixed
 	 */
-	function ServerVar($varName) {
+	function ServerVar($varName){
 		global $HTTP_SERVER_VARS;
 		global $HTTP_ENV_VARS;
 
-		if (!isset($_SERVER)) {
+		if(!isset($_SERVER)){
 			$_SERVER = $HTTP_SERVER_VARS;
-			if (!isset($_SERVER['REMOTE_ADDR'])) {
+			if(!isset($_SERVER['REMOTE_ADDR'])){
 				$_SERVER = $HTTP_ENV_VARS; // must be Apache
 			}
 		}
 
-		if (isset($_SERVER[$varName])) {
+		if(isset($_SERVER[$varName])){
 			return $_SERVER[$varName];
-		} else {
+		} else{
 			return '';
 		}
 	}
@@ -1632,12 +1632,12 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function ServerHostname() {
-		if ($this->Hostname != '') {
+	function ServerHostname(){
+		if($this->Hostname != ''){
 			$result = $this->Hostname;
-		} elseif ($this->ServerVar('SERVER_NAME') != '') {
+		} elseif($this->ServerVar('SERVER_NAME') != ''){
 			$result = $this->ServerVar('SERVER_NAME');
-		} else {
+		} else{
 			$result = 'localhost.localdomain';
 		}
 
@@ -1649,14 +1649,14 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function Lang($key) {
-		if (count($this->language) < 1) {
+	function Lang($key){
+		if(count($this->language) < 1){
 			$this->SetLanguage('en'); // set the default language
 		}
 
-		if (isset($this->language[$key])) {
+		if(isset($this->language[$key])){
 			return $this->language[$key];
-		} else {
+		} else{
 			return 'Language string failed to load: ' . $key;
 		}
 	}
@@ -1665,7 +1665,7 @@ class mosPHPMailer {
 	 * Returns true if an error occurred.
 	 * @return bool
 	 */
-	function IsError() {
+	function IsError(){
 		return ($this->error_count > 0);
 	}
 
@@ -1674,7 +1674,7 @@ class mosPHPMailer {
 	 * @access private
 	 * @return string
 	 */
-	function FixEOL($str) {
+	function FixEOL($str){
 		$str = str_replace("\r\n", "\n", $str);
 		$str = str_replace("\r", "\n", $str);
 		$str = str_replace("\n", $this->LE, $str);
@@ -1685,7 +1685,7 @@ class mosPHPMailer {
 	 * Adds a custom header.
 	 * @return void
 	 */
-	function AddCustomHeader($custom_header) {
+	function AddCustomHeader($custom_header){
 		$this->CustomHeader[] = explode(':', $custom_header, 2);
 	}
 
@@ -1694,12 +1694,12 @@ class mosPHPMailer {
 	 * @access public
 	 * @return $message
 	 */
-	function MsgHTML($message, $basedir='') {
+	function MsgHTML($message, $basedir = ''){
 		preg_match_all("/(src|background)=\"(.*)\"/Ui", $message, $images);
-		if (isset($images[2])) {
-			foreach ($images[2] as $i => $url) {
+		if(isset($images[2])){
+			foreach($images[2] as $i => $url){
 				// do not change urls for absolute images (thanks to corvuscorax)
-				if (!preg_match('/^[A-z][A-z]*:\/\//', $url)) {
+				if(!preg_match('/^[A-z][A-z]*:\/\//', $url)){
 					$filename = basename($url);
 					$directory = dirname($url);
 					($directory == '.') ? $directory = '' : '';
@@ -1707,13 +1707,13 @@ class mosPHPMailer {
 					$fileParts = explode("\.", $filename);
 					$ext = $fileParts[1];
 					$mimeType = $this->_mime_types($ext);
-					if (strlen($basedir) > 1 && substr($basedir, -1) != '/') {
+					if(strlen($basedir) > 1 && substr($basedir, -1) != '/'){
 						$basedir .= '/';
 					}
-					if (strlen($directory) > 1 && substr($directory, -1) != '/') {
+					if(strlen($directory) > 1 && substr($directory, -1) != '/'){
 						$directory .= '/';
 					}
-					if ($this->AddEmbeddedImage($basedir . $directory . $filename, md5($filename), $filename, 'base64', $mimeType)) {
+					if($this->AddEmbeddedImage($basedir . $directory . $filename, md5($filename), $filename, 'base64', $mimeType)){
 						$message = preg_replace("/" . $images[1][$i] . "=\"" . preg_quote($url, '/') . "\"/Ui", $images[1][$i] . "=\"" . $cid . "\"", $message);
 					}
 				}
@@ -1722,10 +1722,10 @@ class mosPHPMailer {
 		$this->IsHTML(true);
 		$this->Body = $message;
 		$textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s', '', $message)));
-		if (!empty($textMsg) && empty($this->AltBody)) {
+		if(!empty($textMsg) && empty($this->AltBody)){
 			$this->AltBody = html_entity_decode($textMsg);
 		}
-		if (empty($this->AltBody)) {
+		if(empty($this->AltBody)){
 			$this->AltBody = 'To view this email message, open the email in with HTML compatibility!' . "\n\n";
 		}
 	}
@@ -1735,113 +1735,111 @@ class mosPHPMailer {
 	 * @access private
 	 * @return mime type of ext
 	 */
-	function _mime_types($ext = '') {
+	function _mime_types($ext = ''){
 		$mimes = array(
-			'ai' => 'application/postscript',
-			'aif' => 'audio/x-aiff',
-			'aifc' => 'audio/x-aiff',
-			'aiff' => 'audio/x-aiff',
-			'avi' => 'video/x-msvideo',
-			'bin' => 'application/macbinary',
-			'bmp' => 'image/bmp',
+			'ai'    => 'application/postscript',
+			'aif'   => 'audio/x-aiff',
+			'aifc'  => 'audio/x-aiff',
+			'aiff'  => 'audio/x-aiff',
+			'avi'   => 'video/x-msvideo',
+			'bin'   => 'application/macbinary',
+			'bmp'   => 'image/bmp',
 			'class' => 'application/octet-stream',
-			'cpt' => 'application/mac-compactpro',
-			'css' => 'text/css',
-			'dcr' => 'application/x-director',
-			'dir' => 'application/x-director',
-			'dll' => 'application/octet-stream',
-			'dms' => 'application/octet-stream',
-			'doc' => 'application/msword',
-			'dvi' => 'application/x-dvi',
-			'dxr' => 'application/x-director',
-			'eml' => 'message/rfc822',
-			'eps' => 'application/postscript',
-			'exe' => 'application/octet-stream',
-			'gif' => 'image/gif',
-			'gtar' => 'application/x-gtar',
-			'htm' => 'text/html',
-			'html' => 'text/html',
-			'jpe' => 'image/jpeg',
-			'jpeg' => 'image/jpeg',
-			'jpg' => 'image/jpeg',
-			'hqx' => 'application/mac-binhex40',
-			'js' => 'application/x-javascript',
-			'lha' => 'application/octet-stream',
-			'log' => 'text/plain',
-			'lzh' => 'application/octet-stream',
-			'mid' => 'audio/midi',
-			'midi' => 'audio/midi',
-			'mif' => 'application/vnd.mif',
-			'mov' => 'video/quicktime',
+			'cpt'   => 'application/mac-compactpro',
+			'css'   => 'text/css',
+			'dcr'   => 'application/x-director',
+			'dir'   => 'application/x-director',
+			'dll'   => 'application/octet-stream',
+			'dms'   => 'application/octet-stream',
+			'doc'   => 'application/msword',
+			'dvi'   => 'application/x-dvi',
+			'dxr'   => 'application/x-director',
+			'eml'   => 'message/rfc822',
+			'eps'   => 'application/postscript',
+			'exe'   => 'application/octet-stream',
+			'gif'   => 'image/gif',
+			'gtar'  => 'application/x-gtar',
+			'htm'   => 'text/html',
+			'html'  => 'text/html',
+			'jpe'   => 'image/jpeg',
+			'jpeg'  => 'image/jpeg',
+			'jpg'   => 'image/jpeg',
+			'hqx'   => 'application/mac-binhex40',
+			'js'    => 'application/x-javascript',
+			'lha'   => 'application/octet-stream',
+			'log'   => 'text/plain',
+			'lzh'   => 'application/octet-stream',
+			'mid'   => 'audio/midi',
+			'midi'  => 'audio/midi',
+			'mif'   => 'application/vnd.mif',
+			'mov'   => 'video/quicktime',
 			'movie' => 'video/x-sgi-movie',
-			'mp2' => 'audio/mpeg',
-			'mp3' => 'audio/mpeg',
-			'mpe' => 'video/mpeg',
-			'mpeg' => 'video/mpeg',
-			'mpg' => 'video/mpeg',
-			'mpga' => 'audio/mpeg',
-			'oda' => 'application/oda',
-			'pdf' => 'application/pdf',
-			'php' => 'application/x-httpd-php',
-			'php3' => 'application/x-httpd-php',
-			'php4' => 'application/x-httpd-php',
-			'phps' => 'application/x-httpd-php-source',
+			'mp2'   => 'audio/mpeg',
+			'mp3'   => 'audio/mpeg',
+			'mpe'   => 'video/mpeg',
+			'mpeg'  => 'video/mpeg',
+			'mpg'   => 'video/mpeg',
+			'mpga'  => 'audio/mpeg',
+			'oda'   => 'application/oda',
+			'pdf'   => 'application/pdf',
+			'php'   => 'application/x-httpd-php',
+			'php3'  => 'application/x-httpd-php',
+			'php4'  => 'application/x-httpd-php',
+			'phps'  => 'application/x-httpd-php-source',
 			'phtml' => 'application/x-httpd-php',
-			'png' => 'image/png',
-			'ppt' => 'application/vnd.ms-powerpoint',
-			'ps' => 'application/postscript',
-			'psd' => 'application/octet-stream',
-			'qt' => 'video/quicktime',
-			'ra' => 'audio/x-realaudio',
-			'ram' => 'audio/x-pn-realaudio',
-			'rm' => 'audio/x-pn-realaudio',
-			'rpm' => 'audio/x-pn-realaudio-plugin',
-			'rtf' => 'text/rtf',
-			'rtx' => 'text/richtext',
-			'rv' => 'video/vnd.rn-realvideo',
-			'sea' => 'application/octet-stream',
+			'png'   => 'image/png',
+			'ppt'   => 'application/vnd.ms-powerpoint',
+			'ps'    => 'application/postscript',
+			'psd'   => 'application/octet-stream',
+			'qt'    => 'video/quicktime',
+			'ra'    => 'audio/x-realaudio',
+			'ram'   => 'audio/x-pn-realaudio',
+			'rm'    => 'audio/x-pn-realaudio',
+			'rpm'   => 'audio/x-pn-realaudio-plugin',
+			'rtf'   => 'text/rtf',
+			'rtx'   => 'text/richtext',
+			'rv'    => 'video/vnd.rn-realvideo',
+			'sea'   => 'application/octet-stream',
 			'shtml' => 'text/html',
-			'sit' => 'application/x-stuffit',
-			'so' => 'application/octet-stream',
-			'smi' => 'application/smil',
-			'smil' => 'application/smil',
-			'swf' => 'application/x-shockwave-flash',
-			'tar' => 'application/x-tar',
-			'text' => 'text/plain',
-			'txt' => 'text/plain',
-			'tgz' => 'application/x-tar',
-			'tif' => 'image/tiff',
-			'tiff' => 'image/tiff',
-			'wav' => 'audio/x-wav',
+			'sit'   => 'application/x-stuffit',
+			'so'    => 'application/octet-stream',
+			'smi'   => 'application/smil',
+			'smil'  => 'application/smil',
+			'swf'   => 'application/x-shockwave-flash',
+			'tar'   => 'application/x-tar',
+			'text'  => 'text/plain',
+			'txt'   => 'text/plain',
+			'tgz'   => 'application/x-tar',
+			'tif'   => 'image/tiff',
+			'tiff'  => 'image/tiff',
+			'wav'   => 'audio/x-wav',
 			'wbxml' => 'application/vnd.wap.wbxml',
-			'wmlc' => 'application/vnd.wap.wmlc',
-			'word' => 'application/msword',
-			'xht' => 'application/xhtml+xml',
+			'wmlc'  => 'application/vnd.wap.wmlc',
+			'word'  => 'application/msword',
+			'xht'   => 'application/xhtml+xml',
 			'xhtml' => 'application/xhtml+xml',
-			'xl' => 'application/excel',
-			'xls' => 'application/vnd.ms-excel',
-			'xml' => 'text/xml',
-			'xsl' => 'text/xml',
-			'zip' => 'application/zip'
+			'xl'    => 'application/excel',
+			'xls'   => 'application/vnd.ms-excel',
+			'xml'   => 'text/xml',
+			'xsl'   => 'text/xml',
+			'zip'   => 'application/zip'
 		);
 		return (!isset($mimes[strtolower($ext)])) ? 'application/octet-stream' : $mimes[strtolower($ext)];
 	}
 
 	/**
 	 * Set (or reset) Class Objects (variables)
-	 *
 	 * Usage Example:
 	 * $page->set('X-Priority', '3');
-	 *
 	 * @access public
 	 * @param string $name Parameter Name
-	 * @param mixed $value Parameter Value
+	 * @param mixed  $value Parameter Value
 	 * NOTE: will not work with arrays, there are no arrays to set/reset
 	 */
-	function set($name, $value = '') {
-		if (isset($this->$name)) {
+	function set($name, $value = ''){
+		if(isset($this->$name)){
 			$this->$name = $value;
-		} else {
+		} else{
 			$this->SetError('Cannot set or reset variable ' . $name);
 			return false;
 		}
@@ -1849,19 +1847,18 @@ class mosPHPMailer {
 
 	/**
 	 * Read a file from a supplied filename and return it.
-	 *
 	 * @access public
 	 * @param string $filename Parameter File Name
 	 */
-	function getFile($filename) {
+	function getFile($filename){
 		$return = '';
-		if ($fp = fopen($filename, 'rb')) {
-			while (!feof($fp)) {
+		if($fp = fopen($filename, 'rb')){
+			while(!feof($fp)){
 				$return .= fread($fp, 1024);
 			}
 			fclose($fp);
 			return $return;
-		} else {
+		} else{
 			return false;
 		}
 	}
@@ -1872,7 +1869,7 @@ class mosPHPMailer {
 	 * @param string $str String
 	 * @return string
 	 */
-	function SecureHeader($str) {
+	function SecureHeader($str){
 		$str = trim($str);
 		$str = str_replace("\r", "", $str);
 		$str = str_replace("\n", "", $str);
@@ -1881,12 +1878,11 @@ class mosPHPMailer {
 
 	/**
 	 * Set the private key file and password to sign the message.
-	 *
 	 * @access public
 	 * @param string $key_filename Parameter File Name
 	 * @param string $key_pass Password for private key
 	 */
-	function Sign($cert_filename, $key_filename, $key_pass) {
+	function Sign($cert_filename, $key_filename, $key_pass){
 		$this->sign_cert_file = $cert_filename;
 		$this->sign_key_file = $key_filename;
 		$this->sign_key_pass = $key_pass;

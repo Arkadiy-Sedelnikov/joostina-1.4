@@ -10,49 +10,49 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-require_once (JPATH_BASE.DS.JADMIN_BASE.'/components/com_xmap/classes/XmapSitemap.php');
+require_once (JPATH_BASE . DS . JADMIN_BASE . '/components/com_xmap/classes/XmapSitemap.php');
 
-class XmapConfig {
-	var $version 			= '1.1';
-	var $classname 			= 'sitemap';
-	var $expand_category 	= 1;
-	var $expand_section 	= 1;
-	var $show_menutitle 	= 1;
-	var $columns 			= 1;
-	var $exlinks 			= 1;
-	var $ext_image 			= 'img_grey.gif';
-	var $exclmenus			= '';
-	var $includelink		= 1;
-	var $sitemap_default		= 1;
-	var $exclude_css		= 0;
-	var $exclude_xsl		= 0;
+class XmapConfig{
+	var $version = '1.1';
+	var $classname = 'sitemap';
+	var $expand_category = 1;
+	var $expand_section = 1;
+	var $show_menutitle = 1;
+	var $columns = 1;
+	var $exlinks = 1;
+	var $ext_image = 'img_grey.gif';
+	var $exclmenus = '';
+	var $includelink = 1;
+	var $sitemap_default = 1;
+	var $exclude_css = 0;
+	var $exclude_xsl = 0;
 
-	function XmapConfig () {
-		$version 			= '1.1';
-		$classname 			= 'sitemap';
-		$expand_category 	= 1;
-		$expand_section 	= 1;
-		$show_menutitle 	= 1;
-		$columns 			= 1;
-		$exlinks 			= 1;
-		$ext_image 			= 'img_grey.gif';
-		$exclmenus			= '';
-		$includelink		= 1;
-		$sitemap_default	= 1;
-		$exclude_css	= 0;
-		$exclude_xsl	= 0;
+	function XmapConfig(){
+		$version = '1.1';
+		$classname = 'sitemap';
+		$expand_category = 1;
+		$expand_section = 1;
+		$show_menutitle = 1;
+		$columns = 1;
+		$exlinks = 1;
+		$ext_image = 'img_grey.gif';
+		$exclmenus = '';
+		$includelink = 1;
+		$sitemap_default = 1;
+		$exclude_css = 0;
+		$exclude_xsl = 0;
 
 	}
 
 	/** Return $menus as an associative array */
-	function &getSitemaps() {
+	function &getSitemaps(){
 		$database = database::getInstance();
 
 		$query = "SELECT id FROM #__xmap_sitemap";
 		$database->setQuery($query);
 		$ids = $database->loadResultArray();
 		$sitemaps = array();
-		foreach ($ids as $id ) {
+		foreach($ids as $id){
 			$sitemap = new XmapSitemap();
 			$sitemap->load($id);
 			$sitemaps[] = $sitemap;
@@ -62,16 +62,16 @@ class XmapConfig {
 	}
 
 	/** Create the settings table for Xmap and add initial default values */
-	function create() {
+	function create(){
 		$database = database::getInstance();
 
 		$fields = array();
 		$fields[] = "`name` varchar(30) not null primary key";
 		$fields[] = "`value` varchar(100)";
 
-		$query = "CREATE TABLE #__xmap (". implode(', ', $fields) .")";
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "CREATE TABLE #__xmap (" . implode(', ', $fields) . ")";
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_CREATE . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 			return false;
@@ -85,42 +85,42 @@ class XmapConfig {
 		$fields[] = "`params` text";
 
 
-		$query = "CREATE TABLE #__xmap_ext (". implode(', ', $fields) .")";
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "CREATE TABLE #__xmap_ext (" . implode(', ', $fields) . ")";
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_CREATE . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 			return false;
 		}
 
-		require_once(JPATH_BASE . '/'.JADMIN_BASE.'/components/com_xmap/classes/XmapPlugin.php');
-		$extensions = array (
-				//	name			published
-				array(	'com_boss',		1)
+		require_once(JPATH_BASE . '/' . JADMIN_BASE . '/components/com_xmap/classes/XmapPlugin.php');
+		$extensions = array(
+			//	name			published
+			array('com_boss', 1)
 		);
-		foreach ( $extensions as $ext ) {
+		foreach($extensions as $ext){
 			$extension = new XmapPlugin($database);
 			$extension->extension = $ext[0];
 			$extension->published = $ext[1];
 			$xmlfile = $extension->getXmlPath();
-			$extension->setParams($extension->loadDefaultsParams(true),'-1');
+			$extension->setParams($extension->loadDefaultsParams(true), '-1');
 			$extension->store();
 			$extension->restore(); //Load settings from backup
 		}
 
 		$vars = get_class_vars('XmapSitemap');
 		$fields = '';
-		foreach($vars as $name => $value) {
-			if ($name[0]!=='_') {
-				if ($name == 'id') {
+		foreach($vars as $name => $value){
+			if($name[0] !== '_'){
+				if($name == 'id'){
 					$fields[] = 'id INT NOT NULL PRIMARY KEY AUTO_INCREMENT';
-				} else {
-					switch( gettype( $value ) ) {
+				} else{
+					switch(gettype($value)){
 						case 'integer':
 							$fields[] = "`$name` INTEGER NULL";
 							break;
 						case 'string':
-							if( $name == 'menus')
+							if($name == 'menus')
 								$fields[] = "`$name` TEXT NULL";
 							else
 								$fields[] = "`$name` VARCHAR(255) NULL";
@@ -129,9 +129,9 @@ class XmapConfig {
 				}
 			}
 		}
-		$query = "CREATE TABLE #__xmap_sitemap (". implode(', ', $fields) .")";
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "CREATE TABLE #__xmap_sitemap (" . implode(', ', $fields) . ")";
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_CREATE . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 			return false;
@@ -146,13 +146,13 @@ class XmapConfig {
 
 		$fields = array();
 		$vars = get_class_vars('XmapConfig');
-		foreach($vars as $name => $value) {
-			if ($name == 'sitemap_default') {
+		foreach($vars as $name => $value){
+			if($name == 'sitemap_default'){
 				$value = $sitemap->id;
 			}
 			$query = "INSERT INTO #__xmap (`name`,`value`) values ('$name','$value')";
-			$database->setQuery( $query );
-			if( $database->query() === FALSE ) {
+			$database->setQuery($query);
+			if($database->query() === FALSE){
 				echo _XMAP_ERR_NO_DEFAULT_SET . "<br />\n";
 				echo mosStripslashes($database->getErrorMsg());
 				return false;
@@ -164,38 +164,38 @@ class XmapConfig {
 	}
 
 	/** Create a backup of the settings */
-	function backup() {
+	function backup(){
 		$database = database::getInstance();
 
-		$query = "DROP TABLE IF EXISTS #__xmap_backup";				// remove old backup
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "DROP TABLE IF EXISTS #__xmap_backup"; // remove old backup
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_PREV_BU . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 		}
 
-		$query = "DROP TABLE IF EXISTS #__xmap_ext_backup";			// remove old backup
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "DROP TABLE IF EXISTS #__xmap_ext_backup"; // remove old backup
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_PREV_BU . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 		}
 
-		$query = "DROP TABLE IF EXISTS #__xmap_sitemap_backup";			// remove old backup
-		$database->setQuery( $query );
-		if( $database->query() === FALSE ) {
+		$query = "DROP TABLE IF EXISTS #__xmap_sitemap_backup"; // remove old backup
+		$database->setQuery($query);
+		if($database->query() === FALSE){
 			echo _XMAP_ERR_NO_PREV_BU . "<br />\n";
 			echo mosStripslashes($database->getErrorMsg());
 		}
 
-		$querys[] = "CREATE TABLE #__xmap_backup SELECT * FROM #__xmap";		// backup current settings
-		$querys[] = "CREATE TABLE #__xmap_sitemap_backup SELECT * FROM #__xmap_sitemap";	// backup current settings
-		$querys[] = "CREATE TABLE #__xmap_ext_backup SELECT * FROM #__xmap_ext ";		// backup current extensions settings
-		$querys[] = "DELETE from #__xmap_ext_backup where extension like '%.bak' and extension in (select concat(extension,'.bak') FROM #__xmap_ext where extension not like '%.bak')";		// remove old extensions backups
-		$querys[] = "UPDATE #__xmap_ext_backup SET extension=concat(extension,'.bak') where extension not like '%.bak'";		// backup current settings
-		foreach ($querys as $query) {
-			$database->setQuery( $query );
-			if( $database->query() === FALSE ) {
+		$querys[] = "CREATE TABLE #__xmap_backup SELECT * FROM #__xmap"; // backup current settings
+		$querys[] = "CREATE TABLE #__xmap_sitemap_backup SELECT * FROM #__xmap_sitemap"; // backup current settings
+		$querys[] = "CREATE TABLE #__xmap_ext_backup SELECT * FROM #__xmap_ext "; // backup current extensions settings
+		$querys[] = "DELETE from #__xmap_ext_backup where extension like '%.bak' and extension in (select concat(extension,'.bak') FROM #__xmap_ext where extension not like '%.bak')"; // remove old extensions backups
+		$querys[] = "UPDATE #__xmap_ext_backup SET extension=concat(extension,'.bak') where extension not like '%.bak'"; // backup current settings
+		foreach($querys as $query){
+			$database->setQuery($query);
+			if($database->query() === FALSE){
 				echo _XMAP_ERR_NO_BACKUP . "<br />\n";
 				echo mosStripslashes($database->getErrorMsg());
 				return false;
@@ -207,86 +207,86 @@ class XmapConfig {
 	}
 
 	/** Restore backup settings */
-	function restore() {
+	function restore(){
 		global $mosConfig_dbprefix;
 
 		$database = database::getInstance();
 
-		$query = "show table status like '".$mosConfig_dbprefix."xmap_backup'";
+		$query = "show table status like '" . $mosConfig_dbprefix . "xmap_backup'";
 		$database->setQuery($query);
-		if (!$database->query()) {
+		if(!$database->query()){
 			echo $database->getErrorMsg();
 		}
 		$exists = ($database->getNumRows() > 0);
-		if (!$exists)
+		if(!$exists)
 			return false;
 
-		$query = "SELECT * FROM #__xmap_backup";	// restore backup settings
-		$database->setQuery( $query );
+		$query = "SELECT * FROM #__xmap_backup"; // restore backup settings
+		$database->setQuery($query);
 
-		if ($result = $database->loadAssocList('name') ) {
-			$backup= new stdClass;
-			foreach ($result as $name => $row) {
-				if ($name) {
+		if($result = $database->loadAssocList('name')){
+			$backup = new stdClass;
+			foreach($result as $name => $row){
+				if($name){
 					$backup->$name = $row['value'];
 				}
 			}
-		} else {
+		} else{
 			return false;
 		}
 
-		if( isset( $this ) && is_object( $this ) ) {
+		if(isset($this) && is_object($this)){
 			$config = &$this;
-		} else {
+		} else{
 			$config = new XmapConfig;
 		}
 
-		$vars = get_class_vars('XmapConfig');			// assign current settings
-		foreach( $vars as $var => $value ) {
-			if( isset($backup->$var) )
+		$vars = get_class_vars('XmapConfig'); // assign current settings
+		foreach($vars as $var => $value){
+			if(isset($backup->$var))
 				$config->$var = $backup->$var;
 		}
 
-		$config->save();					// save current settings
+		$config->save(); // save current settings
 
 		$query = "DELETE FROM `#__xmap_sitemap`";
 		$database->setQuery($query);
 		$database->query();
 
-		$query = "SELECT * FROM #__xmap_sitemap_backup";	// restore backup settings
-		$database->setQuery( $query );
-		if ($result = $database->loadAssocList() ) {
-			foreach ( $result as $values ) {
-				$sitemap= new XmapSitemap();
+		$query = "SELECT * FROM #__xmap_sitemap_backup"; // restore backup settings
+		$database->setQuery($query);
+		if($result = $database->loadAssocList()){
+			foreach($result as $values){
+				$sitemap = new XmapSitemap();
 				mosBindArrayToObject($values, $sitemap);
 				$sitemap->save(true);
 			}
-		} else {
+		} else{
 			return false;
 		}
 
-		$query = "show table status like '".$mosConfig_dbprefix."xmap_ext_backup'";
+		$query = "show table status like '" . $mosConfig_dbprefix . "xmap_ext_backup'";
 		$database->setQuery($query);
-		if (!$database->query()) {
+		if(!$database->query()){
 			echo $database->getErrorMsg();
 		}
 		$exists = ($database->getNumRows() > 0);
-		if (!$exists)
+		if(!$exists)
 			return true;
 
-		$query = "SELECT * FROM #__xmap_ext_backup";	// restore backup settings
-		$database->setQuery( $query );
+		$query = "SELECT * FROM #__xmap_ext_backup"; // restore backup settings
+		$database->setQuery($query);
 
-		if ($result = $database->loadAssocList('extension') ) {
-			foreach ($result as $name => $row) {
-				if ($name && strpos($name,'.bak')) {
+		if($result = $database->loadAssocList('extension')){
+			foreach($result as $name => $row){
+				if($name && strpos($name, '.bak')){
 					$extension = new XmapPlugin($database);
 					mosBindArrayToObject($row, $extension);
-					$extension->id=NULL;
+					$extension->id = NULL;
 					$extension->store();
 				}
 			}
-		} else {
+		} else{
 			return false;
 		}
 
@@ -294,14 +294,14 @@ class XmapConfig {
 	}
 
 	/** Remove the settings table */
-	function remove() {
+	function remove(){
 		$database = database::getInstance();
 		$querys[] = "DROP TABLE IF EXISTS #__xmap";
 		$querys[] = "DROP TABLE IF EXISTS #__xmap_sitemap";
 		$querys[] = "DROP TABLE IF EXISTS #__xmap_ext";
-		foreach ($querys as $query) {
-			$database->setQuery( $query );
-			if( $database->query() === FALSE ) {
+		foreach($querys as $query){
+			$database->setQuery($query);
+			if($database->query() === FALSE){
 				echo _XMAP_ERR_NO_DROP_DB . "<br />\n";
 				echo mosStripslashes($database->getErrorMsg());
 				return false;
@@ -312,34 +312,34 @@ class XmapConfig {
 	}
 
 	/** Load settings from the database into this instance */
-	function load() {
+	function load(){
 		$database = database::getInstance();
 
 		$query = "SELECT * FROM #__xmap";
-		$database->setQuery( $query );
-		if ($result = $database->loadAssocList('name') ) {
-			foreach ($result as $name => $row) {
+		$database->setQuery($query);
+		if($result = $database->loadAssocList('name')){
+			foreach($result as $name => $row){
 				$this->$name = $row['value'];
 			}
-			return true;				// defaults are still set, though
+			return true; // defaults are still set, though
 		}
 		$this->_sitemaps = array();
 		return false;
 	}
 
 	/** Save current settings to the database */
-	function save() {
+	function save(){
 		$database = database::getInstance();
 
-		$vars = get_object_vars( $this );
+		$vars = get_object_vars($this);
 		$query = "DELETE FROM `#__xmap`";
-		$database->setQuery( $query );
+		$database->setQuery($query);
 		$database->query();
-		foreach($vars as $name => $value) {
-			if ( substr($name,0,1) !== '_' ) {
+		foreach($vars as $name => $value){
+			if(substr($name, 0, 1) !== '_'){
 				$query = "INSERT INTO #__xmap (`name`,`value`) values ('$name','$value')";
-				$database->setQuery( $query );
-				if ( $database->query() === FALSE ) {
+				$database->setQuery($query);
+				if($database->query() === FALSE){
 					return false;
 				}
 			}
@@ -349,11 +349,11 @@ class XmapConfig {
 	}
 
 	/** Debug output of current settings */
-	function dump() {
-		$vars = get_object_vars( $this );
+	function dump(){
+		$vars = get_object_vars($this);
 		echo '<pre style="text-align:left">';
-		foreach( $vars as $name => $value ) {
-			echo $name.': '.$value."\n";
+		foreach($vars as $name => $value){
+			echo $name . ': ' . $value . "\n";
 		}
 		echo '</pre>';
 	}

@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 // Global variables
-class CFilelistEngine {
+class CFilelistEngine{
 	/**
 	 * Directories to exclude
 	 * @access private
@@ -66,7 +66,7 @@ class CFilelistEngine {
 	 * When the object is generated, it takes care of removing old entries and
 	 * initializing this task's algorithm
 	 */
-	function CFilelistEngine() {
+	function CFilelistEngine(){
 		$database = database::getInstance();
 
 		// Remove old entries from filelist database
@@ -86,31 +86,31 @@ class CFilelistEngine {
 		$this->_branchNodes = array();
 		$this->_currentList = array();
 
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,"CFilelistEngine :: New instance");
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, "CFilelistEngine :: New instance");
 	}
 
 	/**
 	 * Scans the next directory if we have not finished
 	 */
-	function tick() {
-		if($this->_isFinished) {
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,"CFilelistEngine :: Already finished");
+	function tick(){
+		if($this->_isFinished){
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, "CFilelistEngine :: Already finished");
 			$returnArray = array();
 			$returnArray['HasRun'] = false;
 			$returnArray['Domain'] = 'FileList';
 			$returnArray['Step'] = '';
 			$returnArray['Substep'] = '';
 			return $returnArray; // Indicate we have finished
-		} else {
+		} else{
 			// Process the next directory
 			$this->_recurseDirectory($this->_nextDirectory);
 
 			// Get the next directory, or mark ourselves as finished
 			$nextDir = $this->_getNextDirectory();
-			if($nextDir === false) {
+			if($nextDir === false){
 				$this->_isFinished = true;
-				CJPLogger::WriteLog(_JP_LOG_DEBUG,"CFilelistEngine :: Finished");
-			} else {
+				CJPLogger::WriteLog(_JP_LOG_DEBUG, "CFilelistEngine :: Finished");
+			} else{
 				$this->_nextDirectory = $nextDir;
 			}
 
@@ -124,51 +124,51 @@ class CFilelistEngine {
 		}
 	}
 
-	function _recurseDirectory($dirName) {
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,"Recursing into ".$dirName);
+	function _recurseDirectory($dirName){
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, "Recursing into " . $dirName);
 
 		require_once ("engine.abstraction.php");
 		$FS = new CFSAbstraction();
 
-		if(in_array($dirName,$this->_ExcludeDirs)) {
-			CJPLogger::WriteLog(_JP_LOG_INFO,"Skipping directory $dirName");
+		if(in_array($dirName, $this->_ExcludeDirs)){
+			CJPLogger::WriteLog(_JP_LOG_INFO, "Skipping directory $dirName");
 			return;
 		}
 
 		// Get the contents of the directory
 		$fileList = $FS->getDirContents($dirName);
 
-		if(!is_readable($dirName)) {
+		if(!is_readable($dirName)){
 			// A non-browsable directory
-			CJPLogger::WriteLog(_JP_LOG_WARNING,"Unreadable directory $dirName. Check permissions.");
+			CJPLogger::WriteLog(_JP_LOG_WARNING, "Unreadable directory $dirName. Check permissions.");
 		}
 
-		if($fileList === false) {
+		if($fileList === false){
 			// A non-browsable directory; however, it seems that I never get FALSE reported here?!
-			CJPLogger::WriteLog(_JP_LOG_WARNING,"Unreadable directory $dirName. Check permissions.");
-		} else {
+			CJPLogger::WriteLog(_JP_LOG_WARNING, "Unreadable directory $dirName. Check permissions.");
+		} else{
 			// Initialize local processed files counter
 			$processedFiles = 0;
 			// Scan all directory entries
-			foreach($fileList as $fileDescriptor) {
-				switch($fileDescriptor['type']) {
+			foreach($fileList as $fileDescriptor){
+				switch($fileDescriptor['type']){
 					case "dir":
-					// A new directory found. Mark it for recursion
-						if(!((substr($fileDescriptor['name'],-1,1) == ".") || (substr($fileDescriptor['name'],-1,2) == ".."))) {
+						// A new directory found. Mark it for recursion
+						if(!((substr($fileDescriptor['name'], -1, 1) == ".") || (substr($fileDescriptor['name'], -1, 2) == ".."))){
 							$this->_branchNodes[] = $fileDescriptor['name'];
 							$processedFiles++;
-							CJPLogger::WriteLog(_JP_LOG_DEBUG,"Adding directory ".$fileDescriptor['name']);
+							CJPLogger::WriteLog(_JP_LOG_DEBUG, "Adding directory " . $fileDescriptor['name']);
 						}
 						break;
 					case "file":
-					// Just a file... process it.
+						// Just a file... process it.
 						$processedFiles++;
 						$filesize = $fileDescriptor['size'];
-						if(($this->_currentNodeSize + $filesize <= 1048576) && (count($this->_currentList) < 5)) {
+						if(($this->_currentNodeSize + $filesize <= 1048576) && (count($this->_currentList) < 5)){
 							// It fits in the current fragment (max 1Mb or up to 100 files)
 							$this->_currentNodeSize += $filesize;
-						} else {
-							CJPLogger::WriteLog(_JP_LOG_DEBUG,"Saving fragment #".$this->_currentNode);
+						} else{
+							CJPLogger::WriteLog(_JP_LOG_DEBUG, "Saving fragment #" . $this->_currentNode);
 							// Save current fragment
 							$this->_saveFragment();
 							// Start a new fragment
@@ -183,15 +183,15 @@ class CFilelistEngine {
 				}
 			}
 			// Check for empty directories and add them to the list
-			if($processedFiles == 0) {
+			if($processedFiles == 0){
 				$this->_currentList[] = $dirName;
-				CJPLogger::WriteLog(_JP_LOG_INFO,"Empty directory $dirName");
+				CJPLogger::WriteLog(_JP_LOG_INFO, "Empty directory $dirName");
 			}
 		}
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,"Done recursing $dirName");
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, "Done recursing $dirName");
 	}
 
-	function _saveFragment() {
+	function _saveFragment(){
 		$database = database::getInstance();
 
 		$fragmentDescriptor = array();
@@ -203,33 +203,32 @@ class CFilelistEngine {
 		unset($fragmentDescriptor);
 
 		$sql = "INSERT INTO #__jp_packvars (`key`, value2) VALUES (\""
-				.mysql_real_escape_string("fragment".$this->_currentNode)."\", \""
-				.mysql_real_escape_string($serializedDescriptor)."\")";
+			. mysql_real_escape_string("fragment" . $this->_currentNode) . "\", \""
+			. mysql_real_escape_string($serializedDescriptor) . "\")";
 		$database->setQuery($sql);
 		$database->query();
 
 		unset($serializedDescriptor);
 	}
 
-	function _getNextDirectory() {
-		if(count($this->_branchNodes) == 0) {
+	function _getNextDirectory(){
+		if(count($this->_branchNodes) == 0){
 			return false;
-		} else {
+		} else{
 			return array_shift($this->_branchNodes);
 		}
 	}
 
 	/**
 	 * Returns the array of the exclusion filters
-	 * TODO: Probably I should pass a reference to the CDirExclusion object instead of this
 	 */
-	function _createExcludeDirs() {
+	function _createExcludeDirs(){
 		global $option;
-		require_once (JPATH_BASE_ADMIN.'/components/com_joomlapack/includes/engine.exdirs.php');
+		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/engine.exdirs.php');
 
 		$def = new CDirExclusionFilter();
 		$this->_ExcludeDirs = $def->getFilters();
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_GETTING_DIRS_LIST);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_GETTING_DIRS_LIST);
 		unset($def);
 	}
 }

@@ -1,11 +1,11 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
@@ -19,27 +19,27 @@ $GLOBALS["require_login"] = false;
 $GLOBALS["language"] = $mosConfig_lang;
 
 // the filename of the QuiXplorer script: (you rarely need to change this)
-if($_SERVER['SERVER_PORT'] == 443) {
-	$GLOBALS["script_name"] = "https://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
-} else {
-	$GLOBALS["script_name"] = "http://".$GLOBALS['__SERVER']['HTTP_HOST'].$GLOBALS['__SERVER']["PHP_SELF"];
+if($_SERVER['SERVER_PORT'] == 443){
+	$GLOBALS["script_name"] = "https://" . $GLOBALS['__SERVER']['HTTP_HOST'] . $GLOBALS['__SERVER']["PHP_SELF"];
+} else{
+	$GLOBALS["script_name"] = "http://" . $GLOBALS['__SERVER']['HTTP_HOST'] . $GLOBALS['__SERVER']["PHP_SELF"];
 }
 
 // allow Zip, Tar, TGz -> Only (experimental) Zip-support
-if(function_exists("gzcompress")) {
+if(function_exists("gzcompress")){
 	$GLOBALS["zip"] = $GLOBALS["tgz"] = true;
-} else {
+} else{
 	$GLOBALS["zip"] = $GLOBALS["tgz"] = false;
 }
 
-if(strstr(JPATH_BASE,"/")) {
+if(strstr(JPATH_BASE, "/")){
 	$GLOBALS["separator"] = "/";
-} else {
+} else{
 	$GLOBALS["separator"] = "\\";
 }
 
 // если в глобальной конфигурации не прописан конкретный путь к корню файлового менеджера - то будем считать им корень сайта
-if(($mosConfig_joomlaxplorer_dir=='') OR ($mosConfig_joomlaxplorer_dir=='0') ) $mosConfig_joomlaxplorer_dir = JPATH_BASE;
+if(($mosConfig_joomlaxplorer_dir == '') OR ($mosConfig_joomlaxplorer_dir == '0')) $mosConfig_joomlaxplorer_dir = JPATH_BASE;
 // the home directory for the filemanager: (use '/', not '\' or '\\', no trailing '/')
 
 $GLOBALS["home_dir"] = $mosConfig_joomlaxplorer_dir;

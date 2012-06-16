@@ -5,22 +5,22 @@
  * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/LICENSE.php
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для просмотра подробностей и замечаний об авторском праве, смотрите файл help/COPYRIGHT.php.
- *
+
  */
 
 // запрет прямого доступа
-defined( '_VALID_MOS' ) or die();
+defined('_VALID_MOS') or die();
 
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
-if ( $mainframe->getCfg('frontend_login') != NULL && ($mainframe->getCfg('frontend_login') === 0 || $mainframe->getCfg('frontend_login') === '0')) {
+if($mainframe->getCfg('frontend_login') != NULL && ($mainframe->getCfg('frontend_login') === 0 || $mainframe->getCfg('frontend_login') === '0')){
 	return;
 }
 
-if ($my->id) {
+if($my->id){
 	$params->set('template', 'logout.php');
-} else {
+} else{
 	$params->def('template', 'vertical.php');
 }
 
@@ -28,6 +28,6 @@ if ($my->id) {
 $module->get_helper($mainframe);
 
 //Подключаем шаблон
-if($module->set_template($params)) {
+if($module->set_template($params)){
 	require($module->template);
 }

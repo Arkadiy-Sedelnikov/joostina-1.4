@@ -13,17 +13,17 @@ defined('_VALID_MOS') or die();
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
-$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
+$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 
 $query = "SELECT COUNT(*)"
-		."\n FROM #__messages"
-		."\n WHERE state = 0"
-		."\n AND user_id_to = ".(int)$my->id;
+	. "\n FROM #__messages"
+	. "\n WHERE state = 0"
+	. "\n AND user_id_to = " . (int)$my->id;
 $database->setQuery($query);
 $unread = $database->loadResult();
 
-if($unread) {
-	echo "<a class=\"adminmail\" href=\"index2.php?option=com_messages\" style=\"color: red; text-decoration: none;  font-weight: bold\"><img  src=\"".$cur_file_icons_path."/mail.png\" align=\"top\" border=\"0\" alt=\"Почта\" /> $unread </a>";
-} else {
-	echo "<a class=\"adminmail\" href=\"index2.php?option=com_messages\" style=\"color: black; text-decoration: none;\"><img src=\"".$cur_file_icons_path."/nomail.png\" align=\"top\" border=\"0\" alt=\"Почта\" /> $unread </a>";
+if($unread){
+	echo "<a class=\"adminmail\" href=\"index2.php?option=com_messages\" style=\"color: red; text-decoration: none;  font-weight: bold\"><img  src=\"" . $cur_file_icons_path . "/mail.png\" align=\"top\" border=\"0\" alt=\"Почта\" /> $unread </a>";
+} else{
+	echo "<a class=\"adminmail\" href=\"index2.php?option=com_messages\" style=\"color: black; text-decoration: none;\"><img src=\"" . $cur_file_icons_path . "/nomail.png\" align=\"top\" border=\"0\" alt=\"Почта\" /> $unread </a>";
 }

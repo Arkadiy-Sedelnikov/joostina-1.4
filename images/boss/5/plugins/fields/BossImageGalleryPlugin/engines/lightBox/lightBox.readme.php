@@ -1,15 +1,12 @@
 <?php
 /**
-* 
-* lightBox
-* 
-* Ссылки:
-* 1. http://leandrovieira.com/projects/jquery/lightbox/
-*
-* Лицензия:
-* 1. CCAttribution-ShareAlike 2.5 Brazil (http://creativecommons.org/licenses/by-sa/2.5/br/deed.en_US)
-* 
-*/
+ * lightBox
+ * Ссылки:
+ * 1. http://leandrovieira.com/projects/jquery/lightbox/
+ * Лицензия:
+ * 1. CCAttribution-ShareAlike 2.5 Brazil (http://creativecommons.org/licenses/by-sa/2.5/br/deed.en_US)
+
+ */
 
 //Использование
 /* <script type="text/javascript">

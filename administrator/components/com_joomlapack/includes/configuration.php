@@ -14,10 +14,8 @@ global $option;
 
 /**
  * CConfiguration is responsible for loading and saving configuration options
- *
  * Configuration is rather sparse at the moment, but this will change with next versions. All
  * configuration values are saved to and retrieved from a PHP file, in the fashion Joomla does.
- *
  * @package    JoomlaPacker
  * @author     Nicholas K. Dionysopoulos nikosdion@gmail.com
  * @copyright  2006 Nicholas K. Dionysopoulos
@@ -25,7 +23,7 @@ global $option;
  * @version    1.0
  * @since      File available since Release 1.0
  */
-class CConfiguration {
+class CConfiguration{
 	/**
 	 * The directory used to output packed files. It is suggested to be outside the
 	 * web root for security reasons.
@@ -106,52 +104,52 @@ class CConfiguration {
 	 * Initializer. Loads a set of default values that are good enough - but not secure enough -
 	 * for most users.
 	 */
-	function CConfiguration() {
+	function CConfiguration(){
 		global $option;
 
 		// Private initializers
-		$this->_InstallationRoot	= JPATH_BASE_ADMIN."/";
-		$this->_configurationFile	= $this->_InstallationRoot."/components/com_joomlapack/jpack.config.php";
+		$this->_InstallationRoot = JPATH_BASE_ADMIN . "/";
+		$this->_configurationFile = $this->_InstallationRoot . "/components/com_joomlapack/jpack.config.php";
 
 		// Default configuration
-		$this->TempDirectory	= $this->_InstallationRoot.'backups';
-		$this->OutputDirectory	= $this->_InstallationRoot.'backups';
-		$this->MySQLCompat		= 'default';
-		$this->boolCompress		= 'zip';
-		$this->TarNameTemplate	= 'site-[HOST]-[DATE]-[TIME]';
-		$this->fileListAlgorithm= 'smart';
-		$this->dbAlgorithm		= 'smart';
-		$this->packAlgorithm	= 'smart';
+		$this->TempDirectory = $this->_InstallationRoot . 'backups';
+		$this->OutputDirectory = $this->_InstallationRoot . 'backups';
+		$this->MySQLCompat = 'default';
+		$this->boolCompress = 'zip';
+		$this->TarNameTemplate = 'site-[HOST]-[DATE]-[TIME]';
+		$this->fileListAlgorithm = 'smart';
+		$this->dbAlgorithm = 'smart';
+		$this->packAlgorithm = 'smart';
 		//$this->InstallerPackage	= 'joostina.xml';
 		//$this->AltInstaller = new CAltInstaller();
 		//$this->AltInstaller->loadDefinition($this->InstallerPackage);
-		$this->logLevel			= _JP_LOG_WARNING;
-		$this->sql_pack			= 1; // по умолчанию сжимать в tar.gz
-		$this->sql_pref			= 1; // по умолчанию elfkznm ghtaabrc nf,kbw
+		$this->logLevel = _JP_LOG_WARNING;
+		$this->sql_pack = 1; // по умолчанию сжимать в tar.gz
+		$this->sql_pref = 1; // по умолчанию elfkznm ghtaabrc nf,kbw
 	}
 
 	/**
 	 * получение конфигурации
 	 * @return boolean
 	 */
-	function LoadConfiguration() {
-		$fp = @fopen($this->_configurationFile,"r");
-		if($fp === false) {
+	function LoadConfiguration(){
+		$fp = @fopen($this->_configurationFile, "r");
+		if($fp === false){
 			return false;
 		}
 		fclose($fp);
 		require $this->_configurationFile;
-		$this->OutputDirectory		= $this->TranslateWinPath($jpConfig_OutputDirectory);
-		$this->TempDirectory		= $this->TranslateWinPath($jpConfig_OutputDirectory);
-		$this->MySQLCompat			= $jpConfig_MySQLCompat;
-		$this->boolCompress			= 'zip';
-		$this->TarNameTemplate		= $jpConfig_TarNameTemplate;
-		$this->fileListAlgorithm	= $jpConfig_fileListAlgorithm;
-		$this->dbAlgorithm			= $jpConfig_dbAlgorithm;
-		$this->packAlgorithm		= $jpConfig_packAlgorithm;
-		$this->logLevel				= $jpConfig_logLevel;
-		$this->sql_pack				= $jpConfig_sql_pack;
-		$this->sql_pref				= $jpConfig_sql_pref;
+		$this->OutputDirectory = $this->TranslateWinPath($jpConfig_OutputDirectory);
+		$this->TempDirectory = $this->TranslateWinPath($jpConfig_OutputDirectory);
+		$this->MySQLCompat = $jpConfig_MySQLCompat;
+		$this->boolCompress = 'zip';
+		$this->TarNameTemplate = $jpConfig_TarNameTemplate;
+		$this->fileListAlgorithm = $jpConfig_fileListAlgorithm;
+		$this->dbAlgorithm = $jpConfig_dbAlgorithm;
+		$this->packAlgorithm = $jpConfig_packAlgorithm;
+		$this->logLevel = $jpConfig_logLevel;
+		$this->sql_pack = $jpConfig_sql_pack;
+		$this->sql_pref = $jpConfig_sql_pref;
 		return true;
 	}
 
@@ -159,29 +157,29 @@ class CConfiguration {
 	 * Saves configuration to disk
 	 * @return boolean
 	 */
-	function SaveConfiguration() {
-		if(!$this->isConfigurationWriteable()) {
+	function SaveConfiguration(){
+		if(!$this->isConfigurationWriteable()){
 			return false;
 		}
 		$config = "<?php\n";
 		$config .= "defined( '_VALID_MOS' ) or die();\n";
-		$config .= '$jpConfig_OutputDirectory = \''.addslashes($this->OutputDirectory)."';\n";
-		$config .= '$jpConfig_MySQLCompat = \''.addslashes($this->MySQLCompat)."';\n";
-		$config .= '$jpConfig_boolCompress = "'.$this->boolCompress."\";\n";
-		$config .= '$jpConfig_TarNameTemplate = \''.addslashes($this->TarNameTemplate)."';\n";
-		$config .= '$jpConfig_fileListAlgorithm = \''.addslashes($this->fileListAlgorithm)."';\n";
-		$config .= '$jpConfig_dbAlgorithm = \''.addslashes($this->dbAlgorithm)."';\n";
-		$config .= '$jpConfig_packAlgorithm = \''.addslashes($this->packAlgorithm)."';\n";
-		$config .= '$jpConfig_logLevel = \''.addslashes($this->logLevel)."';\n";
-		$config .= '$jpConfig_sql_pack = \''.$this->sql_pack."';\n";
-		$config .= '$jpConfig_sql_pref = \''.$this->sql_pref."';\n";
+		$config .= '$jpConfig_OutputDirectory = \'' . addslashes($this->OutputDirectory) . "';\n";
+		$config .= '$jpConfig_MySQLCompat = \'' . addslashes($this->MySQLCompat) . "';\n";
+		$config .= '$jpConfig_boolCompress = "' . $this->boolCompress . "\";\n";
+		$config .= '$jpConfig_TarNameTemplate = \'' . addslashes($this->TarNameTemplate) . "';\n";
+		$config .= '$jpConfig_fileListAlgorithm = \'' . addslashes($this->fileListAlgorithm) . "';\n";
+		$config .= '$jpConfig_dbAlgorithm = \'' . addslashes($this->dbAlgorithm) . "';\n";
+		$config .= '$jpConfig_packAlgorithm = \'' . addslashes($this->packAlgorithm) . "';\n";
+		$config .= '$jpConfig_logLevel = \'' . addslashes($this->logLevel) . "';\n";
+		$config .= '$jpConfig_sql_pack = \'' . $this->sql_pack . "';\n";
+		$config .= '$jpConfig_sql_pref = \'' . $this->sql_pref . "';\n";
 
 		$config .= '?>';
-		$fp = @fopen($this->_configurationFile,"w");
-		if($fp === false) {
+		$fp = @fopen($this->_configurationFile, "w");
+		if($fp === false){
 			return false;
 		}
-		fputs($fp,$config);
+		fputs($fp, $config);
 		fclose($fp);
 		return true;
 	}
@@ -190,7 +188,7 @@ class CConfiguration {
 	 * Returns true if configuration.php is present
 	 * @return boolean
 	 */
-	function hasConfiguration() {
+	function hasConfiguration(){
 		return file_exists($this->_configurationFile);
 	}
 
@@ -198,10 +196,10 @@ class CConfiguration {
 	 * Returns true if configuration.php is present
 	 * @return boolean
 	 */
-	function isConfigurationWriteable() {
-		if($this->hasConfiguration()) {
+	function isConfigurationWriteable(){
+		if($this->hasConfiguration()){
 			return is_writable($this->_configurationFile);
-		} else {
+		} else{
 			return is_writable($this->_InstallationRoot);
 		}
 	}
@@ -210,7 +208,7 @@ class CConfiguration {
 	 * Returns true if the output target directory is writeable by the PHP script
 	 * @return boolean
 	 */
-	function isOutputWriteable() {
+	function isOutputWriteable(){
 		return is_writable($this->OutputDirectory);
 	}
 
@@ -218,7 +216,7 @@ class CConfiguration {
 	 * Returns true if the temporary files directory is writeable by the PHP script
 	 * @return boolean
 	 */
-	function isTempWriteable() {
+	function isTempWriteable(){
 		return is_writable($this->TempDirectory);
 	}
 
@@ -227,21 +225,21 @@ class CConfiguration {
 	 * @param string The name of the variable to write / update
 	 * @param mixed The value of the variable to write / update
 	 */
-	function WriteDebugVar($varName,&$value,$boolLongText = false) {
+	function WriteDebugVar($varName, &$value, $boolLongText = false){
 		$database = database::getInstance();
 
-		$varName	=$database->getEscaped($varName);
-		$value		=$database->getEscaped($value);
+		$varName = $database->getEscaped($varName);
+		$value = $database->getEscaped($value);
 
 		// Kill exisiting variable (if any)
-		$database->setQuery('DELETE FROM #__jp_packvars WHERE `key`="'.$varName.'"');
+		$database->setQuery('DELETE FROM #__jp_packvars WHERE `key`="' . $varName . '"');
 		$database->query();
 
 		// Create variable
-		if(!$boolLongText) {
-			$sql = 'INSERT INTO #__jp_packvars (`key`, value) VALUES ("'.$varName.'", "'.$value.'")';
-		} else {
-			$sql = 'INSERT INTO #__jp_packvars (`key`, value2) VALUES ("'.$varName.'", "'.$value.'")';
+		if(!$boolLongText){
+			$sql = 'INSERT INTO #__jp_packvars (`key`, value) VALUES ("' . $varName . '", "' . $value . '")';
+		} else{
+			$sql = 'INSERT INTO #__jp_packvars (`key`, value2) VALUES ("' . $varName . '", "' . $value . '")';
 		}
 
 		$database->setQuery($sql);
@@ -251,15 +249,15 @@ class CConfiguration {
 	/**
 	 * Reads a debug variable out of #__jp_packvars
 	 */
-	function ReadDebugVar($key,$boolLongText = false) {
+	function ReadDebugVar($key, $boolLongText = false){
 		$database = database::getInstance();
 
-		$key =$database->getEscaped($key);
+		$key = $database->getEscaped($key);
 
-		if(!$boolLongText) {
-			$sql = 'SELECT value FROM #__jp_packvars WHERE `key` = "'.$key.'"';
-		} else {
-			$sql = 'SELECT value2 FROM #__jp_packvars WHERE `key` = "'.$key.'"';
+		if(!$boolLongText){
+			$sql = 'SELECT value FROM #__jp_packvars WHERE `key` = "' . $key . '"';
+		} else{
+			$sql = 'SELECT value2 FROM #__jp_packvars WHERE `key` = "' . $key . '"';
 		}
 		$database->setQuery($sql);
 		$database->query();
@@ -269,20 +267,21 @@ class CConfiguration {
 	/**
 	 * Deletes a debug variable from #__jp_packvars
 	 */
-	function DeleteDebugVar($key) {
+	function DeleteDebugVar($key){
 		$database = database::getInstance();
 
-		$key =$database->getEscaped($key);
+		$key = $database->getEscaped($key);
 
-		$sql = 'DELETE FROM #__jp_packvars WHERE `key` = "'.$key.'"';
+		$sql = 'DELETE FROM #__jp_packvars WHERE `key` = "' . $key . '"';
 		$database->setQuery($sql);
 		$database->query();
 	}
+
 	// работа с Windows системами
-	function TranslateWinPath($p_path) {
-		if(stristr(php_uname(),'windows')) {
-			if((strpos($p_path,'\\') > 0) || (substr($p_path,0,1) == '\\')) {
-				$p_path = strtr($p_path,'\\','/');
+	function TranslateWinPath($p_path){
+		if(stristr(php_uname(), 'windows')){
+			if((strpos($p_path, '\\') > 0) || (substr($p_path, 0, 1) == '\\')){
+				$p_path = strtr($p_path, '\\', '/');
 			}
 		}
 		return $p_path;
@@ -293,16 +292,16 @@ class CConfiguration {
 
 
 // Log levels
-define('_JP_LOG_ERROR',1);
-define('_JP_LOG_WARNING',2);
-define('_JP_LOG_INFO',3);
-define('_JP_LOG_DEBUG',4);
+define('_JP_LOG_ERROR', 1);
+define('_JP_LOG_WARNING', 2);
+define('_JP_LOG_INFO', 3);
+define('_JP_LOG_DEBUG', 4);
 
-class CJPLogger {
+class CJPLogger{
 	/**
 	 * Clears the logfile
 	 */
-	public static function ResetLog() {
+	public static function ResetLog(){
 		$logName = CJPLogger::logName();
 		@unlink($logName);
 		touch($logName);
@@ -310,17 +309,16 @@ class CJPLogger {
 
 	/**
 	 * Writes a line to the log, if the log level is high enough
-	 *
 	 * @param integer $level The log level (_JP_LOG_XXXXX constants)
-	 * @param string $message The message to write to the log
+	 * @param string  $message The message to write to the log
 	 */
-	public static function WriteLog($level,$message) {
+	public static function WriteLog($level, $message){
 		global $JPConfiguration;
 
-		if($JPConfiguration->logLevel >= $level) {
+		if($JPConfiguration->logLevel >= $level){
 			$logName = CJPLogger::logName();
-			$message = str_replace(JPATH_BASE,'<root>',$message);
-			switch($level) {
+			$message = str_replace(JPATH_BASE, '<root>', $message);
+			switch($level){
 				case _JP_LOG_ERROR:
 					$string = 'ERROR   |';
 					break;
@@ -334,10 +332,10 @@ class CJPLogger {
 					$string = 'DEBUG   |';
 					break;
 			}
-			$string .= strftime('%y%m%d %R').'|'.$message."\n";
-			$fp = fopen($logName,'at');
-			if(!($fp === false)) {
-				fwrite($fp,$string);
+			$string .= strftime('%y%m%d %R') . '|' . $message . "\n";
+			$fp = fopen($logName, 'at');
+			if(!($fp === false)){
+				fwrite($fp, $string);
 				fclose($fp);
 			}
 		}
@@ -346,19 +344,19 @@ class CJPLogger {
 	/**
 	 * Parses the log file and outputs formatted HTML to the standard output
 	 */
-	public static function VisualizeLogDirect() {
+	public static function VisualizeLogDirect(){
 		$logName = CJPLogger::logName();
 		if(!file_exists($logName)) return false; //joostina pach
-		$fp = fopen($logName,"rt");
+		$fp = fopen($logName, "rt");
 		if($fp === false) return false;
 
 		echo '<p style="font-family: vardana, monospace; text-align: left; font-size: 9px;">';
-		while(!feof($fp)) {
+		while(!feof($fp)){
 			$line = fgets($fp);
 			if(!$line) return;
-			$exploded = explode("|",$line,3);
+			$exploded = explode("|", $line, 3);
 			unset($line);
-			switch(trim($exploded[0])) {
+			switch(trim($exploded[0])){
 				case 'ERROR':
 					$fmtString = '<span style="color: red; font-weight: bold;">[';
 					break;
@@ -375,7 +373,7 @@ class CJPLogger {
 					$fmtString = '<span style="font-size: small;">[';
 					break;
 			}
-			$fmtString .= $exploded[1].'] '.htmlspecialchars($exploded[2]).'</span><br/>'."\n";
+			$fmtString .= $exploded[1] . '] ' . htmlspecialchars($exploded[2]) . '</span><br/>' . "\n";
 			unset($exploded);
 			echo $fmtString;
 			unset($fmtString);
@@ -387,36 +385,36 @@ class CJPLogger {
 	/**
 	 * Calculates the absolute path to the log file
 	 */
-	public static function logName() {
+	public static function logName(){
 		global $JPConfiguration;
-		return $JPConfiguration->TranslateWinPath($JPConfiguration->OutputDirectory.'/joomlapack.log');
+		return $JPConfiguration->TranslateWinPath($JPConfiguration->OutputDirectory . '/joomlapack.log');
 	}
 }
 
 
-class CAltInstaller {
+class CAltInstaller{
 	/**
-	 @var string Short name of the installer*/
+	@var string Short name of the installer*/
 	var $Name;
 
 	/**
-	 @var string Package file, wihout path*/
+	@var string Package file, wihout path*/
 	var $Package;
 
 	/**
-	 @var string List of installer files*/
+	@var string List of installer files*/
 	var $fileList;
 
 	/**
-	 @var string Dump mode for the SQL data (split, one)*/
+	@var string Dump mode for the SQL data (split, one)*/
 	var $SQLDumpMode;
 
 	/**
-	 @var string Filename of the unified or table definition dump, relative to installer root*/
+	@var string Filename of the unified or table definition dump, relative to installer root*/
 	var $BaseDump;
 
 	/**
-	 @var string Filename of the data dump, relative to installer root*/
+	@var string Filename of the data dump, relative to installer root*/
 	var $SampleDump;
 
 	/**
@@ -424,55 +422,55 @@ class CAltInstaller {
 	 * @param string The name of the file you want to load. Relative to 'installers' directory.
 	 * @return boolean True if loaded successful the file
 	 */
-	function loadDefinition($file) {
+	function loadDefinition($file){
 		global $option;
-		require_once (JPATH_BASE.'/includes/domit/xml_domit_lite_include.php');
+		require_once (JPATH_BASE . '/includes/domit/xml_domit_lite_include.php');
 		// Instanciate new parser object
 		$xmlDoc = new DOMIT_Lite_Document();
 		$xmlDoc->resolveErrors(true);
-		if(!$xmlDoc->loadXML(JPATH_BASE_ADMIN.'/components/com_joomlapack/installers/'.$file,false,true)) {
+		if(!$xmlDoc->loadXML(JPATH_BASE_ADMIN . '/components/com_joomlapack/installers/' . $file, false, true)){
 			return false;
 		}
 		$root = &$xmlDoc->documentElement;
 		// Check if it is a valid description file
-		if($root->getTagName() != 'jpconfig') {
+		if($root->getTagName() != 'jpconfig'){
 			return false;
-		} elseif($root->getAttribute('type') != 'installpack') {
+		} elseif($root->getAttribute('type') != 'installpack'){
 			return false;
 		}
 
 		// Set basic elements
-		$e = &$root->getElementsByPath('name',1);
+		$e = &$root->getElementsByPath('name', 1);
 		$this->Name = $e->getText();
-		$e = &$root->getElementsByPath('package',1);
+		$e = &$root->getElementsByPath('package', 1);
 		$this->Package = $e->getText();
-		$sqlDumpRoot = &$root->getElementsByPath('sqldump',1);
+		$sqlDumpRoot = &$root->getElementsByPath('sqldump', 1);
 		$this->SQLDumpMode = &$sqlDumpRoot->getAttribute("mode");
 
 		// Get SQL filenames
-		if($sqlDumpRoot->hasChildNodes()) {
-			$e = $sqlDumpRoot->getElementsByPath('basedump',1);
-			if(!is_null($e)) {
+		if($sqlDumpRoot->hasChildNodes()){
+			$e = $sqlDumpRoot->getElementsByPath('basedump', 1);
+			if(!is_null($e)){
 				$this->BaseDump = $e->getText();
-			} else {
+			} else{
 				$this->BaseDump = '';
 			}
 
-			$e = $sqlDumpRoot->getElementsByPath('sampledump',1);
-			if(!is_null($e)) {
+			$e = $sqlDumpRoot->getElementsByPath('sampledump', 1);
+			if(!is_null($e)){
 				$this->SampleDump = $e->getText();
-			} else {
+			} else{
 				$this->SampleDump = '';
 			}
 		}
 
 		// Get file list
 		$this->fileList = array();
-		$flRoot = &$root->getElementsByPath('filelist',1);
-		if(!is_null($flRoot)) {
-			if($flRoot->hasChildNodes()) {
+		$flRoot = &$root->getElementsByPath('filelist', 1);
+		if(!is_null($flRoot)){
+			if($flRoot->hasChildNodes()){
 				$files = $flRoot->childNodes;
-				foreach($files as $file) {
+				foreach($files as $file){
 					$this->fileList[] = $file->getText();
 				}
 			}
@@ -485,16 +483,16 @@ class CAltInstaller {
 	 * Loads all installer definition files
 	 * @return array An array of the installer names and packages
 	 */
-	function loadAllDefinitions() {
+	function loadAllDefinitions(){
 		global $option;
 		require_once 'engine.abstraction.php';
 		$FS = new CFSAbstraction;
 		$defs = array();
-		$fileList = $FS->getDirContents(JPATH_BASE_ADMIN.'/components/com_joomlapack/installers/','*.xml');
-		foreach($fileList as $fileDef) {
+		$fileList = $FS->getDirContents(JPATH_BASE_ADMIN . '/components/com_joomlapack/installers/', '*.xml');
+		foreach($fileList as $fileDef){
 			$file = $fileDef['name'];
 			$baseName = basename($file);
-			if($this->loadDefinition($baseName)) {
+			if($this->loadDefinition($baseName)){
 				$newDef['name'] = $this->Name;
 				$newDef['package'] = $this->Package;
 				$newDef['meta'] = $baseName;
@@ -507,6 +505,6 @@ class CAltInstaller {
 }
 
 $JPConfiguration = new CConfiguration;
-if($JPConfiguration->hasConfiguration()) {
+if($JPConfiguration->hasConfiguration()){
 	$JPConfiguration->LoadConfiguration();
 }

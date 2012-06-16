@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 
 // экспорт функций для использования в Ajax
-sajax_export('tick','getCUBEArray','ping','dirSelectionHTML','toggleDirFilter','errorTrapReport');
+sajax_export('tick', 'getCUBEArray', 'ping', 'dirSelectionHTML', 'toggleDirFilter', 'errorTrapReport');
 sajax_handle_client_request();
 
 
@@ -20,16 +20,16 @@ sajax_handle_client_request();
  * Continues the procedure
  * @param $forceStart boolean When set to true, forces the procedure to start over
  */
-function tick($forceStart = 0,$forceDBOnly = 0) {
-	global $CUBE,$JPConfiguration;
+function tick($forceStart = 0, $forceDBOnly = 0){
+	global $CUBE, $JPConfiguration;
 	require_once ('ccube.php');
-	if($forceStart > 0) {
+	if($forceStart > 0){
 		$JPConfiguration->DeleteDebugVar('CUBEObject');
 		$JPConfiguration->DeleteDebugVar('CUBEArray');
 	}
-	if(($forceDBOnly > 0) && $forceStart > 0) {
+	if(($forceDBOnly > 0) && $forceStart > 0){
 		$CUBE = new CCUBE(true);
-	} else {
+	} else{
 		loadJPCUBE();
 	}
 	$ret = $CUBE->tick();
@@ -40,7 +40,7 @@ function tick($forceStart = 0,$forceDBOnly = 0) {
 /**
  * Returns the stored copy of the CUBE Array
  */
-function getCUBEArray() {
+function getCUBEArray(){
 	require_once ('ccube.php');
 	return loadJPCUBEArray();
 }
@@ -49,7 +49,7 @@ function getCUBEArray() {
  * Simple PING server for debugging purposes
  * @return integer Always 1
  */
-function ping() {
+function ping(){
 	return 1;
 }
 
@@ -59,7 +59,7 @@ function ping() {
  * limit on the script. All this is required to avoid PHP messing output meant
  * for AJAX client-side parsing which caused notorious timeouts.
  */
-function JPSetErrorReporting() {
+function JPSetErrorReporting(){
 	global $JP_Error_Reporting;
 	$JP_Error_Reporting = @error_reporting(E_ERROR | E_PARSE);
 	$JP_Error_Reporting = error_reporting(E_WARNING | E_ERROR | E_PARSE);
@@ -72,13 +72,13 @@ function JPSetErrorReporting() {
  * result. All this is required to avoid PHP messing output meant for AJAX
  * client-side parsing which caused notorious timeouts.
  */
-function JPRestoreErrorReporing() {
+function JPRestoreErrorReporing(){
 	global $JP_Error_Reporting;
 	@error_reporting($JP_Error_Reporting);
 	@ob_clean();
 }
 
-function dirSelectionHTML($root) {
+function dirSelectionHTML($root){
 	global $option;
 	require_once ('engine.exdirs.php');
 
@@ -95,21 +95,21 @@ END;
 	$def = new CDirExclusionFilter();
 	$dirs = $def->getDirectory($root);
 	$id = 0;
-	foreach($dirs as $dir => $excluded) {
+	foreach($dirs as $dir => $excluded){
 		$id++;
-		$checked = $excluded?" checked = \"true\" ":"";
+		$checked = $excluded ? " checked = \"true\" " : "";
 		$nocheck = ($dir == ".") || ($dir == "..");
 		$out .= "\n<tr><td align=\"center\">";
-		if(!$nocheck) {
-			$out .= "<input type=\"checkbox\" $checked onclick=\"ToggleFilter('".$def->ReplaceSlashes($root)."', '$dir','def-$id');\" id=\"def-$id\">";
-		} else {
+		if(!$nocheck){
+			$out .= "<input type=\"checkbox\" $checked onclick=\"ToggleFilter('" . $def->ReplaceSlashes($root) . "', '$dir','def-$id');\" id=\"def-$id\">";
+		} else{
 			$out .= '&nbsp;';
 		}
 		$out .= '</td><td align="left">';
-		if($excluded) {
+		if($excluded){
 			$out .= htmlentities($dir);
-		} else {
-			$out .= "<a href=\"javascript:dirSelectionHTML('".$def->ReplaceSlashes($root.DS.$dir)."');\">".htmlentities($dir)."</a>";
+		} else{
+			$out .= "<a href=\"javascript:dirSelectionHTML('" . $def->ReplaceSlashes($root . DS . $dir) . "');\">" . htmlentities($dir) . "</a>";
 		}
 		$out .= '</td></tr>';
 	}
@@ -120,22 +120,22 @@ END;
 	return $out;
 }
 
-function toggleDirFilter($root,$dir,$checked) {
+function toggleDirFilter($root, $dir, $checked){
 	global $option;
 	require_once ('engine.exdirs.php');
 	JPSetErrorReporting();
 	$def = new CDirExclusionFilter();
-	$def->modifyFilter($root,$dir,$checked);
+	$def->modifyFilter($root, $dir, $checked);
 	JPRestoreErrorReporing();
 	return 1;
 }
 
-function errorTrapReport($badData) {
+function errorTrapReport($badData){
 	global $JPConfiguration;
 	JPSetErrorReporting();
 	$JPConfiguration->WriteDebugVar('BadData', $badData, true);
-	CJPLogger::WriteLog(_JP_LOG_ERROR,'Ошибка во время выполнения, сервер вернул ответ:');
-	CJPLogger::WriteLog(_JP_LOG_ERROR,htmlspecialchars($badData));
+	CJPLogger::WriteLog(_JP_LOG_ERROR, 'Ошибка во время выполнения, сервер вернул ответ:');
+	CJPLogger::WriteLog(_JP_LOG_ERROR, htmlspecialchars($badData));
 	JPRestoreErrorReporing();
 	return 1;
 }

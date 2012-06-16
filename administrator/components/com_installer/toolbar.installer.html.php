@@ -14,22 +14,22 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Installer
  */
-class TOOLBAR_installer {
-	public static function _DEFAULT() {
+class TOOLBAR_installer{
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::help('screen.installer');
 		mosMenuBar::endTable();
 	}
 
-	public static function _DEFAULT2() {
+	public static function _DEFAULT2(){
 		mosMenuBar::startTable();
-		mosMenuBar::deleteList('','remove',_DELETE);
+		mosMenuBar::deleteList('', 'remove', _DELETE);
 		mosMenuBar::spacer();
 		mosMenuBar::help('screen.installer2');
 		mosMenuBar::endTable();
 	}
 
-	public static function _NEW() {
+	public static function _NEW(){
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

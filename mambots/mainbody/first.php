@@ -11,10 +11,10 @@
 defined('_VALID_MOS') or die();
 
 // очистка кода всего шаблона
-$_MAMBOTS->registerFunction('onTemplate','body_clear');
+$_MAMBOTS->registerFunction('onTemplate', 'body_clear');
 
 /* функция производит очистку от спецсимволов*/
-function body_clear(&$body) {
+function body_clear(&$body){
 	mosMainFrame::addLib('html_optimize');
 	$body = html_optimize($body);
 	return true;

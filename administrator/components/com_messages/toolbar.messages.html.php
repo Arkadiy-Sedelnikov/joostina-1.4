@@ -14,10 +14,10 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Messages
  */
-class TOOLBAR_messages {
-	public static function _VIEW() {
+class TOOLBAR_messages{
+	public static function _VIEW(){
 		mosMenuBar::startTable();
-		mosMenuBar::customX('reply','-move','',_MAIL_ANSWER,false);
+		mosMenuBar::customX('reply', '-move', '', _MAIL_ANSWER, false);
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
@@ -25,9 +25,9 @@ class TOOLBAR_messages {
 		mosMenuBar::endTable();
 	}
 
-	public static function _EDIT() {
+	public static function _EDIT(){
 		mosMenuBar::startTable();
-		mosMenuBar::save('save',_SEND_BUTTON);
+		mosMenuBar::save('save', _SEND_BUTTON);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
@@ -35,7 +35,7 @@ class TOOLBAR_messages {
 		mosMenuBar::endTable();
 	}
 
-	public static function _CONFIG() {
+	public static function _CONFIG(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('saveconfig');
 		mosMenuBar::spacer();
@@ -45,7 +45,7 @@ class TOOLBAR_messages {
 		mosMenuBar::endTable();
 	}
 
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();

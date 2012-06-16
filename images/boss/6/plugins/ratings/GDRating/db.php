@@ -41,7 +41,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 		require_once($_SERVER['DOCUMENT_ROOT'] . DS . 'includes' . DS . 'libraries' . DS . 'database' . DS . 'database.php');
 		$database = new database($mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix);
 		$sql = "INSERT INTO #__boss_" . $directory . "_rating (id, contentid, userid, value, ip, date) VALUES
-				('', " . $content_id . ", ".$user_id." , ".$value.", ".$ip.", ".time().");";
+				('', " . $content_id . ", " . $user_id . " , " . $value . ", " . $ip . ", " . time() . ");";
 		$database->setQuery($sql);
 		$database->query();
 

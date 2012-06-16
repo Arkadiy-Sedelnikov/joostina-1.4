@@ -18,13 +18,14 @@
 		</div>
 		<div class="boss_tpl_txt">
 			<h5><?php $this->displayCategoryTitle($content, 3); ?></h5>
+
 			<div class="boss_tpl_subtitle"><?php $this->loadFieldsInGroup($content, "conSubtitle", "<br />"); ?></div>
 		</div>
 
 		<br style="clear: both"/>
 
 		<?php  if($this->countFieldsInGroup("conDescription")){ ?>
-			<div class="boss_tpl_subtitle"><?php $this->loadFieldsInGroup($content, "conDescription", "<br />"); ?></div>
+		<div class="boss_tpl_subtitle"><?php $this->loadFieldsInGroup($content, "conDescription", "<br />"); ?></div>
 		<?php } ?>
 
 		<?php if($this->displayTags()){ ?>

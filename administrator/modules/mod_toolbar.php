@@ -10,20 +10,20 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-global $cur_template,$mosConfig_old_toolbar;
+global $cur_template, $mosConfig_old_toolbar;
 
-if(!defined('_TOOLBAR_MODULE')) {
-	define('_TOOLBAR_MODULE',1);
+if(!defined('_TOOLBAR_MODULE')){
+	define('_TOOLBAR_MODULE', 1);
 
 	$file = $mosConfig_old_toolbar ? 'menubar.html.old.php' : 'menubar.html.php';
 
-	if(file_exists(JPATH_BASE_ADMIN.'/templates/'.$cur_template.'/html/'.$file)) {
-		require_once (JPATH_BASE_ADMIN.'/templates/'.$cur_template.'/html/'.$file);
-	} else {
-		require_once (JPATH_BASE_ADMIN.'/includes/'.$file);
+	if(file_exists(JPATH_BASE_ADMIN . '/templates/' . $cur_template . '/html/' . $file)){
+		require_once (JPATH_BASE_ADMIN . '/templates/' . $cur_template . '/html/' . $file);
+	} else{
+		require_once (JPATH_BASE_ADMIN . '/includes/' . $file);
 	}
 }
 
-if($path = $mainframe->getPath('toolbar')) {
+if($path = $mainframe->getPath('toolbar')){
 	include_once ($path);
 }

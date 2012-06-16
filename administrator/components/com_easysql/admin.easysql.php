@@ -11,30 +11,30 @@
 defined('_VALID_MOS') or die();
 
 // разрешим доступ только пользователям с правами супер-администратора
-if(!$acl->acl_check('administration','config','users',$my->usertype)) {
-	mosRedirect('index2.php',_NOT_AUTH);
+if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
+	mosRedirect('index2.php', _NOT_AUTH);
 }
 
 // include html body
 require_once ($mainframe->getPath('admin_html'));
 
 // read params
-$task	= mosGetParam($_REQUEST,'task','execsql');
-$id		= mosGetParam($_GET,'id',null);
-$table	= base64_decode(mosGetParam($_GET,'prm1',null));
-$sql	= mosGetParam($_POST,'easysql_query',null);
+$task = mosGetParam($_REQUEST, 'task', 'execsql');
+$id = mosGetParam($_GET, 'id', null);
+$table = base64_decode(mosGetParam($_GET, 'prm1', null));
+$sql = mosGetParam($_POST, 'easysql_query', null);
 
-if(empty($table)) $table = mosGetParam($_POST,'easysql_table',null);
+if(empty($table)) $table = mosGetParam($_POST, 'easysql_table', null);
 
-switch($task) {
+switch($task){
 	case 'new':
 	case 'edit':
-		EditRecord($task,$table,$id);
+		EditRecord($task, $table, $id);
 		break;
 
 	case 'delete':
 		if(!is_null($id) && !is_null($table))
-			if(DeleteRecord($table,$id)) ExecSQL($task);
+			if(DeleteRecord($table, $id)) ExecSQL($task);
 		break;
 
 	case 'save':

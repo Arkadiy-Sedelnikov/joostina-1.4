@@ -1,10 +1,10 @@
 <?php
 /***
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
 // запрет прямого доступа
@@ -14,17 +14,17 @@ defined('_VALID_MOS') or die();
  * Информация о версии
  * @package Joostina
  */
-class joomlaVersion {
+class joomlaVersion{
 	/** @var строка Продукт*/
 	var $PRODUCT = 'Joostina';
 	/** @var строка CMS*/
 	var $CMS = 'Joostina';
 	/** @var версия*/
-	var $CMS_ver = '1.4.0';
+	var $CMS_ver = '1.4.1';
 	/** @var int Номер основной версии*/
 	var $RELEASE = '1.4';
 	/** @var строка  статус разработки*/
-	var $DEV_STATUS = 'stable';
+	var $DEV_STATUS = 'alfa';
 	/** @var int Подверсия*/
 	var $DEV_LEVEL = '1400';
 	/** @var int Номер сборки*/
@@ -32,7 +32,7 @@ class joomlaVersion {
 	/** @var string Кодовое имя*/
 	var $CODENAME = 'Lotos';
 	/** @var string Дата*/
-	var $RELDATE = '01.06.2012';
+	var $RELDATE = '16.06.2012';
 	/** @var string Время*/
 	var $RELTIME = '01:01';
 	/** @var string Временная зона*/
@@ -51,20 +51,24 @@ class joomlaVersion {
 	var $SUPPORT_CENTER = 'http://joostina-cms.ru';
 	/** @var string ссылки на сайты поддержки*/
 	var $SUPPORT = 'Поддержка: <a href="http://www.joostina-cms.ru" target="_blank" title="Официальный сайт CMS Joostina">www.joostina-cms.ru</a> | <a href="http://wiki.joostina-cms.ru" target="_blank" title="Wiki-документация">wiki.joostina-cms.ru</a>';
+
 	/** * @return string Длинный формат версии */
-	function getLongVersion() {
-		return $this->CMS.' '.$this->RELEASE.'. '.$this->CMS_ver.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '.$this->RELTIME.' '.$this->RELTZ;
+	function getLongVersion(){
+		return $this->CMS . ' ' . $this->RELEASE . '. ' . $this->CMS_ver . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' ' . $this->RELTIME . ' ' . $this->RELTZ;
 	}
+
 	/*** @return string Краткий формат версии */
-	function getShortVersion() {
-		return $this->RELEASE.'.'.$this->DEV_LEVEL;
+	function getShortVersion(){
+		return $this->RELEASE . '.' . $this->DEV_LEVEL;
 	}
+
 	/*** @return string Version suffix for help files*/
-	function getHelpVersion() {
-		return '.'.str_replace('.','',$this->RELEASE);
+	function getHelpVersion(){
+		return '.' . str_replace('.', '', $this->RELEASE);
 	}
+
 	// получение переменных окружения информации осистеме
-	public static function get($name) {
+	public static function get($name){
 		$v = new joomlaVersion();
 		return $v->$name;
 	}

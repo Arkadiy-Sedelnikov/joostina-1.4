@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="module">
-	<name>GDNewsLotos - Главные новости</name>
-	<creationDate>01.05.2012</creationDate>
-	<modificationDate>01.05.2012</modificationDate>
-	<author>Gold Dragon</author>
-	<authorEmail>illusive@bk.ru</authorEmail>
-	<authorUrl>http://gd.joostina-cms.ru</authorUrl>
-	<copyright>(C) 2000-2012 Gold Dragon.</copyright>
-	<license>http://www.gnu.org/licenses/gpl.htm GNU/GPL</license>
-	<version>1.0</version>
-	<description>
-		<![CDATA[
+    <name>GDNewsLotos - Главные новости</name>
+    <creationDate>01.05.2012</creationDate>
+    <modificationDate>01.05.2012</modificationDate>
+    <author>Gold Dragon</author>
+    <authorEmail>illusive@bk.ru</authorEmail>
+    <authorUrl>http://gd.joostina-cms.ru</authorUrl>
+    <copyright>(C) 2000-2012 Gold Dragon.</copyright>
+    <license>http://www.gnu.org/licenses/gpl.htm GNU/GPL</license>
+    <version>1.0</version>
+    <description>
+        <![CDATA[
 		<p><b>&laquo;GDNewsLotos - Главные новости&raquo;</b> - модуль позволяет выводить основные материалы по определённым критериям.</p>
 		<p>Модуль полноценно работает на Joostina 1.4</p>
 		<p>Для отображения в модуле изображений необходимо чтобы была включена директива настройки PHP <b>allow_url_fopen</b></p>
@@ -67,13 +67,13 @@
 			</tr>
 		</table>
 		]]>
-	</description>
-	<files>
-		<filename module="mod_gdnlotos">mod_gdnlotos.php</filename>
-		<filename module="mod_gdnlotos">mod_gdnlotos/.htaccess</filename>
-		<filename module="mod_gdnlotos">mod_gdnlotos/copyright.php</filename>
-		<filename module="mod_gdnlotos">mod_gdnlotos/helper.php</filename>
-		<filename module="mod_gdnlotos">mod_gdnlotos/imgsketch.php</filename>
+    </description>
+    <files>
+        <filename module="mod_gdnlotos">mod_gdnlotos.php</filename>
+        <filename module="mod_gdnlotos">mod_gdnlotos/.htaccess</filename>
+        <filename module="mod_gdnlotos">mod_gdnlotos/copyright.php</filename>
+        <filename module="mod_gdnlotos">mod_gdnlotos/helper.php</filename>
+        <filename module="mod_gdnlotos">mod_gdnlotos/imgsketch.php</filename>
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/index.html</filename>
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/default/assembly.tpl</filename>
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/default/basic.tpl</filename>
@@ -172,113 +172,113 @@
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/top/sp.txt.tpl</filename>
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/top/special.tpl</filename>
         <filename module="mod_gdnlotos">mod_gdnlotos/templates/top/style.css</filename>
-	</files>
+    </files>
 
-	<params>
-        <param type="tabs" default="startPane" name="gdnlotos" />
+    <params>
+        <param type="tabs" default="startPane" name="gdnlotos"/>
 
-        <param type="tabs" default="startTab" name="gdnlotos-1" label="Общие" />
-		<param name="cache" type="yesno" default="0" label="Разрешить кэширование" description="Выберите, кэшировать ли содержимое этого модуля" />
-		<param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль"/>
-        <param type="tabs" default="endTab" />
+        <param type="tabs" default="startTab" name="gdnlotos-1" label="Общие"/>
+        <param name="cache" type="yesno" default="0" label="Разрешить кэширование" description="Выберите, кэшировать ли содержимое этого модуля"/>
+        <param type="cachelist" name="cache_time" label="Кэшировать" description="Выберите время на которое необходимо кэшировать данный модуль"/>
+        <param type="tabs" default="endTab"/>
 
         <param type="tabs" default="startTab" name="gdnlotos-2" label="Настройка модуля"/>
-		<param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, который будет использован в описании класса таблицы стилей (CSS) модуля"/>
-		<param name="template" type="text" default="default" label="Шаблон модуля" description="Введите название шаблона (например: mytemplate). Если оставить поле пустым - будет использован шаблон по-умолчанию (default)."/>
-		<param name="template_dir" type="yesno" default="0" label="Директория шаблона" description="Системная - шаблон находится в modules/mod_gdnlotos/view/. Папка шаблона сайта - шаблон находится в templates/текущий_шаблон_сайта/html/modules/mod_gdnlotos/" yes="Папка шаблона сайта" no="Системная" />
-		<param name="modul_link" type="list" default="0" label="Сделать название модуля ссылкой?" description="">
-			<option value="0">Нет</option>
-			<option value="1">Ссылка на каталог</option>
-			<option value="2">Ссылка на категорию</option>
-		</param>
-		<param name="modul_link_cat" type="category" default="" label="Категория" description="Выберите, для какой категории будут дейстовать данные настройки"/>
-        <param type="tabs" default="endTab" />
+        <param name="moduleclass_sfx" type="text" default="" label="Суффикс класса модуля" description="Суффикс, который будет использован в описании класса таблицы стилей (CSS) модуля"/>
+        <param name="template" type="text" default="default" label="Шаблон модуля" description="Введите название шаблона (например: mytemplate). Если оставить поле пустым - будет использован шаблон по-умолчанию (default)."/>
+        <param name="template_dir" type="yesno" default="0" label="Директория шаблона" description="Системная - шаблон находится в modules/mod_gdnlotos/view/. Папка шаблона сайта - шаблон находится в templates/текущий_шаблон_сайта/html/modules/mod_gdnlotos/" yes="Папка шаблона сайта" no="Системная"/>
+        <param name="modul_link" type="list" default="0" label="Сделать название модуля ссылкой?" description="">
+            <option value="0">Нет</option>
+            <option value="1">Ссылка на каталог</option>
+            <option value="2">Ссылка на категорию</option>
+        </param>
+        <param name="modul_link_cat" type="category" default="" label="Категория" description="Выберите, для какой категории будут дейстовать данные настройки"/>
+        <param type="tabs" default="endTab"/>
 
         <param type="tabs" default="startTab" name="gdnlotos-3" label="Ссылки"/>
         <param name="directory" type="directory" default="" label="Каталог" description="Выберите, из какого каталога будут будет выбираться содержимое"/>
         <param name="catid" type="text" default="" label="Идентификатор (ID) категории" description="Выбор объектов из определенных категорий, или набора категорий (для выбора более одной категории, разделяйте их запятой , ). Оставьте это поле пустым если хотите выбирать содержимое из всех категорий"/>
-        <param name="directory_name" type="yesno" default="0" label="Название каталога" description="Показать/Спрятать название каталога, к которому относится объект" yes="Показать" no="Скрыть" />
-		<param name="directory_link" type="yesno" default="1" label="Название каталога как ссылка" description="Сделать названия каталога ссылкой" />
-		<param name="category_name" type="yesno" default="1" label="Название категории" description="Показать/Спрятать название категории, к которой относится объект" yes="Показать" no="Скрыть" />
-		<param name="category_link" type="yesno" default="1" label="Название категории как ссылка" description="Сделать названия категорий ссылками"/>
-        <param name="content_field" type="field" default="content_editor" label="Поле основного текста" description="Имя поля БД из которого будет браться содержимое. Поле необходимо выбирать из выбранного выше каталога" />
-        <param type="tabs" default="endTab" />
+        <param name="directory_name" type="yesno" default="0" label="Название каталога" description="Показать/Спрятать название каталога, к которому относится объект" yes="Показать" no="Скрыть"/>
+        <param name="directory_link" type="yesno" default="1" label="Название каталога как ссылка" description="Сделать названия каталога ссылкой"/>
+        <param name="category_name" type="yesno" default="1" label="Название категории" description="Показать/Спрятать название категории, к которой относится объект" yes="Показать" no="Скрыть"/>
+        <param name="category_link" type="yesno" default="1" label="Название категории как ссылка" description="Сделать названия категорий ссылками"/>
+        <param name="content_field" type="field" default="content_editor" label="Поле основного текста" description="Имя поля БД из которого будет браться содержимое. Поле необходимо выбирать из выбранного выше каталога"/>
+        <param type="tabs" default="endTab"/>
 
         <param type="tabs" default="startTab" name="gdnlotos-4" label="Содержимое"/>
         <param name="count_special" type="text" default="1" size="3" label="Количество главных объектов" description="Количество главных объектов"/>
         <param name="count_basic" type="text" default="4" size="3" label="Количество основных статей" description="Количество отображаемых основных объектов (по умолчанию: 4)"/>
         <param name="columns" type="text" size="3" default="2" label="Колонок" description="Сколько колонок в строке использовать при отображении (по умолчани 2)"/>
         <param name="count_reference" type="text" default="0" size="3" label="Количество ссылок" description=""/>
-		<param name="show_front" type="yesno" default="0" label="Объекты главной страницы" description="Показать/скрыть объекты, предназначенные для главной страницы. Эта опция работает, если выбран режим - Только содержимое объектов" yes="Показать" no="Скрыть" />
-		<param name="orderby" type="list" default="" label="Порядок сортировки" description="Порядок, в котором будут отображаться новости.">
-			<option value="">По умолчанию</option>
-			<option value="date">Сначала самые старые</option>
-			<option value="rdate">Сначала самые новые</option>
-			<option value="alpha">Заголовки по алфавиту</option>
-			<option value="ralpha">Заголовки в обратном порядке алфавита</option>
-			<option value="rhits">Сначала самые читаемые</option>
-			<option value="hits">Сначала редко читаемые</option>
-			<option value="author">Авторы (настоящее имя) по алфавиту</option>
-			<option value="rauthor">Авторы (настоящее имя) в обратном порядке алфавита</option>
-			<option value="authorlog">Авторы (логин) по алфавиту</option>
-			<option value="rauthorlog">Авторы (логин) в обратном порядке алфавита</option>
-			<option value="rand">В случайном порядке</option>
-		</param>
-		<param name="time" type="text" default="30" label="Период выборки (в днях)" description="Если указан ноль, то материалы будут выводиться за весь период. Иначе укажите количество дней, за которые следует выводить материалы"/>
-        <param type="tabs" default="endTab" />
+        <param name="show_front" type="yesno" default="0" label="Объекты главной страницы" description="Показать/скрыть объекты, предназначенные для главной страницы. Эта опция работает, если выбран режим - Только содержимое объектов" yes="Показать" no="Скрыть"/>
+        <param name="orderby" type="list" default="" label="Порядок сортировки" description="Порядок, в котором будут отображаться новости.">
+            <option value="">По умолчанию</option>
+            <option value="date">Сначала самые старые</option>
+            <option value="rdate">Сначала самые новые</option>
+            <option value="alpha">Заголовки по алфавиту</option>
+            <option value="ralpha">Заголовки в обратном порядке алфавита</option>
+            <option value="rhits">Сначала самые читаемые</option>
+            <option value="hits">Сначала редко читаемые</option>
+            <option value="author">Авторы (настоящее имя) по алфавиту</option>
+            <option value="rauthor">Авторы (настоящее имя) в обратном порядке алфавита</option>
+            <option value="authorlog">Авторы (логин) по алфавиту</option>
+            <option value="rauthorlog">Авторы (логин) в обратном порядке алфавита</option>
+            <option value="rand">В случайном порядке</option>
+        </param>
+        <param name="time" type="text" default="30" label="Период выборки (в днях)" description="Если указан ноль, то материалы будут выводиться за весь период. Иначе укажите количество дней, за которые следует выводить материалы"/>
+        <param type="tabs" default="endTab"/>
 
         <param type="tabs" default="startTab" name="gdnlotos-5" label="Изображение"/>
-        <param name="image" type="yesno" default="1" label="Показывать изображения" description="Показывать изображения объекта содержимого" />
+        <param name="image" type="yesno" default="1" label="Показывать изображения" description="Показывать изображения объекта содержимого"/>
         <param name="image_link" type="list" default="2" label="Реакция нажатия на Изображение" description="">
-			<option value="0">Нет</option>
-			<option value="1">Ссылка на материал</option>
-			<option value="2">Эффекты Fancybox</option>
-			<option value="3">Простое открытие изображения</option>
-		</param>
-		<param name="image_default" type="yesno" default="1" label="Выводить изображение по-умолчанию" description="Если ДА - то вместо отсутствующего в материале изображения будет выведена картинка по-умолчанию (images/noimage.jpg)" />
-		<param name="image_prev" type="list" default="width" label="Задать размер по" description="Выберите по какой стороне будет проходить масштабирование изображения">
-			<option value="width">Ширине</option>
-			<option value="height">Высоте</option>
-		</param>
-		<param name="image_size_s" type="text" default="200" label="Размер изображения специальной части (px)" description="Укажите размер изображения в пикселях"/>
-		<param name="image_quality_s" type="text" default="75" label="Качество миниэскиза" description="Укажите качество миниэскиза. Диапазон значений от 0 (наихудшее качество, наименьший файл) до 100 (наилучшее качество, наибольший файл). По умолчанию используется значение 75"/>
-		<param name="image_size_b" type="text" default="100" label="Размер изображения основной части (px)" description="Укажите размер изображения в пикселях"/>
-		<param name="image_quality_b" type="text" default="75" label="Качество миниэскиза" description="Укажите качество миниэскиза. Диапазон значений от 0 (наихудшее качество, наименьший файл) до 100 (наилучшее качество, наибольший файл). По умолчанию используется значение 75"/>
-        <param type="tabs" default="endTab" />
+            <option value="0">Нет</option>
+            <option value="1">Ссылка на материал</option>
+            <option value="2">Эффекты Fancybox</option>
+            <option value="3">Простое открытие изображения</option>
+        </param>
+        <param name="image_default" type="yesno" default="1" label="Выводить изображение по-умолчанию" description="Если ДА - то вместо отсутствующего в материале изображения будет выведена картинка по-умолчанию (images/noimage.jpg)"/>
+        <param name="image_prev" type="list" default="width" label="Задать размер по" description="Выберите по какой стороне будет проходить масштабирование изображения">
+            <option value="width">Ширине</option>
+            <option value="height">Высоте</option>
+        </param>
+        <param name="image_size_s" type="text" default="200" label="Размер изображения специальной части (px)" description="Укажите размер изображения в пикселях"/>
+        <param name="image_quality_s" type="text" default="75" label="Качество миниэскиза" description="Укажите качество миниэскиза. Диапазон значений от 0 (наихудшее качество, наименьший файл) до 100 (наилучшее качество, наибольший файл). По умолчанию используется значение 75"/>
+        <param name="image_size_b" type="text" default="100" label="Размер изображения основной части (px)" description="Укажите размер изображения в пикселях"/>
+        <param name="image_quality_b" type="text" default="75" label="Качество миниэскиза" description="Укажите качество миниэскиза. Диапазон значений от 0 (наихудшее качество, наименьший файл) до 100 (наилучшее качество, наибольший файл). По умолчанию используется значение 75"/>
+        <param type="tabs" default="endTab"/>
 
         <param type="tabs" default="startTab" name="gdnlotos-6" label="Дополнительные настройки"/>
-        <param name="item_title" type="yesno" default="1" label="Заголовок объекта" description="Показывать ли заголовок объекта" />
-		<param name="link_titles" type="yesno" default="1" label="Заголовки в виде ссылок" description="Создание заголовков объекта в виде ссылок"/>
-		<param name="text" type="list" default="1" label="Текст новости" description="">
-			<option value="0">Не показывать</option>
-			<option value="1">Текстом</option>
-			<option value="2">Ссылкой</option>
-		</param>
-		<param name="crop_text" type="list" default="0" label="Лимит текста" description="">
-			<option value="0">Без лимита</option>
-			<option value="simbol">Лимит символов</option>
-			<option value="word">Лимит слов</option>
-		</param>
-		<param name="crop_text_limit" type="text" default="" label="Размер лимита" description=""/>
-		<param name="crop_text_format" type="yesno" default="0" label="Форматирование текста" description="Если выбрано [Использовать], то текст сохранит изначальное форматирование текста. Не применяется если выбран лимит слов">
-			<option value="0">Очистить</option>
-			<option value="1">Использовать</option>
-		</param>
-		<param name="show_date" type="yesno" default="1" label="Показать дату создания" description="" />
-		<param name="date_format" type="text" default="%d-%m-%Y %H:%M" label="Формат даты" description="Если поле будет пустым, то будет выводиться только дата"/>
-		<param name="show_author" type="list" default="4" label="Показать автора" description="">
-			<option value="0">Нет</option>
-			<option value="1">Настоящее имя</option>
-			<option value="2">Логин</option>
-			<option value="3">Настоящее имя (ссылка на профиль)</option>
-			<option value="4">Логин (ссылка на профиль)</option>
-		</param>
-		<param name="readmore" type="yesno" default="1" label="Подробнее..." description="Показывать ли кнопку [Подробнее]" yes="Показать" no="Скрыть" />
-		<param name="link_text" type="text" default="" label="Текст [Подробнее]" description="Если оставить поле пустым - будет использован текст по-умолчанию."/>
-		<param name="hits" type="yesno" default="1" label="Количество просмотров" description="Показывать ли количество просмотров?" yes="Показать" no="Скрыть" />
-        <param type="tabs" default="endTab" />
+        <param name="item_title" type="yesno" default="1" label="Заголовок объекта" description="Показывать ли заголовок объекта"/>
+        <param name="link_titles" type="yesno" default="1" label="Заголовки в виде ссылок" description="Создание заголовков объекта в виде ссылок"/>
+        <param name="text" type="list" default="1" label="Текст новости" description="">
+            <option value="0">Не показывать</option>
+            <option value="1">Текстом</option>
+            <option value="2">Ссылкой</option>
+        </param>
+        <param name="crop_text" type="list" default="0" label="Лимит текста" description="">
+            <option value="0">Без лимита</option>
+            <option value="simbol">Лимит символов</option>
+            <option value="word">Лимит слов</option>
+        </param>
+        <param name="crop_text_limit" type="text" default="" label="Размер лимита" description=""/>
+        <param name="crop_text_format" type="yesno" default="0" label="Форматирование текста" description="Если выбрано [Использовать], то текст сохранит изначальное форматирование текста. Не применяется если выбран лимит слов">
+            <option value="0">Очистить</option>
+            <option value="1">Использовать</option>
+        </param>
+        <param name="show_date" type="yesno" default="1" label="Показать дату создания" description=""/>
+        <param name="date_format" type="text" default="%d-%m-%Y %H:%M" label="Формат даты" description="Если поле будет пустым, то будет выводиться только дата"/>
+        <param name="show_author" type="list" default="4" label="Показать автора" description="">
+            <option value="0">Нет</option>
+            <option value="1">Настоящее имя</option>
+            <option value="2">Логин</option>
+            <option value="3">Настоящее имя (ссылка на профиль)</option>
+            <option value="4">Логин (ссылка на профиль)</option>
+        </param>
+        <param name="readmore" type="yesno" default="1" label="Подробнее..." description="Показывать ли кнопку [Подробнее]" yes="Показать" no="Скрыть"/>
+        <param name="link_text" type="text" default="" label="Текст [Подробнее]" description="Если оставить поле пустым - будет использован текст по-умолчанию."/>
+        <param name="hits" type="yesno" default="1" label="Количество просмотров" description="Показывать ли количество просмотров?" yes="Показать" no="Скрыть"/>
+        <param type="tabs" default="endTab"/>
 
-        <param type="tabs" default="endPane" />
+        <param type="tabs" default="endPane"/>
 
-	</params>
+    </params>
 </mosinstall>

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @version		$Id: cache.class.php 11074 2009-05-03 04:54:12Z ian $
- * @package		Joostina
- * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @version        $Id: cache.class.php 11074 2009-05-03 04:54:12Z ian $
+ * @package        Joostina
+ * @subpackage    Cache
+ * @copyright    Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license        GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -17,23 +17,20 @@ defined('_VALID_MOS') or die();
 
 /**
  * Class used to hold Cache data
- *
- * @package		Joostina
- * @subpackage	Cache
- * @since		1.3
+ * @package        Joostina
+ * @subpackage    Cache
+ * @since        1.3
  */
-class CacheData {
+class CacheData{
 
 	/**
 	 * An Array of CacheItems indexed by cache group ID
-	 *
 	 * @access protected
 	 * @var Array
 	 */
 	var $_items = null;
 	/**
 	 * The cache path
-	 *
 	 * @access protected
 	 * @var String
 	 */
@@ -41,10 +38,9 @@ class CacheData {
 
 	/**
 	 * Class constructor
-	 *
 	 * @access protected
 	 */
-	function __construct($path) {
+	function __construct($path){
 		$this->_path = $path;
 		$this->_parse();
 		//echo " 1hgh";
@@ -53,23 +49,22 @@ class CacheData {
 	/**
 	 * Parse $path for cache file groups. Any files identifided as cache are logged
 	 * in a group and stored in $this->items.
-	 *
-	 * @access	private
-	 * @param	String $path
+	 * @access    private
+	 * @param    String $path
 	 */
-	function _parse() {
+	function _parse(){
 
 		require_once(JPATH_BASE . '/includes/libraries/filesystem/folder.php');
 		require_once(JPATH_BASE . '/includes/libraries/filesystem/file.php');
 
 		$folders = JFolder::folders($this->_path);
 
-		foreach ($folders as $folder) {
+		foreach($folders as $folder){
 			$files = array();
 			$files = JFolder::files($this->_path . DS . $folder);
 			$this->_items[$folder] = new CacheItem($folder);
 
-			foreach ($files as $file) {
+			foreach($files as $file){
 				$this->_items[$folder]->updateSize(filesize($this->_path . DS . $folder . DS . $file));
 			}
 		}
@@ -77,32 +72,30 @@ class CacheData {
 
 	/**
 	 * Get the number of current Cache Groups
-	 *
 	 * @access public
 	 * @return int
 	 */
-	function getGroupCount() {
+	function getGroupCount(){
 		return count($this->_items);
 	}
 
 	/**
 	 * Retrun an Array containing a sub set of the total
 	 * number of Cache Groups as defined by the params.
-	 *
 	 * @access public
 	 * @param Int $start
 	 * @param Int $limit
 	 * @return Array
 	 */
-	function getRows($start, $limit) {
+	function getRows($start, $limit){
 		$i = 0;
 		$rows = array();
-		if (!is_array($this->_items)) {
+		if(!is_array($this->_items)){
 			return null;
 		}
 
-		foreach ($this->_items as $item) {
-			if ((($i >= $start) && ($i < $start + $limit)) || ($limit == 0)) {
+		foreach($this->_items as $item){
+			if((($i >= $start) && ($i < $start + $limit)) || ($limit == 0)){
 				$rows[] = $item;
 			}
 			$i++;
@@ -113,18 +106,17 @@ class CacheData {
 	/**
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
-	 *
 	 * @param String $group
 	 */
-	function cleanCache($group='') {
+	function cleanCache($group = ''){
 		$cache = mosCache::getCache('', 'callback', 'file');
-		if ($cache != NULL) {
+		if($cache != NULL){
 			$cache->clean($group);
 		}
 	}
 
-	function cleanCacheList($array) {
-		foreach ($array as $group) {
+	function cleanCacheList($array){
+		foreach($array as $group){
 			$this->cleanCache($group);
 		}
 	}
@@ -133,37 +125,36 @@ class CacheData {
 
 /**
  * This Class is used by CacheData to store group cache data.
- *
- * @package	Joostina
- * @subpackage	Cache
- * @since		1.3
+ * @package    Joostina
+ * @subpackage    Cache
+ * @since        1.3
  */
-class CacheItem {
+class CacheItem{
 
 	var $group = "";
 	var $size = 0;
 	var $count = 0;
 
-	function CacheItem($group) {
+	function CacheItem($group){
 		$this->group = $group;
 	}
 
-	function updateSize($size) {
+	function updateSize($size){
 		$this->size = $this->size + $size;
 		$this->count++;
 	}
 
-	public static function convert_size($num) {
+	public static function convert_size($num){
 
-		$num = (int) $num;
+		$num = (int)$num;
 
-		if ($num >= 1073741824) {
+		if($num >= 1073741824){
 			$num = round($num / 1073741824 * 100) / 100 . ' ' . 'gb';
-		} else if ($num >= 1048576) {
+		} else if($num >= 1048576){
 			$num = round($num / 1048576 * 100) / 100 . ' ' . 'mb';
-		} else if ($num >= 1024) {
+		} else if($num >= 1024){
 			$num = round($num / 1024 * 100) / 100 . ' ' . 'kb';
-		} else {
+		} else{
 			$num .= ' ' . 'byte';
 		}
 		return $num;

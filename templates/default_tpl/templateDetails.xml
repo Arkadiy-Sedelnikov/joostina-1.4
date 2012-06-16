@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="template" version="1.4.0">
-	<name>Default</name>
-	<creationDate>25.05.2012</creationDate>
-	<author>Gold Dragon</author>
-	<authorEmail>illusive@bk.ru</authorEmail>
-	<authorUrl>http://joostina-cms.ru</authorUrl>
-	<copyright>(c) Joostina Lotos</copyright>
-	<version>1.0</version>
-	<license>GNU/GPL</license>
-	<description>Шаблон Joostina 1.4.0</description>
+    <name>Default</name>
+    <creationDate>25.05.2012</creationDate>
+    <author>Gold Dragon</author>
+    <authorEmail>illusive@bk.ru</authorEmail>
+    <authorUrl>http://joostina-cms.ru</authorUrl>
+    <copyright>(c) Joostina Lotos</copyright>
+    <version>1.0</version>
+    <license>GNU/GPL</license>
+    <description>Шаблон Joostina 1.4.0</description>
 </mosinstall>

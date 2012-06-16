@@ -14,24 +14,26 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Admin
  */
-class TOOLBAR_admin {
-	public static function _SYSINFO() {
+class TOOLBAR_admin{
+	public static function _SYSINFO(){
 		mosMenuBar::startTable();
 		mosMenuBar::help('screen.system.info');
 		mosMenuBar::endTable();
 	}
+
 	/**
 	 * Draws the menu for a New category
 	 */
-	public static function _CPANEL() {
+	public static function _CPANEL(){
 		mosMenuBar::startTable();
 		mosMenuBar::help('screen.cpanel');
 		mosMenuBar::endTable();
 	}
+
 	/**
 	 * Draws the menu for a New category
 	 */
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		//mosMenuBar::help( 'screen.cpanel' );
 		mosMenuBar::endTable();

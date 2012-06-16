@@ -14,26 +14,26 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Trash
  */
-class TOOLBAR_Trash {
-	public static function _DEFAULT() {
+class TOOLBAR_Trash{
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
-		mosMenuBar::custom('restoreconfirm','-check','',_RESTORE,true);
+		mosMenuBar::custom('restoreconfirm', '-check', '', _RESTORE, true);
 		mosMenuBar::spacer();
-		mosMenuBar::custom('deleteconfirm','-delete','',_DELETE,true);
+		mosMenuBar::custom('deleteconfirm', '-delete', '', _DELETE, true);
 		mosMenuBar::spacer();
-		mosMenuBar::custom('deleteall','-delete','',_CLEAR_TRASH,false);
+		mosMenuBar::custom('deleteall', '-delete', '', _CLEAR_TRASH, false);
 		mosMenuBar::spacer();
 		mosMenuBar::help('screen.trashmanager');
 		mosMenuBar::endTable();
 	}
 
-	public static function _DELETE() {
+	public static function _DELETE(){
 		mosMenuBar::startTable();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	public static function _SETTINGS() {
+	public static function _SETTINGS(){
 		mosMenuBar::startTable();
 		mosMenuBar::back();
 		mosMenuBar::spacer();

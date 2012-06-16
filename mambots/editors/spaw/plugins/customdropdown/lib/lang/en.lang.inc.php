@@ -1,4 +1,4 @@
-<?php 
+<?php
 // ================================================
 // SPAW v.2.0
 // ================================================
@@ -17,8 +17,8 @@ $spaw_lang_charset = 'utf-8';
 // alternative text for toolbar buttons and title for dropdowns - 'title'
 
 $spaw_lang_data = array(
-  'customdropdown' => array(
-    'title' => 'Custom Drop Down'
-  ),
+	'customdropdown' => array(
+		'title' => 'Custom Drop Down'
+	),
 );
 ?>

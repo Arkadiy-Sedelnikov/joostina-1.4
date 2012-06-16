@@ -1,7 +1,6 @@
 <?php
 /**
  * Класс работы с датами
- *
  * @package Joostina
  * @copyright (C) 2009 Extention Team. Joostina Team. Все права защищены.
  * @license GNU/GPL, подробнее в help/lisense.php
@@ -10,22 +9,22 @@
  */
 defined('_VALID_MOS') or die();
 
-class DateAndTime {
-	
+class DateAndTime{
 
-	function DateAndTime() {
+
+	function DateAndTime(){
 
 	}
 
 	// returns the associative array with date deltas.
-	function getDelta($first, $last) {
-		if ($last < $first) return false;
+	function getDelta($first, $last){
+		if($last < $first) return false;
 
 		// Solve H:M:S part.
 		$hms = ($last - $first) % (3600 * 24);
 		$delta['seconds'] = $hms % 60;
-		$delta['minutes'] = floor($hms/60) % 60;
-		$delta['hours']   = floor($hms/3600) % 60;
+		$delta['minutes'] = floor($hms / 60) % 60;
+		$delta['hours'] = floor($hms / 3600) % 60;
 
 		// Now work only with date, delta time = 0.
 		$last -= $hms;
@@ -36,23 +35,23 @@ class DateAndTime {
 
 		// Delta day. Is negative, month overlapping.
 		$dDay += $l['mday'] - $f['mday'];
-		if ($dDay < 0) {
+		if($dDay < 0){
 			$monlen = self::monthLength(date("Y", $first), date("m", $first));
 			$dDay += $monlen;
 			$dMon--;
 		}
 		$delta['mday'] = $dDay;
 
-		if($delta['mday']>1) {
-			$delta['mday'] = $delta['mday']- 1;
+		if($delta['mday'] > 1){
+			$delta['mday'] = $delta['mday'] - 1;
 		}
 
 
 		// Delta month. If negative, year overlapping.
 		$dMon += $l['mon'] - $f['mon'];
-		if ($dMon < 0) {
+		if($dMon < 0){
 			$dMon += 12;
-			$dYear --;
+			$dYear--;
 		}
 		$delta['mon'] = $dMon;
 
@@ -64,22 +63,21 @@ class DateAndTime {
 	}
 
 	// Returns the length (in days) of the specified month.
-	function monthLength($year, $mon) {
+	function monthLength($year, $mon){
 		$l = 28;
-		while (checkdate($mon, $l+1, $year)) $l++;
+		while(checkdate($mon, $l + 1, $year)) $l++;
 		return $l;
 	}
 
 
 	/**
 	 * Converts a MySQL Timestamp to Unix
-	 *
-	 * @access	public
-	 * @param	integer Unix timestamp
-	 * @return	integer
+	 * @access    public
+	 * @param    integer Unix timestamp
+	 * @return    integer
 	 */
 
-	function mysql_to_unix($time = '') {
+	function mysql_to_unix($time = ''){
 		// We'll remove certain characters for backward compatibility
 		// since the formatting changed with MySQL 4.1
 		// YYYY-MM-DD HH:MM:SS
@@ -89,13 +87,13 @@ class DateAndTime {
 		$time = str_replace(' ', '', $time);
 
 		// YYYYMMDDHHMMSS
-		return  mktime(
-				substr($time, 8, 2),
-				substr($time, 10, 2),
-				substr($time, 12, 2),
-				substr($time, 4, 2),
-				substr($time, 6, 2),
-				substr($time, 0, 4)
+		return mktime(
+			substr($time, 8, 2),
+			substr($time, 10, 2),
+			substr($time, 12, 2),
+			substr($time, 4, 2),
+			substr($time, 6, 2),
+			substr($time, 0, 4)
 		);
 	}
 }

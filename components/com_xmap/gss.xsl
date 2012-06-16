@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xna="http://www.sitemaps.org/schemas/sitemap/0.9" exclude-result-prefixes="xna">
-	<xsl:output indent="yes" method="html" omit-xml-declaration="yes"/>
-	<xsl:template match="/">
-		<html>
-			<head>
-				<title>Google Sitemap File</title>
-				<link href="http://www.google.com/webmasters/sitemaps/docs/sitemaps.css" type="text/css" rel="stylesheet"/>
-				<style type="text/css">
-					<![CDATA[
+    <xsl:output indent="yes" method="html" omit-xml-declaration="yes"/>
+    <xsl:template match="/">
+        <html>
+            <head>
+                <title>Google Sitemap File</title>
+                <link href="http://www.google.com/webmasters/sitemaps/docs/sitemaps.css" type="text/css" rel="stylesheet"/>
+                <style type="text/css">
+                    <![CDATA[
 	<!--
 	h1 {
 		font-weight:bold;
@@ -65,9 +65,9 @@
 	}
 	-->
 					]]>
-				</style>
-				<script language="JavaScript">
-					<![CDATA[
+                </style>
+                <script language="JavaScript">
+                    <![CDATA[
 	var selectedColor = "blue";
 	var defaultColor = "black";
 	var hdrRows = 1;
@@ -212,29 +212,43 @@
 	}
 
 					]]>
-				</script>
-			</head>
-			<body onLoad="initXsl('table0','sitemap');">
-				<h1 id="head1">Site Map</h1>
-				<h2>Number of URLs in this Sitemap: <xsl:value-of select="count(xna:urlset/xna:url)"></xsl:value-of></h2>
-				<table id="table0" class="data">
-					<tr class="header">
-						<td>Sitemap URL</td>
-						<td>Last modification date</td>
-						<td>Change freq.</td>
-						<td>Priority</td>
-					</tr>
-					<xsl:for-each select="xna:urlset/xna:url">
-						<tr>
-							<td><xsl:variable name="sitemapURL"><xsl:value-of select="xna:loc"/></xsl:variable>
-							<a href="{$sitemapURL}" target="_blank" ref="nofollow"><xsl:value-of select="$sitemapURL"></xsl:value-of></a></td>
-							<td><xsl:value-of select="xna:lastmod"/></td>
-							<td><xsl:value-of select="xna:changefreq"/></td>
-							<td><xsl:value-of select="xna:priority"/></td>
-						</tr>
-					</xsl:for-each>
-				</table>
-			</body>
-		</html>
-	</xsl:template>
+                </script>
+            </head>
+            <body onLoad="initXsl('table0','sitemap');">
+                <h1 id="head1">Site Map</h1>
+                <h2>Number of URLs in this Sitemap:
+                    <xsl:value-of select="count(xna:urlset/xna:url)"></xsl:value-of>
+                </h2>
+                <table id="table0" class="data">
+                    <tr class="header">
+                        <td>Sitemap URL</td>
+                        <td>Last modification date</td>
+                        <td>Change freq.</td>
+                        <td>Priority</td>
+                    </tr>
+                    <xsl:for-each select="xna:urlset/xna:url">
+                        <tr>
+                            <td>
+                                <xsl:variable name="sitemapURL">
+                                    <xsl:value-of select="xna:loc"/>
+                                </xsl:variable>
+                                <a href="{$sitemapURL}" target="_blank" ref="nofollow">
+                                    <xsl:value-of select="$sitemapURL"></xsl:value-of>
+                                </a>
+                            </td>
+                            <td>
+                                <xsl:value-of select="xna:lastmod"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="xna:changefreq"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="xna:priority"/>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </body>
+        </html>
+    </xsl:template>
 </xsl:stylesheet>

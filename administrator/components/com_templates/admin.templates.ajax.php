@@ -12,124 +12,126 @@ defined('_VALID_MOS') or die();
 
 $acl = &gacl::getInstance();
 
-if(!$acl->acl_check('administration','manage','users',$GLOBALS['my']->usertype,'components','com_templates')) {
+if(!$acl->acl_check('administration', 'manage', 'users', $GLOBALS['my']->usertype, 'components', 'com_templates')){
 	die('error-acl');
 }
 
-$task = mosGetParam($_GET,'task','publish');
+$task = mosGetParam($_GET, 'task', 'publish');
 
-switch($task) {
-	case 'source': {
-			saveTemplateSource();
-			return;
+switch($task){
+	case 'source':
+		{
+		saveTemplateSource();
+		return;
 		}
-	case 'css': {
-			saveTemplateCSS();
-			return;
+	case 'css':
+		{
+		saveTemplateCSS();
+		return;
 		}
-	default: {
-			echo 'error-task';
-			return;
+	default:
+		{
+		echo 'error-task';
+		return;
 		}
 }
 
-function saveTemplateSource() {
+function saveTemplateSource(){
 	josSpoofCheck();
 
-	$template		= strval(mosGetParam($_POST,'template',''));
-	$client			= strval(mosGetParam($_REQUEST,'client',''));
-	$filecontent	= joostina_api::convert(mosGetParam($_POST,'filecontent','',_MOS_ALLOWHTML));
+	$template = strval(mosGetParam($_POST, 'template', ''));
+	$client = strval(mosGetParam($_REQUEST, 'client', ''));
+	$filecontent = joostina_api::convert(mosGetParam($_POST, 'filecontent', '', _MOS_ALLOWHTML));
 
-	if(!$template) {
+	if(!$template){
 		echo _UNSUCCESS_OPERATION_NO_TEMPLATE;
 		return;
 	}
-	if(!$filecontent) {
+	if(!$filecontent){
 		echo _UNSUCCESS_OPERATION_EMPTY_FILE;
 		return;
 	}
 
-	if($client == 'admin') {
-		$file = JPATH_BASE_ADMIN.'/templates/'.$template.'/index.php';
-	}
-	else {
-		$file = JPATH_BASE.'/templates/'.$template.'/index.php';
+	if($client == 'admin'){
+		$file = JPATH_BASE_ADMIN . '/templates/' . $template . '/index.php';
+	} else{
+		$file = JPATH_BASE . '/templates/' . $template . '/index.php';
 	}
 
-	$enable_write = mosGetParam($_POST,'enable_write',0);
+	$enable_write = mosGetParam($_POST, 'enable_write', 0);
 	$oldperms = fileperms($file);
 
-	if($enable_write) {
-		@chmod($file,$oldperms | 0222);
+	if($enable_write){
+		@chmod($file, $oldperms | 0222);
 	}
 
 	clearstatcache();
 
-	if(is_writable($file) == false) {
-		echo _UNSUCCES_OPERAION.' '.$file.' '._UNWRITEABLE;
+	if(is_writable($file) == false){
+		echo _UNSUCCES_OPERAION . ' ' . $file . ' ' . _UNWRITEABLE;
 		return;
 	}
-	if($fp = fopen($file,'w')) {
-		fputs($fp,stripslashes($filecontent),strlen($filecontent));
+	if($fp = fopen($file, 'w')){
+		fputs($fp, stripslashes($filecontent), strlen($filecontent));
 		fclose($fp);
-		if($enable_write) {
-			@chmod($file,$oldperms);
-		}else {
-			if(mosGetParam($_POST,'disable_write',0)) @chmod($file,$oldperms & 0777555);
+		if($enable_write){
+			@chmod($file, $oldperms);
+		} else{
+			if(mosGetParam($_POST, 'disable_write', 0)) @chmod($file, $oldperms & 0777555);
 		}
-	}else {
-		if($enable_write) @chmod($file,$oldperms);
-		echo _UNSUCCES_OPERAION.': '._CANNOT_OPEN_FILE_DOR_WRITE;
+	} else{
+		if($enable_write) @chmod($file, $oldperms);
+		echo _UNSUCCES_OPERAION . ': ' . _CANNOT_OPEN_FILE_DOR_WRITE;
 		return;
 	}
 	echo 'Изменения сохранены.';
 	return;
 }
 
-function saveTemplateCSS() {
+function saveTemplateCSS(){
 	josSpoofCheck();
-	$template = strval(mosGetParam($_POST,'template',''));
-	$client = strval(mosGetParam($_REQUEST,'client',''));
-	$filecontent = joostina_api::convert(mosGetParam($_POST,'filecontent','',_MOS_ALLOWHTML));
-	if(!$template) {
+	$template = strval(mosGetParam($_POST, 'template', ''));
+	$client = strval(mosGetParam($_REQUEST, 'client', ''));
+	$filecontent = joostina_api::convert(mosGetParam($_POST, 'filecontent', '', _MOS_ALLOWHTML));
+	if(!$template){
 		echo _UNSUCCESS_OPERATION_NO_TEMPLATE;
 		return;
 	}
 
-	if(!$filecontent) {
+	if(!$filecontent){
 		echo _UNSUCCESS_OPERATION_EMPTY_FILE;
 		return;
 	}
 
-	if($client == 'admin') {
-		$file = JPATH_BASE_ADMIN.'/templates/'.$template.'/css/template_css.css';
-	}else {
-		$file = JPATH_BASE.'/templates/'.$template.'/css/template_css.css';
+	if($client == 'admin'){
+		$file = JPATH_BASE_ADMIN . '/templates/' . $template . '/css/template_css.css';
+	} else{
+		$file = JPATH_BASE . '/templates/' . $template . '/css/template_css.css';
 	}
 
-	$enable_write = mosGetParam($_POST,'enable_write',0);
+	$enable_write = mosGetParam($_POST, 'enable_write', 0);
 	$oldperms = fileperms($file);
 
-	if($enable_write) {
-		@chmod($file,$oldperms | 0222);
+	if($enable_write){
+		@chmod($file, $oldperms | 0222);
 	}
 
 	clearstatcache();
-	if(is_writable($file) == false) {
+	if(is_writable($file) == false){
 		echo _CANNOT_OPEN_FILE_DOR_WRITE;
 		return;
 	}
 
-	if($fp = fopen($file,'w')) {
-		fputs($fp,stripslashes($filecontent));
+	if($fp = fopen($file, 'w')){
+		fputs($fp, stripslashes($filecontent));
 		fclose($fp);
-		if($enable_write) {
-			@chmod($file,$oldperms);
-		}else {
-			if(mosGetParam($_POST,'disable_write',0)) @chmod($file,$oldperms & 0777555);
+		if($enable_write){
+			@chmod($file, $oldperms);
+		} else{
+			if(mosGetParam($_POST, 'disable_write', 0)) @chmod($file, $oldperms & 0777555);
 		}
-	} else {
-		if($enable_write) @chmod($file,$oldperms);
+	} else{
+		if($enable_write) @chmod($file, $oldperms);
 		echo _CANNOT_OPEN_FILE_DOR_WRITE;
 		return;
 	}

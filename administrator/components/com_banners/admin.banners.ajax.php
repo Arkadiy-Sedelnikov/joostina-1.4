@@ -13,13 +13,13 @@ defined('_VALID_MOS') or die();
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
-$task = mosGetParam($_GET,'task','publish');
-$act = mosGetParam($_GET,'act','');
-$id = intval(mosGetParam($_GET,'id','0'));
+$task = mosGetParam($_GET, 'task', 'publish');
+$act = mosGetParam($_GET, 'act', '');
+$id = intval(mosGetParam($_GET, 'id', '0'));
 
-switch($task) {
+switch($task){
 	case 'publish':
-		switch($act) {
+		switch($act){
 			case 'cat_publish':
 				echo x_cat_publish($id);
 				return;
@@ -32,63 +32,63 @@ switch($task) {
 		return;
 }
 
-function x_cat_publish($id = null) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function x_cat_publish($id = null){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
 
-	$query = "SELECT published FROM #__banners_categories WHERE id = ".(int)$id;
+	$query = "SELECT published FROM #__banners_categories WHERE id = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
 
-	if($state == '1') {
+	if($state == '1'){
 		$ret_img = 'publish_x.png';
 		$state = '0';
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = '1';
 	}
 	$query = "UPDATE #__banners_categories"
-			."\n SET published = ".(int)$state
-			."\n WHERE id = ".$id." "
-			."\n AND ( checked_out = 0 OR ( checked_out = ".(int)$my->id." ) )";
+		. "\n SET published = " . (int)$state
+		. "\n WHERE id = " . $id . " "
+		. "\n AND ( checked_out = 0 OR ( checked_out = " . (int)$my->id . " ) )";
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error-db';
-	} else {
+	} else{
 		mosCache::cleanCache('com_banners');
 		return $ret_img;
 	}
 }
 
-function x_client_publish($id = null) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function x_client_publish($id = null){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
 
 
-	$query = "SELECT published FROM #__banners_clients WHERE cid = ".(int)$id;
+	$query = "SELECT published FROM #__banners_clients WHERE cid = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
 
-	if($state == '1') {
+	if($state == '1'){
 		$ret_img = 'publish_x.png';
 		$state = '0';
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = '1';
 	}
 	$query = "UPDATE #__banners_clients"
-			."\n SET published = ".(int)$state
-			."\n WHERE cid = ".$id;
+		. "\n SET published = " . (int)$state
+		. "\n WHERE cid = " . $id;
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error-db';
-	} else {
+	} else{
 		mosCache::cleanCache('com_banners');
 		return $ret_img;
 	}

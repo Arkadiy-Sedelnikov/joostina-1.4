@@ -14,13 +14,13 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Templates
  */
-class TOOLBAR_templates {
-	public static function _DEFAULT($client) {
+class TOOLBAR_templates{
+	public static function _DEFAULT($client){
 		mosMenuBar::startTable();
-		if($client == "admin") {
+		if($client == "admin"){
 			mosMenuBar::makeDefault();
 			mosMenuBar::spacer();
-		} else {
+		} else{
 			mosMenuBar::makeDefault();
 			mosMenuBar::spacer();
 			mosMenuBar::assign();
@@ -37,33 +37,34 @@ class TOOLBAR_templates {
 		mosMenuBar::help('screen.templates');
 		mosMenuBar::endTable();
 	}
-	public static function _VIEW() {
+
+	public static function _VIEW(){
 		mosMenuBar::startTable();
 		mosMenuBar::back();
 		mosMenuBar::endTable();
 	}
 
-	public static function _EDIT_SOURCE() {
+	public static function _EDIT_SOURCE(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save_source');
-		mosMenuBar::ext(_APPLY,'#','-apply','id="tb-apply" onclick="ch_apply();return;"');
+		mosMenuBar::ext(_APPLY, '#', '-apply', 'id="tb-apply" onclick="ch_apply();return;"');
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	public static function _EDIT_CSS() {
+	public static function _EDIT_CSS(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save_css');
-		mosMenuBar::ext(_APPLY,'#','-apply','id="tb-apply" onclick="ch_apply();return;"');
+		mosMenuBar::ext(_APPLY, '#', '-apply', 'id="tb-apply" onclick="ch_apply();return;"');
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	public static function _ASSIGN() {
+	public static function _ASSIGN(){
 		mosMenuBar::startTable();
-		mosMenuBar::save('save_assign',_SAVE);
+		mosMenuBar::save('save_assign', _SAVE);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
@@ -71,7 +72,7 @@ class TOOLBAR_templates {
 		mosMenuBar::endTable();
 	}
 
-	public static function _POSITIONS() {
+	public static function _POSITIONS(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save_positions');
 		mosMenuBar::spacer();

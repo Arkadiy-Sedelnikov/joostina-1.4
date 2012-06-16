@@ -14,9 +14,9 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Syndicate
  */
-class TOOLBAR_syndicate {
+class TOOLBAR_syndicate{
 
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

@@ -16,11 +16,11 @@ $my = $mainframe->getUser();
 /* всех не авторизованных игнорируем*/
 if(!$my->id) exit;
 
-$task = mosGetParam($_GET,'task','publish');
-$id = intval(mosGetParam($_GET,'id','0'));
+$task = mosGetParam($_GET, 'task', 'publish');
+$id = intval(mosGetParam($_GET, 'id', '0'));
 
 // обрабатываем полученный параметр task
-switch($task) {
+switch($task){
 	case "publish":
 		echo x_publish($id);
 		return;
@@ -33,27 +33,27 @@ switch($task) {
 /* публикация объекта
 * $id - идентификатор объекта
 */
-function x_publish($id = null) {
+function x_publish($id = null){
 	$database = database::getInstance();
 	// id содержимого для обработки не получен - выдаём ошибку
 	if(!$id) return _UNKNOWN_ID;
 
 	$state = new stdClass();
-	$query = "SELECT published FROM #__quickicons WHERE id = ".(int)$id;
+	$query = "SELECT published FROM #__quickicons WHERE id = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
-	if($state == '1') {
+	if($state == '1'){
 		$ret_img = 'publish_x.png';
 		$state = '0';
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = '1';
 	}
-	$query = 'UPDATE #__quickicons SET published = '.$state.' WHERE id = '.(int)$id;
+	$query = 'UPDATE #__quickicons SET published = ' . $state . ' WHERE id = ' . (int)$id;
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error!';
-	} else {
+	} else{
 		return $ret_img;
 	}
 }

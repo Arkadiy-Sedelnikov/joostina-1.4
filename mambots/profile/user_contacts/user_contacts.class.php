@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-class UserContactsEmail {
+class UserContactsEmail{
 
 	var $pretext = '';
 	var $posttext = '';
@@ -23,38 +23,38 @@ class UserContactsEmail {
 
 	var $_error = '';
 
-	function UserContactsEmail() {
-		$this->subject = BOT_USER_CONTACTS_MESSAGE_FROM.Jconfig::getInstance()->config_sitename;
+	function UserContactsEmail(){
+		$this->subject = BOT_USER_CONTACTS_MESSAGE_FROM . Jconfig::getInstance()->config_sitename;
 	}
 
-	function clean_message($text) {
-		$text = preg_replace( "'<script[^>]*>.*?</script>'si", "", $text );
-		$text = preg_replace( "'<?php*.*?>'", "", $text );
-		$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2 (\1)', $text );
-		$text = preg_replace( '/<!--.+?-->/', '', $text);
-		$text = preg_replace( '/{.+?}/', '', $text);
+	function clean_message($text){
+		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
+		$text = preg_replace("'<?php*.*?>'", "", $text);
+		$text = preg_replace('/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is', '\2 (\1)', $text);
+		$text = preg_replace('/<!--.+?-->/', '', $text);
+		$text = preg_replace('/{.+?}/', '', $text);
 
 		return $text;
 	}
 
-	function send_message() {
+	function send_message(){
 
-		if(preg_match("/[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]/i",$this->fromname) || strlen($this->fromname) <3) {
+		if(preg_match("/[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]/i", $this->fromname) || strlen($this->fromname) < 3){
 			$this->_error = BOT_USER_CONTACTS_CHECK_NAME;
 			return false;
 		}
 
-		if((trim($this->from == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/",$this->from) == false)) {
+		if((trim($this->from == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->from) == false)){
 			$this->_error = BOT_USER_CONTACTS_CHECK_EMAIL;
 			return false;
 		}
 
-		if(strlen($this->fromname) > 35) {
-			$this->fromname = substr($this->fromname,0,35);
+		if(strlen($this->fromname) > 35){
+			$this->fromname = substr($this->fromname, 0, 35);
 		}
-		if(mosMail($this->from,$this->fromname,$this->recipient,$this->subject,$this->message)) {
+		if(mosMail($this->from, $this->fromname, $this->recipient, $this->subject, $this->message)){
 			return true;
-		}else {
+		} else{
 			$this->_error = BOT_USER_CONTACTS_SYSTEM_ERROR;
 			return false;
 		}

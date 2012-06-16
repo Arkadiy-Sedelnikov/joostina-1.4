@@ -16,36 +16,36 @@ mosMainFrame::addLib('dbconfig');
  * Category database table class
  * @package Joostina
  */
-class searchByTagConfig extends dbConfig {
+class searchByTagConfig extends dbConfig{
 
 	/**
 	 * Заголовок страницы
 	 */
 	var $title = _SEARCH_ALL_ITEM_W_TAG;
 
-	function __construct(&$db, $group = 'com_search', $subgroup = 'search_by_tag') {
+	function __construct(&$db, $group = 'com_search', $subgroup = 'search_by_tag'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
 }
 
-class searchByTag {
+class searchByTag{
 
-	function construct_url($item, $group) {
+	function construct_url($item, $group){
 
 		$view_link = 'index.php?option=' . $group['group_name'];
 		$view_link .= '&task=' . $group['task'];
 		$view_link .= '&id=' . $item->id;
 
-		if ($group['url_params']) {
+		if($group['url_params']){
 			$url_params_arr = explode('&', $group['url_params']);
-			foreach ($url_params_arr as $v) {
+			foreach($url_params_arr as $v){
 				$arr0 = explode('=', $v);
 				$view_link .= '&' . $arr0[0];
-				if (strpos($arr0[1], '%') !== false) {
+				if(strpos($arr0[1], '%') !== false){
 					$arr0[1] = str_replace('%', '', $arr0[1]);
 					$view_link .= '=' . $item->$arr0[1];
-				} else {
+				} else{
 					$view_link .= '=' . $arr0[1];
 				}
 			}

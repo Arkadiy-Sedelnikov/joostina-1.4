@@ -16,9 +16,9 @@
 defined('_VALID_MOS') or die();
 
 if(substr(PHP_VERSION, 0, 1) == 4)
-    include_once('inc/easyphpthumbnail_php4.class.php');
+	include_once('inc/easyphpthumbnail_php4.class.php');
 else
-    include_once('inc/easyphpthumbnail_php5.class.php');
+	include_once('inc/easyphpthumbnail_php5.class.php');
 ?>
 
 

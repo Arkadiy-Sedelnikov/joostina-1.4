@@ -85,6 +85,7 @@ class GDRating{
 		$this->result_only = false;
 		$this->displayVoteForm($content, $directory, $conf);
 	}
+
 	/**
 	 * Вывод рейтинга
 	 * @return string
@@ -109,7 +110,7 @@ class GDRating{
 			if(!$this->result_only){
 				$result = '<span>' . _GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')' . '</span>';
 				return $result;
-			}else{
+			} else{
 				if($this->my->id == 0 AND $this->conf->allow_unregisered_comment == 0){
 					$result = array();
 					$result[] .= '<div class="ratingblock" id="ratingblock_' . $this->content->id . '">';
@@ -159,7 +160,7 @@ class GDRating{
 						}
 					}
 					$result .= '</ul>';
-					$result .= '<p>' ._GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')'.'</span></p>';
+					$result .= '<p>' . _GDRATING_MES05 . ': <strong> ' . $rating1 . '</strong>/' . $this->units . ' (' . $row->count . ' ' . $tense . ')' . '</span></p>';
 					$result .= '</div>';
 					$result .= '</div>';
 					if(!defined('_GDRATING_JS')){

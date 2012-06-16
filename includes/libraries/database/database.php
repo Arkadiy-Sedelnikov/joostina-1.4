@@ -1,14 +1,19 @@
 <?php
 /**
- * @package Joostina
- * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Joostina Lotos CMS 1.4
+ * @package   Database
+ * @version   1.0
+ * @author    Gold Dragon <illusive@bk.ru>
+ * @link      http://gd.joostina-cms.ru
+ * @copyright 2000-2012 Gold Dragon
+ * @license   GNU GPL: http://www.gnu.org/licenses/gpl-3.0.html
+ * Joostina Lotos CMS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * Date: 11.06.2012
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_VALID_MOS') or  die();
 
 /**
  * Класс работы с базой данных
@@ -17,77 +22,78 @@ defined('_VALID_MOS') or die();
  */
 class database{
 
+	/** @var object интерфейс базы данных */
 	private static $_instance;
-	/**
-	@var string Internal variable to hold the query sql*/
+
+	/** @var string Внутренняя переменная для хранения запросов SQL */
 	public $_sql;
-	/**
-	@var int Internal variable to hold the database error number*/
+
+	/** @var int Internal variable to hold the database error number */
 	public $_errorNum = 0;
-	/**
-	@var string Internal variable to hold the database error message*/
+
+	/** @var string Внутренняя переменная для хранения базы данных сообщений об ошибках */
 	public $_errorMsg;
-	/**
-	@var string Internal variable to hold the prefix used on all database tables*/
+
+	/** @var string Внутренняя переменная для хранения префикс, используемый на всех таблиц базы данных */
 	public $_table_prefix;
-	/**
-	@var Internal variable to hold the connector resource*/
+
+	/** @var Внутренняя переменная для хранения подключений к ресурсу */
 	public $_resource;
-	/**
-	@var Internal variable to hold the last query cursor*/
+
+	/** @var Внутренняя переменная для хранения последних курсора запрос */
 	public $_cursor;
-	/**
-	@var boolean Debug option*/
+
+	/** @var boolean Опция отладки */
 	public $_debug;
-	/**
-	@var int The limit for the query*/
+
+	/** @var int Лимит для запроса */
 	public $_limit;
-	/**
-	@var int The for offset for the limit*/
+
+	/** @var int Смещение в запросе в LIMIT */
 	public $_offset;
-	/**
-	@var string The null/zero date string*/
+
+	/** @var string Нулевая строка для даты */
 	public $_nullDate = '0000-00-00 00:00:00';
-	/**
-	@var string Quote for named objects*/
+
+	/** @var string Quote for named objects */
 	public $_nameQuote = '`';
 
 	/**
-	/**
-	 * Database object constructor
-	 * @param string Database host
-	 * @param string Database user name
-	 * @param string Database user password
-	 * @param string Database name
-	 * @param string Common prefix for all tables
-	 * @param boolean If true and there is an error, go offline
+	 * Конструктор объекта базы данных
+	 * @param string $host - хост
+	 * @param string $user - имя пользователя
+	 * @param string $pass - пароль пользователя
+	 * @param string $db - имя базы данных
+	 * @param string $table_prefix - общий префикс для всех таблиц
+	 * @param int    $debug - опция отладки
+	 * @param null   $port - порт
+	 * @param null   $socket - сокет
 	 */
-	function database($host = 'localhost', $user = 'root', $pass = '', $db = '', $table_prefix = '', $goOffline = true, $debug = 0, $port = null, $socket = null){
+	public function __construct($host = 'localhost', $user = 'root', $pass = '', $db = '', $table_prefix = '', $debug = 0, $port = null, $socket = null){
+		// режим отладки
 		$this->_debug = $debug;
+
+		// префикс таблиц
 		$this->_table_prefix = $table_prefix;
 
-		// perform a number of fatality checks, then die gracefully
+		// Проверка существует ли вообще функция подключения
 		if(!function_exists('mysqli_connect')){
-			$mosSystemError = 1;
-			if($goOffline){
-				include JPATH_BASE . '/templates/system/offline.php';
-				exit();
-			}
+			include JPATH_BASE . '/templates/system/offline.php';
+			exit();
 		}
-		if(!($this->_resource = @mysqli_connect($host, $user, $pass, $db, $port, $socket))){
-			$mosSystemError = 2;
-			if($goOffline){
-				include JPATH_BASE . '/templates/system/offline.php';
-				exit();
-			}
+		$this->_resource = new mysqli($host, $user, $pass, $db, $port, $socket);
+		if($this->_resource->connect_error){
+			include JPATH_BASE . '/templates/system/offline.php';
+			exit();
 		}
 
-    	if($this->_debug == 1){
-			mysqli_query($this->_resource, 'set profiling=1');
-			mysqli_query($this->_resource, 'set profiling_history_size=100');
+		// записываем логи запросов
+		if($this->_debug == 1){
+			$this->_resource->query('set profiling=1');
+			$this->_resource->query('set profiling_history_size=100');
 		}
 
-		mysqli_set_charset($this->_resource, 'utf8');
+		$this->_resource->set_charset('utf8');
 	}
 
 	/**
@@ -95,27 +101,22 @@ class database{
 	 * @see http://www.oodesign.com/singleton-pattern.html
 	 * @param bool $ignoreMainframe if true, the result will always be
 	 * an instance of Database class. If false (default), result will be taken
-	 * from $mainframe->getDBO() which means it could be replaced with instance
+	 * from database::getInstance() which means it could be replaced with instance
 	 * of other class elsewhere earlier in runtime
 	 * @return object
 	 */
 	public static function getInstance($ignoreMainframe = false){
 
-		// force using DBO from mosMainframe always when it does exist. This is
-		// a workaround for calls of database::getInstance() while DBO should be
-		// replaced in a runtime (particularly by JoomFish)
 		if(!$ignoreMainframe && class_exists('mosMainframe') && mosMainframe::hasInstance()){
 			self::$_instance = mosMainFrame::getInstance()->getDBO();
 		}
 
 		if(self::$_instance === NULL){
-			$config = & Jconfig::getInstance();
-
-			$instance = new database($config->config_host, $config->config_user, $config->config_password, $config->config_db, $config->config_dbprefix, true, $config->config_debug);
+			$config = Jconfig::getInstance();
+			$instance = new database($config->config_host, $config->config_user, $config->config_password, $config->config_db, $config->config_dbprefix, $config->config_debug);
 			if($instance->getErrorNum()){
-				$mosSystemError = $instance->getErrorNum();
-				include JPATH_BASE . DS . 'configuration.php';
-				include JPATH_BASE . DS . 'templates/system/offline.php';
+				include_once(JPATH_BASE . DS . 'configuration.php');
+				include(JPATH_BASE . DS . 'templates/system/offline.php');
 				exit();
 			}
 			self::$_instance = $instance;
@@ -159,10 +160,9 @@ class database{
 
 	/**
 	 * Get a quoted database escaped string
-	 *
-	 * @param	string	A string
-	 * @param	boolean	Default true to escape string, false to leave the string unchanged
-	 * @return	string
+	 * @param    string    A string
+	 * @param    boolean    Default true to escape string, false to leave the string unchanged
+	 * @return    string
 	 * @access public
 	 */
 	function Quote($text, $escaped = true){
@@ -199,10 +199,8 @@ class database{
 
 	/**
 	 * Sets the SQL query string for later execution.
-	 *
 	 * This function replaces a string identifier <var>$prefix</var> with the
 	 * string held is the <var>_table_prefix</var> class variable.
-	 *
 	 * @param string The SQL query
 	 * @param string The offset to start selection
 	 * @param string The number of results to return
@@ -218,7 +216,6 @@ class database{
 	/**
 	 * This function replaces a string identifier <var>$prefix</var> with the
 	 * string held is the <var>_table_prefix</var> class variable.
-	 *
 	 * @param string The SQL query
 	 * @param string The common table prefix
 	 * @author thede, David McKinnis
@@ -357,7 +354,6 @@ class database{
 
 	/**
 	 * This method loads the first field of the first row returned by the query.
-	 *
 	 * @return The value returned in the query or null if the query failed.
 	 */
 	function loadResult(){
@@ -420,7 +416,6 @@ class database{
 
 	/**
 	 * This global function loads the first row of a query into an object
-	 *
 	 * If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
 	 * If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
 	 * @param string The SQL query
@@ -684,7 +679,6 @@ class database{
  * @abstract
  * @package Joostina
  * @subpackage Database
- *
  * Parent classes to all database derived objects.  Customisation will generally
  * not involve tampering with this object.
  * @author Andrew Eddie <eddieajau@users.sourceforge.net
@@ -697,9 +691,8 @@ class mosDBTable{
 	public $_db;
 
 	/**
-	 *	Object constructor to set table and key field
-	 *
-	 *	Can be overloaded/supplemented by the child class
+	 *    Object constructor to set table and key field
+	 *    Can be overloaded/supplemented by the child class
 	 * @param string $table name of the table in the db schema relating to child class
 	 * @param string $key name of the primary key field in the table
 	 */
@@ -781,11 +774,10 @@ class mosDBTable{
 	}
 
 	/**
-	 *	binds a named array/hash to this object
-	 *
-	 *	can be overloaded/supplemented by the child class
+	 *    binds a named array/hash to this object
+	 *    can be overloaded/supplemented by the child class
 	 * @param array $hash named array
-	 * @return null|string	null is operation was satisfactory, otherwise returns an error
+	 * @return null|string    null is operation was satisfactory, otherwise returns an error
 	 */
 	function bind($array, $ignore = ''){
 		if(!is_array($array)){
@@ -797,7 +789,7 @@ class mosDBTable{
 	}
 
 	/**
-	 *	binds an array/hash to this object
+	 *    binds an array/hash to this object
 	 * @param int $oid optional argument, if not specifed then the value of current key is used
 	 * @return any result from the database operation
 	 */
@@ -828,9 +820,8 @@ class mosDBTable{
 	}
 
 	/**
-	 *	generic check method
-	 *
-	 *	can be overloaded/supplemented by the child class
+	 *    generic check method
+	 *    can be overloaded/supplemented by the child class
 	 * @return boolean True if the object is ok
 	 */
 	function check(){
@@ -839,7 +830,6 @@ class mosDBTable{
 
 	/**
 	 * Inserts a new row if id is zero or updates an existing row in the database table
-	 *
 	 * Can be overloaded/supplemented by the child class
 	 * @param boolean If false, null object variables are not updated
 	 * @return null|string null if successful otherwise returns and error message
@@ -862,9 +852,8 @@ class mosDBTable{
 	}
 
 	/**
-	 *	Default delete method
-	 *
-	 *	can be overloaded/supplemented by the child class
+	 *    Default delete method
+	 *    can be overloaded/supplemented by the child class
 	 * @return true if successful otherwise returns and error message
 	 */
 	function delete($oid = null){

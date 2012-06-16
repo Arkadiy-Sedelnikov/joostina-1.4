@@ -13,11 +13,11 @@ defined('_VALID_MOS') or die();
 require_once ($mainframe->getPath('toolbar_html'));
 require_once ($mainframe->getPath('toolbar_default'));
 
-switch($task) {
+switch($task){
 	case 'settings':
 		TOOLBAR_FrontPage::_SETTINGS();
 		break;
-    default:
+	default:
 		TOOLBAR_FrontPage::_DEFAULT();
 		break;
 }

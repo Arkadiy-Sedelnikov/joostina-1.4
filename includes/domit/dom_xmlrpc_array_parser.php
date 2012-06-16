@@ -1,28 +1,27 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*
-* dom_xmlrpc_array_document wraps a PHP array with the DOM XML-RPC API
-* @package dom-xmlrpc
-* @copyright (C) 2004 John Heinstein. All rights reserved
-* @license http://www.gnu.org/copyleft/lesser.html LGPL License
-* @author John Heinstein <johnkarl@nbnet.nb.ca>
-* @link http://www.engageinteractive.com/dom_xmlrpc/ DOM XML-RPC Home Page
-* DOM XML-RPC is Free Software
-**/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * dom_xmlrpc_array_document wraps a PHP array with the DOM XML-RPC API
+ * @package dom-xmlrpc
+ * @copyright (C) 2004 John Heinstein. All rights reserved
+ * @license http://www.gnu.org/copyleft/lesser.html LGPL License
+ * @author John Heinstein <johnkarl@nbnet.nb.ca>
+ * @link http://www.engageinteractive.com/dom_xmlrpc/ DOM XML-RPC Home Page
+ * DOM XML-RPC is Free Software
+ **/
 
 defined('_VALID_MOS') or die();
-if(!defined('DOM_XMLRPC_INCLUDE_PATH')) {
-	define('DOM_XMLRPC_INCLUDE_PATH',(dirname(__file__)."/"));
+if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
+	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
-require_once (DOM_XMLRPC_INCLUDE_PATH.'dom_xmlrpc_parser.php');
-class dom_xmlrpc_array_parser extends dom_xmlrpc_parser {
-	function startElement($parser,$name,$attrs) {
-		switch($name) {
+require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_parser.php');
+class dom_xmlrpc_array_parser extends dom_xmlrpc_parser{
+	function startElement($parser, $name, $attrs){
+		switch($name){
 			case DOM_XMLRPC_TYPE_METHODCALL:
 			case DOM_XMLRPC_TYPE_METHODRESPONSE:
 			case DOM_XMLRPC_TYPE_FAULT:
@@ -37,8 +36,8 @@ class dom_xmlrpc_array_parser extends dom_xmlrpc_parser {
 		}
 	}
 
-	function endElement($parser,$name) {
-		switch($name) {
+	function endElement($parser, $name){
+		switch($name){
 			case DOM_XMLRPC_TYPE_STRING:
 
 				$this->addValue($this->charContainer);
@@ -54,14 +53,14 @@ class dom_xmlrpc_array_parser extends dom_xmlrpc_parser {
 				$this->addValue((bool)(trim($this->charContainer)));
 				break;
 			case DOM_XMLRPC_TYPE_BASE64:
-				require_once (DOM_XMLRPC_INCLUDE_PATH.'dom_xmlrpc_base64.php');
+				require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_base64.php');
 				$base64 = new dom_xmlrpc_base64();
 				$base64->fromString($this->charContainer);
 				$this->addValue($base64);
 
 				break;
 			case DOM_XMLRPC_TYPE_DATETIME:
-				require_once (DOM_XMLRPC_INCLUDE_PATH.'dom_xmlrpc_datetime_iso8601.php');
+				require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_datetime_iso8601.php');
 				$dateTime = new dom_xmlrpc_datetime_iso8601($this->charContainer);
 				$this->addValue($dateTime);
 
@@ -94,12 +93,12 @@ class dom_xmlrpc_array_parser extends dom_xmlrpc_parser {
 		}
 	}
 
-	function addValue($value) {
+	function addValue($value){
 		$upper = count($this->lastArray) - 1;
-		if($upper > -1) {
-			if($this->lastArrayType[$upper] == DOM_XMLRPC_TYPE_STRUCT) {
+		if($upper > -1){
+			if($this->lastArrayType[$upper] == DOM_XMLRPC_TYPE_STRUCT){
 				$currentName = $this->lastStructName[(count($this->lastStructName) - 1)];
-				switch($currentName) {
+				switch($currentName){
 					case DOM_XMLRPC_NODEVALUE_FAULTCODE:
 						$this->arrayDocument->faultCode = $value;
 						break;
@@ -111,19 +110,17 @@ class dom_xmlrpc_array_parser extends dom_xmlrpc_parser {
 						$this->lastArray[$upper][$currentName] = $value;
 						break;
 				}
-			} else {
+			} else{
 
 				$this->lastArray[$upper][] = $value;
 			}
-		} else {
-			array_push($this->arrayDocument->params,$value);
+		} else{
+			array_push($this->arrayDocument->params, $value);
 		}
 		$this->charContainer = '';
 	}
 
 }
-
-
 
 
 ?>

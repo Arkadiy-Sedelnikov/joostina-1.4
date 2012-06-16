@@ -14,13 +14,13 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Massmail
  */
-class TOOLBAR_massmail {
+class TOOLBAR_massmail{
 	/**
 	 * Draws the menu for a New Contact
 	 */
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
-		mosMenuBar::custom('send','-publish','',_SEND_BUTTON,false);
+		mosMenuBar::custom('send', '-publish', '', _SEND_BUTTON, false);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

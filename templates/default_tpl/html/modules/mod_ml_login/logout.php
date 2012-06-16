@@ -8,16 +8,16 @@
  */
 
 // запрет прямого доступа
-defined( '_VALID_MOS' ) or die();
+defined('_VALID_MOS') or die();
 $module->helper->prepare_logout_form($params); ?>
 <form action="<?php echo $params->_action; ?>" method="post" name="logout">
 	<div class="mod_ml_login">
 		<?php echo $params->_profile_link; ?>
-		<input type="submit" name="Submit" id="logout_button" class="button" value="<?php echo _BUTTON_LOGOUT; ?>" />
+		<input type="submit" name="Submit" id="logout_button" class="button" value="<?php echo _BUTTON_LOGOUT; ?>"/>
 	</div>
-	<input type="hidden" name="option" value="logout" />
-	<input type="hidden" name="op2" value="logout" />
-	<input type="hidden" name="lang" value="<?php echo $mainframe->getCfg('lang'); ?>" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs($params->get('logout',$params->_returnUrl)); ?>" />
-	<input type="hidden" name="message" value="<?php echo $params->get('logout_message',''); ?>" />
+	<input type="hidden" name="option" value="logout"/>
+	<input type="hidden" name="op2" value="logout"/>
+	<input type="hidden" name="lang" value="<?php echo $mainframe->getCfg('lang'); ?>"/>
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs($params->get('logout', $params->_returnUrl)); ?>"/>
+	<input type="hidden" name="message" value="<?php echo $params->get('logout_message', ''); ?>"/>
 </form>

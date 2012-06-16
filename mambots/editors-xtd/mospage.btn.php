@@ -10,25 +10,25 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-$_MAMBOTS->registerFunction('onCustomEditorButton','botMosPageButton');
+$_MAMBOTS->registerFunction('onCustomEditorButton', 'botMosPageButton');
 
 /**
  * Кнопка страницы Joostina (mospage)
  * @return array - возвращает массив из двух элементов: imageName и textToInsert
  */
-function botMosPageButton() {
+function botMosPageButton(){
 	global $option;
 
 	// button is not active in specific content components
-	switch($option) {
+	switch($option){
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
-			$button = array('','');
+			$button = array('', '');
 			break;
 
 		default:
-			$button = array('mospage.png','{mospagebreak}');
+			$button = array('mospage.png', '{mospagebreak}');
 			break;
 	}
 	return $button;

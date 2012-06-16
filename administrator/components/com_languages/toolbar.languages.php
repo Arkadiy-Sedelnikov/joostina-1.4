@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-switch($task) {
+switch($task){
 
 	case 'edit_source':
 		TOOLBAR_languages::_EDIT_SOURCE();

@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
-switch($task) {
+switch($task){
 
 	case 'new':
 	case 'edit':

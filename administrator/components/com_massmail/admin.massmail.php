@@ -11,14 +11,15 @@
 defined('_VALID_MOS') or die();
 
 // ensure user has access to this function
-if(!$acl->acl_check('administration','manage','users',$my->usertype,
-'components','com_massmail')) {
-	mosRedirect('index2.php',_NOT_AUTH);
+if(!$acl->acl_check('administration', 'manage', 'users', $my->usertype,
+	'components', 'com_massmail')
+){
+	mosRedirect('index2.php', _NOT_AUTH);
 }
 
 require_once ($mainframe->getPath('admin_html'));
 
-switch($task) {
+switch($task){
 	case 'send':
 		sendMail();
 		break;
@@ -32,77 +33,77 @@ switch($task) {
 		break;
 }
 
-function messageForm($option) {
-    $acl = &gacl::getInstance();
+function messageForm($option){
+	$acl = &gacl::getInstance();
 
-	$gtree = array(mosHTML::makeOption(0,_ALL_USER_GROUPS));
+	$gtree = array(mosHTML::makeOption(0, _ALL_USER_GROUPS));
 
 	// get list of groups
 	$lists = array();
-	$gtree = array_merge($gtree,$acl->get_group_children_tree(null,'USERS',false));
-	$lists['gid'] = mosHTML::selectList($gtree,'mm_group','size="10"','value',
-			'text',0);
+	$gtree = array_merge($gtree, $acl->get_group_children_tree(null, 'USERS', false));
+	$lists['gid'] = mosHTML::selectList($gtree, 'mm_group', 'size="10"', 'value',
+		'text', 0);
 
-	HTML_massmail::messageForm($lists,$option);
+	HTML_massmail::messageForm($lists, $option);
 }
 
-function sendMail() {
-    $acl = &gacl::getInstance();
+function sendMail(){
+	$acl = &gacl::getInstance();
 	global $mosConfig_sitename;
-	global $mosConfig_mailfrom,$mosConfig_fromname;
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
+	global $mosConfig_mailfrom, $mosConfig_fromname;
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
 	josSpoofCheck();
-	$mode = intval(mosGetParam($_POST,'mm_mode',0));
-	$subject = strval(mosGetParam($_POST,'mm_subject',''));
-	$gou = mosGetParam($_POST,'mm_group',null);
-	$recurse = strval(mosGetParam($_POST,'mm_recurse','NO_RECURSE'));
+	$mode = intval(mosGetParam($_POST, 'mm_mode', 0));
+	$subject = strval(mosGetParam($_POST, 'mm_subject', ''));
+	$gou = mosGetParam($_POST, 'mm_group', null);
+	$recurse = strval(mosGetParam($_POST, 'mm_recurse', 'NO_RECURSE'));
 	// pulls message inoformation either in text or html format
-	if($mode) {
+	if($mode){
 		$message_body = $_POST['mm_message'];
-	} else {
+	} else{
 		// automatically removes html formatting
-		$message_body = strval(mosGetParam($_POST,'mm_message',''));
+		$message_body = strval(mosGetParam($_POST, 'mm_message', ''));
 	}
 	$message_body = stripslashes($message_body);
 
-	if(!$message_body || !$subject || $gou === null) {
-		mosRedirect('index2.php?option=com_massmail&mosmsg='._PLEASE_FILL_FORM);
+	if(!$message_body || !$subject || $gou === null){
+		mosRedirect('index2.php?option=com_massmail&mosmsg=' . _PLEASE_FILL_FORM);
 	}
 
 	// get users in the group out of the acl
-	$to = $acl->get_group_objects($gou,'ARO',$recurse);
+	$to = $acl->get_group_objects($gou, 'ARO', $recurse);
 
 	$rows = array();
-	if(count($to['users']) || $gou === '0') {
+	if(count($to['users']) || $gou === '0'){
 		// Get sending email address
-		$query = "SELECT email"."\n FROM #__users"."\n WHERE id = ".(int)$my->id;
+		$query = "SELECT email" . "\n FROM #__users" . "\n WHERE id = " . (int)$my->id;
 		$database->setQuery($query);
 		$my->email = $database->loadResult();
 
 		mosArrayToInts($to['users']);
-		$user_ids = 'id='.implode(' OR id=',$to['users']);
+		$user_ids = 'id=' . implode(' OR id=', $to['users']);
 
 		// Get all users email and group except for senders
-		$query = "SELECT email"."\n FROM #__users"."\n WHERE id != ".(int)$my->id.($gou
-						!== '0'?" AND ( $user_ids )":'');
+		$query = "SELECT email" . "\n FROM #__users" . "\n WHERE id != " . (int)$my->id . ($gou
+			!== '0' ? " AND ( $user_ids )" : '');
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();
 
 		// Build e-mail message format
-		$message_header = sprintf(_MASSMAIL_MESSAGE,html_entity_decode($mosConfig_sitename,
-				ENT_QUOTES));
-		$message = $message_header.$message_body;
-		$subject = html_entity_decode($mosConfig_sitename,ENT_QUOTES).' / '.
-				stripslashes($subject);
+		$message_header = sprintf(_MASSMAIL_MESSAGE, html_entity_decode($mosConfig_sitename,
+			ENT_QUOTES));
+		$message = $message_header . $message_body;
+		$subject = html_entity_decode($mosConfig_sitename, ENT_QUOTES) . ' / ' .
+			stripslashes($subject);
 
 		//Send email
-		foreach($rows as $row) {
-			mosMail($mosConfig_mailfrom,$mosConfig_fromname,$row->email,$subject,$message,$mode);
+		foreach($rows as $row){
+			mosMail($mosConfig_mailfrom, $mosConfig_fromname, $row->email, $subject, $message, $mode);
 		}
 	}
 
-	$msg = _MESSAGE_SENDED_TO_USERS.count($rows);
-	mosRedirect('index2.php?option=com_massmail',$msg);
+	$msg = _MESSAGE_SENDED_TO_USERS . count($rows);
+	mosRedirect('index2.php?option=com_massmail', $msg);
 }

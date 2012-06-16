@@ -1,9 +1,9 @@
 <div class="boss_pathway">
-<?php $this->displayPathway(); ?>
+	<?php $this->displayPathway(); ?>
 </div>
 <h1 class="contentheading">
-<?php echo BOSS_RULES; ?>
+	<?php echo BOSS_RULES; ?>
 </h1>
 <div>
-<?php $this->displayRulesText(); ?>
+	<?php $this->displayRulesText(); ?>
 </div>	

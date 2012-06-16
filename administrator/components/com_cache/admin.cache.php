@@ -15,7 +15,7 @@ defined('_VALID_MOS') or die();
  */
 
 // ensure user has access to this function
-if (!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_cache'))) {
+if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_cache'))){
 	mosRedirect('index2.php', _NOT_AUTH);
 }
 
@@ -30,7 +30,7 @@ $cid = mosGetParam($_REQUEST, 'cid', 0);
  *
  * Each view is determined by the $task variable
  */
-switch ($task) {
+switch($task){
 	case 'delete':
 		CacheController::deleteCache($cid);
 		CacheController::showCache();
@@ -43,20 +43,18 @@ switch ($task) {
 
 /**
  * Static class to hold controller functions for the Cache component
- *
  * @static
- * @package		Joostina
- * @subpackage	Cache
- * @since		1.3
+ * @package        Joostina
+ * @subpackage    Cache
+ * @since        1.3
  */
-class CacheController {
+class CacheController{
 
 	/**
 	 * Show the cache
-	 *
-	 * @since	1.3
+	 * @since    1.3
 	 */
-	function showCache() {
+	function showCache(){
 		$mainframe = mosMainFrame::getInstance();, $option;
 
 		$client = intval(mosGetParam($_REQUEST, 'client', 0));
@@ -65,13 +63,13 @@ class CacheController {
 		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0);
 
 		$cmData = new CacheData(JPATH_BASE . '/cache');
-		
+
 		require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
 		$pageNav = new mosPageNav($cmData->getGroupCount(), $limitstart, $limit);
 		CacheView::displayCache($cmData->getRows($limitstart, $limit), $client, $pageNav);
 	}
 
-	function deleteCache($cid) {
+	function deleteCache($cid){
 
 		$client = intval(mosGetParam($_REQUEST, 'client', 0));
 

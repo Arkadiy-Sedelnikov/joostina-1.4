@@ -14,15 +14,15 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Menus
  */
-class TOOLBAR_menumanager {
+class TOOLBAR_menumanager{
 	/**
 	 * Draws the menu for the Menu Manager
 	 */
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
-		mosMenuBar::customX('copyconfirm','-copy','',_COPY,true);
+		mosMenuBar::customX('copyconfirm', '-copy', '', _COPY, true);
 		mosMenuBar::spacer();
-		mosMenuBar::customX('deleteconfirm','-delete','',_DELETE,true);
+		mosMenuBar::customX('deleteconfirm', '-delete', '', _DELETE, true);
 		mosMenuBar::spacer();
 		mosMenuBar::editListX();
 		mosMenuBar::spacer();
@@ -35,7 +35,7 @@ class TOOLBAR_menumanager {
 	/**
 	 * Draws the menu to delete a menu
 	 */
-	public static function _DELETE() {
+	public static function _DELETE(){
 		mosMenuBar::startTable();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
@@ -44,9 +44,9 @@ class TOOLBAR_menumanager {
 	/**
 	 * Draws the menu to create a New menu
 	 */
-	public static function _NEWMENU() {
+	public static function _NEWMENU(){
 		mosMenuBar::startTable();
-		mosMenuBar::custom('savemenu','-save','',_SAVE,false);
+		mosMenuBar::custom('savemenu', '-save', '', _SAVE, false);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
@@ -57,9 +57,9 @@ class TOOLBAR_menumanager {
 	/**
 	 * Draws the menu to create a New menu
 	 */
-	public static function _COPYMENU() {
+	public static function _COPYMENU(){
 		mosMenuBar::startTable();
-		mosMenuBar::custom('copymenu','-copy','',_COPY,false);
+		mosMenuBar::custom('copymenu', '-copy', '', _COPY, false);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

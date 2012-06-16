@@ -14,8 +14,8 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Languages
  */
-class TOOLBAR_languages {
-	public static function _DEFAULT() {
+class TOOLBAR_languages{
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
@@ -28,7 +28,8 @@ class TOOLBAR_languages {
 		mosMenuBar::help('screen.languages');
 		mosMenuBar::endTable();
 	}
-	public static function _NEW() {
+
+	public static function _NEW(){
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
@@ -36,7 +37,7 @@ class TOOLBAR_languages {
 		mosMenuBar::endTable();
 	}
 
-	public static function _EDIT_SOURCE() {
+	public static function _EDIT_SOURCE(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save_source');
 		mosMenuBar::spacer();

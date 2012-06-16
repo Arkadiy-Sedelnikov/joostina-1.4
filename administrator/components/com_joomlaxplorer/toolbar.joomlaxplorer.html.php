@@ -9,25 +9,26 @@
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
-class TOOLBAR_jx {
+class TOOLBAR_jx{
 
-	public static function _DEFAULT() {
-		$dir = mosGetParam($_SESSION, 'jx_'.$GLOBALS['file_mode'].'dir', '');
+	public static function _DEFAULT(){
+		$dir = mosGetParam($_SESSION, 'jx_' . $GLOBALS['file_mode'] . 'dir', '');
 		mosMenuBar::startTable();
-		mosMenuBar::ext(_COPY,'#','-copy','id="tb-copy" onclick="javascript:Copy();"');
-		mosMenuBar::ext(_MOVE,'#','-move','id="tb-move" onclick="javascript:Move();"');
-		mosMenuBar::ext(_DELETE,'#','-delete','id="tb-delete" onclick="javascript:Delete();"');
-		mosMenuBar::ext(_MENU_CHMOD,'#','-chmod','id="tb-chmod" onclick="javascript:Chmod();"');
-		if(ini_get("file_uploads")) {
-			mosMenuBar::ext(_TASK_UPLOAD,make_link("upload", $dir, null),'-upload','id="tb-upload"');
+		mosMenuBar::ext(_COPY, '#', '-copy', 'id="tb-copy" onclick="javascript:Copy();"');
+		mosMenuBar::ext(_MOVE, '#', '-move', 'id="tb-move" onclick="javascript:Move();"');
+		mosMenuBar::ext(_DELETE, '#', '-delete', 'id="tb-delete" onclick="javascript:Delete();"');
+		mosMenuBar::ext(_MENU_CHMOD, '#', '-chmod', 'id="tb-chmod" onclick="javascript:Chmod();"');
+		if(ini_get("file_uploads")){
+			mosMenuBar::ext(_TASK_UPLOAD, make_link("upload", $dir, null), '-upload', 'id="tb-upload"');
 		}
-		if(($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode()) {
-			mosMenuBar::ext(_MENU_GZIP,'#','-zip','id="tb-upload" onclick="javascript:Archive();"');
+		if(($GLOBALS["zip"] || $GLOBALS["tar"] || $GLOBALS["tgz"]) && !jx_isFTPMode()){
+			mosMenuBar::ext(_MENU_GZIP, '#', '-zip', 'id="tb-upload" onclick="javascript:Archive();"');
 		}
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}
-	public static function _NULL() {
+
+	public static function _NULL(){
 		return true;
 	}
 }

@@ -8,9 +8,9 @@
  */
 
 // запрет прямого доступа
-defined( '_VALID_MOS' ) or die();
-require_once (JPATH_BASE.'/includes/frontend.php');
-$module	= strval(mosGetParam($_REQUEST, 'module', ''));
-$title	= strval(mosGetParam($_REQUEST, 'title', ''));
+defined('_VALID_MOS') or die();
+require_once (JPATH_BASE . '/includes/frontend.php');
+$module = strval(mosGetParam($_REQUEST, 'module', ''));
+$title = strval(mosGetParam($_REQUEST, 'title', ''));
 
 mosLoadModule($module, $title);

@@ -10,20 +10,20 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-$mainframe->addCSS(JPATH_SITE.'/templates/css/print.css');
-$mainframe->addJS(JPATH_SITE.'/includes/js/print/print.js');
+$mainframe->addCSS(JPATH_SITE . '/templates/css/print.css');
+$mainframe->addJS(JPATH_SITE . '/includes/js/print/print.js');
 
-$pg_link = str_replace(array('&pop=1','&page=0'),'',$_SERVER['REQUEST_URI']);
-$pg_link = str_replace('index2.php','index.php',$pg_link);
+$pg_link = str_replace(array('&pop=1', '&page=0'), '', $_SERVER['REQUEST_URI']);
+$pg_link = str_replace('index2.php', 'index.php', $pg_link);
 
 ?>
 <div class="logo"><?php echo $mosConfig_sitename; ?></div>
 <div id="main"><?php echo $_MOS_OPTION['buffer'];?> </div>
 <div id="ju_foo">
 	<?php echo _PRINT_PAGE_LINK; ?> :
-	<br />
+	<br/>
 	<i><?php echo sefRelToAbs($pg_link); ?></i>
-	<br />
-	<br />
+	<br/>
+	<br/>
 	&copy;<?php echo $mosConfig_sitename; ?>,&nbsp;'<?php echo date('Y'); ?>
 </div>

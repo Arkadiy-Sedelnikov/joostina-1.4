@@ -1,10 +1,10 @@
 <?php
 defined('_VALID_MOS') or die();
 
-$disabled_command = array (
+$disabled_command = array(
 );
 
-$upload_allow = array (
+$upload_allow = array(
 );
 
 $file_manager_dir = '/images';

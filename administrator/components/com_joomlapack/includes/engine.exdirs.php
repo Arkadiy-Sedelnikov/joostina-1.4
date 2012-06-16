@@ -10,16 +10,16 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-class CDirExclusionFilter {
+class CDirExclusionFilter{
 
 	/**
-	 @var array Array of the database filters*/
+	@var array Array of the database filters*/
 	var $_filterArray;
 
 	/**
 	 * Class initializer, loads existing filters
 	 */
-	function CDirExclusionFilter() {
+	function CDirExclusionFilter(){
 		$database = database::getInstance();
 
 		// Initialize by loading any exisiting filters
@@ -30,24 +30,24 @@ class CDirExclusionFilter {
 		$this->_filterArray = $database->loadAssocList();
 	}
 
-	function ReplaceSlashes($string) {
-		return str_replace("\\","/",$string);
+	function ReplaceSlashes($string){
+		return str_replace("\\", "/", $string);
 	}
 
 	/**
 	 * Returns the array of the filters
 	 * @return array The exclusion filters
 	 */
-	function getFilters() {
-		global $JPConfiguration,$mosConfig_cachepath;
+	function getFilters(){
+		global $JPConfiguration, $mosConfig_cachepath;
 
 		// Initialize with existing filters
-		if(is_null($this->_filterArray)) {
+		if(is_null($this->_filterArray)){
 			$myArray = array();
-		} else {
+		} else{
 			$myArray = array();
 
-			foreach($this->_filterArray as $filter) {
+			foreach($this->_filterArray as $filter){
 				$myArray[] = $filter['directory'];
 			}
 		}
@@ -64,15 +64,15 @@ class CDirExclusionFilter {
 	 * @param $root string Start from this folder
 	 * @return array Directories and their status
 	 */
-	function getDirectory($root) {
+	function getDirectory($root){
 		// If there's no root directory specified, use the site's root
-		$root = is_null($root)?JPATH_BASE:$root;
+		$root = is_null($root) ? JPATH_BASE : $root;
 
 		// Initialize filter list
 		$tempFilterArray = $this->getFilters();
 
 		$FilterArray = array();
-		foreach($tempFilterArray as $filter) {
+		foreach($tempFilterArray as $filter){
 			$FilterArray[] = $this->ReplaceSlashes($filter);
 		}
 
@@ -85,19 +85,20 @@ class CDirExclusionFilter {
 
 		$allFilesAndDirs = $FS->getDirContents($root);
 
-		if(!($allFilesAndDirs === false)) {
-			foreach($allFilesAndDirs as $fileDef) {
+		if(!($allFilesAndDirs === false)){
+			foreach($allFilesAndDirs as $fileDef){
 				$fileName = $fileDef['name'];
-				if($fileDef['type'] == 'dir') {
+				if($fileDef['type'] == 'dir'){
 					$fileName = basename($fileName);
 					if(($this->ReplaceSlashes($root) == $this->ReplaceSlashes(JPATH_BASE)) &&
-							(($fileName == ".") || ($fileName == '..'))) {
-					} else {
-						if($this->_filterArray == '') {
+						(($fileName == ".") || ($fileName == '..'))
+					){
+					} else{
+						if($this->_filterArray == ''){
 							$arDirs[$fileName] = false;
-						} else {
-							$arDirs[$fileName] = in_array($this->ReplaceSlashes($root.DS.$fileName),
-									$FilterArray);
+						} else{
+							$arDirs[$fileName] = in_array($this->ReplaceSlashes($root . DS . $fileName),
+								$FilterArray);
 						}
 					}
 				} // if
@@ -108,26 +109,26 @@ class CDirExclusionFilter {
 		return $arDirs;
 	}
 
-	function modifyFilter($root,$dir,$checked) {
+	function modifyFilter($root, $dir, $checked){
 		$database = database::getInstance();
 
-		$activate = ($checked == 'on') || ($checked == 'yes') || ($checked == 'checked')?true:false;
+		$activate = ($checked == 'on') || ($checked == 'yes') || ($checked == 'checked') ? true : false;
 
-		$sql = 'SELECT `def_id` FROM #__jp_def WHERE `directory`=\''.$database->getEscaped($this->ReplaceSlashes($root.'/'.$dir)).'\'';
+		$sql = 'SELECT `def_id` FROM #__jp_def WHERE `directory`=\'' . $database->getEscaped($this->ReplaceSlashes($root . '/' . $dir)) . '\'';
 		$database->setQuery($sql);
 		$database->query();
 		$def_id = $database->loadResult();
 
-		if($activate) {
+		if($activate){
 			// Add the filter, if it doesn't exist
-			if(is_null($def_id)) {
-				$sql = 'INSERT INTO #__jp_def (`directory`) VALUES (\''.$database->getEscaped($this->ReplaceSlashes($root.'/'.$dir)).'\')';
+			if(is_null($def_id)){
+				$sql = 'INSERT INTO #__jp_def (`directory`) VALUES (\'' . $database->getEscaped($this->ReplaceSlashes($root . '/' . $dir)) . '\')';
 				$database->setQuery($sql);
 				$database->query();
 			}
-		} else {
+		} else{
 			// Remove the filter, if it exists
-			$sql = 'DELETE FROM #__jp_def WHERE `directory` = \''.$database->getEscaped($this->ReplaceSlashes($root.'/'.$dir)).'\'';
+			$sql = 'DELETE FROM #__jp_def WHERE `directory` = \'' . $database->getEscaped($this->ReplaceSlashes($root . '/' . $dir)) . '\'';
 			$database->setQuery($sql);
 			$database->query();
 		}

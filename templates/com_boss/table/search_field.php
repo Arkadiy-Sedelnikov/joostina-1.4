@@ -4,5 +4,5 @@
 	</td>
 	<td>
 		<?php echo $input; ?>
-	</td>		
+	</td>
 </tr>

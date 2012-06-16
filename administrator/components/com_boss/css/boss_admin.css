@@ -1,35 +1,122 @@
 /* Меню */
-ul#boss-menu{margin:30px 0 20px;padding:2px 16px;list-style:none;border-bottom:1px solid #ccc;white-space:nowrap!important;}
-ul#boss-menu li {display:inline;margin:0;padding:0;list-style:none;}
-ul#boss-menu li a {font-size:14px;color:#333;padding:2px 12px;margin:0;border:1px solid #ccc;border-bottom:none;background:url(../images/boss-tab.png) repeat-x center;font-weight:normal;}
-ul#boss-menu li a:hover {font-size:14px;color:#fff;background:url(../images/boss-tab-active.png) repeat-x center;padding:2px 12px;margin:0;text-decoration:none;font-weight:normal;}
-ul#boss-menu li a#current {cursor:default!important; color:#333;background:#fff;padding:2px 12px;margin:0;text-decoration:none;
-border:1px solid #ccc;border-bottom:3px solid #fff;font-weight:normal;}
-ul#boss-menu.inactive {cursor:default!important; margin:30px 0 20px;padding:2px 16px;list-style:none;border-bottom:1px solid #ccc;}
-ul#boss-menu.inactive li {display:inline;margin:0;list-style:none;font-size:14px;color:#bbb;padding:2px 12px;margin:0;border:1px solid #ccc;border-bottom:none;background:url(../images/boss-tab-inactive.png) repeat-x top;}
+ul#boss-menu {
+    margin: 30px 0 20px;
+    padding: 2px 16px;
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+    white-space: nowrap !important;
+}
+
+ul#boss-menu li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul#boss-menu li a {
+    font-size: 14px;
+    color: #333;
+    padding: 2px 12px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: url(../images/boss-tab.png) repeat-x center;
+    font-weight: normal;
+}
+
+ul#boss-menu li a:hover {
+    font-size: 14px;
+    color: #fff;
+    background: url(../images/boss-tab-active.png) repeat-x center;
+    padding: 2px 12px;
+    margin: 0;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+ul#boss-menu li a#current {
+    cursor: default !important;
+    color: #333;
+    background: #fff;
+    padding: 2px 12px;
+    margin: 0;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-bottom: 3px solid #fff;
+    font-weight: normal;
+}
+
+ul#boss-menu.inactive {
+    cursor: default !important;
+    margin: 30px 0 20px;
+    padding: 2px 16px;
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+}
+
+ul#boss-menu.inactive li {
+    display: inline;
+    margin: 0;
+    list-style: none;
+    font-size: 14px;
+    color: #bbb;
+    padding: 2px 12px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: url(../images/boss-tab-inactive.png) repeat-x top;
+}
 
 /* ���������� */
-.fl  {float:left!important;}
-.fr  {float:right!important;}
+.fl {
+    float: left !important;
+}
 
-.gray {color:#999!important;}
+.fr {
+    float: right !important;
+}
 
-.mt20 {margin-top:20px!important;}
-.mb20 {margin-bottom:20px!important;}
-.ml10 {margin-left:10px!important;}
+.gray {
+    color: #999 !important;
+}
 
-.pt20 {padding-top:20px!important;}
+.mt20 {
+    margin-top: 20px !important;
+}
 
+.mb20 {
+    margin-bottom: 20px !important;
+}
 
-.pb20 {padding-bottom:20px!important;}
+.ml10 {
+    margin-left: 10px !important;
+}
 
-.aright{text-align:right!important;}
-.acenter{text-align:center!important;}
+.pt20 {
+    padding-top: 20px !important;
+}
 
-.nodisplay {display:none!important;}
-.nowrap {white-space:nowrap!important;}
+.pb20 {
+    padding-bottom: 20px !important;
+}
 
-	
+.aright {
+    text-align: right !important;
+}
+
+.acenter {
+    text-align: center !important;
+}
+
+.nodisplay {
+    display: none !important;
+}
+
+.nowrap {
+    white-space: nowrap !important;
+}
+
 /* --- Slides --- */
 .jwts_slider {
     margin: 4px 0px;
@@ -101,18 +188,19 @@ a.jwts_title_text:hover {
 }
 
 .center {
-   margin-top: 10px;
-   text-align: center; 
+    margin-top: 10px;
+    text-align: center;
 }
 
 .pointer {
     cursor: pointer;
 }
+
 .clear {
     clear: both;
 }
 
-.types_content{
+.types_content {
     margin: 0 0 10px 0;
     text-align: center;
 }
@@ -680,6 +768,7 @@ h4.edit_field_header {
     margin: 0 0 5px 0;
     width: 180px;
 }
+
 /*end Formbuilder*/
 /*easyTooltip*/
 #easyTooltip {

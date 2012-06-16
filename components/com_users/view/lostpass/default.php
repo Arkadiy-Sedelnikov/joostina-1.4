@@ -20,22 +20,23 @@ $validate = josSpoofValue();
 		<div class="info"><?php echo _NEW_PASSWORD_DESC; ?></div>
 		<div class="row">
 			<label for="checkusername"><?php echo _PROMPT_USERNAME; ?></label>
-			<input type="text" name="checkusername" class="inputbox" size="40" maxlength="25" />
+			<input type="text" name="checkusername" class="inputbox" size="40" maxlength="25"/>
 		</div>
 		<div class="row">
 			<label for="confirmEmail"><?php echo _PROMPT_EMAIL; ?></label>
-			<input type="text" name="confirmEmail" class="inputbox" size="40" />
+			<input type="text" name="confirmEmail" class="inputbox" size="40"/>
 		</div>
-		<?php if($config->config_captcha_reg) {?>
+		<?php if($config->config_captcha_reg){ ?>
 		<div class="captcha">
-			<img id="captchaimg" alt="<?php echo _PRESS_HERE_TO_RELOAD_CAPTCHA?>" onclick="document.mosForm.captchaimg.src='<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo mosMainFrame::sessionCookieName() ?>&' + new String(Math.random())" src="<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo mosMainFrame::sessionCookieName() ?>" />
+			<img id="captchaimg" alt="<?php echo _PRESS_HERE_TO_RELOAD_CAPTCHA?>" onclick="document.mosForm.captchaimg.src='<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo mosMainFrame::sessionCookieName() ?>&' + new String(Math.random())"
+				 src="<?php echo JPATH_SITE; ?>/includes/libraries/kcaptcha/index.php?session=<?php echo mosMainFrame::sessionCookieName() ?>"/>
 			<label for="captcha"><?php echo _REG_CAPTCHA; ?></label>
 			<input type="text" name="captcha" class="inputbox" size="40" value=""/>
 		</div>
-			<?php } ?>
-		<span class="button"><input type="submit" class="button" value="<?php echo _BUTTON_SEND_PASSWORD; ?>" /></span>
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<input type="hidden" name="task" value="sendNewPass" />
-		<input type="hidden" name="<?php echo $validate; ?>" value="1" />
+		<?php } ?>
+		<span class="button"><input type="submit" class="button" value="<?php echo _BUTTON_SEND_PASSWORD; ?>"/></span>
+		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="task" value="sendNewPass"/>
+		<input type="hidden" name="<?php echo $validate; ?>" value="1"/>
 	</form>
 </div>

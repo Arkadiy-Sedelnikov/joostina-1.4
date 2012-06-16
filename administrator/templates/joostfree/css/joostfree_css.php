@@ -1,9 +1,9 @@
 <?php
-ob_start ("ob_gzhandler");
+ob_start("ob_gzhandler");
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: must-revalidate");
-$offset = 60* 60 ;
-$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s",time() + $offset) . " GMT";
+$offset = 60 * 60;
+$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
 header($ExpStr);
 include('template_css.css');
 ob_flush();

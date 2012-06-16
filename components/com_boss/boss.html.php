@@ -27,7 +27,6 @@ class boss_html{ //implements  bossUI {
 	var $show_content;
 	var $directory;
 	var $directory_name;
-	var $itemid;
 	var $task;
 	var $searchs;
 	var $fields_searchable;
@@ -176,7 +175,6 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayProfile(){
-		$itemid = $this->itemid;
 		$user = $this->user;
 		$directory = $this->directory;
 		$plugins = BossPlugins::get_plugins($directory, 'fields');
@@ -212,7 +210,7 @@ class boss_html{ //implements  bossUI {
 			}
 		}
 	</script>
-	<?php $target = sefRelToAbs("index.php?option=com_boss&amp;task=save_profile&amp;directory=$directory&amp;Itemid=$itemid"); ?>
+	<?php $target = sefRelToAbs("index.php?option=com_boss&amp;task=save_profile&amp;directory=$directory"); ?>
 	<form action="<?php echo $target; ?>" method="post" name="mosUserForm">
 		<?php include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/profile.php'); ?>
 		<input type="hidden" name="id" value="<?php echo $user->id;?>"/>
@@ -241,7 +239,6 @@ class boss_html{ //implements  bossUI {
 		include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/emailform.php');
 		?>
 		<input type="hidden" name="contentid" value="<?php echo $this->content->id; ?>"/>
-		<input type="hidden" name="itemid" value="<?php echo $this->itemid; ?>"/>
 		<input type="hidden" name="directory" value="<?php echo $this->directory; ?>"/>
 	</form>
 	<?php
@@ -260,7 +257,7 @@ class boss_html{ //implements  bossUI {
 		include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/rules.php');
 	}
 
-	function displayMessageForm($content, $user, $mode, $allow_attachement, $itemid){
+	function displayMessageForm($content, $user, $mode, $allow_attachement){
 		$directory = $this->directory;
 
 		?>
@@ -294,7 +291,7 @@ class boss_html{ //implements  bossUI {
 		</legend>
 		<!-- titel -->
 		<!-- form -->
-		<?php $target = sefRelToAbs("index.php?option=com_boss&amp;task=send_message&amp;mode=$mode&amp;directory=$directory&amp;Itemid=$itemid");?>
+		<?php $target = sefRelToAbs("index.php?option=com_boss&amp;task=send_message&amp;mode=$mode&amp;directory=$directory");?>
 		<form action="<?php echo $target;?>" method="post" name="saveForm" enctype="multipart/form-data">
 			<?php if($mode == 0){ ?>
 			<!-- name -->
@@ -320,7 +317,7 @@ class boss_html{ //implements  bossUI {
 			<!-- body -->
 			<label for="body"><?php echo BOSS_FORM_MESSAGE_BODY; ?></label>
 			<textarea class='boss_required inputbox' id='body' name='body' cols='50' rows='10' wrap='VIRTUAL'>
-				<?php echo BOSS_EMAIL_BODY . htmlspecialchars(stripslashes('text' /*TODO@$content->content_text*/), ENT_QUOTES); ?>
+				<?php echo BOSS_EMAIL_BODY . htmlspecialchars(stripslashes('text'), ENT_QUOTES); ?>
 			</textarea>
 			<!-- body -->
 			<br/>
@@ -348,19 +345,18 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayConfirmation(){
-		$itemid = $this->itemid;
 		$content = $this->content;
 		$username = $this->user->name;
 		$directory = $this->directory;
 		$text = BOSS_CAUTION . " <b>" . $username . "</b> " . BOSS_CAUTION_DELETE1 . "<b>" . $content->name . "</b>" . BOSS_CAUTION_DELETE2;
-		$target = sefRelToAbs("index.php?option=com_boss&amp;task=delete_content&amp;contentid=" . $content->id . "&amp;mode=confirm&amp;directory=$directory&amp;Itemid=$itemid");
+		$target = sefRelToAbs("index.php?option=com_boss&amp;task=delete_content&amp;contentid=" . $content->id . "&amp;mode=confirm&amp;directory=$directory");
 		$link_yes = "<a href='" . $target . "'>" . BOSS_YES_DELETE . "</a>";
-		$target = sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid");
+		$target = sefRelToAbs("index.php?option=com_boss&amp;directory=$directory");
 		$link_no = "<a href='" . $target . "'>" . BOSS_NO_DELETE . "</a>";
 		include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/confirmation.php');
 	}
 
-	function recurseCategories($id, $level, &$children, $itemid, $showChildren = 1, $showDesc = 1, $showImg = 1){
+	function recurseCategories($id, $level, $children, $showChildren = 1, $showDesc = 1, $showImg = 1){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$directory = $this->directory;
@@ -383,7 +379,7 @@ class boss_html{ //implements  bossUI {
 					}
 				}
 
-				$link = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=" . $row->id . "&amp;slug=" . $row->slug . "&amp;order=0&amp;directory=$directory&amp;Itemid=" . $itemid);
+				$link = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=" . $row->id . "&amp;slug=" . $row->slug . "&amp;order=0&amp;directory=$directory");
 				if($level == 0){
 					?>
 <div class="boss_maincat">
@@ -412,7 +408,7 @@ class boss_html{ //implements  bossUI {
 					<?php
 				}
 				if($level == 0 && $showChildren != 0){
-					$this->recurseCategories($row->id, $level + 1, $children, $itemid);
+					$this->recurseCategories($row->id, $level + 1, $children);
 				}
 				if($level == 0){
 					?>
@@ -448,7 +444,7 @@ class boss_html{ //implements  bossUI {
 		?>
 	<form action="<?php echo $link_login; ?>" method="post" name="login" id="login">
 
-		<?php include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/login.php');	 ?>
+		<?php include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/login.php');     ?>
 
 		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>"/>
 		<?php echo $validate; ?>
@@ -460,7 +456,7 @@ class boss_html{ //implements  bossUI {
 
 	}
 
-	function selectCategories($id, $level, $children, &$catid, $root_allowed, $itemid, $linkoption, $current_cat_only = 0){
+	function selectCategories($id, $level, $children, &$catid, $root_allowed, $linkoption, $current_cat_only = 0){
 		if(@$children[$id]){
 			foreach($children[$id] as $row){
 				if(($root_allowed == 1) || (!@$children[$row->id])){
@@ -477,7 +473,7 @@ class boss_html{ //implements  bossUI {
 						echo "<label>" . $level . $row->name . "</label>";
 					}
 				}
-				$this->selectCategories($row->id, $level . $row->name . " >> ", $children, $catid, $root_allowed, $itemid, $linkoption, $current_cat_only);
+				$this->selectCategories($row->id, $level . $row->name . " >> ", $children, $catid, $root_allowed, $linkoption, $current_cat_only);
 			}
 		}
 	}
@@ -512,7 +508,6 @@ class boss_html{ //implements  bossUI {
 		$filter->fields_searchable = $this->fields_searchable;
 		$filter->category = $this->category;
 		$filter->field_values = $this->field_values;
-		$filter->itemid = $this->itemid;
 		$filter->conf = $this->conf;
 		$filter->show_name = $showName;
 
@@ -522,7 +517,7 @@ class boss_html{ //implements  bossUI {
 	function displaySearch(){
 
 		$this->jsJumpmenu();
-		$action = sefRelToAbs('index.php?option=com_boss&directory=' . $this->directory . '&task=show_result&catid=' . $this->category->id . '&Itemid=' . $this->itemid);
+		$action = sefRelToAbs('index.php?option=com_boss&directory=' . $this->directory . '&task=show_result&catid=' . $this->category->id);
 		?>
 	<form action="<?php echo $action; ?>" name="adminform" method="post">
 		<?php include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/search.php'); ?>
@@ -534,7 +529,7 @@ class boss_html{ //implements  bossUI {
 	/*************************************************************************************************************************************************/
 	/*************************************************************************************************************************************************/
 	/*************************************************************************************************************************************************/
-	/****					  Public Functions																																							*******/
+	/****                      Public Functions                                                                                                                                                            *******/
 	/*************************************************************************************************************************************************/
 	/*************************************************************************************************************************************************/
 	/*************************************************************************************************************************************************/
@@ -543,8 +538,7 @@ class boss_html{ //implements  bossUI {
 		$task = $this->task;
 		$catid = $this->category->id;
 		$order = $this->conf->order;
-		$itemid = $this->itemid;
-		$userid = intval(mosGetParam($_GET, 'userid', 0)); //TODO
+		$userid = intval(mosGetParam($_GET, 'userid', 0));
 		$directory = $this->directory;
 
 		if($text_search == "")
@@ -570,7 +564,6 @@ class boss_html{ //implements  bossUI {
 			   value="<?php echo $text_search;?>" onblur="if(this.value=='') this.value='';"
 			   onfocus="if(this.value=='<?php echo $text_search;?>') this.value='';"/>
 		<input type="hidden" name="order" value="<?php echo $order; ?>"/>
-		<input type="hidden" name="Itemid" value="<?php echo $itemid;?>"/>
 	</form>
 	<?php
 
@@ -579,7 +572,7 @@ class boss_html{ //implements  bossUI {
 	function displayContentTitle($content, $link = true){
 		$directory = $this->directory;
 		if($link == true){
-			$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory&amp;Itemid=" . $this->itemid);
+			$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory");
 			echo '<a href="' . $linkTarget . '">' . stripslashes($content->name) . '</a>';
 		} else{
 			echo stripslashes($content->name);
@@ -611,12 +604,11 @@ class boss_html{ //implements  bossUI {
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 		$catid = mosGetParam($_REQUEST, 'catid', '');
 
-		$target = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;contentid=" . $content->id . "&amp;content_types=" . $content->type_content . "&amp;catid=" . $catid . "&amp;directory=$directory&amp;Itemid=" . $this->itemid);
+		$target = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;contentid=" . $content->id . "&amp;content_types=" . $content->type_content . "&amp;catid=" . $catid . "&amp;directory=" . $directory);
 		$edit = "<a href='" . $target . "'>" . BOSS_CONTENT_EDIT . "</a> &nbsp;";
-		$target = sefRelToAbs("index.php?option=com_boss&amp;task=delete_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory&amp;Itemid=" . $this->itemid);
+		$target = sefRelToAbs("index.php?option=com_boss&amp;task=delete_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory");
 		$delete = "<a href='" . $target . "'>" . BOSS_CONTENT_DELETE . "</a>";
 
 		if($this->conf->allow_rights){
@@ -648,56 +640,54 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function PrintIcon($content, $text = null){
-/*
-		global $cpr_i;
+		/*
+		  global $cpr_i;
 
-		if (!isset($cpr_i)) {
-			$cpr_i = '';
-		}
+		  if (!isset($cpr_i)) {
+			  $cpr_i = '';
+		  }
 
-		if ($params->get('print') && !$hide_js) {
-			// use default settings if none declared
-			if (!$status) {
-				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			}
-			// checks template image directory for image, if non found default are loaded
-			if ($params->get('icons')) {
-				$image = mosAdminMenus::ImageCheck('printButton.png', '/images/M_images/', null, null, _PRINT, 'print' . $cpr_i);
-				$cpr_i++;
-			} else {
-				$image = _ICON_SEP . '&nbsp;' . _PRINT . '&nbsp;' . _ICON_SEP;
-			}
-			if ($params->get('popup') && !$hide_js) {
-				?>
-			<script language="javascript" type="text/javascript">
-				<!--
-				document.write('<a href="#" class="print_button" onclick="javascript:window.print(); return false;" title="<?php echo _PRINT; ?>">');
-				document.write('<?php echo $image; ?>');
-				document.write('</a>');
-				//-->
-			</script>
-			<?php
-			} else {
-				?>
-			<?php if (!Jconfig::getInstance()->config_index_print) { ?>
-				<span style="display:none"><![CDATA[<noindex>]]></span><a href="#" rel="nofollow" target="_blank" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo _PRINT; ?>"><?php echo $image; ?></a><span style="display:none"><![CDATA[</noindex>]]></span>
-				<?php } else { ?>
-				<a href="<?php echo $link; ?>" target="_blank" title="<?php echo _PRINT; ?>"><?php echo $image; ?></a>
-				<?php }; ?>
+		  if ($params->get('print') && !$hide_js) {
+			  // use default settings if none declared
+			  if (!$status) {
+				  $status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
+			  }
+			  // checks template image directory for image, if non found default are loaded
+			  if ($params->get('icons')) {
+				  $image = mosAdminMenus::ImageCheck('printButton.png', '/images/M_images/', null, null, _PRINT, 'print' . $cpr_i);
+				  $cpr_i++;
+			  } else {
+				  $image = _ICON_SEP . '&nbsp;' . _PRINT . '&nbsp;' . _ICON_SEP;
+			  }
+			  if ($params->get('popup') && !$hide_js) {
+				  ?>
+			  <script language="javascript" type="text/javascript">
+				  <!--
+				  document.write('<a href="#" class="print_button" onclick="javascript:window.print(); return false;" title="<?php echo _PRINT; ?>">');
+				  document.write('<?php echo $image; ?>');
+				  document.write('</a>');
+				  //-->
+			  </script>
+			  <?php
+			  } else {
+				  ?>
+			  <?php if (!Jconfig::getInstance()->config_index_print) { ?>
+				  <span style="display:none"><![CDATA[<noindex>]]></span><a href="#" rel="nofollow" target="_blank" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>'); return false;" title="<?php echo _PRINT; ?>"><?php echo $image; ?></a><span style="display:none"><![CDATA[</noindex>]]></span>
+				  <?php } else { ?>
+				  <a href="<?php echo $link; ?>" target="_blank" title="<?php echo _PRINT; ?>"><?php echo $image; ?></a>
+				  <?php }; ?>
 
-			<?php
-			}
-		}
-*/
+			  <?php
+			  }
+		  }
+  */
 		$directory = $this->directory;
 		$params = new mosParameters('');
 		$params->set('popup', $this->popup);
 		$params->set('print', 1);
 		$params->set('icons', 1);
-		$itemid = $this->itemid;
-		$print_link = JPATH_SITE . '/index2.php?option=com_boss&amp;task=show_content&amp;contentid=' . $content->id . '&amp;popup=1&amp;directory=' . $directory . '&amp;Itemid=' . $itemid;
+		$print_link = JPATH_SITE . '/index2.php?option=com_boss&amp;task=show_content&amp;contentid=' . $content->id . '&amp;popup=1&amp;directory=' . $directory;
 
-		// TODO GoDr Временная заглушка (проблемы с печатью)
 		mosHTML::PrintIcon(null, $params, 0, $print_link);
 		/*
 		if(isset($text)){
@@ -711,12 +701,11 @@ class boss_html{ //implements  bossUI {
 	 * Writes Email icon
 	 */
 	function EmailIcon($content, $text = null){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
 
 		if(1){
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
-			$link = JPATH_SITE . '/index2.php?option=com_boss&amp;task=emailform&amp;contentid=' . $content->id . "&amp;directory=$directory&amp;Itemid=" . $itemid;
+			$link = JPATH_SITE . '/index2.php?option=com_boss&amp;task=emailform&amp;contentid=' . $content->id . "&amp;directory=$directory";
 
 			if(isset($text))
 				$image = $text; else if(1){
@@ -748,10 +737,10 @@ class boss_html{ //implements  bossUI {
 	 * Вывод названия категории
 	 * @param  $content
 	 * @param  $type
-	 *		 0 - показать только категорию,
-	 *		 1 - показать категория с родителем
-	 *		 2 - показать только категорию ссылкой,
-	 *		 3 - показать категория с родителем ссылками
+	 *         0 - показать только категорию,
+	 *         1 - показать категория с родителем
+	 *         2 - показать только категорию ссылкой,
+	 *         3 - показать категория с родителем ссылками
 	 * @return void
 	 * Изменения внесены 01.02.2012 GoDr
 	 */
@@ -785,12 +774,11 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayContentBy($content){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
 
 		if($content->user_id != 0){
 			echo BOSS_FROM;
-			$target = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;userid=" . $content->user_id . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+			$target = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;userid=" . $content->user_id . "&amp;directory=$directory");
 
 			echo "<a href='" . $target . "'>" . $content->user . "</a>";
 		} else
@@ -821,7 +809,7 @@ class boss_html{ //implements  bossUI {
 			if(!($f->catsid == ',-1,' || (strpos($f->catsid, ',' . $content->type_content . ',') !== false))){
 				continue;
 			}
-			$return = $jDirectoryField->getFieldValue($f, $content, $this->field_values, $this->directory, $this->itemid, $this->conf);
+			$return = $jDirectoryField->getFieldValue($f, $content, $this->field_values, $this->directory, $this->conf);
 			if($return->value != ""){
 				$i++;
 				if(($key != 0) && ($betweenfields != null) && ($return != ""))
@@ -831,7 +819,7 @@ class boss_html{ //implements  bossUI {
 					echo $fieldheader;
 
 				if($hrefNum > 0 && $hrefNum == $i){
-					$link = sefRelToAbs('/index.php?option=com_boss&task=show_content&contentid=' . $content->id . '&catid=' . $this->category->id . '&directory=' . $this->directory . '&Itemid=' . $this->itemid);
+					$link = sefRelToAbs('/index.php?option=com_boss&task=show_content&contentid=' . $content->id . '&catid=' . $this->category->id . '&directory=' . $this->directory);
 					$href = '<a href="' . $link . '">';
 					$hrefEnd = '</a>';
 				} else{
@@ -851,7 +839,7 @@ class boss_html{ //implements  bossUI {
 
 	function displayContentLinkMore($content, $text = null){
 		$directory = $this->directory;
-		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->category . "&amp;directory=$directory&amp;Itemid=" . $this->itemid);
+		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->category . "&amp;directory=$directory");
 		if(isset($text))
 			echo '<a href="' . $linkTarget . '">' . $text . '</a>'; else
 			echo '<a href="' . $linkTarget . '">' . BOSS_READ_MORE . '</a>';
@@ -887,10 +875,9 @@ class boss_html{ //implements  bossUI {
 
 	function displayAdvancedSearchLink(){
 		$catid = $this->category->id;
-		$itemid = $this->itemid;
 		$directory = $this->directory;
 		?>
-	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");?>"><?php echo BOSS_ADVANCED_SEARCH; ?></a>
+	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;catid=$catid&amp;directory=$directory");?>"><?php echo BOSS_ADVANCED_SEARCH; ?></a>
 	<?php
 
 	}
@@ -901,17 +888,16 @@ class boss_html{ //implements  bossUI {
 		$url = $this->url;
 		$order = mosGetParam($_REQUEST, 'order', '');
 		$direction = mosGetParam($_REQUEST, 'direction', 'ASC');
-		$itemid = $this->itemid;
 		$direction = ($direction == 'ASC') ? 'DESC' : 'ASC';
 		$img = ($direction == 'ASC') ? 'arrow_up.png' : 'arrow_down.png';
 		$imgUrl = '/templates/com_boss/' . $this->template_name . '/images/' . $img;
-		$link = sefRelToAbs($url . "&amp;order=" . $order . "&amp;direction=" . $direction . "&amp;Itemid=" . $itemid);
+		$link = sefRelToAbs($url . "&amp;order=" . $order . "&amp;direction=" . $direction);
 
 		if(isset($fields)){
 			$this->jsJumpmenu(); ?>
 		<select name="order" size="1" onchange="jumpmenu('parent',this)">
 			<option
-				value="<?php echo sefRelToAbs($url . "&amp;order=0&amp;direction=" . $direction . "&amp;Itemid=" . $itemid);?>" <?php
+				value="<?php echo sefRelToAbs($url . "&amp;order=0&amp;direction=" . $direction);?>" <?php
 				if($order == "0"){
 					echo "selected='selected'";
 				} ?>>
@@ -922,7 +908,7 @@ class boss_html{ //implements  bossUI {
 			if($s->sort == 1){
 				?>
 				<option
-					value="<?php echo sefRelToAbs($url . "&amp;order=" . $s->fieldid . "&amp;direction=" . $direction . "&amp;Itemid=" . $itemid);?>" <?php
+					value="<?php echo sefRelToAbs($url . "&amp;order=" . $s->fieldid . "&amp;direction=" . $direction);?>" <?php
 					if($order == $s->fieldid){
 						echo "selected='selected'";
 					} ?>>
@@ -1022,27 +1008,25 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayShowOther($content){
-		global $itemid;
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 
 		$row = null;
 		$directory = $this->directory;
 		$update_possible = 0;
-		$itemid = $this->itemid;
 
 		if($content->userid != 0){
-			$target = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;userid=" . $content->userid . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+			$target = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;userid=" . $content->userid . "&amp;directory=$directory");
 			echo "<a href='" . $target . "'><b>" . BOSS_SHOW_OTHERS . $content->user . "</b></a>";
 
 			if(($my->id == $row->userid) && ($update_possible == 1)){
 				?>
 			<div>
 				<?php
-				$target = sefRelToAbs("index.php?option=com_boss&amp;Itemid=$itemid&amp;task=write_content&amp;contentid=$content->id" . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+				$target = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;contentid=$content->id" . "&amp;directory=$directory");
 				echo "<a href='" . $target . "'>" . BOSS_CONTENT_EDIT . "</a>";
 				echo "&nbsp;";
-				$target = sefRelToAbs("index.php?option=com_boss&amp;Itemid=$itemid&amp;task=delete_content&amp;contentid=$content->id" . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+				$target = sefRelToAbs("index.php?option=com_boss&amp;task=delete_content&amp;contentid=$content->id" . "&amp;directory=$directory");
 				echo "<a href='" . $target . "'>" . BOSS_CONTENT_DELETE . "</a>";
 				?>
 			</div>
@@ -1057,7 +1041,6 @@ class boss_html{ //implements  bossUI {
 		$my = $mainframe->getUser();
 		$conf = $this->conf;
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 
 		if(($private == 1) && ($my->id == 0)){
 			return;
@@ -1065,7 +1048,7 @@ class boss_html{ //implements  bossUI {
 
 		if(($content->userid != 0) && ($conf->allow_contact_by_pms == 1)){
 			$pmsText = sprintf(BOSS_PMS_FORM, $content->user);
-			$pmsForm = sefRelToAbs("index.php?option=com_boss&amp;task=show_message_form&amp;mode=1&amp;contentid=" . $content->id . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+			$pmsForm = sefRelToAbs("index.php?option=com_boss&amp;task=show_message_form&amp;mode=1&amp;contentid=" . $content->id . "&amp;directory=$directory");
 			echo '<a href="' . $pmsForm . '">' . $pmsText . '</a>';
 		}
 	}
@@ -1155,7 +1138,6 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayCategoriesSelectSearch(){
-		$itemid = $this->itemid;
 		$catid = $this->category->id;
 		$categories = $this->categories;
 		$directory = $this->directory;
@@ -1164,11 +1146,11 @@ class boss_html{ //implements  bossUI {
 		?>
 	<select name='category_choose' onchange="jumpmenu('parent',this)">
 		<option
-			value="<?php echo sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;catid=0&amp;directory=$directory&amp;Itemid=$itemid"); ?>" <?php if($catid == 0)
+			value="<?php echo sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;catid=0&amp;directory=$directory"); ?>" <?php if($catid == 0)
 			echo 'selected="selected"'; ?>><?php echo BOSS_MENU_ALL_CONTENTS; ?></option>
 		<?php
 		$linkoption = "&amp;task=search";
-		$this->selectCategories(0, "", $categories, $catid, 1, $itemid, $linkoption);
+		$this->selectCategories(0, "", $categories, $catid, 1, $linkoption);
 		?>
 	</select>
 	<?php
@@ -1176,7 +1158,6 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayCategoriesSelect($task = 'write_content'){
-		$itemid = $this->itemid;
 		$catid = $this->category->id;
 		$content_id = $this->content->id;
 		$categories = $this->categories;
@@ -1190,14 +1171,13 @@ class boss_html{ //implements  bossUI {
 			$linkoption = "&amp;task=$task";
 
 		echo "<option value=''>" . BOSS_SELECT_CATEGORY . "</option>";
-		$this->selectCategories(0, "", $categories, $catid, $this->conf->root_allowed, $itemid, $linkoption);
+		$this->selectCategories(0, "", $categories, $catid, $this->conf->root_allowed, $linkoption);
 		?>
 	</select><?php
 
 	}
 
 	function displayContentTypesSelect($task = 'write_content'){
-		$itemid = $this->itemid;
 		$content_types = $this->content_types;
 		$content_id = $this->content->id;
 
@@ -1211,14 +1191,14 @@ class boss_html{ //implements  bossUI {
 			$linkoption = "&task=$task";
 		?>
 		<option
-			value='<?php echo sefRelToAbs("index.php?option=com_boss$linkoption&amp;content_types=0&amp;directory=" . $this->directory . "&amp;Itemid=$itemid"); ?>'><?php echo BOSS_SELECT_CONTENT_TYPE2; ?></option>
+			value='<?php echo sefRelToAbs("index.php?option=com_boss$linkoption&amp;content_types=0&amp;directory=" . $this->directory); ?>'><?php echo BOSS_SELECT_CONTENT_TYPE2; ?></option>
 		<?php
 		foreach($content_types as $row){
 
 
 			?>
 			<option
-				value="<?php echo sefRelToAbs("index.php?option=com_boss$linkoption&amp;content_types=" . $row->id . "&amp;directory=" . $this->directory . "&amp;Itemid=$itemid"); ?>"
+				value="<?php echo sefRelToAbs("index.php?option=com_boss$linkoption&amp;content_types=" . $row->id . "&amp;directory=" . $this->directory); ?>"
 				<?php if($row->id == $this->content_type){
 				echo "selected='selected'";
 			} ?>>
@@ -1261,11 +1241,11 @@ class boss_html{ //implements  bossUI {
 
 	function displayFormBegin($mode = "write"){
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 
 		if($mode == "write")
-			$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_content&amp;directory=$directory&amp;Itemid=" . $itemid); else
-			$target = sefRelToAbs("index.php?option=com_boss&amp;task=send_arrange&amp;directory=$directory&amp;Itemid=" . $itemid);
+			$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_content&amp;directory=$directory");
+		else
+			$target = sefRelToAbs("index.php?option=com_boss&amp;task=send_arrange&amp;directory=$directory");
 		$catid = $this->category->id;
 		echo '<form action="' . $target . '" method="post" name="saveForm" enctype="multipart/form-data" onsubmit="return submitbutton(this)">';
 		echo "<input type='hidden' name='category' value='" . $catid . "' />";
@@ -1315,14 +1295,14 @@ class boss_html{ //implements  bossUI {
 
 		/* Submission_type == 0->Account Creation with content posting */
 		if(($conf->submission_type == 0) && ($my->id == 0)){
-			echo BOSS_AUTOMATIC_ACCOUNT . "<br />"; //TODO
+			echo BOSS_AUTOMATIC_ACCOUNT . "<br />";
 
 			if(isset($content->username)){
 				$username = $content->username;
 				$password = $content->password;
 				$email = $content->email;
 				$name = $content->name;
-				$style = 'style="background-color:#ff0000"'; //TODO
+				$style = 'style="background-color:#ff0000"';
 			} else{
 				$username = "";
 				$password = "";
@@ -1466,14 +1446,13 @@ class boss_html{ //implements  bossUI {
 	}
 
 	/**  показывает поля профиля пользователя из таблицы Joostina #__users
-	 * @param  $name				- имя поля
-	 * @param  $content			 - объект контента
-	 * @param string $emailView	 - вид вывода почты (форма отправки, ссылка маайлто, картинка)
+	 * @param        $name                - имя поля
+	 * @param        $content             - объект контента
+	 * @param string $emailView     - вид вывода почты (форма отправки, ссылка маайлто, картинка)
 	 * @return
 	 */
 	function showProfileField($name, $content, $emailView = 'emailForm'){
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 		switch($name){
 			case "username":
 				$title = BOSS_UNAME;
@@ -1487,7 +1466,7 @@ class boss_html{ //implements  bossUI {
 				$title = BOSS_EMAIL;
 				switch($emailView){
 					case 'emailForm':
-						$emailForm = sefRelToAbs("index.php?option=com_boss&amp;task=show_message_form&amp;mode=0&amp;contentid=" . $content->id . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+						$emailForm = sefRelToAbs("index.php?option=com_boss&amp;task=show_message_form&amp;mode=0&amp;contentid=" . $content->id . "&amp;directory=$directory");
 						$input = '<a href="' . $emailForm . '">' . BOSS_SEND_EMAIL_BUTTON . '</a>';
 						break;
 					case 'img':
@@ -1506,7 +1485,7 @@ class boss_html{ //implements  bossUI {
 	}
 
 	/**  показывает дополнительные поля пользователя  из #__boss_(ид каталога)_profile
-	 * @param  $content		 - объект контента
+	 * @param  $content         - объект контента
 	 * @param  $profileFields   - объект дополнительных полей профиля пользователя
 	 * @return void
 	 */
@@ -1526,14 +1505,13 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayWriteLink(){
-		$itemid = $this->itemid;
 		if(isset($this->category->id))
 			$catid = $this->category->id;
 		$directory = $this->directory;
 
 		if(!isset($catid))
-			$link_write_content = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;directory=$directory&amp;Itemid=$itemid"); else
-			$link_write_content = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
+			$link_write_content = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;directory=$directory"); else
+			$link_write_content = sefRelToAbs("index.php?option=com_boss&amp;task=write_content&amp;catid=$catid&amp;directory=$directory");
 		echo '<a href="' . $link_write_content . '">' . BOSS_MENU_WRITE . '</a>';
 	}
 
@@ -1542,41 +1520,36 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayAllContentsLink(){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
-		$link_show_all = sefRelToAbs("index.php?option=com_boss&amp;task=show_all&amp;directory=$directory&amp;Itemid=$itemid");
+		$link_show_all = sefRelToAbs("index.php?option=com_boss&amp;task=show_all&amp;directory=$directory");
 		echo '<a href="' . $link_show_all . '">' . BOSS_MENU_ALL_CONTENTS . '</a>';
 	}
 
 	function displayProfileLink(){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
-		$link_show_profile = sefRelToAbs("index.php?option=com_boss&amp;task=show_profile&amp;directory=$directory&amp;Itemid=$itemid");
+		$link_show_profile = sefRelToAbs("index.php?option=com_boss&amp;task=show_profile&amp;directory=$directory");
 
 		echo '<a href="' . $link_show_profile . '">' . BOSS_MENU_PROFILE . '</a>';
 	}
 
 	function displayUserContentsLink(){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
-		$link_show_user = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory&amp;Itemid=$itemid");
+		$link_show_user = sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory");
 
 		echo '<a href="' . $link_show_user . '">' . BOSS_MENU_USER_CONTENTS . '</a>';
 	}
 
 	function displaySearchLink(){
-		$itemid = $this->itemid;
 		$directory = $this->directory;
-		$link_show_search = sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;directory=$directory&amp;Itemid=$itemid");
+		$link_show_search = sefRelToAbs("index.php?option=com_boss&amp;task=search&amp;directory=$directory");
 
 		echo '<a href="' . $link_show_search . '">' . BOSS_SEARCH . '</a>';
 	}
 
 	function displayRulesLink(){
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 
-		$link_show_rules = sefRelToAbs("index.php?option=com_boss&amp;task=show_rules&amp;directory=$directory&amp;Itemid=$itemid");
+		$link_show_rules = sefRelToAbs("index.php?option=com_boss&amp;task=show_rules&amp;directory=$directory");
 		echo '<a href="' . $link_show_rules . '">' . BOSS_MENU_RULES . '</a>';
 	}
 
@@ -1585,7 +1558,7 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayCategories($showChildren = 1, $showDesc = 1, $showImg = 1){
-		$this->recurseCategories(0, 0, $this->categories, $this->itemid, $showChildren, $showDesc, $showImg);
+		$this->recurseCategories(0, 0, $this->categories, $showChildren, $showDesc, $showImg);
 	}
 
 	function displayLastContents(){
@@ -1593,13 +1566,12 @@ class boss_html{ //implements  bossUI {
 		$contents = $this->contents;
 		$nb_images = $this->conf->nb_images;
 		$directory = $this->directory;
-		$itemid = $this->itemid;
 
 		foreach($contents as $row){
 			?>
 		<div class="boss_content_box">
 			<?php
-			$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $row->id . "&amp;catid=" . $row->category . "&amp;directory=$directory&amp;Itemid=" . $itemid);
+			$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $row->id . "&amp;catid=" . $row->category . "&amp;directory=$directory");
 			$ok = 0;
 			$i = 1;
 			while(!$ok){
@@ -1642,26 +1614,26 @@ class boss_html{ //implements  bossUI {
 		echo '<a href="' . $link_create . '">' . BOSS_CREATE_ACCOUNT . "</a>";
 	}
 
-	function displayAlphaIndex($directory, $itemid = 0, $separator = '<br />', $ru = true, $en = true, $num = true){
+	function displayAlphaIndex($directory, $separator = '<br />', $ru = true, $en = true, $num = true){
 		$data = boss_helpers::loadAlphaIndex($directory);
 
 		if($ru){
-			$this->alpaPrint($directory, $itemid, $data['ruAlf'], $data['alphaContent']);
+			$this->alpaPrint($directory, $data['ruAlf'], $data['alphaContent']);
 		}
 
 		if($en){
 			echo $separator;
-			$this->alpaPrint($directory, $itemid, $data['enAlf'], $data['alphaContent']);
+			$this->alpaPrint($directory, $data['enAlf'], $data['alphaContent']);
 		}
 
 		if($num){
 			echo $separator;
-			$this->alpaPrint($directory, $itemid, $data['numeric'], $data['alphaContent']);
+			$this->alpaPrint($directory, $data['numeric'], $data['alphaContent']);
 		}
 
 	}
 
-	function alpaPrint($directory, $itemid, $alphabet, $alphaContent){
+	function alpaPrint($directory, $alphabet, $alphaContent){
 		$order = mosGetParam($_REQUEST, 'order', '');
 		$order = ($order == '') ? '' : '&order=' . $order;
 		$direction = mosGetParam($_REQUEST, 'direction', '');
@@ -1669,16 +1641,16 @@ class boss_html{ //implements  bossUI {
 
 		foreach($alphabet as $alf){
 			if(in_array($alf, $alphaContent)){
-				echo '<a class="alphaindex" href="' . sefRelToAbs('index.php?option=com_boss&task=search_alpha&directory=' . $directory . '&alpha=' . urlencode($alf) . $order . $direction . '&Itemid=' . $itemid) . '">' . $alf . '</a> ';
+				echo '<a class="alphaindex" href="' . sefRelToAbs('index.php?option=com_boss&task=search_alpha&directory=' . $directory . '&alpha=' . urlencode($alf) . $order . $direction) . '">' . $alf . '</a> ';
 			} else{
 				echo $alf . ' ';
 			}
 		}
 	}
 
-	function show_expiration($content, $conf, $itemid){
+	function show_expiration($content, $conf){
 		$time = boss_helpers::DateAdd('d', $conf->content_duration, $content->date_created);
-		$target = sefRelToAbs("index.php?option=com_boss&task=extend_expiration&contentid=$content->id&Itemid=$itemid");
+		$target = sefRelToAbs("index.php?option=com_boss&task=extend_expiration&contentid=$content->id");
 		?>
 	<div class="renew">
 		<?php echo sprintf(BOSS_RENEW_CONTENT_QUESTION, $content->name, $time); ?>

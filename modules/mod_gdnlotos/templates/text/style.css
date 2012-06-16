@@ -1,53 +1,58 @@
-.moduletable-text{
-    width:auto;
-    background-color:#fffbe4;
-    margin:25px 5px 10px 10px;
-    padding:5px;
-    border:solid 1px #000000;
-    border-radius:10px 0 10px 0;
+.moduletable-text {
+    width: auto;
+    background-color: #fffbe4;
+    margin: 25px 5px 10px 10px;
+    padding: 5px;
+    border: solid 1px #000000;
+    border-radius: 10px 0 10px 0;
 }
+
 .moduletable-text h3 {
-    padding:7px 4px;
-    margin:-15px -6px 10px 10px;
-    color:#ffffff;
-    background-image:url("../text/fon-01.png");
-    text-align:right;
-    border-right:solid 1px #000000;
+    padding: 7px 4px;
+    margin: -15px -6px 10px 10px;
+    color: #ffffff;
+    background-image: url("../text/fon-01.png");
+    text-align: right;
+    border-right: solid 1px #000000;
 }
-.moduletable-text a h3:hover{
-	color: #000000;
-	background-color:#ffffff;
+
+.moduletable-text a h3:hover {
+    color: #000000;
+    background-color: #ffffff;
 }
+
 /********************************************* название статьи */
-.gdn_df_basic-text{
+.gdn_df_basic-text {
     display: block;
     padding: 5px;
 }
+
 .gdn_df_basic-text:hover {
     background-color: #ffffff;
 }
 
 .gdn_df_title-text {
-	font-size: 10pt;
-	color: #000000;
-	font-weight: normal;
-	margin-left: 7px;
+    font-size: 10pt;
+    color: #000000;
+    font-weight: normal;
+    margin-left: 7px;
 }
 
 .gdn_df_title-text a {
-	color: #000000;
-	text-decoration: none;
-	border-bottom: #999999 dotted 1px;
+    color: #000000;
+    text-decoration: none;
+    border-bottom: #999999 dotted 1px;
 }
 
 .gdn_df_title-text a:hover {
-	color: #444444;
-	border-bottom: #ff0000 dotted 1px;
+    color: #444444;
+    border-bottom: #ff0000 dotted 1px;
 }
+
 /************************************************ дате */
 .gdn_df_date-text {
-	font-family:'Courier New';
-	font-size: 8pt;
-	color:#444444;
-	padding-right:5px;
+    font-family: 'Courier New';
+    font-size: 8pt;
+    color: #444444;
+    padding-right: 5px;
 }

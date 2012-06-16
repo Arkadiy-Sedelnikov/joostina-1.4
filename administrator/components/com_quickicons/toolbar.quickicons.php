@@ -12,9 +12,9 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-$task = mosGetParam($_REQUEST,'task','');
+$task = mosGetParam($_REQUEST, 'task', '');
 
-switch($task) {
+switch($task){
 	case 'new':
 	case 'edit':
 	case 'editA':

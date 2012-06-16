@@ -1,6 +1,7 @@
 <!-- Главная страница: вывод каталогов -->
 <div class="boss_tpl_front">
 	<h1 class="contentheading"><?php $this->displayDirectoryName(); ?></h1>
+
 	<div class="boss_tpl_fronttext"><?php echo $this->displayFrontText(); ?></div>
 	<div class="boss_tpl_innermenu">
 		<ul>

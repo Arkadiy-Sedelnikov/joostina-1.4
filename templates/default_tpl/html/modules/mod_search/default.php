@@ -14,6 +14,5 @@ defined('_VALID_MOS') or die();
 	<form action="<?php echo $link; ?>" method="post">
 		<?php echo $output; ?>
 		<input type="hidden" name="option" value="com_search"/>
-		<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>"/>
 	</form>
 </div>

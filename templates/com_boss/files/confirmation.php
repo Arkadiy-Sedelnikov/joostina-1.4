@@ -2,6 +2,7 @@
 	<h1 class="contentheading">
 		<?php echo BOSS_CONFIRMATION; ?>
 	</h1>
+
 	<div style="color:#ff0000"><?php echo $text; ?></div>
 	<table class="boss_header">
 		<tr>

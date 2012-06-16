@@ -13,9 +13,9 @@ defined('_VALID_MOS') or die();
 /**
  * @package Custom QuickIcons
  */
-class QI_Toolbar {
+class QI_Toolbar{
 
-	public static function _edit() {
+	public static function _edit(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save');
 		mosMenuBar::spacer();
@@ -25,7 +25,7 @@ class QI_Toolbar {
 		mosMenuBar::endTable();
 	}
 
-	public static function _show() {
+	public static function _show(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList('publish');
 		mosMenuBar::spacer();
@@ -35,11 +35,11 @@ class QI_Toolbar {
 		mosMenuBar::spacer();
 		mosMenuBar::editListX('editA');
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList('','delete');
+		mosMenuBar::deleteList('', 'delete');
 		mosMenuBar::endTable();
 	}
 
-	public static function _chooseIcon() {
+	public static function _chooseIcon(){
 		mosMenuBar::startTable();
 		mosMenuBar::endTable();
 	}

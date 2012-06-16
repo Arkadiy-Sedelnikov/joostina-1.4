@@ -14,55 +14,55 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Polls
  */
-class mosPoll extends mosDBTable {
+class mosPoll extends mosDBTable{
 	/**
-	 @var int Primary key*/
+	@var int Primary key*/
 	var $id = null;
 	/**
-	 @var string*/
+	@var string*/
 	var $title = null;
 	/**
-	 @var string*/
+	@var string*/
 	var $checked_out = null;
 	/**
-	 @var time*/
+	@var time*/
 	var $checked_out_time = null;
 	/**
-	 @var boolean*/
+	@var boolean*/
 	var $published = null;
 	/**
-	 @var int*/
+	@var int*/
 	var $access = null;
 	/**
-	 @var int*/
+	@var int*/
 	var $lag = null;
 
 	/**
 	 * @param database A database connector object
 	 */
-	function mosPoll(&$db) {
-		$this->mosDBTable('#__polls','id',$db);
+	function mosPoll(&$db){
+		$this->mosDBTable('#__polls', 'id', $db);
 	}
 
 	// overloaded check function
-	function check() {
+	function check(){
 		// check for valid name
-		if(trim($this->title) == '') {
+		if(trim($this->title) == ''){
 			$this->_error = _ENTER_POLL_NAME;
 			return false;
 		}
 		// check for valid lag
 		$this->lag = intval($this->lag);
-		if($this->lag == 0) {
+		if($this->lag == 0){
 			$this->_error = _ENTER_POLL_LAG;
 			return false;
 		}
 		// check for existing title
-		$query = "SELECT id FROM #__polls WHERE title = ".$this->_db->Quote($this->title);
+		$query = "SELECT id FROM #__polls WHERE title = " . $this->_db->Quote($this->title);
 		$this->_db->setQuery($query);
 
 		$xid = intval($this->_db->loadResult());
-		if($xid && $xid != intval($this->id)) {
+		if($xid && $xid != intval($this->id)){
 			$this->_error = _MODULE_WITH_THIS_NAME_ALREADY_EDISTS;
 			return false;
 		}
@@ -71,33 +71,33 @@ class mosPoll extends mosDBTable {
 	}
 
 	// overloaded delete function
-	function delete($oid = null) {
+	function delete($oid = null){
 		$k = $this->_tbl_key;
-		if($oid) {
+		if($oid){
 			$this->$k = intval($oid);
 		}
 
-		if(mosDBTable::delete($oid)) {
-			$query = "DELETE FROM #__poll_data WHERE pollid = ".(int)$this->$k;
+		if(mosDBTable::delete($oid)){
+			$query = "DELETE FROM #__poll_data WHERE pollid = " . (int)$this->$k;
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
-				$this->_error .= $this->_db->getErrorMsg()."\n";
+			if(!$this->_db->query()){
+				$this->_error .= $this->_db->getErrorMsg() . "\n";
 			}
 
-			$query = "DELETE FROM #__poll_date WHERE poll_id = ".(int)$this->$k;
+			$query = "DELETE FROM #__poll_date WHERE poll_id = " . (int)$this->$k;
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
-				$this->_error .= $this->_db->getErrorMsg()."\n";
+			if(!$this->_db->query()){
+				$this->_error .= $this->_db->getErrorMsg() . "\n";
 			}
 
-			$query = "DELETE from #__poll_menu WHERE pollid = ".(int)$this->$k;
+			$query = "DELETE from #__poll_menu WHERE pollid = " . (int)$this->$k;
 			$this->_db->setQuery($query);
-			if(!$this->_db->query()) {
-				$this->_error .= $this->_db->getErrorMsg()."\n";
+			if(!$this->_db->query()){
+				$this->_error .= $this->_db->getErrorMsg() . "\n";
 			}
 
 			return true;
-		} else {
+		} else{
 			return false;
 		}
 	}

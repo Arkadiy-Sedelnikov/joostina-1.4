@@ -13,12 +13,12 @@ defined('_VALID_MOS') or die();
 require_once ($mainframe->getPath('toolbar_html'));
 
 // handle the task
-$act = mosGetParam($_REQUEST,'act','');
-$task = mosGetParam($_REQUEST,'task','');
+$act = mosGetParam($_REQUEST, 'act', '');
+$task = mosGetParam($_REQUEST, 'task', '');
 
-switch($act) {
+switch($act){
 	case 'config':
-		switch($task) {
+		switch($task){
 			case 'save':
 				break;
 			case 'apply':
@@ -33,7 +33,7 @@ switch($act) {
 		break;
 
 	case 'db':
-		switch($task) {
+		switch($task){
 			case 'doBackup':
 				TOOLBAR_jpack::_DB_MENU($option);
 				break;

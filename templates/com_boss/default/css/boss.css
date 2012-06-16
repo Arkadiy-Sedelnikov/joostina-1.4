@@ -15,10 +15,12 @@
     padding: 10px;
     background-color: #e0e6d1;
 }
-.boss_content > h1 span a{
+
+.boss_content > h1 span a {
     text-decoration: none;
     border: none;
 }
+
 .boss_content .boss_categories,
 .boss_content_featured .boss_categories {
     margin: 0 auto;
@@ -91,8 +93,9 @@
     font-weight: bold;
     font-size: 9pt;
 }
+
 /* комментарии */
-.dotteddiv{
+.dotteddiv {
     padding: 10px;
     margin: 15px 0;
     border: #eeeeee solid 1px;
@@ -100,16 +103,18 @@
     border-radius: 5px;
     box-shadow: 3px 3px 3px rgba(122, 122, 122, 0.5);
 }
-.dotteddiv h3{
+
+.dotteddiv h3 {
     color: #990000;
     font-weight: normal;
     display: block;
     border-bottom: #999999 solid 1px;
 }
 
-.boss_content .addcomment td{
+.boss_content .addcomment td {
     padding: 5px;
 }
+
 /**************************************************** [ коррекция стиля ] */
 .cf:after {
     display: block;
@@ -123,7 +128,8 @@
 .cf {
     *zoom: 1;
 }
-.boss_pathway{
+
+.boss_pathway {
     margin: 5px;
     font-size: 11pt;
     font-weight: bold;

@@ -16,18 +16,18 @@ defined('_VALID_MOS') or die();
  * @param array
  * @param boolean True if the array is to be added to the GLOBALS
  */
-function checkInputArray(&$array,$globalise = false) {
-	static $banned = array('_files','_env','_get','_post','_cookie','_server','_session','globals');
+function checkInputArray(&$array, $globalise = false){
+	static $banned = array('_files', '_env', '_get', '_post', '_cookie', '_server', '_session', 'globals');
 
-	foreach($array as $key => $value) {
+	foreach($array as $key => $value){
 		// PHP GLOBALS injection bug
-		$failed = in_array(strtolower($key),$banned);
+		$failed = in_array(strtolower($key), $banned);
 		// PHP Zend_Hash_Del_Key_Or_Index bug
 		$failed |= is_numeric($key);
-		if($failed) {
-			die('error <b>'.implode('</b> & <b>',$banned).'</b>');
+		if($failed){
+			die('error <b>' . implode('</b> & <b>', $banned) . '</b>');
 		}
-		if($globalise) {
+		if($globalise){
 			$GLOBALS[$key] = $value;
 		}
 	}
@@ -36,7 +36,7 @@ function checkInputArray(&$array,$globalise = false) {
 /**
  * Emulates register globals = off
  */
-function unregisterGlobals() {
+function unregisterGlobals(){
 	checkInputArray($_FILES);
 	checkInputArray($_ENV);
 	checkInputArray($_GET);
@@ -44,7 +44,7 @@ function unregisterGlobals() {
 	checkInputArray($_COOKIE);
 	checkInputArray($_SERVER);
 
-	if(isset($_SESSION)) {
+	if(isset($_SESSION)){
 		checkInputArray($_SESSION);
 	}
 
@@ -52,14 +52,14 @@ function unregisterGlobals() {
 	$GET = $_GET;
 	$POST = $_POST;
 	$COOKIE = $_COOKIE;
-	if(isset($_SESSION)) {
+	if(isset($_SESSION)){
 		$SESSION = $_SESSION;
 	}
 	$FILES = $_FILES;
 	$ENV = $_ENV;
 	$SERVER = $_SERVER;
-	foreach($GLOBALS as $key => $value) {
-		if($key != 'GLOBALS') {
+	foreach($GLOBALS as $key => $value){
+		if($key != 'GLOBALS'){
 			unset($GLOBALS[$key]);
 		}
 	}
@@ -67,11 +67,12 @@ function unregisterGlobals() {
 	$_GET = $GET;
 	$_POST = $POST;
 	$_COOKIE = $COOKIE;
-	if(isset($SESSION)) {
+	if(isset($SESSION)){
 		$_SESSION = $SESSION;
 	}
 	$_FILES = $FILES;
 	$_ENV = $ENV;
 	$_SERVER = $SERVER;
 }
+
 unregisterGlobals();

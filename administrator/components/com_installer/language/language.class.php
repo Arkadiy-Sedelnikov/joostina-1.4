@@ -15,16 +15,16 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Installer
  */
-class mosInstallerLanguage extends mosInstaller {
+class mosInstallerLanguage extends mosInstaller{
 	/**
 	 * Custom install method
 	 * @param boolean True if installing from directory
 	 */
-	function install($p_fromdir = null) {
+	function install($p_fromdir = null){
 		$database = database::getInstance();
 
 		josSpoofCheck();
-		if(!$this->preInstallCheck($p_fromdir,'language')) {
+		if(!$this->preInstallCheck($p_fromdir, 'language')){
 			return false;
 		}
 
@@ -32,59 +32,60 @@ class mosInstallerLanguage extends mosInstaller {
 		$root = &$xmlDoc->documentElement;
 
 		// Set some vars
-		$e = &$root->getElementsByPath('name',1);
+		$e = &$root->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir(mosPathName(JPATH_BASE.DS.'language'.DS));
+		$this->elementDir(mosPathName(JPATH_BASE . DS . 'language' . DS));
 
 		// Find files to copy
-		if($this->parseFiles('files','language') === false) {
+		if($this->parseFiles('files', 'language') === false){
 			return false;
 		}
-		if($e = &$root->getElementsByPath('description',1)) {
-			$this->setError(0,$this->elementName().'<p>'.$e->getText().'</p>');
+		if($e = &$root->getElementsByPath('description', 1)){
+			$this->setError(0, $this->elementName() . '<p>' . $e->getText() . '</p>');
 		}
 
 		return $this->copySetupFile('front');
 	}
+
 	/**
 	 * Custom install method
 	 * @param int The id of the module
 	 * @param string The URL option
 	 * @param int The client id
 	 */
-	function uninstall($id,$option,$client = 0) {
+	function uninstall($id, $option, $client = 0){
 
 		josSpoofCheck(null, null, 'request');
-		$id = str_replace(array('\\','/'),'',$id);
-		$basepath = JPATH_BASE.DS.'language'.DS;
-		$xmlfile = $basepath.$id.'.xml';
+		$id = str_replace(array('\\', '/'), '', $id);
+		$basepath = JPATH_BASE . DS . 'language' . DS;
+		$xmlfile = $basepath . $id . '.xml';
 
 		// see if there is an xml install file, must be same name as element
-		if(file_exists($xmlfile)) {
+		if(file_exists($xmlfile)){
 			$this->i_xmldoc = new DOMIT_Lite_Document();
 			$this->i_xmldoc->resolveErrors(true);
 
-			if($this->i_xmldoc->loadXML($xmlfile,false,true)) {
+			if($this->i_xmldoc->loadXML($xmlfile, false, true)){
 				$mosinstall = &$this->i_xmldoc->documentElement;
 				// get the files element
-				$files_element = &$mosinstall->getElementsByPath('files',1);
+				$files_element = &$mosinstall->getElementsByPath('files', 1);
 
-				if(!is_null($files_element)) {
+				if(!is_null($files_element)){
 					$files = $files_element->childNodes;
-					foreach($files as $file) {
+					foreach($files as $file){
 						// delete the files
 						$filename = $file->getText();
 						echo $filename;
-						if(file_exists($basepath.$filename)) {
-							echo '<br />'._DELETING.': '.$basepath.$filename;
-							$result = unlink($basepath.$filename);
+						if(file_exists($basepath . $filename)){
+							echo '<br />' . _DELETING . ': ' . $basepath . $filename;
+							$result = unlink($basepath . $filename);
 						}
 						echo intval($result);
 					}
 				}
 			}
-		} else {
-			HTML_installer::showInstallMessage(_CANNOT_DEL_LANG_ID,_UNINSTALL_ERROR,$this->returnTo($option,$client));
+		} else{
+			HTML_installer::showInstallMessage(_CANNOT_DEL_LANG_ID, _UNINSTALL_ERROR, $this->returnTo($option, $client));
 			exit();
 		}
 
@@ -93,10 +94,11 @@ class mosInstallerLanguage extends mosInstaller {
 
 		return true;
 	}
+
 	/**
 	 * return to method
 	 */
-	function returnTo($option,$client) {
+	function returnTo($option, $client){
 		return "index2.php?option=com_languages";
 	}
 }

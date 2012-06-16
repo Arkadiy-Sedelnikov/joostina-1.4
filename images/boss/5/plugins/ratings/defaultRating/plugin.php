@@ -30,7 +30,6 @@ class defaultRating extends mosDBTable{
 		$conf = getConfig($directory);
 		$row = new defaultRating($directory);
 		$catid = (int)mosGetParam($_POST, 'category', 0);
-		$itemid = getBossItemid($directory, $catid);
 
 		if($conf->allow_ratings == 1){
 
@@ -41,7 +40,7 @@ class defaultRating extends mosDBTable{
 			}
 
 			if(($my->id == "0" && $conf->allow_unregisered_comment == 0)){
-				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;Itemid=$itemid"), "");
+				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
 				return;
 			}
 
@@ -51,7 +50,7 @@ class defaultRating extends mosDBTable{
 			$nb = $database->loadResult();
 
 			if(($nb > 0)){
-				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;Itemid=$itemid"), BOSS_ALREADY_VOTE);
+				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_ALREADY_VOTE);
 				return;
 			}
 
@@ -65,9 +64,9 @@ class defaultRating extends mosDBTable{
 				exit();
 			}
 
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;Itemid=$itemid"), BOSS_THANKS_FOR_YOUR_VOTE);
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_THANKS_FOR_YOUR_VOTE);
 		} else{
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;Itemid=$itemid"), "");
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
 		}
 	}
 
@@ -101,8 +100,7 @@ class defaultRating extends mosDBTable{
 			$query['tables'] = " LEFT JOIN #__boss_" . $directory . "_rating as rat ON a.id = rat.contentid \n";
 			$query['fields'] = " count(DISTINCT rat.id) as num_votes, AVG(rat.value) as sum_votes, rat.id as not_empty, \n";
 			$query['wheres'] = '';
-		}
-		else{
+		} else{
 			$query['tables'] = '';
 			$query['fields'] = '';
 			$query['wheres'] = '';
@@ -118,8 +116,7 @@ class defaultRating extends mosDBTable{
 			if($my->id == 0 && $conf->allow_unregisered_comment == 0){
 				$link = sefRelToAbs("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
 				echo sprintf(BOSS_VOTE_LOGIN_REQUIRED, $link);
-			}
-			else{
+			} else{
 				$this->displayVoteResult($content, $directory, $conf);
 				$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_vote&amp;directory=$directory");
 				?>
@@ -163,11 +160,9 @@ class defaultRating extends mosDBTable{
 			for($i = 1; $i <= 5; $i++){
 				if($result >= $i){
 					echo '<img src="' . JPATH_SITE . '/images/boss/' . $directory . '/plugins/ratings/defaultRating/images/star_10.png" alt="star_10" align="middle" />';
-				}
-				else if($result >= $i - 0.5){
+				} else if($result >= $i - 0.5){
 					echo '<img src="' . JPATH_SITE . '/images/boss/' . $directory . '/plugins/ratings/defaultRating/images/star_05.png" alt="star_05" align="middle"/>';
-				}
-				else{
+				} else{
 					echo '<img src="' . JPATH_SITE . '/images/boss/' . $directory . '/plugins/ratings/defaultRating/images/star_00.png" alt="star_00" align="middle" />';
 				}
 			}

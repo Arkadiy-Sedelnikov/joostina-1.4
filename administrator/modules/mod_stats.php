@@ -19,11 +19,13 @@ $rows = $database->loadObjectList();
 		<th class="title" width="80%"><?php echo _MENU?></th>
 		<th class="title"><?php echo _MENU_ITEMS_COUNT?></th>
 	</tr>
-	<?php foreach($rows as $row) { ?>
+	<?php foreach($rows as $row){ ?>
 	<tr>
-		<td><a href="<?php echo 'index2.php?option=com_menus&amp;menutype='.$row->menutype;?>"><?php echo $row->menutype; ?></a></td>
+		<td><a href="<?php echo 'index2.php?option=com_menus&amp;menutype=' . $row->menutype;?>"><?php echo $row->menutype; ?></a></td>
 		<td style="text-align: center;"><?php echo $row->numitems; ?></td>
 	</tr>
-		<?php } ?>
-	<tr><th colspan="2"></th></tr>
+	<?php } ?>
+	<tr>
+		<th colspan="2"></th>
+	</tr>
 </table>

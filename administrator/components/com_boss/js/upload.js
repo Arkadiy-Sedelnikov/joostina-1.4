@@ -19,7 +19,7 @@ var url = 'http://' + location.hostname;
  * http://valums.com/ajax-upload-changelog/
  */
 
-(function() {
+(function () {
 
     var d = document, w = window;
 
@@ -39,7 +39,7 @@ var url = 'http://' + location.hostname;
         if (w.addEventListener) {
             el.addEventListener(type, fn, false);
         } else if (w.attachEvent) {
-            var f = function() {
+            var f = function () {
                 fn.call(el, w.event);
             };
             el.attachEvent('on' + type, f)
@@ -50,9 +50,9 @@ var url = 'http://' + location.hostname;
     /**
      * Creates and returns element from html chunk
      */
-    var toElement = function() {
+    var toElement = function () {
         var div = d.createElement('div');
-        return function(html) {
+        return function (html) {
             div.innerHTML = html;
             var el = div.childNodes[0];
             div.removeChild(el);
@@ -77,21 +77,21 @@ var url = 'http://' + location.hostname;
     if (document.documentElement["getBoundingClientRect"]) {
         // Get Offset using getBoundingClientRect
         // http://ejohn.org/blog/getboundingclientrect-is-awesome/
-        var getOffset = function(el) {
+        var getOffset = function (el) {
             var box = el.getBoundingClientRect(),
-                    doc = el.ownerDocument,
-                    body = doc.body,
-                    docElem = doc.documentElement,
+                doc = el.ownerDocument,
+                body = doc.body,
+                docElem = doc.documentElement,
 
-                // for ie
-                    clientTop = docElem.clientTop || body.clientTop || 0,
-                    clientLeft = docElem.clientLeft || body.clientLeft || 0,
+            // for ie
+                clientTop = docElem.clientTop || body.clientTop || 0,
+                clientLeft = docElem.clientLeft || body.clientLeft || 0,
 
-                // In Internet Explorer 7 getBoundingClientRect property is treated as physical,
-                // while others are logical. Make all logical, like in IE8.
+            // In Internet Explorer 7 getBoundingClientRect property is treated as physical,
+            // while others are logical. Make all logical, like in IE8.
 
 
-                    zoom = 1;
+                zoom = 1;
             if (body.getBoundingClientRect) {
                 var bound = body.getBoundingClientRect();
                 zoom = (bound.right - bound.left) / body.clientWidth;
@@ -101,17 +101,17 @@ var url = 'http://' + location.hostname;
                 clientLeft = 0;
             }
             var top = box.top / zoom + (window.pageYOffset || docElem && docElem.scrollTop / zoom || body.scrollTop / zoom) - clientTop,
-                    left = box.left / zoom + (window.pageXOffset || docElem && docElem.scrollLeft / zoom || body.scrollLeft / zoom) - clientLeft;
+                left = box.left / zoom + (window.pageXOffset || docElem && docElem.scrollLeft / zoom || body.scrollLeft / zoom) - clientLeft;
 
             return {
-                top: top,
-                left: left
+                top:top,
+                left:left
             };
         }
 
     } else {
         // Get offset adding all offsets
-        var getOffset = function(el) {
+        var getOffset = function (el) {
             if (w.jQuery) {
                 return jQuery(el).offset();
             }
@@ -124,8 +124,8 @@ var url = 'http://' + location.hostname;
             while (el = el.offsetParent);
 
             return {
-                left: left,
-                top: top
+                left:left,
+                top:top
             };
         }
     }
@@ -140,10 +140,10 @@ var url = 'http://' + location.hostname;
         bottom = top + el.offsetHeight;
 
         return {
-            left: left,
-            right: right,
-            top: top,
-            bottom: bottom
+            left:left,
+            right:right,
+            top:top,
+            bottom:bottom
         };
     }
 
@@ -165,14 +165,14 @@ var url = 'http://' + location.hostname;
             }
 
             return {
-                x: e.clientX / zoom + d.body.scrollLeft + d.documentElement.scrollLeft,
-                y: e.clientY / zoom + d.body.scrollTop + d.documentElement.scrollTop
+                x:e.clientX / zoom + d.body.scrollLeft + d.documentElement.scrollLeft,
+                y:e.clientY / zoom + d.body.scrollTop + d.documentElement.scrollTop
             };
         }
 
         return {
-            x: e.pageX,
-            y: e.pageY
+            x:e.pageX,
+            y:e.pageY
         };
 
     }
@@ -180,9 +180,9 @@ var url = 'http://' + location.hostname;
     /**
      * Function generates unique id
      */
-    var getUID = function() {
+    var getUID = function () {
         var id = 0;
-        return function() {
+        return function () {
             return 'ValumsAjaxUpload' + id++;
         }
     }();
@@ -196,7 +196,7 @@ var url = 'http://' + location.hostname;
     }
 
     // Please use AjaxUpload , Ajax_upload will be removed in the next version
-    Ajax_upload = AjaxUpload = function(button, options) {
+    Ajax_upload = AjaxUpload = function (button, options) {
         if (button.jquery) {
             // jquery object was passed
             button = button[0];
@@ -223,28 +223,28 @@ var url = 'http://' + location.hostname;
 
         this._settings = {
             // Location of the server-side upload script
-            action: 'upload.php',
+            action:'upload.php',
             // File upload name
-            name: 'userfile',
+            name:'userfile',
             // Additional data to send
-            data: {},
+            data:{},
             // Submit file as soon as it's selected
-            autoSubmit: true,
+            autoSubmit:true,
             // The type of data that you're expecting back from the server.
             // Html and xml are detected automatically.
             // Only useful when you are using json data as a response.
             // Set to "json" in that case.
-            responseType: false,
+            responseType:false,
             // When user selects a file, useful with autoSubmit disabled
-            onChange: function(file, extension) {
+            onChange:function (file, extension) {
             },
             // Callback to fire before file is uploaded
             // You can return false to cancel upload
-            onSubmit: function(file, extension) {
+            onSubmit:function (file, extension) {
             },
             // Fired when file upload is completed
             // WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
-            onComplete: function(file, response) {
+            onComplete:function (file, response) {
             }
         };
 
@@ -259,17 +259,17 @@ var url = 'http://' + location.hostname;
 
     // assigning methods to our class
     AjaxUpload.prototype = {
-        setData : function(data) {
+        setData:function (data) {
             this._settings.data = data;
         },
-        disable : function() {
+        disable:function () {
             this._disabled = true;
         },
-        enable : function() {
+        enable:function () {
             this._disabled = false;
         },
         // removes ajaxupload
-        destroy : function() {
+        destroy:function () {
             if (this._input) {
                 if (this._input.parentNode) {
                     this._input.parentNode.removeChild(this._input);
@@ -280,22 +280,13 @@ var url = 'http://' + location.hostname;
         /**
          * Creates invisible file input above the button
          */
-        _createInput : function() {
+        _createInput:function () {
             var self = this;
             var input = d.createElement("input");
             input.setAttribute('type', 'file');
             input.setAttribute('name', this._settings.name);
             var styles = {
-                'position' : 'absolute'
-                ,'margin': '-5px 0 0 -175px'
-                ,'padding': 0
-                ,'width': '220px'
-                ,'height': '30px'
-                ,'fontSize': '14px'
-                ,'opacity': 0
-                ,'cursor': 'pointer'
-                ,'display' : 'none'
-                ,'zIndex' :  2147483583 //Max zIndex supported by Opera 9.0-9.2x
+                'position':'absolute', 'margin':'-5px 0 0 -175px', 'padding':0, 'width':'220px', 'height':'30px', 'fontSize':'14px', 'opacity':0, 'cursor':'pointer', 'display':'none', 'zIndex':2147483583 //Max zIndex supported by Opera 9.0-9.2x
                 // Strange, I expected 2147483647
             };
             for (var i in styles) {
@@ -304,13 +295,13 @@ var url = 'http://' + location.hostname;
 
             // Make sure that element opacity exists
             // (IE uses filter instead)
-            if (! (input.style.opacity === "0")) {
+            if (!(input.style.opacity === "0")) {
                 input.style.filter = "alpha(opacity=0)";
             }
 
             this._parentDialog.appendChild(input);
 
-            addEvent(input, 'change', function() {
+            addEvent(input, 'change', function () {
                 // get filename from input
                 var file = fileFromPath(this.value);
                 if (self._settings.onChange.call(self, file, getExt(file)) == false) {
@@ -328,9 +319,9 @@ var url = 'http://' + location.hostname;
             // As dialog opens slowly (it is a sheet dialog which takes some time to open)
             // there is some time while you can leave the button.
             // So we should not change display to none immediately
-            addEvent(input, 'click', function() {
+            addEvent(input, 'click', function () {
                 self.justClicked = true;
-                setTimeout(function() {
+                setTimeout(function () {
                     // we will wait 3 seconds for dialog to open
                     self.justClicked = false;
                 }, 3000);
@@ -338,7 +329,7 @@ var url = 'http://' + location.hostname;
 
             this._input = input;
         },
-        _rerouteClicks : function () {
+        _rerouteClicks:function () {
             var self = this;
 
             // IE displays 'access denied' error when using this method
@@ -348,7 +339,7 @@ var url = 'http://' + location.hostname;
             // });
 
             var box, dialogOffset = {top:0, left:0}, over = false;
-            addEvent(self._button, 'mouseover', function(e) {
+            addEvent(self._button, 'mouseover', function (e) {
                 if (!self._input || over) return;
                 over = true;
                 box = getBox(self._button);
@@ -361,7 +352,7 @@ var url = 'http://' + location.hostname;
 
             // we can't use mouseout on the button,
             // because invisible input is over it
-            addEvent(document, 'mousemove', function(e) {
+            addEvent(document, 'mousemove', function (e) {
                 var input = self._input;
                 if (!input || !over) return;
 
@@ -374,7 +365,7 @@ var url = 'http://' + location.hostname;
                 var c = getMouseCoords(e);
 
                 if ((c.x >= box.left) && (c.x <= box.right) &&
-                        (c.y >= box.top) && (c.y <= box.bottom)) {
+                    (c.y >= box.top) && (c.y <= box.bottom)) {
                     input.style.top = c.y - dialogOffset.top + 'px';
                     input.style.left = c.x - dialogOffset.left + 'px';
                     input.style.display = 'block';
@@ -393,7 +384,7 @@ var url = 'http://' + location.hostname;
         /**
          * Creates iframe with unique name
          */
-        _createIframe : function() {
+        _createIframe:function () {
             // unique name
             // We cannot use getTime, because it sometimes return
             // same value in safari :(
@@ -410,7 +401,7 @@ var url = 'http://' + location.hostname;
         /**
          * Upload file without refreshing the page
          */
-        submit : function() {
+        submit:function () {
             var self = this, settings = this._settings;
 
             if (this._input.value === '') {
@@ -422,7 +413,7 @@ var url = 'http://' + location.hostname;
             var file = fileFromPath(this._input.value);
 
             // execute user event
-            if (! (settings.onSubmit.call(this, file, getExt(file)) == false)) {
+            if (!(settings.onSubmit.call(this, file, getExt(file)) == false)) {
                 // Create new iframe for this submission
                 var iframe = this._createIframe();
 
@@ -441,17 +432,17 @@ var url = 'http://' + location.hostname;
 
                 var toDeleteFlag = false;
 
-                addEvent(iframe, 'load', function(e) {
+                addEvent(iframe, 'load', function (e) {
 
                     if (// For Safari
-                            iframe.src == "javascript:'%3Chtml%3E%3C/html%3E';" ||
-                                // For FF, IE
-                                    iframe.src == "javascript:'<html></html>';") {
+                        iframe.src == "javascript:'%3Chtml%3E%3C/html%3E';" ||
+                            // For FF, IE
+                            iframe.src == "javascript:'<html></html>';") {
 
                         // First time around, do not delete.
                         if (toDeleteFlag) {
                             // Fix busy state in FF3
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 d.body.removeChild(iframe);
                             }, 0);
                         }
@@ -530,7 +521,7 @@ var url = 'http://' + location.hostname;
         /**
          * Creates form, that will be submitted to iframe
          */
-        _createForm : function(iframe) {
+        _createForm:function (iframe) {
             var settings = this._settings;
 
             // method, enctype must be specified here

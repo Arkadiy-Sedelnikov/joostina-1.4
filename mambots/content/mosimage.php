@@ -10,18 +10,18 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-$_MAMBOTS->registerFunction('onPrepareContent','botMosImage');
+$_MAMBOTS->registerFunction('onPrepareContent', 'botMosImage');
 
 /**
  */
-function botMosImage($published,&$row,&$params) {
-    $_MAMBOTS = mosMambotHandler::getInstance();
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
+function botMosImage($published, &$row, &$params){
+	$_MAMBOTS = mosMambotHandler::getInstance();
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
 
 	// simple performance check to determine whether bot should process further
-	if(strpos($row->text,'mosimage') === false) {
+	if(strpos($row->text, 'mosimage') === false){
 		return true;
 	}
 
@@ -30,28 +30,28 @@ function botMosImage($published,&$row,&$params) {
 
 	// check whether mosimage has been disabled for page
 	// check whether mambot has been unpublished
-	if(!$published || !$params->get('image')) {
-		$row->text = preg_replace($regex,'',$row->text);
+	if(!$published || !$params->get('image')){
+		$row->text = preg_replace($regex, '', $row->text);
 		return true;
 	}
 
 	//count how many {mosimage} are in introtext if it is set to hidden.
 	$introCount = 0;
-	if(!$params->get('introtext') & !$params->get('intro_only')) {
-		preg_match_all($regex,$row->introtext,$matches);
+	if(!$params->get('introtext') & !$params->get('intro_only')){
+		preg_match_all($regex, $row->introtext, $matches);
 		$introCount = count($matches[0]);
 	}
 
 	// найти все образцы мамбота и вставить в $matches
-	preg_match_all($regex,$row->text,$matches);
+	preg_match_all($regex, $row->text, $matches);
 
 	// Количество мамботов
 	$count = count($matches[0]);
 
 	// мамбот производит обработку, если находит в тексте образцы мамбота
-	if($count) {
+	if($count){
 		// check if param query has previously been processed
-		if(!isset($_MAMBOTS->_content_mambot_params['mosimage'])) {
+		if(!isset($_MAMBOTS->_content_mambot_params['mosimage'])){
 			// load mambot params info
 			$query = "SELECT params FROM #__mambots WHERE element = 'mosimage' AND folder = 'content'";
 			$database->setQuery($query);
@@ -65,114 +65,115 @@ function botMosImage($published,&$row,&$params) {
 
 		$botParams->def('padding');
 		$botParams->def('margin');
-		$botParams->def('link',0);
+		$botParams->def('link', 0);
 
-		$images = processImages($row,$botParams,$introCount);
+		$images = processImages($row, $botParams, $introCount);
 
 		// сохранение в глобальных переменных некоторых переменных для доступа из программы замены
 		$GLOBALS['botMosImageCount'] = 0;
 		$GLOBALS['botMosImageArray'] = &$images;
 
 		// выполнение замены
-		$row->text = preg_replace_callback($regex,'botMosImage_replacer',$row->text);
+		$row->text = preg_replace_callback($regex, 'botMosImage_replacer', $row->text);
 
 		// приведение в порядок глобальных значений
-		unset($GLOBALS['botMosImageCount'],$GLOBALS['botMosImageArray']);
+		unset($GLOBALS['botMosImageCount'], $GLOBALS['botMosImageArray']);
 		return true;
 	}
 	return true;
 }
 
-function processImages(&$row,&$params,&$introCount) {
-	$mainframe = mosMainFrame::getInstance();;
+function processImages(&$row, &$params, &$introCount){
+	$mainframe = mosMainFrame::getInstance();
+	;
 
 	$images = array();
-	$div_style ='';
+	$div_style = '';
 	// выдача  \n образов полей как массив
-	$row->images = explode("\n",$row->images);
+	$row->images = explode("\n", $row->images);
 	$total = count($row->images);
 
 	$start = $introCount;
-	for($i = $start; $i < $total; $i++) {
+	for($i = $start; $i < $total; $i++){
 		$img = trim($row->images[$i]);
 
 		// разбиение атрибутов изображения
-		if($img) {
-			$attrib = explode('|',trim($img));
+		if($img){
+			$attrib = explode('|', trim($img));
 			// $attrib[0] - название изображения и путь до /images/stories
 
 			// $attrib[1] выравнивание
-			if(!isset($attrib[1]) || !$attrib[1]) {
+			if(!isset($attrib[1]) || !$attrib[1]){
 				$attrib[1] = '';
 			}
 
 			// $attrib[2] альтернативный текст и заголовок
-			if(!isset($attrib[2]) || !$attrib[2]) {
-				$attrib[2] = $mainframe->getPageTitle().' #'.$i;
-			} else {
+			if(!isset($attrib[2]) || !$attrib[2]){
+				$attrib[2] = $mainframe->getPageTitle() . ' #' . $i;
+			} else{
 				$attrib[2] = htmlspecialchars($attrib[2]);
 			}
 
 			// $attrib[3] рамка
-			if(!isset($attrib[3]) || !$attrib[3]) {
+			if(!isset($attrib[3]) || !$attrib[3]){
 				$attrib[3] = 0;
 			}
 
 			// $attrib[4] заголовок
-			if(!isset($attrib[4]) || !$attrib[4]) {
+			if(!isset($attrib[4]) || !$attrib[4]){
 				$attrib[4] = '';
 				$border = $attrib[3];
-			} else {
+			} else{
 				$border = 0;
 			}
 
 			// $attrib[5] позиция заголовка
-			if(!isset($attrib[5]) || !$attrib[5]) {
+			if(!isset($attrib[5]) || !$attrib[5]){
 				$attrib[5] = '';
 			}
 
 			// $attrib[6] выравнивание заголовка
-			if(!isset($attrib[6]) || !$attrib[6]) {
+			if(!isset($attrib[6]) || !$attrib[6]){
 				$attrib[6] = '';
 			}
 
 			// $attrib[7] ширина
-			if(!isset($attrib[7]) || !$attrib[7]) {
+			if(!isset($attrib[7]) || !$attrib[7]){
 				$attrib[7] = '';
 				$width = '';
-			} else {
-				$width = ' width: '.$attrib[7].'px;';
+			} else{
+				$width = ' width: ' . $attrib[7] . 'px;';
 			}
 
 			// атрибуты размера изображения
 			$size = '';
-			if(function_exists('getimagesize')) {
-				$size = @getimagesize(JPATH_BASE.'/images/stories/'.$attrib[0]);
-				if(is_array($size)) {
-					$size = ' width="'.$size[0].'" height="'.$size[1].'"';
+			if(function_exists('getimagesize')){
+				$size = @getimagesize(JPATH_BASE . '/images/stories/' . $attrib[0]);
+				if(is_array($size)){
+					$size = ' width="' . $size[0] . '" height="' . $size[1] . '"';
 				}
 			}
 
 			// составление тэга <image>
-			$image = '<img src="'.JPATH_SITE.'/images/stories/'.$attrib[0].'"'.$size;
+			$image = '<img src="' . JPATH_SITE . '/images/stories/' . $attrib[0] . '"' . $size;
 			// если обнаружен заголовок, то выравнивание не меняется
-			if(!$attrib[4]) {
-				if($attrib[1] == 'left' or $attrib[1] == 'right') {
-					$image .= ' style="float: '.$attrib[1].';"';
-					$div_style = ' style="float: '.$attrib[1].';"';
-				} else {
-					$image .= $attrib[1]?' align="middle"':'';
+			if(!$attrib[4]){
+				if($attrib[1] == 'left' or $attrib[1] == 'right'){
+					$image .= ' style="float: ' . $attrib[1] . ';"';
+					$div_style = ' style="float: ' . $attrib[1] . ';"';
+				} else{
+					$image .= $attrib[1] ? ' align="middle"' : '';
 				}
 			}
-			$image .= ' alt="'.$attrib[2].'" title="'.$attrib[2].'" border="'.$border.'" />';
+			$image .= ' alt="' . $attrib[2] . '" title="' . $attrib[2] . '" border="' . $border . '" />';
 
 			// создание заголовка если он обнаружен
 			$caption = '';
-			if($attrib[4]) {
+			if($attrib[4]){
 				$caption = '<div class="mosimage_caption"';
-				if($attrib[6]) {
-					$caption .= ' style="text-align: '.$attrib[6].';"';
-					$caption .= ' align="'.$attrib[6].'"';
+				if($attrib[6]){
+					$caption .= ' style="text-align: ' . $attrib[6] . ';"';
+					$caption .= ' align="' . $attrib[6] . '"';
 				}
 				$caption .= '>';
 				$caption .= $attrib[4];
@@ -180,46 +181,46 @@ function processImages(&$row,&$params,&$introCount) {
 			}
 
 			// заключительный вывод
-			if($attrib[4]) {
+			if($attrib[4]){
 				// initialize variables
 				$margin = '';
 				$padding = '';
 				$float = '';
 				$border_width = '';
 				$style = '';
-				if($params->def('margin')) {
-					$margin = ' margin: '.$params->def('margin').'px;';
+				if($params->def('margin')){
+					$margin = ' margin: ' . $params->def('margin') . 'px;';
 				}
-				if($params->def('padding')) {
-					$padding = ' padding: '.$params->def('padding').'px;';
+				if($params->def('padding')){
+					$padding = ' padding: ' . $params->def('padding') . 'px;';
 				}
-				if($attrib[1]) {
-					$float = ' float: '.$attrib[1].';';
+				if($attrib[1]){
+					$float = ' float: ' . $attrib[1] . ';';
 				}
-				if($attrib[3]) {
-					$border_width = ' border-width: '.$attrib[3].'px;';
-				}
-
-				if($params->def('margin') || $params->def('padding') || $attrib[1] || $attrib[3]) {
-					$style = ' style="'.$border_width.$float.$margin.$padding.$width.'"';
+				if($attrib[3]){
+					$border_width = ' border-width: ' . $attrib[3] . 'px;';
 				}
 
-				$img = '<div class="mosimage" '.$style.' align="center">';
+				if($params->def('margin') || $params->def('padding') || $attrib[1] || $attrib[3]){
+					$style = ' style="' . $border_width . $float . $margin . $padding . $width . '"';
+				}
+
+				$img = '<div class="mosimage" ' . $style . ' align="center">';
 
 				// display caption in top position
-				if($attrib[5] == 'top' && $caption) {
+				if($attrib[5] == 'top' && $caption){
 					$img .= $caption;
 				}
 
 				$img .= $image;
 
 				// отображение заголовка в нижней позиции
-				if($attrib[5] == 'bottom' && $caption) {
+				if($attrib[5] == 'bottom' && $caption){
 					$img .= $caption;
 				}
 				$img .= '</div>';
-			} else {
-				$img = '<div class="mosimage"'. $div_style .' >' . $image . '</div>';
+			} else{
+				$img = '<div class="mosimage"' . $div_style . ' >' . $image . '</div>';
 			}
 
 			$images[] = $img;
@@ -234,7 +235,7 @@ function processImages(&$row,&$params,&$introCount) {
  * @param array - Массив соответствий (см. - preg_match_all)
  * @return string
  */
-function botMosImage_replacer(&$matches) {
+function botMosImage_replacer(&$matches){
 	$i = $GLOBALS['botMosImageCount']++;
 	return @$GLOBALS['botMosImageArray'][$i];
 }

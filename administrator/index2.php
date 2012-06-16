@@ -23,7 +23,7 @@ $mosConfig_absolute_path = JPATH_BASE;
 
 // SSL проверка  - $http_host returns <live site url>:<port number if it is 443>
 $http_host = explode(':', $_SERVER['HTTP_HOST']);
-if ((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site, 0, 8) != 'https://') {
+if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site, 0, 8) != 'https://'){
 	$mosConfig_live_site = 'https://' . substr($mosConfig_live_site, 7);
 }
 
@@ -52,7 +52,7 @@ $id = intval(mosGetParam($_REQUEST, 'id', 0));
 $mainframe = mosMainFrame::getInstance(true);
 
 // объект работы с базой данных
-$database = $mainframe->getDBO();
+$database = database::getInstance();
 
 // класс работы с правами пользователей
 $acl = gacl::getInstance();
@@ -75,12 +75,12 @@ $my = $mainframe->initSessionAdmin($option, $task);
 $mainframe->set('loadOverlib', false);
 
 // страница панели управления по умолчанию
-if ($option == '') {
+if($option == ''){
 	$option = 'com_admin';
 }
 
-if ($mosConfig_mmb_system_off == 0) {
-    $_MAMBOTS = mosMambotHandler::getInstance();
+if($mosConfig_mmb_system_off == 0){
+	$_MAMBOTS = mosMambotHandler::getInstance();
 	$_MAMBOTS->loadBotGroup('admin');
 	$_MAMBOTS->trigger('onAfterAdminStart');
 }
@@ -90,50 +90,50 @@ $mainframe->set('allow_wysiwyg', 1);
 require_once (JPATH_BASE . '/includes/editor.php');
 
 ob_start();
-if ($path = $mainframe->getPath('admin')) {
+if($path = $mainframe->getPath('admin')){
 	//Подключаем язык компонента
-	if ($mainframe->getLangFile($option)) {
+	if($mainframe->getLangFile($option)){
 		include_once($mainframe->getLangFile($option));
 	}
 	require_once ($path);
-} else {
+} else{
 	?>
-	<img src="<?php echo JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE; ?>/images/ico/error.png" border="0" alt="Joostina!" />
-	<?php
+<img src="<?php echo JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE; ?>/images/ico/error.png" border="0" alt="Joostina!"/>
+<?php
 }
 
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
 
-if ($mosConfig_mmb_system_off == 0) {
+if($mosConfig_mmb_system_off == 0){
 	$_MAMBOTS->trigger('onBeforeAdminOutput');
 }
 
 initGzip();
 
 // начало вывода html
-if ($no_html == 0) {
+if($no_html == 0){
 	// загрузка файла шаблона
-	if (!file_exists(JPATH_BASE . DS . JADMIN_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php')) {
+	if(!file_exists(JPATH_BASE . DS . JADMIN_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php')){
 		echo _TEMPLATE_NOT_FOUND . ': ' . JTEMPLATE;
-	} else {
+	} else{
 		//Подключаем язык шаблона
-		if ($mainframe->getLangFile('tmpl_' . JTEMPLATE)) {
+		if($mainframe->getLangFile('tmpl_' . JTEMPLATE)){
 			include_once($mainframe->getLangFile('tmpl_' . JTEMPLATE));
 		}
 		require_once (JPATH_BASE . DS . JADMIN_BASE . DS . 'templates' . DS . JTEMPLATE . DS . 'index.php');
 	}
-} else {
+} else{
 	mosMainBody_Admin();
 }
 
 // информация отладки, число запросов в БД
-if ($mosConfig_debug) {
+if($mosConfig_debug){
 	jd_get();
 }
 
 // восстановление сессий
-if ($task == 'save' || $task == 'apply' || $task == 'save_and_new') {
+if($task == 'save' || $task == 'apply' || $task == 'save_and_new'){
 	$mainframe->initSessionAdmin($option, '');
 }
 

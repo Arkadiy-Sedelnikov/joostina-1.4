@@ -14,22 +14,22 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Content
  */
-class TOOLBAR_FrontPage {
-	public static function _DEFAULT() {
+class TOOLBAR_FrontPage{
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::custom('remove','-delete','',_DELETE,true);
-        mosMenuBar::spacer();
-		mosMenuBar::custom('settings','-check','',_SETTINGS,false);
+		mosMenuBar::custom('remove', '-delete', '', _DELETE, true);
+		mosMenuBar::spacer();
+		mosMenuBar::custom('settings', '-check', '', _SETTINGS, false);
 		mosMenuBar::spacer();
 		mosMenuBar::help('screen.frontpage');
 		mosMenuBar::endTable();
 	}
 
-    public static function _SETTINGS() {
+	public static function _SETTINGS(){
 		mosMenuBar::startTable();
 		mosMenuBar::save('save_settings');
 		mosMenuBar::apply('apply_settings');

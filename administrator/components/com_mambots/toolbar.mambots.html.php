@@ -14,24 +14,24 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Mambots
  */
-class TOOLBAR_modules {
+class TOOLBAR_modules{
 	/**
 	 * Draws the menu for Editing an existing module
 	 */
-	public static function _EDIT() {
+	public static function _EDIT(){
 		global $id;
 
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		// кнопка "Применить" с Ajax
-		mosMenuBar::ext(_APPLY,'#','-apply','id="tb-apply" onclick="ch_apply();return;"');
+		mosMenuBar::ext(_APPLY, '#', '-apply', 'id="tb-apply" onclick="ch_apply();return;"');
 
 		mosMenuBar::spacer();
-		if($id) {
+		if($id){
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel('cancel',_CLOSE);
-		} else {
+			mosMenuBar::cancel('cancel', _CLOSE);
+		} else{
 			mosMenuBar::cancel();
 		}
 		mosMenuBar::spacer();
@@ -39,7 +39,7 @@ class TOOLBAR_modules {
 		mosMenuBar::endTable();
 	}
 
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();

@@ -5,7 +5,6 @@
  * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
- * 
  * Модификация 04.05.2012 Gold Dragon (http://gd.joostina-cms.ru)
  */
 
@@ -44,7 +43,7 @@ class mosParameters{
 
 	/**
 	 * Конструктор
-	 * @param $text
+	 * @param        $text
 	 * @param string $path
 	 * @param string $type
 	 */
@@ -109,7 +108,7 @@ class mosParameters{
 
 	/**
 	 * Парсинг получаемых данных
-	 * @param $txt Строка или массив с данными
+	 * @param      $txt Строка или массив с данными
 	 * @param bool $process_sections
 	 * @param bool $asArray TRUE - возвращать массив, FALSE - возвращать класс
 	 * @return object
@@ -339,7 +338,7 @@ class mosParameters{
 		// проверяем существует ли метод для обработки этого типа
 		if(in_array('_form_' . $type, $this->_methods)){
 			$result[1] = call_user_func(array($this, '_form_' . $type), $name, $value, $param, $control_name, $label);
-		} else{	// пытаемся добавить обработчик неизвестного поля из модуля
+		} else{ // пытаемся добавить обработчик неизвестного поля из модуля
 			if(mosGetParam($_REQUEST, 'option', '') == 'com_modules'){
 				$id = mosGetParam($_REQUEST, 'id', 0);
 				if($id > 0){
@@ -389,7 +388,7 @@ class mosParameters{
 	 * @return string HTML-форма
 	 */
 	private function _form_text($name, $value, $node, $control_name){
-		$type_array = array('color','date','datetime','month','week','time','email','number','password','search','tel','url');
+		$type_array = array('color', 'date', 'datetime', 'month', 'week', 'time', 'email', 'number', 'password', 'search', 'tel', 'url');
 		$details = $node->getAttribute('details');
 		$type = (in_array($details, $type_array)) ? $details : 'text';
 		$size = $node->getAttribute('size');
@@ -461,16 +460,16 @@ class mosParameters{
 	 */
 	private function _form_category($name, $value, $node, $control_name){
 		$html = false;
-		$published= intval($node->getAttribute('published'));
+		$published = intval($node->getAttribute('published'));
 		$database = database::getInstance();
 		$sql = "SELECT id, name FROM #__boss_config";
 		$database->setQuery($sql);
 		$rows = $database->loadObjectList();
 		foreach($rows as $directory){
 			$q = "SELECT * FROM #__boss_" . $directory->id . "_categories ";
-			if($published==1)
+			if($published == 1)
 				$q .= " WHERE published=1 ";
-			elseif($published==2)
+			elseif($published == 2)
 				$q .= " WHERE published=0 ";
 			$q .= "ORDER BY parent,ordering";
 			$rows = $database->setQuery($q)->loadObjectList();
@@ -519,47 +518,47 @@ class mosParameters{
 	}
 
 	/**
-     * Выпадающий список полей
-     * @param string Название элемента
-     * @param string Значение элемента
-     * @param object XML-элементы
-     * @param string Управляющее имя
-     * @return string HTML-форма
-     */
-    private function _form_field($name, $value, $node, $control_name){
-        $html = false;
-        $published= intval($node->getAttribute('published'));
-        $database = database::getInstance();
-        $sql = "SELECT id, name FROM #__boss_config";
-        $database->setQuery($sql);
-        $rows = $database->loadObjectList();
-        foreach($rows as $directory){
-            $q = "SELECT fieldid AS id, name FROM #__boss_" . $directory->id . "_fields ";
-            if($published==1)
-                $q .= " WHERE published=1 ";
-            elseif($published==2)
-                $q .= " WHERE published=0 ";
-            $q .= "ORDER BY name";
-            $rows = $database->setQuery($q)->loadObjectList();
-            if($database->getErrorNum())
-                echo $database->stderr();
+	 * Выпадающий список полей
+	 * @param string Название элемента
+	 * @param string Значение элемента
+	 * @param object XML-элементы
+	 * @param string Управляющее имя
+	 * @return string HTML-форма
+	 */
+	private function _form_field($name, $value, $node, $control_name){
+		$html = false;
+		$published = intval($node->getAttribute('published'));
+		$database = database::getInstance();
+		$sql = "SELECT id, name FROM #__boss_config";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
+		foreach($rows as $directory){
+			$q = "SELECT fieldid AS id, name FROM #__boss_" . $directory->id . "_fields ";
+			if($published == 1)
+				$q .= " WHERE published=1 ";
+			elseif($published == 2)
+				$q .= " WHERE published=0 ";
+			$q .= "ORDER BY name";
+			$rows = $database->setQuery($q)->loadObjectList();
+			if($database->getErrorNum())
+				echo $database->stderr();
 
 			$html .= '<optgroup label="' . $directory->name . '">';
-            foreach($rows as $row){
+			foreach($rows as $row){
 				if($row->name == $value)
 					$selected = ' selected="selected"';
 				else
 					$selected = '';
 				$html .= '<option value="' . $directory->id . '-' . $row->name . '"' . $selected . '>' . $row->name . '</option>';
-            }
-            $html .= '</optgroup>';
-        }
-        if($html){
-            $html = '<option value="0">' . _SEL_FIELD . '</option>' . $html;
-            $html = '<select name="' . $control_name . '[' . $name . ']" class="inputbox">' . $html . "</select>";
-        }
-        return $html;
-    }
+			}
+			$html .= '</optgroup>';
+		}
+		if($html){
+			$html = '<option value="0">' . _SEL_FIELD . '</option>' . $html;
+			$html = '<select name="' . $control_name . '[' . $name . ']" class="inputbox">' . $html . "</select>";
+		}
+		return $html;
+	}
 
 	/**
 	 * Выпадающий список меню
@@ -620,7 +619,7 @@ class mosParameters{
 	 */
 	private function _form_imagelist($name, $value, $node, $control_name, $label){
 		$filter = $node->getAttribute('filter');
-		if($filter=='')
+		if($filter == '')
 			$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
 		return $this->_form_filelist($name, $value, $node, $control_name, $label, _DONT_USE_IMAGE, _DEFAULT_IMAGE);
 	}
@@ -767,7 +766,7 @@ class mosParameters{
 }
 
 /**
- * @param string
+ * @param      string
  * @param bool $process_sections
  * @param bool $asArray
  * @return string

@@ -14,11 +14,11 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Polls
  */
-class TOOLBAR_poll {
+class TOOLBAR_poll{
 	/**
 	 * Draws the menu for a New category
 	 */
-	public static function _NEW() {
+	public static function _NEW(){
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
@@ -27,10 +27,11 @@ class TOOLBAR_poll {
 		mosMenuBar::help('screen.polls.edit');
 		mosMenuBar::endTable();
 	}
+
 	/**
 	 * Draws the menu for Editing an existing category
 	 */
-	public static function _EDIT($pollid,$cur_template) {
+	public static function _EDIT($pollid, $cur_template){
 		$database = database::getInstance();
 		global $id;
 
@@ -39,21 +40,22 @@ class TOOLBAR_poll {
 		$cur_template = $database->loadResult();
 		mosMenuBar::startTable();
 		$popup = 'pollwindow';
-		mosMenuBar::ext(_PREVIEW,'#','-preview'," onclick=\"window.open('popups/$popup.php?pollid=$pollid&t=$cur_template', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"");
+		mosMenuBar::ext(_PREVIEW, '#', '-preview', " onclick=\"window.open('popups/$popup.php?pollid=$pollid&t=$cur_template', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"");
 		mosMenuBar::spacer();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
-		if($id) {
+		if($id){
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel('cancel',_CLOSE);
-		} else {
+			mosMenuBar::cancel('cancel', _CLOSE);
+		} else{
 			mosMenuBar::cancel();
 		}
 		mosMenuBar::spacer();
 		mosMenuBar::help('screen.polls.edit');
 		mosMenuBar::endTable();
 	}
-	public static function _DEFAULT() {
+
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();

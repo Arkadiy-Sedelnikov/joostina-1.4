@@ -11,10 +11,10 @@
 defined('_VALID_MOS') or die();
 
 // очистка кода всего шаблона
-$_MAMBOTS->registerFunction('onStart','mJquery');
+$_MAMBOTS->registerFunction('onStart', 'mJquery');
 
 /* функция производит очистку от спецсимволов*/
-function mJquery() {
+function mJquery(){
 	mosCommonHTML::loadJquery();
 	return true;
 }

@@ -15,14 +15,14 @@ $database = database::getInstance();
 
 $acl = &gacl::getInstance();
 
-if(!($acl->acl_check('administration','edit','users',$my->usertype,'modules','all') | $acl->acl_check('administration','install','users',$my->usertype,'modules','all'))) {
+if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'modules', 'all') | $acl->acl_check('administration', 'install', 'users', $my->usertype, 'modules', 'all'))){
 	die('error-acl');
 }
 
-$task = mosGetParam($_GET,'task','publish');
-$id = intval(mosGetParam($_GET,'id','0'));
+$task = mosGetParam($_GET, 'task', 'publish');
+$id = intval(mosGetParam($_GET, 'id', '0'));
 
-switch($task) {
+switch($task){
 	case "publish":
 		echo x_publish($id);
 		return;
@@ -41,19 +41,19 @@ switch($task) {
 /**
  * Saves the module after an edit form submit
  */
-function x_apply() {
+function x_apply(){
 	$database = database::getInstance();
 	josSpoofCheck();
-	$params = mosGetParam($_POST,'params','');
-	$client = strval(mosGetParam($_REQUEST,'client',''));
+	$params = mosGetParam($_POST, 'params', '');
+	$client = strval(mosGetParam($_REQUEST, 'client', ''));
 
-	foreach($_POST as $key => $val) {
+	foreach($_POST as $key => $val){
 		$_POST[$key] = joostina_api::convert($val);
 	}
 
-	if(is_array($params)) {
+	if(is_array($params)){
 		$txt = array();
-		foreach($params as $k => $v) {
+		foreach($params as $k => $v){
 			$txt[] = "$k=$v";
 		}
 		$_POST['params'] = mosParameters::textareaHandling($txt);
@@ -67,22 +67,22 @@ function x_apply() {
 	if(!$row->store()) return 'error-store';
 	if(!$row->checkin()) return 'error-checkin';
 
-	if($client == 'admin') {
+	if($client == 'admin'){
 		$where = "client_id='1'";
-	} else {
+	} else{
 		$where = "client_id='0'";
 	}
-	$row->updateOrder("folder = ".$database->Quote($row->folder)." AND ordering > -10000 AND ordering < 10000 AND ( $where )");
-	$msg = sprintf(_COM_MAMBOTS_APPLY,$row->name);
+	$row->updateOrder("folder = " . $database->Quote($row->folder) . " AND ordering > -10000 AND ordering < 10000 AND ( $where )");
+	$msg = sprintf(_COM_MAMBOTS_APPLY, $row->name);
 	return $msg;
 }
 
 
-function x_access($id) {
+function x_access($id){
 	$database = database::getInstance();
-	$access = mosGetParam($_GET,'chaccess','accessregistered');
-	$option = strval(mosGetParam($_REQUEST,'option',''));
-	switch($access) {
+	$access = mosGetParam($_GET, 'chaccess', 'accessregistered');
+	$option = strval(mosGetParam($_REQUEST, 'option', ''));
+	switch($access){
 		case 'accesspublic':
 			$access = 0;
 			break;
@@ -103,45 +103,45 @@ function x_access($id) {
 	if(!$row->check()) return 'error-check';
 	if(!$row->store()) return 'error-store';
 
-	if(!$row->access) {
+	if(!$row->access){
 		$color_access = 'style="color: green;"';
 		$task_access = 'accessregistered';
 		$text_href = _USER_GROUP_ALL;
-	} elseif($row->access == 1) {
+	} elseif($row->access == 1){
 		$color_access = 'style="color: red;"';
 		$task_access = 'accessspecial';
 		$text_href = _USER_GROUP_REGISTERED;
-	} else {
+	} else{
 		$color_access = 'style="color: black;"';
 		$task_access = 'accesspublic';
 		$text_href = _USER_GROUP_SPECIAL;
 	}
-	return '<a href="#" onclick="ch_access('.$row->id.',\''.$task_access.'\',\''.$option.'\')" '.$color_access.'>'.$text_href.'</a>';
+	return '<a href="#" onclick="ch_access(' . $row->id . ',\'' . $task_access . '\',\'' . $option . '\')" ' . $color_access . '>' . $text_href . '</a>';
 }
 
-function x_publish($id = null) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
+function x_publish($id = null){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
 
-	$query = "SELECT published FROM #__mambots WHERE id = ".(int)$id;
+	$query = "SELECT published FROM #__mambots WHERE id = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
 
-	if($state == '1') {
+	if($state == '1'){
 		$ret_img = 'publish_x.png';
 		$state = '0';
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = '1';
 	}
-	$query = "UPDATE #__mambots SET published = ".(int)$state." WHERE id = ".$id." "."\n AND ( checked_out = 0 OR ( checked_out = ".(int)$my->id." ) )";
+	$query = "UPDATE #__mambots SET published = " . (int)$state . " WHERE id = " . $id . " " . "\n AND ( checked_out = 0 OR ( checked_out = " . (int)$my->id . " ) )";
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error-db';
-	} else {
+	} else{
 		mosCache::cleanCache('com_boss');
 		return $ret_img;
 	}

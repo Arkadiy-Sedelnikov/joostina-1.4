@@ -15,29 +15,29 @@ $_MAMBOTS->registerFunction('onPrepareContent', 'botMosEmailCloak');
 /**
  * Сокрытие от спамботов адресов электронной почты в содержимом, используя javascript
  */
-function botMosEmailCloak($published, &$row) {
-    $_MAMBOTS = mosMambotHandler::getInstance();
-    $database = database::getInstance();
+function botMosEmailCloak($published, &$row){
+	$_MAMBOTS = mosMambotHandler::getInstance();
+	$database = database::getInstance();
 
 	// check whether mambot has been unpublished
-	if (!$published) {
+	if(!$published){
 		return true;
 	}
 
 	// simple performance check to determine whether bot should process further
-	if (strpos($row->text, '@') === false) {
+	if(strpos($row->text, '@') === false){
 		return true;
 	}
 
 	// simple check to allow disabling of bot
 	$regex = '{emailcloak=off}';
-	if (strpos($row->text, $regex) !== false) {
+	if(strpos($row->text, $regex) !== false){
 		$row->text = str_replace($regex, '', $row->text);
 		return true;
 	}
 
 	// check if param query has previously been processed
-	if (!isset($_MAMBOTS->_content_mambot_params['mosemailcloak'])) {
+	if(!isset($_MAMBOTS->_content_mambot_params['mosemailcloak'])){
 		// загрузка информации о параметрах мамбота
 		$query = "SELECT params FROM #__mambots WHERE element = 'mosemailcloak' AND folder = 'content'";
 		$database->setQuery($query)->loadObject($mambot);
@@ -61,14 +61,14 @@ function botMosEmailCloak($published, &$row) {
 
 	// поиск кода ссылок вида <a href="mailto:email@amail.com">email@amail.com</a>
 	$pattern = botMosEmailCloak_searchPattern($search_email, $search_email);
-	while (preg_match("/" . $pattern . "/u", $row->text, $regs)) {
+	while(preg_match("/" . $pattern . "/u", $row->text, $regs)){
 		$mail = $regs[2] . $regs[3] . $regs[4];
 		$mail_text = $regs[5] . $regs[6] . $regs[7];
 
 		// проверка, отличается ли адрес почты от адреса почты в текстовом виде
-		if ($mail_text) {
+		if($mail_text){
 			$replacement = mosHTML::emailCloaking($mail, $mode, $mail_text);
-		} else {
+		} else{
 			$replacement = mosHTML::emailCloaking($mail, $mode);
 		}
 
@@ -78,7 +78,7 @@ function botMosEmailCloak($published, &$row) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
 	$pattern = botMosEmailCloak_searchPattern($search_email, $search_text);
-	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+	while(preg_match("/" . $pattern . "/iu", $row->text, $regs)){
 		$mail = $regs[2] . $regs[3] . $regs[4];
 		$mail_text = $regs[5];
 
@@ -90,16 +90,16 @@ function botMosEmailCloak($published, &$row) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text&body=Text">email@amail.com</a>
 	$pattern = botMosEmailCloak_searchPattern($search_email_msg, $search_email);
-	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+	while(preg_match("/" . $pattern . "/iu", $row->text, $regs)){
 		$mail = $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text = $regs[6] . $regs[7] . $regs[8];
 		//needed for handling of Body parameter
 		$mail = str_replace('&amp;', '&', $mail);
 
 		// check to see if mail text is different from mail addy
-		if ($mail_text) {
+		if($mail_text){
 			$replacement = mosHTML::emailCloaking($mail, $mode, $mail_text);
-		} else {
+		} else{
 			$replacement = mosHTML::emailCloaking($mail, $mode);
 		}
 
@@ -109,7 +109,7 @@ function botMosEmailCloak($published, &$row) {
 
 	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text&body=Text">anytext</a>
 	$pattern = botMosEmailCloak_searchPattern($search_email_msg, $search_text);
-	while (preg_match("/" . $pattern . "/iu", $row->text, $regs)) {
+	while(preg_match("/" . $pattern . "/iu", $row->text, $regs)){
 		$mail = $regs[2] . $regs[3] . $regs[4] . $regs[5];
 		$mail_text = $regs[6];
 		//needed for handling of Body parameter
@@ -122,7 +122,7 @@ function botMosEmailCloak($published, &$row) {
 	}
 
 	// search for plain text email@amail.com
-	while (preg_match("/" . $search_email . "/iu", $row->text, $regs)) {
+	while(preg_match("/" . $search_email . "/iu", $row->text, $regs)){
 		$mail = $regs[0];
 
 		$replacement = mosHTML::emailCloaking($mail, $mode);
@@ -132,7 +132,7 @@ function botMosEmailCloak($published, &$row) {
 	}
 }
 
-function botMosEmailCloak_searchPattern($link, $text) {
+function botMosEmailCloak_searchPattern($link, $text){
 	// <a href="mailto:anyLink">anyText</a>
 	return "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:" . $link . "[\"\'][[:alnum:] _\"\'=\@\.\-]*)>" . $text . "<\/a>";
 }

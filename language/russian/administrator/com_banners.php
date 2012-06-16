@@ -1,11 +1,11 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
@@ -175,7 +175,7 @@ DEFINE('_ABP_ERROR_NOT_EXIST_CATEGORIES', 'Ошибка: в файле нет к
 DEFINE('_ABP_RESTORE_OK', 'Восстановите успешно завершено');
 DEFINE('_ABP_IMPORT_OK', 'Импорт успешно завершен');
 DEFINE('_ABP_ARCHIVE_BANNERS', 'Архивировать баннеры');
-DEFINE('_ABP_RESTORE_BANNERS','Восстановить баннеры');
+DEFINE('_ABP_RESTORE_BANNERS', 'Восстановить баннеры');
 DEFINE('_ABP_ERROR_SEND_MAIL', 'Ошибка отправки сообщения с паролем по почте');
 DEFINE('_ABP_LANGUAGE_MANAGER', 'Управление языком');
 DEFINE('_ABP_FOLDER_BANNER', 'Баннеры');
@@ -183,29 +183,29 @@ DEFINE('_ABP_FOLDER_CLIENTS', 'Клиенты');
 DEFINE('_ABP_TOTAL', 'Всего');
 DEFINE('_ABP_ALT', 'Альтер. текст');
 /*Перенесено из общего языкового файла*/
-DEFINE('_EDIT_BANNER','Редактирование баннера');
-DEFINE('_NEW_BANNER','Создание баннера');
-DEFINE('_IN_CURRENT_WINDOW','Том же окне');
-DEFINE('_IN_PARENT_WINDOW','Текущем окне');
-DEFINE('_IN_MAIN_FRAME','Главном фрейме');
-DEFINE('_BANNER_CLIENTS','Клиенты баннеров');
-DEFINE('_BANNER_CATEGORIES','Категории баннеров');
-DEFINE('_NO_BANNERS','Банеры не обнаружены');
-DEFINE('_BANNER_COUNTER_RESETTED','Счётчик показа баннеров обнулён');
-DEFINE('_CHECK_PUBLISH_DATE','Проверьте правильность ввода даты публикации');
-DEFINE('_CHECK_START_PUBLICATION_DATE','Проверьта дату начала публикации');
-DEFINE('_CHECK_END_PUBLICATION_DATE','Проверьта дату окончания публикации');
-DEFINE('_BANNERS_PANEL','Панель баннеров');
-DEFINE('_BANNERS_DIRECTORY_DOESNOT_EXISTS','Папка banners не существует');
-DEFINE('_CHOOSE_BANNER_IMAGE','Выберите изображение для загрузки');
-DEFINE('_BAD_FILENAME','Файл должен содержать алфавитно-числовые символы без пробелов.');
-DEFINE('_FILE_ALREADY_EXISTS','Файл #FILENAME# уже существует в базе данных.');
-DEFINE('_BANNER_UPLOAD_ERROR','Загрузка #FILENAME# неудачна');
-DEFINE('_BANNER_UPLOAD_SUCCESS','Загрузка #FILENAME# в #DIRNAME# успешно завешена');
-DEFINE('_UPLOAD_BANNER_FILE','Загрузить файл баннера');
-DEFINE('_BNR_CONTACT','Вы должны выбрать контакт для клиента.');
-DEFINE('_BNR_VALID_EMAIL','Адрес электронной почты клиента должен быть правильным.');
-DEFINE('_BNR_CLIENT','Вы должны выбрать клиента,');
-DEFINE('_BNR_NAME','Введите имя баннера.');
-DEFINE('_BNR_IMAGE','Выберите изображения баннера.');
-DEFINE('_BNR_URL','Вы должны ввести URL/Код баннера.');
+DEFINE('_EDIT_BANNER', 'Редактирование баннера');
+DEFINE('_NEW_BANNER', 'Создание баннера');
+DEFINE('_IN_CURRENT_WINDOW', 'Том же окне');
+DEFINE('_IN_PARENT_WINDOW', 'Текущем окне');
+DEFINE('_IN_MAIN_FRAME', 'Главном фрейме');
+DEFINE('_BANNER_CLIENTS', 'Клиенты баннеров');
+DEFINE('_BANNER_CATEGORIES', 'Категории баннеров');
+DEFINE('_NO_BANNERS', 'Банеры не обнаружены');
+DEFINE('_BANNER_COUNTER_RESETTED', 'Счётчик показа баннеров обнулён');
+DEFINE('_CHECK_PUBLISH_DATE', 'Проверьте правильность ввода даты публикации');
+DEFINE('_CHECK_START_PUBLICATION_DATE', 'Проверьта дату начала публикации');
+DEFINE('_CHECK_END_PUBLICATION_DATE', 'Проверьта дату окончания публикации');
+DEFINE('_BANNERS_PANEL', 'Панель баннеров');
+DEFINE('_BANNERS_DIRECTORY_DOESNOT_EXISTS', 'Папка banners не существует');
+DEFINE('_CHOOSE_BANNER_IMAGE', 'Выберите изображение для загрузки');
+DEFINE('_BAD_FILENAME', 'Файл должен содержать алфавитно-числовые символы без пробелов.');
+DEFINE('_FILE_ALREADY_EXISTS', 'Файл #FILENAME# уже существует в базе данных.');
+DEFINE('_BANNER_UPLOAD_ERROR', 'Загрузка #FILENAME# неудачна');
+DEFINE('_BANNER_UPLOAD_SUCCESS', 'Загрузка #FILENAME# в #DIRNAME# успешно завешена');
+DEFINE('_UPLOAD_BANNER_FILE', 'Загрузить файл баннера');
+DEFINE('_BNR_CONTACT', 'Вы должны выбрать контакт для клиента.');
+DEFINE('_BNR_VALID_EMAIL', 'Адрес электронной почты клиента должен быть правильным.');
+DEFINE('_BNR_CLIENT', 'Вы должны выбрать клиента,');
+DEFINE('_BNR_NAME', 'Введите имя баннера.');
+DEFINE('_BNR_IMAGE', 'Выберите изображения баннера.');
+DEFINE('_BNR_URL', 'Вы должны ввести URL/Код баннера.');

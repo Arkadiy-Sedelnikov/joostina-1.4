@@ -10,7 +10,7 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-if(!$menu) {
+if(!$menu){
 	echo _PAGE_ACCESS_DENIED;
 	return;
 }
@@ -21,27 +21,29 @@ $users->total = $users->get_total($usertype);
 $users->user_list = $users->get_users($usertype, $limitstart, $limit);
 
 //пагинация
-if($users->total>0) {
+if($users->total > 0){
 	mosMainFrame::addLib('pageNavigation');
-	$link = $menu->link.'&amp;Itemid='.$menu->id;
-	$paginate = new mosPageNav( $users->total, $limitstart, $limit );
+	$link = $menu->link;
+	$paginate = new mosPageNav($users->total, $limitstart, $limit);
 }
-?><div class="userlist">
-	<?php if( $params->get('header', $menu->name)) : ?>
+?>
+<div class="userlist">
+	<?php if($params->get('header', $menu->name)) : ?>
 	<div class="componentheading"><h1><?php echo $params->get('header', $menu->name); ?></h1></div>
 	<?php endif;?>
 	<ul>
-		<?php foreach($users->user_list as $user) {
-			$avatar_pic = '<img class="avatar" src="'.JPATH_SITE.'/'.$users->get_avatar($user).'" />';
-			$profile_link = $users->get_link($user); ?>
+		<?php foreach($users->user_list as $user){
+		$avatar_pic = '<img class="avatar" src="' . JPATH_SITE . '/' . $users->get_avatar($user) . '" />';
+		$profile_link = $users->get_link($user); ?>
 		<li>
 			<a class="thumb" href="<?php echo $profile_link;?>"><?php echo $avatar_pic;?></a>
 			<a href="<?php echo $profile_link;?>"><?php echo $user->name;?></a>
+
 			<p><?php echo $user->about;?></p>
 		</li>
-			<?php };?>
+		<?php };?>
 	</ul>
 </div>
-<?php if($users->total>0) {
-	echo '<br clear="all" /> '. $paginate->writePagesLinks($link);
+<?php if($users->total > 0){
+	echo '<br clear="all" /> ' . $paginate->writePagesLinks($link);
 }?>

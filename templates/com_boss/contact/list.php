@@ -7,7 +7,7 @@
 	<?php $this->displayPathway(); ?>
 </div>
 <div class="alphaindex">
-	<?php $this->displayAlphaIndex($this->directory, $this->itemid); ?>
+	<?php $this->displayAlphaIndex($this->directory); ?>
 </div>
 <div class="boss_filter">
 	<?php $this->displayFilter(1); ?>

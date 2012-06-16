@@ -1,38 +1,38 @@
 <?xml version="1.0" ?>
 <mosinstall type="component" version="1.0.0">
-	<name>elRTE</name>
-	<author>Joostina Team</author>
-	<creationDate>24.10.2011</creationDate>
-	<copyright>(C) 2008-2011 Joostina team</copyright>
-	<authorEmail>info@joostina.ru</authorEmail>
-	<authorUrl>www.joostina.ru</authorUrl>
-	<version>1.1.0 b</version>
-	<description>elFinder - Менеджер файлов. elRTE - Визуальный редактор для Joostina CMS. Версии скриптов: elRTE 1.3, elFinder 1.2</description>
-	<installfile>install.elrte.php</installfile>
-	<uninstallfile>uninstall.elrte.php</uninstallfile>
-	<administration>
-		<menu>elFinder + elRTE</menu>
+    <name>elRTE</name>
+    <author>Joostina Team</author>
+    <creationDate>24.10.2011</creationDate>
+    <copyright>(C) 2008-2011 Joostina team</copyright>
+    <authorEmail>info@joostina.ru</authorEmail>
+    <authorUrl>www.joostina.ru</authorUrl>
+    <version>1.1.0 b</version>
+    <description>elFinder - Менеджер файлов. elRTE - Визуальный редактор для Joostina CMS. Версии скриптов: elRTE 1.3, elFinder 1.2</description>
+    <installfile>install.elrte.php</installfile>
+    <uninstallfile>uninstall.elrte.php</uninstallfile>
+    <administration>
+        <menu>elFinder + elRTE</menu>
         <submenu>
-			<menu>Медиа менеджер elFinder</menu>
-			<menu task="config_elrte">Конфигурация elRTE</menu>
-			<menu task="config_elfinder">Конфигурация elFinder</menu>
-			<menu task="info">Инфо</menu>
-		</submenu>
-		<files>
+            <menu>Медиа менеджер elFinder</menu>
+            <menu task="config_elrte">Конфигурация elRTE</menu>
+            <menu task="config_elfinder">Конфигурация elFinder</menu>
+            <menu task="info">Инфо</menu>
+        </submenu>
+        <files>
             <filename>language/index.html</filename>
-		    <filename>language/russian.php</filename>
-			<filename>view/index.html</filename>
-			<filename>view/config_elrte.php</filename>
-			<filename>view/config_elfinder.php</filename>
-			<filename>view/elfinder.php</filename>
-			<filename>view/info.php</filename>
-			<filename>admin.elrte.php</filename>
-			<filename>config_elfinder.php</filename>
-			<filename>config_elrte.php</filename>
-			<filename>connector.php</filename>
-			<filename>elrte.zip</filename>
-			<filename>index.html</filename>
-			<filename>toolbar.elrte.php</filename>
-		</files>
-	</administration>
+            <filename>language/russian.php</filename>
+            <filename>view/index.html</filename>
+            <filename>view/config_elrte.php</filename>
+            <filename>view/config_elfinder.php</filename>
+            <filename>view/elfinder.php</filename>
+            <filename>view/info.php</filename>
+            <filename>admin.elrte.php</filename>
+            <filename>config_elfinder.php</filename>
+            <filename>config_elrte.php</filename>
+            <filename>connector.php</filename>
+            <filename>elrte.zip</filename>
+            <filename>index.html</filename>
+            <filename>toolbar.elrte.php</filename>
+        </files>
+    </administration>
 </mosinstall>

@@ -1,11 +1,11 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
@@ -13,10 +13,10 @@ $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
 
-$task = mosGetParam($_GET,'task','publish');
-$id = intval(mosGetParam($_GET,'id','0'));
+$task = mosGetParam($_GET, 'task', 'publish');
+$id = intval(mosGetParam($_GET, 'id', '0'));
 
-switch($task) {
+switch($task){
 	case "publish":
 		echo x_publish($id);
 		return;
@@ -25,9 +25,9 @@ switch($task) {
 		echo x_access($id);
 		return;
 
-    case "get_category_content":
-        echo getCategoryContent($directory);
-        break;
+	case "get_category_content":
+		echo getCategoryContent($directory);
+		break;
 
 	default:
 		echo 'error-task';
@@ -37,9 +37,9 @@ switch($task) {
 
 function x_access($id){
 	$database = database::getInstance();
-	$access = mosGetParam($_GET,'chaccess','accessregistered');
-	$option = strval(mosGetParam($_REQUEST,'option',''));
-	switch($access) {
+	$access = mosGetParam($_GET, 'chaccess', 'accessregistered');
+	$option = strval(mosGetParam($_REQUEST, 'option', ''));
+	switch($access){
 		case 'accesspublic':
 			$access = 0;
 			break;
@@ -60,74 +60,74 @@ function x_access($id){
 	if(!$row->check()) return 'error-check';
 	if(!$row->store()) return 'error-store';
 
-	if(!$row->access) {
+	if(!$row->access){
 		$color_access = 'style="color: green;"';
 		$task_access = 'accessregistered';
 		$text_href = _USER_GROUP_ALL;
-	} elseif($row->access == 1) {
+	} elseif($row->access == 1){
 		$color_access = 'style="color: red;"';
 		$task_access = 'accessspecial';
 		$text_href = _USER_GROUP_REGISTERED;
-	} else {
+	} else{
 		$color_access = 'style="color: black;"';
 		$task_access = 'accesspublic';
 		$text_href = _USER_GROUP_SPECIAL;
 	}
 	// чистим кэш
 	mosCache::cleanCache('com_boss');
-	return '<a href="#" onclick="ch_access('.$row->id.',\''.$task_access.'\',\''.$option.'\')" '.$color_access.'>'.$text_href.'</a>';
+	return '<a href="#" onclick="ch_access(' . $row->id . ',\'' . $task_access . '\',\'' . $option . '\')" ' . $color_access . '>' . $text_href . '</a>';
 }
 
-function x_publish($id = null) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
-    $database = database::getInstance();
+function x_publish($id = null){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
+	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
 
-	$query = "SELECT published FROM #__menu WHERE id = ".(int)$id;
+	$query = "SELECT published FROM #__menu WHERE id = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
 
-	if($state == '1') {
+	if($state == '1'){
 		$ret_img = 'publish_x.png';
 		$state = '0';
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = '1';
 	}
-	$query = "UPDATE #__menu SET published = ".(int)$state
-			."\n WHERE id = ".$id." AND ( checked_out = 0 OR ( checked_out = ".(int)$my->id." ) )";
+	$query = "UPDATE #__menu SET published = " . (int)$state
+		. "\n WHERE id = " . $id . " AND ( checked_out = 0 OR ( checked_out = " . (int)$my->id . " ) )";
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error-db';
-	} else {
+	} else{
 		mosCache::cleanCache('com_boss');
 		return $ret_img;
 	}
 }
 
 function getCategoryContent(){
-    $database = database::getInstance();
-    $catid = mosGetParam($_REQUEST, 'catid', 0);
-    $directory = mosGetParam($_REQUEST, 'directory', 0);
+	$database = database::getInstance();
+	$catid = mosGetParam($_REQUEST, 'catid', 0);
+	$directory = mosGetParam($_REQUEST, 'directory', 0);
 
-    if($catid ==0 || $directory == 0)
-        return;
-    
-    $q = "SELECT content.id, content.name ";
-    $q .= "FROM #__boss_" . $directory . "_contents as content, ";
-    $q .= "#__boss_" . $directory . "_content_category_href as cch ";
-    $q .= "WHERE cch.category_id = $catid ";
-    $q .= "AND cch.content_id = content.id ";
-    $q .= "ORDER BY content.name";
+	if($catid == 0 || $directory == 0)
+		return;
 
-    $contents = $database->setQuery($q)->loadObjectList();
-    $options = '';
-    foreach($contents as $content){
-        $options .= '<option value="'.$content->id.'">'.$content->name.'</option> ';
-    }
-    return $options;
+	$q = "SELECT content.id, content.name ";
+	$q .= "FROM #__boss_" . $directory . "_contents as content, ";
+	$q .= "#__boss_" . $directory . "_content_category_href as cch ";
+	$q .= "WHERE cch.category_id = $catid ";
+	$q .= "AND cch.content_id = content.id ";
+	$q .= "ORDER BY content.name";
+
+	$contents = $database->setQuery($q)->loadObjectList();
+	$options = '';
+	foreach($contents as $content){
+		$options .= '<option value="' . $content->id . '">' . $content->name . '</option> ';
+	}
+	return $options;
 }
 
 ?>

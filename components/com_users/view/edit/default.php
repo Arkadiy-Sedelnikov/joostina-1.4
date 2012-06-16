@@ -17,12 +17,13 @@ mosCommonHTML::loadOverlib();
 
 $tabs = new mosTabs(1);
 
-?><div class="edit_profile_page">
+?>
+<div class="edit_profile_page">
 	<div class="componentheading"><h1><?php echo $user->name; ?>&nbsp;(<?php echo $user->username; ?>)</h1></div>
 	<?php $tabs->startPane("userInfo"); ?>
 	<form action="<?php echo sefRelToAbs('index.php');  ?>" method="post" name="mosUserForm" id="mosUserForm">
 
-		<?php $tabs->startTab(_GENERAL,"general"); ?>
+		<?php $tabs->startTab(_GENERAL, "general"); ?>
 		<h3><?php echo _USER_PROFILE_INFO?></h3>
 		<table width="100%">
 			<tr>
@@ -47,24 +48,25 @@ $tabs = new mosTabs(1);
 			</tr>
 		</table>
 
-		<?php if($config->config_frontend_userparams == '1' || $config->config_frontend_userparams == 1 ||$config->csonfig_frontend_userparams == null) {?>
+		<?php if($config->config_frontend_userparams == '1' || $config->config_frontend_userparams == 1 || $config->csonfig_frontend_userparams == null){ ?>
 		<h3><?php echo _SITE_SETTINGS?></h3>
-			<?php echo $params->render('params'); ?>
-			<?php } ?>
+		<?php echo $params->render('params'); ?>
+		<?php } ?>
 
-		<br />
+		<br/>
+
 		<h3><?php echo _USER_PERSONAL_DATA?></h3>
 		<table width="100%">
 			<tr>
 				<td class="td_l"><label for="gender"><?php echo _C_USERS_GENDER?></label></td>
-				<td><?php echo mosHTML::genderSelectList('gender','class="inputbox"', $user_extra->gender);?> </td>
+				<td><?php echo mosHTML::genderSelectList('gender', 'class="inputbox"', $user_extra->gender);?> </td>
 			</tr>
 			<tr>
 				<td><label><?php echo _C_USERS_B_DAY?></label></td>
 				<td>
-					<?php echo mosHTML::daySelectList('birthdate_day','class="inputbox"', $bday_date);?>
-					<?php echo mosHTML::monthSelectList('birthdate_month','class="inputbox"', $bday_month,1);?>
-					<?php echo mosHTML::yearSelectList('birthdate_year','class="inputbox"', $bday_year);?>
+					<?php echo mosHTML::daySelectList('birthdate_day', 'class="inputbox"', $bday_date);?>
+					<?php echo mosHTML::monthSelectList('birthdate_month', 'class="inputbox"', $bday_month, 1);?>
+					<?php echo mosHTML::yearSelectList('birthdate_year', 'class="inputbox"', $bday_year);?>
 				</td>
 			</tr>
 			<tr>
@@ -81,11 +83,11 @@ $tabs = new mosTabs(1);
 			</tr>
 		</table>
 		<?php $tabs->endTab(); ?>
-		<?php $tabs->startTab(_USER_CONTACTS,"cantacts"); ?>
+		<?php $tabs->startTab(_USER_CONTACTS, "cantacts"); ?>
 		<h3><?php echo _COM_USERS_CONTACT_INFO?></h3>
 		<table width="100%">
 			<tr>
-				<td  class="td_l"><label><?php echo _C_USERS_CONTACT_SITE?></label></td>
+				<td class="td_l"><label><?php echo _C_USERS_CONTACT_SITE?></label></td>
 				<td><input class="inputbox" type="text" name="url" id="url" value="<?php echo $user->user_extra->url ?>"/></td>
 			</tr>
 			<tr>
@@ -122,12 +124,12 @@ $tabs = new mosTabs(1);
 			</tr>
 		</table>
 		<?php $tabs->endTab(); ?>
-		<input type="hidden" name="id" value="<?php echo $user->id; ?>" />
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<input type="hidden" name="task" id="task" value="saveUserEdit" />
-		<input type="hidden" name="<?php echo $validate; ?>" value="1" />
+		<input type="hidden" name="id" value="<?php echo $user->id; ?>"/>
+		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="task" id="task" value="saveUserEdit"/>
+		<input type="hidden" name="<?php echo $validate; ?>" value="1"/>
 	</form>
-	<?php $tabs->startTab(_C_USERS_AVATARS,"avatar"); ?>
+	<?php $tabs->startTab(_C_USERS_AVATARS, "avatar"); ?>
 	<h3><?php echo _C_USERS_AVATARS?></h3>
 	<?php
 	$form_params = new stdClass();
@@ -136,10 +138,10 @@ $tabs = new mosTabs(1);
 	$form_params->img_path = 'images/avatars';
 	$form_params->default_img = 'images/avatars/none.jpg';
 	$form_params->img_class = 'user_avatar';
-	$form_params->ajax_handler = JPATH_SITE.'/ajax.index.php?option=com_users';
-	if(!$user->avatar) {
+	$form_params->ajax_handler = JPATH_SITE . '/ajax.index.php?option=com_users';
+	if(!$user->avatar){
 		userHelper::_build_img_upload_area($user, $form_params, 'upload');
-	} else {
+	} else{
 		userHelper::_build_img_upload_area($user, $form_params, 'reupload');
 	} ?>
 	<?php $tabs->endTab(); ?>

@@ -10,25 +10,25 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-$_MAMBOTS->registerFunction('onCustomEditorButton','botMosImageButton');
+$_MAMBOTS->registerFunction('onCustomEditorButton', 'botMosImageButton');
 
 /**
  * кнопка изображения Joostina
  * @return array - возвращает массив из двух элементов: ( imageName, textToInsert )
  */
-function botMosImageButton() {
+function botMosImageButton(){
 	global $option;
-	
+
 	// button is not active in specific content components
-	switch($option) {
+	switch($option){
 		case 'com_sections':
 		case 'com_categories':
 		case 'com_modules':
-			$button = array('','');
+			$button = array('', '');
 			break;
 
 		default:
-			$button = array('mosimage.png','{mosimage}');
+			$button = array('mosimage.png', '{mosimage}');
 			break;
 	}
 	return $button;

@@ -27,24 +27,21 @@ $mode = mosGetParam($_REQUEST, 'mode', 'email');
 $tag = mosGetParam($_REQUEST, 'tag', '');
 $alpha = urldecode(mosGetParam($_REQUEST, 'alpha', ''));
 $directory = (isset($frontpageConf->directory)) ? (int)$frontpageConf->directory : (int)mosGetParam($_REQUEST, 'directory', 0);
-$itemid = (int)mosGetParam($_REQUEST, 'Itemid', 0);
 $isFrontpage = (isset($isFrontpage)) ? 1 : 0;
 
 //пробуем разобрать ссылки меню если ид каталога не известен
 if($directory == 0){
 	$database = database::getInstance();
-	if($itemid > 0){
-		$params = $database->setQuery("SELECT `params` FROM #__menu WHERE `id` =" . $itemid)->loadResult();
-		$params = explode("\n", $params);
-		foreach($params as $param){
-			$param = explode('=', $param);
-			if($param[0] == 'directory' && isset($param[1]))
-				$directory = $param[1];
-			if($param[0] == 'catid' && isset($param[1]) && $catid == 0)
-				$catid = $param[1];
-			if($param[0] == 'task' && isset($param[1]))
-				$task = $param[1];
-		}
+	$params = $database->setQuery("SELECT `params` FROM #__menu WHERE `id` =0");
+	$params = explode("\n", $params);
+	foreach($params as $param){
+		$param = explode('=', $param);
+		if($param[0] == 'directory' && isset($param[1]))
+			$directory = $param[1];
+		if($param[0] == 'catid' && isset($param[1]) && $catid == 0)
+			$catid = $param[1];
+		if($param[0] == 'task' && isset($param[1]))
+			$task = $param[1];
 	}
 }
 //если все-таки не нашлось каталога, выводим первый.
@@ -334,7 +331,6 @@ function show_search($catid, $directory, $template_name){
 	$paths = array();
 	$jDirectoryHtmlClass = new boss_html();
 	$field_values = boss_helpers::loadFieldValues($directory);
-	$itemid = getBossItemid($directory, $catid);
 
 	$content_type = mosGetParam($_REQUEST, 'content_types', 0);
 
@@ -357,7 +353,7 @@ function show_search($catid, $directory, $template_name){
 	}
 
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -365,7 +361,6 @@ function show_search($catid, $directory, $template_name){
 
 	$jDirectoryHtmlClass->user = $my;
 	$jDirectoryHtmlClass->conf = $conf;
-	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->fields = $fields_searchable;
 	$jDirectoryHtmlClass->field_values = $field_values;
 	$jDirectoryHtmlClass->category->id = $catid;
@@ -405,14 +400,12 @@ function show_all($text_search, $name_search, $order, $limitstart, $directory, $
 	$params = array();
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0);
-
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 
-	$subcats = boss_helpers::get_subpathlist($list, 0, $itemid, $order, $directory);
+	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -454,14 +447,12 @@ function show_frontpage($text_search, $name_search, $order, $limitstart, $direct
 	$params = array();
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0);
-
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
 
-	$subcats = boss_helpers::get_subpathlist($list, 0, $itemid, $order, $directory);
+	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -506,11 +497,9 @@ function show_user($userid, $text_search, $order, $limitstart, $directory, $temp
 	$paths = null;
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0);
-
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -556,8 +545,6 @@ function show_category($catid, $text_search, $name_search, $order, $limitstart, 
 	$search_user = '';
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, $catid);
-
 	// get category-name: #__boss_".$directory."_category
 	$database->setQuery("SELECT c.* " . " FROM #__boss_" . $directory . "_categories as c WHERE c.published='1' AND c.id=$catid");
 	$database->loadObject($category);
@@ -591,19 +578,18 @@ function show_category($catid, $text_search, $name_search, $order, $limitstart, 
 		$template_name = $category->template;
 	}
 
-
-	//$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
+	$paths = array();
 
 	$listcats = boss_helpers::loadCats($directory);
-	boss_helpers::get_pathlist($listcats, $catid, $cat_name, $paths, $itemid, $order, $directory);
 	$nb = count($paths);
 	$paths[$nb]->text = $conf->name;
-	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;order=' . $order . '&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;order=' . $order . '&amp;directory=' . $directory);
+	boss_helpers::get_pathlist($listcats, $catid, $cat_name, $paths, $order, $directory);
 	for($i = $nb; $i >= 0; $i--){
 		$mainframe->appendPathWay('<a href ="' . $paths[$i]->link . '">' . $paths[$i]->text . '</a>');
 	}
 
-	$subcats = boss_helpers::get_subpathlist($listcats, $catid, $itemid, $order, $directory);
+	$subcats = boss_helpers::get_subpathlist($listcats, $catid, $order, $directory);
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
 
@@ -640,7 +626,6 @@ function search_tags($tag, $order, $limitstart, $directory, $template_name){
 	$paths = null;
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0);
 	$tag = urldecode(cutLongWord($tag, 255));
 
 	//header
@@ -654,9 +639,9 @@ function search_tags($tag, $order, $limitstart, $directory, $template_name){
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	$subcats = boss_helpers::get_subpathlist($list, 0, $itemid, $order, $directory);
+	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -677,8 +662,6 @@ function search_alpha($alpha, $order, $limitstart, $directory, $template_name){
 	$paths = null;
 	$jDirectoryHtmlClass = new boss_html();
 
-	$itemid = getBossItemid($directory, 0);
-
 	//header
 	$header = BOSS_ALPHA_HEADER . ' &laquo;' . $alpha . '&raquo;';
 
@@ -690,9 +673,9 @@ function search_alpha($alpha, $order, $limitstart, $directory, $template_name){
 
 	//Pathway
 	$list = boss_helpers::loadCats($directory);
-	$subcats = boss_helpers::get_subpathlist($list, 0, $itemid, $order, $directory);
+	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 
 	$jDirectoryHtmlClass->paths = $paths;
@@ -717,7 +700,6 @@ function show_message_form($contentid, $mode, $directory, $template_name){
 	$conf = null;
 
 	$jDirectoryHtmlClass = new boss_html();
-	$itemid = getBossItemid($directory, 0);
 
 	$database->setQuery("SELECT a.* FROM #__boss_" . $directory . "_contents as a WHERE a.id=$contentid")->loadObject($content);
 
@@ -732,11 +714,11 @@ function show_message_form($contentid, $mode, $directory, $template_name){
 
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
-		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, $conf->allow_attachement, $itemid);
+		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, $conf->allow_attachement);
 	} else{ // PMS
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
-		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, 0, $itemid);
+		$jDirectoryHtmlClass->displayMessageForm($content, $user, $mode, 0);
 	}
 }
 
@@ -745,9 +727,8 @@ function send_message($mode, $directory){
 	$mainframe = mosMainFrame::getInstance();
 	$my = $mainframe->getUser();
 	$database = database::getInstance();
-	$itemid = getBossItemid($directory, 0);
 	$contentid = intval(mosGetParam($_POST, 'contentid', 0));
-	$url = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory&amp;Itemid=$itemid");
+	$url = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory");
 
 	$name = mosGetParam($_POST, 'name', "");
 	$from_email = mosGetParam($_POST, 'email', "");
@@ -793,7 +774,6 @@ function show_content($contentid, $catid, $directory, $template_name){
 	$params = array();
 	$content = null;
 	$jDirectoryHtmlClass = new boss_html();
-	$itemid = getBossItemid($directory, $catid);
 
 	//get value fields
 	$field_values = boss_helpers::loadFieldValues($directory);
@@ -890,10 +870,12 @@ function show_content($contentid, $catid, $directory, $template_name){
 	//PathWay
 	$listcats = boss_helpers::loadCats($directory);
 
-	boss_helpers::get_pathlist($listcats, $content->catid, $content->cat, $paths, $itemid, 0, $directory);
+	$paths = array();
+
 	$nb = count($paths);
 	$paths[$nb]->text = $conf->name;
-	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	boss_helpers::get_pathlist($listcats, $content->catid, $content->cat, $paths, 0, $directory);
 	for($i = $nb; $i >= 0; $i--){
 		$mainframe->appendPathWay('<a href ="' . $paths[$i]->link . '">' . $paths[$i]->text . '</a>');
 	}
@@ -947,7 +929,6 @@ function show_content($contentid, $catid, $directory, $template_name){
 
 	$jDirectoryHtmlClass->fields = $fields;
 	$jDirectoryHtmlClass->perms = $perms;
-	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->field_values = $field_values;
 	$conf->show_contact = $show_contact;
 	$jDirectoryHtmlClass->conf = $conf;
@@ -1041,7 +1022,6 @@ function write_content($contentid, $catid, $directory, $template_name){
 	}
 
 	$jDirectoryHtmlClass = new boss_html();
-	$itemid = getBossItemid($directory, $catid);
 	$errorMsg = mosGetParam($_POST, 'errorMsg', "");
 
 
@@ -1050,13 +1030,13 @@ function write_content($contentid, $catid, $directory, $template_name){
 		$nb = $database->loadResult();
 		if($nb >= $conf->nb_contents_by_user){
 			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"), $redirect_text);
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
 		}
 	}
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -1107,7 +1087,6 @@ function write_content($contentid, $catid, $directory, $template_name){
 		$jDirectoryHtmlClass->user = $user;
 		$jDirectoryHtmlClass->conf = $conf;
 		$jDirectoryHtmlClass->conf->isUpdateMode = $isUpdateMode;
-		$jDirectoryHtmlClass->itemid = $itemid;
 		$jDirectoryHtmlClass->errorMsg = $errorMsg;
 		$jDirectoryHtmlClass->fields = $fields;
 		$jDirectoryHtmlClass->field_values = $field_values;
@@ -1117,12 +1096,6 @@ function write_content($contentid, $catid, $directory, $template_name){
 		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
 		$jDirectoryHtmlClass->displayWriteForm();
-		if($errorMsg != ""){
-			/**
-			 * @todo boston - тут или ненужное действие или потенциальная уязвимость
-			 */
-			$user = (object)$_POST;
-		}
 	}
 	return true;
 }
@@ -1137,7 +1110,6 @@ function save_content($directory){
 
 	$row = new jDirectoryContent($database, $directory);
 	$catid = (int)mosGetParam($_POST, 'category', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	//get configuration
 	$conf = getConfig($directory);
@@ -1150,7 +1122,7 @@ function save_content($directory){
 		if($captcha_keystring !== $captcha){
 			$errorMsg = "bad_captcha";
 
-			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&Itemid=$itemid&errorMsg=$errorMsg");
+			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&errorMsg=$errorMsg");
 			echo "<form name='form' action='" . $url . "' method='post'>";
 			foreach($_POST as $key => $val){
 				echo "<input type='hidden' name='" . $key . "' value='" . stripslashes($val) . "'>";
@@ -1173,7 +1145,7 @@ function save_content($directory){
 		$nb = $database->loadResult();
 		if($nb >= $conf->nb_contents_by_user){
 			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid"), $redirect_text);
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
 		}
 	}
 
@@ -1184,7 +1156,7 @@ function save_content($directory){
 		$errorMsg = boss_helpers::check_account($username, $password, $email, $userid, $conf);
 		if(isset($errorMsg)){
 			$catid = (int)mosGetParam($_POST, 'category', 0);
-			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&Itemid=$itemid");
+			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory");
 			echo "<form name='form' action='" . $url . "' method='post'>";
 
 			foreach($_POST as $key => $val){
@@ -1215,7 +1187,7 @@ function save_content($directory){
 	$isUpdateMode = (int)mosGetParam($_POST, 'isUpdateMode', 0);
 
 	//Save Field
-	$redirect_text = $row->save($directory, $fields, $conf, $isUpdateMode, $itemid);
+	$redirect_text = $row->save($directory, $fields, $conf, $isUpdateMode);
 	if((($conf->send_email_on_new == 1) && ($isUpdateMode == 0)) || (($conf->send_email_on_update == 1) && ($isUpdateMode == 1))){
 		$title = mosGetParam($_POST, "name", "");
 		$body = '';
@@ -1283,7 +1255,6 @@ function show_expiration($contentid, $directory, $template_name){
 
 	$query = "SELECT DISTINCT a.*, p.name as parent, p.id as parentid, c.name as cat, c.id as catid \n" . "FROM #__boss_" . $directory . "_contents as a \n" . "LEFT JOIN #__boss_" . $directory . "_content_category_href as cch ON cch.content_id = a.id \n" . "LEFT JOIN #__users as u ON a.userid = u.id \n" . "LEFT JOIN #__boss_" . $directory . "_categories as c ON cch.category_id = c.id \n" . "LEFT JOIN #__boss_" . $directory . "_categories as p ON c.parent = p.id \n" . "WHERE a.id=$contentid and c.published LIMIT 1";
 	$database->setQuery($query)->loadObject($content);
-	$itemid = getBossItemid($directory, $content->catid);
 
 	if($my->id == 0){
 		$return = 'index.php?option=com_boss&task=expiration&directory=' . $directory . '&contentid=' . $contentid;
@@ -1292,14 +1263,14 @@ function show_expiration($contentid, $directory, $template_name){
 		//PathWay
 		$paths = array();
 		$paths[0]->text = $conf->name;
-		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 		$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 		$jDirectoryHtmlClass->paths = $paths;
 
 		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->displayLoginForm($return);
 	} else{
-		boss_html::show_expiration($content, $conf, $itemid);
+		boss_html::show_expiration($content, $conf);
 	}
 }
 
@@ -1330,7 +1301,6 @@ function delete_content($contentid, $directory, $template_name){
 	$paths = null;
 	$content = null;
 	$jDirectoryHtmlClass = new boss_html();
-	$itemid = getBossItemid($directory, 0);
 
 	if($my->id == "0"){ // user not logged in
 		//get configuration
@@ -1338,7 +1308,7 @@ function delete_content($contentid, $directory, $template_name){
 
 		//PathWay
 		$paths[0]->text = $conf->name;
-		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 		$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 		$jDirectoryHtmlClass->paths = $paths;
 		$jDirectoryHtmlClass->conf = $conf;
@@ -1363,7 +1333,7 @@ function delete_content($contentid, $directory, $template_name){
 					$content->delete($directory, $conf);
 				}
 			}
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory&amp;Itemid=$itemid", ''));
+			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory", ''));
 		} else{
 
 			$database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents WHERE id=$contentid");
@@ -1374,12 +1344,11 @@ function delete_content($contentid, $directory, $template_name){
 			}
 			//PathWay
 			$paths[0]->text = $conf->name;
-			$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+			$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 			$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 			$jDirectoryHtmlClass->paths = $paths;
 			$jDirectoryHtmlClass->user->name = $my->username;
 			$jDirectoryHtmlClass->content = $content;
-			$jDirectoryHtmlClass->itemid = $itemid;
 			$jDirectoryHtmlClass->directory = $directory;
 			$jDirectoryHtmlClass->template_name = $template_name;
 			$jDirectoryHtmlClass->displayConfirmation();
@@ -1400,11 +1369,10 @@ function show_profile($userid, $directory, $template_name){
 
 	$jDirectoryHtmlClass = new boss_html();
 	$catid = (int)mosGetParam($_POST, 'category', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -1433,7 +1401,6 @@ function show_profile($userid, $directory, $template_name){
 		$jDirectoryHtmlClass->plugins = BossPlugins::get_plugins($directory, 'fields');
 		$jDirectoryHtmlClass->fields = $fields;
 		$jDirectoryHtmlClass->user = $user;
-		$jDirectoryHtmlClass->itemid = $itemid;
 		$jDirectoryHtmlClass->directory = $directory;
 		$jDirectoryHtmlClass->template_name = $template_name;
 		$jDirectoryHtmlClass->displayProfile();
@@ -1453,7 +1420,6 @@ function save_profile($directory){
 	}
 
 	$catid = (int)mosGetParam($_POST, 'category', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	$row = new mosUser($database);
 	$row->load($my->id);
@@ -1501,7 +1467,7 @@ function save_profile($directory){
 
 	$database->setQuery($sql)->query();
 
-	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid", BOSS_UPDATE_PROFILE_SUCCESSFULL));
+	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory", BOSS_UPDATE_PROFILE_SUCCESSFULL));
 }
 
 function front($directory, $template_name){
@@ -1526,7 +1492,6 @@ function front($directory, $template_name){
 
 	$jDirectoryHtmlClass = new boss_html();
 	$catid = (int)mosGetParam($_POST, 'category', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	$tree = boss_helpers::get_cattree($directory, $conf, $conf->empty_cat);
 
@@ -1540,7 +1505,6 @@ function front($directory, $template_name){
 	$return_params['keywords'] = $conf->meta_keys;
 
 
-	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->directory_name = $conf->name;
 	$jDirectoryHtmlClass->contents = $contents;
 	$jDirectoryHtmlClass->conf = $conf;
@@ -1569,14 +1533,13 @@ function show_rules($directory, $template_name){
 
 	$jDirectoryHtmlClass = new boss_html();
 	$catid = (int)mosGetParam($_POST, 'category', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	//get configuration
 	$conf = getConfig($directory);
 	$params['title'] = BOSS_RULES;
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->conf->rules_text = $conf->rules_text;
@@ -1593,7 +1556,6 @@ function show_rules($directory, $template_name){
 function login_form($directory, $template_name){
 	$mainframe = mosMainFrame::getInstance();
 
-	$itemid = getBossItemid($directory, 0);
 	$conf = null;
 	$paths = null;
 
@@ -1602,14 +1564,14 @@ function login_form($directory, $template_name){
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid);
+	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass = new boss_html();
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->conf = $conf;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
-	$jDirectoryHtmlClass->displayLoginForm(sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;Itemid=' . $itemid));
+	$jDirectoryHtmlClass->displayLoginForm(sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory));
 }
 
 /**
@@ -1623,10 +1585,8 @@ function emailform($contentid, $directory, $template_name){
 	$jDirectoryHtmlClass = new boss_html();
 
 	$catid = (int)mosGetParam($_REQUEST, 'catid', 0);
-	$itemid = getBossItemid($directory, $catid);
 
 	$mainframe->setPageTitle(BOSS_SEND_TO_FRIEND);
-	$jDirectoryHtmlClass->itemid = $itemid;
 	$jDirectoryHtmlClass->content->id = $contentid;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
@@ -1653,7 +1613,6 @@ function emailsend($directory){
 		$youremail = strval(mosGetParam($_POST, 'youremail', ''));
 		$subject = strval(mosGetParam($_POST, 'subject', ''));
 		$catid = (int)mosGetParam($_REQUEST, 'catid', 0);
-		$itemid = getBossItemid($directory, $catid);
 
 		if(empty($subject)){
 			$subject = _EMAIL_INFO . ' ' . $yourname;
@@ -1663,12 +1622,8 @@ function emailsend($directory){
 			mosErrorAlert(BOSS_EMAIL_ERR_NOINFO);
 		}
 
-		if(isset($itemid)){
-			$_itemid = '&Itemid=' . $itemid;
-		}
-
 		// link sent in email
-		$link = sefRelToAbs('index.php?option=com_boss&task=show_content&contentid=' . $contentid . $_itemid . '&directory=' . $directory);
+		$link = sefRelToAbs('index.php?option=com_boss&task=show_content&contentid=' . $contentid . '&directory=' . $directory);
 		if(trim(strpos($link, 'index.php')) === '0'){
 			$link = JPATH_SITE . '/' . $link;
 		}
@@ -1682,7 +1637,6 @@ function emailsend($directory){
 			mosErrorAlert(BOSS_EMAIL_ERR_NOINFO);
 		}
 		echo '<script>window.close();</script>';
-		//mosRedirect(sefRelToAbs('index.php?option=com_boss&amp;task=show_content&amp;contentid=' . $contentid . '&amp;directory=' . $directory . $_itemid), BOSS_EMAIL_SENT);
 	} else{
 		mosNotAuth();
 		return;
@@ -1697,8 +1651,6 @@ function show_rss($catid, $directory){
 	$category = null;
 	// load feed creator class
 	require_once(JPATH_BASE . '/includes/feedcreator.class.php');
-
-	$itemid = getBossItemid($directory, $catid);
 
 	$info = array();
 
@@ -1749,7 +1701,7 @@ function show_rss($catid, $directory){
 	if($catid == 0){
 		$info['title'] = "All Ads";
 		$info['description'] = "Description";
-		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;directory=$directory&amp;Itemid=$itemid");
+		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;directory=$directory");
 		$info['rsslink'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;no_html=1&amp;directory=$directory");
 		$search = "1";
 	} else{
@@ -1759,10 +1711,10 @@ function show_rss($catid, $directory){
 
 		$info['title'] = $category->name;
 		$info['description'] = $category->description;
-		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
+		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
 		$info['rsslink'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;catid=$catid&amp;no_html=1&amp;directory=$directory");
 
-		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory&amp;Itemid=$itemid");
+		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
 
 		//$listcats = boss_helpers::loadCats($directory);
 
@@ -1803,7 +1755,7 @@ function show_rss($catid, $directory){
 	}
 
 	foreach($contents as $content){
-		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;catid=$catid&ampcontentid=" . $content->id . "&amp;directory=$directory&amp;Itemid=$itemid");
+		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;catid=$catid&ampcontentid=" . $content->id . "&amp;directory=$directory");
 		$item_title = html_entity_decode(htmlspecialchars($content->name));
 		$item_description = '';
 

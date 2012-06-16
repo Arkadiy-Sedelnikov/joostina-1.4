@@ -1,23 +1,24 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*
-* @version		3.1.0
-* @package		patTemplate
-* @author		Stephan Schmidt <schst@php.net>
-* @license		LGPL
-* @link		http://www.php-tools.net
-*/
-// запрет прямого доступа
+ * @package Joostina
+ * @copyright пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (C) 2008 Joostina team. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+ * @license пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, пїЅпїЅпїЅ help/license.php
+ * Joostina! - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ GNU/GPL
+ * пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ help/copyright.php.
+ * @version        3.1.0
+ * @package        patTemplate
+ * @author        Stephan Schmidt <schst@php.net>
+ * @license        LGPL
+ * @link        http://www.php-tools.net
+ */
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 defined('_VALID_MOS') or die();
-class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter {
-var $_name = 'HighlightPhp';
-function apply($data) {
-return highlight_string($data,true);
+class patTemplate_OutputFilter_HighlightPhp extends patTemplate_OutputFilter{
+	var $_name = 'HighlightPhp';
+
+	function apply($data){
+		return highlight_string($data, true);
+	}
 }
-}
+
 ?>

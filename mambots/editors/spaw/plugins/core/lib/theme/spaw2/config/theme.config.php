@@ -7,11 +7,11 @@ $default_tb_image_style = "width: 4px; height: 4px;";
 $default_tb_image_css_class = "spaw2dropdown";
 // default button events
 $default_tb_button_events = array(
-  'onMouseOver' => 'Spaw2Theme.MouseOver'
+	'onMouseOver' => 'Spaw2Theme.MouseOver'
 );
 // custom toolbar item styles
 $custom_tbi_styles = array(
-  'html' => "width: 49px; height: 19px;",
-  'design' => "width: 53px; height: 19px;",
+	'html'   => "width: 49px; height: 19px;",
+	'design' => "width: 53px; height: 19px;",
 );
 ?>

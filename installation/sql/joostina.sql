@@ -78,25 +78,6 @@ CREATE TABLE IF NOT EXISTS `#__banners_clients` (
   KEY `published` (`published`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-# Dumping structure for table #__boss_5_categories
-
-CREATE TABLE IF NOT EXISTS `#__boss_5_categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent` int(10) unsigned DEFAULT '0',
-  `name` varchar(50) DEFAULT NULL,
-  `slug` varchar(100) NOT NULL,
-  `meta_title` varchar(60) NOT NULL,
-  `meta_desc` varchar(200) NOT NULL,
-  `meta_keys` varchar(200) NOT NULL,
-  `description` varchar(250) DEFAULT NULL,
-  `ordering` int(11) DEFAULT '0',
-  `published` tinyint(1) DEFAULT '0',
-  `content_types` int(11) DEFAULT '0',
-  `template` varchar(50) NOT NULL,
-  `rights` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
 # Dumping structure for table #__boss_5_contents
 
 CREATE TABLE IF NOT EXISTS `#__boss_5_contents` (
@@ -890,32 +871,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_plug_config` (
   KEY `directory` (`directory`,`plug_type`,`plug_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# Dumping structure for table #__categories
-
-CREATE TABLE IF NOT EXISTS `#__categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(50) NOT NULL DEFAULT '',
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `image` varchar(100) NOT NULL DEFAULT '',
-  `section` varchar(50) NOT NULL DEFAULT '',
-  `image_position` varchar(10) NOT NULL DEFAULT '',
-  `description` text,
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor` varchar(50) DEFAULT NULL,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `count` int(11) NOT NULL DEFAULT '0',
-  `params` text,
-  `templates` text,
-  PRIMARY KEY (`id`),
-  KEY `cat_idx` (`section`,`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 # Dumping structure for table #__components
 
 CREATE TABLE IF NOT EXISTS `#__components` (
@@ -941,17 +896,8 @@ INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_me
 	(2, 'Баннеры', '', 0, 1, 'option=com_banners&task=banners', 'Активные баннеры', 'com_banners', 1, 'js/ThemeOffice/edit.png', 0, ''),
 	(3, 'Клиенты', '', 0, 1, 'option=com_banners&task=clients', 'Управление клиентами', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, ''),
 	(36, 'Категории', '', 0, 1, 'option=com_banners&task=categories', 'Управление категориями', 'com_banners', 2, 'js/ThemeOffice/categories.png', 0, ''),
-	(4, 'Каталог ссылок', 'option=com_weblinks', 0, 0, '', 'Управление ссылками', 'com_weblinks', 0, 'js/ThemeOffice/globe2.png', 0, ''),
-	(5, 'Ссылки', '', 0, 4, 'option=com_weblinks', 'Просмотр существующих ссылок', 'com_weblinks', 1, 'js/ThemeOffice/edit.png', 0, ''),
-	(6, 'Категории', '', 0, 4, 'option=com_categories&section=com_weblinks', 'Управление категориями ссылок', '', 2, 'js/ThemeOffice/categories.png', 0, ''),
-	(7, 'Контакты', 'option=com_contact', 0, 0, '', 'Редактировать контактную информацию', 'com_contact', 0, 'js/ThemeOffice/user.png', 1, ''),
-	(8, 'Контакты', '', 0, 7, 'option=com_contact', 'Редактировать контактную информацию', 'com_contact', 0, 'js/ThemeOffice/edit.png', 1, ''),
-	(9, 'Категории', '', 0, 7, 'option=com_categories&section=com_contact_details', 'Управление категориями контактов', '', 2, 'js/ThemeOffice/categories.png', 1, ''),
 	(10, 'Главная страница', 'option=com_frontpage', 0, 0, '', 'Управление объектами главной страницы', 'com_frontpage', 0, 'js/ThemeOffice/component.png', 1, ''),
 	(11, 'Опросы', 'option=com_poll', 0, 0, 'option=com_poll', 'Управление опросами', 'com_poll', 0, 'js/ThemeOffice/component.png', 0, ''),
-	(12, 'Ленты новостей', 'option=com_newsfeeds', 0, 0, '', 'Управление настройками лент новостей', 'com_newsfeeds', 0, 'js/ThemeOffice/rss_go.png', 0, ''),
-	(13, 'Ленты новостей', '', 0, 12, 'option=com_newsfeeds', 'Управление лентами новостей', 'com_newsfeeds', 1, 'js/ThemeOffice/edit.png', 0, ''),
-	(14, 'Категории', '', 0, 12, 'option=com_categories&section=com_newsfeeds', 'Управление категориями', '', 2, 'js/ThemeOffice/categories.png', 0, ''),
 	(15, 'Авторизация', 'option=com_login', 0, 0, '', '', 'com_login', 0, '', 1, ''),
 	(16, 'Поиск', 'option=com_search', 0, 0, '', '', 'com_search', 0, '', 1, ''),
 	(17, 'RSS экспорт', '', 0, 0, 'option=com_syndicate&hidemainmenu=1', 'Управление настройками экспорта новостей', 'com_syndicate', 0, 'js/ThemeOffice/component.png', 0, 'check=0\ncache=1\ncache_time=3600\ncount=5\ntitle=Создано Joostina CMS!\ndescription=Экспорт с сайта Joostina!\nimage_file=aload.gif\nimage_alt=Создано Joostina CMS!\nlimit_text=1\ntext_length=20\nyandex=0\nrss091=0\nrss10=0\nrss20=1\natom03=0\nopml=0\norderby=rdate\nlive_bookmark=RSS2.0'),
@@ -991,40 +937,6 @@ CREATE TABLE IF NOT EXISTS `#__config` (
 INSERT INTO `#__config` (`id`, `group`, `subgroup`, `name`, `value`) VALUES
 	(1, 'com_frontpage', 'default', 'directory', 's:1{5}'),
 	(2, 'com_frontpage', 'default', 'page', 's:14{show_frontpage}');
-
-# Dumping structure for table #__contact_details
-
-CREATE TABLE IF NOT EXISTS `#__contact_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(250) NOT NULL DEFAULT '',
-  `con_position` varchar(250) DEFAULT NULL,
-  `address` text,
-  `suburb` varchar(250) DEFAULT NULL,
-  `state` varchar(250) DEFAULT NULL,
-  `country` varchar(250) DEFAULT NULL,
-  `postcode` varchar(20) DEFAULT NULL,
-  `telephone` varchar(250) DEFAULT NULL,
-  `fax` varchar(250) DEFAULT NULL,
-  `misc` mediumtext,
-  `image` varchar(100) DEFAULT NULL,
-  `imagepos` varchar(20) DEFAULT NULL,
-  `email_to` varchar(100) DEFAULT NULL,
-  `default_con` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `published` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `params` text,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `catid` int(11) NOT NULL DEFAULT '0',
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-# Dumping data for table #__contact_details: 1 rows
-
-INSERT INTO `#__contact_details` (`id`, `name`, `con_position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `imagepos`, `email_to`, `default_con`, `published`, `checked_out`, `checked_out_time`, `ordering`, `params`, `user_id`, `catid`, `access`) VALUES
-	(1, 'Joostina Lotos', 'Положение', 'Улица', 'Район', 'Область(край)', 'Российская Федерация', 'Индекс', 'Телефон', 'Факс', 'www.joostina-cms.ru', '', 'top', 'info@joostina-cms.ru', 0, 1, 0, '0000-00-00 00:00:00', 1, 'menu_image=-1\npageclass_sfx=\nprint=\nback_button=\nname=1\nposition=0\nemail=1\nstreet_address=0\nsuburb=0\nstate=0\ncountry=1\npostcode=0\ntelephone=0\nfax=0\nmisc=1\nimage=0\nvcard=0\nemail_description=0\nemail_description_text=\nemail_form=1\nemail_copy=0\ndrop_down=0\ncontact_icons=1\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nrobots=-1\nmeta_description=\nmeta_keywords=\nmeta_author=', 0, 12, 0);
 
 # Dumping structure for table #__content_rating
 
@@ -1202,15 +1114,11 @@ INSERT INTO `#__mambots` (`id`, `name`, `element`, `folder`, `access`, `ordering
 	(4, 'SEF', 'mossef', 'content', 0, 3, 0, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(5, 'Рейтинг статей', 'plugin_jw_ajaxvote', 'content', 0, 4, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
 	(6, 'Поиск в контенте JoiBoss', 'boss.searchbot', 'search', 0, 1, 1, 0, 0, 0, '0000-00-00 00:00:00', 'directory=1\ncontent_field=content_editor\nsearch_limit=50\ngroup_results=1'),
-	(7, 'Поиск веб-ссылок', 'weblinks.searchbot', 'search', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
 	(8, 'Поддержка кода', 'moscode', 'content', 0, 2, 0, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(9, 'Простой редактор HTML', 'none', 'editors', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
 	(10, 'Кнопка изображения MOS в редакторе', 'mosimage.btn', 'editors-xtd', 0, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(11, 'Кнопка разрыва страницы MOS в редакторе', 'mospage.btn', 'editors-xtd', 0, 0, 1, 0, 0, 0, '0000-00-00 00:00:00', ''),
-	(12, 'Поиск контактов', 'contacts.searchbot', 'search', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
-	(13, 'Поиск категорий', 'categories.searchbot', 'search', 0, 4, 1, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(15, 'Маскировка E-mail', 'mosemailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', ''),
-	(16, 'Поиск лент новостей', 'newsfeeds.searchbot', 'search', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(17, 'Позиции загрузки модуля', 'mosloadposition', 'content', 0, 6, 0, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(18, 'Первый обработчик содержимого', 'first', 'mainbody', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', ''),
 	(19, 'Модуль на главной странице', 'frontpagemodule', 'content', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 'mod_position=banner\nmod_type=1\nmod_after=1'),
@@ -1251,7 +1159,6 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
 INSERT INTO `#__menu` (`id`, `menutype`, `name`, `link`, `type`, `published`, `parent`, `componentid`, `sublevel`, `ordering`, `checked_out`, `checked_out_time`, `pollid`, `browserNav`, `access`, `utaccess`, `params`) VALUES
 	(1, 'mainmenu', 'Главная', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 12, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'title=\npage_name=\nno_site_name=0\nrobots=-1\nmeta_description=\nmeta_keywords=\nmeta_author=\nmenu_image=-1\npageclass_sfx=\nheader=Добро пожаловать на главную страницу\npage_title=0\nback_button=0\nleading=2\nintro=2\ncolumns=1\nlink=0\norderby_pri=\norderby_sec=front\npagination=2\npagination_results=0\nimage=1\nsection=0\nsection_link=0\nsection_link_type=blog\ncategory=1\ncategory_link=0\ncat_link_type=blog\nitem_title=1\nlink_titles=1\nintro_only=1\nview_introtext=1\nintrotext_limit=\nview_tags=1\nreadmore=0\nrating=0\nauthor=1\nauthor_name=0\ncreatedate=1\nmodifydate=0\nhits=\nprint=0\nemail=0\nunpublished=0'),
 	(15, 'usermenu', 'Панель управления', 'administrator/', 'url', 1, 0, 0, 0, 6, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1'),
-	(16, 'usermenu', 'Добавить ссылку', 'index.php?option=com_weblinks&task=new', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, ''),
 	(17, 'usermenu', 'Разблокировать содержимое', 'index.php?option=com_users&task=CheckIn', 'url', 1, 0, 0, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, ''),
 	(31, 'mainmenu', 'Файловый архив', 'index.php?option=com_boss&task=show_all&directory=6', 'boss_all_content', 1, 0, 0, 0, 15, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'title=\nmenu_image='),
 	(32, 'mainmenu', 'Контакты', 'index.php?option=com_boss&task=show_all&directory=7', 'boss_all_content', 1, 0, 0, 0, 16, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'title=\nmenu_image='),
@@ -1391,25 +1298,6 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 	(50, 0),
 	(51, 0),
 	(52, 0);
-
-# Dumping structure for table #__newsfeeds
-
-CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
-  `catid` int(11) NOT NULL DEFAULT '0',
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `link` text,
-  `filename` varchar(200) DEFAULT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `numarticles` int(11) unsigned NOT NULL DEFAULT '1',
-  `cache_time` int(11) unsigned NOT NULL DEFAULT '3600',
-  `checked_out` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `code` int(2) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `published` (`published`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 # Dumping structure for table #__polls
 
@@ -1641,28 +1529,6 @@ INSERT INTO `#__usertypes` (`id`, `name`, `mask`) VALUES
 	(5, 'publisher', ''),
 	(6, 'manager', '');
 
-# Dumping structure for table #__weblinks
-
-CREATE TABLE IF NOT EXISTS `#__weblinks` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `catid` int(11) NOT NULL DEFAULT '0',
-  `sid` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(250) NOT NULL DEFAULT '',
-  `url` varchar(250) NOT NULL DEFAULT '',
-  `description` varchar(250) NOT NULL DEFAULT '',
-  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `hits` int(11) NOT NULL DEFAULT '0',
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `archived` tinyint(1) NOT NULL DEFAULT '0',
-  `approved` tinyint(1) NOT NULL DEFAULT '1',
-  `params` text,
-  PRIMARY KEY (`id`),
-  KEY `catid` (`catid`,`published`,`archived`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
 # Dumping structure for table #__xmap
 
 CREATE TABLE IF NOT EXISTS `#__xmap` (
@@ -1700,8 +1566,7 @@ CREATE TABLE IF NOT EXISTS `#__xmap_ext` (
 DELETE FROM `#__xmap_ext`;
 /*!40000 ALTER TABLE `#__xmap_ext` DISABLE KEYS */;
 INSERT INTO `#__xmap_ext` (`id`, `extension`, `published`, `params`) VALUES
-	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}'),
-	(2, 'com_weblinks', 1, '');
+	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}');
 
 # Dumping structure for table #__xmap_sitemap
 

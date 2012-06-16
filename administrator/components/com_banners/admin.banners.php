@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 // ensure user has access to this function
-if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_banners'))) {
+if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_banners'))){
 	mosRedirect('index2.php', _NOT_AUTH);
 }
 
@@ -25,11 +25,11 @@ require_once ($mainframe->getPath('class'));
 
 $cid = josGetArrayInts('cid');
 
-if(intval($cid[0])==0) {
-	$cid[0] = intval(mosGetParam($_REQUEST,'cid',0));
+if(intval($cid[0]) == 0){
+	$cid[0] = intval(mosGetParam($_REQUEST, 'cid', 0));
 }
 
-switch($task) {
+switch($task){
 	// OTHER EVENTS
 
 	case 'newcategory':
@@ -152,7 +152,7 @@ switch($task) {
 }
 
 
-function cPanel($option) {
+function cPanel($option){
 	$database = database::getInstance();
 
 	$info_banner = array();
@@ -166,17 +166,17 @@ function cPanel($option) {
 	** Conta i banner attivi
 	*/
 	$sql = "SELECT count(b.id) as attivi"
-			. "\nFROM #__banners as b"
-			. "\nwhere b.state = 1"
-			. "\nAND ('$date' <= b.publish_down_date OR b.publish_down_date = '0000-00-00')"
-			. "\nAND '$date' >= b.publish_up_date"
-			."\nAND '$time' >= b.publish_up_time"
-			. "\nAND ('$time' <= b.publish_down_time OR b.publish_down_time = '00:00:00')";
+		. "\nFROM #__banners as b"
+		. "\nwhere b.state = 1"
+		. "\nAND ('$date' <= b.publish_down_date OR b.publish_down_date = '0000-00-00')"
+		. "\nAND '$date' >= b.publish_up_date"
+		. "\nAND '$time' >= b.publish_up_time"
+		. "\nAND ('$time' <= b.publish_down_time OR b.publish_down_time = '00:00:00')";
 
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -190,7 +190,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -204,7 +204,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -218,7 +218,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -233,7 +233,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -248,7 +248,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -263,7 +263,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -278,7 +278,7 @@ function cPanel($option) {
 
 	$database->setQuery($sql);
 
-	if(!$result = $database->loadObjectList()) {
+	if(!$result = $database->loadObjectList()){
 		echo $database->stderr();
 		return false;
 	}
@@ -289,11 +289,11 @@ function cPanel($option) {
 	return HTML_banners::cPanel($info_banner, $info_clients, $info_categories, $option);
 }
 
-function viewBanners($option) {
+function viewBanners($option){
 
 	$database = database::getInstance();
 	$mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+	$my = $mainframe->getUser();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}bannerslimitstart", 'limitstart', 0));
@@ -302,36 +302,36 @@ function viewBanners($option) {
 
 	// get the total number of records
 	$database->setQuery("SELECT count(*) FROM #__banners");
-	if(($total = $database->loadResult()) == null) {
+	if(($total = $database->loadResult()) == null){
 		echo $database->stderr();
 		return false;
 	}
 
-	require_once (JPATH_BASE . '/'.JADMIN_BASE.'/includes/pageNavigation.php');
+	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
-	if($catid > 0) {
+	if($catid > 0){
 		$where = " AND a.tid = '$catid' ";
 	}
 
-	if($cliid > 0) {
+	if($cliid > 0){
 		$where .= " AND a.cid = '$cliid' ";
 	}
 
 	$query = "SELECT a.*, u.name AS editor, "
-			. "\n c.name as category, c.published as cat_pub, cl.published as cl_pub, "
-			. "\n cl.name as cl_name"
-			. "\n FROM #__banners AS a"
-			. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
-			."\n LEFT JOIN #__banners_categories AS c ON c.id = a.tid"
-			. "\n LEFT JOIN #__banners_clients AS cl ON cl.cid = a.cid"
-			. "\n WHERE 1 $where"
-			. "\n ORDER BY c.name, a.name";
+		. "\n c.name as category, c.published as cat_pub, cl.published as cl_pub, "
+		. "\n cl.name as cl_name"
+		. "\n FROM #__banners AS a"
+		. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
+		. "\n LEFT JOIN #__banners_categories AS c ON c.id = a.tid"
+		. "\n LEFT JOIN #__banners_clients AS cl ON cl.cid = a.cid"
+		. "\n WHERE 1 $where"
+		. "\n ORDER BY c.name, a.name";
 	$database->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 	$banners = $database->loadObjectList();
 
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -341,7 +341,7 @@ function viewBanners($option) {
 	$database->setQuery($query);
 	$banners_categories = $database->loadObjectList();
 
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -355,7 +355,7 @@ function viewBanners($option) {
 	$database->setQuery($query);
 	$banners_clients = $database->loadObjectList();
 
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -367,19 +367,19 @@ function viewBanners($option) {
 	HTML_banners::showBanners($banners, $categorieslist, $clientlist, $my->id, $pageNav, $option);
 }
 
-function editBanner($bannerid, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function editBanner($bannerid, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$banner = new mosArtBanner($database);
 
-	if($bannerid) {
+	if($bannerid){
 		// load the row from the db table
 		$banner->load($bannerid);
 
 		// fail if checked out not by 'me'
-		if($banner->checked_out && $banner->checked_out != $my->id) {
+		if($banner->checked_out && $banner->checked_out != $my->id){
 			mosRedirect("index2.php?option=$option&task=banners", sprintf(_ABP_BANNER_IN_USE, $banner->name));
 		}
 	}
@@ -389,7 +389,7 @@ function editBanner($bannerid, $option) {
 	$database->setQuery($query);
 	$banners_clients = $database->loadObjectList();
 
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -403,7 +403,7 @@ function editBanner($bannerid, $option) {
 	$database->setQuery($query);
 	$banners_categories = $database->loadObjectList();
 
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -418,8 +418,8 @@ function editBanner($bannerid, $option) {
 	$imgFiles = mosReadDirectory(JPATH_BASE . "/images/show");
 	$images = array();
 	$images[] = mosHTML::makeOption('', _ABP_PSANIMG);
-	foreach($imgFiles as $file) {
-		if(preg_match("/(\.bmp|\.gif|\.jpg|\.jpeg|\.png|\.swf)$/i", $file)) {
+	foreach($imgFiles as $file){
+		if(preg_match("/(\.bmp|\.gif|\.jpg|\.jpeg|\.png|\.swf)$/i", $file)){
 			$images[] = mosHTML::makeOption($file);
 			// get image info
 			$image_info = @getimagesize(JPATH_BASE . "/images/show/" . $file);
@@ -437,10 +437,10 @@ function editBanner($bannerid, $option) {
 	// build the html select list
 	$glist = mosHTML::selectList($groups, 'access', 'class="inputbox" size="1"', 'value', 'text', intval($banner->access));
 
-	if($bannerid) {
+	if($bannerid){
 		$banner->checkout($my->id);
 
-		if($banner->publish_down_date == "0000-00-00") {
+		if($banner->publish_down_date == "0000-00-00"){
 			$banner->publish_down_date = _ABP_NEVER;
 		}
 
@@ -451,7 +451,7 @@ function editBanner($bannerid, $option) {
 		$event_down = new mosArtBannersTime($banner->publish_down_time);
 		$banner->publish_down_hour = $event_down->hour;
 		$banner->publish_down_minute = $event_down->minute;
-	} else {
+	} else{
 		$banner->publish_up_date = mosCurrentDate("%Y-%m-%d");
 		$banner->publish_down_date = _ABP_NEVER;
 		$banner->publish_up_hour = "00";
@@ -465,7 +465,7 @@ function editBanner($bannerid, $option) {
 	HTML_banners::editBanner($banner, $clientlist, $categorieslist, $ilist, $glist, $option, $dimension);
 }
 
-function saveBanner($option, $task) {
+function saveBanner($option, $task){
 	$database = database::getInstance();
 
 	$_publish_up_date = trim(mosGetParam($_POST, '_publish_up_date', '0000-00-00'));
@@ -479,7 +479,7 @@ function saveBanner($option, $task) {
 
 	$banner = new mosArtBanner($database);
 
-	if(!$banner->bind($_POST)) {
+	if(!$banner->bind($_POST)){
 		echo "<script> alert('" . $banner->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -487,105 +487,105 @@ function saveBanner($option, $task) {
 	$msg = '';
 
 	// Resets clicks when `Reset Clicks` button is used instead of `Save` button
-	if($task == 'resethits') {
+	if($task == 'resethits'){
 		$banner->clicks = 0;
 		$msg = _BANNER_COUNTER_RESETTED;
 		$banner->dta_mod_clicks = mosCurrentDate("%Y-%m-%d");
 	} else
-	if($banner->dta_mod_clicks == '0000-00-00') {
-		$banner->dta_mod_clicks = mosCurrentDate("%Y-%m-%d");
-	}
+		if($banner->dta_mod_clicks == '0000-00-00'){
+			$banner->dta_mod_clicks = mosCurrentDate("%Y-%m-%d");
+		}
 
 	// assemble the starting time
-	if(intval($_publish_up_date) && $_publish_up_date != '0000-00-00') {
+	if(intval($_publish_up_date) && $_publish_up_date != '0000-00-00'){
 		$banner->publish_up_date = $_publish_up_date;
 
 		// verifica formalita' della data inizio
-		if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $banner->publish_up_date, $regs)) {
-			if(!checkdate($regs[2], $regs[3], $regs[1])) {
-				echo "<script> alert('"._CHECK_PUBLISH_DATE."'); window.history.go(-1); </script>\n";
+		if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $banner->publish_up_date, $regs)){
+			if(!checkdate($regs[2], $regs[3], $regs[1])){
+				echo "<script> alert('" . _CHECK_PUBLISH_DATE . "'); window.history.go(-1); </script>\n";
 				exit();
 			}
-		} else {
-			echo "<script> alert('"._CHECK_PUBLISH_DATE."'); window.history.go(-1); </script>\n";
+		} else{
+			echo "<script> alert('" . _CHECK_PUBLISH_DATE . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
-	} else {
+	} else{
 		$banner->publish_up_date = mosCurrentDate("%Y-%m-%d");
 	}
 
 	$banner->publish_up_time = "$_publish_up_hour:$_publish_up_minute:00";
 
-	if(preg_match("/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $banner->publish_up_time, $regs)) {
-		if($regs[1] > 24 || $regs[2] > 60 || $regs[3] > 60) {
-			echo "<script> alert('"._CHECK_START_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+	if(preg_match("/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $banner->publish_up_time, $regs)){
+		if($regs[1] > 24 || $regs[2] > 60 || $regs[3] > 60){
+			echo "<script> alert('" . _CHECK_START_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
-	} else {
-		echo "<script> alert('"._CHECK_START_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+	} else{
+		echo "<script> alert('" . _CHECK_START_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	// assemble the finishing time
-	if(intval($_publish_down_date) && $_publish_down_date != '0000-00-00') {
+	if(intval($_publish_down_date) && $_publish_down_date != '0000-00-00'){
 		$banner->publish_down_date = $_publish_down_date;
 
 		// verifica formalita' della data fine
-		if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $banner->publish_down_date, $regs)) {
-			if(!checkdate($regs[2], $regs[3], $regs[1])) {
-				echo "<script> alert('"._CHECK_END_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+		if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/", $banner->publish_down_date, $regs)){
+			if(!checkdate($regs[2], $regs[3], $regs[1])){
+				echo "<script> alert('" . _CHECK_END_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 				exit();
 			}
-		} else {
-			echo "<script> alert('"._CHECK_END_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+		} else{
+			echo "<script> alert('" . _CHECK_END_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
 
-	} else {
+	} else{
 		$banner->publish_down_date = "0000-00-00";
 	}
 
 	$banner->publish_down_time = "$_publish_down_hour:$_publish_down_minute:00";
 
-	if(preg_match("/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $banner->publish_down_time, $regs)) {
-		if($regs[1] > 24 || $regs[2] > 60 || $regs[3] > 60) {
-			echo "<script> alert('"._CHECK_END_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+	if(preg_match("/([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $banner->publish_down_time, $regs)){
+		if($regs[1] > 24 || $regs[2] > 60 || $regs[3] > 60){
+			echo "<script> alert('" . _CHECK_END_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 			exit();
 		}
-	} else {
-		echo "<script> alert('"._CHECK_END_PUBLICATION_DATE."'); window.history.go(-1); </script>\n";
+	} else{
+		echo "<script> alert('" . _CHECK_END_PUBLICATION_DATE . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	// Verifico se la data fine e' piu' grande della data inizio
-	if($banner->publish_down_date != '0000-00-00' && $banner->publish_up_date > $banner->publish_down_date) {
+	if($banner->publish_down_date != '0000-00-00' && $banner->publish_up_date > $banner->publish_down_date){
 		echo "<script> alert('" . _ABP_BN_DATE . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if($banner->publish_up_date != $banner->publish_down_date) {
+	if($banner->publish_up_date != $banner->publish_down_date){
 		$banner->reccurtype = intval($banner->reccurtype);
-	} else {
+	} else{
 		$banner->reccurtype = 0;
 	}
 
 	// Reccur week days
-	if($banner->reccurtype != 0 && is_array($reccurweekdays)) {
+	if($banner->reccurtype != 0 && is_array($reccurweekdays)){
 		$banner->reccurweekdays = implode(',', $reccurweekdays);
 	}
 
-	if(!$banner->check()) {
+	if(!$banner->check()){
 		echo "<script> alert('" . $banner->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	if(!$banner->store()) {
+	if(!$banner->store()){
 		echo "<script> alert('" . $banner->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
 	$banner->checkin();
 
-	if($send_email == 'on') {
+	if($send_email == 'on'){
 		$client = new mosArtBannerClient($database);
 		$client->load($banner->cid);
 
@@ -603,14 +603,14 @@ function saveBanner($option, $task) {
 	$catid = ($catid > 0) ? '&catid=' . $catid : '';
 	$cliid = ($cliid > 0) ? '&cliid=' . $cliid : '';
 
-	if($task == 'applybanner') {
+	if($task == 'applybanner'){
 		mosRedirect("index2.php?option=$option" . $catid . $cliid . "&task=editbanner&cid=" . $banner->id, $msg);
-	} else {
+	} else{
 		mosRedirect("index2.php?option=$option&task=banners" . $catid . $cliid, $msg);
 	}
 }
 
-function cancelEditBanner($option) {
+function cancelEditBanner($option){
 	$database = database::getInstance();
 
 	$banner = new mosArtBanner($database);
@@ -626,12 +626,12 @@ function cancelEditBanner($option) {
 	mosRedirect("index2.php?option=$option&task=banners" . $catid . $cliid);
 }
 
-function publishBanner($cid, $publish = 1, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function publishBanner($cid, $publish = 1, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		$action = $publish ? _ABP_L_PUBLISH : _HIDE;
 		echo "<script> alert('" . sprintf(_ABP_SELECT_ITEM_TO, $action) . "'); window.history.go(-1);</script>\n";
 		exit;
@@ -642,12 +642,12 @@ function publishBanner($cid, $publish = 1, $option) {
 	$date = mosCurrentDate("%Y-%m-%d");
 
 	$database->setQuery("UPDATE #__banners SET state='$publish'" . "\nWHERE id IN ($cids) AND (checked_out=0 OR (checked_out='$my->id'))" . "\nand ('$date' <= publish_down_date or publish_down_date = '0000-00-00')");
-	if(!$database->query()) {
+	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(count($cid) == 1) {
+	if(count($cid) == 1){
 		$banner = new mosArtBanner($database);
 		$banner->checkin($cid[0]);
 	}
@@ -661,12 +661,12 @@ function publishBanner($cid, $publish = 1, $option) {
 	mosRedirect("index2.php?option=$option&task=banners" . $catid . $cliid);
 }
 
-function removeBanner($cid, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function removeBanner($cid, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		echo "<script> alert('" . _ABP_PSACLI . "'); window.history.go(-1);</script>\n";
 		exit;
 	}
@@ -675,14 +675,14 @@ function removeBanner($cid, $option) {
 
 	$banner = new mosArtBanner($database);
 
-	for($i = 0, $count = count($cid); $i < $count; $i++) {
+	for($i = 0, $count = count($cid); $i < $count; $i++){
 		$cids = $cid[$i];
 		$banner->load($cids);
-		if($banner->checked_out && $banner->checked_out != $my->id) {
+		if($banner->checked_out && $banner->checked_out != $my->id){
 			$msg .= sprintf(_ABP_BANNER_IN_USE, $banner->name) . '<br>';
-		} else {
+		} else{
 			$database->setQuery("DELETE FROM #__banners WHERE id = $cids");
-			if(!$database->query()) {
+			if(!$database->query()){
 				echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 			}
 		}
@@ -699,10 +699,10 @@ function removeBanner($cid, $option) {
 
 // ---------- BANNER CLIENTS ----------
 
-function viewBannerClients($option) {
+function viewBannerClients($option){
 	$database = database::getInstance();
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}clientslimitstart", 'limitstart', 0));
@@ -710,7 +710,7 @@ function viewBannerClients($option) {
 
 	// get the total number of records
 	$database->setQuery("SELECT count(*) FROM #__banners_clients");
-	if(($total = $database->loadResult()) == null) {
+	if(($total = $database->loadResult()) == null){
 		echo $database->stderr();
 		return false;
 	}
@@ -719,11 +719,11 @@ function viewBannerClients($option) {
 	$date = mosCurrentDate("%Y-%m-%d");
 	$time = mosCurrentDate("%H:%M:%S");
 
-	require_once (JPATH_BASE . '/'.JADMIN_BASE.'/includes/pageNavigation.php');
+	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
-	if($published != -1) {
+	if($published != -1){
 		$published = intval($published);
 		$where = " where a.published  = $published ";
 	}
@@ -734,7 +734,7 @@ function viewBannerClients($option) {
 
 	$info_banner = array();
 	$_c = count($clients);
-	for($i = 0, $n = $_c; $i < $n; $i++) {
+	for($i = 0, $n = $_c; $i < $n; $i++){
 
 		$cid = $clients[$i]->cid;
 
@@ -781,19 +781,19 @@ function viewBannerClients($option) {
 	HTML_bannerClient::showClients($clients, $info_banner, $my->id, $pageNav, $option, $stateslist);
 }
 
-function editBannerClient($clientid, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function editBannerClient($clientid, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$client = new mosArtBannerClient($database);
 
-	if($clientid) {
+	if($clientid){
 		// load the row from the db table
 		$client->load($clientid);
 
 		// fail if checked out not by 'me'
-		if($client->checked_out && $client->checked_out != $my->id) {
+		if($client->checked_out && $client->checked_out != $my->id){
 			mosRedirect("index2.php?option=$option&task=clients", sprintf(_ABP_CICBEBAA, $client->name));
 		}
 
@@ -804,24 +804,24 @@ function editBannerClient($clientid, $option) {
 	HTML_bannerClient::editClient($client, $option);
 }
 
-function saveBannerClient($option) {
+function saveBannerClient($option){
 	$database = database::getInstance();
 
 	$client = new mosArtBannerClient($database);
 
 	$client->published = 1;
 
-	if(!$client->bind($_POST)) {
+	if(!$client->bind($_POST)){
 		echo "<script> alert('" . $client->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(!$client->check()) {
+	if(!$client->check()){
 		echo "<script> alert('" . $client->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(!$client->store()) {
+	if(!$client->store()){
 		echo "<script> alert('" . $client->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -831,12 +831,12 @@ function saveBannerClient($option) {
 	mosRedirect("index2.php?option=$option&task=clients");
 }
 
-function publishClient($cid = null, $publish = 1) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function publishClient($cid = null, $publish = 1){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		$action = $publish ? _ABP_SACT_PUB : _ABP_SACT_UNPUB;
 		echo "<script> alert('" . sprintf(_ABP_SACT, $action) . "'); window.history.go(-1);</script>\n";
 		exit;
@@ -846,12 +846,12 @@ function publishClient($cid = null, $publish = 1) {
 
 	$database->setQuery("UPDATE #__banners_clients SET published='$publish'" . "\nWHERE cid IN ($cids) AND (checked_out=0 OR (checked_out='$my->id'))");
 
-	if(!$database->query()) {
+	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(count($cid) == 1) {
+	if(count($cid) == 1){
 		$category = new mosArtCategory($database);
 		$category->checkin($cid[0]);
 	}
@@ -859,7 +859,7 @@ function publishClient($cid = null, $publish = 1) {
 	mosRedirect("index2.php?option=com_banners&task=clients");
 }
 
-function cancelEditClient($option) {
+function cancelEditClient($option){
 	$database = database::getInstance();
 
 	$client = new mosArtBannerClient($database);
@@ -868,12 +868,12 @@ function cancelEditClient($option) {
 	mosRedirect("index2.php?option=$option&task=clients");
 }
 
-function removeBannerClients($cid, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function removeBannerClients($cid, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		echo "<script> alert('" . _ABP_PSACLI . "'); window.history.go(-1);</script>\n";
 		exit;
 	}
@@ -882,35 +882,35 @@ function removeBannerClients($cid, $option) {
 
 	$database->setQuery("SELECT c.cid, c.name" . "\nFROM #__banners_clients AS c" . "\nWHERE c.cid IN ($cids)" . "\nGROUP BY c.cid");
 
-	if(!($rows = $database->loadObjectList())) {
+	if(!($rows = $database->loadObjectList())){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 	}
 
 	$err = array();
 	$cid = array();
-	foreach($rows as $row) {
+	foreach($rows as $row){
 
 		$database->setQuery("SELECT count(*) from #__banners where cid = " . $row->cid);
-		if(($count = $database->loadResult()) == null) {
+		if(($count = $database->loadResult()) == null){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		}
 
-		if($count == 0) {
+		if($count == 0){
 			$cid[] = $row->cid;
-		} else {
+		} else{
 			$err[] = $row->name;
 		}
 	}
 
-	if(count($cid)) {
+	if(count($cid)){
 		$cids = implode(',', $cid);
 		$database->setQuery("DELETE FROM #__banners_clients WHERE cid IN ($cids)");
-		if(!$database->query()) {
+		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		}
 	}
 
-	if(count($err)) {
+	if(count($err)){
 		$err = implode("\', \'", $err);
 		mosRedirect("index2.php?option=com_banners&task=clients" . "&mosmsg=" . urlencode(sprintf(_ABP_CDCATTATHABSR, $err)));
 	}
@@ -925,9 +925,9 @@ function removeBannerClients($cid, $option) {
  * @param string The name of the category section
  * @param string The name of the current user
  */
-function viewCategories($option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function viewCategories($option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mainframe->getCfg('list_limit')));
@@ -936,16 +936,16 @@ function viewCategories($option) {
 
 	// get the total number of records
 	$database->setQuery("SELECT count(*) FROM #__banners_categories");
-	if(($total = $database->loadResult()) == null) {
+	if(($total = $database->loadResult()) == null){
 		echo $database->stderr();
 		return false;
 	}
 
-	require_once (JPATH_BASE . '/'.JADMIN_BASE.'/includes/pageNavigation.php');
+	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
-	if($published != -1) {
+	if($published != -1){
 		$published = intval($published);
 		$where = " where c.published  = $published ";
 	}
@@ -955,7 +955,7 @@ function viewCategories($option) {
 	$database->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 
 	$rows = $database->loadObjectList();
-	if($database->getErrorNum()) {
+	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
 	}
@@ -976,19 +976,19 @@ function viewCategories($option) {
  * @param integer The unique id of the category to edit (0 if new)
  * @param string The name of the current user
  */
-function editCategory($cid, $option) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function editCategory($cid, $option){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
 	$category = new mosArtCategory($database);
 
-	if($cid) {
+	if($cid){
 		// load the row from the db table
 		$category->load(intval($cid));
 
 		// fail if checked out not by 'me'
-		if($category->checked_out && $category->checked_out != $my->id) {
+		if($category->checked_out && $category->checked_out != $my->id){
 			mosRedirect("index2.php?option=com_banners&task=categories", sprintf(_ABP_TCICBEBAA, $category->name));
 		}
 
@@ -1002,23 +1002,23 @@ function editCategory($cid, $option) {
  * Saves the catefory after an edit form submit
  * @param string The name of the category section
  */
-function saveCategory($option) {
+function saveCategory($option){
 	$database = database::getInstance();
 
 	$category = new mosArtCategory($database);
 
 	$category->published = 1;
 
-	if(!$category->bind($_POST)) {
+	if(!$category->bind($_POST)){
 		echo "<script> alert('" . $category->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	if(!$category->check()) {
+	if(!$category->check()){
 		echo "<script> alert('" . $category->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(!$category->store()) {
+	if(!$category->store()){
 		echo "<script> alert('" . $category->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
@@ -1026,14 +1026,15 @@ function saveCategory($option) {
 
 	mosRedirect("index2.php?option=$option&task=categories");
 }
+
 /**
  * Deletes one or more com_artbanners from the artbanners_categories table
  * @param array An array of unique category id numbers
  */
-function removeCategories($cid, $option) {
+function removeCategories($cid, $option){
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		echo "<script> alert('" . _CHOOSE_CATEGORY_TO_REMOVE . "'); window.history.go(-1);</script>\n";
 		exit;
 	}
@@ -1042,33 +1043,33 @@ function removeCategories($cid, $option) {
 
 	$database->setQuery("SELECT c.id, c.name" . "\nFROM #__banners_categories AS c" . "\nWHERE c.id IN ($cids)" . "\nGROUP BY c.id");
 
-	if(!($rows = $database->loadObjectList())) {
+	if(!($rows = $database->loadObjectList())){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 	}
 
 	$err = array();
 	$cid = array();
-	foreach($rows as $row) {
+	foreach($rows as $row){
 
 		$database->setQuery("SELECT count(*) from #__banners where tid = " . $row->id);
 		$count = $database->loadResult();
 
-		if($count == 0) {
+		if($count == 0){
 			$cid[] = $row->id;
-		} else {
+		} else{
 			$err[] = $row->name;
 		}
 	}
 
-	if(count($cid)) {
+	if(count($cid)){
 		$cids = implode(',', $cid);
 		$database->setQuery("DELETE FROM #__banners_categories WHERE id IN ($cids)");
-		if(!$database->query()) {
+		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		}
 	}
 
-	if(count($err)) {
+	if(count($err)){
 		$cids = implode("\', \'", $err);
 		mosRedirect("index2.php?option=com_banners&task=categories" . "&mosmsg=" . urlencode(sprintf(_ABP_CCBRATCR, $cids)));
 	}
@@ -1082,12 +1083,12 @@ function removeCategories($cid, $option) {
  * @param array An array of unique category id numbers
  * @param integer 0 if unpublishing, 1 if publishing
  */
-function publishCategories($cid = null, $publish = 1) {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function publishCategories($cid = null, $publish = 1){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 	$database = database::getInstance();
 
-	if(!is_array($cid) || count($cid) == 0) {
+	if(!is_array($cid) || count($cid) == 0){
 		$action = $publish ? _ABP_SACT_PUB : _ABP_SACT_UNPUB;
 		echo "<script> alert('" . sprintf(_ABP_SACT, $action) . "'); window.history.go(-1);</script>\n";
 		exit;
@@ -1096,12 +1097,12 @@ function publishCategories($cid = null, $publish = 1) {
 	$cids = implode(',', $cid);
 
 	$database->setQuery("UPDATE #__banners_categories SET published='$publish'" . "\nWHERE id IN ($cids) AND (checked_out=0 OR (checked_out='$my->id'))");
-	if(!$database->query()) {
+	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	if(count($cid) == 1) {
+	if(count($cid) == 1){
 		$category = new mosArtCategory($database);
 		$category->checkin($cid[0]);
 	}
@@ -1112,7 +1113,7 @@ function publishCategories($cid = null, $publish = 1) {
 /**
  * Cancels an edit operation
  */
-function cancelEditCategory($option) {
+function cancelEditCategory($option){
 	$database = database::getInstance();
 
 	$category = new mosArtCategory($database);
@@ -1122,28 +1123,28 @@ function cancelEditCategory($option) {
 }
 
 
-function buildReccurTypeSelect($reccurtype, $args) {
+function buildReccurTypeSelect($reccurtype, $args){
 	$recur[] = mosHTML::makeOption('0', _ABP_ALLDAYS);
 	$recur[] = mosHTML::makeOption('1', _ABP_EACHWEEK);
 	$tosend = mosHTML::selectList($recur, 'reccurtype', $args, 'value', 'text', $reccurtype);
 	echo $tosend;
 }
 
-function buildWeekDaysCheck($reccurweekdays, $args) {
+function buildWeekDaysCheck($reccurweekdays, $args){
 	$day_name = array('<span style="color:#ff0000">' . _ABP_SUN . "</span>", _ABP_MON, _ABP_TUE, _ABP_WED, _ABP_THU, _ABP_FRI, _ABP_SAT);
 
 	$tosend = '';
 	$split = array();
 	$countsplit = 0;
-	if(!empty($reccurweekdays)) {
+	if(!empty($reccurweekdays)){
 		$split = explode(",", $reccurweekdays);
 		$countsplit = count($split);
 	}
 
-	for($a = 0; $a < 7; $a++) {
+	for($a = 0; $a < 7; $a++){
 		$checked = '';
-		for($x = 0; $x < $countsplit; $x++) {
-			if($split[$x] == $a) {
+		for($x = 0; $x < $countsplit; $x++){
+			if($split[$x] == $a){
 				$checked = 'CHECKED';
 			}
 		}
@@ -1152,51 +1153,51 @@ function buildWeekDaysCheck($reccurweekdays, $args) {
 	echo $tosend;
 }
 
-function getLongDayName($daynb) {
+function getLongDayName($daynb){
 
-	if($daynb == "0") {
+	if($daynb == "0"){
 		$dayname = '<span style="color:#ff0000">' . _ABP_SUNDAY . "</span>";
-	} elseif($daynb == "1") {
+	} elseif($daynb == "1"){
 		$dayname = _ABP_MONDAY;
-	} elseif($daynb == "2") {
+	} elseif($daynb == "2"){
 		$dayname = _ABP_TUESDAY;
-	} elseif($daynb == "3") {
+	} elseif($daynb == "3"){
 		$dayname = _ABP_WEDNESDAY;
-	} elseif($daynb == "4") {
+	} elseif($daynb == "4"){
 		$dayname = _ABP_THURSDAY;
-	} elseif($daynb == "5") {
+	} elseif($daynb == "5"){
 		$dayname = _ABP_FRIDAY;
-	} elseif($daynb == "6") {
+	} elseif($daynb == "6"){
 		$dayname = _ABP_SATURDAY;
 	}
 
 	return $dayname;
 }
 
-function getShortDayName($daynb) {
-	if($daynb == "0") {
+function getShortDayName($daynb){
+	if($daynb == "0"){
 		$dayname = '<span style="color:#ff0000">' . _ABP_SUN . "</span>";
-	} elseif($daynb == "1") {
+	} elseif($daynb == "1"){
 		$dayname = _ABP_MON;
-	} elseif($daynb == "2") {
+	} elseif($daynb == "2"){
 		$dayname = _ABP_TUE;
-	} elseif($daynb == "3") {
+	} elseif($daynb == "3"){
 		$dayname = _ABP_WED;
-	} elseif($daynb == "4") {
+	} elseif($daynb == "4"){
 		$dayname = _ABP_THU;
-	} elseif($daynb == "5") {
+	} elseif($daynb == "5"){
 		$dayname = _ABP_FRI;
-	} elseif($daynb == "6") {
+	} elseif($daynb == "6"){
 		$dayname = _ABP_SAT;
 	}
 	return $dayname;
 }
 
-function restore($option) {
+function restore($option){
 	HTML_bannersOther::restore($option);
 }
 
-function getTextNode($node, $tag, $default = '') {
+function getTextNode($node, $tag, $default = ''){
 
 	$element = $node->getElementsByPath($tag, 1);
 
@@ -1205,7 +1206,7 @@ function getTextNode($node, $tag, $default = '') {
 	return $return;
 }
 
-function doRestore($option) {
+function doRestore($option){
 	$database = database::getInstance();
 
 	$media_path = JPATH_BASE . '/media/';
@@ -1213,26 +1214,26 @@ function doRestore($option) {
 	$userfile2 = (isset($_FILES['userfile']['tmp_name']) ? $_FILES['userfile']['tmp_name'] : "");
 	$userfile_name = (isset($_FILES['userfile']['name']) ? $_FILES['userfile']['name'] : "");
 
-	if(isset($_FILES['userfile'])) {
+	if(isset($_FILES['userfile'])){
 
-		if(empty($userfile_name)) {
+		if(empty($userfile_name)){
 			echo "<script>alert('", _ABP_SELECT_FILE, "');</script>";
 			mosRedirect("index2.php?option=$option&task=restore");
 		}
 
 		$filename = explode("\.", $userfile_name);
 
-		if(preg_match("/[^0-9a-zA-Z_]/i", $filename[0])) {
+		if(preg_match("/[^0-9a-zA-Z_]/i", $filename[0])){
 			mosErrorAlert(_ABP_ERROR_FILENAME);
 			mosRedirect("index2.php?option=$option&task=restore");
 		}
 
-		if(strcasecmp(substr($userfile_name, -4), ".xml")) {
+		if(strcasecmp(substr($userfile_name, -4), ".xml")){
 			mosErrorAlert(_ABP_ERROR_NOT_XML_FILE);
 			mosRedirect("index2.php?option=$option&task=restore");
 		}
 
-		if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $media_path . $_FILES['userfile']['name']) || !mosChmod($media_path . $_FILES['userfile']['name'])) {
+		if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $media_path . $_FILES['userfile']['name']) || !mosChmod($media_path . $_FILES['userfile']['name'])){
 			mosErrorAlert(_ABP_ERROR_LOAD_FILE . $userfile_name);
 			mosRedirect("index2.php?option=$option&task=restore");
 		}
@@ -1245,7 +1246,7 @@ function doRestore($option) {
 
 	$success = $xmldoc->loadXML($media_path . $userfile_name);
 
-	if(!$success) {
+	if(!$success){
 		//an error has occurred; echo to browser
 		$error = "Error code: " . $cdCollection->getErrorCode() . " - Error string: " . $cdCollection->getErrorString();
 		mosErrorAlert($error);
@@ -1256,7 +1257,7 @@ function doRestore($option) {
 	$root = &$xmldoc->documentElement;
 
 	//verifico se ha figli
-	if(!$xmldoc->documentElement->hasChildNodes()) {
+	if(!$xmldoc->documentElement->hasChildNodes()){
 		mosErrorAlert(_NONET_EXIST_BANNER_RESTORE);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
@@ -1265,37 +1266,37 @@ function doRestore($option) {
 	** Leggo i banners
 	*/
 	$bannersNodes = &$root->getElementsByPath('#__banners', 1);
-	if(is_null($bannersNodes) || !$bannersNodes->hasChildNodes()) {
+	if(is_null($bannersNodes) || !$bannersNodes->hasChildNodes()){
 		mosErrorAlert(_NONET_EXIST_BANNER_RESTORE);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
 
 	$banners = $bannersNodes->childNodes;
-	if(count($banners) == 0) {
+	if(count($banners) == 0){
 		mosErrorAlert(_NONET_EXIST_BANNER_RESTORE);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
 
 	$clientsNodes = &$root->getElementsByPath('#__banners_clients', 1);
-	if(is_null($clientsNodes) || !$clientsNodes->hasChildNodes()) {
+	if(is_null($clientsNodes) || !$clientsNodes->hasChildNodes()){
 		mosErrorAlert(_ABP_ERROR_NOT_EXIST_CLIENTS);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
 
 	$clients = $clientsNodes->childNodes;
-	if(count($clients) == 0) {
+	if(count($clients) == 0){
 		mosErrorAlert(_ABP_ERROR_NOT_EXIST_CLIENTS);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
 
 	$categoriesNodes = &$root->getElementsByPath('#__banners_categories', 1);
-	if(is_null($categoriesNodes) || !$categoriesNodes->hasChildNodes()) {
+	if(is_null($categoriesNodes) || !$categoriesNodes->hasChildNodes()){
 		mosErrorAlert(_ABP_ERROR_NOT_EXIST_CATEGORIES);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
 
 	$categories = $categoriesNodes->childNodes;
-	if(count($categories) == 0) {
+	if(count($categories) == 0){
 		mosErrorAlert(_ABP_ERROR_NOT_EXIST_CATEGORIES);
 		mosRedirect("index2.php?option=$option&task=restore");
 	}
@@ -1307,18 +1308,18 @@ function doRestore($option) {
 	$categorie = array();
 
 	// per ogni banner presente nel XML
-	foreach($banners as $banner) {
+	foreach($banners as $banner){
 
 		$new_cid = 0;
 		$new_tid = 0;
 
 		$cid = getTextNode($banner, 'cid');
 		// verifico se ho gia' inserito questo cliente
-		if(!in_array($cid, $clienti_inserti)) {
+		if(!in_array($cid, $clienti_inserti)){
 			// ... mi scorro tutti i clienti
-			foreach($clients as $client) {
+			foreach($clients as $client){
 				// ... trovo il cliente che mi interessa
-				if($cid == getTextNode($client, 'cid', 0)) {
+				if($cid == getTextNode($client, 'cid', 0)){
 					$artbannersclientsplus = new mosArtBannerClient($database);
 
 					$artbannersclientsplus->name = getTextNode($client, 'name');
@@ -1341,17 +1342,17 @@ function doRestore($option) {
 			$clienti_inserti[] = $cid;
 
 			$clienti['$cid'] = $new_cid;
-		} else {
+		} else{
 			$new_cid = $clienti['$cid'];
 		}
 
 		$tid = getTextNode($banner, 'tid');
 		// verifico se ho gia' inserito questa categoria
-		if(!in_array($tid, $categorie_inserte)) {
+		if(!in_array($tid, $categorie_inserte)){
 			// ... mi scorro tutte le categorie
-			foreach($categories as $category) {
+			foreach($categories as $category){
 				// ... trovo la categoria che mi interessa
-				if($tid == getTextNode($category, 'id', 0)) {
+				if($tid == getTextNode($category, 'id', 0)){
 					$artbannerscategoiriesplus = new mosArtCategory($database);
 
 					$artbannerscategoiriesplus->name = getTextNode($category, 'name');
@@ -1369,7 +1370,7 @@ function doRestore($option) {
 			// memorizzo la categoria appena inserita
 			$categorie_inserte[] = $tid;
 			$categorie['$tid'] = $new_tid;
-		} else {
+		} else{
 			$new_tid = $categorie['$tid'];
 		}
 
@@ -1417,18 +1418,18 @@ function doRestore($option) {
 	mosRedirect("index2.php?option=$option&catid=0&cliid=0", _ABP_RESTORE_OK);
 }
 
-function doBackup() {
+function doBackup(){
 	global $mosConfig_db, $mosConfig_sitename;
 
 	$database = database::getInstance();
 
 	$UserAgent = $_SERVER['HTTP_USER_AGENT'];
 
-	if(preg_match('/Opera(/| )([0-9].[0-9]{1,2})/', $UserAgent)) {
+	if(preg_match('/Opera(/| )([0-9].[0-9]{1,2})/', $UserAgent)){
 		$UserBrowser = "Opera";
-	} elseif(preg_match('/MSIE ([0-9].[0-9]{1,2})/', $UserAgent)) {
+	} elseif(preg_match('/MSIE ([0-9].[0-9]{1,2})/', $UserAgent)){
 		$UserBrowser = "IE";
-	} else {
+	} else{
 		$UserBrowser = '';
 	}
 
@@ -1444,11 +1445,11 @@ function doBackup() {
 	$tables[] = '#__banners';
 
 	/* Store all the FIELD TYPES being backed-up (text fields need to be delimited) in variable $FieldType*/
-	foreach($tables as $tblval) {
+	foreach($tables as $tblval){
 		$database->setQuery("SHOW FIELDS FROM $tblval");
 		$database->query();
 		$fields = $database->loadObjectList();
-		foreach($fields as $field) {
+		foreach($fields as $field){
 			$FieldType[$tblval][$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
 		}
 	}
@@ -1471,17 +1472,17 @@ function doBackup() {
 	$xmldoc->appendChild($rootElement);
 
 	/* Okay, here's the meat & potatoes */
-	foreach($tables as $tblval) {
+	foreach($tables as $tblval){
 		//create backup node
 		$TableElement = &$xmldoc->createElement($tblval);
 
 		$database->setQuery("SELECT * FROM $tblval");
 		$rows = $database->loadObjectList();
-		foreach($rows as $row) {
+		foreach($rows as $row){
 			$record = &$xmldoc->createElement('record');
 
 			$arr = mosObjectToArray($row);
-			foreach($arr as $key => $value) {
+			foreach($arr as $key => $value){
 				//create backup node
 				$fieldElement = &$xmldoc->createElement($key);
 
@@ -1508,11 +1509,11 @@ function doBackup() {
 	header('Content-Type: ' . $mime_type);
 	header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
-	if($UserBrowser == 'IE') {
+	if($UserBrowser == 'IE'){
 		header('Content-Disposition: inline; filename="' . $filename . '"');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-	} else {
+	} else{
 		header('Content-Disposition: attachment; filename="' . $filename . '"');
 		header('Pragma: no-cache');
 	}
@@ -1527,39 +1528,39 @@ function doBackup() {
 /*
 ** Return state of the banner
 */
-function getStato(&$row) {
+function getStato(&$row){
 
-	if($row->imp_made == $row->imp_total) {
+	if($row->imp_made == $row->imp_total){
 		return BANNER_TERMINATO;
 	}
 
 	$iRet = BANNER_NON_PUBBLICATO;
 
-	if($row->state == '1') {
+	if($row->state == '1'){
 
 		$now = mosCurrentDate("%Y-%m-%d");
 		$time = mosCurrentDate("%H:%M:%S");
 
-		if($now < $row->publish_up_date) {
+		if($now < $row->publish_up_date){
 			$iRet = BANNER_IN_ATTIVAZIONE;
 		} else
-		if($now == $row->publish_up_date && $time < $row->publish_up_time) {
-			$iRet = BANNER_IN_ATTIVAZIONE;
-		} else
-		if($now < $row->publish_down_date || $row->publish_down_date == '0000-00-00') {
+			if($now == $row->publish_up_date && $time < $row->publish_up_time){
+				$iRet = BANNER_IN_ATTIVAZIONE;
+			} else
+				if($now < $row->publish_down_date || $row->publish_down_date == '0000-00-00'){
 
-			$iRet = BANNER_ATTIV0;
-			if($row->publish_down_time < $time && $row->publish_down_time != '00:00:00') {
-				$iRet = BANNER_TERMINATO;
-			}
+					$iRet = BANNER_ATTIV0;
+					if($row->publish_down_time < $time && $row->publish_down_time != '00:00:00'){
+						$iRet = BANNER_TERMINATO;
+					}
 
-		} else
-		if($now == $row->publish_down_date && ($time <= $row->publish_down_time || $row->publish_down_time == '00:00:00')) {
-			$iRet = BANNER_ATTIV0;
-		} else
-		if($now >= $row->publish_down_date) {
-			$iRet = BANNER_TERMINATO;
-		}
+				} else
+					if($now == $row->publish_down_date && ($time <= $row->publish_down_time || $row->publish_down_time == '00:00:00')){
+						$iRet = BANNER_ATTIV0;
+					} else
+						if($now >= $row->publish_down_date){
+							$iRet = BANNER_TERMINATO;
+						}
 	}
 	return $iRet;
 }

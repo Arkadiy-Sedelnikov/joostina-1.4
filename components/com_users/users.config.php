@@ -11,7 +11,7 @@ defined('_VALID_MOS') or die();
 
 mosMainFrame::addLib('dbconfig');
 
-class configUser_registration extends dbConfig {
+class configUser_registration extends dbConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -27,8 +27,8 @@ class configUser_registration extends dbConfig {
 	/**
 	 * Ссылка для перехода после регистрации
 	 * По умолчанию:
-	 *	 - если регистрация не требует активации аккаунта, редирект происходит в профиль пользователя;
-	 *	 - если требуется активация: редирект на страницу с информацией об активации (шаблон страницы: after_registration/default.php)
+	 *     - если регистрация не требует активации аккаунта, редирект происходит в профиль пользователя;
+	 *     - если требуется активация: редирект на страницу с информацией об активации (шаблон страницы: after_registration/default.php)
 	 */
 	var $redirect_url = '';
 	/**
@@ -36,14 +36,11 @@ class configUser_registration extends dbConfig {
 	 * да - один шаблон (view/tegistration/default.php)
 	 * нет - для каждой группы будет использован шаблон, имя которого формируется по следующему правилу:
 	 * view/tegistration/название_группы_без_пробелов.php
-	 *
 	 * ВНИМАНИЕ! Эти шаблоны Вы должны создать саомостоятельно. Можете скопировать шаблон по-умолчанию и назвать
 	 * его согласно вышеописанному правилу.
-	 *
 	 * Чтобы страница регистрации отобразилась с нужным шаблоном,
 	 * ссылка должна содержать параметр `type`, значением которого должно быть название группы пользователя
 	 * Например: index.php?option=com_registration&task=register&type=author
-	 *
 	 * Результатом заполнения и отправки формы с "type=имя_группы" будет запись о новом пользователе, принадлежащем
 	 * к группе "имя_группы"
 	 */
@@ -63,96 +60,98 @@ class configUser_registration extends dbConfig {
 	 */
 	var $admin_activation = 0;
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'registration') {
+	function __construct(&$db, $group = 'com_users', $subgroup = 'registration'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
-	function display_config($option) {
+	function display_config($option){
 
 		$acl = &gacl::getInstance();
 
 		$gtree = $acl->get_group_children_tree(null, 'USERS', false); ?>
-<script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
+	<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform(pressbutton);
+				return;
+			}
 
-		// do field validation
-		if  (form.gid.value == "") {
-			alert( "<?php echo _ENTER_GROUP_PLEASE ?>" );
-		}
-		else if (form.gid.value == "29") {
-			alert( "<?php echo _BAD_GROUP_1 ?>" );
-		}
-		else if (form.gid.value == "30") {
-			alert( "<?php echo _BAD_GROUP_2 ?>" );
-		} else {
-			submitform( pressbutton );
-		}
+			// do field validation
+			if (form.gid.value == "") {
+				alert("<?php echo _ENTER_GROUP_PLEASE ?>");
+			}
+			else if (form.gid.value == "29") {
+				alert("<?php echo _BAD_GROUP_1 ?>");
+			}
+			else if (form.gid.value == "30") {
+				alert("<?php echo _BAD_GROUP_2 ?>");
+			} else {
+				submitform(pressbutton);
+			}
 
-	}
-</script>
-<table class="adminheading">
-	<tr><th class="config"><?php echo _C_USERS_REG_SETTINGS?></th></tr>
-</table>
-
-<form action="index2.php" method="post" name="adminForm">
-
-	<table class="paramlist">
+		}
+	</script>
+	<table class="adminheading">
 		<tr>
-			<th class="key"><?php echo _PAGE_TITLE?></th>
-			<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>" /></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_FORM_BEFORE?></th>
-			<td><textarea cols="56" rows="7" class="inputbox" name="pre_text"><?php echo $this->pre_text; ?></textarea></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_FORM_AFTER?></th>
-			<td><textarea cols="56" rows="7" class="inputbox" name="post_text"><?php echo $this->post_text; ?></textarea></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_AFTER_LINK?></th>
-			<td><input size="100" class="inputbox" type="text" name="redirect_url" value="<?php echo $this->redirect_url; ?>" /></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_ONE_GROOP_TEMPLATE?></th>
-			<td><?php echo mosHTML::yesnoRadioList('template', '', $this->template?1 : 0); ?></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_DEFAULT_GROOPS?></th>
-			<td><?php echo mosHTML::selectList($gtree, 'gid', 'size="1"', 'value', 'text', $this->gid); ?></td>
-		</tr>
-		<tr>
-			<th class="key"><?php echo _C_USERS_REG_PROFILE_ACTIVATE?></th>
-			<td><?php echo mosHTML::yesnoRadioList('admin_activation', '', $this->admin_activation?1 : 0); ?></td>
+			<th class="config"><?php echo _C_USERS_REG_SETTINGS?></th>
 		</tr>
 	</table>
 
-	<input type="hidden" name="option" value="<?php echo $option; ?>" />
-	<input type="hidden" name="act" value="registration" />
-	<input type="hidden" name="task" value="save_config" />
-	<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1" />
-</form><?php
+	<form action="index2.php" method="post" name="adminForm">
+
+		<table class="paramlist">
+			<tr>
+				<th class="key"><?php echo _PAGE_TITLE?></th>
+				<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>"/></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_FORM_BEFORE?></th>
+				<td><textarea cols="56" rows="7" class="inputbox" name="pre_text"><?php echo $this->pre_text; ?></textarea></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_FORM_AFTER?></th>
+				<td><textarea cols="56" rows="7" class="inputbox" name="post_text"><?php echo $this->post_text; ?></textarea></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_AFTER_LINK?></th>
+				<td><input size="100" class="inputbox" type="text" name="redirect_url" value="<?php echo $this->redirect_url; ?>"/></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_ONE_GROOP_TEMPLATE?></th>
+				<td><?php echo mosHTML::yesnoRadioList('template', '', $this->template ? 1 : 0); ?></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_DEFAULT_GROOPS?></th>
+				<td><?php echo mosHTML::selectList($gtree, 'gid', 'size="1"', 'value', 'text', $this->gid); ?></td>
+			</tr>
+			<tr>
+				<th class="key"><?php echo _C_USERS_REG_PROFILE_ACTIVATE?></th>
+				<td><?php echo mosHTML::yesnoRadioList('admin_activation', '', $this->admin_activation ? 1 : 0); ?></td>
+			</tr>
+		</table>
+
+		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="act" value="registration"/>
+		<input type="hidden" name="task" value="save_config"/>
+		<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1"/>
+	</form><?php
 	}
 
-	function save_config() {
-		if(!$this->bindConfig($_REQUEST)) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+	function save_config(){
+		if(!$this->bindConfig($_REQUEST)){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 
-		if(!$this->storeConfig()) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+		if(!$this->storeConfig()){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 	}
 }
 
-class configUser_profile extends dbConfig {
+class configUser_profile extends dbConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -163,7 +162,6 @@ class configUser_profile extends dbConfig {
 	 * да - один шаблон (view/profile/default.php)
 	 * нет - для каждой группы будет использован шаблон, имя которого формируется по следующему правилу:
 	 * view/profile/название_группы_без_пробелов.php
-	 *
 	 * ВНИМАНИЕ! Эти шаблоны Вы должны создать самостоятельно. Можете скопировать шаблон по-умолчанию и назвать
 	 * его согласно вышеописанному правилу.
 	 */
@@ -174,7 +172,6 @@ class configUser_profile extends dbConfig {
 	 * да - один шаблон (view/edit/default.php)
 	 * нет - для каждой группы будет использован шаблон, имя которого формируется по следующему правилу:
 	 * view/edit/название_группы_без_пробелов.php
-	 *
 	 * ВНИМАНИЕ! Эти шаблоны Вы должны создать самостоятельно. Можете скопировать шаблон по-умолчанию и назвать
 	 * его согласно вышеописанному правилу.
 	 */
@@ -187,75 +184,77 @@ class configUser_profile extends dbConfig {
 	 */
 	var $template_dir = '';
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'profile') {
+	function __construct(&$db, $group = 'com_users', $subgroup = 'profile'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
-	function display_config($option) {
+	function display_config($option){
 
 		$acl = &gacl::getInstance();
 
 		$gtree = $acl->get_group_children_tree(null, 'USERS', false); ?>
-<script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
+	<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform(pressbutton);
+				return;
+			}
+			submitform(pressbutton);
 		}
-		submitform( pressbutton );
-	}
-</script>
-<table class="adminheading">
-	<tr><th class="config"><?php echo _C_USERS_PROFILE_SETTINGS?></th></tr>
-</table>
-
-<form action="index2.php" method="post" name="adminForm">
-
-	<table class="paramlist">
+	</script>
+	<table class="adminheading">
 		<tr>
-			<th class="key"><?php echo _PAGE_TITLE?></th>
-			<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>" /></td>
+			<th class="config"><?php echo _C_USERS_PROFILE_SETTINGS?></th>
 		</tr>
-
-		<tr>
-			<th class="key"><?php echo _C_USERS_PROFILE_ONE_TEMPLATE?></th>
-			<td><?php echo mosHTML::yesnoRadioList('template', '', $this->template ? 1 : 0); ?></td>
-		</tr>
-
-		<tr>
-			<th class="key"><?php echo _C_USERS_PROFILE_ONE_TEMPLATE_EDIT?></th>
-			<td><?php echo mosHTML::yesnoRadioList('template_edit', '', $this->template_edit?1 : 0); ?></td>
-		</tr>
-
-		<tr>
-			<th class="key"><?php echo _TEMPLATE_DIR?></th>
-			<td><?php echo mosHTML::yesnoRadioList('template_dir', '', $this->template_dir?1 : 0, _TEMPLATE_DIR_DEF, _TEMPLATE_DIR_SYSTEM); ?></td>
-		</tr>
-
 	</table>
 
-	<input type="hidden" name="option" value="<?php echo $option; ?>" />
-	<input type="hidden" name="act" value="profile" />
-	<input type="hidden" name="task" value="save_config" />
-	<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1" />
-</form><?php
+	<form action="index2.php" method="post" name="adminForm">
+
+		<table class="paramlist">
+			<tr>
+				<th class="key"><?php echo _PAGE_TITLE?></th>
+				<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>"/></td>
+			</tr>
+
+			<tr>
+				<th class="key"><?php echo _C_USERS_PROFILE_ONE_TEMPLATE?></th>
+				<td><?php echo mosHTML::yesnoRadioList('template', '', $this->template ? 1 : 0); ?></td>
+			</tr>
+
+			<tr>
+				<th class="key"><?php echo _C_USERS_PROFILE_ONE_TEMPLATE_EDIT?></th>
+				<td><?php echo mosHTML::yesnoRadioList('template_edit', '', $this->template_edit ? 1 : 0); ?></td>
+			</tr>
+
+			<tr>
+				<th class="key"><?php echo _TEMPLATE_DIR?></th>
+				<td><?php echo mosHTML::yesnoRadioList('template_dir', '', $this->template_dir ? 1 : 0, _TEMPLATE_DIR_DEF, _TEMPLATE_DIR_SYSTEM); ?></td>
+			</tr>
+
+		</table>
+
+		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="act" value="profile"/>
+		<input type="hidden" name="task" value="save_config"/>
+		<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1"/>
+	</form><?php
 	}
 
-	function save_config() {
-		if(!$this->bindConfig($_REQUEST)) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+	function save_config(){
+		if(!$this->bindConfig($_REQUEST)){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 
-		if(!$this->storeConfig()) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+		if(!$this->storeConfig()){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 	}
 }
 
-class configUser_lostpass extends dbConfig {
+class configUser_lostpass extends dbConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -274,62 +273,64 @@ class configUser_lostpass extends dbConfig {
 	 */
 	var $template_dir = '';
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'lostpass') {
+	function __construct(&$db, $group = 'com_users', $subgroup = 'lostpass'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
-	function display_config($option) {
+	function display_config($option){
 
 		?>
-<script language="javascript" type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
+	<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform(pressbutton);
+				return;
+			}
+			submitform(pressbutton);
 		}
-		submitform( pressbutton );
-	}
-</script>
-<table class="adminheading">
-	<tr><th class="config"><?php echo _C_USERS_LOSTPASS_SETTINGS?></th></tr>
-</table>
-
-<form action="index2.php" method="post" name="adminForm">
-
-	<table class="paramlist">
+	</script>
+	<table class="adminheading">
 		<tr>
-			<th class="key"><?php echo _PAGE_TITLE?></th>
-			<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>" /></td>
+			<th class="config"><?php echo _C_USERS_LOSTPASS_SETTINGS?></th>
 		</tr>
-
-		<tr>
-			<th class="key"><?php echo _TEMPLATE?></th>
-			<td><input size="100" class="inputbox" type="text" name="template" value="<?php echo $this->template; ?>" /></td>
-		</tr>
-
-		<tr>
-			<th class="key"><?php echo _TEMPLATE_DIR?></th>
-			<td><?php echo mosHTML::yesnoRadioList('template_dir', '', $this->template_dir?1 : 0, _TEMPLATE_DIR_DEF, _TEMPLATE_DIR_SYSTEM); ?></td>
-		</tr>
-
 	</table>
 
-	<input type="hidden" name="option" value="<?php echo $option; ?>" />
-	<input type="hidden" name="act" value="lostpass" />
-	<input type="hidden" name="task" value="save_config" />
-	<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1" />
-</form><?php
+	<form action="index2.php" method="post" name="adminForm">
+
+		<table class="paramlist">
+			<tr>
+				<th class="key"><?php echo _PAGE_TITLE?></th>
+				<td><input size="100" class="inputbox" type="text" name="title" value="<?php echo $this->title; ?>"/></td>
+			</tr>
+
+			<tr>
+				<th class="key"><?php echo _TEMPLATE?></th>
+				<td><input size="100" class="inputbox" type="text" name="template" value="<?php echo $this->template; ?>"/></td>
+			</tr>
+
+			<tr>
+				<th class="key"><?php echo _TEMPLATE_DIR?></th>
+				<td><?php echo mosHTML::yesnoRadioList('template_dir', '', $this->template_dir ? 1 : 0, _TEMPLATE_DIR_DEF, _TEMPLATE_DIR_SYSTEM); ?></td>
+			</tr>
+
+		</table>
+
+		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="act" value="lostpass"/>
+		<input type="hidden" name="task" value="save_config"/>
+		<input type="hidden" name="<?php echo josSpoofValue(); ?>" value="1"/>
+	</form><?php
 	}
 
-	function save_config() {
-		if(!$this->bindConfig($_REQUEST)) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+	function save_config(){
+		if(!$this->bindConfig($_REQUEST)){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 
-		if(!$this->storeConfig()) {
-			echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
+		if(!$this->storeConfig()){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
 			exit();
 		}
 	}

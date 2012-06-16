@@ -12,15 +12,15 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-switch($task) {
+switch($task){
 	case 'sysinfo':
 		TOOLBAR_admin::_SYSINFO();
 		break;
-	
+
 	default:
-		if($GLOBALS['task']) {
+		if($GLOBALS['task']){
 			TOOLBAR_admin::_DEFAULT();
-		} else {
+		} else{
 			TOOLBAR_admin::_CPANEL();
 		}
 		break;

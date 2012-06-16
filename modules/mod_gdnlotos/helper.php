@@ -599,8 +599,8 @@ class mod_gdnlotos_Helper{
 
 	/**
 	 * Обрезка текста с сохранением форматирования
-	 * @param  $html - текст
-	 * @param  $length - длина
+	 * @param        $html - текст
+	 * @param        $length - длина
 	 * @param string $hellip
 	 * @return string
 	 */
@@ -650,7 +650,7 @@ class mod_gdnlotos_Helper{
 
 	/**
 	 * Получение автора
-	 * @param		$row
+	 * @param        $row
 	 * @param string $params
 	 * @return string
 	 */

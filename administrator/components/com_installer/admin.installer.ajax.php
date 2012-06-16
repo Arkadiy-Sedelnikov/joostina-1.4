@@ -13,11 +13,11 @@ defined('_VALID_MOS') or die();
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
-$task	= mosGetParam($_GET,'task','publish');
-$id		= intval(mosGetParam($_REQUEST,'id',0));
+$task = mosGetParam($_GET, 'task', 'publish');
+$id = intval(mosGetParam($_REQUEST, 'id', 0));
 
 // обрабатываем полученный параметр task
-switch($task) {
+switch($task){
 	case 'publish':
 		echo x_publish($id);
 		return;
@@ -27,27 +27,27 @@ switch($task) {
 		return;
 }
 
-function x_publish($id = null) {
+function x_publish($id = null){
 	$database = database::getInstance();
 
 	if(!$id) return 'error-id';
 
-	$query = "SELECT menuid FROM #__components WHERE id = ".(int)$id;
+	$query = "SELECT menuid FROM #__components WHERE id = " . (int)$id;
 	$database->setQuery($query);
 	$state = $database->loadResult();
 
-	if($state == 0) {
+	if($state == 0){
 		$ret_img = 'publish_x.png';
 		$state = 1;
-	} else {
+	} else{
 		$ret_img = 'publish_g.png';
 		$state = 0;
 	}
-	$query = "UPDATE #__components SET menuid = ".(int)$state." WHERE id = ".$id;
+	$query = "UPDATE #__components SET menuid = " . (int)$state . " WHERE id = " . $id;
 	$database->setQuery($query);
-	if(!$database->query()) {
+	if(!$database->query()){
 		return 'error-db';
-	} else {
+	} else{
 		return $ret_img;
 	}
 }

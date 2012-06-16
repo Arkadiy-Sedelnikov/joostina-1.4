@@ -10,8 +10,8 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-class TOOLBAR_linkeditor {
-	public static function _EDIT() {
+class TOOLBAR_linkeditor{
+	public static function _EDIT(){
 		mosMenuBar::startTable();
 		mosMenuBar::save("savelink");
 		mosMenuBar::cancel();
@@ -19,7 +19,7 @@ class TOOLBAR_linkeditor {
 		mosMenuBar::endTable();
 	}
 
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
 		mosMenuBar::addNewX();
 		mosMenuBar::spacer();

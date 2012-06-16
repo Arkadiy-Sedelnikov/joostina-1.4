@@ -1,7 +1,7 @@
 <div class="boss_pathway"><?php $this->displayPathway(); ?></div>
 <div class="boss-warning"><?php $this->displayWarningNoAccount(); ?></div>
 <div class="boss-rules">
-	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&task=show_rules&directory=$this->directory&Itemid=$this->itemid"); ?>"
+	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&task=show_rules&directory=$this->directory"); ?>"
 	   target=_blank>
 		<?php echo BOSS_RULESREAD; ?>
 	</a>

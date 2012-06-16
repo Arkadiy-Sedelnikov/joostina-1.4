@@ -14,8 +14,8 @@ defined('_VALID_MOS') or die();
  * @package Joostina
  * @subpackage Statistics
  */
-class TOOLBAR_statistics {
-	public static function _SEARCHES() {
+class TOOLBAR_statistics{
+	public static function _SEARCHES(){
 		mosMenuBar::startTable();
 		mosMenuBar::help('screen.stats.searches');
 		mosMenuBar::endTable();

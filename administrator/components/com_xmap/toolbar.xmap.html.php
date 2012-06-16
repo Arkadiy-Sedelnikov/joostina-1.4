@@ -11,13 +11,13 @@
 defined('_VALID_MOS') or die();
 
 /** Administrator Toolbar output */
-class TOOLBAR_xmap {
+class TOOLBAR_xmap{
 	/**
 	 * Draws the toolbar
 	 */
-	public static function _DEFAULT() {
+	public static function _DEFAULT(){
 		mosMenuBar::startTable();
-		mosMenuBar::ext(_SAVE_SITEMAP,'#','-new','onclick="addSitemap();return false;"');
+		mosMenuBar::ext(_SAVE_SITEMAP, '#', '-new', 'onclick="addSitemap();return false;"');
 		mosMenuBar::endTable();
 	}
 }

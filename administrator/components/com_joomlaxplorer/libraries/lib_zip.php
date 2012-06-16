@@ -1,11 +1,11 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
@@ -47,7 +47,7 @@ defined('_VALID_MOS') or die();
 * Have Fun...
 * ------------------------------------------------------------------------------*/
 //------------------------------------------------------------------------------
-class ZipFile {
+class ZipFile{
 	//------------------------------------------------------------------------------
 	// Internal  vars
 	var $datasec = array(); // Compressed data
@@ -56,11 +56,11 @@ class ZipFile {
 	var $old_offset = 0; // Last offset position
 	//------------------------------------------------------------------------------
 	// Internal function
-	function unix2dos_time($unixtime = 0) {
+	function unix2dos_time($unixtime = 0){
 		//	Convert an Unix timestamp to a four byte DOS date and time format
 		//	(date in high two bytes, time in low two bytes allowing magnitude comparison).
-		$timearray = ($unixtime == 0)?getdate():getdate($unixtime);
-		if($timearray['year'] < 1980) {
+		$timearray = ($unixtime == 0) ? getdate() : getdate($unixtime);
+		if($timearray['year'] < 1980){
 			$timearray['year'] = 1980;
 			$timearray['mon'] = 1;
 			$timearray['mday'] = 1;
@@ -72,14 +72,15 @@ class ZipFile {
 			16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >>
 			1);
 	}
+
 	//------------------------------------------------------------------------------
 	// Data functions
-	function add_data($data,$name,$time = 0) {
-		$name = str_replace('\\','/',$name);
+	function add_data($data, $name, $time = 0){
+		$name = str_replace('\\', '/', $name);
 		$dtime = dechex($this->unix2dos_time($time));
-		$hexdtime = '\x'.$dtime[6].$dtime[7].'\x'.$dtime[4].$dtime[5].'\x'.$dtime[2].$dtime[3].
-			'\x'.$dtime[0].$dtime[1];
-		eval('$hexdtime = "'.$hexdtime.'";');
+		$hexdtime = '\x' . $dtime[6] . $dtime[7] . '\x' . $dtime[4] . $dtime[5] . '\x' . $dtime[2] . $dtime[3] .
+			'\x' . $dtime[0] . $dtime[1];
+		eval('$hexdtime = "' . $hexdtime . '";');
 
 		$fr = "\x50\x4b\x03\x04";
 		$fr .= "\x14\x00"; // ver needed to extract
@@ -91,13 +92,13 @@ class ZipFile {
 		$unc_len = strlen($data);
 		$crc = crc32($data);
 		$zdata = gzcompress($data);
-		$zdata = substr(substr($zdata,0,strlen($zdata) - 4),2); // fix crc bug
+		$zdata = substr(substr($zdata, 0, strlen($zdata) - 4), 2); // fix crc bug
 		$c_len = strlen($zdata);
-		$fr .= pack('V',$crc); // crc32
-		$fr .= pack('V',$c_len); // compressed filesize
-		$fr .= pack('V',$unc_len); // uncompressed filesize
-		$fr .= pack('v',strlen($name)); // length of filename
-		$fr .= pack('v',0); // extra field length
+		$fr .= pack('V', $crc); // crc32
+		$fr .= pack('V', $c_len); // compressed filesize
+		$fr .= pack('V', $unc_len); // uncompressed filesize
+		$fr .= pack('v', strlen($name)); // length of filename
+		$fr .= pack('v', 0); // extra field length
 		$fr .= $name;
 
 		// "file data" segment
@@ -105,13 +106,13 @@ class ZipFile {
 
 		// "data descriptor" segment (optional but necessary if archive is not
 		// served as file)
-		$fr .= pack('V',$crc); // crc32
-		$fr .= pack('V',$c_len); // compressed filesize
-		$fr .= pack('V',$unc_len); // uncompressed filesize
+		$fr .= pack('V', $crc); // crc32
+		$fr .= pack('V', $c_len); // compressed filesize
+		$fr .= pack('V', $unc_len); // uncompressed filesize
 
 		// add this entry to array
 		$this->datasec[] = $fr;
-		$new_offset = strlen(implode('',$this->datasec));
+		$new_offset = strlen(implode('', $this->datasec));
 
 		// now add to central directory record
 		$cdrec = "\x50\x4b\x01\x02";
@@ -120,17 +121,17 @@ class ZipFile {
 		$cdrec .= "\x00\x00"; // gen purpose bit flag
 		$cdrec .= "\x08\x00"; // compression method
 		$cdrec .= $hexdtime; // last mod time & date
-		$cdrec .= pack('V',$crc); // crc32
-		$cdrec .= pack('V',$c_len); // compressed filesize
-		$cdrec .= pack('V',$unc_len); // uncompressed filesize
-		$cdrec .= pack('v',strlen($name)); // length of filename
-		$cdrec .= pack('v',0); // extra field length
-		$cdrec .= pack('v',0); // file comment length
-		$cdrec .= pack('v',0); // disk number start
-		$cdrec .= pack('v',0); // internal file attributes
-		$cdrec .= pack('V',32); // external file attributes - 'archive' bit set
+		$cdrec .= pack('V', $crc); // crc32
+		$cdrec .= pack('V', $c_len); // compressed filesize
+		$cdrec .= pack('V', $unc_len); // uncompressed filesize
+		$cdrec .= pack('v', strlen($name)); // length of filename
+		$cdrec .= pack('v', 0); // extra field length
+		$cdrec .= pack('v', 0); // file comment length
+		$cdrec .= pack('v', 0); // disk number start
+		$cdrec .= pack('v', 0); // internal file attributes
+		$cdrec .= pack('V', 32); // external file attributes - 'archive' bit set
 
-		$cdrec .= pack('V',$this->old_offset); // relative offset of local header
+		$cdrec .= pack('V', $this->old_offset); // relative offset of local header
 		$this->old_offset = $new_offset;
 
 		$cdrec .= $name;
@@ -140,36 +141,37 @@ class ZipFile {
 		$this->ctrl_dir[] = $cdrec;
 	}
 
-	function contents() {
-		$data = implode('',$this->datasec);
-		$ctrldir = implode('',$this->ctrl_dir);
-		return $data.$ctrldir.$this->eof_ctrl_dir.pack('v',sizeof($this->ctrl_dir)).
+	function contents(){
+		$data = implode('', $this->datasec);
+		$ctrldir = implode('', $this->ctrl_dir);
+		return $data . $ctrldir . $this->eof_ctrl_dir . pack('v', sizeof($this->ctrl_dir)) .
 			// total # of entries "on this disk"
-			pack('v',sizeof($this->ctrl_dir)). // total # of entries overall
-			pack('V',strlen($ctrldir)). // size of central dir
-			pack('V',strlen($data)). // offset to start of central dir
+			pack('v', sizeof($this->ctrl_dir)) . // total # of entries overall
+			pack('V', strlen($ctrldir)) . // size of central dir
+			pack('V', strlen($data)) . // offset to start of central dir
 			"\x00\x00"; // .zip file comment length
 	}
+
 	//------------------------------------------------------------------------------
 	// File functions
-	function add($dir,$name) {
-		$item = $dir."/".$name;
+	function add($dir, $name){
+		$item = $dir . "/" . $name;
 
-		if(@is_file($item)) {
-			if(($fp = fopen($item,"rb")) === false) return false;
+		if(@is_file($item)){
+			if(($fp = fopen($item, "rb")) === false) return false;
 			$item_size = filesize($item);
-			if($item_size == 0) {
+			if($item_size == 0){
 				return true;
 			}
-			$data = fread($fp,$item_size);
+			$data = fread($fp, $item_size);
 			fclose($fp);
-			$this->add_data($data,$name,filemtime($item));
+			$this->add_data($data, $name, filemtime($item));
 			return true;
-		} elseif(@is_dir($item)) {
+		} elseif(@is_dir($item)){
 			if(($handle = opendir($item)) === false) return false;
-			while(($file = readdir($handle)) !== false) {
+			while(($file = readdir($handle)) !== false){
 				if(($file == ".." || $file == ".")) continue;
-				if(!$this->add($dir,$name."/".$file)) return false;
+				if(!$this->add($dir, $name . "/" . $file)) return false;
 			}
 			closedir($handle);
 			return true;
@@ -178,15 +180,15 @@ class ZipFile {
 		return false;
 	}
 
-	function save($name) {
-		if(($fp = fopen($name,"wb")) === false) return false;
-		fwrite($fp,$this->contents());
+	function save($name){
+		if(($fp = fopen($name, "wb")) === false) return false;
+		fwrite($fp, $this->contents());
 		fclose($fp);
 		return true;
 	}
 }
-//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
 
 
 ?>

@@ -49,11 +49,6 @@ class SefJoossef implements JSefModel{
 				// разбиваем строку (URL) на части
 				parse_str($url['query'], $parts);
 
-				// Удаляем Itemid
-				if(_SEF_DELETE_ITEMID == true){
-					unset($parts['Itemid'], $parts['ItemId']);
-				}
-
 				// формируем ссылку
 				$link = '';
 				foreach($parts as $key => $value){
@@ -90,7 +85,7 @@ class SefJoossef implements JSefModel{
 					$_GET['option'] = $val1;
 					$_REQUEST['option'] = $val1;
 					$option = true;
-				}else{
+				} else{
 					$_GET[$val1] = $val2;
 					$_REQUEST[$val1] = $val2;
 				}

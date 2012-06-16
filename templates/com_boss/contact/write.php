@@ -1,7 +1,7 @@
 <div class="boss_pathway"><?php $this->displayPathway(); ?></div>
 <div class="boss-warning"><?php $this->displayWarningNoAccount(); ?></div>
 <div class="boss-rules">
-	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&task=show_rules&directory=$this->directory&Itemid=$this->itemid"); ?>" target=_blank>
+	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&task=show_rules&directory=$this->directory"); ?>" target=_blank>
 		<?php echo BOSS_RULESREAD; ?>
 	</a>
 </div>
@@ -19,34 +19,34 @@
 	<label for="content_kindof"><?php echo BOSS_CONTENT_TYPES; ?></label>
 	<?php $this->displayContentTypesSelect(); ?>
 	<?php if($this->isContentTypeSelected()){ ?>
-		<!--fields -->
-		<?php $this->displayFormBegin(); ?>
-		<?php if($this->isAccountCreation()){ ?>
-			<br/>
-			<h2 class="contentheading"><?php echo BOSS_FORM_ALERT; ?></h2>
-			<?php $this->displayAccountCreationFields(); ?>
+	<!--fields -->
+	<?php $this->displayFormBegin(); ?>
+	<?php if($this->isAccountCreation()){ ?>
+		<br/>
+		<h2 class="contentheading"><?php echo BOSS_FORM_ALERT; ?></h2>
+		<?php $this->displayAccountCreationFields(); ?>
 		<?php } ?>
-		<br/>
-		<h2 class="contentheading"><?php echo BOSS_FORM_INFORMATION; ?></h2>
-		<!--fields -->
-		<label for="category"><?php echo BOSS_FORM_CATEGORY; ?></label>
-		<?php $this->displayCategoriesSelect(); ?>
-		<br/>
-		<table><?php $this->displayFormFields(); ?></table>
+	<br/>
+	<h2 class="contentheading"><?php echo BOSS_FORM_INFORMATION; ?></h2>
+	<!--fields -->
+	<label for="category"><?php echo BOSS_FORM_CATEGORY; ?></label>
+	<?php $this->displayCategoriesSelect(); ?>
+	<br/>
+	<table><?php $this->displayFormFields(); ?></table>
 	<!-- security -->
-		<?php if($this->isContentCaptchaActivated() && $my->id == 0){ ?>
-			<br/>
-			<label for="security"><?php echo BOSS_SECURITY; ?></label>
-			<?php $this->displayCaptchaImage();?>
-			<br/>
-			<label for="copy"><?php echo BOSS_FORM_SECURITY_CODE_VERIFY; ?></label>
-			<?php $this->displayCaptchaInput(); ?>
-			<br/>
+	<?php if($this->isContentCaptchaActivated() && $my->id == 0){ ?>
+		<br/>
+		<label for="security"><?php echo BOSS_SECURITY; ?></label>
+		<?php $this->displayCaptchaImage(); ?>
+		<br/>
+		<label for="copy"><?php echo BOSS_FORM_SECURITY_CODE_VERIFY; ?></label>
+		<?php $this->displayCaptchaInput(); ?>
+		<br/>
 		<?php } ?>
-		<!-- buttons -->
-		<label for="content_dummy"></label>
-		<span class="button"><input type="submit" value="<?php echo BOSS_FORM_SUBMIT_TEXT; ?>"/></span>
-		<span class="button"><input type="button" value="<?php echo BOSS_FORM_CANCEL_TEXT; ?>" onclick="javascript:history.go(-2)"/></span>
-		<?php $this->displayFormEnd(); ?>
+	<!-- buttons -->
+	<label for="content_dummy"></label>
+	<span class="button"><input type="submit" value="<?php echo BOSS_FORM_SUBMIT_TEXT; ?>"/></span>
+	<span class="button"><input type="button" value="<?php echo BOSS_FORM_CANCEL_TEXT; ?>" onclick="javascript:history.go(-2)"/></span>
+	<?php $this->displayFormEnd(); ?>
 	<?php } ?>
 </fieldset>

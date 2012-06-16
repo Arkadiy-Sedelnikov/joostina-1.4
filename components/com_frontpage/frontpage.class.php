@@ -16,58 +16,57 @@ $mainframe->addLib('dbconfig');
  * @package Joostina
  * @subpackage Content
  */
-class mosFrontPage extends mosDBTable {
+class mosFrontPage extends mosDBTable{
 	/**
-	 @var int Primary key*/
+	@var int Primary key*/
 	var $content_id = null;
 	/**
-	 @var int*/
+	@var int*/
 	var $ordering = null;
 
 	/**
 	 * @param database A database connector object
 	 */
-	function mosFrontPage(&$db, $directory) {
-		$this->mosDBTable('#__boss_' . $directory . '_contents','id',$db);
+	function mosFrontPage(&$db, $directory){
+		$this->mosDBTable('#__boss_' . $directory . '_contents', 'id', $db);
 	}
 }
 
 /**
  * конфигурация компонента
  */
-class frontpageConfig extends dbConfig {
+class frontpageConfig extends dbConfig{
 
-    var $directory  = null;
-    var $page       = null;
+	var $directory = null;
+	var $page = null;
 
-    function __construct($db, $group = 'com_frontpage', $subgroup = 'default') {
-        parent::__construct($db, $group, $subgroup);
-    }
+	function __construct($db, $group = 'com_frontpage', $subgroup = 'default'){
+		parent::__construct($db, $group, $subgroup);
+	}
 
 
+	function getConfig(){
+		$confObject = null;
+		$config = $this->getBatchValues();
+		if(count($config) > 0){
+			foreach($config as $conf){
+				$confName = $conf->name;
+				$confObject->$confName = $conf->value;
+			}
+		}
+		return $confObject;
+	}
 
-    function getConfig() {
-        $confObject = null;
-        $config = $this->getBatchValues();
-        if(count($config)>0){
-            foreach($config as $conf){
-                $confName = $conf->name;
-                $confObject->$confName = $conf->value;
-            }
-        }
-        return $confObject;
-    }
+	function save_config(){
 
-    function save_config() {
+		if(!$this->bindConfig($_REQUEST)){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
+			exit();
+		}
 
-        if(!$this->bindConfig($_REQUEST)) {
-            echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
-            exit();
-        }
-
-        if(!$this->storeConfig()) {
-            echo "<script> alert('".$this->_error."'); window.history.go(-1); </script>";
-            exit();
-        }
-    }
+		if(!$this->storeConfig()){
+			echo "<script> alert('" . $this->_error . "'); window.history.go(-1); </script>";
+			exit();
+		}
+	}
 }

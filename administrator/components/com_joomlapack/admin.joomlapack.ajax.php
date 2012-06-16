@@ -12,11 +12,11 @@ defined('_VALID_MOS') or die();
 
 $acl = &gacl::getInstance();
 
-if(!$acl->acl_check('administration','config','users',$my->usertype)) {
+if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 	die('error-acl');
 }
 
 // подключение класса конфигурации
-require_once (JPATH_BASE_ADMIN."/components/com_joomlapack/includes/configuration.php");
-require_once (JPATH_BASE_ADMIN."/components/com_joomlapack/includes/sajax.php");
-require_once (JPATH_BASE_ADMIN."/components/com_joomlapack/includes/ajaxtool.php");
+require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/configuration.php");
+require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/sajax.php");
+require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/ajaxtool.php");

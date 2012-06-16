@@ -11,10 +11,6 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-// TODO GoDr Необходимо вынести в настройки
-// удалять из ссылок парамтер ItemId
-DEFINE('_SEF_DELETE_ITEMID', false);
-
 /**
  * Основной класс для обработки SEF
  */
@@ -75,7 +71,7 @@ class JSef{
 					// Переадресация на SEF-адрес
 					header("Location: " . $link, TRUE, 301);
 					exit(301);
-				}else{
+				} else{
 					// получаем имя класса
 					$sefclass = self::getSefClass($_SERVER['REQUEST_URI']);
 
@@ -132,7 +128,7 @@ class JSef{
 		// существует ли sef-файл для этого компонента
 		if(array_key_exists($option . '.sef.php', self::$sef_files)){
 			require_once(JPATH_BASE . DS . 'includes' . DS . 'sef' . DS . $option . '.sef.php');
-		}else{
+		} else{
 			require_once(JPATH_BASE . DS . 'includes' . DS . 'sef' . DS . 'joossef.sef.php');
 		}
 
@@ -140,7 +136,7 @@ class JSef{
 		$sefclass = ucfirst(preg_replace('#^com_#', '', $option));
 		$sefclass = (class_exists('Sef' . $sefclass)) ? 'Sef' . $sefclass : 'SefJoossef';
 
-		// TODO GoDr Временная заглушка: всегда используется sef-файл по умолчанию. Удалить к версии 1.4.1
+		// TODO GoDr: Временная заглушка: всегда используется sef-файл по умолчанию. Удалить к версии 1.4.1
 		$sefclass = 'SefJoossef';
 
 		return $sefclass;
@@ -170,24 +166,9 @@ interface JSefModel{
 }
 
 
-// TODO GoDr временная заглушка
+// TODO GoDr: временная заглушка
 function sefRelToAbs($link){
 	return JSef::getUrlToSef($link);
-}
-
-
-// TODO GoDr временная функция для тестирования
-function _v($var){
-	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
-	var_dump($var);
-	echo "</pre>";
-}
-
-// TODO GoDr временная функция для тестирования
-function _p($var){
-	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
-	print_r($var);
-	echo "</pre>";
 }
 
 

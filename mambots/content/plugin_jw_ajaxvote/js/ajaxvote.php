@@ -7,13 +7,13 @@
 // Project page at http://www.joomlaworks.gr - Demos at http://demo.joomlaworks.gr
 //***Last update: May 14th, 2007***
 */
-ob_start ("ob_gzhandler");
+ob_start("ob_gzhandler");
 header("Content-type: text/css; charset: UTF-8");
 header("Cache-Control: must-revalidate");
-$offset = 60* 60 ;
-$ExpStr = "Expires: " . 
-gmdate("D, d M Y H:i:s",
-time() + $offset) . " GMT";
+$offset = 60 * 60;
+$ExpStr = "Expires: " .
+	gmdate("D, d M Y H:i:s",
+		time() + $offset) . " GMT";
 header($ExpStr);
 include("ajaxvote.js");
 ob_flush();

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined( '_VALID_MOS' ) or die();
+defined('_VALID_MOS') or die();
 // подключаем вспомогательный класс
 $module->get_helper($mainframe);
 

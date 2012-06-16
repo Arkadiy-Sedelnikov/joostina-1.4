@@ -1,11 +1,11 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-*/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ */
 
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
@@ -29,118 +29,108 @@ defined('_VALID_MOS') or die();
 // $Id:Parameter.php 13 2007-05-13 07:10:43Z soeren $
 
 /**
-* Class for working with MIME type parameters
-*
-* @version @version@
-* @package @package@
-* @author Ian Eure <ieure@php.net>
-*/
-class MIME_Type_Parameter {
+ * Class for working with MIME type parameters
+ * @version @version@
+ * @package @package@
+ * @author Ian Eure <ieure@php.net>
+ */
+class MIME_Type_Parameter{
 	/**
-	* Parameter name
-	*
-	* @var string
-	*/
+	 * Parameter name
+	 * @var string
+	 */
 	var $name;
 
 	/**
-	* Parameter value
-	*
-	* @var string
-	*/
+	 * Parameter value
+	 * @var string
+	 */
 	var $value;
 
 	/**
-	* Parameter comment
-	*
-	* @var string
-	*/
+	 * Parameter comment
+	 * @var string
+	 */
 	var $comment;
 
 
 	/**
-	* Constructor.
-	*
-	* @param  string $param MIME parameter to parse, if set.
-	* @return void
-	*/
-	function MIME_Type_Parameter($param = false) {
-		if($param) {
+	 * Constructor.
+	 * @param  string $param MIME parameter to parse, if set.
+	 * @return void
+	 */
+	function MIME_Type_Parameter($param = false){
+		if($param){
 			$this->parse($param);
 		}
 	}
 
 
 	/**
-	* Parse a MIME type parameter and set object fields
-	*
-	* @param  string $param MIME type parameter to parse
-	* @return void
-	*/
-	function parse($param) {
+	 * Parse a MIME type parameter and set object fields
+	 * @param  string $param MIME type parameter to parse
+	 * @return void
+	 */
+	function parse($param){
 		$this->name = $this->getAttribute($param);
 		$this->value = $this->getValue($param);
-		if($this->hasComment($param)) {
+		if($this->hasComment($param)){
 			$this->comment = $this->getComment($param);
 		}
 	}
 
 
 	/**
-	* Get a parameter attribute (e.g. name)
-	*
-	* @param  string MIME type parameter
-	* @return string Attribute name
-	* @static
-	*/
-	function getAttribute($param) {
-		$tmp = explode('=',$param);
+	 * Get a parameter attribute (e.g. name)
+	 * @param  string MIME type parameter
+	 * @return string Attribute name
+	 * @static
+	 */
+	function getAttribute($param){
+		$tmp = explode('=', $param);
 		return trim($tmp[0]);
 	}
 
 
 	/**
-	* Get a parameter value
-	*
-	* @param  string $param MIME type parameter
-	* @return string Value
-	* @static
-	*/
-	function getValue($param) {
-		$tmp = explode('=',$param);
+	 * Get a parameter value
+	 * @param  string $param MIME type parameter
+	 * @return string Value
+	 * @static
+	 */
+	function getValue($param){
+		$tmp = explode('=', $param);
 		$value = $tmp[1];
-		if(MIME_Type_Parameter::hasComment($param)) {
-			$cs = strpos($value,'(');
-			$value = substr($value,0,$cs);
+		if(MIME_Type_Parameter::hasComment($param)){
+			$cs = strpos($value, '(');
+			$value = substr($value, 0, $cs);
 		}
-		return trim($value,'" ');
+		return trim($value, '" ');
 	}
 
 
 	/**
-	* Get a parameter comment
-	*
-	* @param  string $param MIME type parameter
-	* @return string Parameter comment
-	* @see getComment()
-	* @static
-	*/
-	function getComment($param) {
-		$cs = strpos($param,'(');
-		$comment = substr($param,$cs);
-		return trim($comment,'() ');
+	 * Get a parameter comment
+	 * @param  string $param MIME type parameter
+	 * @return string Parameter comment
+	 * @see getComment()
+	 * @static
+	 */
+	function getComment($param){
+		$cs = strpos($param, '(');
+		$comment = substr($param, $cs);
+		return trim($comment, '() ');
 	}
 
 
 	/**
-	* Does this parameter have a comment?
-	*
-	* @param  string  $param MIME type parameter
-	* @return boolean true if $param has a comment, false otherwise
-	* @static
-	*/
-	function hasComment($param) {
-		if(strstr($param,'(')) {
+	 * Does this parameter have a comment?
+	 * @param  string  $param MIME type parameter
+	 * @return boolean true if $param has a comment, false otherwise
+	 * @static
+	 */
+	function hasComment($param){
+		if(strstr($param, '(')){
 			return true;
 		}
 		return false;
@@ -148,18 +138,17 @@ class MIME_Type_Parameter {
 
 
 	/**
-	* Get a string representation of this parameter
-	*
-	* This function performs the oppsite of parse()
-	*
-	* @return string String representation of parameter
-	*/
-	function get() {
-		$val = $this->name.'="'.$this->value.'"';
-		if($this->comment) {
-			$val .= ' ('.$this->comment.')';
+	 * Get a string representation of this parameter
+	 * This function performs the oppsite of parse()
+	 * @return string String representation of parameter
+	 */
+	function get(){
+		$val = $this->name . '="' . $this->value . '"';
+		if($this->comment){
+			$val .= ' (' . $this->comment . ')';
 		}
 		return $val;
 	}
 }
+
 ?>

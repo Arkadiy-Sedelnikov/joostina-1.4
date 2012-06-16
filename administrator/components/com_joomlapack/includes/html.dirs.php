@@ -11,29 +11,29 @@
 defined('_VALID_MOS') or die();
 
 global $option;
-require_once (JPATH_BASE_ADMIN.'/components/com_joomlapack/includes/sajax.php');
-require_once (JPATH_BASE_ADMIN.'/components/com_joomlapack/includes/ajaxtool.php');
+require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/sajax.php');
+require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/ajaxtool.php');
 ?>
 <script language="JavaScript" type="text/javascript">
-<?php
-sajax_show_javascript();
-?>
+	<?php
+	sajax_show_javascript();
+	?>
 	var globRoot;
-	function ToggleFilter( myRoot, myDir, myID ) {
+	function ToggleFilter(myRoot, myDir, myID) {
 		var sCheckStatus = (document.getElementById(myID).checked == true) ? "on" : "off";
 		globRoot = myRoot;
 		document.getElementById("ajax_status").style.display = "block";
-		x_toggleDirFilter( myRoot, myDir, sCheckStatus, ToggleFilter_cb );
+		x_toggleDirFilter(myRoot, myDir, sCheckStatus, ToggleFilter_cb);
 	}
-	function ToggleFilter_cb( myRet ) {
-		dirSelectionHTML( globRoot );
+	function ToggleFilter_cb(myRet) {
+		dirSelectionHTML(globRoot);
 		document.getElementById("ajax_status").style.display = "none";
 	}
-	function dirSelectionHTML( myRoot ) {
+	function dirSelectionHTML(myRoot) {
 		globRoot = myRoot;
-		x_dirSelectionHTML( myRoot, cb_dirSelectionHTML );
+		x_dirSelectionHTML(myRoot, cb_dirSelectionHTML);
 	}
-	function cb_dirSelectionHTML( myRet ) {
+	function cb_dirSelectionHTML(myRet) {
 		document.getElementById("DEFOperationList").innerHTML = myRet;
 	}
 </script>

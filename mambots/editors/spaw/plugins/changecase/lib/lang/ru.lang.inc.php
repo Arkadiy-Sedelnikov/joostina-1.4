@@ -1,4 +1,4 @@
-<?php 
+<?php
 // ================================================
 // SPAW v.2.0
 // ================================================
@@ -19,7 +19,7 @@ $spaw_lang_charset = 'utf-8';
 // alternative text for toolbar buttons and title for dropdowns - 'title'
 
 $spaw_lang_data = array(
-'tolower' => array('title' => 'Конвертировать в прописные буквы'),
-'toupper' => array('title' => 'Конвертировать в заглавные буквы'),
+	'tolower' => array('title' => 'Конвертировать в прописные буквы'),
+	'toupper' => array('title' => 'Конвертировать в заглавные буквы'),
 );
 ?>

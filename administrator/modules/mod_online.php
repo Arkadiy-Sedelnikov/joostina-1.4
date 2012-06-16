@@ -10,17 +10,17 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 $mainframe = mosMainFrame::getInstance();
-$cur_file_icons_path = JPATH_SITE.'/'.JADMIN_BASE.'/templates/'.JTEMPLATE.'/images/ico';
+$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 
-$session_id = stripslashes(mosGetParam($_SESSION,'session_id',''));
+$session_id = stripslashes(mosGetParam($_SESSION, 'session_id', ''));
 
 // Get no. of users online not including current session
-$query = "SELECT COUNT( session_id ) FROM #__session WHERE session_id != ".$database->Quote($session_id);
+$query = "SELECT COUNT( session_id ) FROM #__session WHERE session_id != " . $database->Quote($session_id);
 $database->setQuery($query);
 $online_num = intval($database->loadResult());
 
 ?>
 <span class="mod_online">
-	<img src="<?php echo $cur_file_icons_path;?>/users.png" alt="<?php echo _MOD_ONLINE_USERS;?>" />
+	<img src="<?php echo $cur_file_icons_path;?>/users.png" alt="<?php echo _MOD_ONLINE_USERS;?>"/>
 	<strong><?php echo $online_num; ?></strong>
 </span>

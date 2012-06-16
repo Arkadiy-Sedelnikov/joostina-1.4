@@ -11,14 +11,14 @@
 defined('_VALID_MOS') or die();
 
 // load html output class
-require_once( $mainframe->getPath( 'toolbar_html' ) );
+require_once($mainframe->getPath('toolbar_html'));
 
-$act = mosGetParam( $_REQUEST, 'act', '' );
-if ($act) {
+$act = mosGetParam($_REQUEST, 'act', '');
+if($act){
 	$task = $act;
 }
 
-switch ($task) {
+switch($task){
 	default:
 		TOOLBAR_xmap::_DEFAULT();
 		break;

@@ -1,369 +1,382 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>		
-		<meta name="description" content="sd"/>
-		<link media="screen" rel="stylesheet" href="../../css/text.css">
-		<title>FancyBox</title>	
-	</head>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<meta name="description" content="sd"/>
+	<link media="screen" rel="stylesheet" href="../../css/text.css">
+	<title>FancyBox</title>
+</head>
 <body>
-	<h1>FancyBox</h1><h2>Лицензия</h2> 
+<h1>FancyBox</h1>
 
-<div><a class="external" href="http://docs.jquery.com/Licensing">MIT and GPL licenses</a></div><h2>Ссылки </h2> 
+<h2>Лицензия</h2>
 
-<div><a class="external" href="http://fancybox.net">http://fancybox.net</a></div> 
-<h2>Возможности</h2>  
-<ul class="list"> 
-	<li>Вывод изображений, HTML-элементов, SWF-клипов, Iframe-содержимого, а также выполнение Ajax-запросов</li> 
-	<li>Настраиваемый внешний вид через настройки и CSS</li> 
-	<li>Группировка объектов и добавление навигацииGroups.</li> 
-	<li>Реагирование на события колеса мыши, при подключенном jQuery-плагине (mouse wheel plugin)</li> 
-	<li>Поддержка различных эффектов трансформации окна, при подключенном jQuery-плагине (easing plugin)</li> 
+<div><a class="external" href="http://docs.jquery.com/Licensing">MIT and GPL licenses</a></div>
+<h2>Ссылки </h2>
+
+<div><a class="external" href="http://fancybox.net">http://fancybox.net</a></div>
+<h2>Возможности</h2>
+<ul class="list">
+	<li>Вывод изображений, HTML-элементов, SWF-клипов, Iframe-содержимого, а также выполнение Ajax-запросов</li>
+	<li>Настраиваемый внешний вид через настройки и CSS</li>
+	<li>Группировка объектов и добавление навигацииGroups.</li>
+	<li>Реагирование на события колеса мыши, при подключенном jQuery-плагине (mouse wheel plugin)</li>
+	<li>Поддержка различных эффектов трансформации окна, при подключенном jQuery-плагине (easing plugin)</li>
 </ul>
 
-<h2>Параметры</h2> 
-<table cellpadding="0" cellspacing="0" width="100%"> 
-<thead> 
-<tr> 
-<td width="120">Ключ</td> 
-<td width="80">Значение по умолчанию</td> 
-<td>Описание</td> 
-</tr> 
-</thead> 
-<tbody> 
-<tr> 
-<td>padding</td> 
-<td>10</td> 
-<td>Space between FancyBox wrapper and content</td> 
-</tr> 
-<tr> 
-<td>margin</td> 
-<td>20</td> 
-<td>Space between viewport and FancyBox wrapper</td> 
-</tr> 
-<tr> 
-<td>opacity</td> 
-<td>false</td> 
-<td>When true, transparency of content is changed for elastic transitions</td> 
-</tr> 
-<tr> 
-<td>modal</td> 
-<td>false</td> 
-<td>When true, 'overlayShow' is set to 'true' and 'hideOnOverlayClick', 'hideOnContentClick', 'enableEscapeButton', 'showCloseButton' are set to 'false'</td> 
-</tr> 
-<tr> 
-<td>cyclic</td> 
-<td>false</td> 
-<td>When true, galleries will be cyclic, allowing you to keep pressing next/back.</td> 
-</tr> 
-<tr class="sep"> 
-<td>scrolling</td> 
-<td>'auto'</td> 
-<td>Set the overflow CSS property to create or hide scrollbars. Can be set to 'auto', 'yes', or 'no'</td> 
-</tr> 
-<tr> 
-<td>width</td> 
-<td>560</td> 
-<td>Width for content types 'iframe' and 'swf'. Also set for inline content if 'autoDimensions' is set to 'false'</td> 
-</tr> 
-<tr class="sep"> 
-<td>height</td> 
-<td>340</td> 
-<td>Height for content types 'iframe' and 'swf'. Also set for inline content if 'autoDimensions' is set to 'false'</td> 
-</tr> 
-<tr> 
-<td>autoScale</td> 
-<td>true</td> 
-<td>If true, FancyBox is scaled to fit in viewport </td> 
-</tr> 
-<tr> 
-<td>autoDimensions</td> 
-<td>true</td> 
-<td>For inline and ajax views, resizes the view to the element recieves. Make sure it has dimensions otherwise this will give unexpected results</td> 
-</tr> 
-<tr class="sep"> 
-<td>centerOnScroll</td> 
-<td>false</td> 
-<td>When true, FancyBox is centered while scrolling page</td> 
-</tr> 
-<tr> 
-<td>ajax</td> 
-<td>{ }</td> 
-<td>Ajax options <small> Note: 'error' and 'success' will be overwritten by FancyBox </small></td> 
-</tr> 
-<tr class="sep"> 
-<td>swf</td> 
-<td>{wmode: 'transparent'}</td> 
-<td>Params to put on the swf object</td> 
-</tr> 
-<tr> 
-<td>hideOnOverlayClick</td> 
-<td>true</td> 
-<td>Toggle if clicking the overlay should close FancyBox</td> 
-</tr> 
-<tr class="sep"> 
-<td>hideOnContentClick</td> 
-<td>false</td> 
-<td>Toggle if clicking the content should close FancyBox</td> 
-</tr> 
-<tr> 
-<td>overlayShow</td> 
-<td>true</td> 
-<td>Toggle overlay</td> 
-</tr> 
-<tr> 
-<td>overlayOpacity</td> 
-<td>0.3</td> 
-<td>Opacity of the overlay (from 0 to 1; default - 0.3)</td> 
-</tr> 
-<tr class="sep"> 
-<td>overlayColor</td> 
-<td>'#666'</td> 
-<td>Color of the overlay</td> 
-</tr> 
-<tr> 
-<td>titleShow</td> 
-<td>true</td> 
-<td>Toggle title</td> 
-</tr> 
-<tr> 
-<td>titlePosition</td> 
-<td>'outside'</td> 
-<td>The position of title. Can be set to 'outside', 'inside' or 'over'</td> 
-</tr> 
-<tr class="sep"> 
-<td>titleFormat</td> 
-<td>null</td> 
-<td>Callback to customize title area. You can set any html - custom image counter or even custom navigation</td> 
-</tr> 
-<tr> 
-<td>transitionIn, transitionOut</td> 
-<td>'fade'</td> 
-<td>The transition type. Can be set to 'elastic', 'fade' or 'none'</td> 
-</tr> 
-<tr> 
-<td>speedIn, speedOut</td> 
-<td>300</td> 
-<td>Speed of the fade and elastic transitions, in milliseconds</td> 
-</tr> 
-<tr> 
-<td>changeSpeed</td> 
-<td>300</td> 
-<td>Speed of resizing when changing gallery items, in milliseconds</td> 
-</tr> 
-<tr> 
-<td>changeFade</td> 
-<td>'fast'</td> 
-<td>Speed of the content fading while changing gallery items</td> 
-</tr> 
-<tr class="sep"> 
-<td>easingIn, easingOut</td> 
-<td>'swing'</td> 
-<td>Easing used for elastic animations</td> 
-</tr> 
-<tr> 
-<td>showCloseButton</td> 
-<td>true</td> 
-<td>Toggle close button</td> 
-</tr> 
-<tr> 
-<td>showNavArrows</td> 
-<td>true</td> 
-<td>Toggle navigation arrows</td> 
-</tr> 
-<tr class="sep"> 
-<td>enableEscapeButton</td> 
-<td>true</td> 
-<td>Toggle if pressing Esc button closes FancyBox</td> 
-</tr> 
-<tr> 
-<td>onStart</td> 
-<td>null</td> 
-<td>Will be called right before attempting to load the content</td> 
-</tr> 
-<tr> 
-<td>onCancel</td> 
-<td>null</td> 
-<td>Will be called after loading is canceled</td> 
-</tr> 
-<tr> 
-<td>onComplete</td> 
-<td>null</td> 
-<td>Will be called once the content is displayed</td> 
-</tr> 
-<tr> 
-<td>onCleanup</td> 
-<td>null</td> 
-<td>Will be called just before closing</td> 
-</tr> 
-<tr> 
-<td>onClosed</td> 
-<td>null</td> 
-<td>Will be called once FancyBox is closed</td> 
-</tr> 
-</tbody> 
+<h2>Параметры</h2>
+<table cellpadding="0" cellspacing="0" width="100%">
+	<thead>
+	<tr>
+		<td width="120">Ключ</td>
+		<td width="80">Значение по умолчанию</td>
+		<td>Описание</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>padding</td>
+		<td>10</td>
+		<td>Space between FancyBox wrapper and content</td>
+	</tr>
+	<tr>
+		<td>margin</td>
+		<td>20</td>
+		<td>Space between viewport and FancyBox wrapper</td>
+	</tr>
+	<tr>
+		<td>opacity</td>
+		<td>false</td>
+		<td>When true, transparency of content is changed for elastic transitions</td>
+	</tr>
+	<tr>
+		<td>modal</td>
+		<td>false</td>
+		<td>When true, 'overlayShow' is set to 'true' and 'hideOnOverlayClick', 'hideOnContentClick', 'enableEscapeButton', 'showCloseButton' are set to 'false'</td>
+	</tr>
+	<tr>
+		<td>cyclic</td>
+		<td>false</td>
+		<td>When true, galleries will be cyclic, allowing you to keep pressing next/back.</td>
+	</tr>
+	<tr class="sep">
+		<td>scrolling</td>
+		<td>'auto'</td>
+		<td>Set the overflow CSS property to create or hide scrollbars. Can be set to 'auto', 'yes', or 'no'</td>
+	</tr>
+	<tr>
+		<td>width</td>
+		<td>560</td>
+		<td>Width for content types 'iframe' and 'swf'. Also set for inline content if 'autoDimensions' is set to 'false'</td>
+	</tr>
+	<tr class="sep">
+		<td>height</td>
+		<td>340</td>
+		<td>Height for content types 'iframe' and 'swf'. Also set for inline content if 'autoDimensions' is set to 'false'</td>
+	</tr>
+	<tr>
+		<td>autoScale</td>
+		<td>true</td>
+		<td>If true, FancyBox is scaled to fit in viewport</td>
+	</tr>
+	<tr>
+		<td>autoDimensions</td>
+		<td>true</td>
+		<td>For inline and ajax views, resizes the view to the element recieves. Make sure it has dimensions otherwise this will give unexpected results</td>
+	</tr>
+	<tr class="sep">
+		<td>centerOnScroll</td>
+		<td>false</td>
+		<td>When true, FancyBox is centered while scrolling page</td>
+	</tr>
+	<tr>
+		<td>ajax</td>
+		<td>{ }</td>
+		<td>Ajax options
+			<small> Note: 'error' and 'success' will be overwritten by FancyBox</small>
+		</td>
+	</tr>
+	<tr class="sep">
+		<td>swf</td>
+		<td>{wmode: 'transparent'}</td>
+		<td>Params to put on the swf object</td>
+	</tr>
+	<tr>
+		<td>hideOnOverlayClick</td>
+		<td>true</td>
+		<td>Toggle if clicking the overlay should close FancyBox</td>
+	</tr>
+	<tr class="sep">
+		<td>hideOnContentClick</td>
+		<td>false</td>
+		<td>Toggle if clicking the content should close FancyBox</td>
+	</tr>
+	<tr>
+		<td>overlayShow</td>
+		<td>true</td>
+		<td>Toggle overlay</td>
+	</tr>
+	<tr>
+		<td>overlayOpacity</td>
+		<td>0.3</td>
+		<td>Opacity of the overlay (from 0 to 1; default - 0.3)</td>
+	</tr>
+	<tr class="sep">
+		<td>overlayColor</td>
+		<td>'#666'</td>
+		<td>Color of the overlay</td>
+	</tr>
+	<tr>
+		<td>titleShow</td>
+		<td>true</td>
+		<td>Toggle title</td>
+	</tr>
+	<tr>
+		<td>titlePosition</td>
+		<td>'outside'</td>
+		<td>The position of title. Can be set to 'outside', 'inside' or 'over'</td>
+	</tr>
+	<tr class="sep">
+		<td>titleFormat</td>
+		<td>null</td>
+		<td>Callback to customize title area. You can set any html - custom image counter or even custom navigation</td>
+	</tr>
+	<tr>
+		<td>transitionIn, transitionOut</td>
+		<td>'fade'</td>
+		<td>The transition type. Can be set to 'elastic', 'fade' or 'none'</td>
+	</tr>
+	<tr>
+		<td>speedIn, speedOut</td>
+		<td>300</td>
+		<td>Speed of the fade and elastic transitions, in milliseconds</td>
+	</tr>
+	<tr>
+		<td>changeSpeed</td>
+		<td>300</td>
+		<td>Speed of resizing when changing gallery items, in milliseconds</td>
+	</tr>
+	<tr>
+		<td>changeFade</td>
+		<td>'fast'</td>
+		<td>Speed of the content fading while changing gallery items</td>
+	</tr>
+	<tr class="sep">
+		<td>easingIn, easingOut</td>
+		<td>'swing'</td>
+		<td>Easing used for elastic animations</td>
+	</tr>
+	<tr>
+		<td>showCloseButton</td>
+		<td>true</td>
+		<td>Toggle close button</td>
+	</tr>
+	<tr>
+		<td>showNavArrows</td>
+		<td>true</td>
+		<td>Toggle navigation arrows</td>
+	</tr>
+	<tr class="sep">
+		<td>enableEscapeButton</td>
+		<td>true</td>
+		<td>Toggle if pressing Esc button closes FancyBox</td>
+	</tr>
+	<tr>
+		<td>onStart</td>
+		<td>null</td>
+		<td>Will be called right before attempting to load the content</td>
+	</tr>
+	<tr>
+		<td>onCancel</td>
+		<td>null</td>
+		<td>Will be called after loading is canceled</td>
+	</tr>
+	<tr>
+		<td>onComplete</td>
+		<td>null</td>
+		<td>Will be called once the content is displayed</td>
+	</tr>
+	<tr>
+		<td>onCleanup</td>
+		<td>null</td>
+		<td>Will be called just before closing</td>
+	</tr>
+	<tr>
+		<td>onClosed</td>
+		<td>null</td>
+		<td>Will be called once FancyBox is closed</td>
+	</tr>
+	</tbody>
 </table>
 
-<h2>Расширенные настройки</h2> 
-<table class="options" cellpadding="0" cellspacing="0" width="100%"> 
-<thead> 
-<tr> 
-<td width="120">Ключ 
-</td> 
-<td>Описание 
-</td> 
-</tr> 
-</thead> 
-<tbody> 
-<tr> 
-<td>type</td> 
-<td>Forces content type. Can be set to 'image', 'ajax', 'iframe', 'swf' or 'inline'</td> 
-</tr> 
-<tr> 
-<td>href</td> 
-<td>Forces content source</td> 
-</tr> 
-<tr> 
-<td>title</td> 
-<td>Forces title</td> 
-</tr> 
-<tr> 
-<td>content</td> 
-<td>Forces content (can be any html data)</td> 
-</tr> 
-<tr> 
-<td>orig</td> 
-<td>Sets object whos position and dimensions will be used by 'elastic' transition</td> 
-</tr> 
-<tr> 
-<td>index</td> 
-<td>Custom start index of manually created gallery <small>(since 1.3.1)</small></td> 
-</tr> 
-</tbody> 
-</table><h2>Методы</h2>
+<h2>Расширенные настройки</h2>
+<table class="options" cellpadding="0" cellspacing="0" width="100%">
+	<thead>
+	<tr>
+		<td width="120">Ключ
+		</td>
+		<td>Описание
+		</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>type</td>
+		<td>Forces content type. Can be set to 'image', 'ajax', 'iframe', 'swf' or 'inline'</td>
+	</tr>
+	<tr>
+		<td>href</td>
+		<td>Forces content source</td>
+	</tr>
+	<tr>
+		<td>title</td>
+		<td>Forces title</td>
+	</tr>
+	<tr>
+		<td>content</td>
+		<td>Forces content (can be any html data)</td>
+	</tr>
+	<tr>
+		<td>orig</td>
+		<td>Sets object whos position and dimensions will be used by 'elastic' transition</td>
+	</tr>
+	<tr>
+		<td>index</td>
+		<td>Custom start index of manually created gallery
+			<small>(since 1.3.1)</small>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<h2>Методы</h2>
 
-<table cellpadding="0" cellspacing="0" width="100%"> 
-<thead> 
-<tr> 
-<td width="150">Метод
-</td> 
-<td>Описание 
-</td> 
-</tr> 
-</thead> 
-<tbody> 
-<tr> 
-<td>$.fancybox.showActivity</td> 
-<td>Shows loading animation</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.hideActivity</td> 
-<td>Hides loading animation</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.next</td> 
-<td>Displays the next gallery item</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.prev</td> 
-<td>Displays the previous gallery item</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.pos</td> 
-<td>Displays item by index from gallery</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.cancel</td> 
-<td>Cancels loading content</td> 
-</tr> 
-<tr> 
-<td>$.fancybox.close</td> 
-<td>Hides FancyBox 
-<br /><small>Within an iframe use - parent.$.fancybox.close();</small></td> 
-</tr> 
-<tr> 
-<td>$.fancybox.resize</td> 
-<td>Auto-resizes FancyBox height to match height of content </td> 
-</tr> 
-<tr> 
-<td>$.fancybox.center</td> 
-<td>Centers FancyBox in viewport 
-</td> 
-</tr> 
-</tbody> 
-</table><h2>Использование</h2> 
+<table cellpadding="0" cellspacing="0" width="100%">
+	<thead>
+	<tr>
+		<td width="150">Метод
+		</td>
+		<td>Описание
+		</td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>$.fancybox.showActivity</td>
+		<td>Shows loading animation</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.hideActivity</td>
+		<td>Hides loading animation</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.next</td>
+		<td>Displays the next gallery item</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.prev</td>
+		<td>Displays the previous gallery item</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.pos</td>
+		<td>Displays item by index from gallery</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.cancel</td>
+		<td>Cancels loading content</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.close</td>
+		<td>Hides FancyBox
+			<br/>
+			<small>Within an iframe use - parent.$.fancybox.close();</small>
+		</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.resize</td>
+		<td>Auto-resizes FancyBox height to match height of content</td>
+	</tr>
+	<tr>
+		<td>$.fancybox.center</td>
+		<td>Centers FancyBox in viewport
+		</td>
+	</tr>
+	</tbody>
+</table>
+<h2>Использование</h2>
 
-<div class="list"> 
+<div class="list">
 
-<p>1. First, make sure you are using valid <a class="external" href="http://www.alistapart.com/articles/doctype/">DOCTYPE</a></p> 
+	<p>1. First, make sure you are using valid <a class="external" href="http://www.alistapart.com/articles/doctype/">DOCTYPE</a></p>
 
-<p>This is required for FancyBox to look and function correctly.</p> </div> 
+	<p>This is required for FancyBox to look and function correctly.</p></div>
 
-<div class="list"> 
+<div class="list">
 
-<p>2. Include nessesary JS files</p> 
+	<p>2. Include nessesary JS files</p>
 
-<p>Loading jQuery from CDN (<a class="external" target="_blank" href="http://en.wikipedia.org/wiki/Content_Delivery_Network" rel="nofollow">Content Delivery Network</a>) is recommended</p> 
+	<p>Loading jQuery from CDN (<a class="external" target="_blank" href="http://en.wikipedia.org/wiki/Content_Delivery_Network" rel="nofollow">Content Delivery Network</a>) is recommended</p>
 
-<p><code>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"&gt;&lt;/script&gt; &lt;script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"&gt;&lt;/script&gt; </code> </p> 
+	<p><code>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"&gt;&lt;/script&gt; &lt;script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"&gt;&lt;/script&gt; </code></p>
 
-<p><em>Optional</em> - Add transitions as jQuery by default supports only "swing" and "linear"</p> 
+	<p><em>Optional</em> - Add transitions as jQuery by default supports only "swing" and "linear"</p>
 
-<p><code>&lt;script type="text/javascript" src="/fancybox/jquery.easing-1.4.pack.js"&gt;&lt;/script&gt;</code> </p> 
+	<p><code>&lt;script type="text/javascript" src="/fancybox/jquery.easing-1.4.pack.js"&gt;&lt;/script&gt;</code></p>
 
-<p><em>Optional</em> - Enable "mouse-wheel" to navigate throught gallery items</p> 
+	<p><em>Optional</em> - Enable "mouse-wheel" to navigate throught gallery items</p>
 
-<p><code>&lt;script type="text/javascript" src="/fancybox/jquery.mousewheel-3.0.4.pack.js"&gt;&lt;/script&gt;</code> </p></div> 
+	<p><code>&lt;script type="text/javascript" src="/fancybox/jquery.mousewheel-3.0.4.pack.js"&gt;&lt;/script&gt;</code></p></div>
 
-<div class="list"> 
+<div class="list">
 
-<p>3. Add FancyBox CSS file</p> 
+	<p>3. Add FancyBox CSS file</p>
 
-<p> Don`t forget to change background image paths if CSS file is not in the same directory. </p> 
+	<p> Don`t forget to change background image paths if CSS file is not in the same directory. </p>
 
-<p> Also, check src paths for AlphaImageLoader as they are relative to the HTML document, while regular CSS background images are relative to the CSS document (<a class="external" href="http://groups.google.com/group/fancybox/browse_thread/thread/8530478044b9f586#">read more</a>). </p> 
+	<p> Also, check src paths for AlphaImageLoader as they are relative to the HTML document, while regular CSS background images are relative to the CSS document (<a class="external" href="http://groups.google.com/group/fancybox/browse_thread/thread/8530478044b9f586#">read more</a>). </p>
 
-<p><code>&lt;link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" /&gt;</code> </p></div>  
+	<p><code>&lt;link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" /&gt;</code></p></div>
 
-<div class="list"> 
+<div class="list">
 
-<p>4. Create a link element (&lt;a href&gt;)</p> 
+	<p>4. Create a link element (&lt;a href&gt;)</p>
 
-<p>Images</p> 
+	<p>Images</p>
 
-<p><code>&lt;a id="single_image" href="image_big.jpg"&gt;&lt;img src="image_small.jpg" alt=""/&gt;&lt;/a&gt;</code> </p> 
+	<p><code>&lt;a id="single_image" href="image_big.jpg"&gt;&lt;img src="image_small.jpg" alt=""/&gt;&lt;/a&gt;</code></p>
 
-<p>Inline content</p> 
+	<p>Inline content</p>
 
-<p><code>&lt;a id="inline" href="#data"&gt;This shows content of element who has id="data"&lt;/a&gt; &lt;div style="display:none"&gt;&lt;div id="data"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/div&gt;&lt;/div&gt; </code> </p> 
+	<p><code>&lt;a id="inline" href="#data"&gt;This shows content of element who has id="data"&lt;/a&gt; &lt;div style="display:none"&gt;&lt;div id="data"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/div&gt;&lt;/div&gt; </code></p>
 
-<p>Iframe</p> 
+	<p>Iframe</p>
 
-<p><code>&lt;a href="http://www.example?iframe"&gt;This goes to iframe&lt;/a&gt; or &lt;a class="iframe" href="http://www.example"&gt;This goes to iframe&lt;/a&gt; </code> </p> 
+	<p><code>&lt;a href="http://www.example?iframe"&gt;This goes to iframe&lt;/a&gt; or &lt;a class="iframe" href="http://www.example"&gt;This goes to iframe&lt;/a&gt; </code></p>
 
-<p>Ajax</p> 
+	<p>Ajax</p>
 
-<p><code>&lt;a href="http://www.example/data.php"&gt;This takes content using ajax&lt;/a&gt;</code> </p> 
+	<p><code>&lt;a href="http://www.example/data.php"&gt;This takes content using ajax&lt;/a&gt;</code></p>
 
-<p> <em>Optional</em> - Use the <em>title</em> attribute for anchors if you want to show a caption </p>  
+	<p><em>Optional</em> - Use the <em>title</em> attribute for anchors if you want to show a caption </p>
 
-<p> <em>Note</em> - You may want to set <b>hideOnContentClick</b> to false if you display iframed or inline content and it containts clickable elements (for example - play buttons for movies, links to other pages) </p></div> 
+	<p><em>Note</em> - You may want to set <b>hideOnContentClick</b> to false if you display iframed or inline content and it containts clickable elements (for example - play buttons for movies, links to other pages) </p></div>
 
-<div class="list"> 
+<div class="list">
 
-<p>5. Fire plugin using jQuery selector</p> 
+	<p>5. Fire plugin using jQuery selector</p>
 
-<p> If you are not familiar with jQuery, please, read <a class="external" href="http://docs.jquery.com/Tutorials:How_jQuery_Works">this tutorial for beginners</a> </p> 
+	<p> If you are not familiar with jQuery, please, read <a class="external" href="http://docs.jquery.com/Tutorials:How_jQuery_Works">this tutorial for beginners</a></p>
 
-<p> Sample examples: </p> 
+	<p> Sample examples: </p>
 
-<p><code>$(document).ready(function() { /* This is basic - uses default settings */ $("a#single_image").fancybox(); /* Using custom settings */ $("a#inline").fancybox({ 'hideOnContentClick': true }); /* Apply fancybox to multiple items */ $("a.group").fancybox({ 'transitionIn' : 'elastic', 'transitionOut' : 'elastic', 'speedIn' : 600, 'speedOut' : 200, 'overlayShow' : false }); }); </code> </p> 
+	<p><code>$(document).ready(function() { /* This is basic - uses default settings */ $("a#single_image").fancybox(); /* Using custom settings */ $("a#inline").fancybox({ 'hideOnContentClick': true }); /* Apply fancybox to multiple items */ $("a.group").fancybox({ 'transitionIn' : 'elastic', 'transitionOut' : 'elastic', 'speedIn' : 600, 'speedOut' : 200, 'overlayShow' : false }); }); </code></p>
 
-<p> <em>Note</em> - ID's are meant for a SINGLE instance. If you want to use the same script for all your images/elements then use classes instead. </p> 
+	<p><em>Note</em> - ID's are meant for a SINGLE instance. If you want to use the same script for all your images/elements then use classes instead. </p>
 
-<p> <em>Note</em> - Galleries are created from elements who have the same "rel" tag, example: </p> 
+	<p><em>Note</em> - Galleries are created from elements who have the same "rel" tag, example: </p>
 
-<p><code>/* HTML */ &lt;a class="grouped_elements" rel="group1" href="image_big_1.jpg"&gt;&lt;img src="image_small_1.jpg" alt=""/&gt;&lt;/a&gt; &lt;a class="grouped_elements" rel="group1" href="image_big_2.jpg"&gt;&lt;img src="image_small_2.jpg" alt=""/&gt;&lt;/a&gt; &lt;a class="grouped_elements" rel="group2" href="image_big_3.jpg"&gt;&lt;img src="image_small_3.jpg" alt=""/&gt;&lt;/a&gt; &lt;a class="grouped_elements" rel="group2" href="image_big_4.jpg"&gt;&lt;img src="image_small_4.jpg" alt=""/&gt;&lt;/a&gt; /* This will create two galleries */ $("a.grouped_elements").fancybox(); </code> </p></div>
+	<p><code>/* HTML */ &lt;a class="grouped_elements" rel="group1" href="image_big_1.jpg"&gt;&lt;img src="image_small_1.jpg" alt=""/&gt;&lt;/a&gt; &lt;a class="grouped_elements" rel="group1" href="image_big_2.jpg"&gt;&lt;img src="image_small_2.jpg" alt=""/&gt;&lt;/a&gt; &lt;a class="grouped_elements" rel="group2" href="image_big_3.jpg"&gt;&lt;img src="image_small_3.jpg" alt=""/&gt;&lt;/a&gt; &lt;a
+		class="grouped_elements" rel="group2" href="image_big_4.jpg"&gt;&lt;img src="image_small_4.jpg" alt=""/&gt;&lt;/a&gt; /* This will create two galleries */ $("a.grouped_elements").fancybox(); </code></p></div>
 
-</body></html>
+</body>
+</html>
 <!-- Served Gzipped From Cache! -->

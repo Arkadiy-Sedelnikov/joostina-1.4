@@ -10,33 +10,29 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-if (!defined('_MOS_MAINMENU_MODULE')) {
+if(!defined('_MOS_MAINMENU_MODULE')){
 	/** обеспечивает запуск функции только один раз */
 	define('_MOS_MAINMENU_MODULE', 1);
 
 	/**
 	 * Сервисная функция записи ссылки на меню
 	 */
-	function mosGetMenuLink($mitem, $level=0, &$params, $open=null) {
-		global $Itemid;
-        $mainframe = mosMainFrame::getInstance();
-        $my = $mainframe->getUser();
-        $database = database::getInstance();
+	function mosGetMenuLink($mitem, $level = 0, $params, $open = null){
+		$mainframe = mosMainFrame::getInstance();
+		$my = $mainframe->getUser();
+		$database = database::getInstance();
 
 		$txt = '';
 
 		$link = $mitem->link;
-		
-		switch ($mitem->type) {
+
+		switch($mitem->type){
 			case 'separator':
 			case 'component_item_link':
 				break;
 
 			case 'url':
-				if (preg_match('/index.php\?/', $link) && !preg_match('/http/', $link) && !preg_match('/https/', $link)) {
-					if (!preg_match('/Itemid=/', $link)) {
-						$link .= '&Itemid=' . $mitem->id;
-					}
+				if(preg_match('/index.php\?/', $link) && !preg_match('/http/', $link) && !preg_match('/https/', $link)){
 				}
 				break;
 
@@ -45,55 +41,31 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 				// load menu params
 				$menuparams = new mosParameters($mitem->params, $mainframe->getPath('menu_xml', $mitem->type), 'menu');
 
-				$unique_itemid = $menuparams->get('unique_itemid', 1);
 
-				if ($unique_itemid) {
-					$link .= '&Itemid=' . $mitem->id;
-				} else {
-					$temp = explode('&task=view&id=', $link);
+				$temp = explode('&task=view&id=', $link);
 
-					if ($mitem->type == 'content_typed') {
-						$link .= '&Itemid=' . $mainframe->getItemid($temp[1], 1, 0);
-					} else {
-						$link .= '&Itemid=' . $mainframe->getItemid($temp[1], 0, 1);
-					}
-				}
 				break;
 
 			default:
-				$link .= '&Itemid=' . $mitem->id;
 				break;
 		}
 
 		// Подсветка активного меню
-		$current_itemid = $Itemid;
-		if (!$current_itemid) {
-			$id = '';
-		} else if ($current_itemid == $mitem->id) {
+		if($params->get('activate_parent') && isset($open) && in_array($mitem->id, $open)){
 			$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-		} else if ($params->get('activate_parent') && isset($open) && in_array($mitem->id, $open)) {
-			$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-		} else {
+		} else{
 			$id = '';
 		}
 
-		if ($params->get('full_active_id')) {
+		if($params->get('full_active_id')){
 			// support for `active_menu` of 'Link - Component Item'
-			if ($id == '' && $mitem->type == 'component_item_link') {
+			if($id == '' && $mitem->type == 'component_item_link'){
 				parse_str($link, $url);
-				if ($url['Itemid'] == $current_itemid) {
-					$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-				}
 			}
 
 			// support for `active_menu` of 'Link - Url' if link is relative
-			if ($id == '' && $mitem->type == 'url' && strpos('http', $link) === false) {
+			if($id == '' && $mitem->type == 'url' && strpos('http', $link) === false){
 				parse_str($link, $url);
-				if (isset($url['Itemid'])) {
-					if ($url['Itemid'] == $current_itemid) {
-						$id = 'id="active_menu' . $params->get('class_sfx') . '"';
-					}
-				}
 			}
 		}
 
@@ -104,7 +76,7 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 		$link = sefRelToAbs($link);
 
 		$menuclass = 'mainlevel' . $params->get('class_sfx');
-		if ($level > 0) {
+		if($level > 0){
 			$menuclass = 'sublevel' . $params->get('class_sfx');
 		}
 
@@ -112,7 +84,7 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 		// remove slashes from excaped characters
 		$mitem->name = stripslashes(ampReplace($mitem->name));
 
-		switch ($mitem->browserNav) {
+		switch($mitem->browserNav){
 			// различные события
 			case 1:
 				// открыть в новом окне
@@ -135,15 +107,15 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 				break;
 		}
 
-		if ($params->get('menu_images')) {
+		if($params->get('menu_images')){
 			$menu_params = new stdClass();
 			$menu_params = new mosParameters($mitem->params);
 			$menu_image = $menu_params->def('menu_image', -1);
-			if (( $menu_image != '-1' ) && $menu_image) {
+			if(($menu_image != '-1') && $menu_image){
 				$image = '<img src="' . JPATH_SITE . '/images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
-				if ($params->get('menu_images_align')) {
+				if($params->get('menu_images_align')){
 					$txt = $txt . ' ' . $image;
-				} else {
+				} else{
 					$txt = $image . ' ' . $txt;
 				}
 			}
@@ -155,31 +127,31 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	/**
 	 * Вертикальный отступ меню
 	 */
-	function mosShowVIMenu(&$params) {
-		global $cur_template, $Itemid;
+	function mosShowVIMenu($params){
+		global $cur_template;
 		global $mosConfig_shownoauth;
-        $mainframe = mosMainFrame::getInstance();
-        $my = $mainframe->getUser();
-        $database = database::getInstance();
+		$mainframe = mosMainFrame::getInstance();
+		$my = $mainframe->getUser();
+		$database = database::getInstance();
 
 		$and = '';
-		if (!$mosConfig_shownoauth) {
-			$and = "\n AND access <= " . (int) $my->gid;
+		if(!$mosConfig_shownoauth){
+			$and = "\n AND access <= " . (int)$my->gid;
 		}
 		$sql = "SELECT m.*"
-				. "\n FROM #__menu AS m"
-				. "\n WHERE menutype = " . $database->Quote($params->get('menutype'))
-				. "\n AND published = 1"
-				. $and
-				. "\n ORDER BY parent, ordering";
+			. "\n FROM #__menu AS m"
+			. "\n WHERE menutype = " . $database->Quote($params->get('menutype'))
+			. "\n AND published = 1"
+			. $and
+			. "\n ORDER BY parent, ordering";
 		$rows = $database->setQuery($sql)->loadObjectList('id');
 
 		// значки отступа
-		switch ($params->get('indent_image')) {
+		switch($params->get('indent_image')){
 			case '1':
 				// Изображения по умолчанию
 				$imgpath = JPATH_SITE . '/images/M_images';
-				for ($i = 1; $i < 7; $i++) {
+				for($i = 1; $i < 7; $i++){
 					$img[$i] = '<img src="' . $imgpath . '/indent' . $i . '.png" alt="" />';
 				}
 				break;
@@ -187,10 +159,10 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 			case '2':
 				// Использование параметров
 				$imgpath = JPATH_SITE . '/images/M_images';
-				for ($i = 1; $i < 7; $i++) {
-					if ($params->get('indent_image' . $i) == '-1') {
+				for($i = 1; $i < 7; $i++){
+					if($params->get('indent_image' . $i) == '-1'){
 						$img[$i] = NULL;
-					} else {
+					} else{
 						$img[$i] = '<img src="' . $imgpath . '/' . $params->get('indent_image' . $i) . '" alt="" />';
 					}
 				}
@@ -198,7 +170,7 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 
 			case '3':
 				// Нет параметров
-				for ($i = 1; $i < 7; $i++) {
+				for($i = 1; $i < 7; $i++){
 					$img[$i] = NULL;
 				}
 				break;
@@ -206,7 +178,7 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 			default:
 				// Шаблон
 				$imgpath = JPATH_SITE . '/templates/' . $cur_template . '/images';
-				for ($i = 1; $i < 7; $i++) {
+				for($i = 1; $i < 7; $i++){
 					$img[$i] = '<img src="' . $imgpath . '/indent' . $i . '.png" alt="" />';
 				}
 				break;
@@ -226,7 +198,7 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 		// создание иерархии меню
 		$children = array();
 		// first pass - collect children
-		foreach ($rows as $v) {
+		foreach($rows as $v){
 			$pt = $v->parent;
 			$list = isset($children[$pt]) ? $children[$pt] : array();
 			array_push($list, $v);
@@ -234,15 +206,15 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 		}
 
 		// первый проход - сбор открытых меню
-		$open = array($Itemid);
+		$open = array();
 		$count = 20; // максимум уровней - предотвращает зацикливание
-		$id = $Itemid;
+		$id = 0;
 
-		while (--$count) {
-			if (isset($rows[$id]) && $rows[$id]->parent > 0) {
+		while(--$count){
+			if(isset($rows[$id]) && $rows[$id]->parent > 0){
 				$id = $rows[$id]->parent;
 				$open[] = $id;
-			} else {
+			} else{
 				break;
 			}
 		}
@@ -253,23 +225,23 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	 * Сервисная рекурсивная функция для вертикального отступа
 	 * иерархического меню
 	 */
-	function mosRecurseVIMenu($id, $level, &$children, &$open, &$indents, &$params) {
-		if (@$children[$id]) {
+	function mosRecurseVIMenu($id, $level, &$children, &$open, &$indents, &$params){
+		if(@$children[$id]){
 			$n = min($level, count($indents) - 1);
 
 			echo "\n" . $indents[$n][0];
-			foreach ($children[$id] as $row) {
+			foreach($children[$id] as $row){
 
 				echo "\n" . $indents[$n][1];
 
 				echo mosGetMenuLink($row, $level, $params, $open);
 
 				// показывается расширенное меню с видимым подменю
-				if (!$params->get('expand_menu')) {
-					if (in_array($row->id, $open)) {
+				if(!$params->get('expand_menu')){
+					if(in_array($row->id, $open)){
 						mosRecurseVIMenu($row->id, $level + 1, $children, $open, $indents, $params);
 					}
-				} else {
+				} else{
 					mosRecurseVIMenu($row->id, $level + 1, $children, $open, $indents, $params);
 				}
 				echo $indents[$n][2];
@@ -281,32 +253,32 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 	/**
 	 * Прорисовка горизонтального 'плоского' стиля меню (выбираемого очень просто)
 	 */
-	function mosShowHFMenu(&$params, $style=0) {
-        $mainframe = mosMainFrame::getInstance();
-        $my = $mainframe->getUser();
+	function mosShowHFMenu(&$params, $style = 0){
+		$mainframe = mosMainFrame::getInstance();
+		$my = $mainframe->getUser();
 
 		$all_menu = mosMenu::get_all();
 
 		$menus = isset($all_menu[$params->get('menutype')]) ? $all_menu[$params->get('menutype')] : array();
 
 		$rows = array();
-		foreach ($menus as $menu) {
-			if ($menu->parent == 0 && $menu->access <= (int) $my->gid) {
+		foreach($menus as $menu){
+			if($menu->parent == 0 && $menu->access <= (int)$my->gid){
 				$rows[$menu->id] = $menu;
 			}
 		}
 
 		$links = array();
-		foreach ($rows as $row) {
+		foreach($rows as $row){
 			$links[] = mosGetMenuLink($row, 0, $params);
 		}
 
 		$menuclass = 'mainlevel' . $params->get('class_sfx');
-		if (count($links)) {
-			switch ($style) {
+		if(count($links)){
+			switch($style){
 				case 1:
 					echo '<ul id="' . $menuclass . '">';
-					foreach ($links as $link) {
+					foreach($links as $link){
 						echo '<li>' . $link . '</li>';
 					}
 					echo '</ul>';
@@ -320,18 +292,18 @@ if (!defined('_MOS_MAINMENU_MODULE')) {
 					echo '<tr>';
 					echo '<td class="jtd_nowrap">';
 
-					if ($spacer_end) {
+					if($spacer_end){
 						echo '<span class="' . $menuclass . '"> ' . $spacer_end . ' </span>';
 					}
 
-					if ($spacer_start) {
+					if($spacer_start){
 						$html = '<span class="' . $menuclass . '"> ' . $spacer_start . ' </span>';
 						echo implode($html, $links);
-					} else {
+					} else{
 						echo implode('', $links);
 					}
 
-					if ($spacer_end) {
+					if($spacer_end){
 						echo '<span class="' . $menuclass . '"> ' . $spacer_end . ' </span>';
 					}
 
@@ -362,7 +334,7 @@ $params->def('spacer', '');
 $params->def('end_spacer', '');
 $params->def('full_active_id', 0);
 
-switch ($params->get('menu_style', 'vert_indent')) {
+switch($params->get('menu_style', 'vert_indent')){
 	case 'list_flat':
 		mosShowHFMenu($params, 1);
 		break;

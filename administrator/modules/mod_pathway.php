@@ -11,6 +11,6 @@
 defined('_VALID_MOS') or die();
 
 global $option;
-if($option != '') {
-	echo '<div class="pathway">'.$option.'</div>';
+if($option != ''){
+	echo '<div class="pathway">' . $option . '</div>';
 }

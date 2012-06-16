@@ -1,16 +1,16 @@
 <?php
 /**
-* @package Joostina
-* @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
-* @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
-* Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
-* Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
-* License GNU/GPL - Vincent Blavet - Janvier 2001
-* http://www.phpconcept.net & http://phpconcept.free.fr
-**/
+ * @package Joostina
+ * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
+ * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * License GNU/GPL - Vincent Blavet - Janvier 2001
+ * http://www.phpconcept.net & http://phpconcept.free.fr
+ **/
 
 defined('_VALID_MOS') or die();
-if(!defined("PCLTRACE_LIB")) {
+if(!defined("PCLTRACE_LIB")){
 	define("PCLTRACE_LIB", 1);
 	$g_pcl_trace_version = "1.0";
 	$g_pcl_trace_mode = "memory";
@@ -18,7 +18,7 @@ if(!defined("PCLTRACE_LIB")) {
 	$g_pcl_trace_name = array();
 	$g_pcl_trace_index = 0;
 	$g_pcl_trace_level = 1;
-	function TrOn($p_level = 1, $p_mode = "memory", $p_filename = "trace.txt") {
+	function TrOn($p_level = 1, $p_mode = "memory", $p_filename = "trace.txt"){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -26,7 +26,7 @@ if(!defined("PCLTRACE_LIB")) {
 		global $g_pcl_trace_index;
 		global $g_pcl_trace_entries;
 		$g_pcl_trace_level = $p_level;
-		switch($p_mode) {
+		switch($p_mode){
 			case "normal":
 			case "memory":
 			case "log":
@@ -37,11 +37,13 @@ if(!defined("PCLTRACE_LIB")) {
 		}
 		$g_pcl_trace_filename = $p_filename;
 	}
-	function IsTrOn() {
+
+	function IsTrOn(){
 		global $g_pcl_trace_level;
 		return ($g_pcl_trace_level);
 	}
-	function TrOff() {
+
+	function TrOff(){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -53,7 +55,8 @@ if(!defined("PCLTRACE_LIB")) {
 		unset($g_pcl_trace_index);
 		$g_pcl_trace_level = 0;
 	}
-	function TrFctStart($p_file, $p_line, $p_name, $p_param = "", $p_message = "") {
+
+	function TrFctStart($p_file, $p_line, $p_name, $p_param = "", $p_message = ""){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -65,7 +68,7 @@ if(!defined("PCLTRACE_LIB")) {
 		if(!isset($g_pcl_trace_name))
 			$g_pcl_trace_name = $p_name;
 		else
-			$g_pcl_trace_name .= ",".$p_name;
+			$g_pcl_trace_name .= "," . $p_name;
 		$i = sizeof($g_pcl_trace_entries);
 		$g_pcl_trace_entries[$i]["name"] = $p_name;
 		$g_pcl_trace_entries[$i]["param"] = $p_param;
@@ -74,7 +77,7 @@ if(!defined("PCLTRACE_LIB")) {
 		$g_pcl_trace_entries[$i]["line"] = $p_line;
 		$g_pcl_trace_entries[$i]["index"] = $g_pcl_trace_index;
 		$g_pcl_trace_entries[$i]["type"] = "1";
-		if($p_message != "") {
+		if($p_message != ""){
 			$i = sizeof($g_pcl_trace_entries);
 			$g_pcl_trace_entries[$i]["name"] = "";
 			$g_pcl_trace_entries[$i]["param"] = "";
@@ -87,7 +90,8 @@ if(!defined("PCLTRACE_LIB")) {
 		PclTraceAction($g_pcl_trace_entries[$i]);
 		$g_pcl_trace_index++;
 	}
-	function TrFctEnd($p_file, $p_line, $p_return = 1, $p_message = "") {
+
+	function TrFctEnd($p_file, $p_line, $p_return = 1, $p_message = ""){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -96,16 +100,16 @@ if(!defined("PCLTRACE_LIB")) {
 		global $g_pcl_trace_entries;
 		if($g_pcl_trace_level < 1)
 			return;
-		if(!($v_name = strrchr($g_pcl_trace_name, ","))) {
+		if(!($v_name = strrchr($g_pcl_trace_name, ","))){
 			$v_name = $g_pcl_trace_name;
 			$g_pcl_trace_name = "";
-		} else {
+		} else{
 			$g_pcl_trace_name = substr($g_pcl_trace_name, 0, strlen($g_pcl_trace_name) -
 				strlen($v_name));
 			$v_name = substr($v_name, -strlen($v_name) + 1);
 		}
 		$g_pcl_trace_index--;
-		if($p_message != "") {
+		if($p_message != ""){
 			$i = sizeof($g_pcl_trace_entries);
 			$g_pcl_trace_entries[$i]["name"] = "";
 			$g_pcl_trace_entries[$i]["param"] = "";
@@ -125,7 +129,8 @@ if(!defined("PCLTRACE_LIB")) {
 		$g_pcl_trace_entries[$i]["type"] = "2";
 		PclTraceAction($g_pcl_trace_entries[$i]);
 	}
-	function TrFctMessage($p_file, $p_line, $p_level, $p_message = "") {
+
+	function TrFctMessage($p_file, $p_line, $p_level, $p_message = ""){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -144,7 +149,8 @@ if(!defined("PCLTRACE_LIB")) {
 		$g_pcl_trace_entries[$i]["type"] = "3";
 		PclTraceAction($g_pcl_trace_entries[$i]);
 	}
-	function TrMessage($p_file, $p_line, $p_level, $p_message = "") {
+
+	function TrMessage($p_file, $p_line, $p_level, $p_message = ""){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -163,7 +169,8 @@ if(!defined("PCLTRACE_LIB")) {
 		$g_pcl_trace_entries[$i]["type"] = "4";
 		PclTraceAction($g_pcl_trace_entries[$i]);
 	}
-	function TrDisplay() {
+
+	function TrDisplay(){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
@@ -185,47 +192,48 @@ if(!defined("PCLTRACE_LIB")) {
 		echo "<td>";
 		echo "<table width=100% border=0 cellspacing=0 cellpadding=0>";
 		$v_again = 0;
-		for($i = 0; $i < sizeof($g_pcl_trace_entries); $i++) {
+		for($i = 0; $i < sizeof($g_pcl_trace_entries); $i++){
 			echo "<tr>";
 			echo "<td><table width=100% border=0 cellspacing=0 cellpadding=0><tr>";
 			$n = ($g_pcl_trace_entries[$i]["index"] + 1) * 10;
-			echo "<td width=".$n.
+			echo "<td width=" . $n .
 				"><table width=100% border=0 cellspacing=0 cellpadding=0><tr>";
-			for($j = 0; $j <= $g_pcl_trace_entries[$i]["index"]; $j++) {
-				if($j == $g_pcl_trace_entries[$i]["index"]) {
+			for($j = 0; $j <= $g_pcl_trace_entries[$i]["index"]; $j++){
+				if($j == $g_pcl_trace_entries[$i]["index"]){
 					if(($g_pcl_trace_entries[$i]["type"] == 1) || ($g_pcl_trace_entries[$i]["type"] ==
-						2))
+						2)
+					)
 						echo "<td width=10><div align=center><font size=2 face=$v_font>+</font></div></td>";
 				} else
 					echo "<td width=10><div align=center><font size=2 face=$v_font>|</font></div></td>";
 			}
 			echo "</tr></table></td>";
 			echo "<td width=2></td>";
-			switch($g_pcl_trace_entries[$i]["type"]) {
+			switch($g_pcl_trace_entries[$i]["type"]){
 				case 1:
-					echo "<td><font size=2 face=$v_font>".$g_pcl_trace_entries[$i]["name"]."(".$g_pcl_trace_entries[$i]["param"].
+					echo "<td><font size=2 face=$v_font>" . $g_pcl_trace_entries[$i]["name"] . "(" . $g_pcl_trace_entries[$i]["param"] .
 						")</font></td>";
 					break;
 				case 2:
-					echo "<td><font size=2 face=$v_font>".$g_pcl_trace_entries[$i]["name"]."()=".$g_pcl_trace_entries[$i]["param"].
+					echo "<td><font size=2 face=$v_font>" . $g_pcl_trace_entries[$i]["name"] . "()=" . $g_pcl_trace_entries[$i]["param"] .
 						"</font></td>";
 					break;
 				case 3:
 				case 4:
 					echo "<td><table width=100% border=0 cellspacing=0 cellpadding=0><td width=20></td><td>";
-					echo "<font size=2 face=$v_font>".$g_pcl_trace_entries[$i]["message"]."</font>";
+					echo "<font size=2 face=$v_font>" . $g_pcl_trace_entries[$i]["message"] . "</font>";
 					echo "</td></table></td>";
 					break;
 				default:
-					echo "<td><font size=2 face=$v_font>".$g_pcl_trace_entries[$i]["name"]."(".$g_pcl_trace_entries[$i]["param"].
+					echo "<td><font size=2 face=$v_font>" . $g_pcl_trace_entries[$i]["name"] . "(" . $g_pcl_trace_entries[$i]["param"] .
 						")</font></td>";
 			}
 			echo "</tr></table></td>";
 			echo "<td width=5></td>";
-			echo "<td><font size=1 face=$v_font>".basename($g_pcl_trace_entries[$i]["file"]).
+			echo "<td><font size=1 face=$v_font>" . basename($g_pcl_trace_entries[$i]["file"]) .
 				"</font></td>";
 			echo "<td width=5></td>";
-			echo "<td><font size=1 face=$v_font>".$g_pcl_trace_entries[$i]["line"].
+			echo "<td><font size=1 face=$v_font>" . $g_pcl_trace_entries[$i]["line"] .
 				"</font></td>";
 			echo "</tr>";
 		}
@@ -241,25 +249,26 @@ if(!defined("PCLTRACE_LIB")) {
 		echo "</tr>";
 		echo "</table>";
 	}
-	function PclTraceAction($p_entry) {
+
+	function PclTraceAction($p_entry){
 		global $g_pcl_trace_level;
 		global $g_pcl_trace_mode;
 		global $g_pcl_trace_filename;
 		global $g_pcl_trace_name;
 		global $g_pcl_trace_index;
 		global $g_pcl_trace_entries;
-		if($g_pcl_trace_mode == "normal") {
+		if($g_pcl_trace_mode == "normal"){
 			for($i = 0; $i < $p_entry["index"]; $i++)
 				echo "---";
 			if($p_entry["type"] == 1)
-				echo "<b>".$p_entry["name"]."</b>(".$p_entry["param"].") : ".$p_entry["message"].
-					" [".$p_entry["file"].", ".$p_entry["line"]."]<br>";
+				echo "<b>" . $p_entry["name"] . "</b>(" . $p_entry["param"] . ") : " . $p_entry["message"] .
+					" [" . $p_entry["file"] . ", " . $p_entry["line"] . "]<br>";
 			else
 				if($p_entry["type"] == 2)
-					echo "<b>".$p_entry["name"]."</b>()=".$p_entry["param"]." : ".$p_entry["message"].
-						" [".$p_entry["file"].", ".$p_entry["line"]."]<br>";
+					echo "<b>" . $p_entry["name"] . "</b>()=" . $p_entry["param"] . " : " . $p_entry["message"] .
+						" [" . $p_entry["file"] . ", " . $p_entry["line"] . "]<br>";
 				else
-					echo $p_entry["message"]." [".$p_entry["file"].", ".$p_entry["line"]."]<br>";
+					echo $p_entry["message"] . " [" . $p_entry["file"] . ", " . $p_entry["line"] . "]<br>";
 		}
 	}
 }

@@ -1,7 +1,7 @@
 // YouTube properties
 function SpawYouTubePropDialog() {
 }
-SpawYouTubePropDialog.init = function() {
+SpawYouTubePropDialog.init = function () {
     var iProps = spawArguments;
     if (iProps) {
         if (iProps.src && iProps.src.indexOf("youtube")) {
@@ -13,7 +13,7 @@ SpawYouTubePropDialog.init = function() {
     SpawDialog.resizeDialogToContent();
 }
 
-SpawYouTubePropDialog.validateParams = function() {
+SpawYouTubePropDialog.validateParams = function () {
     // check width and height
     if (!document.getElementById('csrc').value.match(/(youtube).*(v=)([^&]*)/)) {
         alert(spawErrorMessages['error_wrong_youtube_url']);
@@ -23,7 +23,7 @@ SpawYouTubePropDialog.validateParams = function() {
     return true;
 }
 
-SpawYouTubePropDialog.okClick = function() {
+SpawYouTubePropDialog.okClick = function () {
     // validate paramters
     if (SpawYouTubePropDialog.validateParams()) {
         var pdoc = spawEditor.getActivePageDoc();
@@ -52,7 +52,7 @@ SpawYouTubePropDialog.okClick = function() {
     }
 }
 
-SpawYouTubePropDialog.cancelClick = function() {
+SpawYouTubePropDialog.cancelClick = function () {
     window.close();
 }
 

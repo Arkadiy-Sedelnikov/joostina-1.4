@@ -2,7 +2,6 @@
 
 /**
  * Класс работы с текстом
- *
  * @package Joostina
  * @copyright (C) 2009 Extention Team. Joostina Team. Все права защищены.
  * @license GNU/GPL, подробнее в help/lisense.php
@@ -11,32 +10,32 @@
  */
 defined('_VALID_MOS') or die();
 
-class Text {
+class Text{
 
 	var $text = null;
 
 	/**
 	 * Вывод численных результатов с учетом склонения слов
-	 *
 	 * @access public
 	 * @param integer $int
-	 * @param array $expressions Например: array("ответ", "ответа", "ответов")
+	 * @param array   $expressions Например: array("ответ", "ответа", "ответов")
 	 */
-	public static function declension($int, $expressions) {
-		if (count($expressions) < 3) {
+	public static function declension($int, $expressions){
+		if(count($expressions) < 3){
 			$expressions[2] = $expressions[1];
-		};
+		}
+		;
 		settype($int, 'integer');
 		$count = $int % 100;
-		if ($count >= 5 && $count <= 20) {
+		if($count >= 5 && $count <= 20){
 			$result = $expressions['2'];
-		} else {
+		} else{
 			$count = $count % 10;
-			if ($count == 1) {
+			if($count == 1){
 				$result = $expressions['0'];
-			} elseif ($count >= 2 && $count <= 4) {
+			} elseif($count >= 2 && $count <= 4){
 				$result = $expressions['1'];
-			} else {
+			} else{
 				$result = $expressions['2'];
 			}
 		}
@@ -45,23 +44,21 @@ class Text {
 
 	/**
 	 * Word Limiter
-	 *
 	 * Limits a string to X number of words.
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	integer
-	 * @param	string	the end character. Usually an ellipsis
-	 * @return	string
+	 * @access    public
+	 * @param    string
+	 * @param    integer
+	 * @param    string    the end character. Usually an ellipsis
+	 * @return    string
 	 */
-	public static function word_limiter($str, $limit = 100, $end_char = '&#8230;') {
-		if (Jstring::trim($str) == '') {
+	public static function word_limiter($str, $limit = 100, $end_char = '&#8230;'){
+		if(Jstring::trim($str) == ''){
 			return $str;
 		}
 
-		preg_match('/^\s*+(?:\S++\s*+){1,' . (int) $limit . '}/u', $str, $matches);
+		preg_match('/^\s*+(?:\S++\s*+){1,' . (int)$limit . '}/u', $str, $matches);
 
-		if (Jstring::strlen($str) == Jstring::strlen($matches[0])) {
+		if(Jstring::strlen($str) == Jstring::strlen($matches[0])){
 			$end_char = '';
 		}
 
@@ -70,32 +67,30 @@ class Text {
 
 	/**
 	 * Character Limiter
-	 *
 	 * Limits the string based on the character count.  Preserves complete words
 	 * so the character count may not be exactly as specified.
-	 *
-	 * @access	public
-	 * @param	string
-	 * @param	integer
-	 * @param	string	the end character. Usually an ellipsis
-	 * @return	string
+	 * @access    public
+	 * @param    string
+	 * @param    integer
+	 * @param    string    the end character. Usually an ellipsis
+	 * @return    string
 	 */
-	public static function character_limiter($str, $n = 500, $end_char = '&#8230;') {
-		if (strlen($str) < $n) {
+	public static function character_limiter($str, $n = 500, $end_char = '&#8230;'){
+		if(strlen($str) < $n){
 			return $str;
 		}
 
 		$str = preg_replace("/\s+/u", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
 
-		if (Jstring::strlen($str) <= $n) {
+		if(Jstring::strlen($str) <= $n){
 			return $str;
 		}
 
 		$out = "";
-		foreach (explode(' ', Jstring::trim($str)) as $val) {
+		foreach(explode(' ', Jstring::trim($str)) as $val){
 			$out .= $val . ' ';
 
-			if (Jstring::strlen($out) >= $n) {
+			if(Jstring::strlen($out) >= $n){
 				$out = Jstring::trim($out);
 				return (Jstring::strlen($out) == Jstring::strlen($str)) ? $out : $out . $end_char;
 			}
@@ -104,19 +99,17 @@ class Text {
 
 	/**
 	 * Word Censoring Function
-	 *
 	 * Supply a string and an array of disallowed words and any
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
-	 *
-	 * @access	public
-	 * @param	string	the text string
-	 * @param	string	the array of censoered words
-	 * @param	string	the optional replacement value
-	 * @return	string
+	 * @access    public
+	 * @param    string    the text string
+	 * @param    string    the array of censoered words
+	 * @param    string    the optional replacement value
+	 * @return    string
 	 */
-	public static function word_censor($str, $censored, $replacement = '') {
-		if (!is_array($censored)) {
+	public static function word_censor($str, $censored, $replacement = ''){
+		if(!is_array($censored)){
 			return $str;
 		}
 
@@ -128,10 +121,10 @@ class Text {
 		// a bad word will be bookended by any of these characters.
 		$delim = '[-_\'\"`(){}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';
 
-		foreach ($censored as $badword) {
-			if ($replacement != '') {
+		foreach($censored as $badword){
+			if($replacement != ''){
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
-			} else {
+			} else{
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", $str);
 			}
 		}
@@ -149,29 +142,29 @@ class Text {
 	 *   - вырезаются комментарии, скрипты, стили, PHP, Perl, ASP код, MS Word таги, CDATA
 	 *   - автоматически форматируется текст, если он содержит html код
 	 *   - защита от подделок типа: "<<fake>script>alert('hi')</</fake>script>"
-	 *
 	 * @param   string  $s
-	 * @param   array   $allowable_tags	 Массив тагов, которые не будут вырезаны
-	 * 									  Пример: 'b' -- таг останется с атрибутами, '<b>' -- таг останется без атрибутов
-	 * @param   bool	$is_format_spaces   Форматировать пробелы и переносы строк?
-	 * 									  Вид текста на выходе (plain) максимально приближеется виду текста в браузере на входе.
-	 * 									  Другими словами, грамотно преобразует text/html в text/plain.
-	 * 									  Текст форматируется только в том случае, если были вырезаны какие-либо таги.
+	 * @param   array   $allowable_tags     Массив тагов, которые не будут вырезаны
+	 *                                       Пример: 'b' -- таг останется с атрибутами, '<b>' -- таг останется без атрибутов
+	 * @param   bool    $is_format_spaces   Форматировать пробелы и переносы строк?
+	 *                                       Вид текста на выходе (plain) максимально приближеется виду текста в браузере на входе.
+	 *                                       Другими словами, грамотно преобразует text/html в text/plain.
+	 *                                       Текст форматируется только в том случае, если были вырезаны какие-либо таги.
 	 * @param   array   $pair_tags   массив имён парных тагов, которые будут удалены вместе с содержимым
-	 * 							   см. значения по умолчанию
+	 *                                см. значения по умолчанию
 	 * @param   array   $para_tags   массив имён парных тагов, которые будут восприниматься как параграфы (если $is_format_spaces = true)
-	 * 							   см. значения по умолчанию
+	 *                                см. значения по умолчанию
 	 * @return  string
-	 *
 	 * @license  http://creativecommons.org/licenses/by-sa/3.0/
 	 * @author   Nasibullin Rinat, http://orangetie.ru/
 	 * @charset  ANSI
 	 * @version  4.0.14
 	 */
 	public static function strip_tags_smart(
-	/* string */ $s, array $allowable_tags = null,
-	/* boolean */  $is_format_spaces = true, array $pair_tags = array('script', 'style', 'map', 'iframe', 'frameset', 'object', 'applet', 'comment', 'button', 'textarea', 'select'), array $para_tags = array('p', 'td', 'th', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'form', 'title', 'pre')
-	) {
+		/* string */
+		$s, array $allowable_tags = null,
+		/* boolean */
+		$is_format_spaces = true, array $pair_tags = array('script', 'style', 'map', 'iframe', 'frameset', 'object', 'applet', 'comment', 'button', 'textarea', 'select'), array $para_tags = array('p', 'td', 'th', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'form', 'title', 'pre')
+	){
 		//return strip_tags($s);
 		static $_callback_type = false;
 		static $_allowable_tags = array();
@@ -188,33 +181,33 @@ class Text {
 									   #incorrect attributes
 									   [^>]*+';
 
-		if (is_array($s)) {
-			if ($_callback_type === 'strip_tags') {
+		if(is_array($s)){
+			if($_callback_type === 'strip_tags'){
 				$tag = strtolower($s[1]);
-				if ($_allowable_tags) {
+				if($_allowable_tags){
 					#tag with attributes
-					if (array_key_exists($tag, $_allowable_tags))
+					if(array_key_exists($tag, $_allowable_tags))
 						return $s[0];
 
 					#tag without attributes
-					if (array_key_exists('<' . $tag . '>', $_allowable_tags)) {
-						if (substr($s[0], 0, 2) === '</')
+					if(array_key_exists('<' . $tag . '>', $_allowable_tags)){
+						if(substr($s[0], 0, 2) === '</')
 							return '</' . $tag . '>';
-						if (substr($s[0], -2) === '/>')
+						if(substr($s[0], -2) === '/>')
 							return '<' . $tag . ' />';
 						return '<' . $tag . '>';
 					}
 				}
-				if ($tag === 'br')
+				if($tag === 'br')
 					return "\r\n";
-				if ($_para_tags && array_key_exists($tag, $_para_tags))
+				if($_para_tags && array_key_exists($tag, $_para_tags))
 					return "\r\n\r\n";
 				return '';
 			}
 			trigger_error('Unknown callback type "' . $_callback_type . '"!', E_USER_ERROR);
 		}
 
-		if (($pos = strpos($s, '<')) === false || strpos($s, '>', $pos) === false) {  #speed improve
+		if(($pos = strpos($s, '<')) === false || strpos($s, '>', $pos) === false){ #speed improve
 			#tags are not found
 			return $s;
 		}
@@ -249,9 +242,9 @@ class Text {
 			   >
 			 /sxSX',
 		);
-		if ($pair_tags) {
+		if($pair_tags){
 			#парные таги вместе с содержимым:
-			foreach ($pair_tags as $k => $v)
+			foreach($pair_tags as $k => $v)
 				$pair_tags[$k] = preg_quote($v, '/');
 			$patterns[] = '/ <((?i:' . implode('|', $pair_tags) . '))' . $re_attrs_fast_safe . '(?<!\/)>
 							 .*?
@@ -262,21 +255,21 @@ class Text {
 
 		$i = 0; #защита от зацикливания
 		$max = 99;
-		while ($i < $max) {
+		while($i < $max){
 			$s2 = preg_replace($patterns, '', $s);
-			if (preg_last_error() !== PREG_NO_ERROR) {
+			if(preg_last_error() !== PREG_NO_ERROR){
 				$i = 999;
 				break;
 			}
 
-			if ($i == 0) {
+			if($i == 0){
 				$is_html = ($s2 != $s || preg_match($re_tags, $s2));
-				if (preg_last_error() !== PREG_NO_ERROR) {
+				if(preg_last_error() !== PREG_NO_ERROR){
 					$i = 999;
 					break;
 				}
-				if ($is_html) {
-					if ($is_format_spaces) {
+				if($is_html){
+					if($is_format_spaces){
 						/*
 						  В библиотеке PCRE для PHP \s - это любой пробельный символ, а именно класс символов [\x09\x0a\x0c\x0d\x20\xa0] или, по другому, [\t\n\f\r \xa0]
 						  Если \s используется с модификатором /u, то \s трактуется как [\x09\x0a\x0c\x0d\x20]
@@ -290,41 +283,44 @@ class Text {
 											   <\/(?i:\\1)' . $re_attrs_fast_safe . '>
 											   \K
 											/sxSX', ' ', $s2);
-						if (preg_last_error() !== PREG_NO_ERROR) {
+						if(preg_last_error() !== PREG_NO_ERROR){
 							$i = 999;
 							break;
 						}
 					}
 
 					#массив тагов, которые не будут вырезаны
-					if ($allowable_tags)
+					if($allowable_tags)
 						$_allowable_tags = array_flip($allowable_tags);
 
 					#парные таги, которые будут восприниматься как параграфы
-					if ($para_tags)
+					if($para_tags)
 						$_para_tags = array_flip($para_tags);
 				}
-			}#if
+			}
+			#if
 			#tags processing
-			if ($is_html) {
+			if($is_html){
 				$_callback_type = 'strip_tags';
 				$s2 = preg_replace_callback($re_tags, array('Text', 'strip_tags_smart'), $s2);
 				$_callback_type = false;
-				if (preg_last_error() !== PREG_NO_ERROR) {
+				if(preg_last_error() !== PREG_NO_ERROR){
 					$i = 999;
 					break;
 				}
 			}
 
-			if ($s === $s2)
+			if($s === $s2)
 				break;
 			$s = $s2;
 			$i++;
-		}#while
-		if ($i >= $max)
-			$s = strip_tags($s);#too many cycles for replace...
+		}
+		#while
+		if($i >= $max)
+			$s = strip_tags($s);
+		#too many cycles for replace...
 
-		if ($is_format_spaces && strlen($s) !== $length) {
+		if($is_format_spaces && strlen($s) !== $length){
 			#remove a duplicate spaces
 			$s = preg_replace('/\x20\x20++/sSX', ' ', trim($s));
 			#remove a spaces before and after new lines
@@ -335,40 +331,44 @@ class Text {
 		return $s;
 	}
 
-	public static function msword_clean($text) {
+	public static function msword_clean($text){
 		$text = str_replace("&nbsp;", "", $text);
 		$text = str_replace("</html>", "", $text);
 		$text = preg_replace("/FONT-SIZE: [0-9]+pt;/miu", "", $text);
 		return preg_replace("/([ \f\r\t\n\'\"])on[a-z]+=[^>]+/iu", "\\1", $text);
 	}
 
-	public static function semantic_replacer($text) {
+	public static function semantic_replacer($text){
 		$text = preg_replace("!<b>(.*?)</b>!si", "<strong>\\1</strong>", $text);
 		$text = preg_replace("!<i>(.*?)</i>!si", "<em>\\1</em>", $text);
 		$text = preg_replace("!<u>(.*?)</u>!si", "<strike>\\1</strike>", $text);
 		return str_replace("<br>", "<br />", $text);
 	}
 
-	public static function simple_clean($text) {
+	public static function simple_clean($text){
 		$text = html_entity_decode($text, ENT_QUOTES, 'utf-8');
 		return mosHTML::cleanText($text);
 	}
 
 	// http://joomlaforum.ru/index.php/topic,131588.msg719436.html#msg719436
-	public static function gdQuoteReplace($str) {
+	public static function gdQuoteReplace($str){
 		static $open;
-		if (!is_array($str)) {
+		if(!is_array($str)){
 			$open = false;
 			return preg_replace_callback('/(?:(<[^>]+>)|(["\'](?=\w))|((?<=\w)["\'])|(["\']))/u', __METHOD__, $str);
-		} else {
-			switch (count($str)) {
-				case 3: $open = true;
+		} else{
+			switch(count($str)){
+				case 3:
+					$open = true;
 					return '«';
-				case 4: $open = false;
+				case 4:
+					$open = false;
 					return '»';
-				case 5: $open = !$open;
+				case 5:
+					$open = !$open;
 					return $open ? '«' : '»';
-				default: return $str[0];
+				default:
+					return $str[0];
 			}
 		}
 	}

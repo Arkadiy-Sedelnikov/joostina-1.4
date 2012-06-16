@@ -1,4 +1,4 @@
-.boss_vote{
+.boss_vote {
     font-size: 8pt;
     margin: 5px 0;
     color: #444444;
@@ -85,7 +85,7 @@
 
 .unit-rating a.r5-unit {
     left: 64px;
-    font-size:90%
+    font-size: 90%
 }
 
 .unit-rating a.r5-unit:hover {

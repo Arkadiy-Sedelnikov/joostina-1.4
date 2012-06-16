@@ -55,7 +55,6 @@ require_once (JPATH_BASE.DS.'includes'.DS.'frontend.php');
 
 // запрос ожидаемых аргументов url (или формы)
 $option		= strtolower(strval(mosGetParam($_REQUEST,'option')));
-$Itemid		= intval(mosGetParam($_REQUEST,'Itemid',0));
 $no_html	= intval(mosGetParam($_REQUEST,'no_html',0));
 $act		= strval(mosGetParam($_REQUEST,'act',''));
 $pop		= intval(mosGetParam($_GET,'pop'));
@@ -108,7 +107,7 @@ ob_start();
 
 if($path = $mainframe->getPath('front')) {
 	$task = strval(mosGetParam($_REQUEST,'task',''));
-	$ret = mosMenuCheck($Itemid,$option,$task,$gid,$mainframe);
+	$ret = mosMenuCheck($option,$task,$gid,$mainframe);
 	if($ret) {
 		//Подключаем язык компонента
 		if($mainframe->getLangFile($option)) {

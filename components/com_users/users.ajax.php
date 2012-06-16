@@ -10,9 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 
-$task = mosGetParam($_REQUEST,'task','');
+$task = mosGetParam($_REQUEST, 'task', '');
 
-switch($task) {
+switch($task){
 	case 'upload_avatar':
 		echo upload_avatar();
 		return;
@@ -30,9 +30,9 @@ switch($task) {
 		return;
 }
 
-function upload_avatar() {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function upload_avatar(){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 
 	$database = database::getInstance();
 
@@ -41,26 +41,26 @@ function upload_avatar() {
 	$return = array();
 
 	$resize_options = array(
-			'method' => '0',		//Приводит к заданной ширине, сохраняя пропорции.
-			'output_file' => '',	//если 'thumb', то ресайзенная копия ляжет в подпапку "thumb'
-			'width'  => '150',
-			'height' => '150'
+		'method'      => '0', //Приводит к заданной ширине, сохраняя пропорции.
+		'output_file' => '', //если 'thumb', то ресайзенная копия ляжет в подпапку "thumb'
+		'width'       => '150',
+		'height'      => '150'
 	);
 
 	$file = new Image();
 	$file->field_name = 'avatar';
-	$file->directory = 'images/avatars' ;
+	$file->directory = 'images/avatars';
 	$file->file_prefix = 'av_';
 	$file->max_size = 0.5 * 1024 * 1024;
 
 	$foto_name = $file->upload($resize_options);
 
-	if($foto_name) {
-		if($my->id) {
+	if($foto_name){
+		if($my->id){
 			$user = new mosUser($database);
 			$user->load((int)$my->id);
 			$user_id = $user->id;
-			if($user->avatar!='') {
+			if($user->avatar != ''){
 				$foto = new Image();
 				$foto->directory = 'images/avatars';
 				$foto->name = $user->avatar;
@@ -69,15 +69,16 @@ function upload_avatar() {
 			$user->update_avatar($my->id, $foto_name);
 		}
 		echo $foto_name;
-	}else {
+	} else{
 		return false;
-	};
+	}
+	;
 }
 
 
-function x_delavatar() {
-    $mainframe = mosMainFrame::getInstance();
-    $my = $mainframe->getUser();
+function x_delavatar(){
+	$mainframe = mosMainFrame::getInstance();
+	$my = $mainframe->getUser();
 
 	$database = database::getInstance();
 
@@ -88,19 +89,19 @@ function x_delavatar() {
 }
 
 
-function request_from_plugin() {
+function request_from_plugin(){
 	$mainframe = mosMainFrame::getInstance();
 
-	$plugin	= mosGetParam($_REQUEST,'plugin','');
-	$act	= mosGetParam($_REQUEST,'act','');
+	$plugin = mosGetParam($_REQUEST, 'plugin', '');
+	$act = mosGetParam($_REQUEST, 'act', '');
 
 	// проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
-	if(is_file(JPATH_BASE.DS. 'mambots'.DS.'profile'.DS.$plugin.DS.$plugin.'.ajax.php')) {
-		if(is_file($mainframe->getLangFile('bot_'.$plugin))) {
-			include_once ($mainframe->getLangFile('bot_'.$plugin));
+	if(is_file(JPATH_BASE . DS . 'mambots' . DS . 'profile' . DS . $plugin . DS . $plugin . '.ajax.php')){
+		if(is_file($mainframe->getLangFile('bot_' . $plugin))){
+			include_once ($mainframe->getLangFile('bot_' . $plugin));
 		}
-		include_once (JPATH_BASE.DS. 'mambots'.DS.'profile'.DS.$plugin.DS.$plugin.'.ajax.php');
-	} else {
+		include_once (JPATH_BASE . DS . 'mambots' . DS . 'profile' . DS . $plugin . DS . $plugin . '.ajax.php');
+	} else{
 		die('error-1:1');
 	}
 }

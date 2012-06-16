@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-switch($task) {
+switch($task){
 	default:
 		TOOLBAR_massmail::_DEFAULT();
 		break;

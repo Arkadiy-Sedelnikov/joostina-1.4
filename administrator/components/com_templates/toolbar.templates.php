@@ -12,9 +12,9 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-$client = strval(mosGetParam($_REQUEST,'client',''));
+$client = strval(mosGetParam($_REQUEST, 'client', ''));
 
-switch($task) {
+switch($task){
 
 	case 'view':
 		TOOLBAR_templates::_VIEW();

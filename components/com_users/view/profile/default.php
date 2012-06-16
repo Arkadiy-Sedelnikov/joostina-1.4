@@ -11,11 +11,11 @@
 defined('_VALID_MOS') or die();
 ?>
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(document).ready(function () {
 		$(".jstProfile_menu > ul> li > a#user_<?php echo $cur_plugin;?>_link").addClass("active");
 	});
 </script>
-<div class="componentheading"><h1 class="profile"><?php echo $config->get('title');?></h1></div><br />
+<div class="componentheading"><h1 class="profile"><?php echo $config->get('title');?></h1></div><br/>
 <div class="jstProfile">
 	<div class="jstProfile_info">
 		<?php echo $avatar_pic;?>
@@ -23,22 +23,23 @@ defined('_VALID_MOS') or die();
 		<?php echo $user_status;?>
 		<span class="last_visite"><strong><?php echo _USER_LAST_VISIT?>:</strong> <?php echo mosFormatDate($lastvisitDate, _CURRENT_SERVER_TIME_FORMAT)?></span>
 	</div>
-	<?php if($owner) {?>
+	<?php if($owner){ ?>
 	<span class="edit">
 		<a class="edit" title="<?php echo _USER_EDIT_PROFILE?>" href="<?php echo $edit_info_link;?>">
-				<?php echo _USER_EDIT_PROFILE?>
+			<?php echo _USER_EDIT_PROFILE?>
 		</a>
 	</span>
-		<?php } ?>
+	<?php } ?>
 	<div class="jstProfile_menu">
 		<ul class="menu_userInfo">
 			<?php
-			$tabs = $_MAMBOTS->trigger( 'userProfileTab', array($user) );
-			foreach ($tabs as $tab) {
-				$id = isset($tab['id']) ? ' id="'.$tab['id'].'"' : '';
-				$class = isset($tab['class']) ? ' class="'.$tab['class'].'"' : '';
+			$tabs = $_MAMBOTS->trigger('userProfileTab', array($user));
+			foreach($tabs as $tab){
+				$id = isset($tab['id']) ? ' id="' . $tab['id'] . '"' : '';
+				$class = isset($tab['class']) ? ' class="' . $tab['class'] . '"' : '';
 				$title = isset($tab['title']) ? $tab['title'] : $tab['name'];
-				?><li><a title="<?php echo $title?>" href="<?php echo sefRelToAbs($tab['href']) ?>" <?php echo $id.$class?>><?php echo $tab['name'] ?></a></li><?php
+				?>
+				<li><a title="<?php echo $title?>" href="<?php echo sefRelToAbs($tab['href']) ?>" <?php echo $id . $class?>><?php echo $tab['name'] ?></a></li><?php
 			}
 			?>
 		</ul>

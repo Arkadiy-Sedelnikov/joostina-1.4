@@ -15,7 +15,7 @@ require_once ($mainframe->getPath('toolbar_default'));
 
 $cid = josGetArrayInts('cid');
 
-switch($task) {
+switch($task){
 	// Category
 	case 'newcategory':
 		menubannerCategory::NEW_MENU();

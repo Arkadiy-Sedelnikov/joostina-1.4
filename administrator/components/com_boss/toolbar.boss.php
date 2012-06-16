@@ -14,10 +14,10 @@ require_once($mainframe->getPath('toolbar_html'));
 $act = mosGetParam($_REQUEST, 'act', "");
 $task = mosGetParam($_REQUEST, 'task', "");
 
-switch ($act) {
+switch($act){
 
 	case "plugins" :
-		switch ($task) {
+		switch($task){
 			case "edit" :
 				menuBOSS::backSave();
 				break;
@@ -36,15 +36,15 @@ switch ($act) {
 	case "tools" :
 	case "csv" :
 	case "positions" :
-    case "export_import" :
+	case "export_import" :
 		break;
 
 	case "templates" :
-		switch ($task) {
+		switch($task){
 			case "edit_tmpl" :
 				menuBOSS::backSave();
 				break;
-			
+
 			case "list_tmpl_fields" :
 				menuBOSS::newTmplField();
 				break;
@@ -54,7 +54,7 @@ switch ($act) {
 				break;
 
 			case "edit_tmpl_field" :
-            case "new_tmpl_field" :
+			case "new_tmpl_field" :
 				menuBOSS::edit_tmpl_field();
 				break;
 
@@ -64,13 +64,13 @@ switch ($act) {
 		}
 		break;
 	case "contents" :
-		switch ($task) {
+		switch($task){
 			case "new" :
 			case "edit" :
 			case "copy" :
 				menuBOSS::backSave();
 				break;
-			
+
 			default:
 				menuBOSS::addEditDeleteCopy();
 				break;
@@ -79,7 +79,7 @@ switch ($act) {
 	case "fields" :
 		break;
 	default:
-		switch ($task) {
+		switch($task){
 			case "new" :
 			case "edit" :
 				menuBOSS::backSave();

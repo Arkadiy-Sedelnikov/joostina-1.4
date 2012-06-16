@@ -24,12 +24,16 @@ mosCommonHTML::loadJquery(1);
 		<form action="<?php echo sefRelToAbs('index.php'); ?>" method="post" name="login">
 			<div class="login_form">
 				<p><?php echo $params->_input_login; ?></p>
+
 				<p><?php echo $params->_input_pass; ?></p>
+
 				<p>
 					<input type="checkbox" name="remember" id="mod_login_remember" value="yes" alt="Remember Me"/>
 					<label for="mod_login_remember"><?php echo $params->get('ml_rem_text', _REMEMBER_ME);?></label>
 				</p>
+
 				<p><input type="submit" name="Submit" class="button" id="login_button" value="<?php echo $params->get('submit_button_text', _BUTTON_LOGIN);?>"/></p>
+
 				<p>
 					<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=register');?>"><?php echo $params->get('ml_reg_text', _CREATE_ACCOUNT)?></a>&nbsp;&nbsp;
 					<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=lostPassword');?>"><?php echo $params->get('ml_rem_pass_text', _LOST_PASSWORDWORD);?></a>
@@ -46,13 +50,13 @@ mosCommonHTML::loadJquery(1);
 		<div class="closewin">&nbsp;</div>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#log_in').click(function() {
+		$(document).ready(function () {
+			$('#log_in').click(function () {
 				$('#box1').toggle(400);
 				$('body').addClass("tb");
 				return false;
 			});
-			$('.closewin').click(function() {
+			$('.closewin').click(function () {
 				$('#box1').toggle(400);
 				$('.closewin').removeClass("tb");
 			});

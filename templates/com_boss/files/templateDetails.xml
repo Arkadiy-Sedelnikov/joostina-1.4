@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="template" version="1.0.x">
-	<name>FileArchive</name>
-	<creationDate>04.04.2012</creationDate>
-	<author>Gold Dragon</author>
-	<authorEmail>illusive@bk.ru</authorEmail>
-	<authorUrl>http://joostinadev.ru</authorUrl>
-	<copyright>(c) 2000-2012 Gold Dragon</copyright>
-	<version>1.0</version>
-	<license>GNU/GPL</license>
-	<description>Шаблон Контактов для Joostina 1.4</description>
-	<folder>com_boss</folder>
+    <name>FileArchive</name>
+    <creationDate>04.04.2012</creationDate>
+    <author>Gold Dragon</author>
+    <authorEmail>illusive@bk.ru</authorEmail>
+    <authorUrl>http://joostinadev.ru</authorUrl>
+    <copyright>(c) 2000-2012 Gold Dragon</copyright>
+    <version>1.0</version>
+    <license>GNU/GPL</license>
+    <description>Шаблон Контактов для Joostina 1.4</description>
+    <folder>com_boss</folder>
     <files>
         <filename>css/boss.css</filename>
         <filename>css/index.html</filename>
-	    <filename>images/arrow.png</filename>
+        <filename>images/arrow.png</filename>
         <filename>images/default.gif</filename>
         <filename>images/default_t.gif</filename>
-	    <filename>images/index.html</filename>
+        <filename>images/index.html</filename>
         <filename>images/nopic.gif</filename>
         <filename>images/nopic_fr.gif</filename>
         <filename>images/star_00.png</filename>
         <filename>images/star_05.png</filename>
         <filename>images/star_10.png</filename>
         <filename>images/warning.gif</filename>
-		<filename>_service.php</filename>
+        <filename>_service.php</filename>
         <filename>addreview.php</filename>
         <filename>confirmation.php</filename>
         <filename>content.php</filename>
@@ -40,11 +40,11 @@
         <filename>rules.php</filename>
         <filename>search.php</filename>
         <filename>search_field.php</filename>
-		<filename>template_category.png</filename>
-		<filename>template_content.png</filename>
+        <filename>template_category.png</filename>
+        <filename>template_content.png</filename>
         <filename>template_thumbnail.png</filename>
         <filename>templateDetails.xml</filename>
         <filename>write.php</filename>
         <filename>write_field.php</filename>
-	</files>
+    </files>
 </mosinstall>

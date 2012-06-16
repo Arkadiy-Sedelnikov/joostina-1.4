@@ -11,25 +11,25 @@
 defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
-require_once ($mainframe->getPath('installer_class','installer'));
+require_once ($mainframe->getPath('installer_class', 'installer'));
 
 // XML library
-require_once (JPATH_BASE.'/includes/domit/xml_domit_lite_include.php');
+require_once (JPATH_BASE . '/includes/domit/xml_domit_lite_include.php');
 
-$element	= mosGetParam($_REQUEST,'element','');
-$client		= mosGetParam($_REQUEST,'client','');
-$option		= mosGetParam($_REQUEST,'option','');
-$url		= mosGetParam($_REQUEST,'url','');
+$element = mosGetParam($_REQUEST, 'element', '');
+$client = mosGetParam($_REQUEST, 'client', '');
+$option = mosGetParam($_REQUEST, 'option', '');
+$url = mosGetParam($_REQUEST, 'url', '');
 
 // ensure user has access to this function
-if(!$acl->acl_check('administration','install','users',$my->usertype,$element.'s','all')) {
-	mosRedirect('index2.php',_NOT_AUTH);
+if(!$acl->acl_check('administration', 'install', 'users', $my->usertype, $element . 's', 'all')){
+	mosRedirect('index2.php', _NOT_AUTH);
 }
 
-$path = JPATH_BASE_ADMIN."/components/com_installer/$element/$element.php";
+$path = JPATH_BASE_ADMIN . "/components/com_installer/$element/$element.php";
 
-if(file_exists($path)) {
+if(file_exists($path)){
 	require $path;
-} else {
-	echo "[$element] - "._NO_INSTALLER;
+} else{
+	echo "[$element] - " . _NO_INSTALLER;
 }

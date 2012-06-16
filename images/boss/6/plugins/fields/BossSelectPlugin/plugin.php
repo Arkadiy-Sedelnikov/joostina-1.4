@@ -8,108 +8,107 @@
  */
 defined('_VALID_MOS') or die();
 
-    class BossSelectPlugin {
-        
-        //имя типа поля в выпадающем списке в настройках поля
-        var $name = 'Drop Down (Single Select)';
-        
-        //тип плагина для записи в таблицы
-        var $type = 'BossSelectPlugin';
-	
-        //отображение поля в категории
-        function getListDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
-            return $this->getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf);
-        }
+class BossSelectPlugin{
 
-        //отображение поля в контенте
-        function getDetailsDisplay($directory, $content, $field, $field_values, $itemid, $conf) {
-            $fieldname = $field->name;
-            $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-            $return = '';
-            if (isset($field_values)) {
+	//имя типа поля в выпадающем списке в настройках поля
+	var $name = 'Drop Down (Single Select)';
 
-                if(!empty($field->text_before))
-                    $return .= '<span>'.$field->text_before.'</span>';
-                if(!empty($field->tags_open))
-                    $return .= html_entity_decode($field->tags_open);
+	//тип плагина для записи в таблицы
+	var $type = 'BossSelectPlugin';
 
-                for ($i = 0, $nb = count($field_values); $i < $nb; $i++) {
-                    $fieldvalue = @$field_values[$i]->fieldvalue;
-                    $fieldtitle = @$field_values[$i]->fieldtitle;
+	//отображение поля в категории
+	function getListDisplay($directory, $content, $field, $field_values, $conf){
+		return $this->getDetailsDisplay($directory, $content, $field, $field_values, $conf);
+	}
 
-                    if (strpos($value, $fieldvalue) !== false) {
-                        $return .= $fieldtitle;
-                        if(!empty($field->tags_separator) && $i < ($nb-1))
-                            $return .= html_entity_decode($field->tags_separator);
-                    }
-                }
+	//отображение поля в контенте
+	function getDetailsDisplay($directory, $content, $field, $field_values, $conf){
+		$fieldname = $field->name;
+		$value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
+		$return = '';
+		if(isset($field_values)){
 
-                if(!empty($field->tags_close))
-                    $return .= html_entity_decode($field->tags_close);
-                if(!empty($field->text_after))
-                    $return .= '<span>'.$field->text_after.'</span>';
-            }
-            return $return;
-        }
+			if(!empty($field->text_before))
+				$return .= '<span>' . $field->text_before . '</span>';
+			if(!empty($field->tags_open))
+				$return .= html_entity_decode($field->tags_open);
 
-        //функция вставки фрагмента ява-скрипта в скрипт
-        //сохранения формы при редактировании контента с фронта.
-        function addInWriteScript($field){
+			for($i = 0, $nb = count($field_values); $i < $nb; $i++){
+				$fieldvalue = @$field_values[$i]->fieldvalue;
+				$fieldtitle = @$field_values[$i]->fieldtitle;
 
-        }
+				if(strpos($value, $fieldvalue) !== false){
+					$return .= $fieldtitle;
+					if(!empty($field->tags_separator) && $i < ($nb - 1))
+						$return .= html_entity_decode($field->tags_separator);
+				}
+			}
 
-        //отображение поля в админке в редактировании контента
-        function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write") {
-            $fieldname = $field->name;
-            $value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
-            $strtitle = htmlentities(jdGetLangDefinition($field->title), ENT_QUOTES, 'utf-8');
-            if (($mode == "write") && ($field->editable == 0))
-                    $disabled = "disabled=true";
-                else
-                    $disabled = "";
+			if(!empty($field->tags_close))
+				$return .= html_entity_decode($field->tags_close);
+			if(!empty($field->text_after))
+				$return .= '<span>' . $field->text_after . '</span>';
+		}
+		return $return;
+	}
 
-                if (($mode == "write") && ($field->required == 1))
-                    $return = "<select id='" . $field->name . "' name='" . $field->name . "' mosReq='1' mosLabel='" . $strtitle . "' class='boss_required' $disabled>\n";
-                else
-                    $return = "<select id='" . $field->name . "' name='" . $field->name . "' mosLabel='" . $strtitle . "' class='boss' $disabled>\n";
-				$return .= "<option value='' >".BOSS_SELECT."</option>\n";
-                if (isset($field_values[$field->fieldid])) {
-                    foreach ($field_values[$field->fieldid] as $v) {
-                        $ftitle = jdGetLangDefinition($v->fieldtitle);
-						
-						$selected = "";
-						$sel_val = mosGetParam($_REQUEST, $field->name, '');
-						
-                        if ($mode == "write" && ($value == $v->fieldvalue || $value == $ftitle)){
-							$selected = "selected='selected'";								
-						}
-						if ($mode == "search" && ($sel_val == $v->fieldvalue || $sel_val == $ftitle)) {
-							$selected = "selected='selected'";
-						}
-						$return .= "<option value='" . $v->fieldvalue . "' ".$selected." >$ftitle</option>\n";
-                    }
-                }
-                else{
-                     $return .= "<option value=''>&nbsp;</option>\n";
-                }
+	//функция вставки фрагмента ява-скрипта в скрипт
+	//сохранения формы при редактировании контента с фронта.
+	function addInWriteScript($field){
 
-                $return .= "</select>\n";
+	}
 
-            return $return;
-        }
+	//отображение поля в админке в редактировании контента
+	function getFormDisplay($directory, $content, $field, $field_values, $nameform = 'adminForm', $mode = "write"){
+		$fieldname = $field->name;
+		$value = (isset ($content->$fieldname)) ? $content->$fieldname : '';
+		$strtitle = htmlentities(jdGetLangDefinition($field->title), ENT_QUOTES, 'utf-8');
+		if(($mode == "write") && ($field->editable == 0))
+			$disabled = "disabled=true";
+		else
+			$disabled = "";
 
-        function onFormSave($directory, $contentid, $field, $isUpdateMode, $itemid) {
-            $return = mosGetParam($_POST, $field->name, "");
-            return $return;
-        }
+		if(($mode == "write") && ($field->required == 1))
+			$return = "<select id='" . $field->name . "' name='" . $field->name . "' mosReq='1' mosLabel='" . $strtitle . "' class='boss_required' $disabled>\n";
+		else
+			$return = "<select id='" . $field->name . "' name='" . $field->name . "' mosLabel='" . $strtitle . "' class='boss' $disabled>\n";
+		$return .= "<option value='' >" . BOSS_SELECT . "</option>\n";
+		if(isset($field_values[$field->fieldid])){
+			foreach($field_values[$field->fieldid] as $v){
+				$ftitle = jdGetLangDefinition($v->fieldtitle);
 
-        function onDelete($directory, $content) {
-            return;
-        }
+				$selected = "";
+				$sel_val = mosGetParam($_REQUEST, $field->name, '');
 
-        //отображение поля в админке в настройках поля
-        function getEditFieldOptions($row, $directory,$fieldimages,$fieldvalues){
-            $return = '
+				if($mode == "write" && ($value == $v->fieldvalue || $value == $ftitle)){
+					$selected = "selected='selected'";
+				}
+				if($mode == "search" && ($sel_val == $v->fieldvalue || $sel_val == $ftitle)){
+					$selected = "selected='selected'";
+				}
+				$return .= "<option value='" . $v->fieldvalue . "' " . $selected . " >$ftitle</option>\n";
+			}
+		} else{
+			$return .= "<option value=''>&nbsp;</option>\n";
+		}
+
+		$return .= "</select>\n";
+
+		return $return;
+	}
+
+	function onFormSave($directory, $contentid, $field, $isUpdateMode){
+		$return = mosGetParam($_POST, $field->name, "");
+		return $return;
+	}
+
+	function onDelete($directory, $content){
+		return;
+	}
+
+	//отображение поля в админке в настройках поля
+	function getEditFieldOptions($row, $directory, $fieldimages, $fieldvalues){
+		$return = '
         <script type="text/javascript">
             function insertRow() {
                 var oTable = getObject("fieldValuesBody");
@@ -143,13 +142,13 @@ defined('_VALID_MOS') or die();
             }
         </script>
         <div id=divValues style="text-align:left;">
-        '.BOSS_FIELD_VALUES_EXPLANATION.'
+        ' . BOSS_FIELD_VALUES_EXPLANATION . '
             <input type=button onclick="insertRow();" value="Add a Value"/>
             <table align=left id="divFieldValues" cellpadding="4" cellspacing="1" border="0" width="100%"
                    class="adminform">
                 <tr>
-                    <th width="20%">'.BOSS_FIELD_VALUE_NAME.'</th>
-                    <th width="20%">'.BOSS_FIELD_VALUE_VALUE.'</th>
+                    <th width="20%">' . BOSS_FIELD_VALUE_NAME . '</th>
+                    <th width="20%">' . BOSS_FIELD_VALUE_VALUE . '</th>
                 </tr>
                 <tbody id="fieldValuesBody">
                 <tr>
@@ -157,25 +156,25 @@ defined('_VALID_MOS') or die();
                     <td>&nbsp;</td>
                 </tr>';
 
-                $i=0;
-                if(count($fieldvalues) > 0){
-                    foreach ($fieldvalues as $fieldvalue) {
-                    $return .= '
+		$i = 0;
+		if(count($fieldvalues) > 0){
+			foreach($fieldvalues as $fieldvalue){
+				$return .= '
                     <tr>
                         <td width="20%">
-                            <input type=text mosReq=0  mosLabel="Name" value="'. stripslashes($fieldvalue->fieldtitle) . '" id="vNames['.$i.']" name="vNames['.$i.']" />
+                            <input type=text mosReq=0  mosLabel="Name" value="' . stripslashes($fieldvalue->fieldtitle) . '" id="vNames[' . $i . ']" name="vNames[' . $i . ']" />
                         </td>
                         <td width="20%">
-                            <input type=text mosReq=0 mosLabel="Value" value="' . stripslashes($fieldvalue->fieldvalue) . '" id="vValues['.$i.']" name="vValues['.$i.']" />
+                            <input type=text mosReq=0 mosLabel="Value" value="' . stripslashes($fieldvalue->fieldvalue) . '" id="vValues[' . $i . ']" name="vValues[' . $i . ']" />
                         </td>
                     </tr>';
-                    $i++;
-                    }
-                }
-                if ($i > 0)
-                    $i--;
-                if (count($fieldvalues) < 1) {
-                    $return .= '
+				$i++;
+			}
+		}
+		if($i > 0)
+			$i--;
+		if(count($fieldvalues) < 1){
+			$return .= '
                     <tr>
                         <td width="20%">
                             <input type=text mosReq=0  mosLabel="Name" value="" id="vNames[0]" name="vNames[0]" />
@@ -184,69 +183,70 @@ defined('_VALID_MOS') or die();
                             <input type=text mosReq=0  mosLabel="Value" value="" name="vValues[0]" id="vValues[0]" />
                         </td>
                     </tr>';
-                    $i = 0;
-                }
-                $return .= '
+			$i = 0;
+		}
+		$return .= '
                 </tbody>
             </table>
         </div>
-        <input type="hidden" name="valueCount" value="'.$i.'"/>
+        <input type="hidden" name="valueCount" value="' . $i . '"/>
             ';
-            return $return;
-        }
+		return $return;
+	}
 
-        //действия при сохранении настроек поля
-        function saveFieldOptions($directory, $field) {
-            $fieldNames  = $_POST['vNames'];
-	        $fieldValues = $_POST['vValues'];
-            $database = database::getInstance();
-            $j=0;
-			$i=0;
-            $values = array();
-            
-			while(isset($fieldNames[$i])) {
-				$fieldName  = $fieldNames[$i];
-				$fieldValue = $fieldValues[$i];
-				$i++;
-				if(trim($fieldName)!=null && trim($fieldName)!='') {
-					$values[] = "('$field->fieldid','".htmlspecialchars($fieldName)."','".htmlspecialchars($fieldValue)."',$j)";
-					$j++;
-				}
+	//действия при сохранении настроек поля
+	function saveFieldOptions($directory, $field){
+		$fieldNames = $_POST['vNames'];
+		$fieldValues = $_POST['vValues'];
+		$database = database::getInstance();
+		$j = 0;
+		$i = 0;
+		$values = array();
+
+		while(isset($fieldNames[$i])){
+			$fieldName = $fieldNames[$i];
+			$fieldValue = $fieldValues[$i];
+			$i++;
+			if(trim($fieldName) != null && trim($fieldName) != ''){
+				$values[] = "('$field->fieldid','" . htmlspecialchars($fieldName) . "','" . htmlspecialchars($fieldValue) . "',$j)";
+				$j++;
 			}
+		}
 
-            $database->setQuery( "INSERT INTO #__boss_".$directory."_field_values "
-                . "(fieldid,fieldtitle,fieldvalue,ordering)"
+		$database->setQuery("INSERT INTO #__boss_" . $directory . "_field_values "
+				. "(fieldid,fieldtitle,fieldvalue,ordering)"
 				. " VALUES"
-                . implode(', ', $values)
-            )->query();
-            //если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
-            //иначе true
-            return false;
-        }
+				. implode(', ', $values)
+		)->query();
+		//если плагин не создает собственных таблиц а пользется таблицами босса то возвращаем false
+		//иначе true
+		return false;
+	}
 
-        //расположение иконки плагина начиная со слеша от корня сайта
-        function getFieldIcon($directory) {
-            return "/images/boss/$directory/plugins/fields/".__CLASS__."/images/dropdown.png";
-        }
+	//расположение иконки плагина начиная со слеша от корня сайта
+	function getFieldIcon($directory){
+		return "/images/boss/$directory/plugins/fields/" . __CLASS__ . "/images/dropdown.png";
+	}
 
-        //действия при установке плагина
-        function install($directory) {
-            return;
-        }
+	//действия при установке плагина
+	function install($directory){
+		return;
+	}
 
-        //действия при удалении плагина
-        function uninstall($directory) {
-            return;
-        }
+	//действия при удалении плагина
+	function uninstall($directory){
+		return;
+	}
 
-        //действия при поиске
-        function search($directory,$fieldName) {
-            $search = '';
-            $value = mosGetParam( $_REQUEST, $fieldName, "" );
-					if ($value != "") {
-						$search .= " AND a.$fieldName = '$value'";
-					}
-            return $search;
-        }
-    }
+	//действия при поиске
+	function search($directory, $fieldName){
+		$search = '';
+		$value = mosGetParam($_REQUEST, $fieldName, "");
+		if($value != ""){
+			$search .= " AND a.$fieldName = '$value'";
+		}
+		return $search;
+	}
+}
+
 ?>

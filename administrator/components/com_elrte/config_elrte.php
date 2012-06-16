@@ -3,7 +3,7 @@ defined('_VALID_MOS') or die();
 
 $toolbar_metod = '0';
 $select_toolbar = 'maxi';
-$panels = array (
+$panels = array(
 );
 
 $doctype = '';

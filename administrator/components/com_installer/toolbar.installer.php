@@ -12,16 +12,16 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-switch($task) {
+switch($task){
 	case 'new':
 		TOOLBAR_installer::_NEW();
 		break;
 
 	default:
-		$element = strval(mosGetParam($_REQUEST,'element',''));
-		if($element != 'installer') {
+		$element = strval(mosGetParam($_REQUEST, 'element', ''));
+		if($element != 'installer'){
 			TOOLBAR_installer::_DEFAULT2();
-		} else {
+		} else{
 			TOOLBAR_installer::_DEFAULT();
 		}
 		break;

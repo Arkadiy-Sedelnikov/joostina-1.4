@@ -1,4 +1,4 @@
-<?php 
+<?php
 // ================================================
 // SPAW v.2.0
 // ================================================
@@ -19,8 +19,8 @@ $spaw_lang_charset = 'windows-1251';
 // alternative text for toolbar buttons and title for dropdowns - 'title'
 
 $spaw_lang_data = array(
-  'my_button' => array(
-    'title' => 'Моя кнопка'
-  ),
+	'my_button' => array(
+		'title' => 'Моя кнопка'
+	),
 );
 ?>

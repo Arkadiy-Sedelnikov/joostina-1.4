@@ -12,7 +12,7 @@ global $my, $mainframe;
 	}
 	echo $mainframe->addJS(JPATH_SITE . '/templates/' . JTEMPLATE . '/js/html5.js');
 	echo $mainframe->addCSS(JPATH_SITE . '/templates/' . JTEMPLATE . '/css/template_css.css');
-	mosShowHead(array('js'=>1,'css'=>1,'jquery'=>1));
+	mosShowHead(array('js'=> 1, 'css'=> 1, 'jquery'=> 1));
 	?>
 </head>
 <body>
@@ -44,7 +44,9 @@ global $my, $mainframe;
 			<?php mosLoadModules('user2'); ?>
 		</div>
 		<div id="main-2">
-			<?php  if(($option == '') || ($option == 'com_frontpage')){ mosLoadModules('user3');} ?>
+			<?php  if(($option == '') || ($option == 'com_frontpage')){
+			mosLoadModules('user3');
+		} ?>
 			<div id="main-2-2"><?php mosMainbody(); ?></div>
 			<?php mosLoadModules('user4'); ?>
 		</div>
@@ -64,8 +66,8 @@ global $my, $mainframe;
 	<div id="footer" class="cf"><?php mosLoadModules('footer'); ?></div>
 </div>
 <?php
-mosShowFooter(array('js'=>1));
-mosShowFooter(array('custom'=>1));
+mosShowFooter(array('js'=> 1));
+mosShowFooter(array('custom'=> 1));
 ?>
 </body>
 </html>

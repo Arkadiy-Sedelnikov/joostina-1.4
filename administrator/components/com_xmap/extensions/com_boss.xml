@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mosinstall type="xmap_ext" version="1.0.0">
-        <name>XMAP plugin for JoiBOSS</name>
-        <author>Arkadiy</author>
-        <creationDate>February 2011</creationDate>
-        <copyright>GNU GPL</copyright>
-        <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-        <authorEmail>admin@joostina.ru</authorEmail>
-        <authorUrl>www.joostina.ru</authorUrl>
-        <version>1.0</version>
-        <description>XMAP plugin for JoiBOSS</description>
-        <files>
-            <filename xmap_ext="com_boss">com_boss.php</filename>
-        </files>
-        
-	<params>
+    <name>XMAP plugin for JoiBOSS</name>
+    <author>Arkadiy</author>
+    <creationDate>February 2011</creationDate>
+    <copyright>GNU GPL</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <authorEmail>admin@joostina.ru</authorEmail>
+    <authorUrl>www.joostina.ru</authorUrl>
+    <version>1.0</version>
+    <description>XMAP plugin for JoiBOSS</description>
+    <files>
+        <filename xmap_ext="com_boss">com_boss.php</filename>
+    </files>
+
+    <params>
         <param name="include_entries" type="list" default="1" label="Показывать контент" description="Должны ли мы включать контент в карту сайта?">
             <option value="0">Нигде</option>
             <option value="1">Везде</option>
             <option value="2">Только в XML карту</option>
             <option value="3">Только в карту сайта</option>
         </param>
-        <param name="max_entries" type="text" default="" label="Макс. записей" description="Максимальное количество записей на категорию, чтобы включить в карту сайта (Оставьте поле пустым чтобы снять ограничения)" />
-        <param name="@spacer" type="spacer" default="" label="XML карта сайта" description="Настройки только для XML карты сайта" />
+        <param name="max_entries" type="text" default="" label="Макс. записей" description="Максимальное количество записей на категорию, чтобы включить в карту сайта (Оставьте поле пустым чтобы снять ограничения)"/>
+        <param name="@spacer" type="spacer" default="" label="XML карта сайта" description="Настройки только для XML карты сайта"/>
         <param name="priority" type="list" default="0.5" label="Приоритет категорий" description="Приоритет категорий">
             <option value="-1">Применить настройки родительского меню</option>
             <option value="0.0">0.0</option>

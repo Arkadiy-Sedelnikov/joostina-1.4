@@ -10,9 +10,9 @@
 // запрет прямого доступа
 defined('_VALID_MOS') or die();
 global $JPConfiguration;
-define('PCLZIP_TEMPORARY_DIR',$JPConfiguration->OutputDirectory.'/');
+define('PCLZIP_TEMPORARY_DIR', $JPConfiguration->OutputDirectory . '/');
 
-class CPackerEngine {
+class CPackerEngine{
 	/**
 	 * Have we finished processing our task?
 	 * @access private
@@ -62,12 +62,12 @@ class CPackerEngine {
 	 */
 	var $_currentBytes;
 
-	function CPackerEngine() {
+	function CPackerEngine(){
 		global $JPConfiguration;
-        $database = database::getInstance();
+		$database = database::getInstance();
 
 		$this->_isFinished = false;
-		$this->_archiveFile = $JPConfiguration->OutputDirectory.'/'.$this->_expandTarName($JPConfiguration->TarNameTemplate,$JPConfiguration->boolCompress);
+		$this->_archiveFile = $JPConfiguration->OutputDirectory . '/' . $this->_expandTarName($JPConfiguration->TarNameTemplate, $JPConfiguration->boolCompress);
 		$this->_currentFragment = 0;
 		$this->_totalBytes = 0;
 		$this->_currentBytes = 0;
@@ -76,8 +76,8 @@ class CPackerEngine {
 		$database->setQuery($sql);
 		$database->query();
 		$this->_maxFragment = $database->getNumRows();
-		for($i = 1; $i <= $this->_maxFragment; $i++) {
-			$sql = 'SELECT `value2` FROM #__jp_packvars WHERE `key` = \'fragment'.$i.'\'';
+		for($i = 1; $i <= $this->_maxFragment; $i++){
+			$sql = 'SELECT `value2` FROM #__jp_packvars WHERE `key` = \'fragment' . $i . '\'';
 			$database->setQuery($sql);
 			$serialized = $database->loadResult();
 			$descriptor = unserialize($serialized);
@@ -88,18 +88,18 @@ class CPackerEngine {
 		// Remove any stored compression object
 		$JPConfiguration->DeleteDebugVar('zipobject');
 
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_GZIP_FIRST_STEP);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_GZIP_FIRST_STEP);
 	}
 
 	/**
 	 * Try to execute the business logic of this step
 	 */
-	function tick() {
+	function tick(){
 		global $JPConfiguration;
 
-		if($this->_isFinished) {
+		if($this->_isFinished){
 			// We have already finished
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_GZIP_FINISHED);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_GZIP_FINISHED);
 			$returnArray = array();
 			$returnArray['HasRun'] = false;
 			$returnArray['Domain'] = 'Packing';
@@ -109,11 +109,11 @@ class CPackerEngine {
 			// Also remove stored compression object, if exists
 			$JPConfiguration->DeleteDebugVar('zipobject');
 			return $returnArray; // Indicate we have finished
-		} else {
+		} else{
 			// Try to pack next fragment
 			$this->_currentFragment++;
-			if($this->_currentFragment > $this->_maxFragment) {
-				CJPLogger::WriteLog(_JP_LOG_INFO,_JP_PACK_FINISHED);
+			if($this->_currentFragment > $this->_maxFragment){
+				CJPLogger::WriteLog(_JP_LOG_INFO, _JP_PACK_FINISHED);
 				// We have just finished, as we ended up on one fragment past the end. Glue archive and return.
 				$this->_fileListDescriptor['files'] = null;
 //				$ret = $this->_archiveFileList();
@@ -125,8 +125,8 @@ class CPackerEngine {
 				$returnArray['Step'] = '';
 				$returnArray['Substep'] = '';
 				return $returnArray; // Indicate we have finished
-			} else {
-				CJPLogger::WriteLog(_JP_LOG_INFO,_JP_GZIP_OF_FRAGMENT.$this->_currentFragment);
+			} else{
+				CJPLogger::WriteLog(_JP_LOG_INFO, _JP_GZIP_OF_FRAGMENT . $this->_currentFragment);
 				$this->_importFragment($this->_currentFragment);
 				$this->_archiveFileList();
 				$returnArray = array();
@@ -134,7 +134,7 @@ class CPackerEngine {
 				$returnArray['Domain'] = 'Packing';
 				$returnArray['Step'] = $this->_currentFragment;
 				$this->_currentBytes += $this->_fileListDescriptor['size'];
-				$returnArray['Substep'] = $this->_currentBytes.' / '.$this->_totalBytes;
+				$returnArray['Substep'] = $this->_currentBytes . ' / ' . $this->_totalBytes;
 				return $returnArray; // Indicate we have finished
 			}
 		}
@@ -143,14 +143,14 @@ class CPackerEngine {
 	/**
 	 * Loads a fragment's filelist
 	 */
-	function _importFragment($fragmentID) {
+	function _importFragment($fragmentID){
 		$database = database::getInstance();
-		$sql = 'SELECT `value2` FROM #__jp_packvars WHERE `key` = \'fragment'.$fragmentID.'\'';
+		$sql = 'SELECT `value2` FROM #__jp_packvars WHERE `key` = \'fragment' . $fragmentID . '\'';
 		$database->setQuery($sql);
 		$this->_fileListDescriptor = unserialize($database->loadResult());
-		if($this->_fileListDescriptor === false) {
+		if($this->_fileListDescriptor === false){
 			return false;
-		} else {
+		} else{
 			return true;
 		}
 	}
@@ -158,17 +158,17 @@ class CPackerEngine {
 	/**
 	 * Returns the path to trim and the path to add to the fragment's files
 	 */
-	function _getPaths($fragmentType) {
+	function _getPaths($fragmentType){
 		global $JPConfiguration;
 
 		$retArray = array();
-		switch($fragmentType) {
+		switch($fragmentType){
 			case 'site':
 				$retArray['remove'] = $JPConfiguration->TranslateWinPath(JPATH_BASE);
 				$retArray['add'] = '';
 				break;
 			case 'installation':
-				$filePath = $JPConfiguration->TranslateWinPath($JPConfiguration->TempDirectory.'/installation/');
+				$filePath = $JPConfiguration->TranslateWinPath($JPConfiguration->TempDirectory . '/installation/');
 				$retArray['remove'] = $filePath;
 				$retArray['add'] = 'installation';
 				break;
@@ -177,36 +177,35 @@ class CPackerEngine {
 				$retArray['add'] = 'installation/sql';
 				break;
 			// case "external":
-			// TODO - Handle forcibly included directories (later versions will do that...)
 		} // switch
 
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_CURRENT_FRAGMENT.' '.$fragmentType);
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_DELETE_PATH.' '.$retArray['remove']);
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_PATH_TO_DELETE.': '.$retArray['add']);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_CURRENT_FRAGMENT . ' ' . $fragmentType);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_DELETE_PATH . ' ' . $retArray['remove']);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_PATH_TO_DELETE . ': ' . $retArray['add']);
 		return $retArray;
 	}
 
 	/**
 	 * Performs the actual archiving of the current file list
 	 */
-	function _archiveFileList() {
+	function _archiveFileList(){
 		global $JPConfiguration;
-        $database = database::getInstance();
+		$database = database::getInstance();
 
-		include_once (JPATH_BASE_ADMIN.'/includes/pcl/pclzip.lib.php');
+		include_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
 
 		// Check for existing instance of the object stored in db
 		$sql = "SELECT COUNT(*) FROM #__jp_packvars WHERE `key`='zipobject'";
 		$database->setQuery($sql);
 		$numRows = $database->loadResult();
 
-		if($numRows == 0) {
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_SAVING_ARCHIVE_INFO);
+		if($numRows == 0){
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_SAVING_ARCHIVE_INFO);
 			// создание файла архива
 			$zip = new PclZip($this->_archiveFile);
-		} else {
+		} else{
 			// Load from db
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_LOADING_ARCHIVE_INFO);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_LOADING_ARCHIVE_INFO);
 			$sql = "SELECT value2 FROM #__jp_packvars WHERE `key`='zipobject'";
 			$database->setQuery($sql);
 			$serialized = $database->loadResult();
@@ -218,24 +217,24 @@ class CPackerEngine {
 		// удаляем всё лишнее из путей к файлам внутри архива
 		$pathsAddRemove['remove'] = PclZipUtilTranslateWinPath($pathsAddRemove['remove']);
 		// добавление файлов в архив, или завершение архивирования
-		if(is_array($this->_fileListDescriptor['files'])) {
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_ADDING_FILE_TO_ARCHIVE);
+		if(is_array($this->_fileListDescriptor['files'])){
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ADDING_FILE_TO_ARCHIVE);
 
 			// добавление файлов в архив
 			$zip = new PclZip($this->_archiveFile);
-			$zip->add($this->_fileListDescriptor['files'],'',$pathsAddRemove['remove']);
+			$zip->add($this->_fileListDescriptor['files'], '', $pathsAddRemove['remove']);
 
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_ARCHIVING);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ARCHIVING);
 			// Store object
 			$serialized = serialize($zip);
-			$JPConfiguration->WriteDebugVar('zipobject',$serialized,true);
+			$JPConfiguration->WriteDebugVar('zipobject', $serialized, true);
 			unset($serialized);
-		} else {
+		} else{
 			// завершение архивирования
 			$zip = new PclZip($this->_archiveFile);
-			$to_file = PclZipUtilTranslateWinPath(JPATH_BASE_ADMIN.'/backups/installation/');
-			$zip->add( $to_file,'',$pathsAddRemove['remove']);
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_ARCHIVE_COMPLETED);
+			$to_file = PclZipUtilTranslateWinPath(JPATH_BASE_ADMIN . '/backups/installation/');
+			$zip->add($to_file, '', $pathsAddRemove['remove']);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ARCHIVE_COMPLETED);
 		}
 		unset($zip);
 	}
@@ -243,14 +242,14 @@ class CPackerEngine {
 	/**
 	 * Transforms a naming template to the final name of the archive by parsing template
 	 * tags within the name.
-	 * @param string $templateName The naming template
+	 * @param string  $templateName The naming template
 	 * @param boolean $boolCompress "tgz" if the archive should be compressed (and thus have .tar.gz extension),
 	 * "tar" for not (and thus have a .tar extension) or "zip" for a .zip file.
 	 */
-	function _expandTarName($templateName) {
+	function _expandTarName($templateName){
 		global $JPConfiguration;
 		// Get the proper extension
-		switch($JPConfiguration->boolCompress) {
+		switch($JPConfiguration->boolCompress){
 			case "zip":
 				$extension = ".zip";
 				break;
@@ -260,16 +259,16 @@ class CPackerEngine {
 		} // switch
 
 		// Parse [DATE] tag
-		$dateExpanded = strftime("%Y%m%d",time());
-		$templateName = str_replace("[DATE]",$dateExpanded,$templateName);
+		$dateExpanded = strftime("%Y%m%d", time());
+		$templateName = str_replace("[DATE]", $dateExpanded, $templateName);
 
 		// Parse [TIME] tag
-		$timeExpanded = strftime("%H%M%S",time());
-		$templateName = str_replace("[TIME]",$timeExpanded,$templateName);
+		$timeExpanded = strftime("%H%M%S", time());
+		$templateName = str_replace("[TIME]", $timeExpanded, $templateName);
 
 		// Parse [HOST] tag
-		$templateName = str_replace("[HOST]",$_SERVER['SERVER_NAME'],$templateName);
+		$templateName = str_replace("[HOST]", $_SERVER['SERVER_NAME'], $templateName);
 
-		return $templateName.$extension;
+		return $templateName . $extension;
 	}
 }

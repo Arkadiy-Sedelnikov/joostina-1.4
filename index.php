@@ -7,19 +7,23 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 session_start();
+
 // Установка флага родительского файла
 define('_VALID_MOS', 1);
-// корень файлов
-define('JPATH_BASE', dirname(__FILE__));
-// разделитель каталогов
+
 define('DS', DIRECTORY_SEPARATOR);
+
+// подключение основных глобальных переменных
+define('JPATH_BASE', dirname(__FILE__));
+//require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+
 // рассчет памяти
-if (function_exists('memory_get_usage')) {
+if(function_exists('memory_get_usage')){
 	define('_MEM_USAGE_START', memory_get_usage());
 }
 
 // проверка конфигурационного файла, если не обнаружен, то загружается страница установки
-if (!file_exists('configuration.php') || filesize('configuration.php') < 10) {
+if(!file_exists('configuration.php') || filesize('configuration.php') < 10){
 	$self = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
 	header('Location: http://' . $_SERVER['HTTP_HOST'] . $self . 'installation/index.php');
 	exit();
@@ -46,7 +50,7 @@ $mosConfig_time_generate ? $sysstart = microtime(true) : null;
 
 // Проверка SSL - $http_host возвращает <url_сайта>:<номер_порта, если он 443>
 $http_host = explode(':', $_SERVER['HTTP_HOST']);
-if ((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site, 0, 8) != 'https://') {
+if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site, 0, 8) != 'https://'){
 	$mosConfig_live_site = 'https://' . substr($mosConfig_live_site, 7);
 }
 unset($http_host);
@@ -55,7 +59,7 @@ unset($http_host);
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
 //Проверка подпапки установки, удалена при работе с SVN
-if (file_exists('installation/index.php') && joomlaVersion::get('SVN') == 0) {
+if(file_exists('installation/index.php') && joomlaVersion::get('SVN') == 0){
 	define('_INSTALL_CHECK', 1);
 	include (JPATH_BASE . DS . 'templates' . DS . 'system' . DS . 'offline.php');
 	exit();
@@ -64,7 +68,7 @@ if (file_exists('installation/index.php') && joomlaVersion::get('SVN') == 0) {
 $_MAMBOTS = mosMambotHandler::getInstance();
 
 // проверяем, разрешено ли использование системных мамботов
-if ($mosConfig_mmb_system_off == 0) {
+if($mosConfig_mmb_system_off == 0){
 	$_MAMBOTS->loadBotGroup('system');
 	// триггер событий onStart
 	$_MAMBOTS->trigger('onStart');
@@ -76,10 +80,9 @@ require_once (JPATH_BASE . DS . 'includes' . DS . 'frontend.php');
 $mainframe = mosMainFrame::getInstance();
 
 $option = $mainframe->option;
-$Itemid = $mainframe->Itemid;
 
 // отображение страницы выключенного сайта
-if ($mosConfig_offline == 1) {
+if($mosConfig_offline == 1){
 	require (JPATH_BASE . DS . 'templates' . DS . 'system' . DS . 'offline.php');
 }
 
@@ -106,62 +109,62 @@ $my = $mainframe->getUser();
 
 $gid = intval($my->gid);
 
-if ($option == 'login') {
+if($option == 'login'){
 	$mainframe->login();
 	// Всплывающее сообщение JS
-	if ($message) {
+	if($message){
 		?>
-		<script language="javascript" type="text/javascript">
-			<!--//
-			alert( "<?php echo addslashes(_LOGIN_SUCCESS); ?>" );
-			//-->
-		</script>
-		<?php
+	<script language="javascript" type="text/javascript">
+		<!--//
+		alert("<?php echo addslashes(_LOGIN_SUCCESS); ?>");
+		//-->
+	</script>
+	<?php
 	}
 
-	if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
+	if($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))){
 		// checks for the presence of a return url
 		// and ensures that this url is not the registration or login pages
 		// Если sessioncookie существует, редирект на заданную страницу. Otherwise, take an extra round for a cookiecheck
-		if (isset($_COOKIE[mosMainFrame::sessionCookieName()])) {
+		if(isset($_COOKIE[mosMainFrame::sessionCookieName()])){
 			mosRedirect($return);
-		} else {
+		} else{
 			mosRedirect($mosConfig_live_site . '/index.php?option=cookiecheck&return=' . urlencode($return));
 		}
-	} else {
+	} else{
 		// If a sessioncookie exists, redirect to the start page. Otherwise, take an extra round for a cookiecheck
-		if (isset($_COOKIE[mosMainFrame::sessionCookieName()])) {
+		if(isset($_COOKIE[mosMainFrame::sessionCookieName()])){
 			mosRedirect($mosConfig_live_site . '/index.php');
-		} else {
+		} else{
 			mosRedirect($mosConfig_live_site . '/index.php?option=cookiecheck&return=' . urlencode($mosConfig_live_site . '/index.php'));
 		}
 	}
-} elseif ($option == 'logout') {
+} elseif($option == 'logout'){
 	$mainframe->logout();
 
 	// Всплывающее сообщение JS
-	if ($message) {
+	if($message){
 		?>
-		<script language="javascript" type="text/javascript">
-			<!--//
-			alert( "<?php echo addslashes(_LOGOUT_SUCCESS); ?>" );
-			//-->
-		</script>
-		<?php
+	<script language="javascript" type="text/javascript">
+		<!--//
+		alert("<?php echo addslashes(_LOGOUT_SUCCESS); ?>");
+		//-->
+	</script>
+	<?php
 	}
 
-	if ($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))) {
+	if($return && !(strpos($return, 'com_registration') || strpos($return, 'com_login'))){
 		// checks for the presence of a return url
 		// and ensures that this url is not the registration or logout pages
 		mosRedirect($return);
-	} else {
+	} else{
 		mosRedirect($mosConfig_live_site . '/index.php');
 	}
-} elseif ($option == 'cookiecheck') {
+} elseif($option == 'cookiecheck'){
 	// No cookie was set upon login. If it is set now, redirect to the given page. Otherwise, show error message.
-	if (isset($_COOKIE[mosMainFrame::sessionCookieName()])) {
+	if(isset($_COOKIE[mosMainFrame::sessionCookieName()])){
 		mosRedirect($return);
-	} else {
+	} else{
 		mosErrorAlert(_ALERT_ENABLED);
 	}
 }
@@ -177,26 +180,26 @@ define('JTEMPLATE', $cur_template);
 $_MOS_OPTION = array();
 
 // подключение функций редактора, т.к. сессии(авторизация ) на фронте отключены - это тоже запрещаем
-if ($mosConfig_frontend_login == 1) {
+if($mosConfig_frontend_login == 1){
 	require_once (JPATH_BASE . DS . 'includes' . DS . 'editor.php');
 }
 // начало буферизации основного содержимого
 
 ob_start();
 
-if ($path = $mainframe->getPath('front')) {
+if($path = $mainframe->getPath('front')){
 	$task = strval(mosGetParam($_REQUEST, 'task', ''));
-	$ret = mosMenuCheck($Itemid, $option, $task, $gid, $mainframe);
-	if ($ret) {
+	$ret = mosMenuCheck($option, $task, $gid, $mainframe);
+	if($ret){
 		//Подключаем язык компонента
-		if ($mainframe->getLangFile($option)) {
+		if($mainframe->getLangFile($option)){
 			require_once($mainframe->getLangFile($option));
 		}
 		require_once ($path);
-	} else {
+	} else{
 		mosNotAuth();
 	}
-} else {
+} else{
 	header('HTTP/1.0 404 Not Found');
 	echo _NOT_EXIST;
 }
@@ -224,22 +227,22 @@ header('Content-type: text/html; charset=UTF-8');
 ($mosConfig_mmb_system_off == 0) ? $_MAMBOTS->trigger('onAfterDispatch') : null;
 
 // отображение предупреждения о выключенном сайте, при входе админа
-if (defined('_ADMIN_OFFLINE')) {
+if(defined('_ADMIN_OFFLINE')){
 	include (JPATH_BASE . '/templates/system/offlinebar.php');
 }
 // буферизация итогового содержимого, необходимо для шаблонов группы templates
 ob_start();
 // загрузка файла шаблона
-if (!file_exists(JPATH_BASE . '/templates/' . $cur_template . '/index.php')) {
+if(!file_exists(JPATH_BASE . '/templates/' . $cur_template . '/index.php')){
 	echo _TEMPLATE_WARN . $cur_template;
-} else {
+} else{
 	require_once (JPATH_BASE . '/templates/' . $cur_template . '/index.php');
 }
 $_template_body = ob_get_contents(); // главное содержимое - стек вывода компонента - mainbody
 ob_end_clean();
 
 // активация мамботов группы mainbody
-if ($mosConfig_mmb_mainbody_off == 0) {
+if($mosConfig_mmb_mainbody_off == 0){
 	$_MAMBOTS->loadBotGroup('mainbody');
 	$_MAMBOTS->trigger('onTemplate', array(&$_template_body));
 }
@@ -254,8 +257,8 @@ echo $mosConfig_time_generate ? '<div id="time_gen">' . round((microtime(true) -
 
 
 // вывод лога отладки
-if ($mosConfig_debug) {
-	if (defined('_MEM_USAGE_START')) {
+if($mosConfig_debug){
+	if(defined('_MEM_USAGE_START')){
 		$mem_usage = (memory_get_usage() - _MEM_USAGE_START);
 		jd_log_top('<b>' . _SCRIPT_MEMORY_USING . ':</b> ' . sprintf('%0.2f', $mem_usage / 1048576) . ' MB');
 	}
@@ -266,3 +269,27 @@ doGzip();
 
 // запускаем встроенный оптимизатор таблиц
 ($mosConfig_optimizetables == 1) ? joostina_api::optimizetables() : null;
+
+// функця для останова процессов и вывода места ошибки
+function fDie($file='', $line=''){
+	die ("Error" . " File: " . $file . " on line: " . $line);
+}
+
+// отладка определённой переменной
+function _xdump($var, $text = '<pre>'){
+	echo $text;
+	print_r($var);
+	echo "\n";
+}
+
+function _vdump($var){
+	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
+	var_dump($var);
+	echo "</pre>";
+}
+
+function _pdump($var){
+	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
+	print_r($var);
+	echo "</pre>";
+}

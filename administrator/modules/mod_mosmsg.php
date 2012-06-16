@@ -11,6 +11,6 @@ defined('_VALID_MOS') or die();
 
 $mosmsg = mosMainFrame::getInstance()->get_mosmsg();
 
-if($mosmsg) {
-	echo '<div class="message">'.$mosmsg.'</div>';
+if($mosmsg){
+	echo '<div class="message">' . $mosmsg . '</div>';
 }

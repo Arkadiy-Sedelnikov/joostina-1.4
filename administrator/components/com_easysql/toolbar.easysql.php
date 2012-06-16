@@ -11,7 +11,7 @@
 defined('_VALID_MOS') or die();
 
 
-switch($task) {
+switch($task){
 	case "edit":
 		mosMenuBar::startTable();
 		mosMenuBar::save();
@@ -23,7 +23,7 @@ switch($task) {
 	default:
 		mosMenuBar::startTable();
 		mosMenuBar::spacer();
-		mosMenuBar::apply('execsql',_EXEC_SQL);
+		mosMenuBar::apply('execsql', _EXEC_SQL);
 		mosMenuBar::endTable();
 		break;
 }

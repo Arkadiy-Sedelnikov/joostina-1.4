@@ -11,29 +11,29 @@
 defined('_VALID_MOS') or die();
 
 // Constants
-define('_DBPACKER_TABLES_CORE',1);
-define('_DBPACKER_TABLES_SAMPLE_DATA',2);
+define('_DBPACKER_TABLES_CORE', 1);
+define('_DBPACKER_TABLES_SAMPLE_DATA', 2);
 
-global $DBPACKER_CORE_TABLES,$DBPACKER_OMIT_DATA;
+global $DBPACKER_CORE_TABLES, $DBPACKER_OMIT_DATA;
 
 // таблицы ядра, помещаются в главный файл
 $DBPACKER_CORE_TABLES = array(
-		'#__groups',
-		'#__mambots',
-		'#__menu',
-		'#__modules',
-		'#__modules_menu',
-		'#__templates_menu',
-		'#__template_positions',
-		'#__usertypes',
-		'#__core_acl_aro_groups',
-		'#__core_acl_aro_sections'
+	'#__groups',
+	'#__mambots',
+	'#__menu',
+	'#__modules',
+	'#__modules_menu',
+	'#__templates_menu',
+	'#__template_positions',
+	'#__usertypes',
+	'#__core_acl_aro_groups',
+	'#__core_acl_aro_sections'
 );
 
 // таблицы которые не надо архивировать
 $DBPACKER_OMIT_DATA = array('#__jp_packvars');
 
-class CDBBackupEngine {
+class CDBBackupEngine{
 
 	/**
 	 * Stores the results of JoomFish detection
@@ -101,24 +101,25 @@ class CDBBackupEngine {
 	 * @var boolean
 	 */
 	var $_onlyDBDumpMode;
+
 	/**
 	 * Created the DB Backup Engine instance
 	 * @param boolean $onlyDBDumpMode If true, notifies the engine that we are backing up only the database and not the entire site.
 	 */
-	function CDBBackupEngine($onlyDBDumpMode = false) {
+	function CDBBackupEngine($onlyDBDumpMode = false){
 		global $mosConfig_dbprefix;
-		global $JPConfiguration,$database;
+		global $JPConfiguration, $database;
 
 		// SECTION 1.
 		// Populate basic global variables
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,'CDBBackupEngine :: Начали');
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, 'CDBBackupEngine :: Начали');
 		// Initialize private variables
 		$this->_onlyDBDumpMode = $onlyDBDumpMode;
 		$this->_dbprefix = $mosConfig_dbprefix;
 		// Detect JoomFish
-		if(file_exists(JPATH_BASE_ADMIN.'/components/com_joomfish/config.joomfish.php')) {
+		if(file_exists(JPATH_BASE_ADMIN . '/components/com_joomfish/config.joomfish.php')){
 			$this->_hasJoomFish = true;
-		} else {
+		} else{
 			$this->_hasJoomFish = false;
 		}
 		// Indicate we are not done yet
@@ -128,7 +129,7 @@ class CDBBackupEngine {
 
 		// SECTION 2.
 		// Fetch information about tables
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_FETCHING_TABLE_LIST);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_FETCHING_TABLE_LIST);
 		// Populate _all_tables array
 		$sql = 'SHOW TABLES';
 		$database->setQuery($sql);
@@ -140,71 +141,71 @@ class CDBBackupEngine {
 		// Initialize the algorithm
 		// Define where to store the files
 		$folderPath = $JPConfiguration->TempDirectory;
-		if($this->_onlyDBDumpMode) {
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_BACKUP_ONLY_DB);
+		if($this->_onlyDBDumpMode){
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_BACKUP_ONLY_DB);
 			$this->_filenameCore = $this->_getSQLOnlyFile();
 			$this->_filenameSample = $this->_filenameCore;
-		} else {
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_ONE_FILE_STORE);
-			$this->_filenameCore = $folderPath.'/joostina.sql';
-			$this->_filenameSample = $folderPath.'/sample_data.sql';
+		} else{
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ONE_FILE_STORE);
+			$this->_filenameCore = $folderPath . '/joostina.sql';
+			$this->_filenameSample = $folderPath . '/sample_data.sql';
 		}
 
-		$this->_filenameCore	= $JPConfiguration->TranslateWinPath($this->_filenameCore);
-		$this->_filenameSample	= $JPConfiguration->TranslateWinPath($this->_filenameSample);
+		$this->_filenameCore = $JPConfiguration->TranslateWinPath($this->_filenameCore);
+		$this->_filenameSample = $JPConfiguration->TranslateWinPath($this->_filenameSample);
 
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_FILE_STRUCTURE.' '.$this->_filenameCore);
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_DATAFILE.' '.$this->_filenameSample);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_FILE_STRUCTURE . ' ' . $this->_filenameCore);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_DATAFILE . ' ' . $this->_filenameSample);
 
 		// Delete leftover files
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_FILE_DELETION);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_FILE_DELETION);
 		@unlink($this->_filenameCore);
 		@unlink($this->_filenameSample);
 
 		// Initialize with the first table, offset
-		CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_FIRST_STEP);
+		CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_FIRST_STEP);
 		$this->_nextTable = $this->_all_tables[0];
 		$this->_nextRange = 0;
 	}
 
-	function tick() {
-		global $database,$JPConfiguration;
+	function tick(){
+		global $database, $JPConfiguration;
 		$out = ''; // joostina pach
-		if($this->_isFinished) {
+		if($this->_isFinished){
 			// Indicate we're done
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_ALL_COMPLETED);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ALL_COMPLETED);
 			return $this->_returnTable(true);
-		} else {
+		} else{
 			// Enforce SQL compatibility
-			CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_START_TICK);
+			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_START_TICK);
 			$this->_connectDatabase();
 			$RowsPerStep = 100;
 			// Do we have more data on the current table? Try to find only if
 			// it's not the first pass to the table...
-			if(($this->_nextRange > 0)) {
-				if($this->_nextRange >= $this->_maxRange) {
-					CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_READY_FOR_TABLE.' '.$this->_nextTable);
+			if(($this->_nextRange > 0)){
+				if($this->_nextRange >= $this->_maxRange){
+					CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_READY_FOR_TABLE . ' ' . $this->_nextTable);
 					// We are done with this table, get next table
 					$boolFound = false;
 					$nextTable = ''; // this is a check variable to trigger end-of-dumping condition when left empty
-					foreach($this->_all_tables as $aTable) {
-						if($boolFound) {
+					foreach($this->_all_tables as $aTable){
+						if($boolFound){
 							$boolFound = false;
 							$this->_nextTable = $aTable;
 							$this->_nextRange = 0;
 							$nextTable = $this->_nextTable;
 							break;
 						}
-						if($this->_nextTable == $aTable) {
+						if($this->_nextTable == $aTable){
 							$boolFound = true;
 						}
 					}
-					if($nextTable == '') {
-						CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_DB_BACKUP_COMPLETED);
+					if($nextTable == ''){
+						CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_DB_BACKUP_COMPLETED);
 						// If $nextTable is an empty string, we are done packing.
 						$this->_isFinished = true;
 
-						if(!($this->_onlyDBDumpMode)) {
+						if(!($this->_onlyDBDumpMode)){
 							// Add a new fragment with the dump files
 							$fileList = array();
 							$fragmentSize = 0;
@@ -214,7 +215,7 @@ class CDBBackupEngine {
 							$fragmentSize += $filesize;
 							$fileList[] = $filename;
 
-							if($this->_filenameCore != $this->_filenameSample) {
+							if($this->_filenameCore != $this->_filenameSample){
 								$filename = $this->_filenameSample;
 								$filesize = (is_file($filename)) ? @filesize($filename) : 0;
 								$fragmentSize += $filesize;
@@ -233,39 +234,39 @@ class CDBBackupEngine {
 							$currentNode = $database->loadResult();
 							$currentNode++;
 
-							$currentNode = 'fragment'.$database->getEscaped($currentNode);
+							$currentNode = 'fragment' . $database->getEscaped($currentNode);
 							$serializedDescriptor = $database->getEscaped($serializedDescriptor);
 
-							$sql = 'INSERT INTO #__jp_packvars (`key`, value2) VALUES ("'.$currentNode.'", "'.$serializedDescriptor.'")';
+							$sql = 'INSERT INTO #__jp_packvars (`key`, value2) VALUES ("' . $currentNode . '", "' . $serializedDescriptor . '")';
 							$database->setQuery($sql);
 							$database->query();
 
-							CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_NEW_FRAGMENT_ADDED);
+							CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_NEW_FRAGMENT_ADDED);
 						}
 						// файл в который складывается дамп базы
 						$filename = $this->_filenameCore;
 						// выбор типа архивирования дампа базы данных
-						if($this->_onlyDBDumpMode) {
-							switch($JPConfiguration->sql_pack) {
+						if($this->_onlyDBDumpMode){
+							switch($JPConfiguration->sql_pack){
 								case 0:
 								default:
 									break;
 								case 1:
-								// архивирование в tar.gz
-									require_once (JPATH_BASE.'/includes/Archive/Tar.php');
-									$filename = $filename.'.tar.gz';
+									// архивирование в tar.gz
+									require_once (JPATH_BASE . '/includes/Archive/Tar.php');
+									$filename = $filename . '.tar.gz';
 									$tar = new Archive_Tar($filename);
 									$tar->setErrorHandling(PEAR_ERROR_PRINT);
-									$tar->createModify($this->_filenameCore,'',dirname($this->_filenameCore));
+									$tar->createModify($this->_filenameCore, '', dirname($this->_filenameCore));
 									@unlink($this->_filenameCore);
 									unset($tar);
 									break;
 								case 2:
-								// архивирование в zip
-									include_once (JPATH_BASE_ADMIN.'/includes/pcl/pclzip.lib.php');
-									$filename = $filename.'.zip';
+									// архивирование в zip
+									include_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
+									$filename = $filename . '.zip';
 									$zip = new PclZip($filename);
-									$zip->add($this->_filenameCore,'',PclZipUtilTranslateWinPath(dirname($this->_filenameCore)));
+									$zip->add($this->_filenameCore, '', PclZipUtilTranslateWinPath(dirname($this->_filenameCore)));
 									@unlink($this->_filenameCore);
 									unset($zip);
 									break;
@@ -279,23 +280,23 @@ class CDBBackupEngine {
 							$returnArray['backfile'] = $filename;
 							return $returnArray;
 						}
-						return $this->_returnTable( true );
-					} else {
+						return $this->_returnTable(true);
+					} else{
 						// TO-DO : Have the resulting SQL file emailed to the user
 					}
 				}
 			}
 
 			// Define the backup file type we should use
-			if($JPConfiguration->sql_pref) {
+			if($JPConfiguration->sql_pref){
 				$abstracttablename = $this->_getTableAbstractName($this->_nextTable);
-			}else {
+			} else{
 				$abstracttablename = $this->_nextTable;
 			}
-			if($this->_isCoreTable($this->_getTableAbstractName($this->_nextTable))) {
+			if($this->_isCoreTable($this->_getTableAbstractName($this->_nextTable))){
 				$fileName = $this->_filenameCore;
-				CJPLogger::WriteLog(_JP_LOG_INFO,_JP_KERNEL_TABLES.' : '.$this->_nextTable);
-			} else {
+				CJPLogger::WriteLog(_JP_LOG_INFO, _JP_KERNEL_TABLES . ' : ' . $this->_nextTable);
+			} else{
 				$fileName = $this->_filenameSample;
 			}
 
@@ -310,65 +311,65 @@ class CDBBackupEngine {
 
 			// First pass on a table
 			// This is not an "else" on the if many lines above because we might have run on a new table from that code!
-			if($this->_nextRange == 0) {
-				CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_FIRST_STEP_2.' '.$this->_nextTable);
+			if($this->_nextRange == 0){
+				CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_FIRST_STEP_2 . ' ' . $this->_nextTable);
 				// Get table's maximum range on first run
 
-				$sql = 'SELECT COUNT(*) FROM '.$abstracttablename;
+				$sql = 'SELECT COUNT(*) FROM ' . $abstracttablename;
 				$database->setQuery($sql);
 				//$database->query();
-				$this->_maxRange = $this->_hasJoomFish?$database->loadResult(false):$database->loadResult();
+				$this->_maxRange = $this->_hasJoomFish ? $database->loadResult(false) : $database->loadResult();
 
-				CJPLogger::WriteLog(_JP_LOG_DEBUG,'Rows on '.$this->_nextTable.' : '.$this->_maxRange);
+				CJPLogger::WriteLog(_JP_LOG_DEBUG, 'Rows on ' . $this->_nextTable . ' : ' . $this->_maxRange);
 
 				// Retrieve its definition
-				$sql = 'SHOW CREATE TABLE `'.$abstracttablename.'`';
+				$sql = 'SHOW CREATE TABLE `' . $abstracttablename . '`';
 				$database->setQuery($sql);
 				$database->query();
 				$temp = $database->loadAssocList();
 				$tablesql = $temp[0]['Create Table'];
 				unset($temp);
-				if($JPConfiguration->sql_pref) {
-					$tablesql = str_replace($this->_dbprefix,'#__',$tablesql);
+				if($JPConfiguration->sql_pref){
+					$tablesql = str_replace($this->_dbprefix, '#__', $tablesql);
 				}
-				$tablesql = str_replace('\n',' ',$tablesql);
+				$tablesql = str_replace('\n', ' ', $tablesql);
 
 				$out .= $tablesql;
 				$out .= ";\n";
 
-				CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_NEXT_VALUE.' '.$this->_nextTable);
+				CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_NEXT_VALUE . ' ' . $this->_nextTable);
 			}
 
-			if($abstracttablename == '#__jp_packvars') {
+			if($abstracttablename == '#__jp_packvars'){
 				// Skip JoomlaPack's temporary tables
-				CJPLogger::WriteLog(_JP_LOG_INFO,_JP_SKIP_TABLE.' '.$this->_nextTable);
+				CJPLogger::WriteLog(_JP_LOG_INFO, _JP_SKIP_TABLE . ' ' . $this->_nextTable);
 				$this->_nextRange = $this->_maxRange + 1;
 				$numRows = 0; // joostina pach
-			} else {
+			} else{
 				// Dump data if not a JoomlaPack temporary table
 
-				$sql = 'SELECT* from `'.$abstracttablename.'`';
-				$database->setQuery($sql,$this->_nextRange,$RowsPerStep);
+				$sql = 'SELECT* from `' . $abstracttablename . '`';
+				$database->setQuery($sql, $this->_nextRange, $RowsPerStep);
 				$database->query();
 
 				$numRows = $database->getNumRows();
 
-				CJPLogger::WriteLog(_JP_LOG_DEBUG,_JP_GETTING.' '.$numRows.' '._JP_COLUMN_FROM.' '.$this->_nextTable);
+				CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_GETTING . ' ' . $numRows . ' ' . _JP_COLUMN_FROM . ' ' . $this->_nextTable);
 
-				for($j = 0; $j < $numRows; $j++) {
-					$out .= 'INSERT INTO `'.$abstracttablename.'` values (';
+				for($j = 0; $j < $numRows; $j++){
+					$out .= 'INSERT INTO `' . $abstracttablename . '` values (';
 					$row2 = mysql_fetch_row($database->_cursor);
 					// run through each field
 					$nf = mysql_num_fields($database->_cursor);
-					for($k = 0; $k < $nf; $k++) {
-						if(!is_null($row2[$k])) {
-							if(get_magic_quotes_runtime()) {
+					for($k = 0; $k < $nf; $k++){
+						if(!is_null($row2[$k])){
+							if(get_magic_quotes_runtime()){
 								$value = stripslashes($row2[$k]);
-							} else {
+							} else{
 								$value = $row2[$k];
 							}
-							$value = '\''.$database->getEscaped($value).'\'';
-						} else {
+							$value = '\'' . $database->getEscaped($value) . '\'';
+						} else{
 							$value = 'null';
 						}
 						$out .= $value;
@@ -377,12 +378,12 @@ class CDBBackupEngine {
 					$out .= ");\n";
 
 					// if saving is successful, then empty $out, else set error flag
-					if(strlen($out) >= $max_size) {
-						if($this->_save_to_file($fileName,$out,'a')) {
+					if(strlen($out) >= $max_size){
+						if($this->_save_to_file($fileName, $out, 'a')){
 							$out = '';
-						} else {
-							CJPLogger::WriteLog(_JP_LOG_ERROR,_JP_ERROR_WRITING_FILE.' '.$fileName);
-							return $this->_returnTable(false,$this->_nextTable,$this->_nextRange,$this->_maxRange,_JP_CANNOT_SAVE_DUMP.' '.$fileName);
+						} else{
+							CJPLogger::WriteLog(_JP_LOG_ERROR, _JP_ERROR_WRITING_FILE . ' ' . $fileName);
+							return $this->_returnTable(false, $this->_nextTable, $this->_nextRange, $this->_maxRange, _JP_CANNOT_SAVE_DUMP . ' ' . $fileName);
 						}
 					}
 				}
@@ -391,16 +392,16 @@ class CDBBackupEngine {
 
 			// Increment _nextRange pointer. If it was an empty table increase by one
 			// so that the algorigthm can skip over to the next table
-			$this->_nextRange += ($numRows == 0)?1:$numRows;
+			$this->_nextRange += ($numRows == 0) ? 1 : $numRows;
 
 			// Save to file
-			if($this->_save_to_file($fileName,$out,"a")) {
-				return $this->_returnTable(false,$this->_nextTable,$this->_nextRange,$this->_maxRange);
-			} else {
+			if($this->_save_to_file($fileName, $out, "a")){
+				return $this->_returnTable(false, $this->_nextTable, $this->_nextRange, $this->_maxRange);
+			} else{
 				// Failed to write to the dump file
 				$this->_isFinished = true;
-				CJPLogger::WriteLog(_JP_LOG_ERROR,"Could not open $fileName for writing database backup");
-				return $this->_returnTable(false,$this->_nextTable,$this->_nextRange,$this->_maxRange,"Could not save to dump file $fileName");
+				CJPLogger::WriteLog(_JP_LOG_ERROR, "Could not open $fileName for writing database backup");
+				return $this->_returnTable(false, $this->_nextTable, $this->_nextRange, $this->_maxRange, "Could not save to dump file $fileName");
 			}
 		}
 	}
@@ -410,19 +411,19 @@ class CDBBackupEngine {
 	 * @param string $tableName The name of the table
 	 * @return string
 	 */
-	function _getTableAbstractName($tableName) {
-		return str_replace($this->_dbprefix,"#__",$tableName);
+	function _getTableAbstractName($tableName){
+		return str_replace($this->_dbprefix, "#__", $tableName);
 	}
 
 	/**
 	 * Enforces the user selected SQL compatibility mode
 	 */
-	function _connectDatabase() {
+	function _connectDatabase(){
 		// set sql_mode allows exporting SQL files for different versions of MySQL
-		if(($this->_sqlMode != null) && ($this->_sqlMode != '') && ($this->_sqlMode !='default')) {
+		if(($this->_sqlMode != null) && ($this->_sqlMode != '') && ($this->_sqlMode != 'default')){
 			$res = @mysql_query('SET SESSION sql_mode=\'HIGH_NOT_PRECEDENCE,NO_TABLE_OPTIONS\'');
 			unset($res);
-		} else {
+		} else{
 			$res = @mysql_query('SET SESSION sql_mode=\'\'');
 			unset($res);
 		}
@@ -435,12 +436,12 @@ class CDBBackupEngine {
 	 * @param string $mode PHP file mode used in writing to file
 	 * @return boolean
 	 */
-	function _save_to_file($backupfile,$fileData,$mode) {
-		if($zp = fopen($backupfile,$mode)) {
-			fwrite($zp,$fileData);
+	function _save_to_file($backupfile, $fileData, $mode){
+		if($zp = fopen($backupfile, $mode)){
+			fwrite($zp, $fileData);
 			fclose($zp);
 			return true;
-		} else {
+		} else{
 			return false;
 		}
 	}
@@ -449,18 +450,18 @@ class CDBBackupEngine {
 	 * Makes the return table (used by CUBE to determine what has happened during the run
 	 * @return array A CUBE return table
 	 */
-	function _returnTable($finished,$table = "",$range = "",$maxRange = "",$error = null) {
+	function _returnTable($finished, $table = "", $range = "", $maxRange = "", $error = null){
 		$returnArray = array();
 		$returnArray['HasRun'] = !$finished;
-		if($finished) {
+		if($finished){
 			$this->_all_tables = null;
 			$this->_table_sql = null;
 		}
 		$returnArray['Domain'] = 'PackDB';
 		$returnArray['Step'] = $table;
-		$returnArray['Substep'] = $range .'/'. $maxRange;
+		$returnArray['Substep'] = $range . '/' . $maxRange;
 
-		if(!is_null($error)) {
+		if(!is_null($error)){
 			$returnArray['Error'] = $error;
 		}
 		return $returnArray;
@@ -471,28 +472,28 @@ class CDBBackupEngine {
 	 * @param $abstractName string The abstracted table name we want to test
 	 * @return boolean TRUE if it is a core table, FALSE otherwise
 	 */
-	function _isCoreTable($abstractName) {
+	function _isCoreTable($abstractName){
 		global $DBPACKER_CORE_TABLES;
-		return in_array($abstractName,$DBPACKER_CORE_TABLES);
+		return in_array($abstractName, $DBPACKER_CORE_TABLES);
 	}
 
-	function _getSQLOnlyFile() {
+	function _getSQLOnlyFile(){
 		global $JPConfiguration;
 		// Get the proper extension
 		$extension = '.sql';
 		$templateName = $JPConfiguration->TarNameTemplate;
 
 		// Parse [DATE] tag
-		$dateExpanded = strftime('%Y%m%d',time());
-		$templateName = str_replace('[DATE]',$dateExpanded,$templateName);
+		$dateExpanded = strftime('%Y%m%d', time());
+		$templateName = str_replace('[DATE]', $dateExpanded, $templateName);
 
 		// Parse [TIME] tag
-		$timeExpanded = strftime('%H%M%S',time());
-		$templateName = str_replace('[TIME]',$timeExpanded,$templateName);
+		$timeExpanded = strftime('%H%M%S', time());
+		$templateName = str_replace('[TIME]', $timeExpanded, $templateName);
 
 		// Parse [HOST] tag
-		$templateName = str_replace('[HOST]',$_SERVER['SERVER_NAME'],$templateName);
+		$templateName = str_replace('[HOST]', $_SERVER['SERVER_NAME'], $templateName);
 
-		return $JPConfiguration->OutputDirectory.'/'.$templateName.$extension;
+		return $JPConfiguration->OutputDirectory . '/' . $templateName . $extension;
 	}
 }

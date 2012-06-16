@@ -8,13 +8,13 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die(); 
+defined('_VALID_MOS') or die();
 
-$_MAMBOTS->registerFunction('onAfterStart','mylib');
-$_MAMBOTS->registerFunction('onAfterAdminStart','mylib');
-$_MAMBOTS->registerFunction('onAfterAjaxStart','mylib');
-$_MAMBOTS->registerFunction('onAfterAdminAjaxStart','mylib');
+$_MAMBOTS->registerFunction('onAfterStart', 'mylib');
+$_MAMBOTS->registerFunction('onAfterAdminStart', 'mylib');
+$_MAMBOTS->registerFunction('onAfterAjaxStart', 'mylib');
+$_MAMBOTS->registerFunction('onAfterAdminAjaxStart', 'mylib');
 
-function mylib() {
+function mylib(){
 	mosMainFrame::addLib('mylib');
 }

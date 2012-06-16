@@ -12,29 +12,29 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 
-switch($task) {
+switch($task){
 
 	// очистка кэша содержимого
 	case 'clean_cache':
 		mosCache::cleanCache('com_boss');
-		mosRedirect('index2.php',_CACHE_CLEAR_CONTENT);
+		mosRedirect('index2.php', _CACHE_CLEAR_CONTENT);
 		break;
 
 	// очистка всего кэша
 	case 'clean_all_cache':
 		mosCache::cleanCache();
 		mosCache::cleanCache('page');
-		mosRedirect('index2.php',_CACHE_CLEAR_ALL);
+		mosRedirect('index2.php', _CACHE_CLEAR_ALL);
 		break;
 
 	case 'redirect':
-		$goto = strval(strtolower(mosGetParam($_REQUEST,'link')));
-		if($goto == 'null') {
+		$goto = strval(strtolower(mosGetParam($_REQUEST, 'link')));
+		if($goto == 'null'){
 			$msg = _COM_ADMIN_NON_LINK_OBJ;
-			mosRedirect('index2.php?option=com_admin&task=listcomponents',$msg);
+			mosRedirect('index2.php?option=com_admin&task=listcomponents', $msg);
 			exit();
 		}
-		$goto = str_replace("'",'',$goto);
+		$goto = str_replace("'", '', $goto);
 		mosRedirect($goto);
 		break;
 
@@ -44,7 +44,7 @@ switch($task) {
 
 	case 'sysinfo':
 		$version = new joomlaVersion();
-		HTML_admin_misc::system_info($version,$option);
+		HTML_admin_misc::system_info($version, $option);
 		break;
 
 	case 'changelog':

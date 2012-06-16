@@ -12,7 +12,7 @@ defined('_VALID_MOS') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 
-switch(mosGetParam($_REQUEST,'action')) {
+switch(mosGetParam($_REQUEST, 'action')){
 	default:
 	case 'list':
 		TOOLBAR_jx::_DEFAULT();
