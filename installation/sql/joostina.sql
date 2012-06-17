@@ -78,6 +78,25 @@ CREATE TABLE IF NOT EXISTS `#__banners_clients` (
   KEY `published` (`published`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+# Dumping structure for table #__boss_5_categories
+
+CREATE TABLE IF NOT EXISTS `#__boss_5_categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent` int(10) unsigned DEFAULT '0',
+  `name` varchar(50) DEFAULT NULL,
+  `slug` varchar(100) NOT NULL,
+  `meta_title` varchar(60) NOT NULL,
+  `meta_desc` varchar(200) NOT NULL,
+  `meta_keys` varchar(200) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `ordering` int(11) DEFAULT '0',
+  `published` tinyint(1) DEFAULT '0',
+  `content_types` int(11) DEFAULT '0',
+  `template` varchar(50) NOT NULL,
+  `rights` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
 # Dumping structure for table #__boss_5_contents
 
 CREATE TABLE IF NOT EXISTS `#__boss_5_contents` (
@@ -871,6 +890,32 @@ CREATE TABLE IF NOT EXISTS `#__boss_plug_config` (
   KEY `directory` (`directory`,`plug_type`,`plug_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+# Dumping structure for table #__categories
+
+CREATE TABLE IF NOT EXISTS `#__categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `image` varchar(100) NOT NULL DEFAULT '',
+  `section` varchar(50) NOT NULL DEFAULT '',
+  `image_position` varchar(10) NOT NULL DEFAULT '',
+  `description` text,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `editor` varchar(50) DEFAULT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL DEFAULT '0',
+  `params` text,
+  `templates` text,
+  PRIMARY KEY (`id`),
+  KEY `cat_idx` (`section`,`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 # Dumping structure for table #__components
 
 CREATE TABLE IF NOT EXISTS `#__components` (
@@ -1404,13 +1449,6 @@ CREATE TABLE IF NOT EXISTS `#__stats_agents` (
   KEY `type_agent` (`type`,`agent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# Dumping structure for table #__supertest
-
-CREATE TABLE IF NOT EXISTS `#__supertest` (
-  `id` int(10) DEFAULT NULL,
-  `text` int(10) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 # Dumping structure for table #__templates_menu
 
 CREATE TABLE IF NOT EXISTS `#__templates_menu` (
@@ -1566,7 +1604,8 @@ CREATE TABLE IF NOT EXISTS `#__xmap_ext` (
 DELETE FROM `#__xmap_ext`;
 /*!40000 ALTER TABLE `#__xmap_ext` DISABLE KEYS */;
 INSERT INTO `#__xmap_ext` (`id`, `extension`, `published`, `params`) VALUES
-	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}');
+	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}'),
+	(2, 'com_weblinks', 1, '');
 
 # Dumping structure for table #__xmap_sitemap
 
