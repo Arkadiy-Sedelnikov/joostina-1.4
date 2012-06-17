@@ -243,7 +243,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 
 			<div id="header">
 				<p><?php echo $version; ?></p>
-				<p class="jst"><a href="http://www.joostina.ru">Joostina Lotos CMS</a> - свободное программное обеспечение (лицензия GNU/GPL)</p>
+				<p class="jst"><a href="http://joostina-cms.ru">Joostina Lotos CMS</a> - свободное программное обеспечение (лицензия GNU/GPL)</p>
 			</div>
 
 			<div id="navigator">
@@ -318,6 +318,6 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 	</form>
 </div>
 <div class="clr"></div>
-<div class="ctr" id="footer"><a href="http://www.joostina-cms.ru" target="_blank">Joostina Lotos</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</div>
+<div class="ctr" id="footer"><a href="http://joostina-cms.ru" target="_blank">Joostina Lotos</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</div>
 </body>
 </html>

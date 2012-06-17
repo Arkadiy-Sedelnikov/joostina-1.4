@@ -62,7 +62,7 @@ class KCAPTCHA{
 
 		# show credits
 		$show_credits = false; # set to false to remove credits line. Credits adds 12 pixels to image height
-		$credits = 'www.joostina.ru'; # if empty, HTTP_HOST will be shown
+		$credits = 'joostina-cms.ru'; # if empty, HTTP_HOST will be shown
 
 		# CAPTCHA image colors (RGB, 0-255)
 		//$foreground_color = array(0, 0, 0);

@@ -387,7 +387,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 			<div id="header">
 				<p><?php echo $version; ?></p>
 
-				<p class="jst"><a href="http://www.joostina.ru">Joostina Lotos CMS</a> - свободное программное обеспечение (лицензия GNU/GPL)</p>
+				<p class="jst"><a href="http://joostina-cms.ru">Joostina Lotos CMS</a> - свободное программное обеспечение (лицензия GNU/GPL)</p>
 			</div>
 
 			<div id="navigator">
@@ -431,7 +431,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 						?>/>
 						<?php
 						$url = $siteUrl . '/installation/install.ajax.php?task=rminstalldir';
-						$clk = 'onclick=\'$.ajax({url: "' . $url . '", beforeSend: function(response){$("#status").show("normal")}, success: function(response){$("#delbutton").val(response); $("#delbutton").click(function(){if(response == "www.joostina-cms.ru") window.location.href="http://www.joostina-cms.ru"}); $("#alert_mess").hide("fast")}, dataType: "html"}); return false;\'';
+						$clk = 'onclick=\'$.ajax({url: "' . $url . '", beforeSend: function(response){$("#status").show("normal")}, success: function(response){$("#delbutton").val(response); $("#delbutton").click(function(){if(response == "joostina-cms.ru") window.location.href="http://joostina-cms.ru"}); $("#alert_mess").hide("fast")}, dataType: "html"}); return false;\'';
 						$delbutton = '&nbsp;<input class="button small" ' . $clk . ' type="button" id="delbutton" name="delbutton" value="Удалить installation" />';
 						echo $delbutton;
 						?>
@@ -461,7 +461,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?" . ">";?>
 	</form>
 </div>
 <div class="clr"></div>
-<div class="ctr" id="footer"><a href="http://www.joostina-cms.ru" target="_blank">Joostina Lotos</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</div>
+<div class="ctr" id="footer"><a href="http://joostina-cms.ru" target="_blank">Joostina Lotos</a> - свободное программное обеспечение, распространяемое по лицензии GNU/GPL.</div>
 
 </body>
 </html>

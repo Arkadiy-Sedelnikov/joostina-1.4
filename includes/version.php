@@ -40,7 +40,7 @@ class joomlaVersion{
 	/** @var string Текст авторских прав*/
 	var $COPYRIGHT = 'Авторские права &copy; 2011-2012 Joostina Lotos. Все права защищены.';
 	/** @var string URL*/
-	var $URL = '<a href="http://www.joostina.ru" target="_blank" title="Система создания и управления сайтами Joostina Lotos CMS">Joostina Lotos!</a> - бесплатное и свободное программное обеспечение для создания сайтов, распространяемое по лицензии GNU/GPL.';
+	var $URL = '<a href="http://joostina-cms.ru" target="_blank" title="Система создания и управления сайтами Joostina Lotos CMS">Joostina Lotos!</a> - бесплатное и свободное программное обеспечение для создания сайтов, распространяемое по лицензии GNU/GPL.';
 	/** @var string для реального использования сайта установите = 1 для демонстраций = 0: 1 используется по умолчанию*/
 	var $SITE = 1;
 	/** @var string Whether site has restricted functionality mostly used for demo sites: 0 is default*/
@@ -50,7 +50,7 @@ class joomlaVersion{
 	/** @var string центр поддержки */
 	var $SUPPORT_CENTER = 'http://joostina-cms.ru';
 	/** @var string ссылки на сайты поддержки*/
-	var $SUPPORT = 'Поддержка: <a href="http://www.joostina-cms.ru" target="_blank" title="Официальный сайт CMS Joostina">www.joostina-cms.ru</a> | <a href="http://wiki.joostina-cms.ru" target="_blank" title="Wiki-документация">wiki.joostina-cms.ru</a>';
+	var $SUPPORT = 'Поддержка: <a href="http://joostina-cms.ru" target="_blank" title="Официальный сайт CMS Joostina">joostina-cms.ru</a> | <a href="http://wiki.joostina-cms.ru" target="_blank" title="Wiki-документация">wiki.joostina-cms.ru</a>';
 
 	/** * @return string Длинный формат версии */
 	function getLongVersion(){

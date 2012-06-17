@@ -373,7 +373,7 @@ if(!class_exists('mosMenuBar')){
 			global $mosConfig_disable_button_help;
 			if($mosConfig_disable_button_help)
 				return; // при активном отключении кнопки "Помощь" функция прерывается в самом начале
-			$helpUrl = mosGetParam($GLOBALS, 'mosConfig_helpurl', 'http://help.joostina.ru');
+			$helpUrl = mosGetParam($GLOBALS, 'mosConfig_helpurl', 'http://wiki.joostina-cms.ru');
 
 
 			if($com){

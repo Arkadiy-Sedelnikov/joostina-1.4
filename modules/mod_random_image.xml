@@ -21,7 +21,7 @@
         </param>
         <param name="type" type="text" default="jpg" label="Тип изображения" description="Тип изображения: PNG/GIF/JPG или другой (по умолчанию - JPG)."/>
         <param name="folder" type="text" default="" label="Папка с изображениями" description="Путь до папки с изображениями относительно адреса сайта. Например: images/stories"/>
-        <param name="link" type="text" default="" label="Ссылка" description="URL-адрес для перемещения пользователя после нажатия на изображении, например: http://www.joostina.ru"/>
+        <param name="link" type="text" default="" label="Ссылка" description="URL-адрес для перемещения пользователя после нажатия на изображении, например: http://joostina-cms.ru"/>
         <param name="width" type="text" default="" label="Ширина (в пикселях - px)" description="Ширина изображения (все изображения будут отображаться с этой шириной)"/>
         <param name="height" type="text" default="" label="Высота (в пикселях - px)" description="Высота изображения (все изображения будут показываться с этой высотой)"/>
         <param name="moduleclass_sfx" type="text" default="" label="CSS-суффикс класса модуля" description="Суффикс, который будет использован в описании класса (table.moduletable) таблицы стилей (CSS) модуля. Это позволяет использовать индивидуальный стиль модуля."/>

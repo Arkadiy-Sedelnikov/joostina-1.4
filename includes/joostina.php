@@ -1875,7 +1875,7 @@ class JConfig{
 	/** @var int */
 	var $config_error_reporting = 0;
 	/** @var string */
-	var $config_helpurl = 'http://help.joostina.ru';
+	var $config_helpurl = 'http://wiki.joostina-cms.ru';
 	/** @var string */
 	var $config_fileperms = '0644';
 	/** @var string */

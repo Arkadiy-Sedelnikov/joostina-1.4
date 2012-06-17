@@ -5,7 +5,7 @@
 # Server version:               5.1.62-community-log - MySQL Community Server (GPL)
 # Server OS:                    Win32
 # HeidiSQL version:             7.0.0.4053
-# Date/time:                    2012-05-28 21:55:56
+# Date/time:                    2012-06-17 21:55:56
 # Автор:
 # --------------------------------------------------------
 
@@ -890,32 +890,6 @@ CREATE TABLE IF NOT EXISTS `#__boss_plug_config` (
   KEY `directory` (`directory`,`plug_type`,`plug_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# Dumping structure for table #__categories
-
-CREATE TABLE IF NOT EXISTS `#__categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(50) NOT NULL DEFAULT '',
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `image` varchar(100) NOT NULL DEFAULT '',
-  `section` varchar(50) NOT NULL DEFAULT '',
-  `image_position` varchar(10) NOT NULL DEFAULT '',
-  `description` text,
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor` varchar(50) DEFAULT NULL,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `count` int(11) NOT NULL DEFAULT '0',
-  `params` text,
-  `templates` text,
-  PRIMARY KEY (`id`),
-  KEY `cat_idx` (`section`,`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 # Dumping structure for table #__components
 
 CREATE TABLE IF NOT EXISTS `#__components` (
@@ -1277,7 +1251,7 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 	(10, 'Выбор шаблона', '', 4, 'zero', 0, '0000-00-00 00:00:00', 0, 'mod_templatechooser', 0, 0, 1, 'show_preview=1', 0, 0),
 	(14, 'Взаимосвязанные элементы', '', 1, 'zero', 0, '0000-00-00 00:00:00', 0, 'mod_related_items', 0, 0, 1, 'cache_time=0\nmoduleclass_sfx=-new1\nlimit=5', 0, 0),
 	(15, 'Поиск', '', 1, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 0, 'moduleclass_sfx=-search\ncache_time=0\ntemplate=default.php\ntemplate_dir=0\nset_itemid=5\nwidth=30\ntext=Поиск...\ntext_pos=inside\nbutton=0\nbutton_pos=bottom\nbutton_text=', 0, 0),
-	(16, 'Слайдшоу', '', 1, 'banner1', 0, '0000-00-00 00:00:00', 0, 'mod_random_image', 0, 0, 0, 'rotate_type=1\ntype=jpg\nfolder=images/rotate\nlink=http://www.joostina.ru\nwidth=500\nheight=300\nmoduleclass_sfx=\nimg_pref=slide\ns_autoplay=1\ns_pause=6000\ns_fadeduration=600\npanel_height=55px\npanel_opacity=0.4\npanel_padding=5px\npanel_font=bold 11px Verdana', 0, 0),
+	(16, 'Слайдшоу', '', 1, 'banner1', 0, '0000-00-00 00:00:00', 0, 'mod_random_image', 0, 0, 0, 'rotate_type=1\ntype=jpg\nfolder=images/rotate\nlink=http://joostina-cms.ru\nwidth=500\nheight=300\nmoduleclass_sfx=\nimg_pref=slide\ns_autoplay=1\ns_pause=6000\ns_fadeduration=600\npanel_height=55px\npanel_opacity=0.4\npanel_padding=5px\npanel_font=bold 11px Verdana', 0, 0),
 	(40, 'Приветствие', '<h3>Добро пожаловать на Ваш первый сайт!</h3>\r\n<div style="text-align:justify">\r\n<p style="text-align:left">Поздравляем! Если Вы видите это сообщение, то Joostina «Lotos» успешно \r\nустановлена и готова к работе. Благодарим за выбор CMS Joostina, \r\nнадеемся что она оправдает возложенные на неё ожидания.\r\n</p><p style="text-align:left">После установки система уже содержит некоторое количество встроенных расширений, все они настроены для быстрого начала работы. </p><p style="text-align:left">Ваш первый тестовый сайт посвящён прекрасному цветку Лотос. Лотос - священный цветок древних египтян, символ красоты, чистоты, стремления к солнцу, свету. Этот образ пронизывает всё египетское искусство, начиная от лотосовидных капителей храмовых колонн и заканчивая миниатюрными туалетными сосудами и ювелирными украшениями.<br /></p></div>  ', 1, 'top', 62, '2012-05-24 08:29:09', 0, '', 0, 0, 0, 'moduleclass_sfx=-top\ncache_time=172800\nrssurl=\nrsstitle=1\nrssdesc=1\nrssimage=1\nrssitems=3\nrssitemdesc=1\nword_count=0\nrsscache=3600', 0, 0),
 	(18, 'Баннеры-3', '', 1, 'banner3', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=-ban1\ncategories=3\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 1, 0),
 	(19, 'Компоненты', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', 0, 'mod_components', 0, 99, 1, '', 1, 1),
@@ -1294,7 +1268,7 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 	(51, 'Горячие новости', NULL, 1, 'user3', 0, '0000-00-00 00:00:00', 0, 'mod_gdnlotos', 0, 0, 1, 'cache=0\ncache_time=0\nmoduleclass_sfx=-default\ntemplate=default\ntemplate_dir=0\nmodul_link=0\nmodul_link_cat=0\ndirectory=5\ncatid=\ndirectory_name=0\ndirectory_link=1\ncategory_name=0\ncategory_link=1\ncontent_field=0\ncount_special=1\ncount_basic=0\ncolumns=2\ncount_reference=4\nshow_front=1\norderby=rand\ntime=0\nimage=1\nimage_link=2\nimage_default=1\nimage_prev=width\nimage_size_s=100\nimage_quality_s=75\nimage_size_b=80\nimage_quality_b=75\nitem_title=1\nlink_titles=1\ntext=2\ncrop_text=word\ncrop_text_limit=30\ncrop_text_format=0\nshow_date=0\ndate_format=%d-%m-%Y %H:%M\nshow_author=0\nreadmore=0\nlink_text=\nhits=0', 0, 0),
 	(32, 'Wrapper', '', 3, 'header', 0, '0000-00-00 00:00:00', 0, 'mod_wrapper', 0, 0, 1, 'category_a=2-1', 0, 0),
 	(33, 'На сайте', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', 0, 'mod_logged', 0, 99, 1, '', 0, 1),
-	(34, 'Случайное фото', '', 2, 'zero', 0, '0000-00-00 00:00:00', 0, 'mod_random_image', 0, 0, 1, 'rotate_type=0\ntype=jpg\nfolder=images/rotate\nlink=http://www.joostina.ru\nwidth=180\nheight=150\nmoduleclass_sfx=\nslideshow_name=jstSlideShow_1\nimg_pref=pic\ns_autoplay=1\ns_pause=2500\ns_fadeduration=500\npanel_height=55px\npanel_opacity=0.4\npanel_padding=5px\npanel_font=bold 11px Verdana', 0, 0),
+	(34, 'Случайное фото', '', 2, 'zero', 0, '0000-00-00 00:00:00', 0, 'mod_random_image', 0, 0, 1, 'rotate_type=0\ntype=jpg\nfolder=images/rotate\nlink=http://joostina-cms.ru\nwidth=180\nheight=150\nmoduleclass_sfx=\nslideshow_name=jstSlideShow_1\nimg_pref=pic\ns_autoplay=1\ns_pause=2500\ns_fadeduration=500\npanel_height=55px\npanel_opacity=0.4\npanel_padding=5px\npanel_font=bold 11px Verdana', 0, 0),
 	(41, 'Популярные статьи', NULL, 3, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_gdnlotos', 0, 0, 1, 'cache=0\ncache_time=0\nmoduleclass_sfx=-text\ntemplate=text\ntemplate_dir=0\nmodul_link=1\nmodul_link_cat=0\ndirectory=5\ncatid=\ndirectory_name=1\ndirectory_link=1\ncategory_name=1\ncategory_link=1\ncontent_field=0\ncount_special=0\ncount_basic=5\ncolumns=1\ncount_reference=0\nshow_front=1\norderby=rhits\ntime=0\nimage=1\nimage_link=2\nimage_default=1\nimage_prev=width\nimage_size_s=200\nimage_quality_s=75\nimage_size_b=80\nimage_quality_b=75\nitem_title=1\nlink_titles=1\ntext=1\ncrop_text=word\ncrop_text_limit=20\ncrop_text_format=0\nshow_date=1\ndate_format=%d-%m-%Y %H:%M\nshow_author=4\nreadmore=1\nlink_text=\nhits=1', 0, 0),
 	(42, 'Баннеры-2', '', 1, 'banner2', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=\ncategories=1\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 0, 0),
 	(43, 'Баннеры-4', '', 1, 'banner4', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=\ncategories=2\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 0, 0),
@@ -1604,8 +1578,7 @@ CREATE TABLE IF NOT EXISTS `#__xmap_ext` (
 DELETE FROM `#__xmap_ext`;
 /*!40000 ALTER TABLE `#__xmap_ext` DISABLE KEYS */;
 INSERT INTO `#__xmap_ext` (`id`, `extension`, `published`, `params`) VALUES
-	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}'),
-	(2, 'com_weblinks', 1, '');
+	(1, 'com_boss', 1, '-1{expand_categories=1\nexpand_sections=1\nshow_unauth=0\ncat_priority=-1\ncat_changefreq=-1\nart_priority=-1\nart_changefreq=-1}');
 
 # Dumping structure for table #__xmap_sitemap
 

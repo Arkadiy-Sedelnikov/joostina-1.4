@@ -465,7 +465,7 @@ class HTML_admin_misc{
 								|
 								<a href="<?php echo JPATH_SITE; ?>/<?php echo JADMIN_BASE?>/index3.php?option=com_admin&task=sysinfo" target="helpFrame"><?php echo _ABOUT_SYSTEM?></a>
 								|
-								<a href="http://www.joostina.ru/" target="_blank"><?php echo _CHECK_VERSION ?></a>
+								<a href="http://joostina-cms.ru/" target="_blank"><?php echo _CHECK_VERSION ?></a>
 							</td>
 						</tr>
 					</table>

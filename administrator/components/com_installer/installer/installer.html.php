@@ -127,15 +127,6 @@ class HTML_installer_core{
 			</td>
 		</tr>
 	</table>
-	<table class="adminlist">
-		<tr>
-			<td>
-				<!-- третья рекламная позиция // -->
-				<!--			<div class="message"><a href="http://www.joostina.ru/?from_3" target="_blank">Купить тут рекламу</a></div>-->
-				<!--  // третья рекламная позиция  -->
-			</td>
-		</tr>
-	</table>
 
 	<br/>
 	<table class="adminlist">
