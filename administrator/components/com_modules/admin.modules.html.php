@@ -148,10 +148,10 @@ class HTML_modules{
 					</td>
 					<td align="center">
 						<?php
-						if(is_null($row->pages)){
+						if($row->pages === '0'){
 							echo _NO;
 						} else
-							if($row->pages > 0){
+							if($row->pages !== ''){
 								echo _PAGES_SOME;
 							} else{
 								echo _ALL;
@@ -190,7 +190,7 @@ class HTML_modules{
 	 * @param array An array of select lists
 	 * @param object Parameters
 	 */
-	public static function editModule(&$row, &$orders2, &$lists, &$params, $option){
+	public static function editModule($row, $orders2, $lists, $params, $option){
 		global $mosConfig_cachepath;
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
@@ -332,10 +332,10 @@ class HTML_modules{
 				<td width="40%">
 					<table width="100%" class="adminform">
 						<tr>
-							<th><?php echo _MODULE_PAGE_MENU_ITEMS?></th>
+							<th><?php echo _MODULE_PAGE_COM_ITEMS?></th>
 						</tr>
 						<tr>
-							<td><?php echo _MENU_LINK?>:<br/><?php echo $lists['selections']; ?>
+							<td><?php echo _MENU_COM; ?>:<br/><?php echo $lists['components']; ?>
 							</td>
 						</tr>
 					</table>

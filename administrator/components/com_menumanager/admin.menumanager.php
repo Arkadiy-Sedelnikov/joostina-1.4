@@ -247,7 +247,7 @@ function saveMenu(){
 			$row->updateOrder("position=" . $database->Quote($row->position));
 
 			// module assigned to show on All pages by default
-			$query = "INSERT INTO #__modules_menu VALUES ( " . (int)$row->id . ", 0 )";
+			$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
 			$database->setQuery($query);
 			if(!$database->query()){
 				echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
@@ -392,9 +392,9 @@ function deleteMenu($option, $cid, $type){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 			exit;
 		}
-		// delete all module entires in jos_modules_menu
+		// delete all module entires in jos_modules_com
 		$cids = 'moduleid=' . implode(' OR moduleid=', $cid);
-		$query = "DELETE FROM #__modules_menu" . "\n WHERE ( $cids )";
+		$query = "DELETE FROM #__modules_com" . "\n WHERE ( $cids )";
 		$database->setQuery($query);
 		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "');</script>\n";
@@ -499,7 +499,7 @@ function copyMenu($option, $cid, $type){
 	$row->checkin();
 	$row->updateOrder('position=' . $database->Quote($row->position));
 	// module assigned to show on All pages by default
-	$query = "INSERT INTO #__modules_menu VALUES ( " . (int)$row->id . ", 0 )";
+	$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
 	$database->setQuery($query);
 	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";

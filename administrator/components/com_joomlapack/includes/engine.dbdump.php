@@ -22,7 +22,7 @@ $DBPACKER_CORE_TABLES = array(
 	'#__mambots',
 	'#__menu',
 	'#__modules',
-	'#__modules_menu',
+	'#__modules_com',
 	'#__templates_menu',
 	'#__template_positions',
 	'#__usertypes',

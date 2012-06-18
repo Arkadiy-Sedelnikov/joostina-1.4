@@ -1277,46 +1277,51 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 	(45, 'Авторские права', '<div style="text-align:center">Авторские права (с) <a href="http://joostina-cms.ru">Joostina Lotos</a>, 2012<br />Разработка шаблона (с) <a href="http://gd.joostina-cms.ru">Gold Dragon</a>, 2000-2012</div>  ', 1, 'footer', 0, '0000-00-00 00:00:00', 1, '', 0, 0, 0, 'moduleclass_sfx=-footer\ncache_time=0\nrssurl=\nrsstitle=1\nrssdesc=1\nrssimage=1\nrssitems=3\nrssitemdesc=1\nword_count=0\nrsscache=3600', 0, 0),
 	(52, 'Верхнее меню', '', 1, 'header', 0, '0000-00-00 00:00:00', 1, 'mod_mljoostinamenu', 0, 0, 0, 'moduleclass_sfx=-topnemu\nclass_sfx=\nmenutype=topmenu\nmenu_style=divs\nml_imaged=1\nml_module_number=4\nnumrow=5\nml_first_hidden=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=aload.gif\nindent_image2=aload.gif\nindent_image3=aload.gif\nindent_image4=aload.gif\nindent_image5=aload.gif\nindent_image6=aload.gif\nml_separated_link=0\nml_linked_sep=0\nml_separated_link_first=0\nml_separated_link_last=0\nml_hide_active=0\nml_separated_active=0\nml_linked_sep_active=0\nml_separated_active_first=0\nml_separated_active_last=0\nml_separated_element=0\nml_separated_element_first=0\nml_separated_element_last=0\nml_td_width=0\nml_div=0\nml_aligner=left\nml_rollover_use=0\nml_image1=home_new.png\nml_image2=network.png\nml_image3=email.png\nml_image4=\nml_image5=\nml_image6=apply.png\nml_image7=apply.png\nml_image8=apply.png\nml_image9=apply.png\nml_image10=apply.png\nml_image11=apply.png\nml_image_roll_1=\nml_image_roll_2=\nml_image_roll_3=\nml_image_roll_4=\nml_image_roll_5=\nml_image_roll_6=\nml_image_roll_7=\nml_image_roll_8=\nml_image_roll_9=\nml_image_roll_10=\nml_image_roll_11=\nml_hide_logged1=1\nml_hide_logged2=1\nml_hide_logged3=1\nml_hide_logged4=1\nml_hide_logged5=1\nml_hide_logged6=1\nml_hide_logged7=1\nml_hide_logged8=1\nml_hide_logged9=1\nml_hide_logged10=1\nml_hide_logged11=1', 0, 0);
 
-# Dumping structure for table #__modules_menu
+# Dumping structure for table #__modules_com
 
-CREATE TABLE IF NOT EXISTS `#__modules_menu` (
-  `moduleid` int(11) NOT NULL DEFAULT '0',
-  `menuid` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`moduleid`,`menuid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE `jos_modules_com` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`moduleid` INT(11) NOT NULL DEFAULT '0',
+	`option` VARCHAR(20) NOT NULL DEFAULT '',
+	`directory` INT(4) NOT NULL DEFAULT '0',
+	`category` INT(4) NOT NULL DEFAULT '0',
+	`task` VARCHAR(20) NOT NULL DEFAULT '',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `index2` (`moduleid`, `directory`, `category`, `option`, `task`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM;
 
-# Dumping data for table #__modules_menu: 29 rows
+-- Dumping data for table joostina141.jos_modules_com: 27 rows
 
-INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
-	(1, 0),
-	(2, 0),
-	(3, 0),
-	(4, 0),
-	(5, 0),
-	(6, 1),
-	(7, 1),
-	(8, 0),
-	(10, 1),
-	(14, 0),
-	(15, 0),
-	(16, 1),
-	(18, 0),
-	(21, 0),
-	(30, 0),
-	(32, 0),
-	(34, 1),
-	(37, 1),
-	(40, 0),
-	(41, 0),
-	(42, 0),
-	(43, 0),
-	(44, 0),
-	(45, 0),
-	(46, 0),
-	(49, 0),
-	(50, 0),
-	(51, 0),
-	(52, 0);
+INSERT INTO `jos_modules_com` (`id`, `moduleid`, `option`, `directory`, `category`, `task`) VALUES
+	(1, 1, '', 0, 0, ''),
+	(2, 2, '', 0, 0, ''),
+	(3, 3, '', 0, 0, ''),
+	(4, 4, '', 0, 0, ''),
+	(5, 5, '', 0, 0, ''),
+	(7, 7, 'com_frontpage', 0, 0, ''),
+	(8, 8, '', 0, 0, ''),
+	(9, 10, 'com_frontpage', 0, 0, ''),
+	(10, 14, '', 0, 0, ''),
+	(11, 15, '', 0, 0, ''),
+	(12, 16, 'com_frontpage', 0, 0, ''),
+	(13, 18, '', 0, 0, ''),
+	(14, 21, '', 0, 0, ''),
+	(15, 30, '', 0, 0, ''),
+	(16, 32, '', 0, 0, ''),
+	(17, 34, 'com_frontpage', 0, 0, ''),
+	(19, 40, '', 0, 0, ''),
+	(20, 41, '', 0, 0, ''),
+	(21, 42, '', 0, 0, ''),
+	(22, 43, '', 0, 0, ''),
+	(23, 44, '', 0, 0, ''),
+	(24, 45, '', 0, 0, ''),
+	(25, 46, '', 0, 0, ''),
+	(26, 49, 'com_boss', 0, 0, ''),
+	(27, 50, '', 0, 0, ''),
+	(28, 51, '', 0, 0, ''),
+	(29, 52, '', 0, 0, '');
 
 # Dumping structure for table #__polls
 

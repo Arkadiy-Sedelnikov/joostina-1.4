@@ -15,7 +15,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 // подключение основных глобальных переменных
 define('JPATH_BASE', dirname(__FILE__));
-//require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
+require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
 
 // рассчет памяти
 if(function_exists('memory_get_usage')){
@@ -273,23 +273,4 @@ doGzip();
 // функця для останова процессов и вывода места ошибки
 function fDie($file='', $line=''){
 	die ("Error" . " File: " . $file . " on line: " . $line);
-}
-
-// отладка определённой переменной
-function _xdump($var, $text = '<pre>'){
-	echo $text;
-	print_r($var);
-	echo "\n";
-}
-
-function _vdump($var){
-	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
-	var_dump($var);
-	echo "</pre>";
-}
-
-function _pdump($var){
-	echo '<pre style="border:1px solid #ff0000;color:#ff0000;padding:5px;background-color:#ffffff;">';
-	print_r($var);
-	echo "</pre>";
 }

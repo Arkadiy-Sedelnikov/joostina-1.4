@@ -86,7 +86,7 @@ function x_apply(){
 	$menus = josGetArrayInts('selections');
 
 	// delete old module to menu item associations
-	$query = "DELETE FROM #__modules_menu WHERE moduleid = " . (int)$row->id;
+	$query = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
 	$database->setQuery($query);
 	$database->query();
 
@@ -94,7 +94,7 @@ function x_apply(){
 	// and other menu items resulting in a module being displayed twice
 	if(in_array('0', $menus)){
 		// assign new module to `all` menu item associations
-		$query = "INSERT INTO #__modules_menu SET moduleid = " . (int)$row->id . ", menuid = 0";
+		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = 0";
 		$database->setQuery($query);
 		$database->query();
 	} else{
@@ -102,7 +102,7 @@ function x_apply(){
 			// this check for the blank spaces in the select box that have been added for cosmetic reasons
 			if($menuid != "-999"){
 				// assign new module to menu item associations
-				$query = "INSERT INTO #__modules_menu SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
+				$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
 				$database->setQuery($query);
 				$database->query();
 			}

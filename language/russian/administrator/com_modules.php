@@ -25,7 +25,8 @@ DEFINE('_ASSIGN_TO_URL_TIP', 'Пример: <br><br> !option=com_content&task=vi
 DEFINE('_PAGES_SOME', 'Некоторые');
 DEFINE('_SHOW_TITLE', 'Показывать заголовок');
 DEFINE('_MODULE_ORDER', 'Порядок модуля');
-DEFINE('_MODULE_PAGE_MENU_ITEMS', 'Страницы / Пункты меню');
+DEFINE('_MODULE_PAGE_COM_ITEMS', 'Компонент : раздел');
+DEFINE('_MENU_COM', 'Связь с компонентом');
 DEFINE('_MODULE_USER_CONTENT', 'Пользовательский код / Содержимое модуля');
 DEFINE('_MODULE_COPIED', 'Модуль скопирован');
 DEFINE('_CANNOT_DELETE_MOD_MAINMENU', 'Вы не можете удалить модуль mod_mainmenu, отображаемый как \\\'mainmenu\\\', т.к. это ядро меню');

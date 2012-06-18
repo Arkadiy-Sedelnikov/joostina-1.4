@@ -110,7 +110,7 @@ class mosInstallerModule extends mosInstaller{
 
 			$row->store();
 
-			$query = "INSERT INTO #__modules_menu VALUES ( " . (int)$row->id . ", 0 )";
+			$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
 			$database->setQuery($query);
 			if(!$database->query()){
 				$this->setError(1, _SQL_ERROR . ': ' . $database->stderr(true));
@@ -156,7 +156,7 @@ class mosInstallerModule extends mosInstaller{
 			mosArrayToInts($modules);
 			$modID = 'moduleid=' . implode(' OR moduleid=', $modules);
 
-			$query = "DELETE FROM #__modules_menu WHERE ( $modID )";
+			$query = "DELETE FROM #__modules_com WHERE ( $modID )";
 			$database->setQuery($query);
 			if(!$database->query()){
 				$msg = $database->stderr;

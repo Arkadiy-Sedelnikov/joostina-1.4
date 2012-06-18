@@ -134,15 +134,16 @@ function viewModules($option, $client){
 	require_once (JPATH_BASE_ADMIN . '/includes/pageNavigation.php');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
-	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
-		. "\n FROM #__modules AS m"
-		. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-		. "\n LEFT JOIN #__groups AS g ON g.id = m.access"
-		. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id" . (count($where) ? "\n WHERE " . implode(' AND ', $where) : '')
-		. "\n GROUP BY m.id"
-		. "\n ORDER BY position ASC, ordering ASC";
-	$database->setQuery($query, $pageNav->limitstart, $pageNav->limit);
+	$sql = "SELECT m.*, u.name AS editor, g.name AS groupname, mm.option AS pages
+			FROM #__modules AS m
+			LEFT JOIN #__users AS u ON u.id = m.checked_out
+			LEFT JOIN #__groups AS g ON g.id = m.access
+			LEFT JOIN #__modules_com AS mm ON mm.moduleid = m.id" . (count($where) ? "\n WHERE " . implode(' AND ', $where) : ''). "
+			GROUP BY m.id
+			ORDER BY position ASC, ordering ASC";
+	$database->setQuery($sql, $pageNav->limitstart, $pageNav->limit);
 	$rows = $database->loadObjectList();
+
 	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
@@ -208,13 +209,13 @@ function copyModule($option, $uid, $client){
 	}
 	$row->updateOrder('position=' . $database->Quote($row->position) . " AND ($where)");
 
-	$query = "SELECT menuid FROM #__modules_menu WHERE moduleid = " . (int)
+	$query = "SELECT menuid FROM #__modules_com WHERE moduleid = " . (int)
 	$uid;
 	$database->setQuery($query);
 	$rows = $database->loadResultArray();
 
 	foreach($rows as $menuid){
-		$query = "INSERT INTO #__modules_menu SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
+		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
 		$database->setQuery($query);
 		$database->query();
 	}
@@ -267,7 +268,7 @@ function saveModule($option, $client, $task){
 	$menus = josGetArrayInts('selections');
 
 	// delete old module to menu item associations
-	$query = "DELETE FROM #__modules_menu WHERE moduleid = " . (int)$row->id;
+	$query = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
 	$database->setQuery($query);
 	$database->query();
 
@@ -275,7 +276,7 @@ function saveModule($option, $client, $task){
 	// and other menu items resulting in a module being displayed twice
 	if(in_array('0', $menus)){
 		// assign new module to `all` menu item associations
-		$query = "INSERT INTO #__modules_menu SET moduleid = " . (int)$row->id . ", menuid = 0";
+		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = 0";
 		$database->setQuery($query);
 		$database->query();
 	} else{
@@ -283,7 +284,7 @@ function saveModule($option, $client, $task){
 			// this check for the blank spaces in the select box that have been added for cosmetic reasons
 			if($menuid != "-999"){
 				// assign new module to menu item associations
-				$query = "INSERT INTO #__modules_menu SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
+				$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
 				$database->setQuery($query);
 				$database->query();
 			}
@@ -392,10 +393,10 @@ function editModule($option, $uid, $client){
 	$active = ($row->position ? $row->position : 'left');
 	$lists['position'] = mosHTML::selectList($pos, 'position', 'class="inputbox" size="1" ' . $pos_select, 'value', 'text', $active);
 
-	// get selected pages for $lists['selections']
+	// Получить привязку к компонентам для  $lists['components']
 	if($uid){
 		$query = "SELECT menuid AS value"
-			. "\n FROM #__modules_menu"
+			. "\n FROM #__modules_com"
 			. "\n WHERE moduleid = " . (int)$row->id;
 		$database->setQuery($query);
 		$lookup = $database->loadObjectList();
@@ -406,14 +407,14 @@ function editModule($option, $uid, $client){
 	if($row->access == 99 || $row->client_id == 1 || $lists['client_id']){
 		$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
-		$lists['selections'] = 'N/A';
+		$lists['components'] = 'N/A';
 	} else{
 		if($client == 'admin'){
 			$lists['access'] = 'N/A';
-			$lists['selections'] = 'N/A';
+			$lists['components'] = 'N/A';
 		} else{
 			$lists['access'] = mosAdminMenus::Access($row, true);
-			$lists['selections'] = mosAdminMenus::MenuLinks($lookup, 1, 1);
+			$lists['components'] = mosAdminMenus::MenuLinks($lookup, 1, 1);
 		}
 		$lists['showtitle'] = mosHTML::yesnoRadioList('showtitle', 'class="inputbox"', $row->showtitle);
 	}
@@ -496,7 +497,7 @@ function removeModule(&$cid, $option, $client){
 		}
 		// mosArrayToInts( $cid ); // just done a few lines earlier
 		$cids = 'moduleid=' . implode(' OR moduleid=', $cid);
-		$query = "DELETE FROM #__modules_menu WHERE ( $cids )";
+		$query = "DELETE FROM #__modules_com WHERE ( $cids )";
 		$database->setQuery($query);
 		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "');</script>\n";

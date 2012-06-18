@@ -2630,9 +2630,29 @@ class mosModule extends mosDBTable{
 		unset($cache, $r);
 	}
 
+	/**
+	 * @static Выбор модулей которые будут отображаться на странице
+	 *
+	 * @param int $my_gid - группа пользователей
+	 *
+	 * @return array - массив модулей
+	 */
 	public static function _initModules($my_gid){
 
 		$mainframe = mosMainFrame::getInstance();
+
+		// компонент
+		$option = (isset($mainframe->option) and $mainframe->option != '0') ? trim(strip_tags($mainframe->option)) : '';
+
+		// ID каталога
+		$directory = isset($_REQUEST['directory']) ? intval($_REQUEST['directory']) : 0;
+
+		// ID категории каталога
+		$category = isset($_REQUEST['catid']) ? intval($_REQUEST['catid']) : 0;
+
+		// страница
+		$task = isset($_REQUEST['task']) ? trim(strip_tags($_REQUEST['task'])) : '';
+
 		$database = database::getInstance();
 		$config = $mainframe->get('config');
 
@@ -2640,9 +2660,18 @@ class mosModule extends mosDBTable{
 
 		$where_ac = $config->config_disable_access_control ? '' : "\n AND (m.access=3 OR m.access <= " . (int)$my_gid . ') ';
 
-		$query = "SELECT id, title, module, position, content, showtitle, params,access FROM #__modules AS m" . "\n INNER JOIN #__modules_menu AS mm ON mm.moduleid = m.id" . "\n WHERE m.published = 1" . $where_ac . "\n AND m.client_id != 1 AND mm.menuid = 0" . "\n ORDER BY ordering";
+		$sql = "SELECT m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, m.access
+				FROM #__modules AS m
+				INNER JOIN #__modules_com AS mm ON mm.moduleid = m.id
+				WHERE m.published = 1" . $where_ac . "
+					AND m.client_id != 1
+					AND (mm.option = '' OR mm.option = '" . $option . "')
+					AND (mm.directory = 0 OR mm.directory = '" . $directory . "')
+					AND (mm.category = 0 OR mm.category = '" . $category . "')
+					AND (mm.task = '' OR mm.task = '" . $task . "')
+				ORDER BY m.ordering";
 
-		$database->setQuery($query);
+		$database->setQuery($sql);
 		$modules = $database->loadObjectList();
 
 		foreach($modules as $module){
@@ -2652,7 +2681,6 @@ class mosModule extends mosDBTable{
 				$all_modules[$module->position][] = $module;
 			}
 		}
-
 
 		return $all_modules;
 	}
@@ -2885,7 +2913,7 @@ class mosHTML{
 	 * @param mixed The key that is selected
 	 * @returns string HTML for the select list
 	 */
-	public static function selectList(&$arr, $tag_name, $tag_attribs, $key, $text, $selected = null, $first_el_key = '*000', $first_el_text = '*000'){
+	public static function selectList($arr, $tag_name, $tag_attribs, $key, $text, $selected = null, $first_el_key = '*000', $first_el_text = '*000'){
 		// check if array
 		if(is_array($arr)){
 			reset($arr);
@@ -2897,7 +2925,6 @@ class mosHTML{
 		if($first_el_key != '*000' && $first_el_text != '*000'){
 			$html .= "\n\t<option value=\"$first_el_key\">$first_el_text</option>";
 		}
-
 		for($i = 0, $n = $count; $i < $n; $i++){
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
@@ -4667,9 +4694,12 @@ class mosAdminMenus{
 	}
 
 	/**
-	 * build the select list for access level
+	 * @static Создание списка прав доступа для групп
+	 * @param $row - ($row->access) ID группы
+	 * @param bool $guest - Добавлять ли гостевой вход
+	 * @return string - HTML-выпадающий список
 	 */
-	public static function Access(&$row, $guest = false){
+	public static function Access($row, $guest = false){
 		$database = database::getInstance();
 
 		$query = "SELECT id AS value, name AS text FROM #__groups ORDER BY id";
@@ -4767,41 +4797,50 @@ class mosAdminMenus{
 	/**
 	 * build the multiple select list for Menu Links/Pages
 	 */
-	public static function MenuLinks(&$lookup, $all = null, $none = null, $unassigned = 1){
+	public static function MenuLinks($lookup, $all = null, $none = null){
+
 		$database = database::getInstance();
 
-		// get a list of the menu items
-		$query = "SELECT m.* FROM #__menu AS m WHERE m.published = 1 ORDER BY m.menutype, m.parent, m.ordering";
-		$database->setQuery($query);
-		$mitems = $database->loadObjectList();
-		$mitems_temp = $mitems;
+		// подготовить список ядра (BOSS)
+		$sql = "SELECT  id,  name FROM #__boss_config";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
 
-		// establish the hierarchy of the menu
-		$children = array();
-		// first pass - collect children
-		foreach($mitems as $v){
-			$pt = $v->parent;
-			$list = @$children[$pt] ? $children[$pt] : array();
-			array_push($list, $v);
-			$children[$pt] = $list;
-		}
-		// second pass - get an indent list of the items
-		$list = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
+		foreach($rows as $directory){
 
-		// Code that adds menu name to Display of Page(s)
-		$text_count = 0;
-		$mitems_spacer = $mitems_temp[0]->menutype;
-		foreach($list as $list_a){
-			foreach($mitems_temp as $mitems_a){
-				if($mitems_a->id == $list_a->id){
-					// Code that inserts the blank line that seperates different menus
-					if($mitems_a->menutype != $mitems_spacer){
-						$list_temp[] = mosHTML::makeOption(-999, '----');
-						$mitems_spacer = $mitems_a->menutype;
-					}
+			// get a list of the menu items
+			//$sql = "SELECT m.* FROM #__menu AS m WHERE m.published = 1 ORDER BY m.menutype, m.parent, m.ordering";
+			$sql = "SELECT * FROM #__boss_" . $directory->id . "_categories ORDER BY parent,ordering";
 
-					if(!($mitems_a->type == 'url' && strpos($mitems_a->link, 'index.php') !== false)){
-						$text = $mitems_a->menutype . ' : ' . $list_a->treename;
+			$database->setQuery($sql);
+			$mitems = $database->loadObjectList();
+			$mitems_temp = $mitems;
+
+			// establish the hierarchy of the menu
+			$children = array();
+			// first pass - collect children
+			foreach($mitems as $v){
+				$pt = $v->parent;
+				$list = @$children[$pt] ? $children[$pt] : array();
+				array_push($list, $v);
+				$children[$pt] = $list;
+			}
+			// second pass - get an indent list of the items
+			$list = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
+
+			// Code that adds menu name to Display of Page(s)
+			$text_count = 0;
+			$mitems_spacer = $directory->name;
+			foreach($list as $list_a){
+~~				foreach($mitems_temp as $mitems_a){
+					if($mitems_a->id == $list_a->id){
+						// Code that inserts the blank line that seperates different menus
+						if($directory->name != $mitems_spacer){
+							$list_temp[] = mosHTML::makeOption(-999, '------------');
+							$mitems_spacer = $directory->name;
+						}
+
+						$text = $directory->name . ' : ' . $list_a->treename;
 						$list_temp[] = mosHTML::makeOption($list_a->id, $text);
 
 						if(strlen($text) > $text_count){
@@ -4810,27 +4849,26 @@ class mosAdminMenus{
 					}
 				}
 			}
+			$list_temp[] = mosHTML::makeOption(-999, '------------');
+			$list = $list_temp;
 		}
-		$list = $list_temp;
-
+		// массив для списка
 		$mitems = array();
+
+		// пункт "Все"
 		if($all){
-			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption(0, _ALL);
-			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption(-999, '----');
+			// сам пункт
+			$mitems[] = mosHTML::makeOption('', _ALL);
+			// разделитель
+			$mitems[] = mosHTML::makeOption(-999, '------------');
 		}
+
+		// пункт "Отсутствует"
 		if($none){
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption(-999, _NOT_EXISTS);
+			$mitems[] = mosHTML::makeOption(0, _NOT_EXISTS);
 			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption(-999, '----');
-		}
-		if($unassigned){
-			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption(99999999, _WITH_UNASSIGNED);
-			// adds space, in select box which is not saved
-			$mitems[] = mosHTML::makeOption(-999, '----');
+			$mitems[] = mosHTML::makeOption(-999, '------------');
 		}
 
 		// append the rest of the menu items to the array
