@@ -2933,7 +2933,9 @@ class mosHTML{
 			$extra = '';
 			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
 			if(is_array($selected)){
+
 				foreach($selected as $obj){
+					_vdump($obj);
 					$k2 = $obj->$key;
 					if($k == $k2){
 						$extra .= " selected=\"selected\"";
@@ -4797,8 +4799,17 @@ class mosAdminMenus{
 	/**
 	 * build the multiple select list for Menu Links/Pages
 	 */
-	public static function MenuLinks($lookup, $all = null, $none = null){
+	public static function MenuLinks($lookup = null, $all = null, $none = null){
 
+		// определение выделенных строк
+		if(is_array($lookup)){
+			foreach($lookup as $value){
+				$lookup_tmp[] = $value->option . '-'
+					. $value->directory . '-'
+					. $value->category;
+			}
+			$lookup = $lookup_tmp;
+		}
 		$database = database::getInstance();
 
 		// подготовить список ядра (BOSS)
@@ -4809,8 +4820,7 @@ class mosAdminMenus{
 		foreach($rows as $directory){
 
 			// get a list of the menu items
-			//$sql = "SELECT m.* FROM #__menu AS m WHERE m.published = 1 ORDER BY m.menutype, m.parent, m.ordering";
-			$sql = "SELECT * FROM #__boss_" . $directory->id . "_categories ORDER BY parent,ordering";
+			$sql = "SELECT id, name, parent FROM #__boss_" . $directory->id . "_categories ORDER BY parent,ordering";
 
 			$database->setQuery($sql);
 			$mitems = $database->loadObjectList();
@@ -4821,7 +4831,7 @@ class mosAdminMenus{
 			// first pass - collect children
 			foreach($mitems as $v){
 				$pt = $v->parent;
-				$list = @$children[$pt] ? $children[$pt] : array();
+				$list = isset($children[$pt]) ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
 			}
@@ -4832,7 +4842,7 @@ class mosAdminMenus{
 			$text_count = 0;
 			$mitems_spacer = $directory->name;
 			foreach($list as $list_a){
-~~				foreach($mitems_temp as $mitems_a){
+				foreach($mitems_temp as $mitems_a){
 					if($mitems_a->id == $list_a->id){
 						// Code that inserts the blank line that seperates different menus
 						if($directory->name != $mitems_spacer){
@@ -4841,7 +4851,7 @@ class mosAdminMenus{
 						}
 
 						$text = $directory->name . ' : ' . $list_a->treename;
-						$list_temp[] = mosHTML::makeOption($list_a->id, $text);
+						$list_temp[] = mosHTML::makeOption('com_boss' . '-' . $directory->id . '-' . $list_a->id, $text);
 
 						if(strlen($text) > $text_count){
 							$text_count = strlen($text);
@@ -4850,8 +4860,9 @@ class mosAdminMenus{
 				}
 			}
 			$list_temp[] = mosHTML::makeOption(-999, '------------');
-			$list = $list_temp;
 		}
+		$list = $list_temp;
+
 		// массив для списка
 		$mitems = array();
 
@@ -4875,23 +4886,33 @@ class mosAdminMenus{
 		foreach($list as $item){
 			$mitems[] = mosHTML::makeOption($item->value, $item->text);
 		}
-		/*
-		  // добавляем в список типы страниц "по умолчанию"
-		  $pages = array(
-		  mosHTML::makeOption(0,'----'),
-		  mosHTML::makeOption(0,_PAGES.' : '._CREATE_ACCOUNT),
-		  mosHTML::makeOption(0,_PAGES.' : '._LOST_PASSWORDWORD),
-		  );
-		  $mitems = array_merge($mitems,$pages);
-		 */
 
-		return mosHTML::selectList($mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup);
+		return self::MenuLinksSelect($mitems, $lookup);
+	}
+
+
+	/**
+	 * @static
+	 *
+	 * @param $arr
+	 * @param $selected
+	 *
+	 * @return string
+	 */
+	public static function MenuLinksSelect($arr, $selected){
+		$html = '<select name="selections[]" class="inputbox" size="26" multiple="multiple">';
+		foreach($arr as $key){
+			$select = in_array($key->value, $selected) ? ' selected="selected"' : '';
+			$html .= '<option value="' . $key->value . '" ' . $select . '>' . $key->text . '</option>';
+		}
+		$html .= '</select>';
+		return $html;
 	}
 
 	/**
 	 * build the select list to choose a section
 	 */
-	public static function Section(&$menu, $id, $all = 0){
+	public static function Section($menu, $id, $all = 0){
 		$database = database::getInstance();
 
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text` FROM #__sections AS s WHERE s.scope = 'content' ORDER BY s.name";
@@ -4971,7 +4992,7 @@ class mosAdminMenus{
 	/**
 	 * build the select list to choose an image
 	 */
-	public static function Images($name, &$active, $javascript = null, $directory = null){
+	public static function Images($name, $active, $javascript = null, $directory = null){
 
 		if(!$directory){
 			$directory = '/images/stories';

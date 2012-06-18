@@ -395,15 +395,14 @@ function editModule($option, $uid, $client){
 
 	// Получить привязку к компонентам для  $lists['components']
 	if($uid){
-		$query = "SELECT menuid AS value"
-			. "\n FROM #__modules_com"
-			. "\n WHERE moduleid = " . (int)$row->id;
-		$database->setQuery($query);
+		$sql = "SELECT *
+				FROM #__modules_com
+				WHERE moduleid = " . (int)$row->id;
+		$database->setQuery($sql);
 		$lookup = $database->loadObjectList();
 	} else{
-		$lookup = array(mosHTML::makeOption(0, 'All'));
+		$lookup = array(mosHTML::makeOption('', 'All'));
 	}
-
 	if($row->access == 99 || $row->client_id == 1 || $lists['client_id']){
 		$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
