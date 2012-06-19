@@ -2681,7 +2681,6 @@ class mosModule extends mosDBTable{
 				$all_modules[$module->position][] = $module;
 			}
 		}
-
 		return $all_modules;
 	}
 
@@ -4797,19 +4796,37 @@ class mosAdminMenus{
 	}
 
 	/**
-	 * build the multiple select list for Menu Links/Pages
+	 * @static Создание списка привязки модулей
+	 *
+	 * @param array $lookup - данные о привязке модуля
+	 * @param int   $all    - "Все"
+	 * @param int   $none   - "Отсутствует"
+	 *
+	 * @return string - HTML список
 	 */
-	public static function MenuLinks($lookup = null, $all = null, $none = null){
+	public static function MenuLinks($lookup, $all = 0, $none = 0){
 
-		// определение выделенных строк
-		if(is_array($lookup)){
+		// Создание выделенных строк
+		if(is_array($lookup) and count($lookup)){
 			foreach($lookup as $value){
-				$lookup_tmp[] = $value->option . '-'
-					. $value->directory . '-'
-					. $value->category;
+				$lookup_tmp[] = array(
+					'option' => $value->option,
+					'directory' => $value->directory,
+					'category' => $value->category,
+					'task' => $value->task
+				);
 			}
-			$lookup = $lookup_tmp;
+		}else{
+			// если данныех нет
+			$lookup_tmp[] = array(
+				'option' => '0',
+				'directory' => 0,
+				'category' => 0,
+				'task' => ''
+			);
 		}
+		$lookup = $lookup_tmp;
+
 		$database = database::getInstance();
 
 		// подготовить список ядра (BOSS)
@@ -4819,7 +4836,10 @@ class mosAdminMenus{
 
 		foreach($rows as $directory){
 
-			// get a list of the menu items
+			// TODO GoDr: $task необходимо будет брать из SEF компонента или оставлять пустым (т.е. все)
+			$task = '';
+
+			// получаем список категорий в каталоге BOSS
 			$sql = "SELECT id, name, parent FROM #__boss_" . $directory->id . "_categories ORDER BY parent,ordering";
 
 			$database->setQuery($sql);
@@ -4831,27 +4851,27 @@ class mosAdminMenus{
 			// first pass - collect children
 			foreach($mitems as $v){
 				$pt = $v->parent;
-				$list = isset($children[$pt]) ? $children[$pt] : array();
-				array_push($list, $v);
-				$children[$pt] = $list;
+				$boss = isset($children[$pt]) ? $children[$pt] : array();
+				array_push($boss, $v);
+				$children[$pt] = $boss;
 			}
 			// second pass - get an indent list of the items
-			$list = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
+			$boss = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
 
 			// Code that adds menu name to Display of Page(s)
 			$text_count = 0;
 			$mitems_spacer = $directory->name;
-			foreach($list as $list_a){
+			foreach($boss as $boss_a){
 				foreach($mitems_temp as $mitems_a){
-					if($mitems_a->id == $list_a->id){
+					if($mitems_a->id == $boss_a->id){
 						// Code that inserts the blank line that seperates different menus
 						if($directory->name != $mitems_spacer){
-							$list_temp[] = mosHTML::makeOption(-999, '------------');
+							$boss_temp[] = mosHTML::makeOption(-999, '------------');
 							$mitems_spacer = $directory->name;
 						}
 
-						$text = $directory->name . ' : ' . $list_a->treename;
-						$list_temp[] = mosHTML::makeOption('com_boss' . '-' . $directory->id . '-' . $list_a->id, $text);
+						$text = $directory->name . ' : ' . $boss_a->treename;
+						$boss_temp[] = mosHTML::makeOption('com_boss' . '-' . $directory->id . '-' . $boss_a->id . '-' . $task, $text);
 
 						if(strlen($text) > $text_count){
 							$text_count = strlen($text);
@@ -4859,11 +4879,20 @@ class mosAdminMenus{
 					}
 				}
 			}
-			$list_temp[] = mosHTML::makeOption(-999, '------------');
+			$boss_temp[] = mosHTML::makeOption(-999, '------------');
 		}
-		$list = $list_temp;
+		// BOSS конец
 
-		// массив для списка
+		// Получение списка компонентов
+		$sql = "SELECT `name`, `option` FROM #__components WHERE `parent`=0 AND `option` != 'com_boss' AND `option` != 'com_frontpage'";
+		$database->setQuery($sql);
+		$rows = $database->loadObjectList();
+
+		foreach($rows as $row){
+			$com_temp[] = mosHTML::makeOption($row->option . '-0-0-' . $task, $row->name);
+		}
+
+			// массив для списка
 		$mitems = array();
 
 		// пункт "Все"
@@ -4882,8 +4911,17 @@ class mosAdminMenus{
 			$mitems[] = mosHTML::makeOption(-999, '------------');
 		}
 
-		// append the rest of the menu items to the array
-		foreach($list as $item){
+		// пункт "Главная страница"
+		$mitems[] = mosHTML::makeOption('com_frontpage-0-0-', _FRONTPAGE_NAME);
+		$mitems[] = mosHTML::makeOption(-999, '------------');
+
+		// добавление ссылок для BOSS
+		foreach($boss_temp as $item){
+			$mitems[] = mosHTML::makeOption($item->value, $item->text);
+		}
+
+		// добавление ссылок для других компонентов
+		foreach($com_temp as $item){
 			$mitems[] = mosHTML::makeOption($item->value, $item->text);
 		}
 
@@ -4892,17 +4930,36 @@ class mosAdminMenus{
 
 
 	/**
-	 * @static
+	 * @static формирование HTML-списка с SELECTED
 	 *
-	 * @param $arr
-	 * @param $selected
+	 * @param $arr      - список компонентов
+	 * @param $selected - список выборки
 	 *
-	 * @return string
+	 * @return string - HTML список
 	 */
 	public static function MenuLinksSelect($arr, $selected){
 		$html = '<select name="selections[]" class="inputbox" size="26" multiple="multiple">';
 		foreach($arr as $key){
-			$select = in_array($key->value, $selected) ? ' selected="selected"' : '';
+			$select = '';
+			if($key->value !== -999){
+				if($key->value === '')$key->value = '-0-0-';
+				if($key->value == '0')$key->value = '0-0-0-';
+				$tmp = preg_match("#^([a-z0-9_-]*)-(\d+)-(\d+)-([a-z0-9_-]*)$#i", $key->value, $arr_sel);
+				foreach($selected as $sel){
+					if($tmp){
+						if($sel['option'] == ''){
+							$select = ' selected="selected"';
+						} else{
+							$error = 0;
+							if($arr_sel[1] == $sel['option'] or $sel['option'] == '') $error++;
+							if($arr_sel[2] == $sel['directory'] or $sel['directory'] == '0') $error++;
+							if($arr_sel[3] == $sel['category'] or  $sel['category'] == '0') $error++;
+							if($arr_sel[4] == $sel['task'] or $sel['task'] == '') $error++;
+							if($error == 4) $select = ' selected="selected"';
+						}
+					}
+				}
+			}
 			$html .= '<option value="' . $key->value . '" ' . $select . '>' . $key->text . '</option>';
 		}
 		$html .= '</select>';

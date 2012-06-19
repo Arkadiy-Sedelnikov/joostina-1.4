@@ -143,7 +143,6 @@ function viewModules($option, $client){
 			ORDER BY position ASC, ordering ASC";
 	$database->setQuery($sql, $pageNav->limitstart, $pageNav->limit);
 	$rows = $database->loadObjectList();
-
 	if($database->getErrorNum()){
 		echo $database->stderr();
 		return false;
