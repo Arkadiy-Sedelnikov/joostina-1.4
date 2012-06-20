@@ -10,7 +10,7 @@
 defined('_VALID_MOS') or die();
 
 //Europe/Moscow // GMT0
-function_exists('date_default_timezone_set') ? date_default_timezone_set(date_default_timezone_get()) : null;
+function_exists('date_default_timezone_set') ? date_default_timezone_set('Europe/Moscow') : null;
 
 // каталог администратора
 DEFINE('JADMIN_BASE', 'administrator');
