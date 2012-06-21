@@ -1279,7 +1279,7 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 
 # Dumping structure for table #__modules_com
 
-CREATE TABLE `jos_modules_com` (
+CREATE TABLE `#__modules_com` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`moduleid` INT(11) NOT NULL DEFAULT '0',
 	`option` VARCHAR(20) NOT NULL DEFAULT '',
@@ -1294,7 +1294,7 @@ ENGINE=MyISAM;
 
 -- Dumping data for table joostina141.jos_modules_com: 27 rows
 
-INSERT INTO `jos_modules_com` (`id`, `moduleid`, `option`, `directory`, `category`, `task`) VALUES
+INSERT INTO `#__modules_com` (`id`, `moduleid`, `option`, `directory`, `category`, `task`) VALUES
 	(1, 1, '', 0, 0, ''),
 	(2, 2, '', 0, 0, ''),
 	(3, 3, '', 0, 0, ''),
