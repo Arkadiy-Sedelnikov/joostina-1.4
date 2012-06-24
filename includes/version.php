@@ -28,11 +28,11 @@ class joomlaVersion{
 	/** @var int Подверсия*/
 	var $DEV_LEVEL = '1400';
 	/** @var int Номер сборки*/
-	var $BUILD = '5ba2b8edf0';
+	var $BUILD = 'c5cadd4197';
 	/** @var string Кодовое имя*/
 	var $CODENAME = 'Lotos';
 	/** @var string Дата*/
-	var $RELDATE = '16.06.2012';
+	var $RELDATE = '24.06.2012';
 	/** @var string Время*/
 	var $RELTIME = '01:01';
 	/** @var string Временная зона*/
