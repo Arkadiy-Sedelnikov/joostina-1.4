@@ -208,14 +208,20 @@ function copyModule($option, $uid, $client){
 	}
 	$row->updateOrder('position=' . $database->Quote($row->position) . " AND ($where)");
 
-	$query = "SELECT menuid FROM #__modules_com WHERE moduleid = " . (int)
-	$uid;
-	$database->setQuery($query);
-	$rows = $database->loadResultArray();
-
-	foreach($rows as $menuid){
-		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
-		$database->setQuery($query);
+	$sql = "SELECT * FROM #__modules_com WHERE moduleid = " . (int)$uid;
+	$database->setQuery($sql);
+	$rows = $database->loadObjectList();
+	foreach($rows as $opt){
+		$sql = "INSERT INTO #__modules_com (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (
+		 			NULL,
+		 			'" . $row->id . "',
+		 			'" . $opt->option . "',
+		 			'" . $opt->directory . "',
+		 			'" . $opt->category . "',
+		 			'" . $opt->task . "')
+		 		;";
+		$database->setQuery($sql);
 		$database->query();
 	}
 
@@ -226,13 +232,17 @@ function copyModule($option, $uid, $client){
 }
 
 /**
- * Saves the module after an edit form submit
+ * Сохранение модуля после редактирования
+ * @param $option - компонент
+ * @param $client
+ * @param $task - страница
  */
 function saveModule($option, $client, $task){
 	$database = database::getInstance();
 
 	josSpoofCheck();
 	$params = mosGetParam($_POST, 'params', '');
+
 	if(is_array($params)){
 		$txt = array();
 		foreach($params as $k => $v){
@@ -242,6 +252,7 @@ function saveModule($option, $client, $task){
 	}
 
 	$row = new mosModule($database);
+
 	if(!$row->bind($_POST, 'selections')){
 		echo "<script> alert('" . $row->getError() . "'); window.history.go(-1); </script>\n";
 		exit();
@@ -264,44 +275,56 @@ function saveModule($option, $client, $task){
 
 	$row->updateOrder('position=' . $database->Quote($row->position) . " AND ($where)");
 
-	$menus = josGetArrayInts('selections');
-
 	// delete old module to menu item associations
-	$query = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
-	$database->setQuery($query);
+	$sql = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
+	$database->setQuery($sql);
 	$database->query();
 
-	// check needed to stop a module being assigned to `All`
-	// and other menu items resulting in a module being displayed twice
-	if(in_array('0', $menus)){
-		// assign new module to `all` menu item associations
-		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = 0";
-		$database->setQuery($query);
-		$database->query();
+	$menus = isset($_POST['selections']) ? $_POST['selections'] : array();
+	if(!count($menus) or in_array('0-0-0-', $menus)){
+		$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
+	} elseif(in_array('-0-0-', $menus)){
+		$sql = "INSERT INTO `#__modules_com` (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '',  '0',  '0',  '');";
 	} else{
-		foreach($menus as $menuid){
-			// this check for the blank spaces in the select box that have been added for cosmetic reasons
-			if($menuid != "-999"){
-				// assign new module to menu item associations
-				$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
-				$database->setQuery($query);
-				$database->query();
+		$sql = '';
+		foreach($menus as $menu){
+			if($menu != '-999'){
+				$tmp = preg_match("#^([a-z0-9_-]*)-(\d+)-(\d+)-([a-z0-9_-]*)$#i", $menu, $arr_sel);
+				if($tmp){
+					$sel['option'] = isset($arr_sel[1]) ? $arr_sel[1] : '';
+					$sel['directory'] = isset($arr_sel[2]) ? $arr_sel[2] : 0;
+					$sel['category'] = isset($arr_sel[3]) ? $arr_sel[3] : 0;
+					$sel['task'] = isset($arr_sel[4]) ? $arr_sel[4] : '';
+					$sql .= "INSERT INTO #__modules_com (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 					VALUES (
+		 						NULL,
+		 						'" . $row->id . "',
+		 						'" . $sel['option'] . "',
+		 						'" . $sel['directory'] . "',
+		 						'" . $sel['category'] . "',
+		 						'" . $sel['task'] . "'
+		 					);";
+				}
 			}
 		}
 	}
+	$database->setQuery($sql);
+	$database->multiQuery();
 
 	mosCache::cleanCache('com_boss');
 
 	switch($task){
 		case 'apply':
 			$msg = $row->title . ' - ' . _E_ITEM_SAVED;
-			mosRedirect('index2.php?option=' . $option . '&client=' . $client . '&task=editA&hidemainmenu=1&id=' . $row->id, $msg);
+			mosRedirect('index2.php?option=' . $option . '&amp;client=' . $client . '&amp;task=editA&amp;hidemainmenu=1&amp;id=' . $row->id, $msg);
 			break;
 
 		case 'save':
 		default:
 			$msg = $row->title . ' - ' . _E_ITEM_SAVED;
-			mosRedirect('index2.php?option=' . $option . '&client=' . $client, $msg);
+			mosRedirect('index2.php?option=' . $option . '&amp;client=' . $client, $msg);
 			break;
 	}
 }
@@ -336,7 +359,6 @@ function editModule($option, $uid, $client){
 	if($uid == 0){
 		$row->position = 'left';
 		$row->showtitle = true;
-		//$row->ordering = $l;
 		$row->published = 1;
 	}
 
@@ -350,11 +372,11 @@ function editModule($option, $uid, $client){
 		$lists['client_id'] = 0;
 		$path = 'mod0_xml';
 	}
-	$query = "SELECT position, ordering, showtitle, title"
-		. "\n FROM #__modules"
-		. "\n WHERE $where"
-		. "\n ORDER BY ordering";
-	$database->setQuery($query);
+	$sql = "SELECT position, ordering, showtitle, title
+			FROM #__modules
+			WHERE " . $where .  "
+			ORDER BY ordering";
+	$database->setQuery($sql);
 	if(!($orders = $database->loadObjectList())){
 		echo $database->stderr();
 		return false;
@@ -375,8 +397,6 @@ function editModule($option, $uid, $client){
 		$pos[] = mosHTML::makeOption($position->position, $position->description);
 	}
 
-	$l = 0;
-	$r = 0;
 	for($i = 0, $n = count($orders); $i < $n; $i++){
 		$ord = 0;
 		if(array_key_exists($orders[$i]->position, $orders2)){
@@ -400,8 +420,9 @@ function editModule($option, $uid, $client){
 		$database->setQuery($sql);
 		$lookup = $database->loadObjectList();
 	} else{
-		$lookup = array(mosHTML::makeOption('', 'All'));
+		$lookup = array();
 	}
+
 	if($row->access == 99 || $row->client_id == 1 || $lists['client_id']){
 		$lists['access'] = 'Administrator<input type="hidden" name="access" value="99" />';
 		$lists['showtitle'] = 'N/A <input type="hidden" name="showtitle" value="1" />';
@@ -438,7 +459,6 @@ function editModule($option, $uid, $client){
 
 	// get params definitions
 	$params = new mosParameters($row->params, $xmlfile, 'module');
-
 	HTML_modules::editModule($row, $orders2, $lists, $params, $option);
 }
 

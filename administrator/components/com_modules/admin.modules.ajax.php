@@ -13,7 +13,7 @@ defined('_VALID_MOS') or die();
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 
-$acl = &gacl::getInstance();
+$acl = gacl::getInstance();
 
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'modules', 'all') | $acl->acl_check('administration', 'install', 'users', $my->usertype, 'modules', 'all'))){
 	die('error-acl');
@@ -83,31 +83,43 @@ function x_apply(){
 	}
 	$row->updateOrder('position=' . $database->Quote($row->position) . " AND ($where)");
 
-	$menus = josGetArrayInts('selections');
-
 	// delete old module to menu item associations
-	$query = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
-	$database->setQuery($query);
+	$sql = "DELETE FROM #__modules_com WHERE moduleid = " . (int)$row->id;
+	$database->setQuery($sql);
 	$database->query();
 
-	// check needed to stop a module being assigned to `All`
-	// and other menu items resulting in a module being displayed twice
-	if(in_array('0', $menus)){
-		// assign new module to `all` menu item associations
-		$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = 0";
-		$database->setQuery($query);
-		$database->query();
+	$menus = isset($_POST['selections']) ? $_POST['selections'] : array();
+	if(!count($menus) or in_array('0-0-0-', $menus)){
+		$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
+	} elseif(in_array('-0-0-', $menus)){
+		$sql = "INSERT INTO `#__modules_com` (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '',  '0',  '0',  '');";
 	} else{
-		foreach($menus as $menuid){
-			// this check for the blank spaces in the select box that have been added for cosmetic reasons
-			if($menuid != "-999"){
-				// assign new module to menu item associations
-				$query = "INSERT INTO #__modules_com SET moduleid = " . (int)$row->id . ", menuid = " . (int)$menuid;
-				$database->setQuery($query);
-				$database->query();
+		$sql = '';
+		foreach($menus as $menu){
+			if($menu != '-999'){
+				$tmp = preg_match("#^([a-z0-9_-]*)-(\d+)-(\d+)-([a-z0-9_-]*)$#i", $menu, $arr_sel);
+				if($tmp){
+					$sel['option'] = isset($arr_sel[1]) ? $arr_sel[1] : '';
+					$sel['directory'] = isset($arr_sel[2]) ? $arr_sel[2] : 0;
+					$sel['category'] = isset($arr_sel[3]) ? $arr_sel[3] : 0;
+					$sel['task'] = isset($arr_sel[4]) ? $arr_sel[4] : '';
+					$sql .= "INSERT INTO #__modules_com (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 					VALUES (
+		 						NULL,
+		 						'" . $row->id . "',
+		 						'" . $sel['option'] . "',
+		 						'" . $sel['directory'] . "',
+		 						'" . $sel['category'] . "',
+		 						'" . $sel['task'] . "'
+		 					);";
+				}
 			}
 		}
 	}
+	$database->setQuery($sql);
+	$database->multiQuery();
 
 	mosCache::cleanCache('com_boss');
 
