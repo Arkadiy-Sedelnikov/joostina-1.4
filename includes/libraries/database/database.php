@@ -267,6 +267,29 @@ class database{
 		return $this->_cursor;
 	}
 
+	public function multiQuery(){
+		if($this->_limit > 0 && $this->_offset == 0){
+			$this->_sql .= "\nLIMIT $this->_limit";
+		} elseif($this->_limit > 0 || $this->_offset > 0){
+			$this->_sql .= "\nLIMIT $this->_offset, $this->_limit";
+		}
+
+		$this->_errorNum = 0;
+		$this->_errorMsg = '';
+		$this->_cursor = mysqli_multi_query($this->_resource, $this->_sql);
+
+		if(!$this->_cursor){
+			$this->_errorNum = mysqli_errno($this->_resource);
+			$this->_errorMsg = mysqli_error($this->_resource) . " SQL=$this->_sql";
+			if($this->_debug){
+				$this->show_db_error(mysqli_error($this->_resource), $this->_sql);
+			}
+			return false;
+		}
+
+		return $this->_cursor;
+	}
+
 	/**
 	 * @return int The number of affected rows in the previous operation
 	 */
