@@ -499,8 +499,9 @@ function copyMenu($option, $cid, $type){
 	$row->checkin();
 	$row->updateOrder('position=' . $database->Quote($row->position));
 	// module assigned to show on All pages by default
-	$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
-	$database->setQuery($query);
+	$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
+	$database->setQuery($sql);
 	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();

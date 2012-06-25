@@ -110,8 +110,10 @@ class mosInstallerModule extends mosInstaller{
 
 			$row->store();
 
-			$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
-			$database->setQuery($query);
+			$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
+
+			$database->setQuery($sql);
 			if(!$database->query()){
 				$this->setError(1, _SQL_ERROR . ': ' . $database->stderr(true));
 				return false;
