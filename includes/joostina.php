@@ -2934,7 +2934,6 @@ class mosHTML{
 			if(is_array($selected)){
 
 				foreach($selected as $obj){
-					_vdump($obj);
 					$k2 = $obj->$key;
 					if($k == $k2){
 						$extra .= " selected=\"selected\"";
@@ -4939,24 +4938,22 @@ class mosAdminMenus{
 	 */
 	public static function MenuLinksSelect($arr, $selected){
 		$html = '<select name="selections[]" class="inputbox" size="26" multiple="multiple">';
+		$tmp_ind = true;
 		foreach($arr as $key){
+			if($key->value === '') $key->value = '-0-0-';
+			if($key->value == '0') $key->value = '0-0-0-';
 			$select = '';
-			if($key->value !== -999){
-				if($key->value === '')$key->value = '-0-0-';
-				if($key->value == '0')$key->value = '0-0-0-';
-				$tmp = preg_match("#^([a-z0-9_-]*)-(\d+)-(\d+)-([a-z0-9_-]*)$#i", $key->value, $arr_sel);
+			if($tmp_ind){
 				foreach($selected as $sel){
-					if($tmp){
-						if($sel['option'] == ''){
-							$select = ' selected="selected"';
-						} else{
-							$error = 0;
-							if($arr_sel[1] == $sel['option'] or $sel['option'] == '') $error++;
-							if($arr_sel[2] == $sel['directory'] or $sel['directory'] == '0') $error++;
-							if($arr_sel[3] == $sel['category'] or  $sel['category'] == '0') $error++;
-							if($arr_sel[4] == $sel['task'] or $sel['task'] == '') $error++;
-							if($error == 4) $select = ' selected="selected"';
-						}
+					$str = $sel['option'] . '-' . $sel['directory'] . '-' . $sel['category'] . '-' . $sel['task'];
+					if($str === '' and $key->value === ''){
+						$select = 'selected="selected">';
+						$tmp_ind = false;
+					} elseif($str == '0' and (string)$key->value == '0'){
+						$select = 'selected="selected">';
+						$tmp_ind = false;
+					} elseif($tmp_ind and (string)$key->value == (string)$str){
+						$select = 'selected="selected"';
 					}
 				}
 			}
