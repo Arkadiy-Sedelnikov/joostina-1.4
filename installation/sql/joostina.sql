@@ -1361,16 +1361,24 @@ CREATE TABLE IF NOT EXISTS `#__poll_date` (
 
 # Dumping structure for table #__poll_menu
 
-CREATE TABLE IF NOT EXISTS `#__poll_menu` (
-  `pollid` int(11) NOT NULL DEFAULT '0',
-  `menuid` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`pollid`,`menuid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE `#__poll_menu` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`pollid` INT(11) NOT NULL DEFAULT '0',
+	`option` VARCHAR(20) NOT NULL DEFAULT '',
+	`directory` INT(4) NOT NULL DEFAULT '0',
+	`category` INT(4) NOT NULL DEFAULT '0',
+	`task` VARCHAR(20) NOT NULL DEFAULT '',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `index2` (`pollid`, `directory`, `category`, `option`, `task`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+AUTO_INCREMENT=2;
 
 # Dumping data for table #__poll_menu: 1 rows
 
-INSERT INTO `#__poll_menu` (`pollid`, `menuid`) VALUES
-	(14, 0);
+INSERT INTO `#__poll_menu` (`id`, `pollid`, `option`, `directory`, `category`, `task`) VALUES
+	(1, 14, '', 0, 0, '');
 
 # Dumping structure for table #__quickicons
 

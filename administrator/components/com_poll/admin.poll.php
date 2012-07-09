@@ -113,11 +113,13 @@ function editPoll($uid = 0, $option = 'com_poll'){
 
 	// get selected pages
 	if($uid){
-		$query = "SELECT menuid AS value FROM #__poll_menu WHERE pollid = " . (int)$row->id;
-		$database->setQuery($query);
+		$sql = "SELECT *
+				FROM #__poll_menu
+				WHERE pollid = " . (int)$row->id;
+		$database->setQuery($sql);
 		$lookup = $database->loadObjectList();
 	} else{
-		$lookup = array(mosHTML::makeOption(0, 'All'));
+		$lookup = array();
 	}
 
 	// build the html select list
@@ -173,17 +175,43 @@ function savePoll($option){
 	}
 
 	// update the menu visibility
-	$selections = mosGetParam($_POST, 'selections', array());
 
 	$query = "DELETE FROM #__poll_menu WHERE pollid = " . (int)$row->id;
 	$database->setQuery($query);
 	$database->query();
 
-	for($i = 0, $n = count($selections); $i < $n; $i++){
-		$query = "INSERT INTO #__poll_menu SET pollid = " . (int)$row->id . ", menuid = " . (int)$selections[$i];
-		$database->setQuery($query);
-		$database->query();
+	$menus = isset($_POST['selections']) ? $_POST['selections'] : array();
+	if(!count($menus) or in_array('0-0-0-', $menus)){
+		$sql = "INSERT INTO `#__poll_menu`  (`id`, `pollid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
+	} elseif(in_array('-0-0-', $menus)){
+		$sql = "INSERT INTO `#__poll_menu` (`id`, `pollid`, `option`, `directory`, `category`, `task`)
+		 		VALUES (NULL, '" . $row->id . "', '',  '0',  '0',  '');";
+	} else{
+		$sql = '';
+		foreach($menus as $menu){
+			if($menu != '-999'){
+				$tmp = preg_match("#^([a-z0-9_-]*)-(\d+)-(\d+)-([a-z0-9_-]*)$#i", $menu, $arr_sel);
+				if($tmp){
+					$sel['option'] = isset($arr_sel[1]) ? $arr_sel[1] : '';
+					$sel['directory'] = isset($arr_sel[2]) ? $arr_sel[2] : 0;
+					$sel['category'] = isset($arr_sel[3]) ? $arr_sel[3] : 0;
+					$sel['task'] = isset($arr_sel[4]) ? $arr_sel[4] : '';
+					$sql .= "INSERT INTO #__poll_menu (`id`, `pollid`, `option`, `directory`, `category`, `task`)
+		 					VALUES (
+		 						NULL,
+		 						'" . $row->id . "',
+		 						'" . $sel['option'] . "',
+		 						'" . $sel['directory'] . "',
+		 						'" . $sel['category'] . "',
+		 						'" . $sel['task'] . "'
+		 					);";
+				}
+			}
+		}
 	}
+	$database->setQuery($sql);
+	$database->multiQuery();
 
 	mosRedirect('index2.php?option=' . $option);
 }

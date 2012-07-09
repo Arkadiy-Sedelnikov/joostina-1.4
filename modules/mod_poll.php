@@ -1,9 +1,9 @@
 <?php
 /**
- * @package Joostina
+ * @package   Joostina
  * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ *            Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
@@ -17,15 +17,20 @@ if(!defined('_JOS_POLL_MODULE')){
 	define('_JOS_POLL_MODULE', 1);
 
 	/**
-	 * @param int The current menu item
+	 * @param int    The current menu item
 	 * @param string CSS suffix
 	 */
 	function show_poll_vote_form($params, $mainframe){
+
 		$database = database::getInstance();
 
-		$query = "SELECT p.id, p.title FROM #__polls AS p INNER JOIN #__poll_menu AS pm ON  pm.pollid = p.id WHERE pm.menuid AND p.published = 1";
+		$sql = "SELECT p.id, p.title
+				FROM #__polls AS p
+				INNER JOIN #__poll_menu AS pm ON  pm.pollid = p.id
+				WHERE pm.id
+				AND p.published = 1";
 
-		$database->setQuery($query);
+		$database->setQuery($sql);
 		$polls = $database->loadObjectList();
 
 
@@ -55,7 +60,7 @@ if(!defined('_JOS_POLL_MODULE')){
 	/**
 	 * @param object Poll object
 	 * @param array
-	 * @param int The current menu item
+	 * @param int    The current menu item
 	 * @param string CSS suffix
 	 */
 	function poll_vote_form_html($poll, $options, $params, $z){
@@ -109,7 +114,7 @@ if(!defined('_JOS_POLL_MODULE')){
 			</table>
 			<div class="poll_buttons">
 				<span class="button"><input type="button" onclick="submitbutton_Poll<?php echo $z; ?>();" name="task_button" class="button" value="<?php echo _BUTTON_VOTE; ?>"/></span>
-				<span class="button"><input type="button" name="option" class="button" value="<?php echo _BUTTON_RESULTS; ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=" . $poll->id ); ?>';"/></span>
+				<span class="button"><input type="button" name="option" class="button" value="<?php echo _BUTTON_RESULTS; ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=" . $poll->id); ?>';"/></span>
 			</div>
 		</div>
 		<input type="hidden" name="id" value="<?php echo $poll->id; ?>"/>
