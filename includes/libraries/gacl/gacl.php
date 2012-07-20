@@ -9,7 +9,7 @@
  * Copyright (C) 2002,2003 Mike Benoit
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class gacl{
 
 	var $_debug = false;

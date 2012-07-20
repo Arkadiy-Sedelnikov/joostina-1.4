@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** Wraps all configuration functions for Xmap */
 class XmapPlugin extends mosDBTable{
@@ -97,7 +97,7 @@ class XmapPlugin extends mosDBTable{
 	}
 
 	function getXmlPath(){
-		return JPATH_BASE_ADMIN . '/components/com_xmap/extensions/' . $this->extension . '.xml';
+		return _JLPATH_ADMINISTRATOR . '/components/com_xmap/extensions/' . $this->extension . '.xml';
 	}
 
 	// тут зачем-то было store

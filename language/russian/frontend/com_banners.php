@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ABP_FAILED_ACCESS', 'Ошибка доступа');
 DEFINE('_COM_BANNERS_NONE_ACCESS', 'Доступ не возможен');

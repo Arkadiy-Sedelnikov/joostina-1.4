@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__) . "/Relay.php";
 require_once dirname(__file__) . "/File.php";
 class File_Archive_Reader_Directory extends File_Archive_Reader_Relay{
@@ -88,7 +88,7 @@ class File_Archive_Reader_Directory extends File_Archive_Reader_Relay{
 		return $writer;
 	}
 
-	function &getLastSource(){
+	function getLastSource(){
 		if($this->source === null || ($this->source instanceof  File_Archive_Reader_File)){
 			return $this->source;
 		} else{

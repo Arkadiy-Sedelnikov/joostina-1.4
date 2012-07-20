@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){

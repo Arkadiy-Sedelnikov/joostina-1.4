@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PHP_HTTP_TOOLS_INCLUDE_PATH', (dirname(__file__) . "/"));
 require_once (PHP_HTTP_TOOLS_INCLUDE_PATH . 'php_http_server_generic.php');
 ?>

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $database = database::getInstance();
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);

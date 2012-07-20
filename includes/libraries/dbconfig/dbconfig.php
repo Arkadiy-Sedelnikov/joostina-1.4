@@ -7,7 +7,7 @@
  * @version $Id: config.php 22.04.2009 21:49:48 e-FreeZe $;
  * @since 1.3 - 21.04.2009
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 /**

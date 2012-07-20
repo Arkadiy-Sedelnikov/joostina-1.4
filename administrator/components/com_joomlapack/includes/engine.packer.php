@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 global $JPConfiguration;
 define('PCLZIP_TEMPORARY_DIR', $JPConfiguration->OutputDirectory . '/');
 
@@ -192,7 +192,7 @@ class CPackerEngine{
 		global $JPConfiguration;
 		$database = database::getInstance();
 
-		include_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
+		include_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclzip.lib.php');
 
 		// Check for existing instance of the object stored in db
 		$sql = "SELECT COUNT(*) FROM #__jp_packvars WHERE `key`='zipobject'";
@@ -232,7 +232,7 @@ class CPackerEngine{
 		} else{
 			// завершение архивирования
 			$zip = new PclZip($this->_archiveFile);
-			$to_file = PclZipUtilTranslateWinPath(JPATH_BASE_ADMIN . '/backups/installation/');
+			$to_file = PclZipUtilTranslateWinPath(_JLPATH_ADMINISTRATOR . '/backups/installation/');
 			$zip->add($to_file, '', $pathsAddRemove['remove']);
 			CJPLogger::WriteLog(_JP_LOG_DEBUG, _JP_ARCHIVE_COMPLETED);
 		}

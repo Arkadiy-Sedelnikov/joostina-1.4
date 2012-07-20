@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-define("_VALID_MOS", 1);
+define('_JLINDEX', 1);
 
 /** проверка безопасности*/
 require ('../includes/auth.php');
@@ -128,7 +128,7 @@ if(isset($_FILES['userfile'])){
 
 // css file handling
 // check to see if template exists
-if($css != '' && !is_dir(JPATH_BASE_ADMIN . '/templates/' . $css . '/css/template_css.css')){
+if($css != '' && !is_dir(_JLPATH_ADMINISTRATOR . '/templates/' . $css . '/css/template_css.css')){
 	$css = 'joostfree';
 } else
 	if($css == ''){

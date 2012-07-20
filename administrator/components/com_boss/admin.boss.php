@@ -7,7 +7,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_boss'))){

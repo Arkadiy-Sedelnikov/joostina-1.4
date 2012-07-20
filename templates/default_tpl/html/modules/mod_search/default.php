@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 ?>
 <div class="search<?php echo $moduleclass_sfx; ?>">
 	<form action="<?php echo $link; ?>" method="post">

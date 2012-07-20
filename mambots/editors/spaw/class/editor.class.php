@@ -2,10 +2,10 @@
 /**
  * SPAW Editor v.2 Editor classes
  * Main editor classes
- * @package spaw2
+ * @package    spaw2
  * @subpackage Editor
- * @author Alan Mendelevich <alan@solmetra.lt>
- * @copyright UAB Solmetra
+ * @author     Alan Mendelevich <alan@solmetra.lt>
+ * @copyright  UAB Solmetra
  */
 
 require_once(str_replace('\\\\', '/', dirname(__FILE__)) . '/config.class.php');
@@ -15,7 +15,7 @@ require_once(str_replace('\\\\', '/', dirname(__FILE__)) . '/lang.class.php');
 
 /**
  * Represetns editor page
- * @package spaw2
+ * @package    spaw2
  * @subpackage Editor
  */
 class SpawEditorPage{
@@ -51,9 +51,10 @@ class SpawEditorPage{
 
 	/**
 	 * Constructor
-	 * @param string $name Name
+	 *
+	 * @param string $name    Name
 	 * @param string $caption Caption
-	 * @param string $value Initial content
+	 * @param string $value   Initial content
 	 */
 	function SpawEditorPage($name, $caption, $value = '', $direction = 'ltr'){
 		// workaround for names with [ and ]
@@ -66,8 +67,9 @@ class SpawEditorPage{
 		$_pn = SpawConfig::getStaticConfigValue('_page_count');
 
 		$ctrl_id = str_replace(']', '_', str_replace('[', '_', $name));
-		if($ctrl_id != $name)
+		if($ctrl_id != $name) {
 			$ctrl_id = $ctrl_id . '_' . $_pn;
+		}
 
 		$this->name = $ctrl_id;
 		$this->inputName = $name;
@@ -79,7 +81,7 @@ class SpawEditorPage{
 
 /**
  * Represents the editor as a whole
- * @package spaw2
+ * @package    spaw2
  * @subpackage Editor
  */
 class SpawEditor{
@@ -102,38 +104,45 @@ class SpawEditor{
 
 	/**
 	 * Constructor
+	 *
 	 * @param string $name Editor name
 	 */
-	function SpawEditor($name, $value = '', $lang = '', $toolbarset = '',
-		$theme = '', $width = '', $height = '', $stylesheet = '', $page_caption = ''){
+	function SpawEditor($name, $value = '', $lang = '', $toolbarset = '', $theme = '', $width = '', $height = '', $stylesheet = '', $page_caption = ''){
 		$this->name = $name;
 
 		// add first page
 		$page_caption = ($page_caption != '') ? $page_caption : $name;
 		$page = new SpawEditorPage($name, $page_caption, $value);
-		if($page->name != $this->name)
+		if($page->name != $this->name) {
 			$this->name = $page->name;
+		}
 		$this->addPage($page);
 		$this->setActivePage($page);
 
-		if($lang != '')
+		if($lang != '') {
 			$this->setLanguage($lang);
-//    if ($toolbarset != '')
-//      $this->addToolbarSet($toolbarset);
-		if($theme != '')
+		}
+		//    if ($toolbarset != '')
+		//      $this->addToolbarSet($toolbarset);
+		if($theme != '') {
 			$this->setTheme($theme);
-		if($width != '')
+		}
+		if($width != '') {
 			$this->setDimensions($width, null);
-		if($height != '')
+		}
+		if($height != '') {
 			$this->setDimensions(null, $height);
-		if($stylesheet != '')
+		}
+		if($stylesheet != '') {
 			$this->setStylesheet($stylesheet);
+		}
 
 		// load static config
 		$this->config = new SpawConfig();
 
-		if($toolbarset != '')
+		if($toolbarset != '') {
 			$this->setConfigValue('default_toolbarset', $toolbarset);
+		}
 	}
 
 	/**
@@ -156,14 +165,17 @@ class SpawEditor{
 
 	/**
 	 * Sets editor dimensions
+	 *
 	 * @param string width
 	 * @param string height
 	 */
 	function setDimensions($width, $height){
-		if($width != null && $width != '')
+		if($width != null && $width != '') {
 			$this->width = $width;
-		if($height != null && $height != '')
+		}
+		if($height != null && $height != '') {
 			$this->height = $height;
+		}
 	}
 
 	/**
@@ -175,6 +187,7 @@ class SpawEditor{
 	/**
 	 * Adds toolbars to current instance (unlimited number of arguments could be passed)
 	 * Specify a comma separated list of toolbars that should be displayed (ie. "format","table",etc.).
+	 *
 	 * @param string $toolbar,... list of toolbar names
 	 */
 	function addToolbars($toolbar = ''){
@@ -184,13 +197,14 @@ class SpawEditor{
 			$args = func_get_args();
 			for($i = 0; $i < $numargs; $i++){
 				$this->toolbars[$args[$i]] = SpawToolbar::getToolbar($args[$i]);
-        $this->toolbars[$args[$i]]->editor = &$this;
-      }
+				$this->toolbars[$args[$i]]->editor = $this;
+			}
 		}
 	}
 
 	/**
 	 * Adds toolbar set
+	 *
 	 * @param string toolbar set name
 	 */
 	function addToolbarSet($toolbarset){
@@ -204,15 +218,16 @@ class SpawEditor{
 
 	/**
 	 * Adds toolbar (substitutes other toolbar if $substiture is specified)
-	 * @param string $toolbar name of the toolbar to add
+	 *
+	 * @param string $toolbar    name of the toolbar to add
 	 * @param string $substitute place this toolbar in place of specified
 	 */
 	function addToolbar($toolbar, $substitute = ''){
 		$index = empty($substitute) ? $toolbar : $substitute;
 
 		$this->toolbars[$index] = SpawToolbar::getToolbar($toolbar);
-    $this->toolbars[$index]->editor = &$this;
-  }
+		$this->toolbars[$index]->editor = $this;
+	}
 
 	/**
 	 * Theme/skin
@@ -222,6 +237,7 @@ class SpawEditor{
 
 	/**
 	 * Sets theme/skin for the instance
+	 *
 	 * @param string $theme Theme name
 	 */
 	function setTheme($theme){
@@ -236,23 +252,27 @@ class SpawEditor{
 
 	/**
 	 * Sets editor language
-	 * @param string $lang abbreviation of the language code
+	 *
+	 * @param string $lang        abbreviation of the language code
 	 * @param string $out_charset output charset
 	 */
 	function setLanguage($lang = '', $out_charset = ''){
 		$this->lang = new SpawLang($lang);
-		if($out_charset != null && $out_charset != '')
+		if($out_charset != null && $out_charset != '') {
 			$this->lang->setOutputCharset($out_charset);
+		}
 	}
 
 	/**
 	 * Editing area stylesheet
+	 *
 	 * @param string path to stylesheet file
 	 */
 	var $stylesheet;
 
 	/**
 	 * Sets editing area stylesheet
+	 *
 	 * @param string $filename path to stylesheet file
 	 */
 	function setStylesheet($filename){
@@ -267,6 +287,7 @@ class SpawEditor{
 
 	/**
 	 * Adds page
+	 *
 	 * @param SpawEditorPage page Page object
 	 */
 	function addPage($page){
@@ -275,14 +296,17 @@ class SpawEditor{
 
 	/**
 	 * Returns page
+	 *
 	 * @param string $name Page name
+	 *
 	 * @returns SpawEditorPage
 	 */
 	function getPage($name){
-		if(!empty($this->pages[$name]))
+		if(!empty($this->pages[$name])) {
 			return $this->pages[$name];
-		else
+		} else{
 			return NULL;
+		}
 	}
 
 	/**
@@ -293,6 +317,7 @@ class SpawEditor{
 
 	/**
 	 * Sets active page
+	 *
 	 * @param SpawEditorPage $page
 	 */
 	function setActivePage($page){
@@ -315,12 +340,14 @@ class SpawEditor{
 
 	/**
 	 * Sets floating toolbar mode on or off
+	 *
 	 * @param bool $value Should floating mode be enabled
 	 */
 	function setFloatingMode($controlled_by = '', $value = true){
 		$this->floating_mode = $value;
-		if($value)
+		if($value) {
 			$this->setToolbarFrom($controlled_by);
+		}
 	}
 
 	/**
@@ -340,11 +367,13 @@ class SpawEditor{
 
 	/**
 	 * Sets variable holding instance of another SpawEditor which controls floating toolbar used for this instance
+	 *
 	 * @param SpawEditor $controlled_by
 	 */
 	function setToolbarFrom($controlled_by = ''){
-		if($controlled_by == '')
+		if($controlled_by == '') {
 			$controlled_by = $this;
+		}
 		$this->toolbar_from = $controlled_by;
 	}
 
@@ -353,10 +382,11 @@ class SpawEditor{
 	 * @returns SpawEditor
 	 */
 	function getToolbarFrom(){
-		if($this->toolbar_from)
+		if($this->toolbar_from) {
 			return $this->toolbar_from;
-		else
+		} else{
 			return $this;
+		}
 	}
 
 	/**
@@ -451,6 +481,7 @@ class SpawEditor{
 
 	/**
 	 * Set's instance config item
+	 *
 	 * @param bool $value Value of read-only state (true - read-only, false - editable)
 	 */
 	function setReadOnly($value = true){
@@ -467,8 +498,9 @@ class SpawEditor{
 
 	/**
 	 * Set's instance config item
-	 * @param string  $name Config item's name
-	 * @param mixed   $value Config item's value
+	 *
+	 * @param string  $name          Config item's name
+	 * @param mixed   $value         Config item's value
 	 * @param integer $transfer_type Transfer type for the value (One or several of SPAW_CFG_TRANSFER_* constants). Default value - SPAW_CFG_TRANSFER_NONE
 	 */
 	function setConfigItem($name, $value, $transfer_type = SPAW_CFG_TRANSFER_NONE){
@@ -477,7 +509,9 @@ class SpawEditor{
 
 	/**
 	 * Gets instance config item
+	 *
 	 * @param string $name Config item name
+	 *
 	 * @returns SpawConfigItem
 	 */
 	function getConfigItem($name){
@@ -486,7 +520,8 @@ class SpawEditor{
 
 	/**
 	 * Sets instance config item value
-	 * @param string $name Config item name
+	 *
+	 * @param string $name  Config item name
 	 * @param mixed  $value Config item value
 	 */
 	function setConfigValue($name, $value){
@@ -495,7 +530,8 @@ class SpawEditor{
 
 	/**
 	 * Sets instance value for the element of config item provided item's value is an array
-	 * @param string $name Config item name
+	 *
+	 * @param string $name  Config item name
 	 * @param mixed  $index Array index
 	 * @param mixed  $value Element value
 	 */
@@ -505,7 +541,9 @@ class SpawEditor{
 
 	/**
 	 * Gets instance config item value
+	 *
 	 * @param string $name Config item name
+	 *
 	 * @returns mixed Config item value
 	 */
 	function getConfigValue($name){
@@ -514,8 +552,10 @@ class SpawEditor{
 
 	/**
 	 * Gets instance value for the element of config item provided item's value is an array
-	 * @param string $name Config item name
+	 *
+	 * @param string $name  Config item name
 	 * @param mixed  $index Array index
+	 *
 	 * @returns mixed Element value
 	 */
 	function getConfigValueElement($name, $index){
@@ -526,18 +566,24 @@ class SpawEditor{
 	 * Sets default property values if they were not explicitly specified
 	 */
 	function setDefaults(){
-		if($this->theme == null)
+		if($this->theme == null) {
 			$this->setTheme($this->config->getConfigValue('default_theme'));
-		if($this->toolbars == null)
+		}
+		if($this->toolbars == null) {
 			$this->addToolbarSet($this->config->getConfigValue('default_toolbarset'));
-		if($this->stylesheet == null)
+		}
+		if($this->stylesheet == null) {
 			$this->setStylesheet($this->config->getConfigValue('default_stylesheet'));
-		if($this->width == null)
+		}
+		if($this->width == null) {
 			$this->setDimensions($this->config->getConfigValue('default_width'), null);
-		if($this->height == null)
+		}
+		if($this->height == null) {
 			$this->setDimensions(null, $this->config->getConfigValue('default_height'));
-		if($this->lang == null)
+		}
+		if($this->lang == null) {
 			$this->setLanguage($this->config->getConfigValue('default_lang'), $this->config->getConfigValue('default_output_charset'));
+		}
 	}
 
 	/**
@@ -545,6 +591,7 @@ class SpawEditor{
 	 * @returns string
 	 */
 	function getHtml(){
+		global $spaw_js_inc;
 		$res = '';
 		$this->setDefaults();
 		if(SpawAgent::getAgent() != SPAW_AGENT_UNSUPPORTED){
@@ -552,9 +599,9 @@ class SpawEditor{
 			$head_res = '';
 			$js_res = '';
 			$html_res = '';
-			$ssent = &SpawEditor::scriptSent();
+			$ssent = SpawEditor::scriptSent();
 			if(!$ssent){
-				include(SpawConfig::getStaticConfigValue("SPAW_ROOT") . 'js/spaw.js.php');
+				include(_SPAW_ROOT . 'js/spaw.js.php');
 				$head_res .= $spaw_js_inc;
 				$js_res .= 'SpawEngine.setSpawDir("' . SpawConfig::getStaticConfigValue("SPAW_DIR") . '");';
 				$ssent = true;
@@ -581,18 +628,24 @@ class SpawEditor{
 			$reqstr = '';
 			foreach($this->config->config as $cfg){
 				if(($cfg->transfer_type & SPAW_CFG_TRANSFER_JS) && is_scalar($cfg->value)){
-					if(is_numeric($cfg->value))
+					if(is_numeric($cfg->value)) {
 						$js_res .= $objname . '.setConfigValue("' . $cfg->name . '", ' . $cfg->value . ');';
-					else if(is_bool($cfg->value))
-						$js_res .= $objname . '.setConfigValue("' . $cfg->name . '", ' . ($cfg->value ? 'true' : 'false') . ');';
-					else // string
-						$js_res .= $objname . '.setConfigValue("' . $cfg->name . '", "' . $cfg->value . '");';
+					} else {
+						if(is_bool($cfg->value)){
+							$js_res .= $objname . '.setConfigValue("' . $cfg->name . '", ' . ($cfg->value ? 'true' : 'false') . ');';
+						} else // string
+						{
+							$js_res .= $objname . '.setConfigValue("' . $cfg->name . '", "' . $cfg->value . '");';
+						}
+					}
 				}
 				if(($cfg->transfer_type & SPAW_CFG_TRANSFER_REQUEST) && is_scalar($cfg->value)){
-					if(is_bool($cfg->value))
+					if(is_bool($cfg->value)) {
 						$reqstr .= '&' . $cfg->name . '=' . ($cfg->value ? 'true' : 'false');
-					else // string, number
+					} else // string, number
+					{
 						$reqstr .= '&' . $cfg->name . '=' . $cfg->value;
+					}
 				}
 			}
 			if($reqstr != ''){
@@ -718,11 +771,11 @@ class SpawEditor{
 				$js_res .= $objname . '.addPage(' . $pname . '_page);' . "\n";
 				$js_res .= $objname . '.getTab("' . $pname . '").template = "' . addslashes(str_replace("{SPAW TAB CAPTION}", $page->caption, $tabtpl)) . '";' . "\n";
 				$js_res .= $objname . '.getTab("' . $pname . '").active_template = "' . addslashes(str_replace("{SPAW TAB CAPTION}", $page->caption, $atabtpl)) . '";' . "\n";
-				if($this->name == $pname)
+				if($this->name == $pname) {
 					$js_res .= $objname . '.active_page =' . $pname . '_page;' . "\n";
+				}
 
-				$pagetpl .= '<iframe name="' . $pname . '_rEdit" id="' . $pname . '_rEdit" style="width: 100%; height: ' . $this->height . '; display: ' . (($this->name == $pname) ? 'inline' : 'none') . ';" frameborder="no" src="' . SpawConfig::getStaticConfigValue("SPAW_DIR") .
-					'empty/empty.php?SITE_URL=' . SpawConfig::getStaticConfigValue('SITE_URL') . '&' . microtime() . '"></iframe>';
+				$pagetpl .= '<iframe name="' . $pname . '_rEdit" id="' . $pname . '_rEdit" style="width: 100%; height: ' . $this->height . '; display: ' . (($this->name == $pname) ? 'inline' : 'none') . ';" frameborder="no" src="' . SpawConfig::getStaticConfigValue("SPAW_DIR") . 'empty/empty.php?SITE_URL=' . SpawConfig::getStaticConfigValue('SITE_URL') . '&' . microtime() . '"></iframe>';
 				$tabstpl .= '<span id="' . $pname . '_tab" style="cursor: default;" onclick="' . $objname . '.setActivePage(\'' . $pname . '\');">' . str_replace("{SPAW TAB CAPTION}", $page->caption, ($pname == $this->name) ? $atabtpl : $tabtpl) . '</span>';
 			}
 			$tpl = str_replace('{SPAW EDITOR}', $pagetpl, $tpl);
@@ -737,8 +790,9 @@ class SpawEditor{
 		} else{
 			// standard textarea fallback
 			foreach($this->pages as $pname => $page){
-				if(sizeof($this->pages) > 1)
+				if(sizeof($this->pages) > 1) {
 					$res .= '<label for="' . $pname . '">' . $page->caption . '</label><br />';
+				}
 				$res .= '<textarea name="' . $pname . '" id="' . $pname . '" width="' . $this->width . '" height="' . $this->height . '" style="width: ' . $this->width . '; height: ' . $this->height . ';" wrap="off">' . htmlspecialchars($page->value) . '</textarea><br />';
 			}
 		}
@@ -756,12 +810,11 @@ class SpawEditor{
 
 /**
  * Wrapper for seamless upgrade from v.1.x
- * @package spaw2
+ * @package    spaw2
  * @subpackage Editor
  */
 class SPAW_Wysiwyg extends SpawEditor{
-	function SPAW_Wysiwyg($control_name = '', $value = '', $lang = '', $mode = '',
-		$theme = '', $width = '', $height = '', $css_stylesheet = '', $dropdown_data = ''){
+	function SPAW_Wysiwyg($control_name = '', $value = '', $lang = '', $mode = '', $theme = '', $width = '', $height = '', $css_stylesheet = '', $dropdown_data = ''){
 		// value translations
 		switch($mode){
 			case 'default':
@@ -779,8 +832,9 @@ class SPAW_Wysiwyg extends SpawEditor{
 		}
 		parent::SpawEditor($control_name, $value, $lang, $mode, '', $width, $height, $css_stylesheet);
 
-		if($mode == 'mini')
+		if($mode == 'mini') {
 			$this->hideStatusBar();
+		}
 	}
 }
 

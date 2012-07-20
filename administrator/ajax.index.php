@@ -8,16 +8,20 @@
  */
 
 // Установка флага родительского файла
-define('_VALID_MOS', 1);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
+define('_JLINDEX', 1);
+
 // корень файлов
-define('JPATH_BASE', dirname(dirname(__FILE__)));
-// корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(__FILE__));
+define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
+
+// подключение основных глобальных переменных
+require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
+
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
-require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php');
-require_once (JPATH_BASE . DS . 'configuration.php');
+
+
+require_once (_JLPATH_ROOT . DS . 'includes' . DS . 'globals.php');
+
+require_once (_JLPATH_ROOT . DS . 'configuration.php');
 
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
@@ -31,8 +35,12 @@ if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset
 // live_site
 define('JPATH_SITE', $mosConfig_live_site);
 
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
+
+
 // подключаем ядро
-require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
+require_once (_JLPATH_ROOT . DS . 'includes' . DS . 'joostina.php');
 
 // создаём сессии
 session_name(md5($mosConfig_live_site));
@@ -53,7 +61,7 @@ require_once($mainframe->getLangFile());
 $cur_template = $mainframe->getTemplate();
 define('JTEMPLATE', $cur_template);
 
-require_once (JPATH_BASE_ADMIN . DS . 'includes' . DS . 'admin.php');
+require_once (_JLPATH_ADMINISTRATOR . DS . 'includes' . DS . 'admin.php');
 
 $my = $mainframe->initSessionAdmin($option, $task);
 
@@ -71,7 +79,7 @@ $commponent = str_replace('com_', '', $option);
 
 initGzip();
 // файл обработки Ajax запрсоов конкртеного компонента
-$file_com = JPATH_BASE_ADMIN . DS . 'components' . DS . $option . DS . 'admin.' . $commponent . '.ajax.php';
+$file_com = _JLPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'admin.' . $commponent . '.ajax.php';
 // проверяем, какой файл необходимо подключить, данные берутся из пришедшего GET запроса
 if(file_exists($file_com)){
 	//Подключаем язык компонента

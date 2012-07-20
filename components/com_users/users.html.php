@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -44,7 +44,7 @@ class HTML_user{
 		if($my->id && $user->id == $my->id){
 			$owner = 1;
 			$editable = ' editable';
-			$edit_info_link = sefRelToAbs('index.php?option=com_users&task=UserDetails');
+			$edit_info_link = JSef::getUrlToSef('index.php?option=com_users&task=UserDetails');
 		} else{
 			$editable = '';
 			$avatar_edit = '';
@@ -67,7 +67,7 @@ class HTML_user{
 
 		$lastvisitDate = ($user->lastvisitDate != '0000-00-00 00:00:00') ? mosFormatDate($user->lastvisitDate) : _USER_NONE_LAST_VISIT;
 
-		$user_content_href = sefRelToAbs('index.php?option=com_boss&task=show_user&userid=' . $user_id . '&directory=1');
+		$user_content_href = JSef::getUrlToSef('index.php?option=com_boss&task=show_user&userid=' . $user_id . '&directory=1');
 
 		//Шаблон
 		$template = 'default.php';
@@ -109,11 +109,11 @@ class HTML_user{
 		include ($template_file);
 	}
 
-	public static function userEdit($user, $option, $submitvalue, &$params, $user_config){
+	public static function userEdit($user, $option, $submitvalue, $params, $user_config){
 		// used for spoof hardening
 		$validate = josSpoofValue();
 
-		require_once (JPATH_BASE . '/includes/HTML_toolbar.php');
+		mosMainFrame::addLib('menubar');
 		$config = Jconfig::getInstance();
 
 		$user_extra = $user->user_extra;

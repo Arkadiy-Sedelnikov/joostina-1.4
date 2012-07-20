@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $task, $option;
 $mainframe = mosMainFrame::getInstance();
@@ -71,7 +71,7 @@ switch($task){
 		break;
 
 	case 'lostPassword':
-		$config = &$mainframe->config;
+		$config = $mainframe->config;
 		if($config->config_frontend_login != null && ($config->config_frontend_login === 0 || $config->config_frontend_login === '0')){
 			echo _NOT_AUTH;
 			return;
@@ -80,7 +80,7 @@ switch($task){
 		break;
 
 	case 'sendNewPass':
-		$config = &$mainframe->config;
+		$config = $mainframe->config;
 		if($config->config_frontend_login != null && ($config->config_frontend_login === 0 || $config->config_frontend_login === '0')){
 			echo _NOT_AUTH;
 			return;
@@ -89,7 +89,7 @@ switch($task){
 		break;
 
 	case 'register':
-		$config = &$mainframe->config;
+		$config = $mainframe->config;
 		if($config->config_frontend_login != null && ($config->config_frontend_login === 0 || $config->config_frontend_login === '0')){
 			echo _NOT_AUTH;
 			return;
@@ -98,7 +98,7 @@ switch($task){
 		break;
 
 	case 'saveRegistration':
-		$config = &$mainframe->config;
+		$config = $mainframe->config;
 		if($config->config_frontend_login != null && ($config->config_frontend_login === 0 || $config->config_frontend_login === '0')){
 			echo _NOT_AUTH;
 			return;
@@ -107,7 +107,7 @@ switch($task){
 		break;
 
 	case 'activate':
-		$config = &$mainframe->config;
+		$config = $mainframe->config;
 		if($config->config_frontend_login != null && ($config->config_frontend_login === 0 || $config->config_frontend_login === '0')){
 			echo _NOT_AUTH;
 			return;
@@ -192,7 +192,7 @@ function userSave($option, $uid){
 	// simple spoof check security
 	josSpoofCheck();
 
-	$config = &$mainframe->config;
+	$config = $mainframe->config;
 	$database = database::getInstance();
 
 	$user_id = intval(mosGetParam($_POST, 'id', 0));

@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -43,17 +43,17 @@ class dom_xmlrpc_base64{
 		return chunk_split($stringData);
 	}
 
-	function &encode($binaryData){
+	function encode($binaryData){
 
 		return chunk_split(base64_encode($binaryData));
 	}
 
-	function &decode($stringData){
+	function decode($stringData){
 
 		return base64_decode($stringData);
 	}
 
-	function &getBinary(){
+	function getBinary(){
 		return $this->decode($this->stringData);
 	}
 

@@ -8,7 +8,7 @@
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 //подгружаем языковой файл плагина
 boss_helpers::loadBossPluginLang($directory, 'fields', 'BossImageGalleryPlugin');

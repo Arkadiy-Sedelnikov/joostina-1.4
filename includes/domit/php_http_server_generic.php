@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 if(!defined('PHP_HTTP_TOOLS_INCLUDE_PATH')){

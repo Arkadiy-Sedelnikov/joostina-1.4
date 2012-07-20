@@ -14,7 +14,7 @@
  * замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 ?>
 <script type="text/javascript">
 	var site_url = "<?php echo JPATH_SITE . '/';?>";

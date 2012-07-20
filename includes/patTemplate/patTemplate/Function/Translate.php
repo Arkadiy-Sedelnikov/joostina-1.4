@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PATTEMPLATE_FUNCTION_TRANSLATE_WARNING_LANGFOLDER_NOT_CREATABLE', 'patTemplate:Function:Translate:01');
 define('PATTTEMPLATE_FUNCTION_TRANSLATE_WARNING_LANGFILE_NOT_CREATABLE', 'patTemplate:Function:Translate:02');
 class patTemplate_Function_Translate extends patTemplate_Function{

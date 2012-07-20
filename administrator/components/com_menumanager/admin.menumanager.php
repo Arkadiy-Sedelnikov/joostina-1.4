@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!$acl->acl_check('administration', 'manage', 'users', $my->usertype, 'components', 'com_menumanager')){
@@ -158,7 +158,7 @@ function showMenu($option){
 		}
 	}
 
-	require_once (JPATH_BASE_ADMIN . DS . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	HTML_menumanager::show($option, $menus, $pageNav);
@@ -247,7 +247,7 @@ function saveMenu(){
 			$row->updateOrder("position=" . $database->Quote($row->position));
 
 			// module assigned to show on All pages by default
-			$query = "INSERT INTO #__modules_com VALUES ( " . (int)$row->id . ", 0 )";
+			$query = "INSERT INTO #__modules_com VALUES ('', " . (int)$row->id . ", '0', 0, 0, '' )";
 			$database->setQuery($query);
 			if(!$database->query()){
 				echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
@@ -394,7 +394,7 @@ function deleteMenu($option, $cid, $type){
 		}
 		// delete all module entires in jos_modules_com
 		$cids = 'moduleid=' . implode(' OR moduleid=', $cid);
-		$query = "DELETE FROM #__modules_com" . "\n WHERE ( $cids )";
+		$query = "DELETE FROM #__modules_com WHERE ( ". $cids ." )";
 		$database->setQuery($query);
 		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "');</script>\n";
@@ -499,9 +499,8 @@ function copyMenu($option, $cid, $type){
 	$row->checkin();
 	$row->updateOrder('position=' . $database->Quote($row->position));
 	// module assigned to show on All pages by default
-	$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
-		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
-	$database->setQuery($sql);
+	$query = "INSERT INTO #__modules_com VALUES ('', " . (int)$row->id . ", '', 0, 0, '' )";
+	$database->setQuery($query);
 	if(!$database->query()){
 		echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
 		exit();

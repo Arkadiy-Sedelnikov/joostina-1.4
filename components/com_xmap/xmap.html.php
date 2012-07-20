@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** Wraps HTML output */
 class XmapHtml extends Xmap{
@@ -19,7 +19,7 @@ class XmapHtml extends Xmap{
 	var $_childs;
 	var $_width;
 
-	function XmapHtml(&$config, &$sitemap){
+	function XmapHtml($config, $sitemap){
 		$this->view = 'html';
 		Xmap::Xmap($config, $sitemap);
 	}
@@ -27,7 +27,7 @@ class XmapHtml extends Xmap{
 	/**
 	 * Print one node of the sitemap
 	 */
-	function printNode(&$node){
+	function printNode($node){
 		$out = '';
 
 		$out .= $this->_closeItem;
@@ -99,7 +99,7 @@ class XmapHtml extends Xmap{
 	}
 
 	/** Print component heading, etc. Then call getHtmlList() to print list */
-	function startOutput(&$menus, &$config, $title){
+	function startOutput($menus, $config, $title){
 
 		$sitemap = &$this->sitemap;
 
@@ -119,14 +119,14 @@ class XmapHtml extends Xmap{
 	}
 
 	/** Print component heading, etc. Then call getHtmlList() to print list */
-	function endOutput(&$menus){
+	function endOutput($menus){
 		$sitemap = &$this->sitemap;
 		echo '<div style="clear:left"></div>';
 		echo '</div>';
 		echo "</div>\n";
 	}
 
-	function startMenu(&$menu){
+	function startMenu($menu){
 		$sitemap =& $this->sitemap;
 		if($sitemap->columns > 1) // use columns
 			echo '<div style="float:left;width:' . $this->_width . '%;">';
@@ -134,7 +134,7 @@ class XmapHtml extends Xmap{
 			echo '<h2 class="menutitle">' . $menu->name . '</h2>';
 	}
 
-	function endMenu(&$menu){
+	function endMenu($menu){
 		$sitemap =& $this->sitemap;
 		$this->_closeItem = '';
 		if($sitemap->show_menutitle || $sitemap->columns > 1){ // each menu gets a separate list

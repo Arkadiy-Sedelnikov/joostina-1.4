@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_UNSUCCESS_OPERATION_NO_TEMPLATE', 'Операция неудачна: Не определен шаблон.');
 DEFINE('_UNSUCCESS_OPERATION_EMPTY_FILE', 'Операция неудачна: Пустое содержимое.');

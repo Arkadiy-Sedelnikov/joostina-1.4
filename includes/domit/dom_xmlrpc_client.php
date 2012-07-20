@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -44,7 +44,7 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		$this->setHeader('Connection', 'close');
 	}
 
-	function evaluateMessage(&$message){
+	function evaluateMessage($message){
 		if(!is_string($message)){
 			if($message->methodName == 'system.multicall')
 				$this->isMultiCall = true;
@@ -56,7 +56,7 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		return $message;
 	}
 
-	function &send(&$message){
+	function send($message){
 		if(!$this->isConnected()){
 			$this->connect();
 		}
@@ -66,13 +66,13 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		return $this->formatResponse($response->getResponse());
 	}
 
-	function &sendAndDisconnect($message){
+	function sendAndDisconnect($message){
 		$response = &$this->send($message);
 		$this->disconnect();
 		return $response;
 	}
 
-	function &formatResponse($response){
+	function formatResponse($response){
 		switch($this->responseType){
 			case DOM_XMLRPC_RESPONSE_TYPE_XML_DOMIT:
 			case DOM_XMLRPC_RESPONSE_TYPE_XML_DOMIT_LITE:
@@ -88,7 +88,7 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		}
 	}
 
-	function &returnAsXML($response){
+	function returnAsXML($response){
 		switch($this->responseType){
 			case DOM_XMLRPC_RESPONSE_TYPE_XML_DOMIT:
 				require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_domit_parser.php');
@@ -112,7 +112,7 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		XMLRPC_Client_Exception::raiseException(XMLRPC_CLIENT_MALFORMED_XML_ERR, ("Malformed xml returned: \n $response"));
 	}
 
-	function &returnAsArray($response){
+	function returnAsArray($response){
 		require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_array_parser.php');
 		$arrayParser = new dom_xmlrpc_array_parser();
 		if($arrayParser->parseXML($response, false)){
@@ -122,7 +122,7 @@ class dom_xmlrpc_client extends php_http_client_generic{
 		}
 	}
 
-	function &arraysToObjects(&$myArray){
+	function arraysToObjects($myArray){
 		foreach($myArray as $key => $value){
 			$currItem = &$myArray[$key];
 			if(is_array($currItem)){

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Displays the capture output of the main element
@@ -243,7 +243,7 @@ class PageModel{
 				}
 			}
 			$theURI = str_replace(JPATH_SITE . '/', '', $theURI);
-			echo '<base href="' . sefRelToAbs(ampReplace($theURI)) . '" />' . "\r\n";
+			echo '<base href="' . JSef::getUrlToSef(ampReplace($theURI)) . '" />' . "\r\n";
 			//echo '<base href="'.JPATH_SITE.'" />'."\r\n";		
 		}
 

@@ -8,9 +8,9 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
-require_once (JPATH_BASE_ADMIN . '/components/com_installer/installer/installer.class.php');
+require_once (_JLPATH_ADMINISTRATOR . '/components/com_installer/installer/installer.class.php');
 
 class XmapAdmin{
 
@@ -277,7 +277,7 @@ function xmapInstallPluginFromDirectory(){
  * @param
  */
 function xmapUninstallPlugin($extensionid){
-	require_once(JPATH_BASE_ADMIN . '/components/com_xmap/classes/XmapPluginInstaller.php');
+	require_once(_JLPATH_ADMINISTRATOR . '/components/com_xmap/classes/XmapPluginInstaller.php');
 	$installer = new XmapPluginInstaller();
 	$result = false;
 	if($extensionid){

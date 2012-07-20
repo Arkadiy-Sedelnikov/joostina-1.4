@@ -11,7 +11,7 @@
  * @license see license.txt
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 //editor page
 DEFINE('_ELRTE_ADMIN_CONFIG', 'Конфигурация');
 DEFINE('_ELRTE_NO_SUPERADMIN_REDIRECT', 'Только пользователи с правами супер-администратора могут изменять настройки редактора и файлового менеджера.');

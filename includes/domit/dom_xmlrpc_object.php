@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 class dom_xmlrpc_object{
@@ -24,7 +24,7 @@ class dom_xmlrpc_object{
 		$this->myObject = &$myObject;
 	}
 
-	function &getObject(){
+	function getObject(){
 		return $this->myObject;
 	}
 

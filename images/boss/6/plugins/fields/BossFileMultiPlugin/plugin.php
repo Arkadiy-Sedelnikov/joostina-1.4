@@ -12,7 +12,7 @@
  */
 
 //запрет прямого доступа  
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 //подгружаем языковой файл плагина
 boss_helpers::loadBossPluginLang($directory, 'fields', 'BossFileMultiPlugin');
@@ -159,7 +159,7 @@ class BossFileMultiPlugin{
 			if($type == "front"){ //отображение ссылки на фронте
 
 				if($counter){
-					$url = sefRelToAbs('ajax.index.php?option=com_boss&act=plugins&task=run_plugins_func&directory=' . $directory . '&class=BossFileMultiPlugin&function=download&file=' . $filename . '&cid=' . $content->id . '&fname=' . $fieldname);
+					$url = JSef::getUrlToSef('ajax.index.php?option=com_boss&act=plugins&task=run_plugins_func&directory=' . $directory . '&class=BossFileMultiPlugin&function=download&file=' . $filename . '&cid=' . $content->id . '&fname=' . $fieldname);
 					$counterPrint = '<span class="boss_file boss_file_counter">' . BOSS_PLG_COUNTER . ' ' . $downloads . '</span>';
 				} else{
 					$url = JPATH_SITE . "/images/boss/" . $directory . "/files/" . $filename;

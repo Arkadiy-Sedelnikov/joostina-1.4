@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_OutputFilter_Gzip extends patTemplate_OutputFilter{
 	var $_name = 'Gzip';
 

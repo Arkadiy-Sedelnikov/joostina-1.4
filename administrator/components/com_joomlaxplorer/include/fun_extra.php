@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 $GLOBALS['isWindows'] = substr(PHP_OS, 0, 3) == 'WIN';
 function make_link($_action, $_dir, $_item = null, $_order = null, $_srt = null,
 	$languages = null){

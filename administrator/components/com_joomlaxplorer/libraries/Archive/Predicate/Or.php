@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__) . "/../Predicate.php";
 class File_Archive_Predicate_Or extends File_Archive_Predicate{
 	var $preds;

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -131,7 +131,7 @@ class HTML_menusections{
 	/**
 	 * Отображение списка типов пунктов меню для создания
 	 */
-	public static function addMenuItem(&$cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit, $directories){
+	public static function addMenuItem($cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit, $directories){
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -259,7 +259,7 @@ class HTML_menusections{
 	<?php
 	}
 
-	public static function htmlOptions(&$row, $link, $k, $i){
+	public static function htmlOptions($row, $link, $k, $i){
 		?>
 	<tr class="<?php echo "row$k"; ?>">
 		<td width="20">

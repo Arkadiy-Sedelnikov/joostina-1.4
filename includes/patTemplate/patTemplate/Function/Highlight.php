@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Function_Highlight extends patTemplate_Function{
 	var $_name = 'Highlight';
 

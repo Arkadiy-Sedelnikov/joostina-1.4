@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_InputFilter_StripComments extends patTemplate_InputFilter{
 	var $_name = 'StripComments';
 

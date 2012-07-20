@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class patTemplate_Dump_Html extends patTemplate_Dump{
 	var $colors = array('borders' => 'C8D3DA', 'headerFills' => 'E1E7EB', 'subHeaderFills' => 'F0F2F4', 'source' => 'F5F7F8', 'linkNormal' => '8CA0B4', 'linkHover' => '8BC3E0',);

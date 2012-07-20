@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once 'XML/XUL.php';
 class patTemplate_Dump_XUL extends patTemplate_Dump{

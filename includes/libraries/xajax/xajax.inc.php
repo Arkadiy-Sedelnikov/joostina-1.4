@@ -10,7 +10,7 @@
  * http://www.xajaxproject.org
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('XAJAX_DEFAULT_CHAR_ENCODING')){
 	define('XAJAX_DEFAULT_CHAR_ENCODING', 'utf-8');
 }

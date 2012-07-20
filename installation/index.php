@@ -6,7 +6,7 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
-define('_VALID_MOS', 1);
+define('_JLINDEX', 1);
 
 
 if(file_exists('../configuration.php') && filesize('../configuration.php') > 10){

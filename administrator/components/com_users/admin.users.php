@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!$acl->acl_check('administration', 'manage', 'users', $my->usertype, 'components', 'com_users')){
 	mosRedirect('index2.php', _NOT_AUTH);
@@ -170,7 +170,7 @@ function showUsers($option){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$query = "SELECT a.*, g.name AS groupname FROM #__users AS a"

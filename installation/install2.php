@@ -9,7 +9,7 @@
 
 
 // Установка флага родительского файла
-define("_VALID_MOS", 1);
+define('_JLINDEX', 1);
 if(!defined('JPATH_BASE')){
 	define('JPATH_BASE', getcwd());
 }

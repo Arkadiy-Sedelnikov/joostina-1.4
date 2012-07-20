@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 $module->helper->prepare_logout_form($params); ?>
 <form action="<?php echo $params->_action; ?>" method="post" name="logout">
 	<div class="mod_ml_login logout">
@@ -25,6 +25,6 @@ $module->helper->prepare_logout_form($params); ?>
 	<input type="hidden" name="option" value="logout"/>
 	<input type="hidden" name="op2" value="logout"/>
 	<input type="hidden" name="lang" value="<?php echo $mainframe->getCfg('lang'); ?>"/>
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs($params->get('logout', $params->_returnUrl)); ?>"/>
+	<input type="hidden" name="return" value="<?php echo JSef::getUrlToSef($params->get('logout', $params->_returnUrl)); ?>"/>
 	<input type="hidden" name="message" value="<?php echo $params->get('logout_message', ''); ?>"/>
 </form>

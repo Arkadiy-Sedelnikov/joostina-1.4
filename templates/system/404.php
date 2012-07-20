@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 // loads english language file by default
 if($mosConfig_lang == ''){
 	$mosConfig_lang = 'russian';

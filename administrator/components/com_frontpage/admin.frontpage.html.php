@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -19,7 +19,7 @@ class ContentView{
 	 * Writes a list of the content items
 	 * @param array An array of content objects
 	 */
-	function showList(&$rows, $search, $pageNav, $option, $lists, $directory){
+	function showList($rows, $search, $pageNav, $option, $lists, $directory){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$database = database::getInstance();

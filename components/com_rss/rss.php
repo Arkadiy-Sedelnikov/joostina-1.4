@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 global $task;
@@ -259,7 +259,7 @@ function feedFrontpage($showFeed){
 		$item_title = html_entity_decode($item_title);
 
 		$item_link = 'index.php?option=com_boss&task=show_content&contentid=' . $row->id . '&catid=1&directory=' . $directory;
-		$item_link = sefRelToAbs($item_link);
+		$item_link = JSef::getUrlToSef($item_link);
 
 		// removes all formating from the intro text for the description text
 		$item_description = @$row->content_editor;

@@ -8,11 +8,11 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class HTML_banners{
 
-	public static function showBanners(&$rows, &$clist, &$clientlist, $myid, &$pageNav, $option){
+	public static function showBanners($rows, $clist, $clientlist, $myid, $pageNav, $option){
 		mosCommonHTML::loadOverlib();
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
@@ -215,7 +215,7 @@ class HTML_banners{
 
 	} // end showBanners
 
-	public static function editBanner(&$row, &$clientlist, &$categorylist, &$imagelist, $glist, $option, &$dimension){
+	public static function editBanner($row, $clientlist, $categorylist, $imagelist, $glist, $option, $dimension){
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 
@@ -930,7 +930,7 @@ class HTML_banners{
  * Banner clients
  */
 class HTML_bannerClient{
-	public static function showClients(&$rows, &$info_banner, $myid, &$pageNav, $option, $stateslist){
+	public static function showClients($rows, $info_banner, $myid, $pageNav, $option, $stateslist){
 
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
@@ -1001,7 +1001,7 @@ class HTML_bannerClient{
 	<?php
 	}
 
-	public static function editClient(&$row, $option){
+	public static function editClient($row, $option){
 		?>
 	<script language="javascript" type="text/javascript">
 		<!--
@@ -1070,7 +1070,7 @@ class HTML_bannerCategory{
 	 * @param array An array of category objects
 	 * @param string The name of the category section
 	 */
-	public static function showCategories(&$rows, $myid, &$pageNav, $option, $stateslist){
+	public static function showCategories($rows, $myid, $pageNav, $option, $stateslist){
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 		$mainframe = mosMainFrame::getInstance();
@@ -1140,7 +1140,7 @@ class HTML_bannerCategory{
 	 * even for a new record.
 	 * @param mosCategory The category object
 	 */
-	public static function editCategory(&$row){
+	public static function editCategory($row){
 		?>
 	<script language="javascript" type="text/javascript">
 		<!--

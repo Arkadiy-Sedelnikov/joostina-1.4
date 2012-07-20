@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // used for spoof hardening
 $validate = josSpoofValue();
 
 ?>
 <div class="lostpass_page">
-	<form action="<?php echo sefRelToAbs('index.php')?>" method="post" name="mosForm" id="mosForm">
+	<form action="<?php echo JSef::getUrlToSef('index.php')?>" method="post" name="mosForm" id="mosForm">
 		<div class="componentheading"><h1><?php echo $user_config->get('title');?></h1></div>
 		<div class="info"><?php echo _NEW_PASSWORD_DESC; ?></div>
 		<div class="row">

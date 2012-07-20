@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 
@@ -49,7 +49,7 @@ switch($task){
 		break;
 }
 
-function deleteLink(&$cid){
+function deleteLink($cid){
 	$database = database::getInstance();
 
 	if(count($cid)){
@@ -65,7 +65,7 @@ function deleteLink(&$cid){
 
 }
 
-function saveOrder(&$cid){
+function saveOrder($cid){
 	$database = database::getInstance();
 
 	$total = count($cid);
@@ -130,7 +130,7 @@ function editLink($id = 0){
 	HTML_linkeditor::edit($row, $lists);
 }
 
-function GetImages(&$images, $pathL, $row){
+function GetImages($images, $pathL, $row){
 	if(!isset($images['/'])){
 		$images['/'][] = mosHTML::makeOption('');
 	}
@@ -141,7 +141,7 @@ function GetImages(&$images, $pathL, $row){
 	return $getimages;
 }
 
-function ReadImages($imagePath, $folderPath, &$folders, &$images){
+function ReadImages($imagePath, $folderPath, $folders, $images){
 	$imgFiles = mosReadDirectory($imagePath);
 	foreach($imgFiles as $file){
 		$ff = $folderPath . $file;
@@ -253,7 +253,7 @@ function viewLinks(){
 
 	$total = count($list);
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	// slice out elements based on limits

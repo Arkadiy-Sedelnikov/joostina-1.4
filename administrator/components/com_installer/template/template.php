@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('installer_html', 'template'));
 require_once ($mainframe->getPath('installer_class', 'template'));
@@ -151,7 +151,7 @@ function viewTemplates($option, $client){
 		}
 	}
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav(count($rows), $limitstart, $limit);
 
 	$rows = array_slice($rows, $pageNav->limitstart, $pageNav->limit);

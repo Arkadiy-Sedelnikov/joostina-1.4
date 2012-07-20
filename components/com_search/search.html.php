@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -63,7 +63,7 @@ class search_html{
 		echo '</div>';
 	}
 
-	public static function display(&$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword){
+	public static function display($rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword){
 		global $mosConfig_showCreateDate;
 		global $option;
 		$image = mosAdminMenus::ImageCheck('aport.gif', '/components/com_search/images/', null, null, 'Aport', 'Aport', 1);
@@ -119,11 +119,11 @@ class search_html{
 								$row->href = ampReplace($row->href);
 								if($row->browsernav == 1){
 									?>
-										<a href="<?php echo sefRelToAbs($row->href); ?>" target="_blank">
+										<a href="<?php echo JSef::getUrlToSef($row->href); ?>" target="_blank">
 											<?php
 								} else{
 									?>
-											<a href="<?php echo sefRelToAbs($row->href); ?>">
+											<a href="<?php echo JSef::getUrlToSef($row->href); ?>">
 												<?php
 								}
 							}

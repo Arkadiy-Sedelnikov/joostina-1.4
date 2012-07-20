@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_PLEASE_CHOOSE_GROUP', 'Пожалуйста, выберите группу');
 DEFINE('_PLEASE_ENTER_MESSAGE', 'Пожалуйста, заполните сообщение');

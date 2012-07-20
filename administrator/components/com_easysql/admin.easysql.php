@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // разрешим доступ только пользователям с правами супер-администратора
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){

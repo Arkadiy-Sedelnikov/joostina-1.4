@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Component item link class
@@ -17,7 +17,7 @@ defined('_VALID_MOS') or die();
  */
 class component_item_link_menu{
 
-	function edit(&$uid, $menutype, $option, $menu){
+	function edit($uid, $menutype, $option, $menu){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$database = database::getInstance();
@@ -40,19 +40,18 @@ class component_item_link_menu{
 		}
 
 		if($uid){
-			// TODO GoDr: удалить Itemid
-			$temp = explode('&Itemid=', $menu->link);
-			$query = "SELECT a.name" . "\n FROM #__menu AS a" . "\n WHERE a.link = " . $database->Quote($temp[0]);
-			$database->setQuery($query);
+			$sql = "SELECT a.name" . "\n FROM #__menu AS a" . "\n WHERE a.link = " . $database->Quote($menu->link);
+			$database->setQuery($sql);
 			$components = $database->loadResult();
 			$lists['components'] = $components;
 			$lists['components'] .= '<input type="hidden" name="link" value="' . $menu->link . '" />';
 		} else{
-			// TODO GoDr: удалить Itemid
-			$query = "SELECT CONCAT( a.link, '&amp;Itemid=', a.id ) AS value, a.name AS text" .
-				"\n FROM #__menu AS a" . "\n WHERE a.published = 1" . "\n AND a.type = 'components'" .
-				"\n ORDER BY a.menutype, a.name";
-			$database->setQuery($query);
+			$sql = "SELECT a.link AS value, a.name AS text
+					FROM #__menu AS a
+					WHERE a.published = 1
+						AND a.type = 'components'
+					ORDER BY a.menutype, a.name";
+			$database->setQuery($sql);
 			$components = $database->loadObjectList();
 
 			//	Create a list of links

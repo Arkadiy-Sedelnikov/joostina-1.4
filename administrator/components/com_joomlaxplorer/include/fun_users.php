@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function load_users(){
 	require _QUIXPLORER_PATH . "/config/.htusers.php";
 }
@@ -21,7 +21,7 @@ function save_users(){
 		sort($GLOBALS["users"]);
 	$content = '<?php 
 	/** ensure this file is being included by a parent file*/
-	defined( "_VALID_MOS" ) or die( "Direct Access to this location is not allowed." );
+	defined( '_JLINDEX' ) or die( "Direct Access to this location is not allowed." );
 	$GLOBALS["users"]=array(';
 	for($i = 0; $i < $cnt; ++$i){
 		$content .= "\r\n\tarray(\"" . $GLOBALS["users"][$i][0] . '","' . $GLOBALS["users"][$i][1] .

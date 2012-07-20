@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class mod_ml_login_Helper{
 
@@ -40,7 +40,7 @@ class mod_ml_login_Helper{
 			$params->_profile_link = '<a href="' . mosUser::get_link($my) . '">' . $params->get('profile_link_text', '') . '</a>';
 		}
 
-		$params->_action = sefRelToAbs('index.php?option=logout');
+		$params->_action = JSef::getUrlToSef('index.php?option=logout');
 		$params->_returnUrl = self::get_return($params);
 
 		return $params;
@@ -116,7 +116,7 @@ class mod_ml_login_Helper{
 		$return = str_replace(JPATH_SITE . '/', '', $return);
 		$return = ampReplace($return);
 
-		return htmlentities(sefRelToAbs($return));
+		return htmlentities(JSef::getUrlToSef($return));
 	}
 
 }

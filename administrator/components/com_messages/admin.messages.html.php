@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
  * @subpackage Messages
  */
 class HTML_messages{
-	public static function showMessages(&$rows, $pageNav, $search, $option){
+	public static function showMessages($rows, $pageNav, $search, $option){
 		?>
 	<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
@@ -78,7 +78,7 @@ class HTML_messages{
 	<?php
 	}
 
-	public static function editConfig(&$vars, $option){
+	public static function editConfig($vars, $option){
 		$tabs = new mosTabs(0);
 		?>
 	<form action="index2.php" method="post" name="adminForm">
@@ -123,7 +123,7 @@ class HTML_messages{
 	<?php
 	}
 
-	public static function viewMessage(&$row, $option){
+	public static function viewMessage($row, $option){
 		?>
 	<form action="index2.php" method="post" name="adminForm">
 

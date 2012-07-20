@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class defaultComment{
 	private function displayReviewTitle($review){
@@ -65,10 +65,10 @@ class defaultComment{
 		if($conf->allow_comments == 0){
 			return;
 		} else if($my->id == 0 && $conf->allow_unregisered_comment == 0){
-			$link = sefRelToAbs("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
+			$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
 			echo sprintf(BOSS_REVIEW_LOGIN_REQUIRED, $link);
 		} else{
-			$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_review&amp;directory=$directory");
+			$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=save_review&amp;directory=$directory");
 			?>
 		<form action="<?php echo $target;?>" method="post" name="saveForm">
 			<?php include(JPATH_BASE . '/images/boss/' . $directory . '/plugins/comments/defaultComment/template/addreview.php');?>
@@ -114,7 +114,7 @@ class defaultComment{
 				$captcha = strval(mosGetParam($_POST, 'captcha', null));
 				$captcha_keystring = mosGetParam($_SESSION, 'captcha_keystring');
 				if($captcha_keystring !== $captcha){
-					$link = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory");
+					$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory");
 					mosRedirect($link, _BAD_CAPTCHA_STRING);
 					unset($_SESSION['captcha_keystring']);
 					exit;
@@ -124,7 +124,7 @@ class defaultComment{
 			}
 
 			if(($my->id == "0" && $conf->allow_unregisered_comment == 0)){
-				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $row->contentid . "&amp;directory=$directory&amp;catid=$catid"), "");
+				mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $row->contentid . "&amp;directory=$directory&amp;catid=$catid"), "");
 				return;
 			}
 
@@ -149,7 +149,7 @@ class defaultComment{
 				}
 			}
 		}
-		mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;catid=$catid"), "");
+		mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory&amp;catid=$catid"), "");
 	}
 
 	//функция для вставки таблиц и полей в запрос категории

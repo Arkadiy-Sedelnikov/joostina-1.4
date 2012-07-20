@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-define("_VALID_MOS", 1);
+define('_JLINDEX', 1);
 
 /** security check */
 require ('../../includes/auth.php');

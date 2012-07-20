@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('HTTP_SOCKET_CONNECTION_ERR', 1);
 define('HTTP_TRANSPORT_ERR', 2);
 

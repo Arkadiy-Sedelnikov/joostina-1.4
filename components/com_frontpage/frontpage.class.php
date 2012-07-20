@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $mainframe->addLib('dbconfig');
 
@@ -27,7 +27,7 @@ class mosFrontPage extends mosDBTable{
 	/**
 	 * @param database A database connector object
 	 */
-	function mosFrontPage(&$db, $directory){
+	function mosFrontPage($db, $directory){
 		$this->mosDBTable('#__boss_' . $directory . '_contents', 'id', $db);
 	}
 }

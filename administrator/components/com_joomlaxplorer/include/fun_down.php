@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function download_item($dir, $item, $unlink = false){
 	global $action, $mosConfig_cache_path;
 	$item = basename($item);

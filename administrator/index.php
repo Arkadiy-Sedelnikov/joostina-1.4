@@ -8,14 +8,19 @@
  */
 
 // Установка флага родительского файла
-define('_VALID_MOS', 1);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
+define('_JLINDEX', 1);
+
+// корень файлов
+define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
+
+// подключение основных глобальных переменных
+require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
+
 // корень файлов
 define('JPATH_BASE', dirname(dirname(__FILE__)));
-// корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(__FILE__));
+
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
+
 if(!file_exists(JPATH_BASE . DS . 'configuration.php')){
 	header('Location: ../installation/index.php');
 	exit();

@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__) . "/../Writer.php";
 require_once dirname(__file__) . "/../Reader.php";
 require_once dirname(__file__) . "/../Predicate/Index.php";

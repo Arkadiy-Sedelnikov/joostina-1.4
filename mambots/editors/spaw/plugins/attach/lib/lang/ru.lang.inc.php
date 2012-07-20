@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // charset to be used in dialogs
-$spaw_lang_charset = 'windows-1251';
+$spaw_lang_charset = 'utf-8';
 // language text data array
 // first dimension - block, second - exact phrase
 // alternative text for toolbar buttons and title for dropdowns - 'title'

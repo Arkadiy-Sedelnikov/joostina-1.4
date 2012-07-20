@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 class dom_xmlrpc_datetime_iso8601{
@@ -33,7 +33,7 @@ class dom_xmlrpc_datetime_iso8601{
 		}
 	}
 
-	function phpToISO(&$phpDate){
+	function phpToISO($phpDate){
 		return (date('Y', $phpDate) . date('m', $phpDate) . date('d', $phpDate) . 'T' . date('H', $phpDate) .
 			':' . date('i', $phpDate) . ':' . date('s', $phpDate));
 	}

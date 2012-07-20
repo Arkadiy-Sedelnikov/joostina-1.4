@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once($mainframe->getLangFile('com_poll'));
 
@@ -98,7 +98,7 @@ if(!defined('_JOS_POLL_MODULE')){
 		}
 		//-->
 	</script>
-	<form name="pollxtd<?php echo $z; ?>" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll"); ?>">
+	<form name="pollxtd<?php echo $z; ?>" method="post" action="<?php echo JSef::getUrlToSef("index.php?option=com_poll"); ?>">
 		<div class="poll<?php echo $moduleclass_sfx; ?>">
 			<h4><?php echo $poll->title; ?></h4>
 			<table class="pollstableborder<?php echo $moduleclass_sfx; ?>" cellspacing="0" cellpadding="0" border="0"><?php for($i = 0, $n = count($options); $i < $n; $i++){ ?>
@@ -114,7 +114,7 @@ if(!defined('_JOS_POLL_MODULE')){
 			</table>
 			<div class="poll_buttons">
 				<span class="button"><input type="button" onclick="submitbutton_Poll<?php echo $z; ?>();" name="task_button" class="button" value="<?php echo _BUTTON_VOTE; ?>"/></span>
-				<span class="button"><input type="button" name="option" class="button" value="<?php echo _BUTTON_RESULTS; ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=" . $poll->id); ?>';"/></span>
+				<span class="button"><input type="button" name="option" class="button" value="<?php echo _BUTTON_RESULTS; ?>" onclick="document.location.href='<?php echo JSef::getUrlToSef("index.php?option=com_poll&amp;task=results&amp;id=" . $poll->id); ?>';"/></span>
 			</div>
 		</div>
 		<input type="hidden" name="id" value="<?php echo $poll->id; ?>"/>

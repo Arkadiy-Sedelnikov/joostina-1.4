@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 global $my;
 
 
@@ -21,7 +21,7 @@ mosCommonHTML::loadJquery(1);
 		<button id="log_in"><?php echo $params->get('dr_login_text', _LOGIN_TEXT);?></button>
 	</div>
 	<div id="box1">
-		<form action="<?php echo sefRelToAbs('index.php'); ?>" method="post" name="login">
+		<form action="<?php echo JSef::getUrlToSef('index.php'); ?>" method="post" name="login">
 			<div class="login_form">
 				<p><?php echo $params->_input_login; ?></p>
 
@@ -35,14 +35,14 @@ mosCommonHTML::loadJquery(1);
 				<p><input type="submit" name="Submit" class="button" id="login_button" value="<?php echo $params->get('submit_button_text', _BUTTON_LOGIN);?>"/></p>
 
 				<p>
-					<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=register');?>"><?php echo $params->get('ml_reg_text', _CREATE_ACCOUNT)?></a>&nbsp;&nbsp;
-					<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=lostPassword');?>"><?php echo $params->get('ml_rem_pass_text', _LOST_PASSWORDWORD);?></a>
+					<a href="<?php echo JSef::getUrlToSef('index.php?option=com_users&amp;task=register');?>"><?php echo $params->get('ml_reg_text', _CREATE_ACCOUNT)?></a>&nbsp;&nbsp;
+					<a href="<?php echo JSef::getUrlToSef('index.php?option=com_users&amp;task=lostPassword');?>"><?php echo $params->get('ml_rem_pass_text', _LOST_PASSWORDWORD);?></a>
 				</p>
 			</div>
 			<input type="hidden" name="option" value="login"/>
 			<input type="hidden" name="op2" value="login"/>
 			<input type="hidden" name="lang" value="<?php echo $mainframe->getCfg('lang'); ?>"/>
-			<input type="hidden" name="return" value="<?php echo sefRelToAbs($params->get('login', $params->_returnUrl)); ?>"/>
+			<input type="hidden" name="return" value="<?php echo JSef::getUrlToSef($params->get('login', $params->_returnUrl)); ?>"/>
 			<input type="hidden" name="message" value="<?php echo $params->get('login_message', ''); ?>"/>
 			<input type="hidden" name="force_session" value="1"/>
 			<input type="hidden" name="<?php echo $validate; ?>" value="1"/>

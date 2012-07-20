@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('SAXY_SEARCH_CDATA', '![CDATA[');
 define('SAXY_CDATA_LEN', 8);
 define('SAXY_SEARCH_NOTATION', '!NOTATION');

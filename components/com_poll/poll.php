@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('front_html'));
 require_once ($mainframe->getPath('class'));
@@ -89,11 +89,11 @@ function pollAddVote($uid){
 	$database->query();
 
 	if($redirect){
-		mosRedirect(sefRelToAbs('index.php?option=com_poll&task=results&id=' . $uid), _THANKS);
+		mosRedirect(JSef::getUrlToSef('index.php?option=com_poll&task=results&id=' . $uid), _THANKS);
 	} else{
 		echo '<h3>' . _THANKS . '</h3>';
 		echo '<form action="" method="GET">';
-		echo '<span class="button"><input class="button" type="button" value="' . _BUTTON_RESULTS . '" onClick="window.location=\'' . sefRelToAbs('index.php?option=com_poll&task=results&id=' . $uid ) . '\'"></span>';
+		echo '<span class="button"><input class="button" type="button" value="' . _BUTTON_RESULTS . '" onClick="window.location=\'' . JSef::getUrlToSef('index.php?option=com_poll&task=results&id=' . $uid ) . '\'"></span>';
 		echo '</form>';
 	}
 }
@@ -147,7 +147,7 @@ function pollresult($uid){
 	$polls = $database->loadObjectList();
 
 	// dropdown output
-	$link = sefRelToAbs('index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'');
+	$link = JSef::getUrlToSef('index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'');
 	$pollist = '<select name="id" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\'' . $link . '\'}">';
 	$pollist .= '<option value="">' . _SELECT_POLL . '</option>';
 	$_n = count($polls);

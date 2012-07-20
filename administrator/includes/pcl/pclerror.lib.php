@@ -9,7 +9,7 @@
  * http://www.phpconcept.net & http://phpconcept.free.fr
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined("PCLERROR_LIB")){
 	define("PCLERROR_LIB", 1);
 	$g_pcl_error_version = "1.0";

@@ -5,7 +5,7 @@
  * URL:  http://www.joomprod.com
  * mail: webmaster@joomprod.com
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class BossDirectoryHrefPlugin{
 

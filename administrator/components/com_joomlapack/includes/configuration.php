@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $option;
 
@@ -108,7 +108,7 @@ class CConfiguration{
 		global $option;
 
 		// Private initializers
-		$this->_InstallationRoot = JPATH_BASE_ADMIN . "/";
+		$this->_InstallationRoot = _JLPATH_ADMINISTRATOR . "/";
 		$this->_configurationFile = $this->_InstallationRoot . "/components/com_joomlapack/jpack.config.php";
 
 		// Default configuration
@@ -162,7 +162,7 @@ class CConfiguration{
 			return false;
 		}
 		$config = "<?php\n";
-		$config .= "defined( '_VALID_MOS' ) or die();\n";
+		$config .= "defined( '_JLINDEX' ) or die();\n";
 		$config .= '$jpConfig_OutputDirectory = \'' . addslashes($this->OutputDirectory) . "';\n";
 		$config .= '$jpConfig_MySQLCompat = \'' . addslashes($this->MySQLCompat) . "';\n";
 		$config .= '$jpConfig_boolCompress = "' . $this->boolCompress . "\";\n";
@@ -428,7 +428,7 @@ class CAltInstaller{
 		// Instanciate new parser object
 		$xmlDoc = new DOMIT_Lite_Document();
 		$xmlDoc->resolveErrors(true);
-		if(!$xmlDoc->loadXML(JPATH_BASE_ADMIN . '/components/com_joomlapack/installers/' . $file, false, true)){
+		if(!$xmlDoc->loadXML(_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/installers/' . $file, false, true)){
 			return false;
 		}
 		$root = &$xmlDoc->documentElement;
@@ -488,7 +488,7 @@ class CAltInstaller{
 		require_once 'engine.abstraction.php';
 		$FS = new CFSAbstraction;
 		$defs = array();
-		$fileList = $FS->getDirContents(JPATH_BASE_ADMIN . '/components/com_joomlapack/installers/', '*.xml');
+		$fileList = $FS->getDirContents(_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/installers/', '*.xml');
 		foreach($fileList as $fileDef){
 			$file = $fileDef['name'];
 			$baseName = basename($file);

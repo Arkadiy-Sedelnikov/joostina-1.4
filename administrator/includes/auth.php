@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // разделитель каталогов
 define('DS', DIRECTORY_SEPARATOR);
 // корень файлов
 define('JPATH_BASE', dirname(dirname(dirname(__FILE__))));
 // корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(dirname(__FILE__)));
+define('_JLPATH_ADMINISTRATOR', dirname(dirname(__FILE__)));
 
 (ini_get('register_globals') == 1) ? require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php') : null;
 

@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PATTEMPLATE_READER_DB_ERROR_CLASS_NOT_FOUND', 'patTemplate::Reader::DB::001');
 define('PATTEMPLATE_READER_DB_ERROR_NO_CONNECTION', 'patTemplate::Reader::DB::002');
 define('PATTEMPLATE_READER_DB_ERROR_NO_INPUT', 'patTemplate::Reader::DB::003');

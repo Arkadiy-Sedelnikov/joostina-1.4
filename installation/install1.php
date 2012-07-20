@@ -9,7 +9,7 @@
 
 
 // Set flag that this is a parent file
-define("_VALID_MOS", 1);
+define('_JLINDEX', 1);
 /** Include common.php*/
 require_once ('common.php');
 echo $DBhostname = mosGetParam($_POST, 'DBhostname', '');

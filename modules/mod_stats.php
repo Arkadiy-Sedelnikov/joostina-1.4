@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $mosConfig_offset, $mosConfig_caching, $mosConfig_enable_stats;
 global $mosConfig_gzip;

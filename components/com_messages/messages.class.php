@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -46,7 +46,7 @@ class mosMessage extends mosDBTable{
 	/**
 	 * @param database A database connector object
 	 */
-	function mosMessage(&$db){
+	function mosMessage($db){
 		$this->mosDBTable('#__messages', 'message_id', $db);
 	}
 

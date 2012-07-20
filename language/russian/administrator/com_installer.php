@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_OTHER_COMPONENT_USE_DIR', 'Другой компонент уже использует каталог');
 DEFINE('_CANNOT_CREATE_DIR', 'Невозможно создать каталог');

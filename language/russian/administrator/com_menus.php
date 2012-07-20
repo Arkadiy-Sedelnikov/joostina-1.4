@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_MODULE_IS_EDITING_MY_ADMIN', 'Модуль в настоящее время редактируется другим администратором'); //The module is currently being edited by another administrator
 DEFINE('_LINK_MUST_HAVE_NAME', 'Ссылка должна иметь имя');

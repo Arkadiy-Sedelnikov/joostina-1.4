@@ -8,13 +8,13 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 //подключаем класс босса
 require_once(JPATH_BASE . '/components/com_boss/boss.class.php');
 
-$path = JPATH_BASE_ADMIN . DS . 'components' . DS . 'com_menus' . DS;
+$path = _JLPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_menus' . DS;
 
 $menutype = stripslashes(strval(mosGetParam($_REQUEST, 'menutype', 'mainmenu')));
 $type = stripslashes(strval(mosGetParam($_REQUEST, 'type', false)));
@@ -187,7 +187,7 @@ function viewMenuItems($menutype, $option){
 
 	$total = count($list);
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . DS . 'includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$levellist = mosHTML::integerSelectList(1, 20, 1, 'levellimit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', $levellimit);
@@ -229,20 +229,20 @@ function viewMenuItems($menutype, $option){
 /**
  * Displays a selection list for menu item types
  */
-function addMenuItem(&$cid, $menutype, $option, $task){
+function addMenuItem($cid, $menutype, $option, $task){
 	$types = array();
 
 	//вычисляем каталоги
 	$directories = BossDirectory::getDirectories();
 	// list of directories
-	$dirs = mosReadDirectory(JPATH_BASE_ADMIN . DS . 'components/com_menus');
+	$dirs = mosReadDirectory(_JLPATH_ADMINISTRATOR . DS . 'components/com_menus');
 
 	// load files for menu types
 	$n = 0;
 	foreach($dirs as $dir){
 		// needed within menu type .php files
 		$type = $dir;
-		$dir = JPATH_BASE_ADMIN . DS . 'components/com_menus/' . $dir;
+		$dir = _JLPATH_ADMINISTRATOR . DS . 'components/com_menus/' . $dir;
 		if(is_dir($dir)){
 			$files = mosReadDirectory($dir, ".\.menu\.php$");
 			foreach($files as $file){
@@ -395,7 +395,7 @@ function publishMenuSection($cid = null, $publish = 1, $menutype){
 			$task = $publish ? 'publish' : 'unpublish';
 			// $type value is used in*.menu.php
 			$type = $menu->type;
-			require_once (JPATH_BASE_ADMIN . DS . 'components/com_menus' . DS . $type . DS . $type . '.menu.php');
+			require_once (_JLPATH_ADMINISTRATOR . DS . 'components/com_menus' . DS . $type . DS . $type . '.menu.php');
 		}
 	}
 
@@ -697,7 +697,7 @@ function ReadMenuXML($type, $component = -1){
 	// XML library
 	require_once (JPATH_BASE . '/includes/domit/xml_domit_lite_include.php');
 	// xml file for module
-	$xmlfile = JPATH_BASE_ADMIN . '/components/com_menus/' . $type . DS . $type . '.xml';
+	$xmlfile = _JLPATH_ADMINISTRATOR . '/components/com_menus/' . $type . DS . $type . '.xml';
 	$xmlDoc = new DOMIT_Lite_Document();
 
 	$xmlDoc->resolveErrors(true);
@@ -733,7 +733,7 @@ function ReadMenuXML($type, $component = -1){
 	return $row;
 }
 
-function saveOrder(&$cid, $menutype){
+function saveOrder($cid, $menutype){
 	josSpoofCheck();
 
 	$database = database::getInstance();

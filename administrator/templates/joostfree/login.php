@@ -9,7 +9,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $config = Jconfig::getInstance();
 
@@ -50,7 +50,7 @@ if($config->config_enable_admin_secure_code){
 	<img src="templates/joostfree/images/logo_130.png" alt="Joostina!"/>
 </div>
 <?php
-include_once (JPATH_BASE_ADMIN . DS . 'modules' . DS . 'mod_mosmsg.php');
+include_once (_JLPATH_ADMINISTRATOR . DS . 'modules' . DS . 'mod_mosmsg.php');
 ?>
 <div id="ctr1" align="center">
 	<div class="login">

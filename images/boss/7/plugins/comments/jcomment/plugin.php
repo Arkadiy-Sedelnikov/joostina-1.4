@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class jcomment{
 	public function install($directory){
@@ -23,7 +23,7 @@ class jcomment{
 		if($conf->allow_comments == 0){
 			return;
 		} else if($my->id == 0 && $conf->allow_unregisered_comment == 0){
-			$link = sefRelToAbs("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
+			$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
 			echo sprintf(BOSS_REVIEW_LOGIN_REQUIRED, $link);
 		} else{
 			$comments = JPATH_BASE . '/components/com_jcomments/jcomments.php';

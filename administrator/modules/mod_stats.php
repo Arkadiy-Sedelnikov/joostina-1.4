@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $query = "SELECT menutype, COUNT(id) AS numitems FROM #__menu WHERE published = 1 GROUP BY menutype";
 $database->setQuery($query);

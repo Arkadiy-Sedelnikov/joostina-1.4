@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $mosConfig_list_limit, $option;
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 $cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 
-require_once (JPATH_BASE_ADMIN . '/includes/pageNavigation.php');
+mosMainFrame::addLib('pagenavigation');
 
 $limit = $mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit);
 $limitstart = $mainframe->getUserStateFromRequest("view{$option}", 'limitstart', 0);

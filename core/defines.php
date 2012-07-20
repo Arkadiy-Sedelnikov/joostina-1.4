@@ -12,9 +12,34 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // Глобальные определения.
+define('DS', DIRECTORY_SEPARATOR);
+
+// TODO временная заглушка
+define('JPATH_BASE',_JLPATH_ROOT);
+
+// TODO временная заглушка
+define('JPATH_ROOT',JPATH_ROOT);
+
+// путь до библиотек
+define('_JLPATH_LIBRARIES',		_JLPATH_ROOT . '/libraries');
+
+// путь до sef-файлов
+define('_JLPATH_SEF',		_JLPATH_ROOT . '/settings/sef');
+
+// путь до каталога панели управления
+define('_JLPATH_ADMINISTRATOR',	_JLPATH_ROOT . '/administrator');
+
+//define('JPATH_SITE',			JPATH_ROOT);
+//define('JPATH_CONFIGURATION',	JPATH_ROOT);
+//define('JPATH_PLUGINS',			JPATH_ROOT . '/plugins'  );
+//define('JPATH_INSTALLATION',	JPATH_ROOT . '/installation');
+//define('JPATH_THEMES',			JPATH_BASE . '/templates');
+//define('JPATH_CACHE',			JPATH_BASE . '/cache');
+//define('JPATH_MANIFESTS',		JPATH_ADMINISTRATOR . '/manifests');
+
 
 
 // функции отладки

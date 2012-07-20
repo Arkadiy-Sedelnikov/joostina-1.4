@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Modifier_Translate extends patTemplate_Modifier{
 	function modify($value, $params = array()){
 		if(class_exists('JText')){

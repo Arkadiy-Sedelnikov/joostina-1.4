@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_FEED_NAME', 'Название источника');
 DEFINE('_FEED_ARTICLES', 'Статей');

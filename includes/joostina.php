@@ -1,13 +1,18 @@
 <?php
 /**
- * @package Joostina
- * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * Joostina Lotos CMS 1.4
+ * @package   CORE
+ * @version   1.4.1
+ * @author    Gold Dragon <illusive@bk.ru>
+ * @link      http://gd.joostina-cms.ru
+ * @copyright 2000-2012 Gold Dragon
+ * @license   GNU GPL: http://www.gnu.org/licenses/gpl-3.0.html
+ *            Joostina Lotos CMS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL. (help/copyright.php)
+ * @Date      02.07.2012
  */
+
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 //Europe/Moscow // GMT0
 function_exists('date_default_timezone_set') ? date_default_timezone_set('Europe/Moscow') : null;
@@ -282,7 +287,7 @@ class mosMainFrame{
 	public static function addLib($lib, $dir = ''){
 		$dir = (!$dir) ? 'includes/libraries' : $dir;
 
-		$file_lib = JPATH_BASE . DS . $dir . DS . $lib . DS . $lib . '.php';
+		$file_lib = _JLPATH_ROOT . DS . $dir . DS . $lib . DS . $lib . '.php';
 		if(is_file($file_lib)){
 			require_once($file_lib);
 		}
@@ -709,7 +714,7 @@ class mosMainFrame{
 
 		// logout check
 		if($option == 'logout'){
-			require JPATH_BASE_ADMIN . DS . 'logout.php';
+			require _JLPATH_ADMINISTRATOR . DS . 'logout.php';
 			exit();
 		}
 
@@ -1671,12 +1676,11 @@ class mosMainFrame{
 			return array('option' => $option);
 		}
 
-		// получение пурвого элемента главного меню
+		// получение первого элемента главного меню
 		$menu = mosMenu::get_all();
 			$menu = $menu['mainmenu'];
 			$items = isset($menu) ? array_values($menu) : array();
 			$menu = $items[0];
-
 		$link = $menu->link;
 
 		unset($menu);
@@ -2058,8 +2062,6 @@ class JConfig{
 	var $config_mtage_revisit = 10;
 	/** @var int использование страницы печати из каталога текущего шаблона */
 	var $config_custom_print = 0;
-	/** @var int использование совместимого вывода тулбара */
-	var $config_old_toolbar = 0;
 	/** @var int отключение предпросмотра шаблонов через &tp=1 */
 	var $config_disable_tpreview = 0;
 	/** @int включение кода безопасности для доступа к панели управления */
@@ -2116,10 +2118,8 @@ class JConfig{
 		$this->bindGlobals();
 	}
 
-	public static function &getInstance(){
+	public static function getInstance(){
 		static $instance;
-
-		//jd_inc('Jconfig::getInstance()');
 
 		if(!is_object($instance)){
 			$instance = new JConfig();

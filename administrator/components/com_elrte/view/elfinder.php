@@ -11,7 +11,7 @@
  * @license see license.txt
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 $mainframe = &mosMainFrame::getInstance();
 include_once(JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_elrte' . DS . 'config_elfinder.php');
 

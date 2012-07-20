@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // Language File for Russian
 DEFINE('_BNR_CLIENT_NAME', 'Вы должны ввести имя клиента.');

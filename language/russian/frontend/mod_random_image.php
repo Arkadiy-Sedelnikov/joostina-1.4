@@ -10,7 +10,7 @@
 //http://www.dynamicdrive.com/dynamicindex4/simplegallery.htm
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_NO_IMAGES', 'Нет изображений');
 DEFINE('_NO_IMAGES_FOUND', 'Проверьте настройки модуля mod_random_image и наличие изображений в указанной в настройках папке');

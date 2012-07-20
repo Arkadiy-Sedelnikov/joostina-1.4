@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Modifier_QuoteLatex extends patTemplate_Modifier{
 	var $_chars = array('%' => '\%', '&' => '\&', '_' => '\_', '$' => '\$');
 

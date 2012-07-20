@@ -10,7 +10,7 @@
  * http://www.xajaxproject.org
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class xajaxResponse{
 	var $xml;
 	var $sEncoding;

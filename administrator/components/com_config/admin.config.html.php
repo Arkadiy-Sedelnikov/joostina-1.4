@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
  * @subpackage Config
  */
 class HTML_config{
-	public static function showconfig(&$row, &$lists, $option){
+	public static function showconfig($row, $lists, $option){
 		global $mosConfig_session_type;
 		$mainframe = mosMainFrame::getInstance();
 		$tabs = new mosTabs(1, 1);
@@ -372,10 +372,6 @@ class HTML_config{
 					<tr>
 						<td><?php echo mosToolTip(_DISABLE_HELP_BUTTON2, '', '', '', _DISABLE_HELP_BUTTON)?>:</td>
 						<td><?php echo $lists['config_disable_button_help']; ?></td>
-					</tr>
-					<tr>
-						<td width="300"><?php echo mosToolTip(_USE_OLD_TOOLBAR2, '', '', '', _USE_OLD_TOOLBAR)?>:</td>
-						<td><?php echo $lists['config_old_toolbar']; ?></td>
 					</tr>
 					<tr>
 						<td><?php echo mosToolTip(_DISABLE_IMAGES_TAB2, '', '', '', _DISABLE_IMAGES_TAB)?>:</td>

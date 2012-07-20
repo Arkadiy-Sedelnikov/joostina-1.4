@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class defaultRating extends mosDBTable{
 	var $id = null;
@@ -40,7 +40,7 @@ class defaultRating extends mosDBTable{
 			}
 
 			if(($my->id == "0" && $conf->allow_unregisered_comment == 0)){
-				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
+				mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
 				return;
 			}
 
@@ -50,7 +50,7 @@ class defaultRating extends mosDBTable{
 			$nb = $database->loadResult();
 
 			if(($nb > 0)){
-				mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_ALREADY_VOTE);
+				mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_ALREADY_VOTE);
 				return;
 			}
 
@@ -64,9 +64,9 @@ class defaultRating extends mosDBTable{
 				exit();
 			}
 
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_THANKS_FOR_YOUR_VOTE);
+			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), BOSS_THANKS_FOR_YOUR_VOTE);
 		} else{
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
+			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;&contentid=" . $row->contentid . "&amp;directory=$directory"), "");
 		}
 	}
 
@@ -114,11 +114,11 @@ class defaultRating extends mosDBTable{
 			$my = $mainframe->getUser();
 
 			if($my->id == 0 && $conf->allow_unregisered_comment == 0){
-				$link = sefRelToAbs("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
+				$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=login&amp;directory=$directory");
 				echo sprintf(BOSS_VOTE_LOGIN_REQUIRED, $link);
 			} else{
 				$this->displayVoteResult($content, $directory, $conf);
-				$target = sefRelToAbs("index.php?option=com_boss&amp;task=save_vote&amp;directory=$directory");
+				$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=save_vote&amp;directory=$directory");
 				?>
 			<form action="<?php echo $target;?>" method="post" name="reviewForm">
 				<select name="value">

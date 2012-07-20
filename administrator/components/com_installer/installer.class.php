@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Installer class
@@ -86,8 +86,8 @@ class mosInstaller{
 
 		if(preg_match('/.zip$/i', $archivename)){
 			// Extract functions
-			require_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
-			require_once (JPATH_BASE_ADMIN . '/includes/pcl/pclerror.lib.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclzip.lib.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclerror.lib.php');
 
 			$zipfile = new PclZip($archivename);
 			if($this->isWindows()){

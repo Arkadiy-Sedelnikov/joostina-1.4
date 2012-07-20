@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('BOT_USER_CONTACTS_SEND_MESSAGE', 'Отправить email пользователю');
 DEFINE('BOT_USER_CONTACTS_INTRODUCE', 'Представьтесь');

@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -106,7 +106,7 @@ class dom_xmlrpc_server extends php_http_server_generic{
 		$this->methodmapper->addMethod($method);
 	}
 
-	function addMappedMethods(&$methodmap, $methodNameList){
+	function addMappedMethods($methodmap, $methodNameList){
 		$this->methodmapper->addMappedMethods($methodmap, $methodNameList);
 	}
 
@@ -142,7 +142,7 @@ class dom_xmlrpc_server extends php_http_server_generic{
 		return $capabilities;
 	}
 
-	function &multicall(&$myArray){
+	function &multicall($myArray){
 
 
 		foreach($myArray as $key => $value){
@@ -152,16 +152,16 @@ class dom_xmlrpc_server extends php_http_server_generic{
 			$params = $currCall[DOM_XMLRPC_TYPE_PARAMS];
 			if(!($method == null)){
 				if($this->tokenizeParamsArray){
-					$this->multiresponse[] = &call_user_func_array($method->method, $params);
+					$this->multiresponse[] = call_user_func_array($method->method, $params);
 
 				} else{
 					if(count($params) == 1){
 
 
-						$this->multiresponse[] = &call_user_func($method->method, $params[0]);
+						$this->multiresponse[] = call_user_func($method->method, $params[0]);
 					} else{
 
-						$this->multiresponse[] = &call_user_func($method->method, $params);
+						$this->multiresponse[] = call_user_func($method->method, $params);
 					}
 				}
 			} else{
@@ -208,7 +208,7 @@ class dom_xmlrpc_server extends php_http_server_generic{
 		}
 	}
 
-	function &handleMethodNotFound($methodName, &$params){
+	function &handleMethodNotFound($methodName, $params){
 		if($this->methodNotFoundHandler == null){
 
 			$this->serverError = DOM_XMLRPC_SERVER_ERROR_REQUESTED_METHOD_NOT_FOUND;
@@ -226,7 +226,7 @@ class dom_xmlrpc_server extends php_http_server_generic{
 		$this->methodNotFoundHandler = &$method;
 	}
 
-	function &buildResponse(&$response){
+	function &buildResponse($response){
 		require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_fault.php');
 		if(is_object($response) && (get_class($response) == 'dom_xmlrpc_fault')){
 			return $this->buildFault($response);
@@ -297,8 +297,8 @@ class dom_xmlrpc_server extends php_http_server_generic{
 class dom_xmlrpc_methods{
 	var $methods = array();
 
-	function addMethod(&$method){
-		$this->methods[$method->name] = &$method;
+	function addMethod($method){
+		$this->methods[$method->name] = $method;
 	}
 
 	function &getMethod($name){
@@ -322,15 +322,15 @@ class dom_xmlrpc_methodmapper{
 		$this->unmappedmethods = new dom_xmlrpc_methods();
 	}
 
-	function addMethod(&$method){
+	function addMethod($method){
 		$this->unmappedmethods->addMethod($method);
-		$this->mappedmethods[$method->name] = &$this->unmappedmethods;
+		$this->mappedmethods[$method->name] = $this->unmappedmethods;
 	}
 
-	function addMappedMethods(&$methodmap, $methodNameList){
+	function addMappedMethods($methodmap, $methodNameList){
 		$total = count($methodNameList);
 		for($i = 0; $i < $total; $i++){
-			$this->mappedmethods[$methodNameList[$i]] = &$methodmap;
+			$this->mappedmethods[$methodNameList[$i]] = $methodmap;
 		}
 	}
 

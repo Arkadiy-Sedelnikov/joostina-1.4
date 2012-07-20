@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 require_once ($mainframe->getPath('class'));
@@ -173,7 +173,7 @@ function showMessages($option){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$query = "SELECT a.*, u.name AS user_from FROM #__messages AS a INNER JOIN #__users AS u ON u.id = a.user_id_from" . ($wheres ? "\n WHERE " . implode(" AND ", $wheres) : "") . "\n ORDER BY date_time DESC";

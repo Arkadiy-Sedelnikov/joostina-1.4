@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ALREADY_LOGIN', 'Вы уже авторизированы!');
 DEFINE('_LOGOUT', 'Нажмите здесь для завершения работы');

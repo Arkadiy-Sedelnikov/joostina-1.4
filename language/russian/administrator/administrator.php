@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_FRONTPAGE_NAME', 'Главная страница');
 DEFINE('_COM_INSTALLER_SITE_TEMPLATES', 'Шаблоны сайта');

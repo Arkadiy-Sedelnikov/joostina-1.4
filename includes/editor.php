@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!defined('_JOS_EDITOR_INCLUDED')){
 	global $mosConfig_editor;

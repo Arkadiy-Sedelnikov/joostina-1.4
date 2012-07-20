@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!$acl->acl_check('administration', 'install', 'users', $my->usertype, $element . 's', 'all')){
 	mosRedirect('index2.php', _NOT_AUTH);
@@ -63,7 +63,7 @@ function showInstalledComponents($option){
 	$rows = $database->loadObjectList();
 
 	// Read the component dir to find components
-	$componentBaseDir = mosPathName(JPATH_BASE_ADMIN . DS . 'components');
+	$componentBaseDir = mosPathName(_JLPATH_ADMINISTRATOR . DS . 'components');
 	$componentDirs = mosReadDirectory($componentBaseDir);
 
 	$n = count($rows);

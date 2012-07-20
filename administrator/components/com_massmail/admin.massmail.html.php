@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
  * @subpackage Massmail
  */
 class HTML_massmail{
-	function messageForm(&$lists, $option){
+	function messageForm($lists, $option){
 		?>
 	<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

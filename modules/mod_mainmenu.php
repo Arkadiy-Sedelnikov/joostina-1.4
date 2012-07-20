@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!defined('_MOS_MAINMENU_MODULE')){
 	/** обеспечивает запуск функции только один раз */
@@ -73,7 +73,7 @@ if(!defined('_MOS_MAINMENU_MODULE')){
 		$link = ampReplace($link);
 
 		// run through SEF convertor
-		$link = sefRelToAbs($link);
+		$link = JSef::getUrlToSef($link);
 
 		$menuclass = 'mainlevel' . $params->get('class_sfx');
 		if($level > 0){

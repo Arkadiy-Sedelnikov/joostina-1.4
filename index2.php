@@ -7,37 +7,46 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-// Установка флага, что это - родительский файл
-define('_VALID_MOS',1);
-// корень файлов
-define('JPATH_BASE', dirname(__FILE__) );
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR );
+// Установка флага родительского файла
+define('_JLINDEX', 1);
+
+define('_JLPATH_ROOT', __DIR__);
+
+// подключение основных глобальных переменных
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
+
+// проверка конфигурационного файла, если не обнаружен, то загружается страница установки
+if(!file_exists('configuration.php') || filesize('configuration.php') < 10){
+	$self = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
+	header('Location: http://' . $_SERVER['HTTP_HOST'] . $self . 'installation/index.php');
+	exit();
+}
+
+// подключение файла эмуляции отключения регистрации глобальных переменных
+(ini_get('register_globals') == 1) ? require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php') : null;
+
+// подключение файла конфигурации
+require_once (JPATH_BASE . DS . 'configuration.php');
+
+// live_site
+define('JPATH_SITE', $mosConfig_live_site);
 
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 
-// подключение файла эмуляции отключения регистрации глобальных переменных
-(ini_get('register_globals') == 1) ? require_once (JPATH_BASE.DS.'includes'.DS.'globals.php') : null;
+// считаем время за которое сгенерирована страница
+$mosConfig_time_generate ? $sysstart = microtime(true) : null;
 
-// подключение файла конфигурации
-require_once (JPATH_BASE.DS.'configuration.php');
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
 
-// live_site
-define('JPATH_SITE', $mosConfig_live_site );
+// подключение главного файла - ядра системы
+// TODO GoDr: заменить со временем на core.php
+require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
 // подключение SEF
 require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
-JSef::run($mosConfig_sef, $mosConfig_com_frontpage_clear);
-
-// SSL check - $http_host returns <live site url>:<port number if it is 443>
-$http_host = explode(':',$_SERVER['HTTP_HOST']);
-if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site,0,8) != 'https://') {
-	$mosConfig_live_site = 'https://'.substr($mosConfig_live_site,7);
-}
-
-// подключение главного файла - ядра системы
-require_once (JPATH_BASE.DS.'includes'.DS.'joostina.php');
+JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
 
 // отображение состояния выключенного сайта
 if($mosConfig_offline == 1) {
@@ -149,7 +158,7 @@ if($print) {
 		$pg_link	= str_replace('index2.php','index.php',$pg_link);
 		$pg_link = ltrim($pg_link,'/');
 
-		$_MOS_OPTION['buffer'] = '<div class="logo">'. $mosConfig_sitename .'</div><div id="main">'.$_MOS_OPTION['buffer']."\n</div>\n<div id=\"ju_foo\">"._PRINT_PAGE_LINK." :<br /><i>".sefRelToAbs($pg_link)."</i><br /><br />&copy; ".$mosConfig_sitename.",&nbsp;".date('Y').'</div>';
+		$_MOS_OPTION['buffer'] = '<div class="logo">'. $mosConfig_sitename .'</div><div id="main">'.$_MOS_OPTION['buffer']."\n</div>\n<div id=\"ju_foo\">"._PRINT_PAGE_LINK." :<br /><i>".JSef::getUrlToSef($pg_link)."</i><br /><br />&copy; ".$mosConfig_sitename.",&nbsp;".date('Y').'</div>';
 	}
 }else {
 	$mainframe->addCSS($mosConfig_live_site.'/templates/'.$cur_template.'/css/template_css.css');

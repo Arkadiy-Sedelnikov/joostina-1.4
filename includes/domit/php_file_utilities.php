@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('PHP_TEXT_CACHE_INCLUDE_PATH')){
 	define('PHP_TEXT_CACHE_INCLUDE_PATH', (dirname(__file__) . "/"));
 }

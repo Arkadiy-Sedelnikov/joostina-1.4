@@ -8,6 +8,6 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once JPATH_BASE . DS . 'includes/editor.php';

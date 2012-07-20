@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -81,7 +81,7 @@ class dom_xmlrpc_builder{
 		$this->params .= "\n\t\t<param>" . $this->createScalar($value, $type) . '</param>';
 	}
 
-	function createArray(&$myArray){
+	function createArray($myArray){
 		$data = '<value><array><data>';
 		foreach($myArray as $key => $value){
 			$currDataItem = &$myArray[$key];
@@ -96,12 +96,12 @@ class dom_xmlrpc_builder{
 		$this->addArrayByRef($myArray);
 	}
 
-	function addArrayByRef(&$myArray){
+	function addArrayByRef($myArray){
 
 		$this->params .= "\n\t\t<param>" . $this->createArray($myArray) . '</param>';
 	}
 
-	function createObject(&$myObject){
+	function createObject($myObject){
 		require_once ('dom_xmlrpc_object.php');
 		if(get_class($myObject) == 'dom_xmlrpc_object'){
 
@@ -155,12 +155,12 @@ class dom_xmlrpc_builder{
 		$this->addObjectByRef($myObject);
 	}
 
-	function addObjectByRef(&$myObject){
+	function addObjectByRef($myObject){
 
 		$this->params .= "\n\t\t<param>" . $this->createObject($myObject) . '</param>';
 	}
 
-	function createStruct(&$myStruct){
+	function createStruct($myStruct){
 		require_once ('dom_xmlrpc_object.php');
 		$className = get_class($myStruct);
 
@@ -198,12 +198,12 @@ class dom_xmlrpc_builder{
 		$this->addStructByRef($myStruct);
 	}
 
-	function addStructByRef(&$myStruct){
+	function addStructByRef($myStruct){
 
 		$this->params .= "\n\t\t<param>" . $this->createStruct($myStruct) . '</param>';
 	}
 
-	function createMember($name, &$value, $type){
+	function createMember($name, $value, $type){
 		$data = '<member><name>' . $name . '</name>';
 		if($type == ''){
 			$type = dom_xmlrpc_utilities::getScalarTypeFromValue($value);
@@ -212,7 +212,7 @@ class dom_xmlrpc_builder{
 		return $data;
 	}
 
-	function create(&$value, $type = ''){
+	function create($value, $type = ''){
 		$data = '';
 		if($type == ''){
 			require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_utilities.php');
@@ -242,7 +242,7 @@ class dom_xmlrpc_builder{
 		$this->addByRef($value, $type);
 	}
 
-	function addByRef(&$value, $type = ''){
+	function addByRef($value, $type = ''){
 
 		$this->params .= "\n\t\t<param>" . $this->create($value, $type) . '</param>';
 	}
@@ -254,21 +254,21 @@ class dom_xmlrpc_builder{
 		}
 	}
 
-	function &createBase64($binaryData){
+	function createBase64($binaryData){
 		require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_base64.php');
 		$base64 = new dom_xmlrpc_base64();
 		$base64->fromBinary($binaryData);
 		return $base64;
 	}
 
-	function &createBase64FromFile($fileName){
+	function createBase64FromFile($fileName){
 		require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_base64.php');
 		$base64 = new dom_xmlrpc_base64();
 		$base64->fromFile($fileName);
 		return $base64;
 	}
 
-	function &createDateTimeISO($time){
+	function createDateTimeISO($time){
 		require_once (DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_datetime_iso8601.php');
 		$isoDateTime = new dom_xmlrpc_datetime_iso8601($time);
 		return $isoDateTime;

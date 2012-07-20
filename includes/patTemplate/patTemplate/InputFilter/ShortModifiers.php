@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_InputFilter_ShortModifiers extends patTemplate_InputFilter{
 	var $_name = 'ShortModifiers';
 	var $_params = array('copyVars' => true);

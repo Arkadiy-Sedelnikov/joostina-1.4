@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Custom QuickIcons
  */
 class HTML_QuickIcons{
 
-	function show(&$rows, $option, $search, &$pageNav){
+	function show($rows, $option, $search, $pageNav){
 
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
@@ -123,7 +123,7 @@ class HTML_QuickIcons{
 	<?php
 	}
 
-	function edit(&$row, $lists, $option){
+	function edit($row, $lists, $option){
 
 		mosMakeHtmlSafe($row, ENT_QUOTES);
 		mosCommonHTML::loadOverlib();

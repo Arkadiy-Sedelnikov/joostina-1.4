@@ -10,7 +10,7 @@
 //http://www.dynamicdrive.com/dynamicindex4/simplegallery.htm
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $rotate_type = $params->get('rotate_type', 0);
 $img_pref = $params->get('img_pref', '');

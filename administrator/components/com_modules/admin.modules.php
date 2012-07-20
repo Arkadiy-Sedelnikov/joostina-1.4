@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'modules', 'all') | $acl->acl_check('administration', 'install', 'users', $my->usertype, 'modules', 'all'))){
@@ -131,7 +131,7 @@ function viewModules($option, $client){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE_ADMIN . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$sql = "SELECT m.*, u.name AS editor, g.name AS groupname, mm.option AS pages
@@ -467,7 +467,7 @@ function editModule($option, $uid, $client){
  * Also deletes associated entries in the #__module_menu table.
  * @param array An array of unique category id numbers
  */
-function removeModule(&$cid, $option, $client){
+function removeModule($cid, $option, $client){
 	$mainframe = mosMainFrame::getInstance();
 	$my = $mainframe->getUser();
 	$database = database::getInstance();
@@ -654,7 +654,7 @@ function accessMenu($uid, $access, $option, $client){
 	mosRedirect('index2.php?option=' . $option . '&client=' . $client);
 }
 
-function saveOrder(&$cid, $client){
+function saveOrder($cid, $client){
 	$database = database::getInstance();
 	josSpoofCheck();
 	$total = count($cid);

@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Modifier_HTML_Img extends patTemplate_Modifier{
 	function modify($value, $params = array()){
 		$size = getimagesize($value);

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 /**
  * This file allows to dynamically switch between file.system based mode and FTP based mode
  */

@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function chmod_item($dir, $item){
 	if(($GLOBALS["permissions"] & 01) != 01)
 		show_error($GLOBALS["error_msg"]["accessfunc"]);

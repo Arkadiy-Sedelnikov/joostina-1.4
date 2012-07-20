@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -20,7 +20,7 @@ class HTML_templates{
 	 * @param object A page navigation object
 	 * @param string The option
 	 */
-	function showTemplates(&$rows, &$pageNav, $option, $client){
+	function showTemplates($rows, $pageNav, $option, $client){
 		global $mosConfig_one_template;
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
@@ -361,7 +361,7 @@ class HTML_templates{
 	 * @param array
 	 * @param string The option
 	 */
-	function editPositions(&$positions, $option){
+	function editPositions($positions, $option){
 		$rows = 25;
 		$cols = 2;
 		$n = $rows * $cols;

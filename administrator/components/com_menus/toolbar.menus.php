@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('toolbar_html'));
 require_once ($mainframe->getPath('toolbar_default'));
@@ -28,7 +28,7 @@ switch($task){
 
 	case 'edit':
 		$cid = josGetArrayInts('cid');
-		$path = JPATH_BASE_ADMIN . '/components/com_menus/';
+		$path = _JLPATH_ADMINISTRATOR . '/components/com_menus/';
 
 		if($cid[0]){
 			$query = "SELECT type FROM #__menu WHERE id = " . (int)$cid[0];

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -20,7 +20,7 @@ class HTML_modules{
 	 * Writes a list of the defined modules
 	 * @param array An array of category objects
 	 */
-	public static function showModules(&$rows, $myid, $client, &$pageNav, $option, &$lists, $search){
+	public static function showModules($rows, $myid, $client, $pageNav, $option, $lists, $search){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';

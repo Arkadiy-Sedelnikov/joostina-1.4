@@ -9,7 +9,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $iso = explode('=', _ISO);
 echo '<?xml version="1.0" encoding="' . $iso[1] . '"?' . '>' . "\n";

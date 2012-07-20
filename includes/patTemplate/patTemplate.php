@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once (dirname(__file__) . '/patErrorManager.php');
 define('PATTEMPLATE_ERROR_TEMPLATE_EXISTS', 5010);

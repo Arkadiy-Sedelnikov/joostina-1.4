@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -20,7 +20,7 @@ class HTML_modules{
 	 * Writes a list of the defined modules
 	 * @param array An array of category objects
 	 */
-	public static function showMambots(&$rows, $client, &$pageNav, $option, &$lists, $search){
+	public static function showMambots($rows, $client, $pageNav, $option, $lists, $search){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 
@@ -119,7 +119,7 @@ class HTML_modules{
 	 * @param array An array of select lists
 	 * @param object Parameters
 	 */
-	public static function editMambot(&$row, &$lists, &$params, $option){
+	public static function editMambot($row, $lists, $params, $option){
 		mosCommonHTML::loadOverlib();
 		$row->nameA = '';
 		if($row->id){

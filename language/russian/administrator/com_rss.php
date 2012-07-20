@@ -8,6 +8,6 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ERROR_CREATING_NEWSFEED', 'Ошибка создания файла ленты новостей. Пожалуйста, проверьте разрешения на запись');

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once (JPATH_BASE . DS . JADMIN_BASE . '/components/com_xmap/classes/XmapSitemap.php');
 

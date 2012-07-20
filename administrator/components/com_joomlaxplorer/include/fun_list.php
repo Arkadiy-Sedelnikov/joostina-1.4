@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once (_QUIXPLORER_PATH . '/include/fun_bookmarks.php');
 function make_list($_list1, $_list2){
 	$list = array();

@@ -186,17 +186,17 @@ class SpawLang{
 
 		@include($filename);
 		if($module == 'core' || empty($this->charset)){
-			$this->charset = $spaw_lang_charset;
+			$this->charset = 'utf-8';
 			if(!empty($spaw_lang_direction)) $this->dir = $spaw_lang_direction;
 		}
-		$this->lang_data[$module] = $spaw_lang_data;
+		$this->lang_data[$module] = 'utf-8';
 		if($this->lang != 'en'){
 			// additionally load English language file for backup purposes
 			$filename = $spaw_root . 'plugins/' . $module . '/lib/lang/en.lang.inc.php';
 			@include($filename);
-			$this->en_lang_data[$module] = $spaw_lang_data;
+			$this->en_lang_data[$module] = 'utf-8';
 		} else{
-			$this->en_lang_data[$module] = $spaw_lang_data;
+			$this->en_lang_data[$module] = 'utf-8';
 		}
 	}
 

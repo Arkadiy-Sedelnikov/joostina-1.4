@@ -7,7 +7,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once($mainframe->getPath('front_html', 'com_boss'));
 require_once($mainframe->getPath('class', 'com_boss'));
@@ -353,7 +353,7 @@ function show_search($catid, $directory, $template_name){
 	}
 
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -405,7 +405,7 @@ function show_all($text_search, $name_search, $order, $limitstart, $directory, $
 
 	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -452,7 +452,7 @@ function show_frontpage($text_search, $name_search, $order, $limitstart, $direct
 
 	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -499,7 +499,7 @@ function show_user($userid, $text_search, $order, $limitstart, $directory, $temp
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -583,7 +583,7 @@ function show_category($catid, $text_search, $name_search, $order, $limitstart, 
 	$listcats = boss_helpers::loadCats($directory);
 	$nb = count($paths);
 	$paths[$nb]->text = $conf->name;
-	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;order=' . $order . '&amp;directory=' . $directory);
+	$paths[$nb]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;order=' . $order . '&amp;directory=' . $directory);
 	boss_helpers::get_pathlist($listcats, $catid, $cat_name, $paths, $order, $directory);
 	for($i = $nb; $i >= 0; $i--){
 		$mainframe->appendPathWay('<a href ="' . $paths[$i]->link . '">' . $paths[$i]->text . '</a>');
@@ -641,7 +641,7 @@ function search_tags($tag, $order, $limitstart, $directory, $template_name){
 	$list = boss_helpers::loadCats($directory);
 	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->subcats = $subcats;
@@ -675,7 +675,7 @@ function search_alpha($alpha, $order, $limitstart, $directory, $template_name){
 	$list = boss_helpers::loadCats($directory);
 	$subcats = boss_helpers::get_subpathlist($list, 0, $order, $directory);
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 
 	$jDirectoryHtmlClass->paths = $paths;
@@ -728,7 +728,7 @@ function send_message($mode, $directory){
 	$my = $mainframe->getUser();
 	$database = database::getInstance();
 	$contentid = intval(mosGetParam($_POST, 'contentid', 0));
-	$url = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory");
+	$url = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;contentid=$contentid&amp;directory=$directory");
 
 	$name = mosGetParam($_POST, 'name', "");
 	$from_email = mosGetParam($_POST, 'email', "");
@@ -874,7 +874,7 @@ function show_content($contentid, $catid, $directory, $template_name){
 
 	$nb = count($paths);
 	$paths[$nb]->text = $conf->name;
-	$paths[$nb]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[$nb]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	boss_helpers::get_pathlist($listcats, $content->catid, $content->cat, $paths, 0, $directory);
 	for($i = $nb; $i >= 0; $i--){
 		$mainframe->appendPathWay('<a href ="' . $paths[$i]->link . '">' . $paths[$i]->text . '</a>');
@@ -1030,13 +1030,13 @@ function write_content($contentid, $catid, $directory, $template_name){
 		$nb = $database->loadResult();
 		if($nb >= $conf->nb_contents_by_user){
 			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
+			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
 		}
 	}
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -1122,7 +1122,7 @@ function save_content($directory){
 		if($captcha_keystring !== $captcha){
 			$errorMsg = "bad_captcha";
 
-			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&errorMsg=$errorMsg");
+			$url = JSef::getUrlToSef("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory&errorMsg=$errorMsg");
 			echo "<form name='form' action='" . $url . "' method='post'>";
 			foreach($_POST as $key => $val){
 				echo "<input type='hidden' name='" . $key . "' value='" . stripslashes($val) . "'>";
@@ -1145,7 +1145,7 @@ function save_content($directory){
 		$nb = $database->loadResult();
 		if($nb >= $conf->nb_contents_by_user){
 			$redirect_text = sprintf(BOSS_MAX_NUM_CONTENTS_REACHED, $conf->nb_contents_by_user);
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
+			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;directory=$directory"), $redirect_text);
 		}
 	}
 
@@ -1156,7 +1156,7 @@ function save_content($directory){
 		$errorMsg = boss_helpers::check_account($username, $password, $email, $userid, $conf);
 		if(isset($errorMsg)){
 			$catid = (int)mosGetParam($_POST, 'category', 0);
-			$url = sefRelToAbs("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory");
+			$url = JSef::getUrlToSef("index.php?option=com_boss&task=write_content&catid=$catid&amp;directory=$directory");
 			echo "<form name='form' action='" . $url . "' method='post'>";
 
 			foreach($_POST as $key => $val){
@@ -1226,7 +1226,7 @@ function manage_expiration($directory, $conf, $fileCron, $template_name){
 			foreach($contents as $content){
 				if($conf->recall == 1){
 					$subject = BOSS_EMAIL_EXPIRATION . ' ' . $content->name;
-					$link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory . '&amp;task=expiration&amp;contentid=' . $content->id);
+					$link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory . '&amp;task=expiration&amp;contentid=' . $content->id);
 					$href = "<a href='$link'>$link</a>";
 					$body = BOSS_EMAIL_EXPIRATION . ' ' . $content->name;
 					$body .= $conf->recall_text;
@@ -1263,7 +1263,7 @@ function show_expiration($contentid, $directory, $template_name){
 		//PathWay
 		$paths = array();
 		$paths[0]->text = $conf->name;
-		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+		$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 		$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 		$jDirectoryHtmlClass->paths = $paths;
 
@@ -1285,7 +1285,7 @@ function extend_expiration($contentid, $directory){
 		return false;
 	}
 	mosCache::cleanCache('com_boss');
-	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory"), BOSS_CONTENT_RESUBMIT);
+	mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;directory=$directory"), BOSS_CONTENT_RESUBMIT);
 
 	return true;
 }
@@ -1308,7 +1308,7 @@ function delete_content($contentid, $directory, $template_name){
 
 		//PathWay
 		$paths[0]->text = $conf->name;
-		$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+		$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 		$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 		$jDirectoryHtmlClass->paths = $paths;
 		$jDirectoryHtmlClass->conf = $conf;
@@ -1333,7 +1333,7 @@ function delete_content($contentid, $directory, $template_name){
 					$content->delete($directory, $conf);
 				}
 			}
-			mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory", ''));
+			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory", ''));
 		} else{
 
 			$database->setQuery("SELECT * FROM #__boss_" . $directory . "_contents WHERE id=$contentid");
@@ -1344,7 +1344,7 @@ function delete_content($contentid, $directory, $template_name){
 			}
 			//PathWay
 			$paths[0]->text = $conf->name;
-			$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+			$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 			$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 			$jDirectoryHtmlClass->paths = $paths;
 			$jDirectoryHtmlClass->user->name = $my->username;
@@ -1372,7 +1372,7 @@ function show_profile($userid, $directory, $template_name){
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 
@@ -1467,7 +1467,7 @@ function save_profile($directory){
 
 	$database->setQuery($sql)->query();
 
-	mosRedirect(sefRelToAbs("index.php?option=com_boss&amp;directory=$directory", BOSS_UPDATE_PROFILE_SUCCESSFULL));
+	mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;directory=$directory", BOSS_UPDATE_PROFILE_SUCCESSFULL));
 }
 
 function front($directory, $template_name){
@@ -1539,7 +1539,7 @@ function show_rules($directory, $template_name){
 	$params['title'] = BOSS_RULES;
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->conf->rules_text = $conf->rules_text;
@@ -1564,14 +1564,14 @@ function login_form($directory, $template_name){
 
 	//PathWay
 	$paths[0]->text = $conf->name;
-	$paths[0]->link = sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory);
+	$paths[0]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory);
 	$mainframe->appendPathWay('<a href ="' . $paths[0]->link . '">' . $paths[0]->text . '</a>');
 	$jDirectoryHtmlClass = new boss_html();
 	$jDirectoryHtmlClass->paths = $paths;
 	$jDirectoryHtmlClass->conf = $conf;
 	$jDirectoryHtmlClass->directory = $directory;
 	$jDirectoryHtmlClass->template_name = $template_name;
-	$jDirectoryHtmlClass->displayLoginForm(sefRelToAbs('index.php?option=com_boss&amp;directory=' . $directory));
+	$jDirectoryHtmlClass->displayLoginForm(JSef::getUrlToSef('index.php?option=com_boss&amp;directory=' . $directory));
 }
 
 /**
@@ -1623,7 +1623,7 @@ function emailsend($directory){
 		}
 
 		// link sent in email
-		$link = sefRelToAbs('index.php?option=com_boss&task=show_content&contentid=' . $contentid . '&directory=' . $directory);
+		$link = JSef::getUrlToSef('index.php?option=com_boss&task=show_content&contentid=' . $contentid . '&directory=' . $directory);
 		if(trim(strpos($link, 'index.php')) === '0'){
 			$link = JPATH_SITE . '/' . $link;
 		}
@@ -1650,7 +1650,7 @@ function show_rss($catid, $directory){
 
 	$category = null;
 	// load feed creator class
-	require_once(JPATH_BASE . '/includes/feedcreator.class.php');
+	mosMainFrame::addLib('feedcreator');
 
 	$info = array();
 
@@ -1701,8 +1701,8 @@ function show_rss($catid, $directory){
 	if($catid == 0){
 		$info['title'] = "All Ads";
 		$info['description'] = "Description";
-		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;directory=$directory");
-		$info['rsslink'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;no_html=1&amp;directory=$directory");
+		$info['link'] = JSef::getUrlToSef("$mosConfig_live_site/index.php?option=com_boss&amp;directory=$directory");
+		$info['rsslink'] = JSef::getUrlToSef("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;no_html=1&amp;directory=$directory");
 		$search = "1";
 	} else{
 		// get category-name: #__boss_".$directory."_category
@@ -1711,10 +1711,10 @@ function show_rss($catid, $directory){
 
 		$info['title'] = $category->name;
 		$info['description'] = $category->description;
-		$info['link'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
-		$info['rsslink'] = sefRelToAbs("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;catid=$catid&amp;no_html=1&amp;directory=$directory");
+		$info['link'] = JSef::getUrlToSef("$mosConfig_live_site/index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
+		$info['rsslink'] = JSef::getUrlToSef("$mosConfig_live_site/index.php?option=com_boss&amp;task=rss&amp;catid=$catid&amp;no_html=1&amp;directory=$directory");
 
-		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
+		$linkTarget = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_category&amp;catid=$catid&amp;directory=$directory");
 
 		//$listcats = boss_helpers::loadCats($directory);
 
@@ -1755,7 +1755,7 @@ function show_rss($catid, $directory){
 	}
 
 	foreach($contents as $content){
-		$linkTarget = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;catid=$catid&ampcontentid=" . $content->id . "&amp;directory=$directory");
+		$linkTarget = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;catid=$catid&ampcontentid=" . $content->id . "&amp;directory=$directory");
 		$item_title = html_entity_decode(htmlspecialchars($content->name));
 		$item_description = '';
 

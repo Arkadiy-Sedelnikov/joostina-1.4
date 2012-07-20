@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -16,7 +16,7 @@ defined('_VALID_MOS') or die();
  */
 class loginHTML{
 
-	function loginpage(&$params, $image){
+	function loginpage($params, $image){
 		global $mosConfig_lang;
 
 		// used for spoof hardening
@@ -24,7 +24,7 @@ class loginHTML{
 
 		$return = $params->get('login');
 		?>
-	<form action="<?php echo sefRelToAbs('index.php?option=login'); ?>" method="post" name="login" id="login">
+	<form action="<?php echo JSef::getUrlToSef('index.php?option=login'); ?>" method="post" name="login" id="login">
 		<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo
 		$params->get('pageclass_sfx'); ?>">
 			<tr>
@@ -79,7 +79,7 @@ class loginHTML{
 								<?php echo _REMEMBER_ME; ?>
 								<input type="checkbox" name="remember" class="inputbox" value="yes"/>
 								<br/>
-								<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=lostPassword'); ?>">
+								<a href="<?php echo JSef::getUrlToSef('index.php?option=com_users&amp;task=lostPassword'); ?>">
 									<?php echo _LOST_PASSWORDWORD; ?>
 								</a>
 								<?php
@@ -87,7 +87,7 @@ class loginHTML{
 									?>
 									<br/>
 									<?php echo _NO_ACCOUNT; ?>
-									<a href="<?php echo sefRelToAbs('index.php?option=com_users&amp;task=register'); ?>">
+									<a href="<?php echo JSef::getUrlToSef('index.php?option=com_users&amp;task=register'); ?>">
 										<?php echo _CREATE_ACCOUNT; ?>
 									</a>
 									<?php
@@ -120,7 +120,7 @@ class loginHTML{
 		?>
 
 		<input type="hidden" name="op2" value="login"/>
-		<input type="hidden" name="return" value="<?php echo sefRelToAbs($return); ?>"/>
+		<input type="hidden" name="return" value="<?php echo JSef::getUrlToSef($return); ?>"/>
 		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>"/>
 		<input type="hidden" name="message" value="<?php echo $params->get('login_message'); ?>"/>
 		<input type="hidden" name="<?php echo $validate; ?>" value="1"/>
@@ -128,12 +128,12 @@ class loginHTML{
 	<?php
 	}
 
-	function logoutpage(&$params, $image){
+	function logoutpage($params, $image){
 		global $mosConfig_lang;
 
 		$return = $params->get('logout');
 		?>
-	<form action="<?php echo sefRelToAbs('index.php?option=logout'); ?>" method="post" name="login" id="login">
+	<form action="<?php echo JSef::getUrlToSef('index.php?option=logout'); ?>" method="post" name="login" id="login">
 		<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo
 		$params->get('pageclass_sfx'); ?>">
 			<tr>
@@ -172,7 +172,7 @@ class loginHTML{
 		</table>
 		<?php mosHTML::BackButton($params); ?>
 		<input type="hidden" name="op2" value="logout"/>
-		<input type="hidden" name="return" value="<?php echo sefRelToAbs($return); ?>"/>
+		<input type="hidden" name="return" value="<?php echo JSef::getUrlToSef($return); ?>"/>
 		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>"/>
 		<input type="hidden" name="message" value="<?php echo $params->get('logout_message'); ?>"/>
 	</form>

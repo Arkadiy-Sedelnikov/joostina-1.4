@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once JPATH_BASE . '/includes/PEAR/PEAR.php';
 define('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 define('ARCHIVE_TAR_END_BLOCK', pack("a512", ''));

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 //
 // Classes and helper functions to the banner system
@@ -23,7 +23,7 @@ class mosArtBannerClient extends mosDBTable{
 	var $checked_out = 0;
 	var $checked_out_time = 0;
 
-	function mosArtBannerClient(&$db){
+	function mosArtBannerClient($db){
 		$this->mosDBTable('#__banners_clients', 'cid', $db);
 	}
 
@@ -88,7 +88,7 @@ class mosArtBanner extends mosDBTable{
 	var $alt = '';
 	var $title = '';
 
-	function mosArtBanner(&$db){
+	function mosArtBanner($db){
 		$this->mosDBTable('#__banners', 'id', $db);
 	}
 
@@ -170,7 +170,7 @@ class mosArtCategory extends mosDBTable{
 	/**
 	 * @param database A database connector object
 	 */
-	function mosArtCategory(&$db){
+	function mosArtCategory($db){
 		$this->mosDBTable('#__banners_categories', 'id', $db);
 	}
 

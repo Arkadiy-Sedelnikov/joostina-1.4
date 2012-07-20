@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!function_exists('showBanners')){
 	// function that selecting one or more banner/s
@@ -151,9 +151,9 @@ if(!function_exists('showBanners')){
 			}
 
 			$title = $banner->title;
-			$result = "<a href=\"" . sefRelToAbs('index.php?option=com_banners&amp;task=clk&amp;id=' . $banner->id) . "\" target=\"_" . $target . "\"><img src=\"" . $image_url . "\" style=\"border:" . $border_value . "px " . $border_style . " " . $border_color . "\" vspace=\"0\" alt=\"$alt\" title=\"$title\"/></a>";
+			$result = "<a href=\"" . JSef::getUrlToSef('index.php?option=com_banners&amp;task=clk&amp;id=' . $banner->id) . "\" target=\"_" . $target . "\"><img src=\"" . $image_url . "\" style=\"border:" . $border_value . "px " . $border_style . " " . $border_color . "\" vspace=\"0\" alt=\"$alt\" title=\"$title\"/></a>";
 			if($text){
-				$result = "<a href=\"" . sefRelToAbs('index.php?option=com_banners&amp;task=clk&amp;id=' . $banner->id) . "\" target=\"_" . $target . "\" class='bantxt" . $moduleclass_sfx . "'>" . $alt . "</a><br />" . $result;
+				$result = "<a href=\"" . JSef::getUrlToSef('index.php?option=com_banners&amp;task=clk&amp;id=' . $banner->id) . "\" target=\"_" . $target . "\" class='bantxt" . $moduleclass_sfx . "'>" . $alt . "</a><br />" . $result;
 			}
 			$result = '<div class="banernblok' . $moduleclass_sfx . '">' . $result . '</div>';
 		} elseif(preg_match("/.swf/", $banner->image_url)){

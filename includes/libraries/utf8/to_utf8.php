@@ -8,7 +8,7 @@
  */
 
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * ������������ ����� �� ��������� cp1259 (windows-1259) � ��������� UTF-8

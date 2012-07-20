@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('class', 'com_search'));
 require_once ($mainframe->getPath('front_html'));
@@ -261,7 +261,7 @@ function viewSearch(){
 		$searchword_clean = urlencode($searchword_clean);
 
 		// html output
-		mosMainFrame::addLib('pageNavigation');
+		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 		if($n){

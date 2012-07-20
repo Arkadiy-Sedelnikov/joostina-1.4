@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * вывод подключения js и css
@@ -159,7 +159,7 @@ function mosLoadAdminModule($name, $params = null){
 
 	$name = str_replace('/', '', $name);
 	$name = str_replace('\\', '', $name);
-	$path = JPATH_BASE_ADMIN . "/modules/mod_$name.php";
+	$path = _JLPATH_ADMINISTRATOR . "/modules/mod_$name.php";
 	if(file_exists($path)){
 		if($mainframe->getLangFile('mod_' . $name)){
 			include($mainframe->getLangFile('mod_' . $name));
@@ -168,7 +168,7 @@ function mosLoadAdminModule($name, $params = null){
 	}
 }
 
-function mosLoadCustomModule(&$module, &$params){
+function mosLoadCustomModule($module, $params){
 	global $mosConfig_cachepath;
 
 	$rssurl = $params->get('rssurl', '');

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ABS_PATH', 'Абсолютный путь( корень сайта )');
 DEFINE('_ACCOUNT_ACTIVATION', 'Использовать активацию нового аккаунта');

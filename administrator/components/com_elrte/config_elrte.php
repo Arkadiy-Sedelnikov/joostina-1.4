@@ -1,5 +1,5 @@
 <?php
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $toolbar_metod = '0';
 $select_toolbar = 'maxi';

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $mainframe->addCSS(JPATH_SITE . '/templates/css/print.css');
 $mainframe->addJS(JPATH_SITE . '/includes/js/print/print.js');
@@ -22,7 +22,7 @@ $pg_link = str_replace('index2.php', 'index.php', $pg_link);
 <div id="ju_foo">
 	<?php echo _PRINT_PAGE_LINK; ?> :
 	<br/>
-	<i><?php echo sefRelToAbs($pg_link); ?></i>
+	<i><?php echo JSef::getUrlToSef($pg_link); ?></i>
 	<br/>
 	<br/>
 	&copy;<?php echo $mosConfig_sitename; ?>,&nbsp;'<?php echo date('Y'); ?>

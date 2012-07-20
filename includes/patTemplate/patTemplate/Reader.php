@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 define('PATTEMPLATE_READER_ERROR_NO_INPUT', 6000);

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
@@ -136,7 +136,7 @@ function viewLanguages($option){
 		$rowid++;
 	}
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav(count($rows), $limitstart, $limit);
 
 	$rows = array_slice($rows, $pageNav->limitstart, $pageNav->limit);

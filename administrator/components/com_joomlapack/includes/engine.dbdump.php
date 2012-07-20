@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // Constants
 define('_DBPACKER_TABLES_CORE', 1);
@@ -117,7 +117,7 @@ class CDBBackupEngine{
 		$this->_onlyDBDumpMode = $onlyDBDumpMode;
 		$this->_dbprefix = $mosConfig_dbprefix;
 		// Detect JoomFish
-		if(file_exists(JPATH_BASE_ADMIN . '/components/com_joomfish/config.joomfish.php')){
+		if(file_exists(_JLPATH_ADMINISTRATOR . '/components/com_joomfish/config.joomfish.php')){
 			$this->_hasJoomFish = true;
 		} else{
 			$this->_hasJoomFish = false;
@@ -263,7 +263,7 @@ class CDBBackupEngine{
 									break;
 								case 2:
 									// архивирование в zip
-									include_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
+									include_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclzip.lib.php');
 									$filename = $filename . '.zip';
 									$zip = new PclZip($filename);
 									$zip->add($this->_filenameCore, '', PclZipUtilTranslateWinPath(dirname($this->_filenameCore)));

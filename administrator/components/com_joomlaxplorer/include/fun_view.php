@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function jx_show_file($dir, $item){
 	show_header($GLOBALS["messages"]["actview"] . ": " . $item);
 	$index2_edit_link = str_replace('/index3.php', '/index2.php', make_link('edit',

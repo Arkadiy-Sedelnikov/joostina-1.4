@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 // сюда доступ - только админам и суперадминам
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 	mosRedirect('index2.php', _NOT_AUTH);
@@ -22,12 +22,12 @@ $act = mosGetParam($_REQUEST, 'act', 'default');
 $task = mosGetParam($_REQUEST, 'task', '');
 
 // подключение класса конфигурации
-require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/configuration.php');
+require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/configuration.php');
 
 switch($act){
 	// функции работы с базой данных
 	case 'db':
-		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/engine.dboption.php');
+		require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/engine.dboption.php');
 		break;
 
 	case 'config':
@@ -49,13 +49,13 @@ switch($act){
 		}
 		break;
 	case 'pack':
-		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/sajax.php');
-		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/ajaxtool.php');
+		require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/sajax.php');
+		require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/ajaxtool.php');
 		jpackScreens::fPack();
 		break;
 	case 'def':
 		// список каталогов которые не попадут в бэкап
-		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/engine.exdirs.php');
+		require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/engine.exdirs.php');
 		jpackScreens::fDirExclusion();
 		break;
 	case 'log':

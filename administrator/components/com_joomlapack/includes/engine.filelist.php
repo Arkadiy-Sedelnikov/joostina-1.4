@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // Global variables
 class CFilelistEngine{
@@ -224,7 +224,7 @@ class CFilelistEngine{
 	 */
 	function _createExcludeDirs(){
 		global $option;
-		require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/engine.exdirs.php');
+		require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/engine.exdirs.php');
 
 		$def = new CDirExclusionFilter();
 		$this->_ExcludeDirs = $def->getFilters();

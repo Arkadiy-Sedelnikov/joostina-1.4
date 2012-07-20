@@ -9,7 +9,7 @@
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Joomla! Cache callback type object

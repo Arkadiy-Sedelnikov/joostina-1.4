@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Reader_String extends patTemplate_Reader{
 	function readTemplates($input){
 		$this->_currentInput = $input;

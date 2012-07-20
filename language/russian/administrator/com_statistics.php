@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_STAT_BROWSERS_AND_OSES', 'Статистика по браузерам, ОС и доменам');
 DEFINE('_BROWSERS', 'Браузеры');

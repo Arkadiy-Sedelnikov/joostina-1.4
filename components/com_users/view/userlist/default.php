@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!$menu){
 	echo _PAGE_ACCESS_DENIED;
@@ -22,7 +22,7 @@ $users->user_list = $users->get_users($usertype, $limitstart, $limit);
 
 //пагинация
 if($users->total > 0){
-	mosMainFrame::addLib('pageNavigation');
+	mosMainFrame::addLib('pagenavigation');
 	$link = $menu->link;
 	$paginate = new mosPageNav($users->total, $limitstart, $limit);
 }

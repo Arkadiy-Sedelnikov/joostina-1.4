@@ -9,7 +9,7 @@
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('CACHE_LITE_ERROR_RETURN', 1);
 define('CACHE_LITE_ERROR_DIE', 8);
 

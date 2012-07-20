@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOMIT_INCLUDE_PATH')){
 	define('DOMIT_INCLUDE_PATH', (dirname(__file__) . "/"));
 }

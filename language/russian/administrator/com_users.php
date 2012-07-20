@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 DEFINE('_NEW_USER_MESSAGE_SUBJECT', 'Новые данные пользователя');

@@ -14,6 +14,6 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('DOMIT_INCLUDE_PATH', (dirname(__file__) . "/"));
 require_once (DOMIT_INCLUDE_PATH . 'xml_domit_lite_parser.php');

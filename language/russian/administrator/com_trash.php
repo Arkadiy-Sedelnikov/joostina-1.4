@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_OBJECT_DELETION', 'Удаление объектов');
 DEFINE('_OBJECTS_TO_DELETE', 'Удаляемые объекты');

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_QUICK_BUTTONS', 'Кнопки быстрого доступа');
 DEFINE('_DISPLAY_METHOD', 'Отображение');

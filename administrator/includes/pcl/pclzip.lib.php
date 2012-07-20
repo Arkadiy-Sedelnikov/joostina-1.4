@@ -8,7 +8,7 @@
  * License GNU/GPL - Vincent Blavet - Janvier 2001
  * http://www.phpconcept.net & http://phpconcept.free.fr
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('PCLZIP_READ_BLOCK_SIZE')){
 	define('PCLZIP_READ_BLOCK_SIZE', 2048);
 }

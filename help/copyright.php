@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 ?>
 
 Joostina! распространяется по лицензии GNU General Public License.
@@ -211,10 +211,6 @@ phpMailer
 tar-archive
 Авторское право: 1997-2003 The PHP Group
 Лицензия: PHP License
-
-vcard
-Авторское право: Kai Blankenhorn
-Лицензия: GNU General Public License (GPL)
 
 wz-tooltip
 Авторское право: 2002-2004 Walter Zorn

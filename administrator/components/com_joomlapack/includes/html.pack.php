@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $task = mosGetParam($_REQUEST, 'task', '');
 $act = mosGetParam($_REQUEST, 'act', 'default');

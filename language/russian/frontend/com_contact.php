@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ENQUIRY_TEXT', 'Это сообщение отправлено с сайта %s. Автор сообщения:');
 DEFINE('_COPY_TEXT', 'Это копия сообщения, которое Вы отправили для %s с сайта %s ');
@@ -36,5 +36,4 @@ DEFINE('_CONTACT_NONE', 'Детали этой контактной записи
 DEFINE('_CONTACT_ONE_EMAIL', 'Нельзя вводить более одного адреса e-mail.');
 DEFINE('_EMAIL_A_COPY', 'Отправить копию сообщения на собственный адрес');
 DEFINE('_CONTACT_DOWNLOAD_AS', 'Скачать информацию в формате');
-DEFINE('_VCARD', 'VCard');
 DEFINE('_FAILID_MESSAGE', 'Сообщение не отправлено');

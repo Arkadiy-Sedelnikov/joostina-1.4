@@ -12,7 +12,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * HTML View class for the Cache component
@@ -28,7 +28,7 @@ class CacheView{
 	 * @param array An array of records
 	 * @param string The URL option
 	 */
-	function displayCache(&$rows, &$client, &$page){
+	function displayCache($rows, $client, $page){
 		?>
 	<table border="0" class="adminheading">
 		<tbody>

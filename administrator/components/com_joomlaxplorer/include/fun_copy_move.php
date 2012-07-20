@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function dir_list($dir){
 	$dir_list = array();
 	$handle = @$GLOBALS['jx_File']->opendir(get_abs_dir($dir));

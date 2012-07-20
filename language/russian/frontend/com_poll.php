@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ALERT_ENABLED', 'Cookies должны быть разрешены!');
 DEFINE('_ALREADY_VOTE', 'Вы уже проголосовали в этом опросе!');

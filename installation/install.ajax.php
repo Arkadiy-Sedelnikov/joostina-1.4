@@ -8,7 +8,7 @@
 */
 
 // устанавливаем родительский флаг
-define('_VALID_MOS',1);
+define('_JLINDEX',1);
 
 // проверка файла конфигурации
 if(!file_exists('../configuration.php')) {

@@ -1,6 +1,6 @@
 <?php
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!defined("_GDRATING_MES01")) define('_GDRATING_MES01', 'голос');
 if(!defined("_GDRATING_MES02")) define('_GDRATING_MES02', 'голоса');

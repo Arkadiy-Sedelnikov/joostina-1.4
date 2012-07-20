@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 require_once ($mainframe->getPath('installer_class', 'installer'));
@@ -26,7 +26,7 @@ if(!$acl->acl_check('administration', 'install', 'users', $my->usertype, $elemen
 	mosRedirect('index2.php', _NOT_AUTH);
 }
 
-$path = JPATH_BASE_ADMIN . "/components/com_installer/$element/$element.php";
+$path = _JLPATH_ADMINISTRATOR . "/components/com_installer/$element/$element.php";
 
 if(file_exists($path)){
 	require $path;

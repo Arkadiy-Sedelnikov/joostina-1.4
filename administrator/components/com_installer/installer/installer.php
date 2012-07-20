@@ -8,7 +8,7 @@
  */
 //error_reporting(E_ALL);
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('installer_html', 'installer'));
 require_once ($mainframe->getPath('installer_class', 'installer'));
@@ -103,7 +103,7 @@ class mosGeneralInstaller{
 		$installType = $pre_installer->getInstallType();
 		if($installType != "" && array_key_exists($installType, $classMap)){
 
-			require (JPATH_BASE_ADMIN . "/components/com_installer/$installType/$installType.class.php");
+			require (_JLPATH_ADMINISTRATOR . "/components/com_installer/$installType/$installType.class.php");
 
 			$installer = new $classMap[$installType]($pre_installer);
 
@@ -154,7 +154,7 @@ class mosGeneralInstaller{
 			$installType = $pre_installer->getInstallType();
 			if($installType != "" && array_key_exists($installType, $classMap)){
 
-				require (JPATH_BASE_ADMIN . DS . 'components' . DS . 'com_installer' . DS . $installType . DS . $installType . '.class.php');
+				require (_JLPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_installer' . DS . $installType . DS . $installType . '.class.php');
 
 				$installer = new $classMap[$installType]($pre_installer);
 
@@ -197,7 +197,7 @@ class mosGeneralInstaller{
 
 		$installType = $pre_installer->getInstallType();
 		if($installType != "" && array_key_exists($installType, $classMap)){
-			require (JPATH_BASE_ADMIN . "/components/com_installer/$installType/$installType.class.php");
+			require (_JLPATH_ADMINISTRATOR . "/components/com_installer/$installType/$installType.class.php");
 			$installer = new $classMap[$installType]($pre_installer);
 			$ret = $installer->install($path);
 			HTML_installer::showInstallMessage($installer->getError(), _UPLOAD_OF_EXT . ': ' . $element . ' - ' . ($ret ? _SUCCESS : _UNSUCCESS), $installer->returnTo($option, $element, $client));

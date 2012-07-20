@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $_MAMBOTS->registerFunction('userProfile', 'botUserContacts');
 $_MAMBOTS->registerFunction('userProfileTab', 'botUserContacts_tab');

@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
  * @subpackage Wrapper
  */
 class HTML_wrapper{
-	public static function displayWrap(&$row, &$params){
+	public static function displayWrap($row, $params){
 		?>
 	<script language="javascript" type="text/javascript">
 		function iFrameHeight() {

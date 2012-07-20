@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 function writableCell($folder){
 	echo '<tr><td class="item">' . $folder . '/</td><td align="left">';

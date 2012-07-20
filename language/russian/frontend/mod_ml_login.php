@@ -8,6 +8,6 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('_LOGIN_TEXT')) define ('_LOGIN_TEXT', 'Вход');
 DEFINE('_SITE_AUTH', 'Авторизация на сайте');

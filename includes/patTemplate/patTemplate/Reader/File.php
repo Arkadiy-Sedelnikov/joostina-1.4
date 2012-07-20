@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Reader_File extends patTemplate_Reader{
 	var $_name = 'File';
 	var $_isRemote = false;

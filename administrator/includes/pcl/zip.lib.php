@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // $Id: zip.lib.php 47 2005-09-15 02:55:27Z rhuk $
 //

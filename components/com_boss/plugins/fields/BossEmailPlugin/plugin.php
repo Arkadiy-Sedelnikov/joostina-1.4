@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class BossEmailPlugin{
 
@@ -39,7 +39,7 @@ class BossEmailPlugin{
 		if($value != ""){
 			switch($config){
 				case 2:
-					$emailForm = sefRelToAbs("index.php?option=com_boss&amp;task=show_message_form&amp;mode=0&amp;contentid=" . $content->id . "&amp;directory=$directory");
+					$emailForm = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_message_form&amp;mode=0&amp;contentid=" . $content->id . "&amp;directory=$directory");
 					$return .= '<a href="' . $emailForm . '">' . BOSS_EMAIL_FORM . '</a>';
 					break;
 				case 1:

@@ -1,30 +1,31 @@
 <?php
 /**
- * @package Joostina
- * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
+ * Joostina Lotos CMS 1.4
+ * @package   INDEX
+ * @version   1.4.1
+ * @author    Gold Dragon <illusive@bk.ru>
+ * @link      http://gd.joostina-cms.ru
+ * @copyright 2000-2012 Gold Dragon
+ * @license   GNU GPL: http://www.gnu.org/licenses/gpl-3.0.html
+ *            Joostina Lotos CMS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL. (help/copyright.php)
+ * @Date      25.06.2012
  */
 
-// Установка флага родительского файла
-define('_VALID_MOS', 1);
+// рассчет памяти
+define('_MEM_USAGE_START', memory_get_usage());
 
-define('DS', DIRECTORY_SEPARATOR);
+// Установка флага родительского файла
+define('_JLINDEX', 1);
+
+// корень файлов
+define('_JLPATH_ROOT', __DIR__);
 
 // подключение основных глобальных переменных
-define('JPATH_BASE', dirname(__FILE__));
-require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
-
-// рассчет памяти
-if(function_exists('memory_get_usage')){
-	define('_MEM_USAGE_START', memory_get_usage());
-}
+require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
 
 // проверка конфигурационного файла, если не обнаружен, то загружается страница установки
-if(!file_exists('configuration.php') || filesize('configuration.php') < 10){
-	$self = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
-	header('Location: http://' . $_SERVER['HTTP_HOST'] . $self . 'installation/index.php');
+if(!file_exists(JPATH_BASE . DS . 'configuration.php')){
+	header('Location: ../installation/index.php');
 	exit();
 }
 
@@ -37,25 +38,30 @@ require_once (JPATH_BASE . DS . 'configuration.php');
 // live_site
 define('JPATH_SITE', $mosConfig_live_site);
 
-// подключение SEF
-require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
-JSef::run($mosConfig_sef, $mosConfig_com_frontpage_clear);
-
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 
 // считаем время за которое сгенерирована страница
 $mosConfig_time_generate ? $sysstart = microtime(true) : null;
 
-// Проверка SSL - $http_host возвращает <url_сайта>:<номер_порта, если он 443>
-$http_host = explode(':', $_SERVER['HTTP_HOST']);
-if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset($http_host[1]) && $http_host[1] == 443) && substr($mosConfig_live_site, 0, 8) != 'https://'){
-	$mosConfig_live_site = 'https://' . substr($mosConfig_live_site, 7);
-}
-unset($http_host);
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
 
 // подключение главного файла - ядра системы
+// TODO GoDr: заменить со временем на core.php
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
+
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
+
+/*
+$q = JCore::getInstance();
+$q->getLib('url');
+
+$aaa = JLUrl::getInstance('http://joostina141.qqq/index.php?option=com_boss&task=show_all&directory=7');
+_pdump($aaa->_vars);
+*/
 
 //Проверка подпапки установки, удалена при работе с SVN
 if(file_exists('installation/index.php') && joomlaVersion::get('SVN') == 0){
@@ -77,7 +83,6 @@ require_once (JPATH_BASE . DS . 'includes' . DS . 'frontend.php');
 
 // mainframe - основная рабочая среда API, осуществляет взаимодействие с 'ядром'
 $mainframe = mosMainFrame::getInstance();
-
 $option = $mainframe->option;
 
 // отображение страницы выключенного сайта
@@ -257,6 +262,7 @@ echo $mosConfig_time_generate ? '<div id="time_gen">' . round((microtime(true) -
 
 // вывод лога отладки
 if($mosConfig_debug){
+	JCore::getErrorArr();
 	if(defined('_MEM_USAGE_START')){
 		$mem_usage = (memory_get_usage() - _MEM_USAGE_START);
 		jd_log_top('<b>' . _SCRIPT_MEMORY_USING . ':</b> ' . sprintf('%0.2f', $mem_usage / 1048576) . ' MB');
@@ -270,6 +276,6 @@ doGzip();
 ($mosConfig_optimizetables == 1) ? joostina_api::optimizetables() : null;
 
 // функця для останова процессов и вывода места ошибки
-function fDie($file='', $line=''){
+function fDie($file = '', $line = ''){
 	die ("Error" . " File: " . $file . " on line: " . $line);
 }

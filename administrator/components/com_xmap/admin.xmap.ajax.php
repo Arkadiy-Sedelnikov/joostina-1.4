@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $acl = gacl::getInstance();
 
@@ -29,8 +29,8 @@ define ('_XMAP_JOOMLA15', 0);
 define('_XMAP_MAMBO', 0);
 
 $xmapLang = strtolower($mosConfig_lang);
-$xmapComponentPath = JPATH_BASE_ADMIN . '/components/com_xmap';
-$xmapAdministratorPath = JPATH_BASE_ADMIN;
+$xmapComponentPath = _JLPATH_ADMINISTRATOR . '/components/com_xmap';
+$xmapAdministratorPath = _JLPATH_ADMINISTRATOR;
 $xmapComponentURL = JPATH_SITE . DS . JADMIN_BASE . '/components/com_xmap';
 $xmapAdministratorURL = JPATH_SITE . DS . JADMIN_BASE;
 $xmapSiteURL = JPATH_SITE;

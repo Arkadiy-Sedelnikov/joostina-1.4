@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -39,11 +39,11 @@ class dom_xmlrpc_array_document{
 
 	}
 
-	function &getParams(){
+	function getParams(){
 		return $this->params;
 	}
 
-	function &getParam($index){
+	function getParam($index){
 		return $this->params[$index];
 	}
 

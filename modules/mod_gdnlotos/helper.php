@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class mod_gdnlotos_Helper{
 	private $moduleclass_sfx;
@@ -286,7 +286,7 @@ class mod_gdnlotos_Helper{
 	 */
 	private function getReference($row){
 		$search = array('[MODULECLASS_SFX]', '[REFERENCE]');
-		$link = sefRelToAbs('index.php?option=com_boss&amp;task=show_content&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id . '&amp;contentid=' . $row->id);
+		$link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_content&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id . '&amp;contentid=' . $row->id);
 		$tpl = file_get_contents($this->tpl_dir . DS . 'reference.tpl');
 		$row->title = Text::gdQuoteReplace($row->title);
 		$row->title = '<a href="' . $link . '" title="' . $row->title . '">' . $row->title . '</a>';
@@ -330,9 +330,9 @@ class mod_gdnlotos_Helper{
 		// обработка заголовка модуля
 		if($this->modul_link){
 			if($this->modul_link == 1){
-				$link = sefRelToAbs("index.php?option=com_boss&amp;task=show_all&amp;directory=" . $this->directory);
+				$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_all&amp;directory=" . $this->directory);
 			} else{
-				$link = sefRelToAbs("index.php?option=com_boss&amp;task=show_category&amp;directory=" . $this->directory . "&amp;catid=" . $this->catid);
+				$link = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_category&amp;directory=" . $this->directory . "&amp;catid=" . $this->catid);
 			}
 			$this->script .= '$("#module_' . $this->moduleid . ' > h3").wrap(\'<a href="' . $link . '" />\');';
 		}
@@ -353,7 +353,7 @@ class mod_gdnlotos_Helper{
 	 */
 	private function getItem($row, $file){
 		// ссылка на метариал
-		$link = sefRelToAbs('index.php?option=com_boss&amp;task=show_content&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id . '&amp;contentid=' . $row->id);
+		$link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_content&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id . '&amp;contentid=' . $row->id);
 		// обработка заголовка
 		if($this->item_title){
 			$row->title = Text::gdQuoteReplace($row->title);
@@ -368,7 +368,7 @@ class mod_gdnlotos_Helper{
 		if($this->directory_name){
 			$dir_name = $this->dir_name;
 			if($this->directory_link AND $this->directory){
-				$link_dir = sefRelToAbs('index.php?option=com_boss&amp;task=show_all&amp;directory=' . $this->directory);
+				$link_dir = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_all&amp;directory=' . $this->directory);
 				$dir_name = '<a href="' . $link_dir . '" title="' . $dir_name . '">' . $dir_name . '</a>';
 			}
 			$tpl = file_get_contents($this->tpl_dir . DS . $file . '.sec.tpl');
@@ -379,7 +379,7 @@ class mod_gdnlotos_Helper{
 		if($this->category_name){
 			$row->cat_name = Text::gdQuoteReplace($row->cat_name);
 			if($this->category_link AND $this->directory){
-				$link_cat = sefRelToAbs('index.php?option=com_boss&amp;task=show_category&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id);
+				$link_cat = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;directory=' . $this->directory . '&amp;catid=' . $row->category_id);
 				$row->cat_name = '<a href="' . $link_cat . '" title="' . $row->cat_name . '">' . $row->cat_name . '</a>';
 			}
 			$tpl = file_get_contents($this->tpl_dir . DS . $file . '.cat.tpl');
@@ -670,7 +670,7 @@ class mod_gdnlotos_Helper{
 			}
 			if($params == '3' OR $params == '4'){
 				$author_link = 'index.php?option=com_users&amp;task=profile&amp;user=' . $row->userid;
-				$author_seflink = sefRelToAbs($author_link);
+				$author_seflink = JSef::getUrlToSef($author_link);
 				$result = '<a href="' . $author_seflink . '">' . $result . '</a>';
 			}
 		} else{

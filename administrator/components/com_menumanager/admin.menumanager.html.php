@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * HTML class for all menumanager component output
@@ -118,7 +118,7 @@ class HTML_menumanager{
 	 * writes a form to take the name of the menu you would like created
 	 * @param option    display options for the form
 	 */
-	public static function edit(&$row, $option){
+	public static function edit($row, $option){
 		$new = $row->menutype ? 0 : 1;
 		mosCommonHTML::loadOverlib();
 		$row->menutype = htmlspecialchars($row->menutype);

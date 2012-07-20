@@ -8,6 +8,6 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_CHANGE_QUICK_BUTTONS', 'Изменить кнопки');

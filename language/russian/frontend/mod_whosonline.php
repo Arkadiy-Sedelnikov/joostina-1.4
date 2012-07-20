@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_WE_HAVE', 'Сейчас на сайте находятся: <br />');
 DEFINE('_AND', ' и ');

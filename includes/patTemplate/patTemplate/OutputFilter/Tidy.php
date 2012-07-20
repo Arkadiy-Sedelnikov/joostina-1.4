@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PATTEMPLATE_OUTPUTFILTER_TIDY_ERROR_NOT_SUPPORTED', 'patTemplate::Outputfilter::Tidy::1');
 class patTemplate_OutputFilter_Tidy extends patTemplate_OutputFilter{
 	var $_name = 'Tidy';

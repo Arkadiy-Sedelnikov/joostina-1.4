@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class defaultFilter{
 	var $directory = null;
@@ -32,7 +32,7 @@ class defaultFilter{
 	}
 
 	public function displayFilter(){
-		$action = sefRelToAbs('index.php?option=com_boss&directory=' . $this->directory . '&task=show_result&catid=' . $this->category->id);
+		$action = JSef::getUrlToSef('index.php?option=com_boss&directory=' . $this->directory . '&task=show_result&catid=' . $this->category->id);
 		?>
 	<form action="<?php echo $action; ?>" name="adminform" method="post">
 		<?php include('filter.php'); ?>

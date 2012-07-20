@@ -13,7 +13,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Class used to hold Cache data

@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('DOMIT_ATTRIBUTEPARSER_STATE_ATTR_NONE', 0);
 define('DOMIT_ATTRIBUTEPARSER_STATE_ATTR_KEY', 1);
 define('DOMIT_ATTRIBUTEPARSER_STATE_ATTR_VALUE', 2);

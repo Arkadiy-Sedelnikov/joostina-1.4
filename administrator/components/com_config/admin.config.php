@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 	mosRedirect('index2.php?', _NOT_AUTH);
@@ -389,7 +389,6 @@ function showconfig($option){
 	$lists['icons'] = mosHTML::yesnoRadioList('config_icons', 'class="inputbox"', $row->config_icons);
 	$lists['mtage_base'] = mosHTML::yesnoRadioList('config_mtage_base', 'class="inputbox"', $row->config_mtage_base);
 	$lists['config_custom_print'] = mosHTML::yesnoRadioList('config_custom_print', 'class="inputbox"', $row->config_custom_print);
-	$lists['config_old_toolbar'] = mosHTML::yesnoRadioList('config_old_toolbar', 'class="inputbox"', $row->config_old_toolbar);
 	$global_templates = array(
 		mosHTML::makeOption(0, _GLOBAL_TEMPLATES_SYSTEMDIR),
 		mosHTML::makeOption(1, _GLOBAL_TEMPLATES_CURTEMPLATE),

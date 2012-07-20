@@ -2,7 +2,7 @@
 
 if(isset($_SERVER['HTTP_REFERER'])){
 	// Установка флага родительского файла
-	define('_VALID_MOS', 1);
+	define('_JLINDEX', 1);
 
 	define('DS', DIRECTORY_SEPARATOR);
 

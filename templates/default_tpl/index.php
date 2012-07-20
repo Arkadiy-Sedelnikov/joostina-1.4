@@ -1,5 +1,5 @@
 <?php
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 global $my, $mainframe;
 ?>
 <!DOCTYPE html>

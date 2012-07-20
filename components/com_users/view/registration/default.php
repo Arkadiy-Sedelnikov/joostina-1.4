@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -46,7 +46,7 @@ defined('_VALID_MOS') or die();
 </script>
 <div class="registration_page">
 
-	<form action="<?php echo sefRelToAbs('index.php') ?>" method="post" name="mosForm" id="mosForm">
+	<form action="<?php echo JSef::getUrlToSef('index.php') ?>" method="post" name="mosForm" id="mosForm">
 		<div class="componentheading"><h1><?php echo $params->get('title'); ?></h1></div>
 
 		<?php if($params->get('pre_text')){ ?>

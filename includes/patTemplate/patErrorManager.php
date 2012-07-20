@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PATERRORMANAGER_ERROR_ILLEGAL_OPTIONS', 1);
 define('PATERRORMANAGER_ERROR_CALLBACK_NOT_CALLABLE', 2);
 define('PATERRORMANAGER_ERROR_ILLEGAL_MODE', 3);

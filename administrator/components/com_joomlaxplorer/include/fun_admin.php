@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function admin($admin, $dir){
 	show_header($GLOBALS["messages"]["actadmin"]);
 	include _QUIXPLORER_PATH . "/include/js_admin.php";

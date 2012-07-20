@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class JCachePage extends JCache{
 

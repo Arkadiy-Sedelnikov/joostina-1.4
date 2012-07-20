@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_NEWSFEEDS_MANAGEMENT', 'Управление лентами новостей');
 DEFINE('_NEWSFEED_TITLE', 'Лента новостей');

@@ -7,7 +7,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__) . "/Relay.php";
 class File_Archive_Reader_AddBaseName extends File_Archive_Reader_Relay{
 	var $baseName;

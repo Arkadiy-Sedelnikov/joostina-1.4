@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Stat_File extends patTemplate_Stat{
 	function getModificationTime($input){
 		$fullPath = $this->_options['root'] . '/' . $input;

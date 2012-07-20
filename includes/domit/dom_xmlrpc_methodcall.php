@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -47,10 +47,10 @@ class dom_xmlrpc_methodcall extends dom_xmlrpc_builder{
 		$this->addMultiCallByRef($methodName, $paramsArray);
 	}
 
-	function addMultiCallByRef($methodName, &$paramsArray){
+	function addMultiCallByRef($methodName, $paramsArray){
 		$myCall = array(DOM_XMLRPC_TYPE_METHODNAME => $methodName,
 						DOM_XMLRPC_TYPE_PARAMS     => $paramsArray);
-		$this->multicall[] = &$myCall;
+		$this->multicall[] = $myCall;
 	}
 
 	function toString(){

@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -24,8 +24,8 @@ class dom_xmlrpc_object_parser extends dom_xmlrpc_parser{
 
 	var $objectDefinitionHandler = null;
 
-	function dom_xmlrpc_object_parser(&$objectDefinitionHandler){
-		$this->objectDefinitionHandler = &$objectDefinitionHandler;
+	function dom_xmlrpc_object_parser($objectDefinitionHandler){
+		$this->objectDefinitionHandler = $objectDefinitionHandler;
 	}
 
 	function startElement($parser, $name, $attrs){
@@ -136,16 +136,16 @@ class dom_xmlrpc_object_parser extends dom_xmlrpc_parser{
 
 
 							$serialized = &$value->getBinary();
-							$this->lastArray[$upper] = &unserialize($serialized);
+							$this->lastArray[$upper] = unserialize($serialized);
 						} else{
 
 							$myObj = &$this->lastArray[$upper];
-							$myObj->$currentName = &$value;
+							$myObj->$currentName = $value;
 						}
 					}
 				} else{
 
-					$this->lastArray[$upper][] = &$value;
+					$this->lastArray[$upper][] = $value;
 				}
 		} else{
 

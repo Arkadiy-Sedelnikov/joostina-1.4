@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Reader_IT extends patTemplate_Reader{
 	var $_name = 'IT';
 	var $_files = array();

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $acl = &gacl::getInstance();
 
@@ -17,6 +17,6 @@ if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 }
 
 // подключение класса конфигурации
-require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/configuration.php");
-require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/sajax.php");
-require_once (JPATH_BASE_ADMIN . "/components/com_joomlapack/includes/ajaxtool.php");
+require_once (_JLPATH_ADMINISTRATOR . "/components/com_joomlapack/includes/configuration.php");
+require_once (_JLPATH_ADMINISTRATOR . "/components/com_joomlapack/includes/sajax.php");
+require_once (_JLPATH_ADMINISTRATOR . "/components/com_joomlapack/includes/ajaxtool.php");

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_MENU_MANAGER', 'Управление меню');
 DEFINE('_MENU_ITEMS_UNPUBLISHED', 'Скрыто');

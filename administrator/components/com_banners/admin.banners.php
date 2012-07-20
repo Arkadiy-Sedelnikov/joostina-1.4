@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_banners'))){
@@ -307,7 +307,7 @@ function viewBanners($option){
 		return false;
 	}
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
@@ -719,7 +719,7 @@ function viewBannerClients($option){
 	$date = mosCurrentDate("%Y-%m-%d");
 	$time = mosCurrentDate("%H:%M:%S");
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
@@ -941,7 +941,7 @@ function viewCategories($option){
 		return false;
 	}
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$where = '';
@@ -1528,7 +1528,7 @@ function doBackup(){
 /*
 ** Return state of the banner
 */
-function getStato(&$row){
+function getStato($row){
 
 	if($row->imp_made == $row->imp_total){
 		return BANNER_TERMINATO;

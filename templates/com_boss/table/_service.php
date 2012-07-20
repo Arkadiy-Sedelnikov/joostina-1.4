@@ -1,6 +1,6 @@
 <?php
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $positions = array(
 	'category' => array(

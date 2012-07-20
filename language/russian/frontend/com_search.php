@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_PROMPT_KEYWORD', 'Поиск по ключевой фразе');
 DEFINE('_SEARCH_MATCHES', 'найдено %d совпадений');

@@ -12,7 +12,7 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 define('PATTEMPLATE_FUNCTION_COMPILE', 1);
 define('PATTEMPLATE_FUNCTION_RUNTIME', 2);

@@ -5,7 +5,7 @@
 	<?php $this->displayWarningNoAccount(); ?>
 </div>
 <div class="boss-rules">
-	<a href="<?php echo sefRelToAbs("index.php?option=com_boss&task=show_rules&directory=$this->directory"); ?>" target=_blank>
+	<a href="<?php echo JSef::getUrlToSef("index.php?option=com_boss&task=show_rules&directory=$this->directory"); ?>" target=_blank>
 		<?php echo BOSS_RULESREAD; ?>
 	</a>
 </div>

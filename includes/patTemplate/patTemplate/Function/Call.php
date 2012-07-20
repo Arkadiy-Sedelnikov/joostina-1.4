@@ -12,13 +12,13 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('PATTEMPLATE_FUNCTION_CALL_ERROR_NO_TEMPLATE', 'patTemplate::Function::Call::NT');
 class patTemplate_Function_Call extends patTemplate_Function{
 	var $_name = 'Call';
 	var $_tmpl;
 
-	function setTemplateReference(&$tmpl){
+	function setTemplateReference($tmpl){
 		$this->_tmpl = &$tmpl;
 	}
 

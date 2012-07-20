@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -44,7 +44,7 @@ class mosTemplate extends mosDBTable{
 	/**
 	 * @param database A database connector object
 	 */
-	function mosTemplate(&$database){
+	function mosTemplate($database){
 		$this->mosDBTable('#__templates', 'id', $database);
 	}
 }

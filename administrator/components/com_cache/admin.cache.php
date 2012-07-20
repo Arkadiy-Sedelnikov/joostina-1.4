@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /*
  * Make sure the user is authorized to view this page
@@ -65,7 +65,7 @@ class CacheController{
 
 		$cmData = new CacheData(JPATH_BASE . '/cache');
 
-		require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($cmData->getGroupCount(), $limitstart, $limit);
 		CacheView::displayCache($cmData->getRows($limitstart, $limit), $client, $pageNav);
 	}

@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!function_exists('file_put_contents')){
 	function file_put_contents($filename, $filecont){
 		$handle = fopen($filename, 'w');
@@ -41,7 +41,7 @@ function read_bookmarks(){
 			return array();
 		} else{
 			file_put_contents($bookmarkfile,
-				";<?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n{$GLOBALS['messages']['homelink']}=\n");
+				";<?php if( !defined( '_JEXEC' ) && !defined( '_JLINDEX' ) ) die( 'Restricted access' ); ?>\n{$GLOBALS['messages']['homelink']}=\n");
 			return array($GLOBALS['messages']['homelink'] => '');
 		}
 	}
@@ -75,7 +75,7 @@ function modify_bookmark($task, $dir){
 			$bookmarks = array_flip($bookmarks);
 			$msg = jx_alertBox($GLOBALS['messages']['bookmark_was_removed']);
 	}
-	$inifile = "; <?php if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' ); ?>\n";
+	$inifile = "; <?php if( !defined( '_JEXEC' ) && !defined( '_JLINDEX' ) ) die( 'Restricted access' ); ?>\n";
 	$inifile .= $GLOBALS['messages']['homelink'] . "=\n";
 	foreach($bookmarks as $alias => $directory){
 		if(empty($directory) || empty($alias))

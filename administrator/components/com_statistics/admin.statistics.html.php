@@ -8,14 +8,14 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
  * @subpackage Statistics
  */
 class HTML_statistics{
-	function show(&$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option){
+	function show($browsers, $platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option){
 		$tab = mosGetParam($_REQUEST, 'tab', 'tab1');
 		$width = 400; // width of 100%
 		$tabs = new mosTabs(1);
@@ -176,7 +176,7 @@ class HTML_statistics{
 	<?php
 	}
 
-	function pageImpressions(&$rows, $pageNav, $option, $task){
+	function pageImpressions($rows, $pageNav, $option, $task){
 		?>
 	<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 		<tr>
@@ -218,7 +218,7 @@ class HTML_statistics{
 	<?php
 	}
 
-	function showSearches(&$rows, $pageNav, $option, $task, $showResults){
+	function showSearches($rows, $pageNav, $option, $task, $showResults){
 		$mainframe = mosMainFrame::getInstance();
 		;
 		mosCommonHTML::loadOverlib();

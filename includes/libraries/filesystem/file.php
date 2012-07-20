@@ -13,7 +13,7 @@
  */
 
 // Check to ensure this file is within the rest of the framework
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once(dirname(__FILE__) . DS . 'path.php');
 

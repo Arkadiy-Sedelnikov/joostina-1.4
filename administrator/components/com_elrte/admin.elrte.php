@@ -11,7 +11,7 @@
  * @license see license.txt
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_elrte' . DS . 'language' . DS . 'russian.php';
 
 switch($task){
@@ -229,7 +229,7 @@ function save_config_elrte(){ //конфиг редактора
 	$input .= '$editor_width = \'' . $editor_width . "';\n";
 
 	$contents = "<?php\n";
-	$contents .= "defined('_VALID_MOS') or die();\n\n";
+	$contents .= "defined('_JLINDEX') or die();\n\n";
 	$contents .= $input;
 	$contents .= "\n?>";
 	if(!is_writable(dirname(__FILE__) . '/config_elrte.php')){
@@ -334,7 +334,7 @@ function save_config_elfinder(){
 	$input .= '$remember_last_dir = \'' . $remember_last_dir . "';\n";
 
 	$contents = "<?php\n";
-	$contents .= "defined('_VALID_MOS') or die();\n\n";
+	$contents .= "defined('_JLINDEX') or die();\n\n";
 	$contents .= $input;
 	$contents .= "\n?>";
 	if(!is_writable(dirname(__FILE__) . '/config_elfinder.php')){

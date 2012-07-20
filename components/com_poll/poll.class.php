@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -40,7 +40,7 @@ class mosPoll extends mosDBTable{
 	/**
 	 * @param database A database connector object
 	 */
-	function mosPoll(&$db){
+	function mosPoll($db){
 		$this->mosDBTable('#__polls', 'id', $db);
 	}
 

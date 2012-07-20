@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 define('DOMIT_RSS_ELEMENT_CHANNEL', 'channel');
 define('DOMIT_RSS_ELEMENT_ITEM', 'item');

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Users Table Class
@@ -253,7 +253,7 @@ class mosUser extends mosDBTable{
 		$mainframe = mosMainFrame::getInstance();
 
 		$url = 'index.php?option=com_users&task=profile&user=' . $user->id;
-		return sefRelToAbs($url);
+		return JSef::getUrlToSef($url);
 	}
 
 	/**
@@ -409,7 +409,7 @@ class mosUser extends mosDBTable{
 	}
 
 	function paginate($total, $page, $limit){
-		mosMainFrame::addLib('pageNavigation');
+		mosMainFrame::addLib('pagenavigation');
 		$r = new mosPageNav($total, $page, $limit);
 		return $r;
 	}
@@ -555,7 +555,7 @@ class userHelper{
 		$mainframe = mosMainFrame::getInstance();
 		$action = 'ajax.index.php';
 		if(!$mainframe->isAdmin()){
-			$action = sefRelToAbs($action);
+			$action = JSef::getUrlToSef($action);
 		}
 
 		?>

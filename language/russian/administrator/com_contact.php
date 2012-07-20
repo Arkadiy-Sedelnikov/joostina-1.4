@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_CONTACT_MANAGEMENT', 'Управление контактами');
 DEFINE('_RELATED_WITH_USER', 'Связано с пользователем');

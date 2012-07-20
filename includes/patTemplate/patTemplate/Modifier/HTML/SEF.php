@@ -12,14 +12,10 @@
  * @link        http://www.php-tools.net
  */
 // ������ ������� �������
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class patTemplate_Modifier_SEF extends patTemplate_Modifier{
 	function modify($value, $params = array()){
-		if(function_exists('sefRelToAbs')){
-			return sefRelToAbs($value);
-		} else{
-			return $value;
-		}
+		return JSef::getUrlToSef($value);
 	}
 }
 

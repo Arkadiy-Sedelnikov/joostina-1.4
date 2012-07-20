@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // корень Медиа - менеджера из глобальной конфигурации
 global $mosConfig_media_dir, $mosConfig_cachepath;
@@ -185,7 +185,7 @@ switch($task){
 
 // распаковка ZIP архивов
 function unzipzipfile($curdirpath, $curfile, $destindir){
-	include_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
+	include_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclzip.lib.php');
 
 	$path = JWMMXTD_STARTABSPATH . $curdirpath . DS . $curfile; // файл для распаковки
 	$path2 = JWMMXTD_STARTABSPATH . $destindir . DS; // каталог для распаковки

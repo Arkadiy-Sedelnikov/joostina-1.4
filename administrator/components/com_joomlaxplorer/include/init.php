@@ -10,7 +10,7 @@
  * @author The joomlaXplorer project (http://joomlacode.org/gf/project/joomlaxplorer/)
  * @author The  The QuiX project (http://quixplorer.sourceforge.net)
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(isset($_SERVER)){
 	$GLOBALS['__GET'] = &$_GET;
 	$GLOBALS['__POST'] = &$_POST;

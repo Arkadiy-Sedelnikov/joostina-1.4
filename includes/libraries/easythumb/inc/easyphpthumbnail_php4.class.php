@@ -13,7 +13,7 @@
  * v1.5 OPML support by Dirk Clemens
  */
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
 

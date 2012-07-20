@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $moduleclass_sfx = $params->get('moduleclass_sfx');
 $button_vis = $params->get('button', 1);

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 /* vim: set expandtab tabstop=4 shiftwidth=4:*/
 // +----------------------------------------------------------------------+
 // | PHP version 4                                                        |

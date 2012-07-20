@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_JOOSTINA_CONTROL_PANEL', 'Панель управления [ Joostina ]');
 DEFINE('_GO_TO_MAIN_ADMIN_PAGE', 'Перейти на главную страницу Панели управления');

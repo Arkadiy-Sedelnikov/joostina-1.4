@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('admin_html'));
 
@@ -121,7 +121,7 @@ function showPageImpressions($option, $task){
 	$configObject = new frontpageConfig($database);
 	$directory = $configObject->get('directory', 0);
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 
 	if($directory == 0){
 		$total = 0;
@@ -160,7 +160,7 @@ function showSearches($option, $task, $showResults = null){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$query = "SELECT* FROM #__core_log_searches ORDER BY hits DESC";

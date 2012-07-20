@@ -8,11 +8,11 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $option;
-require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/sajax.php');
-require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/ajaxtool.php');
+require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/sajax.php');
+require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/ajaxtool.php');
 ?>
 <script language="JavaScript" type="text/javascript">
 	<?php

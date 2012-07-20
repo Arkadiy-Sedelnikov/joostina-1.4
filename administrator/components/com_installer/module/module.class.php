@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Module installer
@@ -110,10 +110,8 @@ class mosInstallerModule extends mosInstaller{
 
 			$row->store();
 
-			$sql = "INSERT INTO `#__modules_com`  (`id`, `moduleid`, `option`, `directory`, `category`, `task`)
-		 		VALUES (NULL, '" . $row->id . "', '0',  '0',  '0',  '');";
-
-			$database->setQuery($sql);
+			$query = "INSERT INTO #__modules_com VALUES ('', " . (int)$row->id . ", '0', 0, 0, '' )";
+			$database->setQuery($query);
 			if(!$database->query()){
 				$this->setError(1, _SQL_ERROR . ': ' . $database->stderr(true));
 				return false;
@@ -175,7 +173,7 @@ class mosInstallerModule extends mosInstaller{
 			if(!$row->client_id){
 				$basepath = JPATH_BASE . '/modules/';
 			} else{
-				$basepath = JPATH_BASE_ADMIN . '/modules/';
+				$basepath = _JLPATH_ADMINISTRATOR . '/modules/';
 			}
 
 			$xmlfile = $basepath . $row->module . '.xml';
@@ -229,7 +227,7 @@ class mosInstallerModule extends mosInstaller{
 		$client = $mosinstall->getAttribute('client');
 
 		if($client == 'administrator'){
-			$basepath = JPATH_BASE_ADMIN . "/modules/";
+			$basepath = _JLPATH_ADMINISTRATOR . "/modules/";
 		} else{
 			$basepath = JPATH_BASE . "/modules/";
 		}

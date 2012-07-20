@@ -8,7 +8,7 @@
  * License GNU/GPL - Vincent Blavet - Janvier 2001
  * http://www.phpconcept.net & http://phpconcept.free.fr
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined("PCL_TAR")){
 	define("PCL_TAR", 1);
 	if(!isset($g_pcltar_lib_dir))

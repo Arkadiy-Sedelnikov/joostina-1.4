@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 mosMainFrame::addLib('dbconfig');
 
@@ -23,7 +23,7 @@ class searchByTagConfig extends dbConfig{
 	 */
 	var $title = _SEARCH_ALL_ITEM_W_TAG;
 
-	function __construct(&$db, $group = 'com_search', $subgroup = 'search_by_tag'){
+	function __construct($db, $group = 'com_search', $subgroup = 'search_by_tag'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
@@ -51,7 +51,7 @@ class searchByTag{
 			}
 		}
 
-		$view_link = sefRelToAbs($view_link);
+		$view_link = JSef::getUrlToSef($view_link);
 
 		return $view_link;
 	}

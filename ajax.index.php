@@ -7,32 +7,49 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
-// Установка флага, что это - родительский файл
-define('_VALID_MOS', 1);
-// корень файлов
-define('JPATH_BASE', dirname(__FILE__));
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
 
-require (JPATH_BASE . '/includes/globals.php');
-require_once ('./configuration.php');
+// Установка флага родительского файла
+define('_JLINDEX', 1);
+
+define('_JLPATH_ROOT', __DIR__);
+
+// подключение основных глобальных переменных
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
+
+// проверка конфигурационного файла, если не обнаружен, то загружается страница установки
+if(!file_exists('configuration.php') || filesize('configuration.php') < 10){
+	$self = rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . '/';
+	header('Location: http://' . $_SERVER['HTTP_HOST'] . $self . 'installation/index.php');
+	exit();
+}
+
+// подключение файла эмуляции отключения регистрации глобальных переменных
+(ini_get('register_globals') == 1) ? require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php') : null;
+
+// подключение файла конфигурации
+require_once (JPATH_BASE . DS . 'configuration.php');
+
 // live_site
 define('JPATH_SITE', $mosConfig_live_site);
+
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
 
-require_once ('includes/joostina.php');
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
+
+// подключение главного файла - ядра системы
+// TODO GoDr: заменить со временем на core.php
+require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
+
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
 
 // отображение состояния выключенного сайта
 if ($mosConfig_offline == 1) {
 	echo 'syte-offline';
 	exit();
-}
-
-if (file_exists(JPATH_BASE . '/components/com_sef/sef.php')) {
-	require_once (JPATH_BASE . '/components/com_sef/sef.php');
-} else {
-	require_once (JPATH_BASE . '/includes/sef.php');
 }
 
 // автоматическая перекодировка в юникод, по умолчанию актвино

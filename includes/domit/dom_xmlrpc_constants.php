@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('DOM_XMLRPC_TYPE_ITEM', 'item');
 define('DOM_XMLRPC_TYPE_INT', 'int');
 define('DOM_XMLRPC_TYPE_I4', 'i4');

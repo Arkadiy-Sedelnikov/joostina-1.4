@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** load the html drawing class*/
 require_once ($mainframe->getPath('front_html'));

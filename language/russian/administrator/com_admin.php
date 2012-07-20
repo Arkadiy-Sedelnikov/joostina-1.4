@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_ABOUT_JOOSTINA', 'О Joostina');
 DEFINE('_ABOUT_SYSTEM', 'О системе');

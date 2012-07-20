@@ -8,11 +8,11 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer';
 
-define("_QUIXPLORER_PATH", JPATH_BASE_ADMIN . "/components/com_joomlaxplorer");
+define("_QUIXPLORER_PATH", _JLPATH_ADMINISTRATOR . "/components/com_joomlaxplorer");
 define("_QUIXPLORER_URL", JPATH_SITE . "/" . JADMIN_BASE . "/components/com_joomlaxplorer");
 
 $GLOBALS['ERROR'] = '';

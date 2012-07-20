@@ -2,10 +2,10 @@
 /**
  * SPAW Editor v.2 Javascript file
  * Outputs javascript code for the editor
- * @package spaw2
+ * @package    spaw2
  * @subpackage JavaScript
- * @author Alan Mendelevich <alan@solmetra.lt>
- * @copyright UAB Solmetra
+ * @author     Alan Mendelevich <alan@solmetra.lt>
+ * @copyright  UAB Solmetra
  */
 //header('Content-Type: application/x-javascript; charset=utf-8'); 
 
@@ -15,13 +15,13 @@ require_once(str_replace('\\\\', '/', dirname(__FILE__)) . '/../class/util.class
 $agent = SpawAgent::getAgentName();
 global $alljs_exist_ok, $spaw_js_list, $alljs_time, $spaw_js_inc;
 $js_file_name = "spaw2alljs$agent.js";
-if(!defined('_VALID_MOS')){ //вызов из диалога
+if(!defined('_JLINDEX')){ //вызов из диалога
 	$spaw_js_inc = "<script language=\"javascript\" type=\"text/javascript\" src=\"" . $config->getConfigValue('SITE_DIR') . "/cache/$js_file_name\"></script>\n";
 	return (0);
 }
 $alljs_exist_ok = true;
 $spaw_js_list = array();
-$agent_js_file = SpawConfig::getStaticConfigValue('SITE_PATH') . "/cache/$js_file_name";
+$agent_js_file = _JLPATH_ROOT . DS . "cache". DS . $js_file_name;
 $alljs_time = file_exists($agent_js_file) ? filemtime($agent_js_file) : 0;
 $spaw_js_inc = "<script language=\"javascript\" type=\"text/javascript\" src=\"" . SpawConfig::getStaticConfigValue('SITE_DIR') . "/cache/$js_file_name\"></script>\n";
 $spaw_root = SpawConfig::getStaticConfigValue("SPAW_ROOT");
@@ -35,16 +35,14 @@ function add_file($fn){
 
 if(is_dir($spaw_root . 'js/common')){
 	if($dh = opendir($spaw_root . 'js/common')){
-		while(($fn = readdir($dh)) !== false)
-			add_file($spaw_root . 'js/common/' . $fn);
+		while(($fn = readdir($dh)) !== false) add_file($spaw_root . 'js/common/' . $fn);
 		closedir($dh);
 	}
 }
 // load main javascript specific for current browser
 if(is_dir($spaw_root . 'js/' . $agent)){
 	if($dh = opendir($spaw_root . 'js/' . $agent)){
-		while(($fn = readdir($dh)) !== false)
-			add_file($spaw_root . 'js/' . $agent . '/' . $fn);
+		while(($fn = readdir($dh)) !== false) add_file($spaw_root . 'js/' . $agent . '/' . $fn);
 		closedir($dh);
 	}
 }
@@ -58,16 +56,14 @@ if(is_dir($pgdir)){
 				// load javascript for all browsers
 				if(is_dir($pgdir . $pg . '/js/common')){
 					if($pgdh = opendir($pgdir . $pg . '/js/common')){
-						while(($fn = readdir($pgdh)) !== false)
-							add_file($pgdir . $pg . '/js/common/' . $fn);
+						while(($fn = readdir($pgdh)) !== false) add_file($pgdir . $pg . '/js/common/' . $fn);
 						closedir($pgdh);
 					}
 				}
 				// load javascript for current browser
 				if(is_dir($pgdir . $pg . '/js/' . $agent)){
 					if($pgdh = opendir($pgdir . $pg . '/js/' . $agent)){
-						while(($fn = readdir($pgdh)) !== false)
-							add_file($pgdir . $pg . '/js/' . $agent . '/' . $fn);
+						while(($fn = readdir($pgdh)) !== false) add_file($pgdir . $pg . '/js/' . $agent . '/' . $fn);
 						closedir($pgdh);
 					}
 				}
@@ -79,16 +75,14 @@ if(is_dir($pgdir)){
 								// load javascript for all browsers
 								if(is_dir($pgdir . $pg . '/lib/theme/' . $th . '/js/common')){
 									if($thdh = opendir($pgdir . $pg . '/lib/theme/' . $th . '/js/common')){
-										while(($fn = readdir($thdh)) !== false)
-											add_file($pgdir . $pg . '/lib/theme/' . $th . '/js/common/' . $fn);
+										while(($fn = readdir($thdh)) !== false) add_file($pgdir . $pg . '/lib/theme/' . $th . '/js/common/' . $fn);
 										closedir($thdh);
 									}
 								}
 								// load javascript for current browser
 								if(is_dir($pgdir . $pg . '/lib/theme/' . $th . '/js/' . $agent)){
 									if($thdh = opendir($pgdir . $pg . '/lib/theme/' . $th . '/js/' . $agent)){
-										while(($fn = readdir($thdh)) !== false)
-											add_file($pgdir . $pg . '/lib/theme/' . $th . '/js/' . $agent . '/' . $fn);
+										while(($fn = readdir($thdh)) !== false) add_file($pgdir . $pg . '/lib/theme/' . $th . '/js/' . $agent . '/' . $fn);
 										closedir($thdh);
 									}
 								}
@@ -116,9 +110,9 @@ if(!$alljs_exist_ok){
 			$jsMin = new JSMin($fn);
 			fwrite($of, $jsMin->minify());
 		}
-	} else
-		foreach($spaw_js_list as $fn)
-			fwrite($of, implode('', file($fn)));
+	} else{
+		foreach($spaw_js_list as $fn) fwrite($of, implode('', file($fn)));
+	}
 	fclose($of);
 }
 ?>

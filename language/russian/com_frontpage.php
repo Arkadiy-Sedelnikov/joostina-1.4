@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_UNKNOWN_ID', 'Идентификатор не опознан');
 DEFINE('_REMOVE_FROM_FRONT', 'Убрать с главной');

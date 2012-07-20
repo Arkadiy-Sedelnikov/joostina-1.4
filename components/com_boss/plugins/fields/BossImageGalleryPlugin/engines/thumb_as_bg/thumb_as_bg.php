@@ -13,7 +13,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 function galleryAddInHead($path){
 	// передаем в функцию addInHead скрипты и стили,

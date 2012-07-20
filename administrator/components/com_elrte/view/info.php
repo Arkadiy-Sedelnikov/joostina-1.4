@@ -11,7 +11,7 @@
  * @license see license.txt
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $mainframe = &mosMainFrame::getInstance(true);
 

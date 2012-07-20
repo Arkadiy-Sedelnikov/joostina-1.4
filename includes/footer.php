@@ -8,6 +8,6 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 ?>
 <div align="center">&copy; <?php echo mosCurrentDate('%Y') . ' <a href="' . JPATH_SITE . '" title="' . $GLOBALS['mosConfig_sitename'] . '" target="_self">' . $GLOBALS['mosConfig_sitename'] . '</a>'; ?></div>

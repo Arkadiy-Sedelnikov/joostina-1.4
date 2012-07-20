@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!defined('_MOS_MLJOOSTINAMENU_MODULE')){
 	/** ensure that functions are declared only once*/
@@ -92,7 +92,7 @@ if(!defined('_MOS_MLJOOSTINAMENU_MODULE')){
 		$mitem->link = ampReplace($mitem->link);
 
 		// run through SEF convertor
-		$mitem->link = sefRelToAbs($mitem->link);
+		$mitem->link = JSef::getUrlToSef($mitem->link);
 
 		$menuclass = 'mainlevel' . $params->get('class_sfx');
 		if($params->get('ml_separated_link') == 1){

@@ -5,7 +5,7 @@
  * Xmap plugin for JoiBoss
  */
 
-defined('_VALID_MOS') or defined('_JEXEC') or die('Direct Access to this location is not allowed.');
+defined('_JLINDEX') or defined('_JEXEC') or die('Direct Access to this location is not allowed.');
 
 /** Adds support for AdsManager categories to Xmap */
 class xmap_com_boss{

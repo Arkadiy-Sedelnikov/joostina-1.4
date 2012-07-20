@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'manage', 'users', $my->usertype, 'components', 'com_trash'))){
@@ -60,7 +60,7 @@ function viewTrash($option){
 	$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
 	$limitstart = intval($mainframe->getUserStateFromRequest("view{$option}limitstart", 'limitstart', 0));
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 
 	// get the total number of menu
 	$query = "SELECT count(*) FROM #__menu AS m LEFT JOIN #__users AS u ON u.id = m.checked_out WHERE m.published = -2";

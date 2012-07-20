@@ -17,7 +17,7 @@
  * @since      File available since Release 0.0.1
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('FTP_ASCII', 0);
 define('FTP_TEXT', 0);
 define('FTP_BINARY', 1);

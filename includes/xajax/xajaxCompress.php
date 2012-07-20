@@ -9,7 +9,7 @@
  * copyright (c) 2005 by Jared White & J. Max Wilson
  * http://www.xajaxproject.org
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 function xajaxCompressJavascript($sJS){
 	$sJS = str_replace("\r", "", $sJS);
 	$literal_strings = array();

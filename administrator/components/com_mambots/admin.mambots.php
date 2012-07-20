@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'mambots', 'all') | $acl->acl_check('administration', 'install', 'users', $my->usertype, 'mambots', 'all'))){
@@ -107,7 +107,7 @@ function viewMambots($option, $client){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . DS . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname"
@@ -291,7 +291,7 @@ function editMambot($option, $uid, $client){
  * Also deletes associated entries in the #__mambots table.
  * @param array An array of unique category id numbers
  */
-function removeMambot(&$cid, $option, $client){
+function removeMambot($cid, $option, $client){
 	$mainframe = mosMainFrame::getInstance();
 	$my = $mainframe->getUser();
 	$database = database::getInstance();
@@ -407,7 +407,7 @@ function accessMenu($uid, $access, $option, $client){
 	mosRedirect('index2.php?option=' . $option);
 }
 
-function saveOrder(&$cid){
+function saveOrder($cid){
 	$database = database::getInstance();
 	josSpoofCheck();
 	$total = count($cid);

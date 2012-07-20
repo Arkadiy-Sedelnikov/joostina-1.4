@@ -13,7 +13,7 @@
  * @version    CVS: $Id:Archive.php 13 2007-05-13 07:10:43Z soeren $
  * @link       http://pear.php.net/package/File_Archive
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once (dirname(__file__) . "/PEAR.php");
 function File_Archive_cleanCache($file, $group){
 	$file = explode('_', $file);
@@ -27,7 +27,7 @@ function File_Archive_cleanCache($file, $group){
 }
 
 class File_Archive{
-	function &_option($name){
+	function _option($name){
 		static $container = array('zipCompressionLevel' => 9, 'gzCompressionLevel' => 9,
 								  'tmpDirectory'        => '.', 'cache' => null, 'appendRemoveDuplicates' => false,
 								  'blockSize'           => 65536, 'cacheCondition' => false);
@@ -46,14 +46,12 @@ class File_Archive{
 		return File_Archive::_option($name);
 	}
 
-	function readSource(&$source, $URL, $symbolic = null, $uncompression = 0, $directoryDepth =
-	-1){
+	function readSource($source, $URL, $symbolic = null, $uncompression = 0, $directoryDepth =	-1){
 		return File_Archive::_readSource($source, $URL, $reachable, $baseDir, $symbolic, $uncompression,
 			$directoryDepth);
 	}
 
-	function _readSource(&$toConvert, $URL, &$reachable, &$baseDir, $symbolic = null, $uncompression =
-	0, $directoryDepth = -1){
+	function _readSource($toConvert, $URL, $reachable, $baseDir, $symbolic = null, $uncompression =	0, $directoryDepth = -1){
 		$source = &File_Archive::_convertToReader($toConvert);
 		if(PEAR::isError($source)){
 			return $source;
@@ -220,7 +218,7 @@ class File_Archive{
 			$_FILES[$name]['type']);
 	}
 
-	function cache(&$toConvert){
+	function cache($toConvert){
 		$source = &File_Archive::_convertToReader($toConvert);
 		if(PEAR::isError($source)){
 			return $source;
@@ -229,7 +227,7 @@ class File_Archive{
 		return new File_Archive_Reader_Cache($source);
 	}
 
-	function &_convertToReader(&$source){
+	function _convertToReader(&$source){
 		if(is_string($source)){
 			$cacheCondition = File_Archive::getOption('cacheCondition');
 			if($cacheCondition !== false && preg_match($cacheCondition, $source)){
@@ -245,7 +243,7 @@ class File_Archive{
 			}
 	}
 
-	function &_convertToWriter(&$dest){
+	function _convertToWriter(&$dest){
 		if(is_string($dest)){
 			return File_Archive::appender($dest);
 		} else

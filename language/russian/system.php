@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $mosConfig_form_date, $mosConfig_form_date_full;
 
@@ -364,9 +364,6 @@ DEFINE('_USER_GROUP_REGISTERED', 'Участники');
 DEFINE('_USER_GROUP_SPECIAL', 'Специальный');
 
 
-/**
- * menubar.html.old.php + menubar.html.php
- */
 DEFINE('_CMN_EDIT_CSS', 'Редактировать CSS');
 DEFINE('_CMN_EDIT_HTML', 'Редактировать HTML');
 DEFINE('_EDIT_CSS', 'Ред.&nbsp;CSS');

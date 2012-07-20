@@ -1,4 +1,4 @@
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__)."/../Predicate.php";
 class File_Archive_Predicate_And extends File_Archive_Predicate {
 var $preds;

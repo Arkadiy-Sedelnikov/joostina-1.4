@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** registration*/
 DEFINE('_ERROR_PASSWORD', 'Извините, такой пользователь не найден.');

@@ -14,7 +14,7 @@
  * @link       http://pear.php.net/package/Net_FTP
  * @since      File available since Release 0.0.1
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 require_once dirname(__file__) . '/PEAR.php';
 define('NET_FTP_FILES_ONLY', 0, true);
 define('NET_FTP_DIRS_ONLY', 1, true);

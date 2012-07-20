@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Installer class
@@ -175,8 +175,8 @@ class mosInstaller{
 
 		if(preg_match('/.zip$/', $archivename)){
 			// Extract functions
-			require_once (JPATH_BASE_ADMIN . '/includes/pcl/pclzip.lib.php');
-			require_once (JPATH_BASE_ADMIN . '/includes/pcl/pclerror.lib.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclzip.lib.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/includes/pcl/pclerror.lib.php');
 			$zipfile = new PclZip($archivename);
 			if($this->isWindows()){
 				define('OS_WINDOWS', 1);

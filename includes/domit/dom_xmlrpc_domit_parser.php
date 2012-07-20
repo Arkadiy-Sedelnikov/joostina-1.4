@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 if(!defined('DOM_XMLRPC_INCLUDE_PATH')){
 	define('DOM_XMLRPC_INCLUDE_PATH', (dirname(__file__) . "/"));
 }
@@ -36,7 +36,7 @@ class dom_xmlrpc_domit_document extends DOMIT_Document{
 
 	}
 
-	function &getParams(){
+	function getParams(){
 		switch($this->getMethodType()){
 			case DOM_XMLRPC_TYPE_METHODCALL:
 				return $this->documentElement->childNodes[1];
@@ -50,7 +50,7 @@ class dom_xmlrpc_domit_document extends DOMIT_Document{
 
 	}
 
-	function &getParam($index){
+	function getParam($index){
 		switch($this->getMethodType()){
 			case DOM_XMLRPC_TYPE_METHODCALL:
 				return $this->documentElement->childNodes[1]->childNodes[$index];
@@ -98,7 +98,7 @@ class dom_xmlrpc_domit_document extends DOMIT_Document{
 		}
 	}
 
-	function getParamType(&$node){
+	function getParamType($node){
 		switch($node->nodeName){
 			case DOM_XMLRPC_TYPE_PARAM:
 				return $node->firstChild->firstChild->nodeName;

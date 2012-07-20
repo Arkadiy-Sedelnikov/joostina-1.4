@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * MAIN FILE! (formerly known as index.php)
@@ -47,8 +47,8 @@ if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 $GLOBALS['jx_version'] = '1.6.1';
 $GLOBALS['jx_home'] = 'http://joomlacode.org/gf/project/joomlaxplorer/';
 
-define('_QUIXPLORER_PATH', JPATH_BASE_ADMIN . '/components/com_joomlaxplorer');
-define('_QUIXPLORER_FTPTMP_PATH', JPATH_BASE_ADMIN . '/components/com_joomlaxplorer/ftp_tmp');
+define('_QUIXPLORER_PATH', _JLPATH_ADMINISTRATOR . '/components/com_joomlaxplorer');
+define('_QUIXPLORER_FTPTMP_PATH', _JLPATH_ADMINISTRATOR . '/components/com_joomlaxplorer/ftp_tmp');
 define('_QUIXPLORER_URL', JPATH_SITE . '/' . JADMIN_BASE . '/components/com_joomlaxplorer');
 
 

@@ -8,13 +8,13 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** HTML class for all Xmap administration output */
 class XmapAdminHtml{
 
 	/* Show the configuration options and menu ordering */
-	function show(&$config, &$menus, &$lists, &$pluginList, &$xmlfile){
+	function show($config, $menus, $lists, $pluginList, $xmlfile){
 		global $xmapSiteURL, $xmapComponentURL, $xmapAdministratorURL, $xmapAdministratorPath, $mainframe;
 		// загрузка скриптов mootols
 		mosCommonHTML::loadMootools();
@@ -104,7 +104,7 @@ class XmapAdminHtml{
 	<?php
 	}
 
-	function showSitemapInfo(&$sitemap, $default = false){
+	function showSitemapInfo($sitemap, $default = false){
 		global $xmapComponentURL;
 		?>
 	<form name="sitemapform<?php echo $sitemap->id; ?>" onsubmit="return false;">
@@ -168,7 +168,7 @@ class XmapAdminHtml{
 	<?php
 	}
 
-	function showSitemapSettings(&$sitemap, &$lists){
+	function showSitemapSettings($sitemap, $lists){
 		global $xmapSiteURL;
 		?>
 	<table class="adminform">
@@ -319,7 +319,7 @@ class XmapAdminHtml{
 	<?php
 	}
 
-	function printMenusList(&$sitemap){
+	function printMenusList($sitemap){
 		$menus = $sitemap->getMenus();
 		$i = 0;
 		foreach($menus as $name => $menu){
@@ -328,7 +328,7 @@ class XmapAdminHtml{
 		}
 	}
 
-	function showMenuOptions(&$sitemap, &$menu, &$lists){
+	function showMenuOptions($sitemap, $menu, $lists){
 		if(is_object($menu)){
 			?>
 		<form name="frmMenuOptions" id="frmMenuOptions">
@@ -375,7 +375,7 @@ class XmapAdminHtml{
 		}
 	}
 
-	function showInstalledPlugins(&$rows, $option, &$xmlfile, &$lists){
+	function showInstalledPlugins($rows, $option, $xmlfile, $lists){
 		if(count($rows)){
 			?>
 						<form action="index2.php" method="post" name="installedPlugins">
@@ -409,7 +409,7 @@ class XmapAdminHtml{
 								<?php
 	}
 
-	function printPluginInfo(&$row, $k){
+	function printPluginInfo($row, $k){
 		$mainframe = mosMainFrame::getInstance();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
 		?>

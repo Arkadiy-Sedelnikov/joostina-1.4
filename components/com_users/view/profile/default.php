@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 ?>
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -39,7 +39,7 @@ defined('_VALID_MOS') or die();
 				$class = isset($tab['class']) ? ' class="' . $tab['class'] . '"' : '';
 				$title = isset($tab['title']) ? $tab['title'] : $tab['name'];
 				?>
-				<li><a title="<?php echo $title?>" href="<?php echo sefRelToAbs($tab['href']) ?>" <?php echo $id . $class?>><?php echo $tab['name'] ?></a></li><?php
+				<li><a title="<?php echo $title?>" href="<?php echo JSef::getUrlToSef($tab['href']) ?>" <?php echo $id . $class?>><?php echo $tab['name'] ?></a></li><?php
 			}
 			?>
 		</ul>

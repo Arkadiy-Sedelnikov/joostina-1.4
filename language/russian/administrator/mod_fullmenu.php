@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 DEFINE('_MOD_FULLMENU_CMS_FEATURES', 'Управление основными возможностями системы');

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -22,7 +22,7 @@ class HTML_admin_misc{
 	public static function controlPanel(){
 		$mainframe = mosMainFrame::getInstance();
 		;
-		$path = JPATH_BASE_ADMIN . '/templates/' . JTEMPLATE . '/html/cpanel.php';
+		$path = _JLPATH_ADMINISTRATOR . '/templates/' . JTEMPLATE . '/html/cpanel.php';
 		if(file_exists($path)){
 			require $path;
 		} else{

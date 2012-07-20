@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 $mainframe = mosMainFrame::getInstance();
 $my = $mainframe->getUser();
 

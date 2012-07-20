@@ -14,7 +14,7 @@
  * DOM XML-RPC is Free Software
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 define('DOMIT_FILE_EXTENSION_CACHE', 'dch');
 class DOMIT_cache{
 	function toCache($xmlFileName, &$doc, $writeAttributes = 'w'){

@@ -7,7 +7,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -15,7 +15,7 @@ defined('_VALID_MOS') or die();
  */
 class HTML_users{
 
-	public static function showUsers(&$rows, $pageNav, $search, $option, $lists){
+	public static function showUsers($rows, $pageNav, $search, $option, $lists){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
@@ -86,7 +86,7 @@ class HTML_users{
 	}
 
 	/* редактирование пользователя */
-	public static function edituser(&$row, &$contact, &$lists, $option, $uid, &$params){
+	public static function edituser($row, $contact, $lists, $option, $uid, $params){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 

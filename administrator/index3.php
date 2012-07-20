@@ -8,13 +8,17 @@
  */
 
 // Установка флага родительского файла
-define('_VALID_MOS', 1);
-// разделитель каталогов
-define('DS', DIRECTORY_SEPARATOR);
+define('_JLINDEX', 1);
+
+// корень файлов
+define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
+
+// подключение основных глобальных переменных
+require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
+
 // корень файлов
 define('JPATH_BASE', dirname(dirname(__FILE__)));
-// корень файлов админкиы
-define('JPATH_BASE_ADMIN', dirname(__FILE__));
+
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
 (ini_get('register_globals') == 1) ? require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php') : null;
 require_once (JPATH_BASE . DS . 'configuration.php');
@@ -50,7 +54,7 @@ include_once($mainframe->getLangFile());
 $cur_template = $mainframe->getTemplate();
 define('JTEMPLATE', $cur_template);
 
-require_once (JPATH_BASE_ADMIN . DS . 'includes' . DS . 'admin.php');
+require_once (_JLPATH_ADMINISTRATOR . DS . 'includes' . DS . 'admin.php');
 
 $act = strtolower(mosGetParam($_REQUEST, 'act', ''));
 $section = mosGetParam($_REQUEST, 'section', '');

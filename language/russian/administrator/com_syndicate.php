@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_NEWS_EXPORT_SETUP', 'Настройки экспорта новостей');
 DEFINE('_RSS_EXPORT', 'RSS экспорт');

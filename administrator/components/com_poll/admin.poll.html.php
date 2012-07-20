@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * @package Joostina
@@ -16,7 +16,7 @@ defined('_VALID_MOS') or die();
  */
 class HTML_poll{
 
-	function showPolls(&$rows, &$pageNav, $option){
+	function showPolls($rows, $pageNav, $option){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$cur_file_icons_path = JPATH_SITE . '/' . JADMIN_BASE . '/templates/' . JTEMPLATE . '/images/ico';
@@ -93,7 +93,7 @@ class HTML_poll{
 	}
 
 
-	function editPoll(&$row, &$options, &$lists){
+	function editPoll($row, $options, $lists){
 		mosMakeHtmlSafe($row, ENT_QUOTES);
 		?>
 	<script language="javascript" type="text/javascript">

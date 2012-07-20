@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 
 /**
@@ -17,7 +17,7 @@ defined('_VALID_MOS') or die();
  */
 class poll_html{
 
-	public static function showResults(&$poll, &$votes, $first_vote, $last_vote, $pollist, $params){
+	public static function showResults($poll, $votes, $first_vote, $last_vote, $pollist, $params){
 		mosMainFrame::getInstance()->addCSS(JPATH_SITE . '/components/com_poll/css/poll.css');
 		?>
 	<div class="polls <?php echo $params->get('pageclass_sfx'); ?>">

@@ -8,20 +8,20 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /** Wraps XML Sitemaps output */
 class XmapXML extends Xmap{
 	var $_uids;
 
-	function XmapXML(&$config, &$sitemap){
+	function XmapXML($config, $sitemap){
 		$this->view = 'xml';
 		$this->uids = array();
 		Xmap::Xmap($config, $sitemap);
 	}
 
 	/** Convert sitemap tree to a XML Sitemap list */
-	function printNode(&$node){
+	function printNode($node){
 		$out = '';
 
 		$len_live_site = strlen(JPATH_SITE);
@@ -78,7 +78,7 @@ class XmapXML extends Xmap{
 		return true;
 	}
 
-	function startOutput(&$menus, &$config){
+	function startOutput($menus, $config){
 		@ob_end_clean();
 		header('Content-type: text/xml; charset=utf-8');
 		echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
@@ -88,15 +88,15 @@ class XmapXML extends Xmap{
 		echo '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 	}
 
-	function endOutput(&$menus){
+	function endOutput($menus){
 		echo "</urlset>\n";
 	}
 
-	function startMenu(&$menu){
+	function startMenu($menu){
 		return true;
 	}
 
-	function endMenu(&$menu){
+	function endMenu($menu){
 		return true;
 	}
 }

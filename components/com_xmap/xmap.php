@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $view = mosGetParam($_REQUEST, 'view', 'html');
 
@@ -157,7 +157,7 @@ class Xmap{
 	var $count = 0;
 
 	/** Default constructor, requires the config as parameter. */
-	function Xmap(&$config, &$sitemap){
+	function Xmap($config, $sitemap){
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		/* класс работы с правами пользователей */
@@ -178,7 +178,7 @@ class Xmap{
 	}
 
 	/** Generate a full website tree */
-	function generateSitemap($type, &$config, &$cache, $title){
+	function generateSitemap($type, $config, $cache, $title){
 		$menus = $this->sitemap->getMenus();
 		$plugins = XmapPlugins::loadAvailablePlugins();
 		$root = array();
@@ -215,7 +215,7 @@ class Xmap{
 	 * this function will call the handler routine and add the complete tree.
 	 * A tree with subtrees for each menuentry is returned.
 	 */
-	function printMenuTree(&$menu, &$cache, $plugins){
+	function printMenuTree($menu, $cache, $plugins){
 
 		$database = database::getInstance();
 
@@ -276,7 +276,7 @@ class Xmap{
 		return $row->title;
 	}
 
-	function getItemLink(&$node){
+	function getItemLink($node){
 
 		$config = Jconfig::getInstance();
 
@@ -295,8 +295,8 @@ class Xmap{
 		}
 		if(strcasecmp(substr($link, 0, 4), 'http')){
 			if(strcasecmp(substr($link, 0, 9), 'index.php') === 0){
-				$link = sefRelToAbs($link); // apply SEF transformation
-				if(strcasecmp(substr($link, 0, 4), 'http')){ // fix broken sefRelToAbs()
+				$link = JSef::getUrlToSef($link); // apply SEF transformation
+				if(strcasecmp(substr($link, 0, 4), 'http')){ // fix broken JSef::getUrlToSef()
 					$link = JPATH_SITE . (substr($link, 0, 1) == '/' ? '' : '/') . $link;
 				}
 			} else{ // Case for internal links not starting with index.php
@@ -308,7 +308,7 @@ class Xmap{
 	}
 
 	/** Print tree details for debugging and testing */
-	function printDebugTree(&$tree){
+	function printDebugTree($tree){
 		foreach($tree as $menu){
 			echo $menu->name . "<br />\n";
 			_xdump($menu->tree);
@@ -316,7 +316,7 @@ class Xmap{
 	}
 
 	/** called with usort to sort menus */
-	function sort_ordering(&$a, &$b){
+	function sort_ordering($a, $b){
 		if($a->ordering == $b->ordering){
 			return 0;
 		}

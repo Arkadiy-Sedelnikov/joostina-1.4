@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 // ensure user has access to this function
 if(!($acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'all') | $acl->acl_check('administration', 'edit', 'users', $my->usertype, 'components', 'com_frontpage'))){
@@ -137,7 +137,7 @@ function viewFrontPage($option, $directory){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	$query = "SELECT c.*, cc.name as catname, cc.id as catid, v.name AS author"
@@ -216,7 +216,7 @@ function changeFrontPage($cid = null, $state = 0, $option){
 	mosRedirect("index2.php?option=$option");
 }
 
-function removeFrontPage(&$cid, $option){
+function removeFrontPage($cid, $option){
 	josSpoofCheck();
 
 	$database = database::getInstance();
@@ -290,7 +290,7 @@ function accessMenu($uid, $access){
 	mosRedirect('index2.php?option=com_frontpage');
 }
 
-function saveOrder(&$cid){
+function saveOrder($cid){
 	josSpoofCheck();
 
 	$database = database::getInstance();

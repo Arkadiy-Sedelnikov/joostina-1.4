@@ -16,7 +16,7 @@
  * @link       http://pear.php.net/package/Net_FTP
  * @since      File available since Release 0.0.1
  **/
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class Net_FTP_Observer{
 	var $_id;
 

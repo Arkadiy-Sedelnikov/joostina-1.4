@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 if(!$acl->acl_check('administration', 'config', 'users', $my->usertype)){
 	mosRedirect('index2.php?', _NOT_AUTH);
@@ -163,7 +163,7 @@ function show($option){
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once (JPATH_BASE . '/' . JADMIN_BASE . '/includes/pageNavigation.php');
+	mosMainFrame::addLib('pagenavigation');
 	$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 	// Load Items
@@ -376,7 +376,7 @@ function orderIcon($id, $inc, $option){
 
 /* This feature (save order) is added by Eric C. Thanks Eric!*/
 //Save ordering of icons
-function saveOrder(&$cid, $option){
+function saveOrder($cid, $option){
 	$database = database::getInstance();
 
 	$total = count($cid);
@@ -401,7 +401,7 @@ function saveOrder(&$cid, $option){
 } // saveOrder
 
 // Delete icons
-function deleteIcon(&$cid, $option){
+function deleteIcon($cid, $option){
 	$database = database::getInstance();
 
 	if(count($cid)){
@@ -431,8 +431,8 @@ function chooseIcon($option){
 
 	$icons = 0;
 	$imgs = array();
-	$folder[] = JPATH_BASE_ADMIN . '/images/';
-	$folder[] = JPATH_BASE_ADMIN . '/templates/' . $cur_template . '/images/cpanel_ico/';
+	$folder[] = _JLPATH_ADMINISTRATOR . '/images/';
+	$folder[] = _JLPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/images/cpanel_ico/';
 
 	foreach($folder as $fold){
 		if(file_exists($fold)){

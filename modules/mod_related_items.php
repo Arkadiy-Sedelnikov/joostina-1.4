@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $mosConfig_offset, $option, $task;
 $mainframe = mosMainFrame::getInstance();
@@ -59,7 +59,7 @@ if($option == 'com_boss' && $task == 'show_content' && $id && $directory){
 				<?php
 				foreach($related as $item){
 
-					$href = sefRelToAbs("index.php?option=com_boss&amp;task=show_content&amp;contentid=$item->id&amp;catid=$item->catid&amp;directory=$directory");
+					$href = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;contentid=$item->id&amp;catid=$item->catid&amp;directory=$directory");
 					?>
 					<li>
 						<a href="<?php echo $href; ?>"><?php echo $item->title; ?></a>

@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('BOT_USER_INFO_GENDER', 'Пол:');
 DEFINE('BOT_USER_INFO_GENDER_NON_SELECT', 'не указан');

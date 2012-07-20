@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 /*******************************************************************************
  ** The Russian language file for joomlaXplorer until further notice
  ** Created by AllXXX from Russian Joomla! Team

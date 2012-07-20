@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 DEFINE('_CONTENT_CATEGORIES', 'Категории содержимого');
 DEFINE('_VIEW_CATEGORY_CONTENT', 'Просмотр содержимого категории');

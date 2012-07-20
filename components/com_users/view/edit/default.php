@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 //Подключение плагина валидации форм
 mosCommonHTML::loadJqueryPlugins('jquery.validate', false, false, 'js');
@@ -21,7 +21,7 @@ $tabs = new mosTabs(1);
 <div class="edit_profile_page">
 	<div class="componentheading"><h1><?php echo $user->name; ?>&nbsp;(<?php echo $user->username; ?>)</h1></div>
 	<?php $tabs->startPane("userInfo"); ?>
-	<form action="<?php echo sefRelToAbs('index.php');  ?>" method="post" name="mosUserForm" id="mosUserForm">
+	<form action="<?php echo JSef::getUrlToSef('index.php');  ?>" method="post" name="mosUserForm" id="mosUserForm">
 
 		<?php $tabs->startTab(_GENERAL, "general"); ?>
 		<h3><?php echo _USER_PROFILE_INFO?></h3>

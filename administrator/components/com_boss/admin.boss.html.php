@@ -6,7 +6,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class HTML_boss{
 
@@ -1592,7 +1592,7 @@ class HTML_boss{
 	<?php
 	}
 
-	public static function showFields(&$rows, $directory, $directories, $plugins, $tpl, $conf){
+	public static function showFields($rows, $directory, $directories, $plugins, $tpl, $conf){
 		?>
 	<?php HTML_boss::header(BOSS_FIELDS_LIST, $directory, $directories, $conf); ?>
 	<div id="form_builder_nav">
@@ -1653,7 +1653,7 @@ class HTML_boss{
 	<?php
 	}
 
-	public static function editfield(&$row, $lists, $plug, $types, $directory, $directories, $task, $fnames){
+	public static function editfield($row, $lists, $plug, $types, $directory, $directories, $task, $fnames){
 		?>
 
 	<h4 class="edit_field_header"><?php

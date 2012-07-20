@@ -7,7 +7,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 mosMainFrame::addLib('dbconfig');
 
@@ -60,7 +60,7 @@ class configUser_registration extends dbConfig{
 	 */
 	var $admin_activation = 0;
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'registration'){
+	function __construct($db, $group = 'com_users', $subgroup = 'registration'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
@@ -184,7 +184,7 @@ class configUser_profile extends dbConfig{
 	 */
 	var $template_dir = '';
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'profile'){
+	function __construct($db, $group = 'com_users', $subgroup = 'profile'){
 		parent::__construct($db, $group, $subgroup);
 	}
 
@@ -273,7 +273,7 @@ class configUser_lostpass extends dbConfig{
 	 */
 	var $template_dir = '';
 
-	function __construct(&$db, $group = 'com_users', $subgroup = 'lostpass'){
+	function __construct($db, $group = 'com_users', $subgroup = 'lostpass'){
 		parent::__construct($db, $group, $subgroup);
 	}
 

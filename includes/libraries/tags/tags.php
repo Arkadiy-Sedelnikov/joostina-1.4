@@ -8,7 +8,7 @@
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class contentTags extends mosDBTable{
 
@@ -147,7 +147,7 @@ class contentTags extends mosDBTable{
 	}
 
 	function get_tag_url($tag){
-		return sefRelToAbs('index.php?option=com_search&tag=' . urlencode($tag));
+		return JSef::getUrlToSef('index.php?option=com_search&tag=' . urlencode($tag));
 	}
 
 	function arr_to_links($tags, $ds = ', '){

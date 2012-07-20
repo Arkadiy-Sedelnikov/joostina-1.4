@@ -7,7 +7,7 @@
  * @version $Id: array.php 05.07.2009 12:07:48 megazaisl $;
  * @since Version 1.3
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 class UrlHelper{
 

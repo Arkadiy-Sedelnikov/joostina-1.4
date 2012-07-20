@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 global $JPConfiguration, $option;
 
@@ -53,7 +53,7 @@ echo colorizeAppStatus($appStatusGood);
 		</td>
 		<td valign="top">
 			<?php
-			require_once (JPATH_BASE_ADMIN . '/components/com_joomlapack/includes/html.files.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/components/com_joomlapack/includes/html.files.php');
 			?>
 		</td>
 	</tr>

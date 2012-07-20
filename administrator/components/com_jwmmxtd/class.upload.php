@@ -12,7 +12,7 @@
  * Web           http://www.verot.net
  **/
 
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 class upload{
 	var $file_src_name;
 	var $file_src_name_body;

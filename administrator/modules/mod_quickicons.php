@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $use_ext = $params->get('use_ext', 0);
 $use_cache = $params->get('use_cache', 1);
@@ -19,15 +19,15 @@ if(!defined('_QUICKICON_MODULE')){
 	function show_quick_icons($use_ext){
 		if($use_ext){
 			// использование значков отображения шаблона
-			if(file_exists(JPATH_BASE_ADMIN . '/templates/' . JTEMPLATE . '/html/quickicons.php')){
-				require_once (JPATH_BASE_ADMIN . '/templates/' . JTEMPLATE . '/html/quickicons.php');
+			if(file_exists(_JLPATH_ADMINISTRATOR . '/templates/' . JTEMPLATE . '/html/quickicons.php')){
+				require_once (_JLPATH_ADMINISTRATOR . '/templates/' . JTEMPLATE . '/html/quickicons.php');
 			} else{
 				// использование стандартных значков отображения
-				require_once (JPATH_BASE_ADMIN . '/components/com_quickicons/quickicons.php');
+				require_once (_JLPATH_ADMINISTRATOR . '/components/com_quickicons/quickicons.php');
 			}
 		} else{
 			// использование стандартных значков отображения
-			require_once (JPATH_BASE_ADMIN . '/components/com_quickicons/quickicons.php');
+			require_once (_JLPATH_ADMINISTRATOR . '/components/com_quickicons/quickicons.php');
 		}
 	}
 }

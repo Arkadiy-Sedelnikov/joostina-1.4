@@ -12,7 +12,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die('Прямой вызов файла запрещен');
+defined('_JLINDEX') or die('Прямой вызов файла запрещен');
 
 DEFINE('_XMAP_CFG_COM_TITLE', 'Карты сайта');
 DEFINE('_XMAP_CFG_OPTIONS', 'Отображение');

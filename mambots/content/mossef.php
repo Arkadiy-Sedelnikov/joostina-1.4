@@ -8,7 +8,7 @@
  */
 
 // запрет прямого доступа
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 $_MAMBOTS->registerFunction('onPrepareContent', 'botMosSef');
 
@@ -66,7 +66,7 @@ function botMosSef_replacer(&$matches){
 	if(strpos($matches[1], 'index.php?option') !== false){
 		// links containing 'index.php?option
 		// convert url to SEF link
-		$link = sefRelToAbs($matches[1]);
+		$link = JSef::getUrlToSef($matches[1]);
 		// reconstruct html output
 		$replace = 'href="' . $link . '"';
 
@@ -80,11 +80,11 @@ function botMosSef_replacer(&$matches){
 			if(is_array($url) && isset($url[1])){
 				$link = 'index.php?option' . $url[1];
 				// convert url to SEF link
-				$link = sefRelToAbs($link) . $matches[1];
+				$link = JSef::getUrlToSef($link) . $matches[1];
 			} else{
 				$link = $matches[1];
 				// convert url to SEF link
-				$link = sefRelToAbs($link);
+				$link = JSef::getUrlToSef($link);
 			}
 			// reconstruct html output
 			$replace = 'href="' . $link . '"';

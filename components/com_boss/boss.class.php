@@ -7,7 +7,7 @@
  * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
-defined('_VALID_MOS') or die();
+defined('_JLINDEX') or die();
 
 /**
  * Класс конфигурации каталогов
@@ -59,7 +59,7 @@ class jDirectoryConf extends mosDBTable{
 	var $allow_rights = null;
 	var $rights = null;
 
-	function __construct(&$db){
+	function __construct($db){
 		$this->mosDBTable('#__boss_config', 'id', $db);
 	}
 
@@ -179,7 +179,7 @@ class jDirectoryCategory extends mosDBTable{
 	var $content_types = null;
 	var $rights = null;
 
-	function __construct(&$db, $directory){
+	function __construct($db, $directory){
 		$this->mosDBTable('#__boss_' . $directory . '_categories', 'id', $db);
 	}
 
@@ -239,7 +239,7 @@ class jDirectoryCategory extends mosDBTable{
 	 * @param  $directory
 	 * @return void
 	 */
-	public static function saveOrder(&$tid, $directory){
+	public static function saveOrder($tid, $directory){
 		$database = database::getInstance();
 
 		$total = count($tid);
@@ -389,7 +389,7 @@ class jDirectoryCategory extends mosDBTable{
 			return false;
 		}
 
-		require_once(JPATH_BASE . '/administrator/includes/pageNavigation.php');
+		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav(count($rows), 0, count($rows));
 
 		$children = self::getAllCategories($directory, $rows);
@@ -555,7 +555,7 @@ class jDirectoryContent extends mosDBTable{
 	var $date_unpublish = null;
 	var $type_content = null;
 
-	function __construct(&$db, $directory){
+	function __construct($db, $directory){
 		$this->mosDBTable('#__boss_' . $directory . '_contents', 'id', $db);
 	}
 
@@ -765,7 +765,7 @@ class jDirectoryContent extends mosDBTable{
 			else
 				$url = "index2.php?option=com_boss&act=contents&directory=" . $directory;
 		} else
-			$url = sefRelToAbs("index.php?option=com_boss&task=show_content&contentid=" . $this->id . "&catid=" . $category . "&directory=" . $directory);
+			$url = JSef::getUrlToSef("index.php?option=com_boss&task=show_content&contentid=" . $this->id . "&catid=" . $category . "&directory=" . $directory);
 		mosRedirect($url, $redirect_text);
 	}
 
@@ -951,7 +951,7 @@ class jDirectoryContent extends mosDBTable{
 	 * @param  $catid
 	 * @return void
 	 */
-	public static function recurseSearch($rows, &$list, $catid){
+	public static function recurseSearch($rows, $list, $catid){
 		foreach($rows as $row){
 			if($row->parent == $catid){
 				$list[] = $row->id;
@@ -969,7 +969,7 @@ class jDirectoryContent extends mosDBTable{
 		global $mosConfig_list_limit;
 		$mainframe = mosMainFrame::getInstance();
 		$database = database::getInstance();
-		require_once(JPATH_BASE . '/administrator/includes/pageNavigation.php');
+		mosMainFrame::addLib('pagenavigation');
 
 		$catid = mosGetParam($_REQUEST, 'catid', 0);
 		$selectedAutorId = mosGetParam($_REQUEST, 'autor', 0);
@@ -1138,7 +1138,7 @@ class jDirectoryField extends mosDBTable{
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function __construct(&$db, $directory){
+	function __construct($db, $directory){
 
 		$this->mosDBTable('#__boss_' . $directory . '_fields', 'fieldid', $db);
 	}
@@ -1670,7 +1670,7 @@ class jDirectoryTemplatePosition extends mosDBTable{
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function __construct(&$db, $directory){
+	function __construct($db, $directory){
 
 		$this->mosDBTable('#__boss_' . $directory . '_groups', 'id', $db);
 	}
@@ -2126,7 +2126,7 @@ class boss_helpers{
 			foreach($cats as $cat){
 				if($cat->parent == $catid){
 					$list[$i]->text = $cat->name; //." (".$cat->num_contents.")";
-					$list[$i++]->link = sefRelToAbs('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $cat->id . '&amp;order=' . $order . '&amp;directory=' . $directory);
+					$list[$i++]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $cat->id . '&amp;order=' . $order . '&amp;directory=' . $directory);
 				}
 			}
 		}
@@ -2142,7 +2142,7 @@ class boss_helpers{
 
 			$i = 0;
 			$list[$i]->text = $orderlist[$catid]->name;
-			$list[$i]->link = sefRelToAbs('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $catid . '&amp;slug=' . $orderlist[$catid]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
+			$list[$i]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $catid . '&amp;slug=' . $orderlist[$catid]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
 			$i++;
 
 			if($catid != -1){
@@ -2151,14 +2151,14 @@ class boss_helpers{
 				while($orderlist[$current]->parent != 0){
 					$current = $orderlist[$current]->parent;
 					$list[$i]->text = $orderlist[$current]->name;
-					$list[$i]->link = sefRelToAbs('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $orderlist[$current]->id . '&amp;slug=' . $orderlist[$current]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
+					$list[$i]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $orderlist[$current]->id . '&amp;slug=' . $orderlist[$current]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
 					$i++;
 				}
 			}
 		}
 	}
 
-	public static function recurse_search($rows, &$list, $catid){
+	public static function recurse_search($rows, $list, $catid){
 		if(isset($rows)){
 			foreach($rows as $row){
 				if($row->parent == $catid){
@@ -2173,7 +2173,7 @@ class boss_helpers{
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$database = database::getInstance();
-		mosMainFrame::addLib('pageNavigation');
+		mosMainFrame::addLib('pagenavigation');
 		// get configuration
 		$conf = getConfig($directory);
 		$sort = null;
@@ -2461,7 +2461,7 @@ class boss_helpers{
 		}
 		$return = array();
 		foreach($tags as $tag){
-			$return[] = '<a class="tag" href="' . sefRelToAbs('index.php?option=com_boss&task=search_tags&directory=' . $directory . '&tag=' . urlencode($tag)) . '">' . $tag . '</a>';
+			$return[] = '<a class="tag" href="' . JSef::getUrlToSef('index.php?option=com_boss&task=search_tags&directory=' . $directory . '&tag=' . urlencode($tag)) . '">' . $tag . '</a>';
 		}
 
 		return implode($ds, $return);
@@ -2476,7 +2476,7 @@ class boss_helpers{
 	 * @param  $conf
 	 * @return null|string
 	 */
-	public static function check_account($username, $password, $email, &$userid, $conf){
+	public static function check_account($username, $password, $email, $userid, $conf){
 		global $mosConfig_uniquemail;
 		$mainframe = mosMainFrame::getInstance();
 		$database = database::getInstance();
@@ -3895,7 +3895,7 @@ class BossUsers{
 		$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
 		$limitstart = intval($mainframe->getUserStateFromRequest("view{com_boss}limitstart", 'limitstart', 0));
 
-		require_once(JPATH_BASE . '/administrator/includes/pageNavigation.php');
+		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 		$q = "SELECT p.userid, u.name, u.username, u.registerDate, u.lastvisitDate, u.usertype "
@@ -4047,7 +4047,7 @@ class BossContentTypes extends mosDBTable{
 	var $published = null;
 	var $ordering = null;
 
-	function __construct(&$db, $directory){
+	function __construct($db, $directory){
 		$this->mosDBTable('#__boss_' . $directory . '_content_types', 'id', $db);
 	}
 
@@ -4067,7 +4067,7 @@ class BossContentTypes extends mosDBTable{
 	 * @param  $directory
 	 * @return void
 	 */
-	public static function saveOrder(&$tid, $directory){
+	public static function saveOrder($tid, $directory){
 		$database = database::getInstance();
 
 		$total = count($tid);
@@ -4196,7 +4196,8 @@ class BossContentTypes extends mosDBTable{
 		$total = count($types);
 		$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
 		$limitstart = intval($mainframe->getUserStateFromRequest("view{com_boss}limitstart", 'limitstart', 0));
-		require_once(JPATH_BASE . '/administrator/includes/pageNavigation.php');
+
+		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 
