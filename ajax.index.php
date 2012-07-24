@@ -43,8 +43,8 @@ require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
 // подключение SEF
-require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
-JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
+//require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+//JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
 
 // отображение состояния выключенного сайта
 if ($mosConfig_offline == 1) {

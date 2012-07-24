@@ -19,6 +19,18 @@ class JSef{
 	/** разделитель параметр-значение */
 	const separator = '-';
 
+	/** @var object библиотека JLIni */
+	private static $_lib_ini;
+
+	/** @var object библиотека JLUrl */
+	private static $_lib_url;
+
+	/** @var object библиотека JLText */
+	private static $_lib_text;
+
+	/** @var array Хранит запросы к базе */
+	private static $_sef_url = array();
+
 	/** @var int разрешён ли SEF */
 	public static $cfg_sef;
 
@@ -30,15 +42,6 @@ class JSef{
 
 	/** @var array массив sef-файлов компонентов */
 	public static $sef_files;
-
-	/** @var object библиотека JLIni */
-	private static $_lib_ini;
-
-	/** @var object библиотека JLUrl */
-	private static $_lib_url;
-
-	/** @var object библиотека JLText */
-	private static $_lib_text;
 
 
 	/**
@@ -141,232 +144,202 @@ class JSef{
 	 */
 	public static function getUrlToSef($link){
 		if(self::$cfg_sef){
+
 			$link_url = $link;
 			// Парсим URL
 			self::$_lib_url->parse($link);
+			if(self::$_lib_url->_path != 'ajax.index.php'){
+				// Проверяем, существует ли sef-файл и включен ли он
+				if(self::checkINI(self::getOption($link))){
+					$url_vars = self::$_lib_url->_vars;
 
-			// Проверяем, существует ли sef-файл и включен ли он
-			if(self::checkINI(self::getOption($link))){
-				$url_vars = self::$_lib_url->_vars;
+					$database = database::getInstance();
 
-				$database = database::getInstance();
+					self::$_lib_ini->parse(_JLPATH_LIBRARIES . DS . self::getOption($link));
 
-				self::$_lib_ini->parse(_JLPATH_LIBRARIES . DS . self::getOption($link));
+					/////////////////////////////////////////////////////////////
+					// получаем имя компонента
+					$option_show = (int)self::$_lib_ini->getValue('option_show');
+					$option_name = self::$_lib_ini->getValue('option_name');
+					$option_sql = self::$_lib_ini->getValue('option_sql');
 
-				/////////////////////////////////////////////////////////////
-				// получаем имя компонента
-				$option_show = (int)self::$_lib_ini->getValue('option_show');
-				$option_name = self::$_lib_ini->getValue('option_name');
-				$option_sql = self::$_lib_ini->getValue('option_sql');
+					if($option_show == 1 and $option_name != ''){
+						$option = $option_name;
+					} elseif($option_show == 2 and $option_sql != ''){
 
-				if($option_show == 1 and $option_name != ''){
-					$option = $option_name;
-				} elseif($option_show == 2 and $option_sql != ''){
-
-					// получаем из запроса данные для замены
-					$tmp1 = preg_match_all("#\[\[([a-z0-9-_]*)\]\]#i", $option_sql, $sql_arr);
-
-					// Производим замену
-					if($tmp1){
-						foreach($sql_arr[1] as $tmp2){
-							$tmp_search[] = "[[" . $tmp2 . "]]";
-							$tmp_replace[] = self::$_lib_url->getVar($tmp2);
-						}
-						$option_sql = str_replace($tmp_search, $tmp_replace, $option_sql);
-					}
-
-					$database->setQuery($option_sql);
-					$option = $database->loadResult();
-				} else{
-					$option = self::getOption($link);
-				}
-				// Транслитерация
-				$option = '/' . self::$_lib_text->text_to_url($option);
-
-				// Удаляем из зараметров option
-				if(isset($url_vars['option'])) {
-					unset($url_vars['option']);
-				}
-
-				/////////////////////////////////////////////////////////////
-				// Получаем task
-				$task_prm_arr = self::$_lib_ini->getValue('task_prm');
-				$task_val_arr = self::$_lib_ini->getValue('task_val');
-				$task_sql_arr = self::$_lib_ini->getValue('task_sql');
-
-				$tmp_key = array_search(self::$_lib_url->getVar('task'), $task_prm_arr);
-				if($tmp_key){
-					if(isset($task_val_arr[$tmp_key]) and $task_val_arr[$tmp_key] != ''){
-						$task = $task_val_arr[$tmp_key];
-					} elseif(isset($task_sql_arr[$tmp_key]) and $task_sql_arr[$tmp_key] != ''){
 						// получаем из запроса данные для замены
-						$tmp1 = preg_match_all("#\[\[([a-z0-9-_]*)\]\]#i", $task_sql_arr[$tmp_key], $sql_arr);
+						$tmp1 = preg_match_all("#\[\[([a-z0-9-_]*)\]\]#i", $option_sql, $sql_arr);
+
 						// Производим замену
 						if($tmp1){
 							foreach($sql_arr[1] as $tmp2){
 								$tmp_search[] = "[[" . $tmp2 . "]]";
 								$tmp_replace[] = self::$_lib_url->getVar($tmp2);
 							}
-							$task_sql_arr[$tmp_key] = str_replace($tmp_search, $tmp_replace, $task_sql_arr[$tmp_key]);
+							$option_sql = str_replace($tmp_search, $tmp_replace, $option_sql);
 						}
-
-						$database->setQuery($task_sql_arr[$tmp_key]);
-						$task = $database->loadResult();
+						$option = self::_checkSefUrl($option_sql);
 					} else{
-						$task = $task_prm_arr[$tmp_key];
+						$option = self::getOption($link);
 					}
-				}
+					// Транслитерация
+					$option = '/' . self::$_lib_text->text_to_url($option);
 
-				// Транслитерация
-				$task = (isset($task)) ? '/' . self::$_lib_text->text_to_url($task) : '';
-
-				// Удаляем из зараметров option
-				if(isset($url_vars['task'])) {
-					unset($url_vars['task']);
-				}
-
-				/////////////////////////////////////////////////////////////
-				// Получаем params
-
-				$params = self::$_lib_ini->getValue('param');
-
-				// Сортировка порядка отображения параметров
-				$orders = self::$_lib_ini->getValue('order');
-				$tmp1 = array();
-				foreach($orders as $order){
-					if(array_key_exists($order, $url_vars)){
-						$tmp1[$order] = $url_vars[$order];
-						unset($url_vars[$order]);
+					// Удаляем из зараметров option
+					if(isset($url_vars['option'])){
+						unset($url_vars['option']);
 					}
-				}
-				$url_vars = array_merge($tmp1, $url_vars);
-				unset($tmp1);
 
-				// Добавляем параметры
-				$param = '';
-				foreach($url_vars as $key => $var){
-					if(array_search($key, $params) === false){
-						$param .= '/' . self::$_lib_text->text_to_url($var);
+					/////////////////////////////////////////////////////////////
+					// Получаем task
+					$task_prm_arr = self::$_lib_ini->getValue('task_prm');
+					$task_val_arr = self::$_lib_ini->getValue('task_val');
+					$task_sql_arr = self::$_lib_ini->getValue('task_sql');
+
+					$tmp_key = array_search(self::$_lib_url->getVar('task'), $task_prm_arr);
+					if($tmp_key){
+						if(isset($task_val_arr[$tmp_key]) and $task_val_arr[$tmp_key] != ''){
+							$task = $task_val_arr[$tmp_key];
+						} elseif(isset($task_sql_arr[$tmp_key]) and $task_sql_arr[$tmp_key] != ''){
+							// получаем из запроса данные для замены
+							$tmp1 = preg_match_all("#\[\[([a-z0-9-_]*)\]\]#i", $task_sql_arr[$tmp_key], $sql_arr);
+							// Производим замену
+							if($tmp1){
+								foreach($sql_arr[1] as $tmp2){
+									$tmp_search[] = "[[" . $tmp2 . "]]";
+									$tmp_replace[] = self::$_lib_url->getVar($tmp2);
+								}
+								$task_sql_arr[$tmp_key] = str_replace($tmp_search, $tmp_replace, $task_sql_arr[$tmp_key]);
+							}
+							$task = self::_checkSefUrl($task_sql_arr[$tmp_key]);
+						} else{
+							$task = $task_prm_arr[$tmp_key];
+						}
 					}
-				}
 
-				// Добавляем окончание
-				$tmp_key = array_search(self::$_lib_url->getVar('task'), self::$_lib_ini->getValue('task_html'));
-				$param .= ($tmp_key === false) ? '/' : '.html';
+					// Транслитерация
+					$task = (isset($task)) ? '/' . self::$_lib_text->text_to_url($task) : '';
 
-				// Добавляем "Якорь"
-				$fragment = (self::$_lib_url->_fragment) ? '#' . self::$_lib_text->text_to_url(self::$_lib_url->_fragment) : '';
+					// Удаляем из зараметров option
+					if(isset($url_vars['task'])){
+						unset($url_vars['task']);
+					}
 
-				// Формируем ссылку для базы
-				$link = $option . $task . $param . $fragment;
+					/////////////////////////////////////////////////////////////
+					// Получаем params
 
-				$sql = "SELECT `url` FROM `#__sef_link` WHERE `sef`='" . $link . "' ";
-				$database->setQuery($sql);
-				$link_sef = $database->loadResult();
+					$params = self::$_lib_ini->getValue('param');
 
-				if($link_sef === null){
-					$sql = "INSERT INTO `#__sef_link` (`url`, `sef`)
+					// Сортировка порядка отображения параметров
+					$orders = self::$_lib_ini->getValue('order');
+					$tmp1 = array();
+					foreach($orders as $order){
+						if(array_key_exists($order, $url_vars)){
+							$tmp1[$order] = $url_vars[$order];
+							unset($url_vars[$order]);
+						}
+					}
+					$url_vars = array_merge($tmp1, $url_vars);
+					unset($tmp1);
+
+					// Добавляем параметры
+					$param = '';
+					foreach($url_vars as $key => $var){
+						if(array_search($key, $params) === false){
+							$param .= '/' . self::$_lib_text->text_to_url($var);
+						}
+					}
+
+					// Добавляем окончание
+					$tmp_key = array_search(self::$_lib_url->getVar('task'), self::$_lib_ini->getValue('task_html'));
+					$param .= ($tmp_key === false) ? '/' : '.html';
+
+					// Добавляем "Якорь"
+					$fragment = (self::$_lib_url->_fragment) ? '#' . self::$_lib_text->text_to_url(self::$_lib_url->_fragment) : '';
+
+					// Формируем ссылку для базы
+					$link = $option . $task . $param . $fragment;
+
+					$sql = "SELECT `url` FROM `#__sef_link` WHERE `sef`='" . $link . "' ";
+
+					$link_sef = self::_checkSefUrl($sql);
+
+					if($link_sef === null){
+						$sql = "INSERT INTO `#__sef_link` (`url`, `sef`)
 							VALUES (
 							'" . $link_url . "',
 							'" . $link . "'
 							);";
-					$database->setQuery($sql);
-					$database->query();
-				} elseif($link_sef and (self::$_lib_url->compareUrls($link_sef, $link_url) == false)){
-					$sql = "INSERT INTO `#__sef_duplicate` (`id`, `url`, `sef`)
+						$database->setQuery($sql);
+						$database->query();
+					} elseif($link_sef and (self::$_lib_url->compareUrls($link_sef, $link_url) == false)){
+						$sql = "INSERT INTO `#__sef_duplicate` (`id`, `url`, `sef`)
 							VALUES (
 							'',
 							'" . $link_url . "',
 							'" . $link . "'
 							);";
-					$database->setQuery($sql);
-					$database->query();
-				}
-
-				// формируем окончательно ссылку
-				$link = JPATH_SITE . $link;
-			} else{
-				// если ссылка идёт на компонент главной страницы - очистим её
-				if((JSef::$cfg_frontpage AND stripos($link, 'option=com_frontpage') > 0 AND !(stripos($link, 'limit'))) OR $link == 'index.php' OR $link == 'index.php?'){
-					$link = JPATH_SITE . '/';
-				} else{
-					// Оснавная обработка
-					$link = str_replace('&amp;', '&', $link);
-
-					// Разбирает URL и возвращает его компоненты
-					$url = parse_url($link);
-
-					// проверяем часть fragment (после знака диеза #)
-					$fragment = '';
-					if(isset($url['fragment'])){
-
-						// Проверка на валидность
-						if(preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $url['fragment'])){
-							$fragment = '#' . $url['fragment'];
-						}
+						$database->setQuery($sql);
+						$database->query();
 					}
 
-					// проверяем часть query после знака вопроса ?
-					if(isset($url['query'])){
+					// формируем окончательно ссылку
+					$link = JPATH_SITE . $link;
+				} else{
+					$option = '';
+					$fragment = '';
+					// если ссылка идёт на компонент главной страницы - очистим её
+					if((JSef::$cfg_frontpage AND stripos($link, 'option=com_frontpage') > 0 AND !(stripos($link, 'limit'))) OR $link == 'index.php' OR $link == 'index.php?'){
+						$link = JPATH_SITE . '/';
+					} else{
+						// Оснавная обработка
+						$link = str_replace('&amp;', '&', $link);
 
-						// специальная обработка для javascript
-						$url['query'] = stripslashes(str_replace('+', '%2b', $url['query']));
+						// Разбирает URL и возвращает его компоненты
+						$url = parse_url($link);
 
-						// очистить возможные атаки XSS
-						$url['query'] = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $url['query']);
+						// проверяем часть fragment (после знака диеза #)
+						if(isset($url['fragment'])){
 
-						// разбиваем строку (URL) на части
-						parse_str($url['query'], $parts);
-
-						// формируем ссылку
-						$link = '';
-						foreach($parts as $key => $value){
-							// отдельно запоминаем option чтобы разместить его первым в адресе
-							if($key != 'option'){
-								$link .= $key . self::separator . $value . '/';
-							} else{
-								$option = $value . '/';
+							// Проверка на валидность
+							if(preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $url['fragment'])){
+								$fragment = '#' . $url['fragment'];
 							}
 						}
-					}
 
-					$link = (isset($option)) ? JPATH_SITE . '/' . $option . $link . $fragment : '';
+						// проверяем часть query после знака вопроса ?
+						if(isset($url['query'])){
+
+							// специальная обработка для javascript
+							$url['query'] = stripslashes(str_replace('+', '%2b', $url['query']));
+
+							// очистить возможные атаки XSS
+							$url['query'] = preg_replace("'%3Cscript[^%3E]*%3E.*?%3C/script%3E'si", '', $url['query']);
+
+							// разбиваем строку (URL) на части
+							parse_str($url['query'], $parts);
+
+							// формируем ссылку
+							$link = '';
+							foreach($parts as $key => $value){
+								// отдельно запоминаем option чтобы разместить его первым в адресе
+								if($key != 'option'){
+									$link .= $key . self::separator . $value . '/';
+								} else{
+									$option = $value . '/';
+								}
+							}
+						}
+						$link = JPATH_SITE . '/' . $option . $link . $fragment;
+					}
 				}
+			}else{
+				$link = JPATH_SITE . '/' . $link;
 			}
 		}
 		return $link;
 	}
 
-
-	/**
-	 * @static - Получаем имя класса
-	 *
-	 * @param $link - ссылка
-	 *
-	 * @return string - имя класса
-	 */
-	/*
-	private static function getSefClass($link){
-		// получаем имя компонента из ссылки
-		$option = self::getOption($link);
-
-		// существует ли sef-файл для этого компонента
-		if(array_key_exists($option . '.sef.php', self::$sef_files)){
-			require_once(JPATH_BASE . DS . 'includes' . DS . 'sef' . DS . $option . '.sef.php');
-		} else{
-			require_once(JPATH_BASE . DS . 'includes' . DS . 'sef' . DS . 'joossef.sef.php');
-		}
-
-		// проверка существует ли сответсвующий SEF-класс
-		$sefclass = ucfirst(preg_replace('#^com_#', '', $option));
-		$sefclass = (class_exists('Sef' . $sefclass)) ? 'Sef' . $sefclass : 'SefJoossef';
-
-		// TODO GoDr: Временная заглушка: всегда используется sef-файл по умолчанию. Удалить к версии 1.4.1
-		$sefclass = 'SefJoossef';
-
-		return $sefclass;
-	}
-*/
 	/**
 	 * @static Загрузка параметров из SEF-url в глобальные
 	 * @return mixed
@@ -378,11 +351,11 @@ class JSef{
 
 		// Проверяем существует ли обратная ссылка в базе
 		$sql = "SELECT `url` FROM `#__sef_link` WHERE `sef`='" . $link . "' ";
-		$database->setQuery($sql);
-		if(!is_null($database->loadResult())){
-			self::$_lib_url->parse($database->loadResult());
+		$result = self::_checkSefUrl($sql);
+		if(!is_null($result)){
+			self::$_lib_url->parse($result);
 			$url_vars = self::$_lib_url->_vars;
-			foreach ($url_vars as $key => $value){
+			foreach($url_vars as $key => $value){
 				$_GET[$key] = $value;
 				$_REQUEST[$key] = $value;
 			}
@@ -409,6 +382,30 @@ class JSef{
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * @static Проверяет есть ли уже в массиве значение из базы, если нет, то получает из базы
+	 *
+	 * @param string $sql - SQL-запрос, который получает одно значение
+	 *
+	 * @return string - результат
+	 */
+	private static function _checkSefUrl($sql){
+		//получаем ключ из SQL-запроса
+		$key = md5($sql);
+
+		if(array_key_exists($key, self::$_sef_url)){ // если такое значение уже есть
+			return self::$_sef_url[$key];
+		} else{ // если нет , то получаем из базы
+			$database = database::getInstance();
+			$database->setQuery($sql);
+			$result = $database->loadResult();
+
+			// записываем в массив результат
+			self::$_sef_url[$key] = $result;
+			return $result;
 		}
 	}
 
