@@ -21,7 +21,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('JPATH_BASE',_JLPATH_ROOT);
 
 // TODO временная заглушка
-define('JPATH_ROOT',JPATH_ROOT);
+define('JPATH_ROOT',_JLPATH_ROOT);
 
 // путь до библиотек
 define('_JLPATH_LIBRARIES',		_JLPATH_ROOT . '/libraries');
