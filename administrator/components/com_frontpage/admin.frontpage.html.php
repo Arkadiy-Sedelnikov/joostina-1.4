@@ -186,7 +186,7 @@ class ContentView{
 	<?php
 	}
 
-	function showConf($directorylist, $pageslist){
+	function showConf($directorylist, $pageslist, $orderlist){
 		?>
 
 	<form action="index2.php" method="post" name="adminForm">
@@ -201,6 +201,11 @@ class ContentView{
 				<td><?php echo _SELECT_VIEW; ?></td>
 				<td><?php echo $pageslist; ?></td>
 				<td><?php echo _SELECT_VIEW_DESC; ?></td>
+			</tr>
+			<tr class="row2">
+				<td><?php echo _SELECT_ORDER; ?></td>
+				<td><?php echo $orderlist; ?></td>
+				<td><?php echo _SELECT_ORDER_DESC; ?></td>
 			</tr>
 		</table>
 		<input type="hidden" name="option" value="com_frontpage"/>

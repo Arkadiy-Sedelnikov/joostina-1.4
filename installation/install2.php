@@ -61,7 +61,7 @@ if(!$DBcreated){
 	$configArray['DBPrefix'] = $DBPrefix;
 
 	//Если не выбрано создание базы, пробуем соединиться с указанной
-	if(mysql_select_db($DBname, $database->getResource())){
+	if(mysqli_select_db($database->getResource(), $DBname)){
 		$sql = "USE `$DBname` ";
 		$database->setQuery($sql);
 		$database->query();

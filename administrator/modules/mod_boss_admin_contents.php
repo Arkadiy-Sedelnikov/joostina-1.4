@@ -39,7 +39,7 @@ $directory = intval($params->get('directory', 0));
 //если каталог 0, то запрашиваем каталог из конфига фронтпейджа
 if($directory == 0){
 	require_once ($mainframe->getPath('class', 'com_frontpage'));
-	$configObject = new frontpageConfig($database);
+	$configObject = new frontpageConfig();
 	$directory = $configObject->get('directory', 1);
 }
 

@@ -16,15 +16,15 @@ mosMainFrame::addLib('dbconfig');
  * Category database table class
  * @package Joostina
  */
-class searchByTagConfig extends dbConfig{
+class searchByTagConfig extends DBConfig{
 
 	/**
 	 * Заголовок страницы
 	 */
 	var $title = _SEARCH_ALL_ITEM_W_TAG;
 
-	function __construct($db, $group = 'com_search', $subgroup = 'search_by_tag'){
-		parent::__construct($db, $group, $subgroup);
+	function __construct($group = 'com_search', $subgroup = 'search_by_tag'){
+		parent::__construct($group, $subgroup);
 	}
 
 }

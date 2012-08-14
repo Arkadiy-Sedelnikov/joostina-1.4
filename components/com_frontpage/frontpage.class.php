@@ -35,13 +35,14 @@ class mosFrontPage extends mosDBTable{
 /**
  * конфигурация компонента
  */
-class frontpageConfig extends dbConfig{
+class frontpageConfig extends DBConfig{
 
-	var $directory = null;
-	var $page = null;
+	public $directory = null;
+	public $page = null;
+	public $order = null;
 
-	function __construct($db, $group = 'com_frontpage', $subgroup = 'default'){
-		parent::__construct($db, $group, $subgroup);
+	function __construct($group = 'com_frontpage', $subgroup = 'default'){
+		parent::__construct($group, $subgroup);
 	}
 
 

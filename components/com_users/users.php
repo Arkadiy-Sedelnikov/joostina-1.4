@@ -141,7 +141,7 @@ function profile($uid){
 		$file = $mainframe->getPath('com_xml', 'com_users');
 		$params = new mosUserParameters($row->params, $file, 'component');
 
-		$config = new configUser_profile($database);
+		$config = new configUser_profile();
 		$config->set('title', sprintf($config->get('title'), $row->name));
 		$title = $config->get('title');
 
@@ -180,7 +180,7 @@ function userEdit($option, $uid, $submitvalue){
 	$user_extra->load((int)$uid);
 	$user->user_extra = $user_extra;
 
-	$user_config = new configUser_profile($database);
+	$user_config = new configUser_profile();
 
 	HTML_user::userEdit($user, $option, $submitvalue, $params, $user_config);
 }
@@ -437,7 +437,7 @@ function lostPassForm($option){
 	$config = Jconfig::getInstance();
 	$database = database::getInstance();
 
-	$user_config = new configUser_lostpass($database);
+	$user_config = new configUser_lostpass();
 
 	//Шаблон
 	$template = $user_config->get('template');
@@ -506,14 +506,14 @@ function registerForm($option, $useractivation){
 
 	$mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
-	$acl = &gacl::getInstance();
+	$acl = gacl::getInstance();
 
 	if(!$mainframe->getCfg('allowUserRegistration')){
 		mosNotAuth();
 		return;
 	}
 
-	$params = new configUser_registration($database);
+	$params = new configUser_registration();
 
 	$type = mosGetParam($_REQUEST, 'type', '');
 	$gid = $params->get('gid');
@@ -546,14 +546,14 @@ function saveRegistration(){
 
 	$mainframe = mosMainFrame::getInstance();
 	$database = database::getInstance();
-	$acl = &gacl::getInstance();
+	$acl = gacl::getInstance();
 
 	if($mainframe->getCfg('allowUserRegistration') == 0){
 		mosNotAuth();
 		return;
 	}
 
-	$params = new configUser_registration($database);
+	$params = new configUser_registration();
 
 	if($mainframe->getCfg('captcha_reg')){
 		session_name(mosMainFrame::sessionCookieName());

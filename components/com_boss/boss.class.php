@@ -2293,8 +2293,14 @@ class boss_helpers{
 			}
 		}
 
-		//сортировка в зависимости от главная страница
-		$ordering = ($task == 'show_frontpage') ? "a.ordering" : $order_text;
+		// TODO GoDr временная заглушка. параметр сортировки на главной
+		//сортировка в зависимости от настроек на Главной странице
+		if($task == 'show_frontpage'){
+			$configObject = new frontpageConfig();
+			$ordering = ($configObject->get('order') == 'frontpage') ? "a.ordering" : $order_text;
+		}else{
+			$ordering = $order_text;
+		}
 
 		$q = "SELECT a.*, a.userid as user_id, p.name as parent, p.id as parentid, c.name as cat, c.id as catid, c.rights as rights, \n";
 		if($show_contact == 1){

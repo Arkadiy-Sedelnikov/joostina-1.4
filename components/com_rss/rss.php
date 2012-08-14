@@ -232,7 +232,7 @@ function feedFrontpage($showFeed){
 
 	//определяем каталог выведенный на главную страницу
 	require_once ($mainframe->getPath('class', 'com_frontpage'));
-	$configObject = new frontpageConfig($database);
+	$configObject = new frontpageConfig();
 	$directory = $configObject->get('directory', 0);
 	$introCol = $configObject->get('directory', 0);
 

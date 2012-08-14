@@ -95,7 +95,7 @@ function search_by_tag($tag){
 	$items->tag = $tag;
 
 	//Params
-	$params = new searchByTagConfig($database);
+	$params = new searchByTagConfig();
 	$mainframe->setPageTitle($params->title . ' - ' . $tag);
 
 	search_by_tag_HTML::tag_page($items, $params, $groups);

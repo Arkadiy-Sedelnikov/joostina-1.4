@@ -11,7 +11,7 @@ defined('_JLINDEX') or die();
 
 mosMainFrame::addLib('dbconfig');
 
-class configUser_registration extends dbConfig{
+class configUser_registration extends DBConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -60,8 +60,8 @@ class configUser_registration extends dbConfig{
 	 */
 	var $admin_activation = 0;
 
-	function __construct($db, $group = 'com_users', $subgroup = 'registration'){
-		parent::__construct($db, $group, $subgroup);
+	function __construct($group = 'com_users', $subgroup = 'registration'){
+		parent::__construct($group, $subgroup);
 	}
 
 	function display_config($option){
@@ -151,7 +151,7 @@ class configUser_registration extends dbConfig{
 	}
 }
 
-class configUser_profile extends dbConfig{
+class configUser_profile extends DBConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -184,8 +184,8 @@ class configUser_profile extends dbConfig{
 	 */
 	var $template_dir = '';
 
-	function __construct($db, $group = 'com_users', $subgroup = 'profile'){
-		parent::__construct($db, $group, $subgroup);
+	function __construct($group = 'com_users', $subgroup = 'profile'){
+		parent::__construct($group, $subgroup);
 	}
 
 	function display_config($option){
@@ -254,7 +254,7 @@ class configUser_profile extends dbConfig{
 	}
 }
 
-class configUser_lostpass extends dbConfig{
+class configUser_lostpass extends DBConfig{
 	/**
 	 * Заголовок страницы
 	 */
@@ -273,8 +273,8 @@ class configUser_lostpass extends dbConfig{
 	 */
 	var $template_dir = '';
 
-	function __construct($db, $group = 'com_users', $subgroup = 'lostpass'){
-		parent::__construct($db, $group, $subgroup);
+	function __construct($group = 'com_users', $subgroup = 'lostpass'){
+		parent::__construct($group, $subgroup);
 	}
 
 	function display_config($option){

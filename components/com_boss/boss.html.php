@@ -461,16 +461,15 @@ class boss_html{ //implements  bossUI {
 			foreach($children[$id] as $row){
 				if(($root_allowed == 1) || (!@$children[$row->id])){
 					if($current_cat_only == 0){
-						?>
-					<option value="<?php echo $row->id ?>" <?php if($row->id == $catid){
-						echo "selected='selected'";
-					} ?>>
-						<?php echo $level . $row->name; ?>
-					</option>
-					<?php
-
-					} else if($row->id == $catid){
-						echo "<label>" . $level . $row->name . "</label>";
+						echo '<option value="' . $row->id . '"';
+						if($row->id == $catid){
+							echo " selected='selected'";
+						}
+						echo '>' . $level . $row->name . '</option>';
+					} else {
+						if($row->id == $catid){
+							echo "<label>" . $level . $row->name . "</label>";
+						}
 					}
 				}
 				$this->selectCategories($row->id, $level . $row->name . " >> ", $children, $catid, $root_allowed, $linkoption, $current_cat_only);
@@ -1174,7 +1173,6 @@ class boss_html{ //implements  bossUI {
 		$this->selectCategories(0, "", $categories, $catid, $this->conf->root_allowed, $linkoption);
 		?>
 	</select><?php
-
 	}
 
 	function displayContentTypesSelect($task = 'write_content'){

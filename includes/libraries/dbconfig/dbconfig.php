@@ -13,7 +13,7 @@ defined('_JLINDEX') or die();
 /**
  * Класс для получения параметров из базы данных
  */
-class DBconfig{
+class DBConfig{
 	var $_group = '';
 	var $_subgroup = '';
 	var $_db = null;
@@ -23,11 +23,10 @@ class DBconfig{
 	/**
 
 	 */
-	function __construct($database, $group = '', $subgroup = ''){
+	function __construct($group = '', $subgroup = ''){
 		global $option;
 
-		//$database = database::getInstance();
-		$this->_db = $database;
+		$this->_db = database::getInstance();
 
 		// проверяем - задана ли группа
 		if(trim($group) == ''){
@@ -83,11 +82,7 @@ class DBconfig{
 	function storeConfig(){
 		$rows = get_object_vars($this);
 
-		$title = '';
-		$info = '';
-
 		foreach($rows as $key => $value){
-
 			if(substr($key, 0, 1) !== '_'){
 				$return = $this->setValue($key, $value);
 				if(!$return){
@@ -122,8 +117,8 @@ class DBconfig{
 			$where = " AND c.subgroup = '" . $this->_subgroup . "'";
 		}
 
-		$this->_db->setQuery("SELECT c.name, c.value, c.subgroup FROM #__config AS c WHERE c.group='$this->_group'" . $where);
-
+		$sql = "SELECT c.name, c.value, c.subgroup FROM #__config AS c WHERE c.group='$this->_group'" . $where;
+		$this->_db->setQuery($sql);
 		$return = $this->_db->loadObjectList();
 		if(count($return) && is_array($return)){
 			$this->_loaded = 1;

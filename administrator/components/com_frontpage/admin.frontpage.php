@@ -21,11 +21,11 @@ require_once ($mainframe->getPath('class'));
 //подключаем класс босса
 require_once(JPATH_BASE . '/components/com_boss/boss.class.php');
 
-$db = database::getInstance();
 $conf = null;
-$configObject = new frontpageConfig($db);
+$configObject = new frontpageConfig();
 $conf->directory = $configObject->get('directory');
 $conf->page = $configObject->get('page');
+$conf->order = $configObject->get('order');
 
 if($task != 'save_settings' && $task != 'apply_settings'){
 	$directory = $database->setQuery("SELECT id FROM #__boss_config WHERE id = " . (int)$conf->directory)->loadResult();
@@ -33,7 +33,6 @@ if($task != 'save_settings' && $task != 'apply_settings'){
 		$task = 'settings';
 	}
 }
-
 $cid = josGetArrayInts('cid');
 
 switch($task){
@@ -325,11 +324,19 @@ function settings($conf){
 		$dirOptions[] = mosHTML::makeOption($directory->id, $directory->name);
 	}
 	$directorylist = mosHTML::selectList($dirOptions, 'directory', 'class="inputbox" size="1"', 'value', 'text', @$conf->directory);
+
 	$pages = array();
 	$pages[] = mosHTML::makeOption('show_frontpage', _DIRECTORY_CONTENT);
 	$pages[] = mosHTML::makeOption('front', _DIRECTORY_CATEGORY);
 	$pageslist = mosHTML::selectList($pages, 'page', 'class="inputbox" size="1"', 'value', 'text', @$conf->page);
-	ContentView::showConf($directorylist, $pageslist);
+
+	// список сортировки
+	$order = array();
+	$order[] = mosHTML::makeOption('frontpage', _SELECT_ORDER_1);
+	$order[] = mosHTML::makeOption('directory', _SELECT_ORDER_2);
+	$orderlist = mosHTML::selectList($order, 'order', 'class="inputbox" size="1"', 'value', 'text', @$conf->order);
+
+	ContentView::showConf($directorylist, $pageslist, $orderlist);
 }
 
 function saveSettings($task, $configObject){

@@ -14,7 +14,6 @@ require_once($mainframe->getPath('class', 'com_boss'));
 require_once(JPATH_BASE . '/components/com_boss/boss.tools.php');
 // cache activation
 $cache = mosCache::getCache('com_boss');
-
 $task = (isset($frontpageConf->task)) ? $frontpageConf->task : mosGetParam($_REQUEST, 'task', "front");
 $text_search = mosGetParam($_REQUEST, 'text_search', "");
 $name_search = mosGetParam($_REQUEST, 'name_search', "");
@@ -1495,7 +1494,19 @@ function front($directory, $template_name){
 
 	$tree = boss_helpers::get_cattree($directory, $conf, $conf->empty_cat);
 
-	$database->setQuery("SELECT a.id, a.name, a.date_created,p.id as parentid, \n" . "p.name as parent,c.id as catid, c.id as category, c.name as cat \n" . "FROM #__boss_" . $directory . "_contents as a, \n" . "#__boss_" . $directory . "_content_category_href as cch, \n" . "#__boss_" . $directory . "_categories as c, \n" . "#__boss_" . $directory . "_categories as p \n" . "WHERE a.id = cch.content_id AND c.parent = p.id \n" . "AND c.id = cch.category_id AND c.published = 1 \n" . "AND a.published = 1 \n" . "ORDER BY a.date_created DESC, a.id DESC \n" . "LIMIT 0, 3");
+	$sql = "SELECT a.id, a.name, a.date_created,p.id as parentid, p.name as parent,c.id as catid, c.id as category, c.name as cat
+			FROM #__boss_" . $directory . "_contents as a,
+				#__boss_" . $directory . "_content_category_href as cch,
+				#__boss_" . $directory . "_categories as c,
+				#__boss_" . $directory . "_categories as p
+			WHERE a.id = cch.content_id
+				AND c.parent = p.id
+				AND c.id = cch.category_id
+				AND c.published = 1
+				AND a.published = 1
+				ORDER BY a.date_created DESC, a.id DESC
+				LIMIT 0, 3";
+	$database->setQuery($sql);
 	$contents = $database->loadObjectList();
 
 	// Dynamic Page Title

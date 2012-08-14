@@ -11,12 +11,10 @@
 defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('class', 'com_frontpage'));
-$db = database::getInstance();
 $frontpageConf = null;
-$configObject = new frontpageConfig($db);
+$configObject = new frontpageConfig();
 $frontpageConf->directory = $configObject->get('directory', 0);
 $frontpageConf->task = $configObject->get('page', 'front');
-
 $isFrontpage = 1;
 
 // code handling has been shifted into content.php

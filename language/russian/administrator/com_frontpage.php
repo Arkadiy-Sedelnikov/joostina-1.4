@@ -26,3 +26,7 @@ if(!defined("_SELECT_DIRECTORY"))
 DEFINE('_SELECT_DIRECTORY_DESC', 'Выберите каталог для показа на главной странице');
 DEFINE('_SELECT_VIEW', 'Выберите вид');
 DEFINE('_SELECT_VIEW_DESC', 'Выберите вид выводимого контента');
+DEFINE('_SELECT_ORDER', 'Выберите сортировку');
+DEFINE('_SELECT_ORDER_DESC', 'Выберите вид сортировки контента');
+DEFINE('_SELECT_ORDER_1', 'Использовать настройки Главной страницы');
+DEFINE('_SELECT_ORDER_2', 'Использовать настройки Каталога');
