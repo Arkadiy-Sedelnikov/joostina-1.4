@@ -213,10 +213,11 @@ class jDirectoryCategory extends mosDBTable{
 				}
 			}
 			$where = (count($wheres) > 0) ? "WHERE " . implode(' AND ', $wheres) . " " : '';
-			$q = "SELECT c.* FROM #__boss_" . $directory . "_categories as c ";
-			$q .= $where;
-			$q .= "ORDER BY c.parent,c.ordering";
-			$rows = $database->setQuery($q)->loadObjectList();
+			$sql = "SELECT c.* FROM #__boss_" . $directory . "_categories as c ";
+			//$sql .= "LEFT JOIN #__boss_" . $directory . "_content_types AS u ON u.id = c.content_types ";
+			$sql .= $where;
+			$sql .= "ORDER BY c.parent,c.ordering";
+			$rows = $database->setQuery($sql)->loadObjectList();
 			if($database->getErrorNum()){
 				echo $database->stderr();
 			}
@@ -377,13 +378,14 @@ class jDirectoryCategory extends mosDBTable{
 			}
 		}
 		$where = (count($wheres) > 0) ? "WHERE " . implode(' AND ', $wheres) . " " : '';
-		$q = "SELECT c.*, COUNT(cont.id) as num_cont FROM #__boss_" . $directory . "_categories as c ";
-		$q .= "LEFT JOIN #__boss_" . $directory . "_content_category_href as cch ON cch.category_id = c.id ";
-		$q .= "LEFT JOIN #__boss_" . $directory . "_contents as cont ON cont.id = cch.content_id ";
-		$q .= $where;
-		$q .= "GROUP BY c.id ";
-		$q .= "ORDER BY c.parent,c.ordering";
-		$rows = $database->setQuery($q)->loadObjectList();
+		$sql = "SELECT c.*, COUNT(cont.id) as num_cont, u.name AS content_types_name FROM #__boss_" . $directory . "_categories as c ";
+		$sql .= "LEFT JOIN #__boss_" . $directory . "_content_category_href as cch ON cch.category_id = c.id ";
+		$sql .= "LEFT JOIN #__boss_" . $directory . "_content_types as u ON u.id = c.content_types ";
+		$sql .= "LEFT JOIN #__boss_" . $directory . "_contents as cont ON cont.id = cch.content_id ";
+		$sql .= $where;
+		$sql .= "GROUP BY c.id ";
+		$sql .= "ORDER BY c.parent,c.ordering";
+		$rows = $database->setQuery($sql)->loadObjectList();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
@@ -2293,14 +2295,8 @@ class boss_helpers{
 			}
 		}
 
-		// TODO GoDr временная заглушка. параметр сортировки на главной
-		//сортировка в зависимости от настроек на Главной странице
-		if($task == 'show_frontpage'){
-			$configObject = new frontpageConfig();
-			$ordering = ($configObject->get('order') == 'frontpage') ? "a.ordering" : $order_text;
-		}else{
-			$ordering = $order_text;
-		}
+		//сортировка в зависимости от главная страница
+		$ordering = ($task == 'show_frontpage') ? "a.ordering" : $order_text;
 
 		$q = "SELECT a.*, a.userid as user_id, p.name as parent, p.id as parentid, c.name as cat, c.id as catid, c.rights as rights, \n";
 		if($show_contact == 1){

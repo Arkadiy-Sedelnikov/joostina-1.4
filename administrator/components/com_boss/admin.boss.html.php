@@ -847,6 +847,7 @@ class HTML_boss{
 				<td class="td-state" align="center" onclick="boss_publ('img-pub-<?php echo $row->id; ?>', '<?php echo "act=categories&task=publish&tid=" . $row->id . "&directory=$directory"; ?>');">
 					<?php HTML_boss::displayYesNoImg($row->published, "img-pub-" . $row->id); ?>
 				</td>
+				<td><?php echo $row->content_types_name; ?></td>
 				<td><?php $tmpl = $row->template ? $row->template : ''; echo $tmpl; ?></td>
 				<td><?php echo $row->slug; ?></td>
 			</tr>
@@ -1325,8 +1326,9 @@ class HTML_boss{
 					</a>
 				</th>
 				<th class="title" width="10%"><?php echo BOSS_TH_PUBLISH;?></th>
-				<th class="title" width="20%"><?php echo BOSS_TEMPLATE;?></th>
-				<th class="title" width="20%"><?php echo BOSS_NAME_ALIAS;?></th>
+				<th class="title" width="10%"><?php echo BOSS_CONTENT_TYPES;?></th>
+				<th class="title" width="15%"><?php echo BOSS_TEMPLATE;?></th>
+				<th class="title" width="15%"><?php echo BOSS_NAME_ALIAS;?></th>
 			</tr>
 			<?php
 
