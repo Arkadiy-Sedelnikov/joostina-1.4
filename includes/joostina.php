@@ -4843,42 +4843,44 @@ class mosAdminMenus{
 
 			$database->setQuery($sql);
 			$mitems = $database->loadObjectList();
-			$mitems_temp = $mitems;
+			if(count($mitems)){
+				$mitems_temp = $mitems;
 
-			// establish the hierarchy of the menu
-			$children = array();
-			// first pass - collect children
-			foreach($mitems as $v){
-				$pt = $v->parent;
-				$boss = isset($children[$pt]) ? $children[$pt] : array();
-				array_push($boss, $v);
-				$children[$pt] = $boss;
-			}
-			// second pass - get an indent list of the items
-			$boss = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
+				// establish the hierarchy of the menu
+				$children = array();
+				// first pass - collect children
+				foreach($mitems as $v){
+					$pt = $v->parent;
+					$boss = isset($children[$pt]) ? $children[$pt] : array();
+					array_push($boss, $v);
+					$children[$pt] = $boss;
+				}
+				// second pass - get an indent list of the items
+				$boss = mosTreeRecurse(intval($mitems[0]->parent), '', array(), $children, 20, 0, 0);
 
-			// Code that adds menu name to Display of Page(s)
-			$text_count = 0;
-			$mitems_spacer = $directory->name;
-			foreach($boss as $boss_a){
-				foreach($mitems_temp as $mitems_a){
-					if($mitems_a->id == $boss_a->id){
-						// Code that inserts the blank line that seperates different menus
-						if($directory->name != $mitems_spacer){
-							$boss_temp[] = mosHTML::makeOption(-999, '------------');
-							$mitems_spacer = $directory->name;
-						}
+				// Code that adds menu name to Display of Page(s)
+				$text_count = 0;
+				$mitems_spacer = $directory->name;
+				foreach($boss as $boss_a){
+					foreach($mitems_temp as $mitems_a){
+						if($mitems_a->id == $boss_a->id){
+							// Code that inserts the blank line that seperates different menus
+							if($directory->name != $mitems_spacer){
+								$boss_temp[] = mosHTML::makeOption(-999, '------------');
+								$mitems_spacer = $directory->name;
+							}
 
-						$text = $directory->name . ' : ' . $boss_a->treename;
-						$boss_temp[] = mosHTML::makeOption('com_boss' . '-' . $directory->id . '-' . $boss_a->id . '-' . $task, $text);
+							$text = $directory->name . ' : ' . $boss_a->treename;
+							$boss_temp[] = mosHTML::makeOption('com_boss' . '-' . $directory->id . '-' . $boss_a->id . '-' . $task, $text);
 
-						if(strlen($text) > $text_count){
-							$text_count = strlen($text);
+							if(strlen($text) > $text_count){
+								$text_count = strlen($text);
+							}
 						}
 					}
 				}
+				$boss_temp[] = mosHTML::makeOption(-999, '------------');
 			}
-			$boss_temp[] = mosHTML::makeOption(-999, '------------');
 		}
 		// BOSS конец
 
@@ -4915,8 +4917,10 @@ class mosAdminMenus{
 		$mitems[] = mosHTML::makeOption(-999, '------------');
 
 		// добавление ссылок для BOSS
-		foreach($boss_temp as $item){
-			$mitems[] = mosHTML::makeOption($item->value, $item->text);
+		if(isset($boss_temp)){
+			foreach($boss_temp as $item){
+				$mitems[] = mosHTML::makeOption($item->value, $item->text);
+			}
 		}
 
 		// добавление ссылок для других компонентов
