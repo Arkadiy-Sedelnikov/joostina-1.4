@@ -1014,7 +1014,7 @@ class boss_html{ //implements  bossUI {
 		$directory = $this->directory;
 		$update_possible = 0;
 
-		if($content->userid != 0){
+		if($content->user_id != 0){
 			$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_user&amp;userid=" . $content->userid . "&amp;directory=$directory");
 			echo "<a href='" . $target . "'><b>" . BOSS_SHOW_OTHERS . $content->user . "</b></a>";
 
@@ -1514,7 +1514,12 @@ class boss_html{ //implements  bossUI {
 	}
 
 	function displayDirectoryName(){
-		echo $this->directory_name;
+		if(is_null($this->directory_name)){
+			$conf = getConfig($this->directory);
+			echo $conf->name;
+		}else{
+			echo $this->directory_name;
+		}
 	}
 
 	function displayAllContentsLink(){

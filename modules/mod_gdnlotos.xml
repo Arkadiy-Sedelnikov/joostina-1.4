@@ -2,13 +2,13 @@
 <mosinstall type="module">
     <name>GDNewsLotos - Главные новости</name>
     <creationDate>01.05.2012</creationDate>
-    <modificationDate>01.05.2012</modificationDate>
+    <modificationDate>21.08.2012</modificationDate>
     <author>Gold Dragon</author>
     <authorEmail>illusive@bk.ru</authorEmail>
     <authorUrl>http://gd.joostina-cms.ru</authorUrl>
     <copyright>(C) 2000-2012 Gold Dragon.</copyright>
     <license>http://www.gnu.org/licenses/gpl.htm GNU/GPL</license>
-    <version>1.0</version>
+    <version>1.1</version>
     <description>
         <![CDATA[
 		<p><b>&laquo;GDNewsLotos - Главные новости&raquo;</b> - модуль позволяет выводить основные материалы по определённым критериям.</p>

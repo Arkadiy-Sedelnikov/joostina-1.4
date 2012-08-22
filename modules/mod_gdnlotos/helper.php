@@ -94,6 +94,7 @@ class mod_gdnlotos_Helper{
 		$this->directory = intval($params->get('directory', 0));
 		$this->catid = trim($params->get('catid', ''));
 		$this->directory_name = intval($params->get('directory_name', 1));
+
 		$this->directory_link = intval($params->get('directory_link', 1));
 		$this->category_name = intval($params->get('category_name', 1));
 		$this->category_link = intval($params->get('category_link', 1));
@@ -180,7 +181,7 @@ class mod_gdnlotos_Helper{
 		}
 
 		// получаем имя каталога
-		$this->dir_name = Text::gdQuoteReplace($this->_database->setQuery("SELECT name FROM #__boss_config")->loadResult());
+		$this->dir_name = Text::gdQuoteReplace($this->_database->setQuery("SELECT `name` FROM `#__boss_config` WHERE `id`=".$this->directory)->loadResult());
 	}
 
 	/**
@@ -203,12 +204,12 @@ class mod_gdnlotos_Helper{
 		$i = 0;
 		if($rows){
 			foreach($rows as $row){
-				if($i < $this->count_special
-				) // обработка специальных статей
-					$this->special .= $this->getSpecial($row); elseif($i >= $this->count_special AND $i < ($this->count_basic + $this->count_special)
-				) // обработка основных статей
-					$this->basic[] = $this->getBasic($row); else
-					// обработка ссылок
+				// обработка специальных статей
+				if($i < $this->count_special)
+					$this->special .= $this->getSpecial($row);
+				elseif($i >= $this->count_special AND $i < ($this->count_basic + $this->count_special)) // обработка основных статей
+					$this->basic[] = $this->getBasic($row);
+				else	// обработка ссылок
 					$this->reference .= $this->getReference($row);
 				$i++;
 			}
@@ -225,6 +226,7 @@ class mod_gdnlotos_Helper{
 	private function getSpecial($row){
 		$this->getItem($row, 'sp');
 		$tpl = file_get_contents($this->tpl_dir . DS . 'special.tpl');
+
 		if(strpos($tpl, '[MODULECLASS_SFX]'))
 			$tpl = str_replace('[MODULECLASS_SFX]', $this->moduleclass_sfx, $tpl);
 		if(strpos($tpl, '[TITLE]'))
@@ -256,6 +258,7 @@ class mod_gdnlotos_Helper{
 	private function getBasic($row){
 		$this->getItem($row, 'bs');
 		$tpl = file_get_contents($this->tpl_dir . DS . 'basic.tpl');
+
 		if(strpos($tpl, '[MODULECLASS_SFX]'))
 			$tpl = str_replace('[MODULECLASS_SFX]', $this->moduleclass_sfx, $tpl);
 		if(strpos($tpl, '[TITLE]'))
