@@ -603,9 +603,11 @@ class boss_html{ //implements  bossUI {
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$directory = $this->directory;
-		$catid = mosGetParam($_REQUEST, 'catid', '');
 
-		$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=write_content&amp;contentid=" . $content->id . "&amp;content_types=" . $content->type_content . "&amp;catid=" . $catid . "&amp;directory=" . $directory);
+		// TODO GoDr зачем-то $catid получалось не из $content
+		//$catid = mosGetParam($_REQUEST, 'catid', '');
+
+		$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=write_content&amp;contentid=" . $content->id . "&amp;content_types=" . $content->type_content . "&amp;catid=" . $content->catid . "&amp;directory=" . $directory);
 		$edit = "<a href='" . $target . "'>" . BOSS_CONTENT_EDIT . "</a> &nbsp;";
 		$target = JSef::getUrlToSef("index.php?option=com_boss&amp;task=delete_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory");
 		$delete = "<a href='" . $target . "'>" . BOSS_CONTENT_DELETE . "</a>";
