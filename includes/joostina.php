@@ -1721,7 +1721,8 @@ class mosMainFrame{
 									site:"' . $site . '",
 									desc:"' . $desc . '",
 									cms_ver:"' . $cms_ver . '",
-									build:"' . $build . '"
+									build:"' . $build . '",
+									ip:"' . $ip . '"
 								}
 							});
 							</script>';
@@ -1735,7 +1736,7 @@ class mosMainFrame{
 				$err = true;
 			}
 			if($err){
-				$date_send_server = time() + (90 * 24 * 60 * 60);
+				$date_send_server = time() + (30 * 24 * 60 * 60);
 				$info_server = "<?php\n";
 				$info_server .= "\$date_send_server = '" . $date_send_server . "';\n";
 
