@@ -1056,15 +1056,11 @@ class boss_html{ //implements  bossUI {
 
 	function displayContent($content, $unique = 1){
 		$conf = $this->conf;
+		$mainframe = mosMainFrame::getInstance();
 		include(JPATH_BASE . '/templates/com_boss/' . $this->template_name . '/content.php');
 
-		if($unique == 1){
-			?>
-		<div class="back_button">
-			<a href='javascript:history.go(-1)'><?php echo BOSS_BACK_TEXT; ?></a>
-		</div>
-		<?php
-
+		if($unique == 1 and $mainframe->getCfg('back_button')){
+			echo '<div class="back_button"><a href="javascript:history.go(-1)">' . BOSS_BACK_TEXT . '</a></div>';
 		} else{
 			echo "<br />";
 		}

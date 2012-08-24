@@ -86,7 +86,6 @@ if($xSitemap->usecache){
 	$config = $mainframe->config;
 	$xmapCache->call('xmapCallShowSitemap', $view, $xSitemap->id, $config->config_locale, $config->config_sef, $menu->name); // call plugin's handler function
 } else{
-	_vdump(_XMAP_SHOW_AS_EXTERN_ALT);
 	xmapCallShowSitemap($view, $xSitemap->id, null, null, $menu->name);
 }
 
