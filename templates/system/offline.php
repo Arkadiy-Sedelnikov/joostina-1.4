@@ -94,16 +94,14 @@ if(!defined('_ADMIN_OFFLINE') || defined('_INSTALL_CHECK')){
 </head>
 <body>
 <div id="joo">
-	<img src="<?php echo JPATH_SITE;?>/administrator/templates/joostfree/images/logo.png" alt="Joostina!"/>
+	<img src="<?php echo JPATH_SITE;?>/administrator/templates/joostfree/images/logo_130.png" alt="Joostina!"/>
 </div>
-<div id="ctr1" align="center">
+<div id="maindiv" align="center">
 	<p>&nbsp;</p>
-
-	<p>&nbsp;</p>
-	<table width="550" align="center" class="outline">
+	<table align="center" class="outline">
 		<tr>
-			<td width="60%" height="50" align="center">
-				<img src="<?php echo JPATH_SITE; ?>/images/system/syte_off.png" alt="<?php echo _SITE_OFFLINE?>" align="middle"/>
+			<td align="center">
+				<img src="<?php echo JPATH_SITE; ?>/images/system/lotos.jpg" alt="<?php echo _SITE_OFFLINE?>" align="middle"/>
 			</td>
 		</tr>
 		<tr>
