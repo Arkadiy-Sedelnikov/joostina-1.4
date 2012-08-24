@@ -10,6 +10,9 @@
 // запрет прямого доступа
 defined('_JLINDEX') or die();
 
+$mainframe = mosMainFrame::getInstance();
+require_once JPATH_BASE . DS . 'language' . DS . $mainframe->getCfg('lang') . DS . 'administrator' . DS . 'com_xmap.php';
+
 $view = mosGetParam($_REQUEST, 'view', 'html');
 
 if($view == 'xslfile'){
@@ -22,8 +25,6 @@ require_once(JPATH_BASE . DS . JADMIN_BASE . DS . 'components' . DS . 'com_xmap'
 require_once(JPATH_BASE . DS . JADMIN_BASE . DS . 'components' . DS . 'com_xmap' . DS . 'classes' . DS . 'XmapSitemap.php');
 require_once(JPATH_BASE . DS . JADMIN_BASE . DS . 'components' . DS . 'com_xmap' . DS . 'classes' . DS . 'XmapPlugins.php');
 require_once(JPATH_BASE . DS . JADMIN_BASE . DS . 'components' . DS . 'com_xmap' . DS . 'classes' . DS . 'XmapCache.php');
-
-$mainframe = mosMainFrame::getInstance();
 
 $menu = $mainframe->get('menu');
 
@@ -53,7 +54,6 @@ if($params->get('meta_author') != ""){
 	$mainframe->addMetaTag('author', $params->get('meta_author'));
 }
 
-global $xSitemap, $xConfig;
 $xConfig = new XmapConfig;
 $xConfig->load();
 
@@ -83,9 +83,10 @@ global $xmap;
 
 $xmapCache = XmapCache::getCache($xSitemap);
 if($xSitemap->usecache){
-	$config = &$mainframe->config;
+	$config = $mainframe->config;
 	$xmapCache->call('xmapCallShowSitemap', $view, $xSitemap->id, $config->config_locale, $config->config_sef, $menu->name); // call plugin's handler function
 } else{
+	_vdump(_XMAP_SHOW_AS_EXTERN_ALT);
 	xmapCallShowSitemap($view, $xSitemap->id, null, null, $menu->name);
 }
 
@@ -216,7 +217,6 @@ class Xmap{
 	 * A tree with subtrees for each menuentry is returned.
 	 */
 	function printMenuTree($menu, $cache, $plugins){
-
 		$database = database::getInstance();
 
 		if(strlen($menu->menutype) == 0){

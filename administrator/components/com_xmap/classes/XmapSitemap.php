@@ -1,9 +1,9 @@
 <?php
 /**
- * @package Joostina
+ * @package   Joostina
  * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ *            Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
 
@@ -32,16 +32,19 @@ class XmapSitemap{
 	var $views_html = 0;
 	var $lastvisit_xml = 0;
 	var $lastvisit_html = 0;
+	private $_db;
 
 	function XmapSitemap(){
-		global $mosConfig_cachetime, $mosConfig_caching;
+		$mainframe = mosMainFrame::getInstance();
+
 		$this->name = '';
-		$this->usecache = $mosConfig_caching;
-		$this->cachelifetime = $mosConfig_cachetime;
+		$this->usecache = $mainframe->getCfg('caching');
+		$this->cachelifetime =  $mainframe->getCfg('cachetime');
+		$this->_db = database::getInstance();
 	}
 
 	/** Return $menus as an associative array */
-	function &getMenus(){
+	function getMenus(){
 		$lines = explode("\n", $this->menus);
 
 		$menus = array();
@@ -62,25 +65,23 @@ class XmapSitemap{
 	}
 
 	/** Set $menus from an associoative array of menu objects */
-	function setMenus(&$menus){
+	function setMenus($menus){
 		$lines = array();
 		foreach($menus as $menutype => $menu){
 			$show = $menu->show ? 1 : 0;
 			$showXML = $menu->showXML ? 1 : 0;
-			$lines[] = mysql_real_escape_string($menutype) . ',' . intval($menu->ordering) . ',' . $show . ',' . $showXML . ',' . mysql_real_escape_string($menu->priority) . ',' . mysql_real_escape_string($menu->changefreq);
+			$lines[] = $this->_db->getEscaped($menutype) . ',' . intval($menu->ordering) . ',' . $show . ',' . $showXML . ',' . $this->_db->getEscaped($menu->priority) . ',' . $this->_db->getEscaped($menu->changefreq);
 		}
 		$this->menus = implode("\n", $lines);
 	}
 
 	/** Remove the sitemap from the table */
 	function remove(){
-		$database = database::getInstance();
-
-		$query = "delete from #__xmap_sitemap where `id`=" . $this->id;
-		$database->setQuery($query);
-		if($database->query() === FALSE){
+		$sql = "delete from #__xmap_sitemap where `id`=" . $this->id;
+		$this->_db->setQuery($sql);
+		if($this->_db->query() === FALSE){
 			echo _XMAP_ERR_NO_DROP_DB . "<br />\n";
-			echo mosStripslashes($database->getErrorMsg());
+			echo mosStripslashes($this->_db->getErrorMsg());
 			return false;
 		}
 		return true;
@@ -88,12 +89,10 @@ class XmapSitemap{
 
 	/** Load settings from the database into this instance */
 	function load($id){
-		$database = database::getInstance();
-
 		$id = intval($id);
-		$query = "SELECT * FROM #__xmap_sitemap where id=$id";
-		$database->setQuery($query);
-		if($database->loadObject($this) === FALSE){
+		$sql = "SELECT * FROM #__xmap_sitemap where id=" . $id;
+		$this->_db->setQuery($sql);
+		if($this->_db->loadObject($this) === FALSE){
 			return false; // defaults are still set, though
 		}
 		return true;
@@ -101,8 +100,6 @@ class XmapSitemap{
 
 	/** Save current settings to the database */
 	function save($forceinstall = false){
-		$database = database::getInstance();
-
 		$fields = array();
 
 		$vars = get_object_vars($this);
@@ -118,26 +115,26 @@ class XmapSitemap{
 		if($this->id && !$forceinstall){
 			$sep = "";
 			$values = "";
-			foreach($fields as $k  => $value){
+			foreach($fields as $k => $value){
 				if($k != 'id'){
 					$values .= "$sep$k=$value";
 					$sep = ",";
 				}
 			}
-			$query = "UPDATE #__xmap_sitemap SET $values WHERE id=" . intval($this->id);
+			$sql = "UPDATE #__xmap_sitemap SET $values WHERE id=" . intval($this->id);
 			$isInsert = 0;
 		} else{
-			$query = "INSERT INTO #__xmap_sitemap (" . implode(',', array_keys($fields)) . ") VALUES (" . implode(',', $fields) . ")";
+			$sql = "INSERT INTO #__xmap_sitemap (" . implode(',', array_keys($fields)) . ") VALUES (" . implode(',', $fields) . ")";
 			$isInsert = 1;
 		}
-		$database->setQuery($query);
-		# echo $database->getQuery( );
-		if($database->query() === FALSE){
-			echo mosStripslashes($database->getErrorMsg());
+		$this->_db->setQuery($sql);
+
+		if($this->_db->query() === FALSE){
+			echo mosStripslashes($this->_db->getErrorMsg());
 			return false;
 		}
 		if($isInsert){
-			$this->id = mysql_insert_id($database->_resource);
+			$this->id = $this->_db->insertid();
 		}
 		return true;
 	}
@@ -152,7 +149,7 @@ class XmapSitemap{
 		echo '</pre>';
 	}
 
-	function bind($array, $ignore = ''){
+	function bind($array){
 		if(!is_array($array)){
 			$this->_error = strtolower(get_class($this)) . "::bind failed.";
 			return false;
@@ -177,16 +174,20 @@ class XmapSitemap{
 			return false;
 		}
 
-		if($menus[$menutype]->ordering == 0 && $inc < 0) return false;
-		if($menus[$menutype]->ordering >= count($menus) && $inc > 0) return false;
+		if($menus[$menutype]->ordering == 0 && $inc < 0) {
+			return false;
+		}
+		if($menus[$menutype]->ordering >= count($menus) && $inc > 0) {
+			return false;
+		}
 
 		$menus[$menutype]->ordering += $inc; // move position up/down
 
 		foreach($menus as $type => $menu){ // swap position of previous entry at that position
-			if($type != $menutype
-				&& $menu->ordering == $menus[$menutype]->ordering
-			)
+			if($type != $menutype && $menu->ordering == $menus[$menutype]->ordering
+			) {
 				$menus[$type]->ordering -= $inc;
+			}
 		}
 
 		$this->sortMenus($menus);
@@ -195,7 +196,7 @@ class XmapSitemap{
 
 
 	/** uasort function that compares element ordering */
-	function sort_ordering(&$a, &$b){
+	function sort_ordering($a, $b){
 		if($a->ordering == $b->ordering){
 			return 0;
 		}
@@ -203,11 +204,10 @@ class XmapSitemap{
 	}
 
 	/** make menu ordering continuous*/
-	function sortMenus(&$menus){
+	function sortMenus($menus){
 		uasort($menus, array('XmapSitemap', 'sort_ordering'));
 		$i = 0;
-		foreach($menus as $key => $menu)
-			$menus[$key]->ordering = $i++;
+		foreach($menus as $key => $menu) $menus[$key]->ordering = $i++;
 	}
 
 }

@@ -45,7 +45,7 @@ class XmapConfig{
 	}
 
 	/** Return $menus as an associative array */
-	function &getSitemaps(){
+	function getSitemaps(){
 		$database = database::getInstance();
 
 		$query = "SELECT id FROM #__xmap_sitemap";
