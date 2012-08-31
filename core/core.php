@@ -1,6 +1,6 @@
 <?php
 /**
- * Joostina Lotos CMS 1.4
+ * Joostina Lotos CMS 1.4.1
  * @package   CORE
  * @version   1.4.1
  * @author    Gold Dragon <illusive@bk.ru>
@@ -25,13 +25,17 @@ class JCore{
 	/** @var object Интерфейс класса ядра*/
 	private static $_instance;
 
-	/** @var  object Интерфейс класса конфигурации */
+	/** @var object Интерфейс класса конфигурации */
 	public $_config;
 
 	/**
 	 * Конструктор
 	 */
 	private function __construct(){
+
+		// Подключаем класс для работы с языковыми файлами
+		require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
+
 		// подключения интерфейса Конфигурации
 		//$this->_config = JConfig::getInstance();
 	}

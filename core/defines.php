@@ -1,6 +1,6 @@
 <?php
 /**
- * Joostina Lotos CMS 1.4
+ * Joostina Lotos CMS 1.4.1
  * @package   DEFINITIONS
  * @version   1.0
  * @author    Gold Dragon <illusive@bk.ru>
@@ -18,28 +18,25 @@ defined('_JLINDEX') or die();
 define('DS', DIRECTORY_SEPARATOR);
 
 // TODO временная заглушка
-define('JPATH_BASE',_JLPATH_ROOT);
+define('JPATH_BASE', _JLPATH_ROOT);
 
 // TODO временная заглушка
-define('JPATH_ROOT',_JLPATH_ROOT);
+define('JPATH_ROOT', _JLPATH_ROOT);
 
 // путь до библиотек
-define('_JLPATH_LIBRARIES',		_JLPATH_ROOT . '/libraries');
+define('_JLPATH_LIBRARIES', _JLPATH_ROOT . DS . 'libraries');
 
 // путь до sef-файлов
-define('_JLPATH_SEF',		_JLPATH_ROOT . '/settings/sef');
+define('_JLPATH_SEF', _JLPATH_ROOT . DS . 'settings' . DS . 'sef');
 
 // путь до каталога панели управления
-define('_JLPATH_ADMINISTRATOR',	_JLPATH_ROOT . '/administrator');
+define('_JLPATH_ADMINISTRATOR', _JLPATH_ROOT . DS . 'administrator');
 
-//define('JPATH_SITE',			JPATH_ROOT);
-//define('JPATH_CONFIGURATION',	JPATH_ROOT);
-//define('JPATH_PLUGINS',			JPATH_ROOT . '/plugins'  );
-//define('JPATH_INSTALLATION',	JPATH_ROOT . '/installation');
-//define('JPATH_THEMES',			JPATH_BASE . '/templates');
-//define('JPATH_CACHE',			JPATH_BASE . '/cache');
-//define('JPATH_MANIFESTS',		JPATH_ADMINISTRATOR . '/manifests');
+// путь до каталога с языковыми файлами
+define('_JLPATH_LANG', _JLPATH_ROOT . DS . 'language');
 
+// путь до каталога с языковыми файлами
+define('_JLPATH_TEMPLATES', _JLPATH_ROOT . DS . 'templates');
 
 
 // функции отладки
