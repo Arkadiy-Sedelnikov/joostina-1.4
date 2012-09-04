@@ -38,23 +38,23 @@ class JLang{
 	/** @var array Массив Ключ-Значение */
 	public static $language = array();
 
-	/** @var array Коды языка */
+	/** @var array Код языка */
 	public $lang_codes = array();
 
 	/** @var null|string - Языковая константа (например, 'ru-RU') */
-	public $lang = null;
+	public static $lang = null;
 
-	/** @var null|string - расширение (например, 'com_mycom', 'mod_mymod', 'plg_myplagin') */
-	public $expansion = null;
+	/** @var null|string - расширение (например, 'com.mycom', 'mod.mymod', 'plg.myplagin') */
+	public static $expansion = null;
 
 	/** @var null|string - путь до языкового файла */
-	public $lang_path = null;
+	public static $lang_path = null;
 
 	/**
 	 * Конструктор
 	 *
-	 * @param
-	 * @param string      $lang      - языковые константы
+	 * @param string      $expansion - расширение (компонент, модуль, плагин)
+	 * @param string      $lang      - язык
 	 */
 	private function __construct($expansion, $lang){
 		$this->lang_codes = array(
@@ -70,9 +70,9 @@ class JLang{
 		$type_a = array('sys_', 'front_', 'admin_', 'com_', 'mod_', 'plg_', 'tpl_');
 		$type_b = array('sys.', 'front.', 'admin.', 'com.', 'mod.', 'plg.', 'tpl.');
 		$count = 1;
-		$this->expansion = str_replace($type_a, $type_b, $expansion, $count);
+		self::$expansion = str_replace($type_a, $type_b, $expansion, $count);
 
-		$this->lang = $lang;
+		self::$lang = $lang;
 
 		$this->load($expansion, $lang);
 	}
@@ -111,9 +111,9 @@ class JLang{
 	 * Подключение языкового файла
 	 */
 	private function load(){
-		$pathFile = _JLPATH_LANG . DS . $this->lang . DS . $this->expansion . '.lang.ini';
-		if(!isset(self::$language[$this->expansion]) and is_file($pathFile)){
-			$this->lang_path;
+		$pathFile = _JLPATH_LANG . DS . self::$lang . DS . self::$expansion . '.lang.ini';
+		if(!isset(self::$language[self::$expansion]) and is_file($pathFile)){
+			self::$lang_path = $pathFile;
 			self::$language = parse_ini_file($pathFile);
 		}
 	}
@@ -137,7 +137,7 @@ class JLang{
 			}
 		} else{
 			_pdump($key);
-			$string = $key;
+			//$string = $key;
 		}
 		return $string;
 	}
@@ -147,8 +147,8 @@ class JLang{
 	 *
 	 * @return mixed|null|string - код языка
 	 */
-	public function getLanguage(){
-		return $this->lang;
+	public static function getLanguage(){
+		return self::$lang;
 	}
 
 	/**
@@ -156,8 +156,8 @@ class JLang{
 	 *
 	 * @return null|string - путь до файла
 	 */
-	public function getLangFile(){
-		return $this->lang_path;
+	public static function getLangFile(){
+		return self::$lang_path;
 	}
 
 	/**
@@ -175,7 +175,7 @@ class JLang{
 		if(!is_array($ind)){
 			$ind = array($ind);
 		}
-		$fileNames = scandir(_JLPATH_LANG . DS . $this->lang);
+		$fileNames = scandir(_JLPATH_LANG . DS . self::$lang);
 
 		$expansion = array();
 
@@ -184,7 +184,7 @@ class JLang{
 			if($tmp1){
 				foreach($ind as $value){
 					if($tmp2[1] == $value){
-						$this->expansion = $tmp2[1] . '.' . $tmp2[2];
+						self::$expansion = $tmp2[1] . '.' . $tmp2[2];
 						$this->load();
 						$expansion = array_merge($expansion, self::$language);
 					}

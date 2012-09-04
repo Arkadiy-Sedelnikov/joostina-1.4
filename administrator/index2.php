@@ -10,6 +10,9 @@
 // Установка флага родительского файла
 define('_JLINDEX', 1);
 
+
+//error_reporting(E_ALL & ~E_NOTICE, _COM_CONFIG_ERROR_PARANOIDAL);
+
 // корень файлов
 define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
 
@@ -33,9 +36,19 @@ if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset
 // live_site
 define('JPATH_SITE', $mosConfig_live_site);
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
+
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
+
+// Подключаем класс для работы с языковыми файлами
+require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
+
 // подключаем ядро
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
 
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
 
 // работа с сессиями начинается до создания главного объекта взаимодействия с ядром
 session_name(md5(JPATH_SITE));

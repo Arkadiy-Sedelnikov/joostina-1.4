@@ -47,6 +47,9 @@ $mosConfig_time_generate ? $sysstart = microtime(true) : null;
 // подключение главного файла - ядра системы
 require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
 
+// Подключаем класс для работы с языковыми файлами
+require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
+
 // подключение главного файла - ядра системы
 // TODO GoDr: заменить со временем на core.php
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');

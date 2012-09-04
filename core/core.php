@@ -33,9 +33,6 @@ class JCore{
 	 */
 	private function __construct(){
 
-		// Подключаем класс для работы с языковыми файлами
-		require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
-
 		// подключения интерфейса Конфигурации
 		//$this->_config = JConfig::getInstance();
 	}

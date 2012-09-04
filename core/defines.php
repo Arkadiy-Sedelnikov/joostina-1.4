@@ -23,21 +23,23 @@ define('JPATH_BASE', _JLPATH_ROOT);
 // TODO временная заглушка
 define('JPATH_ROOT', _JLPATH_ROOT);
 
-// путь до библиотек
+// абсолютный путь до библиотек
 define('_JLPATH_LIBRARIES', _JLPATH_ROOT . DS . 'libraries');
 
-// путь до sef-файлов
+// абсолютный путь до sef-файлов
 define('_JLPATH_SEF', _JLPATH_ROOT . DS . 'settings' . DS . 'sef');
 
-// путь до каталога панели управления
+// абсолютный путь до каталога панели управления
 define('_JLPATH_ADMINISTRATOR', _JLPATH_ROOT . DS . 'administrator');
 
-// путь до каталога с языковыми файлами
+// абсолютный путь до каталога с языковыми файлами
 define('_JLPATH_LANG', _JLPATH_ROOT . DS . 'language');
 
-// путь до каталога с языковыми файлами
+// абсолютный путь до каталога с языковыми файлами
 define('_JLPATH_TEMPLATES', _JLPATH_ROOT . DS . 'templates');
 
+// Адрес сайта
+define('_JLPATH_SITE', $mosConfig_live_site);
 
 // функции отладки
 function _xdump($var, $text = '<pre>'){

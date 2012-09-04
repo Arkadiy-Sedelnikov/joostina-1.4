@@ -34,8 +34,19 @@ if((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off' || isset
 
 // для совместимости
 $mosConfig_absolute_path = JPATH_BASE;
+
+// подключение главного файла - ядра системы
+require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
+
+// Подключаем класс для работы с языковыми файлами
+require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
+
 // ядро
 require_once (JPATH_BASE . DS . 'includes' . DS . 'joostina.php');
+
+// подключение SEF
+require_once (JPATH_BASE . DS . 'includes' . DS . 'sef.php');
+JSef::getInstance($mosConfig_sef, $mosConfig_com_frontpage_clear);
 
 $acl = &gacl::getInstance();
 

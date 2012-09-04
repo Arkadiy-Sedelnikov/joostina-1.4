@@ -6,6 +6,8 @@
  * Joostina! - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
  * Для получения информации о используемых расширениях и замечаний об авторском праве, смотрите файл help/copyright.php.
  */
+ini_set('display_errors' , 1);
+error_reporting(E_ALL & ~E_NOTICE, _COM_CONFIG_ERROR_PARANOIDAL);
 
 // Установка флага родительского файла
 define('_JLINDEX', 1);
@@ -39,6 +41,9 @@ $mosConfig_time_generate ? $sysstart = microtime(true) : null;
 
 // подключение главного файла - ядра системы
 require_once (_JLPATH_ROOT . DS . 'core' . DS . 'core.php');
+
+// Подключаем класс для работы с языковыми файлами
+require_once(_JLPATH_ROOT . DS . 'core' . DS . 'language.php');
 
 // подключение главного файла - ядра системы
 // TODO GoDr: заменить со временем на core.php
