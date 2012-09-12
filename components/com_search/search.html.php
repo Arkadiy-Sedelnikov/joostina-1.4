@@ -150,7 +150,6 @@ class search_html{
 						}
 						?>
 					</fieldset>
-					<br/>
 					<?php
 				}
 				?>
@@ -158,7 +157,7 @@ class search_html{
 		</tr>
 	</table>
 	<br/>
-	<nofollow>
+	<div class="nofollow">
 		<a href="http://sm.aport.ru/search?That=std&r=<?php echo $searchword; ?>" target="_blank"><?php echo $image; ?></a>
 		<a href="http://www.bing.com/search?q=<?php echo $searchword; ?>" target="_blank"><?php echo $image1; ?></a>
 		<a href="http://gogo.ru/go?q=<?php echo $searchword; ?>" target="_blank"><?php echo $image2; ?></a>
@@ -168,7 +167,7 @@ class search_html{
 		<a href="http://nova.rambler.ru/srch?words=<?php echo $searchword; ?>" target="_blank"><?php echo $image6; ?></a>
 		<a href="http://ru.search.yahoo.com/search?p=<?php echo $searchword; ?>" target="_blank"><?php echo $image7; ?></a>
 		<a href="http://yandex.ru/yandsearch?text=<?php echo $searchword; ?>" target="_blank"><?php echo $image8; ?></a>
-	</nofollow>
+	</div>
 	<br/>
 	<?php
 	}

@@ -649,7 +649,12 @@ function search_tags($tag, $order, $limitstart, $directory, $template_name){
 	$tagContentIds = $database->loadResultArray();
 	//List
 	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
+
+	ob_start();
 	$params = boss_helpers::show_list($header, "", $url, "show_all", "1", '', '', $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds);
+	$params['page_body'] = ob_get_contents();
+	ob_end_clean();
+
 	return $params;
 }
 
@@ -687,7 +692,12 @@ function search_alpha($alpha, $order, $limitstart, $directory, $template_name){
 
 	//List
 	$url = "index.php?option=com_boss&amp;task=show_all" . $url_text_search . "&amp;directory=" . $directory . "&amp;order=" . $order;
+
+	ob_start();
 	$params = boss_helpers::show_list($header, "", $url, "show_all", "1", '', '', $order, 0, $limitstart, 0, $jDirectoryHtmlClass, $directory, $template_name, $alphaContentIds);
+	$params['page_body'] = ob_get_contents();
+	ob_end_clean();
+
 	return $params;
 }
 
@@ -1887,7 +1897,7 @@ function boss_show_cached_result($params){
 
 	// а тут основное содержимое страницы - его просто надо вывести
 	if(isset($params['page_body'])){
-		echo $params['page_body'];
+		echo '<div id="boss_content">' . $params['page_body'] . '</div>';
 	}
 }
 

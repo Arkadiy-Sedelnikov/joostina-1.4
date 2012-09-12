@@ -16,12 +16,18 @@ $mainframe->addLib('text');
 
 $tag = urldecode(mosGetParam($_GET, 'tag', ''));
 
+// Начало блока
+echo '<div id="com_search">';
+
 if($tag){
 	search_by_tag($tag);
 } else{
 	$mainframe->setPageTitle(_SEARCH);
 	viewSearch();
 }
+
+// Конец блока
+echo '</div>';
 
 function search_by_tag($tag){
 	$mainframe = mosMainFrame::getInstance();
@@ -102,8 +108,10 @@ function search_by_tag($tag){
 }
 
 function viewSearch(){
-	global $mosConfig_lang, $mosConfig_list_limit;
 	$mainframe = mosMainFrame::getInstance();
+	$mosConfig_lang = $mainframe->getCfg('lang');
+	$mosConfig_list_limit = $mainframe->getCfg('list_limit');
+
 	$_MAMBOTS = mosMambotHandler::getInstance();
 	$database = database::getInstance();
 	$restriction = 0;
@@ -114,7 +122,6 @@ function viewSearch(){
 	$params->def('header', _SEARCH);
 	$params->def('back_button', $mainframe->getCfg('back_button'));
 
-	// html output
 	search_html::openhtml($params);
 
 	$searchphrase = mosGetParam($_REQUEST, 'searchphrase', 'any');
@@ -123,7 +130,6 @@ function viewSearch(){
 	$searchword = strval(mosGetParam($_REQUEST, 'searchword', ''));
 	$searchword = trim(stripslashes($searchword));
 
-	// boston, воспользуемся хаком smart'a, увеличим число символов для поиска до 100
 	if(Jstring::strlen($searchword) > 100){
 		$searchword = Jstring::substr($searchword, 0, 99);
 		$restriction = 1;
@@ -183,27 +189,19 @@ function viewSearch(){
 
 	$lists['searchphrase'] = mosHTML::radioList($searchphrases, 'searchphrase', '', $searchphrase);
 
-	// html output
 	search_html::searchbox(htmlspecialchars($searchword), $lists, $params);
 
 	if(!$searchword){
 		if(count($_POST)){
-			// html output
-			// no matches found
 			search_html::message(_NOKEYWORD, $params);
 		} else
 			if($restriction){
-				// html output
 				search_html::message(_SEARCH_MESSAGE, $params);
 			}
 	} elseif(in_array($searchword, $search_ignore)){
-		// html output
 		search_html::message(_IGNOREKEYWORD, $params);
 	} else{
-		// html output
-
 		if($restriction){
-			// html output
 			search_html::message(_SEARCH_MESSAGE, $params);
 		}
 
@@ -257,26 +255,19 @@ function viewSearch(){
 		$limit = ($limit ? $limit : $mosConfig_list_limit);
 		$limitstart = intval(mosGetParam($_GET, 'limitstart', 0));
 
-		// prepares searchword for proper display in url
 		$searchword_clean = urlencode($searchword_clean);
 
-		// html output
 		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
 		if($n){
 			search_html::display($rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword_clean);
 		} else{
-			// html output
 			search_html::displaynoresult();
 		}
 
-		// html output
 		search_html::conclusion($searchword_clean, $pageNav);
 	}
-
-	// displays back button
-	echo '<br/>';
 	mosHTML::BackButton($params, 0);
 }
 

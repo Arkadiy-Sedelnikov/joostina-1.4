@@ -622,7 +622,7 @@ class boss_html{ //implements  bossUI {
 			}
 			echo ($tmp == '') ? '' : '<div>' . $tmp . '</div>';
 		} else if(($my->id == $content->user_id && $my->id != 0) || $my->usertype == 'Super Administrator'){
-			echo '<div>';
+			echo '<div class="edit">';
 			echo $edit;
 			echo $delete;
 			echo '</div>';
@@ -840,7 +840,7 @@ class boss_html{ //implements  bossUI {
 
 	function displayContentLinkMore($content, $text = null){
 		$directory = $this->directory;
-		$linkTarget = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->category . "&amp;directory=$directory");
+		$linkTarget = JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_content&amp;contentid=" . $content->id . "&amp;catid=" . $content->catid . "&amp;directory=$directory");
 		if(isset($text))
 			echo '<a href="' . $linkTarget . '">' . $text . '</a>'; else
 			echo '<a href="' . $linkTarget . '">' . BOSS_READ_MORE . '</a>';
