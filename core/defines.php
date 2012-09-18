@@ -39,7 +39,9 @@ define('_JLPATH_LANG', _JLPATH_ROOT . DS . 'language');
 define('_JLPATH_TEMPLATES', _JLPATH_ROOT . DS . 'templates');
 
 // Адрес сайта
-define('_JLPATH_SITE', $mosConfig_live_site);
+$port = ($_SERVER['SERVER_PORT'] == 80) ? '' : ":" . $_SERVER['SERVER_PORT'];
+$root = $_SERVER['SERVER_NAME'] . $port . $_SERVER['PHP_SELF'];
+define('_JLPATH_SITE', "http://" . $root);
 
 // функции отладки
 function _xdump($var, $text = '<pre>'){
