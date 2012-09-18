@@ -1,4 +1,4 @@
-<?php
+<?php 
 // ================================================
 // SPAW v.2.0
 // ================================================
@@ -19,12 +19,12 @@ $spaw_lang_charset = 'utf-8';
 // alternative text for toolbar buttons and title for dropdowns - 'title'
 
 $spaw_lang_data = array(
-	'youtube_prop' => array(
-		'title'                   => 'YouTube Movie',
-		'source'                  => 'YouTube page URL',
-		'ok'                      => '   OK   ',
-		'cancel'                  => 'Cancel',
-		'error_wrong_youtube_url' => 'Invalid YouTube page URL',
-	),
+  'youtube_prop' => array(
+    'title' => 'YouTube Movie',
+    'source' => 'YouTube page URL',
+    'ok' => '   OK   ',
+    'cancel' => 'Cancel',
+    'error_wrong_youtube_url' => 'Invalid YouTube page URL',
+  ),
 );
 ?>

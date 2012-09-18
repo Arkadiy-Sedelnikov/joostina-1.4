@@ -4,13 +4,13 @@ $lang->setBlock("yahooMaps_prop");
 ?>
 <script type="text/javascript" src="<?php echo SpawConfig::getStaticConfigValue('SPAW_DIR') ?>plugins/yahooMaps/dialogs/yahooMaps_prop.js"></script>
 <script type="text/javascript">
-	<!--
+<!--
 	var spawErrorMessages = new Array();
 	<?php
-	echo 'spawErrorMessages["error_wrong_yahooMaps_address"] = "' . $lang->m('error_wrong_yahooMaps_address') . '";' . "\n";
-	echo 'spawErrorMessages["error_wrong_yahooMaps_desc"] = "' . $lang->m('error_wrong_yahooMaps_desc') . '";' . "\n";
+		echo 'spawErrorMessages["error_wrong_yahooMaps_address"] = "' . $lang->m('error_wrong_yahooMaps_address') . '";' . "\n";
+		echo 'spawErrorMessages["error_wrong_yahooMaps_desc"] = "' . $lang->m('error_wrong_yahooMaps_desc') . '";' . "\n";
 	?>
-	//-->
+//-->
 </script>
 
 <table border="0" cellspacing="0" cellpadding="2" width="336">
@@ -19,14 +19,14 @@ $lang->setBlock("yahooMaps_prop");
 			<td><?php echo $lang->m('source')?>:</td>
 		</tr>
 		<tr>
-			<td nowrap><input type="text" name="csrc" id="csrc" class="input" size="80"/></td>
+			<td nowrap><input type="text" name="csrc" id="csrc" class="input" size="80" /></td>
 		</tr>
 		<tr>
 		<tr>
 			<td><?php echo $lang->m('description')?>:</td>
 		</tr>
 		<tr>
-			<td nowrap><input type="text" name="cdesc" id="cdesc" class="input" size="80"/></td>
+			<td nowrap><input type="text" name="cdesc" id="cdesc" class="input" size="80" /></td>
 		</tr>
 		<tr>
 			<td nowrap>

@@ -77,7 +77,7 @@ class SpawConfig{
 	 * array for instance config settings
 	 * @access private
 	 */
-	public $config;
+	var $config;
 
 	/**
 	 * Copies global SPAW configuration to instance
@@ -91,7 +91,7 @@ class SpawConfig{
 	 * Workaround for "static" class variable under php4
 	 * @access private
 	 */
-	public static function configVar(){
+	public static function &configVar(){
 		static $config;
 
 		return $config;
@@ -106,7 +106,7 @@ class SpawConfig{
 	 * @static
 	 */
 	public static function setStaticConfigItem($name, $value, $transfer_type = SPAW_CFG_TRANSFER_NONE){
-		$cfg = SpawConfig::configVar();
+		$cfg = &SpawConfig::configVar();
 		$cfg[$name] = new SpawConfigItem($name, $value, $transfer_type);
 	}
 
@@ -128,7 +128,7 @@ class SpawConfig{
 	 * @static
 	 */
 	public static function getStaticConfigItem($name){
-		$cfg = SpawConfig::configVar();
+		$cfg = &SpawConfig::configVar();
 		if(isset($cfg[$name]))
 			return $cfg[$name];
 		else

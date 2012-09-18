@@ -1,11 +1,12 @@
 // Page class
-function SpawEditorPage(name, caption, direction) {
-    this.name = name;
-    this.caption = caption;
-    if (direction != null)
-        this.direction = direction;
-    else
-        this.direction = "ltr";
+function SpawEditorPage(name, caption, direction)
+{
+  this.name = name;
+  this.caption = caption;
+  if (direction != null)
+    this.direction = direction;
+  else
+    this.direction = "ltr";
 }
 SpawEditorPage.prototype.name;
 SpawEditorPage.prototype.caption;

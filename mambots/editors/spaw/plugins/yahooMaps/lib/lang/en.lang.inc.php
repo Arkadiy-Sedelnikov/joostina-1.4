@@ -1,4 +1,4 @@
-<?php
+<?php 
 // ================================================
 // SPAW v.2.0
 // ================================================
@@ -19,14 +19,14 @@ $spaw_lang_charset = 'utf-8';
 // alternative text for toolbar buttons and title for dropdowns - 'title'
 
 $spaw_lang_data = array(
-	'yahooMaps_prop' => array(
-		'title'                         => 'Yahoo! Map',
-		'source'                        => 'Map Address',
-		'description'                   => 'What is at this address',
-		'error_wrong_yahooMaps_address' => 'Please enter an address.',
-		'error_wrong_yahooMaps_desc'    => 'Please describe what is at this address.',
-		'ok'                            => '   OK   ',
-		'cancel'                        => 'Cancel',
-	),
+  'yahooMaps_prop' => array(
+    'title' => 'Yahoo! Map',
+    'source' => 'Map Address',
+    'description' => 'What is at this address',
+    'error_wrong_yahooMaps_address' => 'Please enter an address.',
+    'error_wrong_yahooMaps_desc' => 'Please describe what is at this address.',
+    'ok' => '   OK   ',
+    'cancel' => 'Cancel',    
+  ),
 );
 ?>
