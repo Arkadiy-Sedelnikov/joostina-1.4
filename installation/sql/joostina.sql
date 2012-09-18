@@ -1256,9 +1256,9 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 	(18, 'Баннеры-3', '', 1, 'banner3', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=-ban1\ncategories=3\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 1, 0),
 	(19, 'Компоненты', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', 0, 'mod_components', 0, 99, 1, '', 1, 1),
 	(22, 'Меню', '', 5, 'cpanel', 0, '0000-00-00 00:00:00', 1, 'mod_stats', 0, 99, 1, '', 0, 1),
-	(23, 'Последние зарегистрированные пользователи', '', 4, 'advert2', 0, '0000-00-00 00:00:00', 1, 'mod_latest_users', 0, 99, 1, '', 1, 1),
-	(24, 'Новые сообщения', '', 1, 'header', 0, '0000-00-00 00:00:00', 0, 'mod_unread', 0, 99, 1, '', 1, 1),
-	(25, 'Активные пользователи', '', 2, 'header', 0, '0000-00-00 00:00:00', 0, 'mod_online', 0, 99, 1, '', 1, 1),
+	(23, 'Последние зарегистрированные пользователи', '', 1, 'advert2', 0, '0000-00-00 00:00:00', 1, 'mod_latest_users', 0, 99, 1, 'num=10\nshow_logged=1\nshow_total=1\nshow_today=1\nshow_week=1\nshow_month=1', 1, 1),
+	(24, 'Новые сообщения', '', 1, 'header', 0, '0000-00-00 00:00:00', 1, 'mod_unread', 0, 99, 1, '', 1, 1),
+	(25, 'Активные пользователи', '', 2, 'header', 0, '0000-00-00 00:00:00', 1, 'mod_online', 0, 99, 1, '', 1, 1),
 	(26, 'Полное меню', '', 1, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_fullmenu', 0, 99, 1, '', 1, 1),
 	(27, 'Путь', '', 1, 'pathway', 0, '0000-00-00 00:00:00', 0, 'mod_pathway', 0, 99, 1, '', 1, 1),
 	(28, 'Панель инструментов', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', 1, 'mod_toolbar', 0, 99, 1, '', 1, 1),
@@ -1267,13 +1267,13 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 	(50, 'Новое в архиве', NULL, 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_gdnlotos', 0, 0, 1, 'moduleclass_sfx=-text\ntemplate=text\ncatid=\ncount_special=0\ncount_basic=5\ncolumns=1\ncount_reference=0\ntime=0\nimage_size_s=200\nimage_quality_s=75\nimage_size_b=80\nimage_quality_b=75\ncrop_text_limit=20\ndate_format=%d-%m-%Y %H:%M\nlink_text=\ncache=0\ncache_time=0\ntemplate_dir=0\nmodul_link=1\nmodul_link_cat=0\ndirectory=6\ndirectory_name=1\ndirectory_link=1\ncategory_name=1\ncategory_link=1\ncontent_field=6-content_smalldes\nshow_front=1\norderby=rdate\nimage=1\nimage_link=2\nimage_default=1\nimage_prev=width\nitem_title=1\nlink_titles=1\ntext=1\ncrop_text=word\ncrop_text_format=0\nshow_date=1\nshow_author=4\nreadmore=1\nhits=1', 0, 0),
 	(51, 'Горячие новости', NULL, 1, 'user3', 0, '0000-00-00 00:00:00', 0, 'mod_gdnlotos', 0, 0, 1, 'cache=0\ncache_time=0\nmoduleclass_sfx=-default\ntemplate=default\ntemplate_dir=0\nmodul_link=0\nmodul_link_cat=0\ndirectory=5\ncatid=\ndirectory_name=0\ndirectory_link=1\ncategory_name=0\ncategory_link=1\ncontent_field=0\ncount_special=1\ncount_basic=0\ncolumns=2\ncount_reference=4\nshow_front=1\norderby=rand\ntime=0\nimage=1\nimage_link=2\nimage_default=1\nimage_prev=width\nimage_size_s=100\nimage_quality_s=75\nimage_size_b=80\nimage_quality_b=75\nitem_title=1\nlink_titles=1\ntext=2\ncrop_text=word\ncrop_text_limit=30\ncrop_text_format=0\nshow_date=0\ndate_format=%d-%m-%Y %H:%M\nshow_author=0\nreadmore=0\nlink_text=\nhits=0', 0, 0),
 	(32, 'Wrapper', '', 3, 'header', 0, '0000-00-00 00:00:00', 0, 'mod_wrapper', 0, 0, 1, 'category_a=2-1', 0, 0),
-	(33, 'На сайте', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', 0, 'mod_logged', 0, 99, 1, '', 0, 1),
+	(33, 'На сайте', '', 2, 'advert2', 0, '0000-00-00 00:00:00', 1, 'mod_logged', 0, 99, 1, '', 0, 1),
 	(34, 'Случайное фото', '', 2, 'zero', 0, '0000-00-00 00:00:00', 0, 'mod_random_image', 0, 0, 1, 'rotate_type=0\ntype=jpg\nfolder=images/rotate\nlink=http://joostina-cms.ru\nwidth=180\nheight=150\nmoduleclass_sfx=\nslideshow_name=jstSlideShow_1\nimg_pref=pic\ns_autoplay=1\ns_pause=2500\ns_fadeduration=500\npanel_height=55px\npanel_opacity=0.4\npanel_padding=5px\npanel_font=bold 11px Verdana', 0, 0),
 	(41, 'Популярные статьи', NULL, 3, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_gdnlotos', 0, 0, 1, 'cache=0\ncache_time=0\nmoduleclass_sfx=-text\ntemplate=text\ntemplate_dir=0\nmodul_link=1\nmodul_link_cat=0\ndirectory=5\ncatid=\ndirectory_name=1\ndirectory_link=1\ncategory_name=1\ncategory_link=1\ncontent_field=0\ncount_special=0\ncount_basic=5\ncolumns=1\ncount_reference=0\nshow_front=1\norderby=rhits\ntime=0\nimage=1\nimage_link=2\nimage_default=1\nimage_prev=width\nimage_size_s=200\nimage_quality_s=75\nimage_size_b=80\nimage_quality_b=75\nitem_title=1\nlink_titles=1\ntext=1\ncrop_text=word\ncrop_text_limit=20\ncrop_text_format=0\nshow_date=1\ndate_format=%d-%m-%Y %H:%M\nshow_author=4\nreadmore=1\nlink_text=\nhits=1', 0, 0),
 	(42, 'Баннеры-2', '', 1, 'banner2', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=\ncategories=1\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 0, 0),
 	(43, 'Баннеры-4', '', 1, 'banner4', 0, '0000-00-00 00:00:00', 0, 'mod_banners', 0, 0, 0, 'moduleclass_sfx=\ncategories=2\nbanners=\nclients=\ncount=1\nrandom=1\ntext=0\norientation=0', 0, 0),
 	(44, 'Копия Главное меню', '', 1, 'menu2', 0, '0000-00-00 00:00:00', 1, 'mod_mljoostinamenu', 0, 0, 0, 'moduleclass_sfx=-menu2\nclass_sfx=\nmenutype=mainmenu\nmenu_style=linksonly\nml_imaged=0\nml_module_number=1\nnumrow=10\nml_first_hidden=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nml_separated_link=0\nml_linked_sep=0\nml_separated_link_first=0\nml_separated_link_last=0\nml_hide_active=0\nml_separated_active=0\nml_linked_sep_active=0\nml_separated_active_first=0\nml_separated_active_last=0\nml_separated_element=0\nml_separated_element_first=0\nml_separated_element_last=0\nml_td_width=0\nml_div=0\nml_aligner=left\nml_rollover_use=0\nml_image1=-1\nml_image2=-1\nml_image3=-1\nml_image4=-1\nml_image5=-1\nml_image6=apply.png\nml_image7=apply.png\nml_image8=apply.png\nml_image9=apply.png\nml_image10=apply.png\nml_image11=apply.png\nml_image_roll_1=-1\nml_image_roll_2=-1\nml_image_roll_3=-1\nml_image_roll_4=-1\nml_image_roll_5=-1\nml_image_roll_6=-1\nml_image_roll_7=-1\nml_image_roll_8=-1\nml_image_roll_9=-1\nml_image_roll_10=-1\nml_image_roll_11=-1\nml_hide_logged1=1\nml_hide_logged2=1\nml_hide_logged3=1\nml_hide_logged4=1\nml_hide_logged5=1\nml_hide_logged6=1\nml_hide_logged7=1\nml_hide_logged8=1\nml_hide_logged9=1\nml_hide_logged10=1\nml_hide_logged11=1', 0, 0),
-	(21, 'BOSS - Объекты компонента', '', 1, 'banner1', 0, '0000-00-00 00:00:00', 0, 'mod_boss_admin_contents', 0, 99, 1, 'moduleclass_sfx=\ncache=0\nlimit=5\npubl=0\ndisplaycategory=1\ncontent_title=Последние добавленные объекты\ncontent_title_link=Все объекты\nsort=5\ndate_field=date_created\ndisplay_author=1\ndirectory=5\ncat_ids=', 1, 1),
+	(21, 'BOSS - Объекты компонента', '', 1, 'advert1', 0, '0000-00-00 00:00:00', 1, 'mod_boss_admin_contents', 0, 99, 1, 'moduleclass_sfx=\ncache=0\nlimit=15\npubl=0\ndisplaycategory=1\ncontent_title=Последние добавленные объекты\ncontent_title_link=Все объекты\nsort=5\ndate_field=date_created\ndisplay_author=1\ndirectory=5\ncat_ids=', 1, 1),
 	(45, 'Авторские права', '<div style="text-align:center">Авторские права (с) <a href="http://joostina-cms.ru">Joostina Lotos</a>, 2012<br />Разработка шаблона (с) <a href="http://gd.joostina-cms.ru">Gold Dragon</a>, 2000-2012</div>  ', 1, 'footer', 0, '0000-00-00 00:00:00', 1, '', 0, 0, 0, 'moduleclass_sfx=-footer\ncache_time=0\nrssurl=\nrsstitle=1\nrssdesc=1\nrssimage=1\nrssitems=3\nrssitemdesc=1\nword_count=0\nrsscache=3600', 0, 0),
 	(52, 'Верхнее меню', '', 1, 'header', 0, '0000-00-00 00:00:00', 1, 'mod_mljoostinamenu', 0, 0, 0, 'moduleclass_sfx=-topnemu\nclass_sfx=\nmenutype=topmenu\nmenu_style=divs\nml_imaged=1\nml_module_number=4\nnumrow=5\nml_first_hidden=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nindent_image=0\nindent_image1=aload.gif\nindent_image2=aload.gif\nindent_image3=aload.gif\nindent_image4=aload.gif\nindent_image5=aload.gif\nindent_image6=aload.gif\nml_separated_link=0\nml_linked_sep=0\nml_separated_link_first=0\nml_separated_link_last=0\nml_hide_active=0\nml_separated_active=0\nml_linked_sep_active=0\nml_separated_active_first=0\nml_separated_active_last=0\nml_separated_element=0\nml_separated_element_first=0\nml_separated_element_last=0\nml_td_width=0\nml_div=0\nml_aligner=left\nml_rollover_use=0\nml_image1=home_new.png\nml_image2=network.png\nml_image3=email.png\nml_image4=\nml_image5=\nml_image6=apply.png\nml_image7=apply.png\nml_image8=apply.png\nml_image9=apply.png\nml_image10=apply.png\nml_image11=apply.png\nml_image_roll_1=\nml_image_roll_2=\nml_image_roll_3=\nml_image_roll_4=\nml_image_roll_5=\nml_image_roll_6=\nml_image_roll_7=\nml_image_roll_8=\nml_image_roll_9=\nml_image_roll_10=\nml_image_roll_11=\nml_hide_logged1=1\nml_hide_logged2=1\nml_hide_logged3=1\nml_hide_logged4=1\nml_hide_logged5=1\nml_hide_logged6=1\nml_hide_logged7=1\nml_hide_logged8=1\nml_hide_logged9=1\nml_hide_logged10=1\nml_hide_logged11=1', 0, 0);
 
@@ -1307,7 +1307,7 @@ INSERT INTO `#__modules_com` (`id`, `moduleid`, `option`, `directory`, `category
 	(11, 15, '', 0, 0, ''),
 	(12, 16, 'com_frontpage', 0, 0, ''),
 	(13, 18, '', 0, 0, ''),
-	(14, 21, '', 0, 0, ''),
+	(31, 21, '0', 0, 0, ''),
 	(15, 30, '', 0, 0, ''),
 	(16, 32, '', 0, 0, ''),
 	(17, 34, 'com_frontpage', 0, 0, ''),
@@ -1321,7 +1321,9 @@ INSERT INTO `#__modules_com` (`id`, `moduleid`, `option`, `directory`, `category
 	(26, 49, 'com_boss', 0, 0, ''),
 	(27, 50, '', 0, 0, ''),
 	(28, 51, '', 0, 0, ''),
-	(29, 52, '', 0, 0, '');
+	(29, 52, '', 0, 0, ''),
+	(30, 33, '0', 0, 0, ''),
+	(32, 23, '0', 0, 0, '');
 
 # Dumping structure for table #__polls
 
@@ -1491,7 +1493,7 @@ INSERT INTO `#__template_positions` (`id`, `position`, `description`) VALUES
 	(7, 'left', 'left'),
 	(8, 'right', 'right'),
 	(9, 'pathway', 'pathway'),
-	(10, 'cpanel', 'cpanel'),
+	(10, 'cpanel', 'cpanel (admin)'),
 	(11, 'banner1', 'banner1'),
 	(12, 'banner2', 'banner2'),
 	(13, 'banner3', 'banner3'),
@@ -1505,7 +1507,12 @@ INSERT INTO `#__template_positions` (`id`, `position`, `description`) VALUES
 	(21, 'user7', 'user7'),
 	(22, 'user8', 'user8'),
 	(23, 'user9', 'user9'),
-	(24, 'zero', 'zero');
+	(24, 'zero', 'zero'),
+	(25, 'advert1', 'advert1 (admin)'),
+	(26, 'advert2', 'advert2(admin)'),
+	(27, 'icon', 'icon (admin)'),
+	(28, 'inset', 'inset (admin)'),
+	(29, 'toolbar', 'toolbar (admin)');
 
 # Dumping structure for table #__users
 
