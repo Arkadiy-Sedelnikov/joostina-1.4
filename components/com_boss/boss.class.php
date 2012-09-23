@@ -1,18 +1,18 @@
 <?php
 
 /**
- * @package Joostina BOSS
+ * @package   Joostina BOSS
  * @copyright Авторские права (C) 2008-2010 Joostina team. Все права защищены.
- * @license Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
- * Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
- * Joostina BOSS основан на разработках Jdirectory от Thomas Papin
+ * @license   Лицензия http://www.gnu.org/licenses/gpl-2.0.htm GNU/GPL, или help/license.php
+ *            Joostina BOSS - свободное программное обеспечение распространяемое по условиям лицензии GNU/GPL
+ *            Joostina BOSS основан на разработках Jdirectory от Thomas Papin
  */
 defined('_JLINDEX') or die();
 
 /**
  * Класс конфигурации каталогов
  */
-class jDirectoryConf extends mosDBTable{
+class jDirectoryConf extends mosDBTable {
 
 	var $id = null;
 	var $name = null;
@@ -59,12 +59,12 @@ class jDirectoryConf extends mosDBTable{
 	var $allow_rights = null;
 	var $rights = null;
 
-	function __construct($db){
+	function __construct($db) {
 		$this->mosDBTable('#__boss_config', 'id', $db);
 	}
 
 	// get configuration
-	public static function getConfig($directory){
+	public static function getConfig($directory) {
 		$database = database::getInstance();
 		$conf = null;
 		$database->setQuery("SELECT * FROM #__boss_config WHERE id = $directory", 0, 1)->loadObject($conf);
@@ -77,10 +77,12 @@ class jDirectoryConf extends mosDBTable{
 
 	/** редактирование конфигурации
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function editConfiguration($directory, $conf){
+	public static function editConfiguration($directory, $conf) {
 
 		$database = database::getInstance();
 
@@ -105,27 +107,25 @@ class jDirectoryConf extends mosDBTable{
 			$ratings[] = mosHTML::makeOption($key, $key);
 		}
 
-
 		$rights_admin = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_admin'));
 		$rights_admin->bind_rights(@$conf->rights);
 
 		$rights_front = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('conf_front'));
 		$rights_front->bind_rights(@$conf->rights);
 
-		$rights = array(
-			'admin' => $rights_admin,
-			'front' => $rights_front
-		);
+		$rights = array('admin' => $rights_admin, 'front' => $rights_front);
 
 		HTML_boss::editConfiguration($conf, $templates, $directory, $directories, $sort_fields, $filters, $ratings, $rights, $conf);
 	}
 
 	/** сохранение конфигурации
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function saveConfiguration($directory){
+	public static function saveConfiguration($directory) {
 		$task = mosGetParam($_REQUEST, 'task');
 		$database = database::getInstance();
 		$row = new jDirectoryConf($database);
@@ -151,19 +151,17 @@ class jDirectoryConf extends mosDBTable{
 		// clean any existing cache files
 		mosCache::cleanCache('com_boss');
 
-		if($task == 'apply')
-			$link = "index2.php?option=com_boss&act=configuration&task=edit&directory=$directory";
+		if($task == 'apply') $link = "index2.php?option=com_boss&act=configuration&task=edit&directory=$directory";
 		else
 			$link = "index2.php?option=com_boss&act=configuration&directory=$directory";
 		mosRedirect($link, BOSS_CONFIGURATION_SAVED);
 	}
-
 }
 
 /**
  * Класс категорий
  */
-class jDirectoryCategory extends mosDBTable{
+class jDirectoryCategory extends mosDBTable {
 
 	var $id = null;
 	var $parent = null;
@@ -179,17 +177,19 @@ class jDirectoryCategory extends mosDBTable{
 	var $content_types = null;
 	var $rights = null;
 
-	function __construct($db, $directory){
+	function __construct($db, $directory) {
 		$this->mosDBTable('#__boss_' . $directory . '_categories', 'id', $db);
 	}
 
 	/** массив всех категорий
 	 * @static
+	 *
 	 * @param      $directory
 	 * @param null $rows
+	 *
 	 * @return array
 	 */
-	public static function getAllCategories($directory, $rows = null){
+	public static function getAllCategories($directory, $rows = null) {
 		if($rows == null){
 			$database = database::getInstance();
 
@@ -236,11 +236,13 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** сохранение порядка сортировки
 	 * @static
+	 *
 	 * @param  $tid
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function saveOrder($tid, $directory){
+	public static function saveOrder($tid, $directory) {
 		$database = database::getInstance();
 
 		$total = count($tid);
@@ -266,12 +268,14 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** перемещение категории в списке при сортировке
 	 * @static
+	 *
 	 * @param  $uid
 	 * @param  $inc
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function orderCategory($uid, $inc, $directory){
+	public static function orderCategory($uid, $inc, $directory) {
 		$database = database::getInstance();
 
 		$row = new jDirectoryCategory($database, $directory);
@@ -286,10 +290,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** форма создания категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function newCategory($directory, $conf){
+	public static function newCategory($directory, $conf) {
 		$database = database::getInstance();
 		$children = self::getAllCategories($directory);
 
@@ -308,10 +314,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** удаление категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deleteCategory($directory){
+	public static function deleteCategory($directory) {
 
 		$tid = $_POST['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -350,10 +358,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/**
 	 * @static список категорий
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function listCategories($directory, $conf){
+	public static function listCategories($directory, $conf) {
 
 		$defaultTemplate = $conf->template;
 		$database = database::getInstance();
@@ -403,10 +413,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/**
 	 * @static публикация категорий
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function publishCategory($directory){
+	public static function publishCategory($directory) {
 
 		$tid = $_GET['tid'];
 
@@ -417,7 +429,8 @@ class jDirectoryCategory extends mosDBTable{
 
 		if(isset($_GET['publish'])){
 			$publish = (int)$_GET['publish'];
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=categories&directory=$directory", BOSS_ERROR_IN_URL);
 			return;
 		}
@@ -439,10 +452,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** форма редактирования категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function displayCategory($directory, $conf){
+	public static function displayCategory($directory, $conf) {
 
 		$id = mosGetParam($_REQUEST, 'tid', array(0));
 		if(is_array($id)){
@@ -478,10 +493,12 @@ class jDirectoryCategory extends mosDBTable{
 
 	/** сохранение категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function saveCategory($directory, $conf){
+	public static function saveCategory($directory, $conf) {
 
 		$database = database::getInstance();
 		$task = mosGetParam($_REQUEST, 'task');
@@ -520,27 +537,23 @@ class jDirectoryCategory extends mosDBTable{
 		// image1 upload
 		if(isset($_FILES['cat_image']) and !$_FILES['cat_image']['error']){
 			$path = JPATH_BASE . "/images/boss/$directory/categories/";
-			createImageAndThumb(
-				$_FILES['cat_image']['tmp_name'], $_FILES['cat_image']['name'], $path, $row->id . "cat.jpg", $row->id . "cat_t.jpg", $conf->cat_max_width, $conf->cat_max_height, $conf->cat_max_width_t, $conf->cat_max_height_t
-			);
+			createImageAndThumb($_FILES['cat_image']['tmp_name'], $_FILES['cat_image']['name'], $path, $row->id . "cat.jpg", $row->id . "cat_t.jpg", $conf->cat_max_width, $conf->cat_max_height, $conf->cat_max_width_t, $conf->cat_max_height_t);
 		}
 
 		// clean any existing cache files
 		mosCache::cleanCache('com_boss');
 
-		if($task == 'apply')
-			$link = "index2.php?option=com_boss&directory=$directory&act=categories&task=edit&tid[]=$row->id";
+		if($task == 'apply') $link = "index2.php?option=com_boss&directory=$directory&act=categories&task=edit&tid[]=$row->id";
 		else
 			$link = "index2.php?option=com_boss&act=categories&directory=$directory";
 		mosRedirect($link, BOSS_CATEGORY_SAVED);
 	}
-
 }
 
 /**
  * Класс контента
  */
-class jDirectoryContent extends mosDBTable{
+class jDirectoryContent extends mosDBTable {
 
 	var $id = null;
 	var $name;
@@ -557,16 +570,18 @@ class jDirectoryContent extends mosDBTable{
 	var $date_unpublish = null;
 	var $type_content = null;
 
-	function __construct($db, $directory){
+	function __construct($db, $directory) {
 		$this->mosDBTable('#__boss_' . $directory . '_contents', 'id', $db);
 	}
 
 	/** форма создания нового контента
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function newContent($directory, $conf){
+	public static function newContent($directory, $conf) {
 
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
@@ -615,10 +630,12 @@ class jDirectoryContent extends mosDBTable{
 
 	/**
 	 * @static сохранение контента
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function saveContent($directory, $conf){
+	public static function saveContent($directory, $conf) {
 		$database = database::getInstance();
 		$row = new jDirectoryContent($database, $directory);
 		$type_content = mosGetParam($_REQUEST, 'type_content', 0);
@@ -636,13 +653,14 @@ class jDirectoryContent extends mosDBTable{
 	}
 
 	/**
-	 * @param     $directory  - каталог
-	 * @param     $fields - поля
-	 * @param     $conf - конфигурация
+	 * @param     $directory    - каталог
+	 * @param     $fields       - поля
+	 * @param     $conf         - конфигурация
 	 * @param int $isUpdateMode - обновление/новое поле
+	 *
 	 * @return
 	 */
-	function save($directory, $fields, $conf, $isUpdateMode = 0){
+	function save($directory, $fields, $conf, $isUpdateMode = 0) {
 		$mainframe = mosMainFrame::getInstance();
 		;
 		$database = database::getInstance();
@@ -665,8 +683,8 @@ class jDirectoryContent extends mosDBTable{
 			if(empty($this->date_publish) && $this->published == 1){
 				$this->date_publish = $this->date_created;
 			}
-
-		} else{
+		}
+		else{
 			$isUpdateMode = 1;
 			$this->date_publish = (intval($this->date_publish) > 0) ? mosFormatDate($this->date_publish, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : '';
 		}
@@ -675,18 +693,19 @@ class jDirectoryContent extends mosDBTable{
 			if($conf->auto_publish == 2 || $conf->auto_publish == 1){
 				$this->published = 1;
 				$redirect_text = BOSS_INSERT_SUCCESSFULL_PUBLISH;
-			} else{
+			}
+			else{
 				$this->published = 0;
 				$redirect_text = BOSS_INSERT_SUCCESSFULL_CONFIRM;
 			}
-		} else
+		}
+		else
 			$redirect_text = BOSS_UPDATE_SUCCESSFULL;
 
 		$this->date_created = (!empty($this->date_created)) ? mosFormatDate($this->date_created, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : date('Y-m-d H:i:s');
 		$this->date_unpublish = (!empty($this->date_unpublish)) ? mosFormatDate($this->date_unpublish, '%Y-%m-%d %H:%M:%S', -$mainframe->getCfg('offset')) : '';
 
-		if($this->slug == '')
-			$this->slug = $this->name;
+		if($this->slug == '') $this->slug = $this->name;
 
 		// store it in the db
 		if(!$this->store()){
@@ -696,12 +715,12 @@ class jDirectoryContent extends mosDBTable{
 
 		//удаляем старые категории
 		if($isUpdateMode == 1){
-			$query = "DELETE FROM #__boss_" . $directory . "_content_category_href "
-				. "WHERE content_id = $this->id";
+			$query = "DELETE FROM #__boss_" . $directory . "_content_category_href " . "WHERE content_id = $this->id";
 			$database->setQuery($query);
 			$database->query();
 			$content_id = $this->id;
-		} else
+		}
+		else
 			$content_id = $database->insertid();
 		//вписываем новые категории
 		if(!empty($category)){
@@ -710,19 +729,18 @@ class jDirectoryContent extends mosDBTable{
 				foreach($category as $cat){
 					$cat_arr[] = "($cat, $content_id)";
 				}
-			} else
+			}
+			else
 				$cat_arr[] = "($category, $content_id)";
 
-			$query = "INSERT INTO #__boss_" . $directory . "_content_category_href "
-				. "(category_id, content_id) "
-				. " VALUES " . implode(", ", $cat_arr);
+			$query = "INSERT INTO #__boss_" . $directory . "_content_category_href " . "(category_id, content_id) " . " VALUES " . implode(", ", $cat_arr);
 			$database->setQuery($query);
 			$database->query();
 		}
 		//теги
 		require_once(JPATH_BASE . '/includes/libraries/tags/tags.php');
 		$jDirectoryContentTags = new contentTags($database);
-		$obj = null;
+		$obj = new stdClass();
 		$obj->id = $content_id;
 		$obj->obj_type = 'com_boss_' . $directory;
 		$tag_arr = array();
@@ -742,7 +760,8 @@ class jDirectoryContent extends mosDBTable{
 				//Plugins
 				if(isset($plugins[$field->type])){
 					$value = $plugins[$field->type]->onFormSave($directory, $this->id, $field, $isUpdateMode);
-				} else{
+				}
+				else{
 					$value = mosGetParam($_POST, $field->name, "");
 				}
 
@@ -762,21 +781,23 @@ class jDirectoryContent extends mosDBTable{
 
 		if($act != ''){
 
-			if($task == 'apply')
-				$url = "index2.php?option=com_boss&act=contents&task=edit&&directory=$directory&tid[]=$this->id";
+			if($task == 'apply') $url = "index2.php?option=com_boss&act=contents&task=edit&&directory=$directory&tid[]=$this->id";
 			else
 				$url = "index2.php?option=com_boss&act=contents&directory=" . $directory;
-		} else
+		}
+		else
 			$url = JSef::getUrlToSef("index.php?option=com_boss&task=show_content&contentid=" . $this->id . "&catid=" . $category . "&directory=" . $directory);
 		mosRedirect($url, $redirect_text);
 	}
 
 	/**  публикация контента
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function publishContent($directory){
+	public static function publishContent($directory) {
 
 		$tid = $_GET['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -788,7 +809,8 @@ class jDirectoryContent extends mosDBTable{
 
 		if(isset($_GET['publish'])){
 			$publish = (int)$_GET['publish'];
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=contents&catid=" . $catid . "&directory=$directory", BOSS_ERROR_IN_URL);
 			return;
 		}
@@ -807,10 +829,12 @@ class jDirectoryContent extends mosDBTable{
 
 	/** форма редактирования контента
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function displayContent($directory, $conf){
+	public static function displayContent($directory, $conf) {
 
 		$task = mosGetParam($_REQUEST, 'task', '');
 		$id = mosGetParam($_REQUEST, 'tid', array(0));
@@ -872,7 +896,7 @@ class jDirectoryContent extends mosDBTable{
 
 		mosMainFrame::addLib('tags');
 		$jDirectoryContentTags = new contentTags($database);
-		$obj = null;
+		$obj = new stdClass();
 		$obj->id = $row->id;
 		$obj->obj_type = 'com_boss_' . $directory;
 		$tags = $jDirectoryContentTags->load_by($obj);
@@ -880,7 +904,8 @@ class jDirectoryContent extends mosDBTable{
 
 		if($task == 'copy'){
 			$rowid = '';
-		} else{
+		}
+		else{
 			$rowid = $row->id;
 		}
 
@@ -890,10 +915,12 @@ class jDirectoryContent extends mosDBTable{
 
 	/** удаление контента
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deleteContent($directory, $conf){
+	public static function deleteContent($directory, $conf) {
 
 		$tid = $_REQUEST['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -920,9 +947,10 @@ class jDirectoryContent extends mosDBTable{
 	/**
 	 * @param  $directory
 	 * @param  $conf
+	 *
 	 * @return void
 	 */
-	function delete($directory, $conf){
+	function delete($directory, $conf) {
 
 		$database = database::getInstance();
 
@@ -934,26 +962,30 @@ class jDirectoryContent extends mosDBTable{
 		$database->setQuery("DELETE FROM #__boss_" . $directory . "_contents WHERE id=$this->id");
 		if($database->getErrorNum()){
 			echo $database->stderr();
-		} else{
+		}
+		else{
 			$database->query();
 		}
 		//удаляем связи контента с категориями
 		$database->setQuery("DELETE FROM #__boss_" . $directory . "_content_category_href WHERE content_id=$this->id");
 		if($database->getErrorNum()){
 			echo $database->stderr();
-		} else{
+		}
+		else{
 			$database->query();
 		}
 	}
 
 	/**
 	 * @static
+	 *
 	 * @param  $rows
 	 * @param  $list
 	 * @param  $catid
+	 *
 	 * @return void
 	 */
-	public static function recurseSearch($rows, $list, $catid){
+	public static function recurseSearch($rows, $list, $catid) {
 		foreach($rows as $row){
 			if($row->parent == $catid){
 				$list[] = $row->id;
@@ -964,10 +996,12 @@ class jDirectoryContent extends mosDBTable{
 
 	/**
 	 * @static список контента
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function listContents($directory, $conf){
+	public static function listContents($directory, $conf) {
 		global $mosConfig_list_limit;
 		$mainframe = mosMainFrame::getInstance();
 		$database = database::getInstance();
@@ -978,15 +1012,15 @@ class jDirectoryContent extends mosDBTable{
 		$select_publish = mosGetParam($_REQUEST, 'select_publish', 0);
 
 		if($catid > 0){
-			$database->setQuery("SELECT c.name, c.id "
-				. "FROM #__boss_" . $directory . "_categories as c "
-				. "WHERE c.id = " . $catid);
+			$database->setQuery("SELECT c.name, c.id " . "FROM #__boss_" . $directory . "_categories as c " . "WHERE c.id = " . $catid);
 			$cats = $database->loadObjectList();
 			if($database->getErrorNum()){
 				echo $database->stderr();
 				return false;
 			}
-		} else{
+		}
+		else{
+			$cats[0] = new stdClass();
 			$cats[0]->id = 0;
 			$cats[0]->name = "";
 		}
@@ -1003,7 +1037,8 @@ class jDirectoryContent extends mosDBTable{
 		if($catid != 0){
 			$list[] = $catid;
 			self::recurseSearch($rows, $list, $catid);
-		} else{
+		}
+		else{
 			$list = array();
 		}
 		$listids = implode(',', $list);
@@ -1054,11 +1089,7 @@ class jDirectoryContent extends mosDBTable{
 
 		$where = (count($wheres) > 0) ? " WHERE " . implode(' AND ', $wheres) : '';
 
-		$q = "SELECT " . implode(', ', $fields)
-			. " FROM " . implode(', ', $tables)
-			. $where
-			. " GROUP BY a.id "
-			. " ORDER BY a.id DESC";
+		$q = "SELECT " . implode(', ', $fields) . " FROM " . implode(', ', $tables) . $where . " GROUP BY a.id " . " ORDER BY a.id DESC";
 
 		$total = $database->setQuery($q)->loadResult();
 		$limit = intval($mainframe->getUserStateFromRequest("viewlistlimit", 'limit', $mosConfig_list_limit));
@@ -1074,27 +1105,19 @@ class jDirectoryContent extends mosDBTable{
 
 		$directories = BossDirectory::getDirectories();
 
-		$categs = $database->setQuery("SELECT c.name, c.id , cch.content_id "
-			. "FROM #__boss_" . $directory . "_categories as c, "
-			. "#__boss_" . $directory . "_content_category_href as cch "
-			. "WHERE cch.category_id = c.id ")->loadObjectList();
+		$categs = $database->setQuery("SELECT c.name, c.id , cch.content_id " . "FROM #__boss_" . $directory . "_categories as c, " . "#__boss_" . $directory . "_content_category_href as cch " . "WHERE cch.category_id = c.id ")->loadObjectList();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
 		}
 
-		$typesContent = $database->setQuery("SELECT name, id "
-			. "FROM #__boss_" . $directory . "_content_types "
-			. "WHERE published = 1 ")->loadObjectList();
+		$typesContent = $database->setQuery("SELECT name, id " . "FROM #__boss_" . $directory . "_content_types " . "WHERE published = 1 ")->loadObjectList();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
 		}
 
-		$autors = $database->setQuery("SELECT DISTINCT c.userid, u.name "
-			. "FROM #__boss_" . $directory . "_contents as c, "
-			. "#__users as u "
-			. "WHERE u.id = c.userid ORDER BY u.name")->loadObjectList('userid');
+		$autors = $database->setQuery("SELECT DISTINCT c.userid, u.name " . "FROM #__boss_" . $directory . "_contents as c, " . "#__users as u " . "WHERE u.id = c.userid ORDER BY u.name")->loadObjectList('userid');
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
@@ -1103,10 +1126,9 @@ class jDirectoryContent extends mosDBTable{
 		HTML_boss::listContents($cats[0], $rows, $pageNav, $children, $directory, $directories, $categs, $autors, $selectedAutorId, $typesContent, $conf);
 		return true;
 	}
-
 }
 
-class jDirectoryField extends mosDBTable{
+class jDirectoryField extends mosDBTable {
 
 	var $fieldid = null;
 	var $name = null;
@@ -1138,25 +1160,25 @@ class jDirectoryField extends mosDBTable{
 
 	/**
 	 * Constructor
+	 *
 	 * @param database A database connector object
 	 */
-	function __construct($db, $directory){
+	function __construct($db, $directory) {
 
 		$this->mosDBTable('#__boss_' . $directory . '_fields', 'fieldid', $db);
 	}
 
-//end func
+	//end func
 
-	function getFieldValue($field, $content, $field_values, $directory, $conf){
+	function getFieldValue($field, $content, $field_values, $directory, $conf) {
 		global $task;
-		$return = null;
+		$return = new stdClass();
 		$return->value = null;
 		$return->title = null;
 		$field_values = (isset($field_values[$field->fieldid])) ? $field_values[$field->fieldid] : array();
 		$plugins = BossPlugins::get_plugins($directory, 'fields');
 		$fieldName = $field->name;
-		if($task == "show_content")
-			$mode = 1;
+		if($task == "show_content") $mode = 1;
 		else
 			$mode = 2;
 
@@ -1164,8 +1186,7 @@ class jDirectoryField extends mosDBTable{
 			$return->title = jdGetLangDefinition($field->title) . ": ";
 		}
 
-		if(isset($content->$fieldName))
-			$value = $content->$fieldName;
+		if(isset($content->$fieldName)) $value = $content->$fieldName;
 		else
 			$value = "";
 
@@ -1173,25 +1194,24 @@ class jDirectoryField extends mosDBTable{
 			$value = jdGetLangDefinition($value);
 
 			if(isset($plugins[$field->type])){
-				if($mode == 2)
-					$return->value .= $plugins[$field->type]->getListDisplay($directory, $content, $field, $field_values, $conf);
+				if($mode == 2) $return->value .= $plugins[$field->type]->getListDisplay($directory, $content, $field, $field_values, $conf);
 				else
 					$return->value .= $plugins[$field->type]->getDetailsDisplay($directory, $content, $field, $field_values, $conf);
-			} else
+			}
+			else
 				$return->value .= $value;
 		}
 		return $return;
 	}
 
-	public static function getFieldForm($field, $content, $user, $field_values, $directory, $plugins, $mode = "write"){
+	public static function getFieldForm($field, $content, $user, $field_values, $directory, $plugins, $mode = "write") {
 		global $mosConfig_live_site, $mainframe;
-		$return = null;
+		$return = new stdClass();
 		$return->input = "";
 		$return->title = "";
 
 		$act = mosGetParam($_REQUEST, 'act', '');
-		if($act == 'contents')
-			$nameform = 'adminForm';
+		if($act == 'contents') $nameform = 'adminForm';
 		else
 			$nameform = 'saveForm';
 
@@ -1219,10 +1239,12 @@ class jDirectoryField extends mosDBTable{
 
 	/** список полей
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function showFields($directory, $conf){
+	public static function showFields($directory, $conf) {
 
 		if($directory == 0){
 			return;
@@ -1245,8 +1267,7 @@ class jDirectoryField extends mosDBTable{
 		}
 
 		//создаем массив полей шаблонов для тултипа
-		$groupfields = $database->setQuery(
-			"SELECT * FROM #__boss_" . $directory . "_groupfields ORDER BY fieldid")->loadObjectList();
+		$groupfields = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_groupfields ORDER BY fieldid")->loadObjectList();
 
 		if($database->getErrorNum()){
 			echo $database->stderr();
@@ -1264,7 +1285,7 @@ class jDirectoryField extends mosDBTable{
 		foreach($groupfields as $groupfield){
 			foreach($groups as $group){
 				if($groupfield->groupid == $group->id){
-					$object = null;
+					$object = new stdClass();
 					$object->fieldid = $groupfield->fieldid;
 					$object->groupid = $groupfield->groupid;
 					$object->template = $groupfield->template;
@@ -1282,10 +1303,12 @@ class jDirectoryField extends mosDBTable{
 
 	/** поле
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function showField($directory, $id){
+	public static function showField($directory, $id) {
 
 		if($directory == 0){
 			return;
@@ -1304,10 +1327,12 @@ class jDirectoryField extends mosDBTable{
 
 	/** редактирование поля
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function editField($directory){
+	public static function editField($directory) {
 		$task = mosGetParam($_REQUEST, 'task', '');
 		$plugin_name = mosGetParam($_REQUEST, 'plugin', '');
 		$mainframe = mosMainFrame::getInstance(true);
@@ -1320,7 +1345,8 @@ class jDirectoryField extends mosDBTable{
 		}
 		if($fieldid > 0){
 			$task = 'edit';
-		} else{
+		}
+		else{
 			$fieldid = 0;
 		}
 
@@ -1336,7 +1362,6 @@ class jDirectoryField extends mosDBTable{
 			return false;
 		}
 
-
 		$lists = array();
 		$sort_direction = array();
 		$display_title_list = array();
@@ -1346,18 +1371,14 @@ class jDirectoryField extends mosDBTable{
 		}
 		$plugin = BossPlugins::get_plugin($directory, $plugin_name);
 
-		$plug = null;
+		$plug = new stdClass();
 		$plug->type = $plugin->type;
 		$plug->name = $plugin->name;
 
-		$database->setQuery("SELECT fieldtitle,fieldvalue "
-			. "\n FROM #__boss_" . $directory . "_field_values"
-			. "\n WHERE fieldid=$fieldid"
-			. "\n ORDER BY ordering");
+		$database->setQuery("SELECT fieldtitle,fieldvalue " . "\n FROM #__boss_" . $directory . "_field_values" . "\n WHERE fieldid=$fieldid" . "\n ORDER BY ordering");
 		$fvalues = $database->loadObjectList('fieldtitle');
 
-		$fnames = $database->setQuery("SELECT `name`  "
-			. "\n FROM #__boss_" . $directory . "_fields")->loadResultArray();
+		$fnames = $database->setQuery("SELECT `name`  " . "\n FROM #__boss_" . $directory . "_fields")->loadResultArray();
 
 		$sort_direction[] = mosHTML::makeOption('DESC', BOSS_CMN_SORT_DESC);
 		$sort_direction[] = mosHTML::makeOption('ASC', BOSS_CMN_SORT_ASC);
@@ -1391,17 +1412,18 @@ class jDirectoryField extends mosDBTable{
 
 	/** сохранение поля
 	 * @static
+	 *
 	 * @param  $dir
+	 *
 	 * @return void
 	 */
-	public static function saveField($dir){
+	public static function saveField($dir) {
 
 		$database = database::getInstance();
 		$field_action = mosGetParam($_REQUEST, 'field_action', '');
 		$directories = mosGetParam($_REQUEST, 'directories', array());
 		$dirFieldid = array();
-		if(count($directories) == 0)
-			$directories[] = $dir;
+		if(count($directories) == 0) $directories[] = $dir;
 
 		foreach($directories as $directory){
 			$row = new jDirectoryField($database, $directory);
@@ -1430,7 +1452,8 @@ class jDirectoryField extends mosDBTable{
 
 			if($row->fieldid > 0){
 				$database->setQuery("DELETE FROM #__boss_" . $directory . "_field_values WHERE fieldid='" . $row->fieldid . "'")->query();
-			} else{
+			}
+			else{
 				$maxID = $database->setQuery("SELECT MAX(fieldid) FROM #__boss_" . $directory . "_fields")->loadResult();
 				$row->fieldid = $maxID;
 			}
@@ -1462,18 +1485,15 @@ class jDirectoryField extends mosDBTable{
 				if($row->profile == 1){
 
 					//добавляем поле в таблицу профиля
-					if(!$issetProfileField)
-						$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile ADD `$row->name` TEXT NOT NULL")->query();
+					if(!$issetProfileField) $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile ADD `$row->name` TEXT NOT NULL")->query();
 					//удаляем поле из таблицы контента
-					if($issetContentField)
-						$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
-				} else{
+					if($issetContentField) $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents DROP `$row->name`")->query();
+				}
+				else{
 					//удаляем поле из таблицы профиля
-					if($issetProfileField)
-						$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
+					if($issetProfileField) $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_profile DROP `$row->name`")->query();
 					//добавляем поле в таблицу контента
-					if(!$issetContentField)
-						$database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents ADD `$row->name` TEXT NOT NULL")->query();
+					if(!$issetContentField) $database->setQuery("ALTER IGNORE TABLE #__boss_" . $directory . "_contents ADD `$row->name` TEXT NOT NULL")->query();
 				}
 			}
 			//вычисляем филдид поля в изначальном каталоге
@@ -1487,10 +1507,12 @@ class jDirectoryField extends mosDBTable{
 
 	/** удаление поля
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function removeField($directory, $fieldid = null){
+	public static function removeField($directory, $fieldid = null) {
 
 		//$tid = mosGetParam($_REQUEST, 'tid', 0);
 		$tid = array($fieldid);
@@ -1543,11 +1565,13 @@ class jDirectoryField extends mosDBTable{
 
 	/** сохраниение порядка сортировки полей
 	 * @static
+	 *
 	 * @param  $tid
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function saveFieldOrder($fieldids, $directory){
+	public static function saveFieldOrder($fieldids, $directory) {
 		$database = database::getInstance();
 		$row = new jDirectoryField($database, $directory);
 		$i = 0;
@@ -1572,12 +1596,14 @@ class jDirectoryField extends mosDBTable{
 	/**
 	 * перемещение порядка поля
 	 * @static
+	 *
 	 * @param  $uid integer The increment to reorder by
 	 * @param  $inc
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function orderField($uid, $inc, $directory){
+	public static function orderField($uid, $inc, $directory) {
 		$database = database::getInstance();
 
 		$row = new jDirectoryField($database, $directory);
@@ -1592,10 +1618,12 @@ class jDirectoryField extends mosDBTable{
 
 	/** публикация поля
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function publishField($directory){
+	public static function publishField($directory) {
 		$database = database::getInstance();
 
 		$tid = $_GET['tid'];
@@ -1606,7 +1634,8 @@ class jDirectoryField extends mosDBTable{
 
 		if(isset($_GET['publish'])){
 			$publish = $_GET['publish'];
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=fields&directory=$directory", BOSS_ERROR_IN_URL);
 			return;
 		}
@@ -1618,17 +1647,20 @@ class jDirectoryField extends mosDBTable{
 
 		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=fields&directory=$directory");
 		}
 	}
 
 	/** изменяет обязательность заполнения поля
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function requiredField($directory){
+	public static function requiredField($directory) {
 
 		$tid = $_GET['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -1638,7 +1670,8 @@ class jDirectoryField extends mosDBTable{
 
 		if(isset($_GET['required'])){
 			$required = $_GET['required'];
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=fields&directory=$directory", BOSS_ERROR_IN_URL);
 			return;
 		}
@@ -1651,16 +1684,16 @@ class jDirectoryField extends mosDBTable{
 		}
 		if(!$database->query()){
 			echo "<script> alert('" . $database->getErrorMsg() . "'); window.history.go(-1); </script>\n";
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=fields&directory=$directory", BOSS_UPDATE_SUCCESSFULL);
 		}
 	}
-
 }
 
 //end class
 
-class jDirectoryTemplatePosition extends mosDBTable{
+class jDirectoryTemplatePosition extends mosDBTable {
 
 	var $id = null;
 	var $name = null;
@@ -1670,14 +1703,14 @@ class jDirectoryTemplatePosition extends mosDBTable{
 
 	/**
 	 * Constructor
+	 *
 	 * @param database A database connector object
 	 */
-	function __construct($db, $directory){
+	function __construct($db, $directory) {
 
 		$this->mosDBTable('#__boss_' . $directory . '_groups', 'id', $db);
 	}
-
-//end func
+	//end func
 }
 
 //end class
@@ -1685,31 +1718,18 @@ class jDirectoryTemplatePosition extends mosDBTable{
 /**
  * Различные вспомогательные функции
  */
-class boss_helpers{
+class boss_helpers {
 
 	/**Декодирует в json без замены русских букв на сущности
 	 * @static
+	 *
 	 * @param $str
+	 *
 	 * @return mixed
 	 */
-	public static function json_encode_cyr($str){
-		$arr_replace_utf = array(
-			'\u0410', '\u0430', '\u0411', '\u0431', '\u0412', '\u0432', '\u0413', '\u0433', '\u0414', '\u0434',
-			'\u0415', '\u0435', '\u0401', '\u0451', '\u0416', '\u0436', '\u0417', '\u0437', '\u0418', '\u0438',
-			'\u0419', '\u0439', '\u041a', '\u043a', '\u041b', '\u043b', '\u041c', '\u043c', '\u041d', '\u043d',
-			'\u041e', '\u043e', '\u041f', '\u043f', '\u0420', '\u0440', '\u0421', '\u0441', '\u0422', '\u0442',
-			'\u0423', '\u0443', '\u0424', '\u0444', '\u0425', '\u0445', '\u0426', '\u0446', '\u0427', '\u0447',
-			'\u0428', '\u0448', '\u0429', '\u0449', '\u042a', '\u044a', '\u042b', '\u044b', '\u042c', '\u044c',
-			'\u042d', '\u044d', '\u042e', '\u044e', '\u042f', '\u044f', '\'');
-		$arr_replace_cyr = array(
-			'А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Д', 'д',
-			'Е', 'е', 'Ё', 'ё', 'Ж', 'ж', 'З', 'з', 'И', 'и',
-			'Й', 'й', 'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н',
-			'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т',
-			'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ч', 'ч',
-			'Ш', 'ш', 'Щ', 'щ', 'Ъ', 'ъ', 'Ы', 'ы', 'Ь', 'ь',
-			'Э', 'э', 'Ю', 'ю', 'Я', 'я', '"'
-		);
+	public static function json_encode_cyr($str) {
+		$arr_replace_utf = array('\u0410', '\u0430', '\u0411', '\u0431', '\u0412', '\u0432', '\u0413', '\u0433', '\u0414', '\u0434', '\u0415', '\u0435', '\u0401', '\u0451', '\u0416', '\u0436', '\u0417', '\u0437', '\u0418', '\u0438', '\u0419', '\u0439', '\u041a', '\u043a', '\u041b', '\u043b', '\u041c', '\u043c', '\u041d', '\u043d', '\u041e', '\u043e', '\u041f', '\u043f', '\u0420', '\u0440', '\u0421', '\u0441', '\u0422', '\u0442', '\u0423', '\u0443', '\u0424', '\u0444', '\u0425', '\u0445', '\u0426', '\u0446', '\u0427', '\u0447', '\u0428', '\u0448', '\u0429', '\u0449', '\u042a', '\u044a', '\u042b', '\u044b', '\u042c', '\u044c', '\u042d', '\u044d', '\u042e', '\u044e', '\u042f', '\u044f', '\'');
+		$arr_replace_cyr = array('А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Д', 'д', 'Е', 'е', 'Ё', 'ё', 'Ж', 'ж', 'З', 'з', 'И', 'и', 'Й', 'й', 'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т', 'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ', 'Ъ', 'ъ', 'Ы', 'ы', 'Ь', 'ь', 'Э', 'э', 'Ю', 'ю', 'Я', 'я', '"');
 		$str1 = json_encode($str);
 		$str2 = str_replace($arr_replace_utf, $arr_replace_cyr, $str1);
 		return $str2;
@@ -1717,14 +1737,16 @@ class boss_helpers{
 
 	/** Функция подключения индивидуального скрипта каталога если он есть
 	 * @static
+	 *
 	 * @param $directory
 	 */
-	public static function addDirectoryScript($directory){
+	public static function addDirectoryScript($directory) {
 		$mainframe = mosMainFrame::getInstance();
 		$script = '/images/boss/' . $directory . '/js/';
 		if($mainframe->isAdmin()){
 			$script .= 'admin.js';
-		} else{
+		}
+		else{
 			$script .= 'front.js';
 		}
 		(is_file(JPATH_BASE . $script)) ? $mainframe->addJS(JPATH_SITE . $script) : null;
@@ -1734,9 +1756,10 @@ class boss_helpers{
 	 * Получение параметра из заголовков сервера или клиенского браузера
 	 * @param string $name    название параметра
 	 * @param string $default значение для параметра, используемое по умолчанию
+	 *
 	 * @return mixed результат, массив или строка, либо false если параметр не обнаружен ( по умолчанию )
 	 */
-	public static function header($name, $default = false){
+	public static function header($name, $default = false) {
 
 		$name_ = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
 		if(isset($_SERVER[$name_])){
@@ -1757,15 +1780,16 @@ class boss_helpers{
 	 * Проверка работы через Ajax-соединение
 	 * @return bool результат проверки
 	 */
-	public static function is_ajax(){
+	public static function is_ajax() {
 		return 'xmlhttprequest' == strtolower(self::header('X_REQUESTED_WITH'));
 	}
 
 	/** удаление непустой папки
 	 * @param  $dirName
+	 *
 	 * @return void
 	 */
-	public static function rmdir_rf($dirName){
+	public static function rmdir_rf($dirName) {
 
 		if($handle = opendir($dirName)){
 
@@ -1774,7 +1798,8 @@ class boss_helpers{
 					if(is_dir($dirName . '/' . $file)){
 						self::rmdir_rf($dirName . '/' . $file);
 						@rmdir($dirName . '/' . $file);
-					} elseif(is_file($dirName . '/' . $file)){
+					}
+					elseif(is_file($dirName . '/' . $file)){
 						@unlink($dirName . '/' . $file);
 					}
 				}
@@ -1788,11 +1813,13 @@ class boss_helpers{
 
 	/** копирование папки с содержимым
 	 * @static
+	 *
 	 * @param  $pathFrom
 	 * @param  $pathTo
+	 *
 	 * @return void
 	 */
-	public static function copy_folder_rf($pathFrom, $pathTo){
+	public static function copy_folder_rf($pathFrom, $pathTo) {
 
 		mosMakePath(JPATH_BASE, str_replace(JPATH_BASE, '', $pathTo));
 
@@ -1805,7 +1832,8 @@ class boss_helpers{
 							@mkdir($pathTo . '/' . $file);
 						}
 						boss_helpers::copy_folder_rf($pathFrom . '/' . $file, $pathTo . '/' . $file);
-					} elseif(is_file($pathFrom . '/' . $file)){
+					}
+					elseif(is_file($pathFrom . '/' . $file)){
 						if(is_file($pathTo . '/' . $file)){
 							@unlink($pathTo . '/' . $file);
 						}
@@ -1820,52 +1848,61 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function loadBossLang($directory){
+	public static function loadBossLang($directory) {
 		global $mosConfig_lang;
 		$defaultLangPath = JPATH_BASE . DS . 'components' . DS . 'com_boss' . DS . 'lang' . DS;
 		$directoryLangPath = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'lang/';
 		if(!$directory){
 			if(is_file($defaultLangPath . $mosConfig_lang . '.php')){
 				require_once($defaultLangPath . $mosConfig_lang . '.php');
-			} else if(is_file($defaultLangPath . 'russian.php')){
+			}
+			else if(is_file($defaultLangPath . 'russian.php')){
 				require_once($defaultLangPath . 'russian.php');
 			}
-		} else if(is_file($directoryLangPath . $mosConfig_lang . '.php')){
+		}
+		else if(is_file($directoryLangPath . $mosConfig_lang . '.php')){
 			require_once($directoryLangPath . $mosConfig_lang . '.php');
-		} else if(is_file($directoryLangPath . 'russian.php')){
+		}
+		else if(is_file($directoryLangPath . 'russian.php')){
 			require_once($directoryLangPath . 'russian.php');
-		} else if(is_file($defaultLangPath . $mosConfig_lang . '.php')){
+		}
+		else if(is_file($defaultLangPath . $mosConfig_lang . '.php')){
 			require_once($defaultLangPath . $mosConfig_lang . '.php');
-		} else if(is_file($defaultLangPath . 'russian.php')){
+		}
+		else if(is_file($defaultLangPath . 'russian.php')){
 			require_once($defaultLangPath . 'russian.php');
 		}
 	}
 
 	/** Подключает языковой файл плагина в случае его наличия.
 	 * @static
-	 * @param $directory - каталог
+	 *
+	 * @param $directory  - каталог
 	 * @param $typePlugin - название папки типа плагинов
-	 * @param $plugin - название папки и класса плагина
+	 * @param $plugin     - название папки и класса плагина
+	 *
 	 * @return void
 	 */
-	public static function loadBossPluginLang($directory, $typePlugin, $plugin){
+	public static function loadBossPluginLang($directory, $typePlugin, $plugin) {
 		global $mosConfig_lang;
 
 		$langPath = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'plugins' . DS . $typePlugin . DS . $plugin . DS . 'lang' . DS;
 
 		if(is_file($langPath . $mosConfig_lang . '.php')){
 			require_once($langPath . $mosConfig_lang . '.php');
-		} else if(is_file($langPath . 'russian.php')){
+		}
+		else if(is_file($langPath . 'russian.php')){
 			require_once($langPath . 'russian.php');
 		}
 	}
 
-	public static function bossToolTip($tooltip, $title = '', $image = 'tooltip.png'){
-		if(!empty($title))
-			$title = $title . ':: ';
+	public static function bossToolTip($tooltip, $title = '', $image = 'tooltip.png') {
+		if(!empty($title)) $title = $title . ':: ';
 		$image = JPATH_SITE . '/includes/js/ThemeOffice/' . $image;
 		$tip = '<img src="' . $image . '" border="0" title="' . $title . $tooltip . '"/>';
 		return $tip;
@@ -1873,26 +1910,31 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function upload_image($directory){
+	public static function upload_image($directory) {
 		$file = JPATH_BASE . "/images/boss/$directory/fields/" . basename($_FILES['uploadfile']['name']);
 
 		if(move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)){
 			echo "success";
-		} else{
+		}
+		else{
 			echo "error";
 		}
 	}
 
 	/**
 	 * @static
+	 *
 	 * @param $directory
 	 * @param $folder - может быть строкой или массивом
+	 *
 	 * @return void
 	 */
-	public static function upload_file($directory, $folder){
+	public static function upload_file($directory, $folder) {
 
 		$max_filesize = mosGetParam($_REQUEST, 'max_filesize', 0);
 		if($max_filesize > 0 && filesize($_FILES['uploadfile']['tmp_name']) > $max_filesize){
@@ -1920,39 +1962,38 @@ class boss_helpers{
 		}
 		if(move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)){
 			echo $filename;
-		} else{
+		}
+		else{
 			echo "error";
 		}
 	}
 
 	/** Удаляет файл, созданный при экспорте каталога
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function delete_pack($directory){
+	public static function delete_pack($directory) {
 		$pack = mosGetParam($_REQUEST, 'pack', '');
 		$file = JPATH_BASE . "/images/boss/$directory/$pack.zip";
-		if(is_file($file))
-			unlink($file);
-		if(is_file($file))
-			echo 'no';
+		if(is_file($file)) unlink($file);
+		if(is_file($file)) echo 'no';
 		else
 			echo 'yes';
 	}
 
 
-	public static function delete_file($directory){
+	public static function delete_file($directory) {
 		$file = mosGetParam($_REQUEST, 'file', '');
 		$folder = mosGetParam($_REQUEST, 'folder', '');
 		if(is_array($folder)){
 			$folder = implode('/', $folder);
 		}
 		$file = JPATH_BASE . "/images/boss/$directory/$folder/$file";
-		if(is_file($file))
-			unlink($file);
-		if(is_file($file))
-			echo 'no';
+		if(is_file($file)) unlink($file);
+		if(is_file($file)) echo 'no';
 		else
 			echo 'yes';
 	}
@@ -1962,9 +2003,10 @@ class boss_helpers{
 	 * @param  $field
 	 * @param  $id
 	 * @param  $where_field
+	 *
 	 * @return
 	 */
-	public static function changeState($table, $field, $id, $where_field){
+	public static function changeState($table, $field, $id, $where_field) {
 		if(empty($id)){
 			return;
 		}
@@ -1976,19 +2018,18 @@ class boss_helpers{
 		$database->query();
 		$state = $database->loadResult();
 		//меняем состояние на противоположное
-		if($state == 1)
-			$state_new = 0;
+		if($state == 1) $state_new = 0;
 		else
 			$state_new = 1;
 		//обновляем состояние
 		$database->setQuery("UPDATE $table SET `$field` = '$state_new' WHERE `$where_field` = $id ");
 		$database->query();
-		if($database->getErrorNum())
-			$ret = 'error.png';
+		if($database->getErrorNum()) $ret = 'error.png';
 		else{
 			if(strpos($table, "_contents") === false){
 				$ret = ($state_new == 1) ? 'tick.png' : 'publish_x.png';
-			} else{
+			}
+			else{
 				$date = date('Y-m-d');
 				$q = "SELECT `published`, `date_publish`, `date_unpublish` FROM $table WHERE `id` = $id LIMIT 1";
 				$database->setQuery($q);
@@ -1997,11 +2038,14 @@ class boss_helpers{
 				$database->loadObject($object);
 				if($object->published == 0){
 					$ret = 'publish_x.png';
-				} elseif($object->published == 1 && ($object->date_publish > $date && $object->date_publish != '0000-00-00')){
+				}
+				elseif($object->published == 1 && ($object->date_publish > $date && $object->date_publish != '0000-00-00')){
 					$ret = 'publish_y.png';
-				} elseif($object->published == 1 && ($object->date_unpublish < $date && $object->date_unpublish != '0000-00-00')){
+				}
+				elseif($object->published == 1 && ($object->date_unpublish < $date && $object->date_unpublish != '0000-00-00')){
 					$ret = 'publish_r.png';
-				} else{
+				}
+				else{
 					$ret = 'tick.png';
 				}
 			}
@@ -2009,19 +2053,17 @@ class boss_helpers{
 		echo $ret;
 	}
 
-	public static function loadCats($directory){
+	public static function loadCats($directory) {
 		$database = database::getInstance();
 
-		$q = "SELECT * " .
-			"FROM #__boss_" . $directory . "_categories " .
-			"WHERE published = 1 ORDER BY parent, ordering, name";
+		$q = "SELECT * " . "FROM #__boss_" . $directory . "_categories " . "WHERE published = 1 ORDER BY parent, ordering, name";
 
 		$list = $database->setQuery($q)->loadObjectList();
 
 		return $list;
 	}
 
-	public static function get_cattree($directory, $conf, $onlyNotEmpty = 1, $mode = 'read', $isUpdateMode = 0){
+	public static function get_cattree($directory, $conf, $onlyNotEmpty = 1, $mode = 'read', $isUpdateMode = 0) {
 
 		if($directory == 0){
 			return;
@@ -2037,22 +2079,17 @@ class boss_helpers{
 			$rights = BossPlugins::get_plugin($directory, 'bossRights', 'other', array('category'));
 			if($mode == 'read'){
 				$action = 'show_category';
-			} else if($mode == 'write' && $isUpdateMode == 0){
+			}
+			else if($mode == 'write' && $isUpdateMode == 0){
 				$action = 'create_content';
-			} else if($mode == 'write' && $isUpdateMode == 1){
+			}
+			else if($mode == 'write' && $isUpdateMode == 1){
 				$action = 'edit';
 			}
 		}
 
 		if($onlyNotEmpty == 1){
-			$q = "SELECT c.*, count(*) as num_contents,a.id as not_empty, parent.id as is_parent " .
-				"FROM #__boss_" . $directory . "_categories as c " .
-				"LEFT JOIN #__boss_" . $directory . "_categories as parent ON c.id = parent.parent " .
-				"LEFT JOIN #__boss_" . $directory . "_content_category_href as cch ON c.id = cch.category_id " .
-				"LEFT JOIN #__boss_" . $directory . "_contents as a ON a.id = cch.content_id " .
-				"WHERE  c.published = 1 " .
-				"GROUP BY c.id " .
-				"ORDER BY c.parent, c.ordering, c.name";
+			$q = "SELECT c.*, count(*) as num_contents,a.id as not_empty, parent.id as is_parent " . "FROM #__boss_" . $directory . "_categories as c " . "LEFT JOIN #__boss_" . $directory . "_categories as parent ON c.id = parent.parent " . "LEFT JOIN #__boss_" . $directory . "_content_category_href as cch ON c.id = cch.category_id " . "LEFT JOIN #__boss_" . $directory . "_contents as a ON a.id = cch.content_id " . "WHERE  c.published = 1 " . "GROUP BY c.id " . "ORDER BY c.parent, c.ordering, c.name";
 			$list = $database->setQuery($q)->loadObjectList();
 
 			// establish the hierarchy of the menu
@@ -2082,17 +2119,20 @@ class boss_helpers{
 								$rights->bind_rights($v->rights);
 								if($action == 'edit' && ($rights->allow_me('edit_all_content', $my->groop_id) || $rights->allow_me('edit_user_content', $my->groop_id))){
 									$tree[$pt] = $list_temp;
-								} else if($rights->allow_me($action, $my->groop_id)){
+								}
+								else if($rights->allow_me($action, $my->groop_id)){
 									$tree[$pt] = $list_temp;
 								}
-							} else{
+							}
+							else{
 								$tree[$pt] = $list_temp;
 							}
 						}
 					}
 				}
 			}
-		} else{
+		}
+		else{
 
 			$list = boss_helpers::loadCats($directory);
 
@@ -2109,10 +2149,12 @@ class boss_helpers{
 						$rights->bind_rights($v->rights);
 						if($action == 'edit' && ($rights->allow_me('edit_all_content', $my->groop_id) || $rights->allow_me('edit_user_content', $my->groop_id))){
 							$tree[$pt] = $list_temp;
-						} else if($rights->allow_me($action, $my->groop_id)){
+						}
+						else if($rights->allow_me($action, $my->groop_id)){
 							$tree[$pt] = $list_temp;
 						}
-					} else{
+					}
+					else{
 						$tree[$pt] = $list_temp;
 					}
 				}
@@ -2121,12 +2163,13 @@ class boss_helpers{
 		return $tree;
 	}
 
-	public static function get_subpathlist($cats, $catid, $order, $directory){
+	public static function get_subpathlist($cats, $catid, $order, $directory) {
 		$i = 0;
 		$list = array();
 		if(isset($cats)){
 			foreach($cats as $cat){
 				if($cat->parent == $catid){
+					$list[$i] = new stdClass();
 					$list[$i]->text = $cat->name; //." (".$cat->num_contents.")";
 					$list[$i++]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $cat->id . '&amp;order=' . $order . '&amp;directory=' . $directory);
 				}
@@ -2135,7 +2178,7 @@ class boss_helpers{
 		return $list;
 	}
 
-	public static function get_pathlist($cats, $catid, $catname, $list, $order, $directory){
+	public static function get_pathlist($cats, $catid, $catname, $list, $order, $directory) {
 		$orderlist = array();
 		if(isset($cats)){
 			foreach($cats as $c){
@@ -2143,6 +2186,7 @@ class boss_helpers{
 			}
 
 			$i = 0;
+			$list[$i] = new stdClass();
 			$list[$i]->text = $orderlist[$catid]->name;
 			$list[$i]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $catid . '&amp;slug=' . $orderlist[$catid]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
 			$i++;
@@ -2152,6 +2196,7 @@ class boss_helpers{
 
 				while($orderlist[$current]->parent != 0){
 					$current = $orderlist[$current]->parent;
+					$list[$i] = new stdClass();
 					$list[$i]->text = $orderlist[$current]->name;
 					$list[$i]->link = JSef::getUrlToSef('index.php?option=com_boss&amp;task=show_category&amp;catid=' . $orderlist[$current]->id . '&amp;slug=' . $orderlist[$current]->slug . '&amp;order=' . $order . '&amp;directory=' . $directory);
 					$i++;
@@ -2160,7 +2205,7 @@ class boss_helpers{
 		}
 	}
 
-	public static function recurse_search($rows, $list, $catid){
+	public static function recurse_search($rows, $list, $catid) {
 		if(isset($rows)){
 			foreach($rows as $row){
 				if($row->parent == $catid){
@@ -2171,7 +2216,7 @@ class boss_helpers{
 		}
 	}
 
-	public static function show_list($text, $description, $url, $task, $search, $text_search, $name_search, $order, $catid, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds = array(), $type_content = 0){
+	public static function show_list($text, $description, $url, $task, $search, $text_search, $name_search, $order, $catid, $limitstart, $update_possible, $jDirectoryHtmlClass, $directory, $template_name, $tagContentIds = array(), $type_content = 0) {
 		$mainframe = mosMainFrame::getInstance();
 		$my = $mainframe->getUser();
 		$database = database::getInstance();
@@ -2190,8 +2235,7 @@ class boss_helpers{
 		$views = $viewsPlugin->getOptions($directory);
 		$ratingQuery = $rating->queryString($directory, $conf);
 
-		if($conf->comment_sys == 1)
-			$comment_sys = 'defaultComment';
+		if($conf->comment_sys == 1) $comment_sys = 'defaultComment';
 		else
 			$comment_sys = 'jcomment';
 		$comments = BossPlugins::get_plugin($directory, $comment_sys, 'comments');
@@ -2206,9 +2250,7 @@ class boss_helpers{
 
 		$type_content_q = ($type_content == 0) ? '' : "AND (FIND_IN_SET($type_content, `catsid`) > 0 OR `catsid` = ',-1,')";
 
-		$fields_searchable = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields " .
-			"WHERE filter = 1 AND published = 1 AND profile = 0 " . $type_content_q .
-			" ORDER by ordering")->loadObjectList();
+		$fields_searchable = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_fields " . "WHERE filter = 1 AND published = 1 AND profile = 0 " . $type_content_q . " ORDER by ordering")->loadObjectList();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
@@ -2223,8 +2265,7 @@ class boss_helpers{
 			}
 		}
 
-		if(count($tagContentIds) > 0)
-			$search .= " AND  a.id IN (" . implode(', ', $tagContentIds) . ") ";
+		if(count($tagContentIds) > 0) $search .= " AND  a.id IN (" . implode(', ', $tagContentIds) . ") ";
 		if($text_search <> ""){
 			$search .= " AND ( a.name LIKE '%$text_search%' ";
 			foreach($fields_searchable as $f){
@@ -2252,7 +2293,8 @@ class boss_helpers{
 
 		if(($conf->show_contact == 1) && ($my->id == "0")){
 			$show_contact = 0;
-		} else{
+		}
+		else{
 			$show_contact = 1;
 		}
 
@@ -2260,18 +2302,18 @@ class boss_helpers{
 
 		if($order == -1){
 			$order_text = "a.views " . $desc . ", a.date_created " . $desc . " ,a.id " . $desc;
-		} else if($order != 0){
+		}
+		else if($order != 0){
 			$database->setQuery("SELECT f.name,f.sort_direction,f.type FROM #__boss_" . $directory . "_fields AS f WHERE f.fieldid=$order AND f.published = 1");
 			$database->loadObject($sort);
 
 			$desc = (empty($direction)) ? $sort->sort_direction : $direction;
 
-			if(($sort->type == "number") || ($sort->type == "price"))
-				$order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
+			if(($sort->type == "number") || ($sort->type == "price")) $order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
 			else
 				$order_text = "a." . $sort->name . " " . $desc;
-		} elseif($order_request == 'last_comment')
-			$order_text = "a.date_last_сomment " . $desc . ", a.id " . $desc;
+		}
+		elseif($order_request == 'last_comment') $order_text = "a.date_last_сomment " . $desc . ", a.id " . $desc;
 		else{
 			//default ordering
 			$default_order_by = $conf->default_order_by;
@@ -2285,10 +2327,8 @@ class boss_helpers{
 				default:
 					$database->setQuery("SELECT f.name,f.sort_direction,f.type FROM #__boss_" . $directory . "_fields AS f WHERE f.fieldid='" . (int)$default_order_by . "' AND f.published = 1");
 					$database->loadObject($sort);
-					if(empty($sort))
-						$order_text = "a.date_created " . $desc . ", a.id " . $desc;
-					elseif(($sort->type == "number") || ($sort->type == "price"))
-						$order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
+					if(empty($sort)) $order_text = "a.date_created " . $desc . ", a.id " . $desc;
+					elseif(($sort->type == "number") || ($sort->type == "price")) $order_text = "a." . $sort->name . " * 1 " . $sort->sort_direction;
 					else
 						$order_text = "a." . $sort->name . " " . $sort->sort_direction;
 					break;
@@ -2306,20 +2346,11 @@ class boss_helpers{
 		$q .= $ratingQuery['fields'];
 		$q .= $commentsQuery['fields'];
 		$q .= " u.username as user ";
-		$q .= "FROM #__boss_" . $directory . "_contents as a \n" .
-			"LEFT JOIN  #__boss_" . $directory . "_content_category_href AS cch ON a.id = cch.content_id \n" .
-			$commentsQuery['tables'] .
-			$ratingQuery['tables'] .
-			"LEFT JOIN #__users as u ON a.userid = u.id \n";
+		$q .= "FROM #__boss_" . $directory . "_contents as a \n" . "LEFT JOIN  #__boss_" . $directory . "_content_category_href AS cch ON a.id = cch.content_id \n" . $commentsQuery['tables'] . $ratingQuery['tables'] . "LEFT JOIN #__users as u ON a.userid = u.id \n";
 		if($show_contact == 1){
 			$q .= "LEFT JOIN #__boss_" . $directory . "_profile as profile ON a.userid = profile.userid \n";
 		}
-		$q .= "LEFT JOIN #__boss_" . $directory . "_categories as c ON cch.category_id = c.id \n" .
-			"LEFT JOIN #__boss_" . $directory . "_categories as p ON c.parent = p.id \n" .
-			"WHERE $search AND c.published = 1 \n" .
-			"GROUP BY a.id \n" .
-			"ORDER BY $ordering LIMIT " .
-			$limitstart . ',' . $limit;
+		$q .= "LEFT JOIN #__boss_" . $directory . "_categories as c ON cch.category_id = c.id \n" . "LEFT JOIN #__boss_" . $directory . "_categories as p ON c.parent = p.id \n" . "WHERE $search AND c.published = 1 \n" . "GROUP BY a.id \n" . "ORDER BY $ordering LIMIT " . $limitstart . ',' . $limit;
 		$contents = $database->setQuery($q)->loadObjectList('id');
 
 		if($database->getErrorNum()){
@@ -2328,7 +2359,8 @@ class boss_helpers{
 		}
 		if($show_contact == 1){ //вычисляем название полей профиля пользователя для идентификации их в контенте.
 			$profileFields = $database->setQuery("SELECT f.name, f.title FROM #__boss_" . $directory . "_fields AS f WHERE f.profile = 1 ORDER BY f.ordering")->loadObjectList();
-		} else{
+		}
+		else{
 			$profileFields = array();
 		}
 
@@ -2375,15 +2407,12 @@ class boss_helpers{
 		if(count($groups) > 0){
 			$groupids = implode(',', $groups);
 			$groupids = "AND g.id IN ($groupids)";
-		} else{
+		}
+		else{
 			$groupids = '';
 		}
 
-		$database->setQuery("SELECT g.name as gname,f.* FROM #__boss_" . $directory . "_groupfields as fg " .
-			"LEFT JOIN #__boss_" . $directory . "_groups AS g ON fg.groupid = g.id " .
-			"LEFT JOIN #__boss_" . $directory . "_fields AS f ON fg.fieldid = f.fieldid " .
-			"WHERE g.published = 1 $groupids AND f.published = 1 AND fg.type_tmpl = 'category' " .
-			"ORDER BY fg.ordering ASC ");
+		$database->setQuery("SELECT g.name as gname,f.* FROM #__boss_" . $directory . "_groupfields as fg " . "LEFT JOIN #__boss_" . $directory . "_groups AS g ON fg.groupid = g.id " . "LEFT JOIN #__boss_" . $directory . "_fields AS f ON fg.fieldid = f.fieldid " . "WHERE g.published = 1 $groupids AND f.published = 1 AND fg.type_tmpl = 'category' " . "ORDER BY fg.ordering ASC ");
 		$fieldsgrouptemp = $database->loadObjectList();
 
 		$fieldsgroup = array();
@@ -2391,11 +2420,9 @@ class boss_helpers{
 
 		foreach($fieldsgrouptemp as $f){
 			//отвязываем группы от привязки полей к категориям для автономной работы редактирования с фронта и показа.
-			if(!isset($fieldsgroup[$f->gname]))
-				$fieldsgroup[$f->gname] = array();
+			if(!isset($fieldsgroup[$f->gname])) $fieldsgroup[$f->gname] = array();
 
-			if(!isset($fields[$f->name]))
-				$fields[$f->name] = $f;
+			if(!isset($fields[$f->name])) $fields[$f->name] = $f;
 
 			$fieldsgroup[$f->gname][] = $f;
 		}
@@ -2414,6 +2441,7 @@ class boss_helpers{
 		$jDirectoryHtmlClass->fields = $fields;
 		$jDirectoryHtmlClass->fields_searchable = $fields_searchable;
 		$jDirectoryHtmlClass->tags = $tags;
+		$jDirectoryHtmlClass->category = new stdClass();
 		$jDirectoryHtmlClass->category->id = $catid;
 		$jDirectoryHtmlClass->category->title = $text;
 		$jDirectoryHtmlClass->category->description = $description;
@@ -2431,13 +2459,13 @@ class boss_helpers{
 		$jDirectoryHtmlClass->rating = $rating;
 		$jDirectoryHtmlClass->comments = $comments;
 		if($conf->allow_comments == 1){
+			$jDirectoryHtmlClass->fields['last_comment'] = new stdClass();
 			$jDirectoryHtmlClass->fields['last_comment']->sort = 1;
 			$jDirectoryHtmlClass->fields['last_comment']->fieldid = 'last_comment';
 			$jDirectoryHtmlClass->fields['last_comment']->title = BOSS_DATE_LAST_COMMENT;
 		}
 
 		$jDirectoryHtmlClass->displayList();
-
 
 		$fields = $database->setQuery("SELECT f.* FROM #__boss_" . $directory . "_fields AS f WHERE f.published = 1")->loadObjectList('name');
 		//подключаем некешируемую информацию из плагинов.
@@ -2452,12 +2480,14 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param        $directory - каталог
-	 * @param        $tags - массив тэгов
-	 * @param string $ds - разделитель тегов
+	 * @param        $tags      - массив тэгов
+	 * @param string $ds        - разделитель тегов
+	 *
 	 * @return bool|string - возвращает строку, состоящую из ссылок на список контента, содержащий этот тег
 	 */
-	public static function arr_to_links($directory, $tags, $ds = ', '){
+	public static function arr_to_links($directory, $tags, $ds = ', ') {
 		if(!$tags){
 			return false;
 		}
@@ -2471,14 +2501,16 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param  $username
 	 * @param  $password
 	 * @param  $email
 	 * @param  $userid
 	 * @param  $conf
+	 *
 	 * @return null|string
 	 */
-	public static function check_account($username, $password, $email, $userid, $conf){
+	public static function check_account($username, $password, $email, $userid, $conf) {
 		global $mosConfig_uniquemail;
 		$mainframe = mosMainFrame::getInstance();
 		$database = database::getInstance();
@@ -2487,10 +2519,7 @@ class boss_helpers{
 
 		josSpoofCheck();
 
-		$database->setQuery("SELECT * "
-				. "\nFROM #__users u "
-				. "\nWHERE u.username='" . $username . "'"
-		);
+		$database->setQuery("SELECT * " . "\nFROM #__users u " . "\nWHERE u.username='" . $username . "'");
 		$database->loadObject($user);
 		if(isset($user)){
 			//User exist, Verify Password
@@ -2501,9 +2530,7 @@ class boss_helpers{
 				$user->password = $crypt . ':' . $salt;
 
 				// Now lets store it in the database
-				$query = 'UPDATE #__users'
-					. ' SET password = ' . $database->Quote($user->password)
-					. ' WHERE id = ' . (int)$user->id;
+				$query = 'UPDATE #__users' . ' SET password = ' . $database->Quote($user->password) . ' WHERE id = ' . (int)$user->id;
 				$database->setQuery($query);
 				if(!$database->query()){
 					// This is an error but not sure what to do with it ... we'll still work for now
@@ -2516,16 +2543,15 @@ class boss_helpers{
 				$mainframe->login($username, $password);
 				$userid = $user->id;
 				return null;
-			} else{
+			}
+			else{
 				//Login Failed
 				return "bad_password";
 			}
-		} else{
+		}
+		else{
 			if($mosConfig_uniquemail == 1){
-				$database->setQuery("SELECT * "
-						. "\nFROM #__users u "
-						. "\nWHERE u.email='" . $email . "'"
-				);
+				$database->setQuery("SELECT * " . "\nFROM #__users u " . "\nWHERE u.email='" . $email . "'");
 				$database->loadObject($user);
 				if(isset($user)){
 					//Login Failed
@@ -2545,7 +2571,7 @@ class boss_helpers{
 	 * @static
 	 * @return
 	 */
-	public static function saveRegistration(){
+	public static function saveRegistration() {
 		$acl = &gacl::getInstance();
 		$database = database::getInstance();
 
@@ -2577,10 +2603,7 @@ class boss_helpers{
 		}
 		$row->checkin();
 
-		$database->setQuery("SELECT u.id "
-				. "\nFROM #__users u "
-				. "\nWHERE u.username='" . $row->username . "'"
-		);
+		$database->setQuery("SELECT u.id " . "\nFROM #__users u " . "\nWHERE u.username='" . $row->username . "'");
 		$userid = $database->loadResult();
 
 		return $userid;
@@ -2588,17 +2611,16 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return array
 	 */
-	public static function loadAlphaIndex($directory){
+	public static function loadAlphaIndex($directory) {
 		$database = database::getInstance();
 		$return = array();
-		$return['ruAlf'] = array('А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л',
-			'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш',
-			'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я');
-		$return['enAlf'] = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+		$return['ruAlf'] = array('А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я');
+		$return['enAlf'] = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 		$return['numeric'] = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
 		$return['alphaContent'] = $database->setQuery("SELECT DISTINCT UCASE(LEFT(`name`, 1)) FROM #__boss_" . $directory . "_contents WHERE (date_publish = '0000-00-00 00:00:00' OR date_publish <= NOW()) AND (date_unpublish = '0000-00-00 00:00:00' OR date_unpublish >= NOW()) AND published = '1'")->loadResultArray();
@@ -2608,12 +2630,14 @@ class boss_helpers{
 
 	/**
 	 * @static
+	 *
 	 * @param  $interval
 	 * @param  $number
 	 * @param  $date
+	 *
 	 * @return int|string
 	 */
-	public static function DateAdd($interval, $number, $date){
+	public static function DateAdd($interval, $number, $date) {
 		$date_time_array = getdate(strtotime($date));
 		$hours = $date_time_array['hours'];
 		$minutes = $date_time_array['minutes'];
@@ -2656,7 +2680,7 @@ class boss_helpers{
 		return $timestamp;
 	}
 
-	public static function loadFieldValues($directory){
+	public static function loadFieldValues($directory) {
 		$database = database::getInstance();
 		$field_values = array();
 		//get value fields
@@ -2675,19 +2699,18 @@ class boss_helpers{
 		}
 		return $field_values;
 	}
-
 }
 
 /**
  * Класс работы с каталогами.
  */
-class BossDirectory{
+class BossDirectory {
 
 	/** объект-лист каталогов
 	 * @static
 	 * @return bool
 	 */
-	public static function getDirectories(){
+	public static function getDirectories() {
 		$database = database::getInstance();
 		$directories = $database->setQuery("SELECT id,name FROM #__boss_config")->loadObjectList("id");
 		if($database->getErrorNum()){
@@ -2699,10 +2722,12 @@ class BossDirectory{
 
 	/** список каталогов
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function showDirectories($directory, $conf){
+	public static function showDirectories($directory, $conf) {
 		$directories = self::getDirectories();
 		HTML_boss::showDirectories($directories, $directory, $conf);
 	}
@@ -2710,7 +2735,7 @@ class BossDirectory{
 	/** создание нового каталога
 	 * @return void
 	 */
-	public static function addDirectory(){
+	public static function addDirectory() {
 		$dir = installNewDirectory();
 		mosRedirect("index2.php?option=com_boss&act=manager", $dir['errors']);
 	}
@@ -2720,7 +2745,7 @@ class BossDirectory{
      * @return void
      */
 
-	public static function deleteDirectory(){
+	public static function deleteDirectory() {
 
 		$tid = mosGetParam($_REQUEST, 'tid', 0);
 		if(!is_array($tid) || count($tid) < 1){
@@ -2738,40 +2763,31 @@ class BossDirectory{
 		mosRedirect("index2.php?option=com_boss&act=manager", $msg);
 	}
 
-// удаление каталога и всех его дирректорий
+	// удаление каталога и всех его дирректорий
 	/**
 	 * @static
+	 *
 	 * @param  $id
+	 *
 	 * @return void
 	 */
-	public static function removeDirectory($id){
+	public static function removeDirectory($id) {
 		$database = database::getInstance();
 
-		$database->setQuery("DROP TABLE IF EXISTS `#__boss_" . $id . "_categories`, " .
-			"`#__boss_" . $id . "_contents`, " .
-			"`#__boss_" . $id . "_content_category_href`, " .
-			"`#__boss_" . $id . "_content_types`, " .
-			"`#__boss_" . $id . "_field_values`, " .
-			"`#__boss_" . $id . "_fields`, " .
-			"`#__boss_" . $id . "_groupfields`, " .
-			"`#__boss_" . $id . "_groups`, " .
-			"`#__boss_" . $id . "_profile`, " .
-			"`#__boss_" . $id . "_rating`, " .
-			"`#__boss_" . $id . "_reviews`; ")->query();
+		$database->setQuery("DROP TABLE IF EXISTS `#__boss_" . $id . "_categories`, " . "`#__boss_" . $id . "_contents`, " . "`#__boss_" . $id . "_content_category_href`, " . "`#__boss_" . $id . "_content_types`, " . "`#__boss_" . $id . "_field_values`, " . "`#__boss_" . $id . "_fields`, " . "`#__boss_" . $id . "_groupfields`, " . "`#__boss_" . $id . "_groups`, " . "`#__boss_" . $id . "_profile`, " . "`#__boss_" . $id . "_rating`, " . "`#__boss_" . $id . "_reviews`; ")->query();
 
 		$database->setQuery("DELETE FROM `#__boss_config` WHERE `id` = $id")->query();
 
 		boss_helpers::rmdir_rf(JPATH_BASE . "/images/boss/$id");
 	}
-
 }
 
 /**
  * Класс работы с шаблонами.
  */
-class BossTemplates{
+class BossTemplates {
 
-	public static function change_template($directory, $fieldid){
+	public static function change_template($directory, $fieldid) {
 		$database = database::getInstance();
 		$q = "SELECT `title` FROM #__boss_" . $directory . "_fields 
         WHERE `fieldid` = $fieldid LIMIT 1";
@@ -2794,7 +2810,7 @@ class BossTemplates{
 		HTML_boss::change_template($directory, $fieldid, $fieldtitle, $templates, $type_tpl);
 	}
 
-	public static function load_poz($directory, $fieldid){
+	public static function load_poz($directory, $fieldid) {
 		$database = database::getInstance();
 		$template = mosGetParam($_REQUEST, 'template', '');
 		$template_type = mosGetParam($_REQUEST, 'template_type', '');
@@ -2815,7 +2831,7 @@ class BossTemplates{
 		HTML_boss::load_poz($poz, $selected_poz);
 	}
 
-	public static function save_poz($directory, $fieldid){
+	public static function save_poz($directory, $fieldid) {
 		$database = database::getInstance();
 		$template = mosGetParam($_REQUEST, 'template', '');
 		$template_type = mosGetParam($_REQUEST, 'template_type', '');
@@ -2825,8 +2841,7 @@ class BossTemplates{
 			return;
 		}
 
-
-		$q = "DELETE FROM #__boss_" . $directory . "_groupfields 
+		$q = "DELETE FROM #__boss_" . $directory . "_groupfields
                 WHERE `template` = '$template' AND `type_tmpl` = '$template_type' 
                 AND `fieldid` = '$fieldid'";
 		$database->setQuery($q)->query();
@@ -2836,10 +2851,7 @@ class BossTemplates{
 			return false;
 		}
 		foreach($pozitions as $pozition){
-			$q = "INSERT INTO #__boss_" . $directory . "_groupfields " .
-				"(`fieldid`, `groupid`, `template`, `type_tmpl`, `ordering`) " .
-				"VALUES " .
-				"('" . $fieldid . "', '" . $pozition . "', '" . $template . "', '" . $template_type . "', '0')";
+			$q = "INSERT INTO #__boss_" . $directory . "_groupfields " . "(`fieldid`, `groupid`, `template`, `type_tmpl`, `ordering`) " . "VALUES " . "('" . $fieldid . "', '" . $pozition . "', '" . $template . "', '" . $template_type . "', '0')";
 			$database->setQuery($q)->query();
 
 			if($database->getErrorNum()){
@@ -2856,7 +2868,7 @@ class BossTemplates{
 	 * @static
 	 * @return array
 	 */
-	public static function getTemplates(){
+	public static function getTemplates() {
 		$templates = array();
 		$path = JPATH_BASE . '/templates/com_boss';
 		if(!is_dir($path)){
@@ -2881,11 +2893,13 @@ class BossTemplates{
 
 	/** сохранение позиции шаблона
 	 * @static
+	 *
 	 * @param  $directory
 	 * @param  $group
+	 *
 	 * @return void
 	 */
-	public static function saveGroup($directory, $group){
+	public static function saveGroup($directory, $group) {
 		$database = database::getInstance();
 
 		$row = new jDirectoryTemplatePosition($database, $directory);
@@ -2901,10 +2915,12 @@ class BossTemplates{
 
 	/**  список шаблонов
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function listTemplates($directory, $conf){
+	public static function listTemplates($directory, $conf) {
 		$templates = self::getTemplates();
 		$directories = BossDirectory::getDirectories();
 		HTML_boss::listTemplates($templates, $directory, $directories, $conf);
@@ -2912,20 +2928,19 @@ class BossTemplates{
 
 	/** редактирование привязки полей к позициям шаблона
 	 * @static
+	 *
 	 * @param  $directory
 	 * @param  $template
 	 * @param  $type_tmpl
+	 *
 	 * @return bool
 	 */
-	public static function editTemplate($directory, $template, $type_tmpl, $conf){
+	public static function editTemplate($directory, $template, $type_tmpl, $conf) {
 		$database = database::getInstance();
 		$groupfieldsArray = array();
 		$positions = BossTemplateFields::getTemplateFields($directory, $template, $type_tmpl);
 
-		$query = "SELECT fieldid, groupid, ordering " .
-			"FROM #__boss_" . $directory . "_groupfields " .
-			"WHERE template = '" . $template . "' AND type_tmpl = '$type_tmpl' " .
-			"ORDER BY ordering ASC";
+		$query = "SELECT fieldid, groupid, ordering " . "FROM #__boss_" . $directory . "_groupfields " . "WHERE template = '" . $template . "' AND type_tmpl = '$type_tmpl' " . "ORDER BY ordering ASC";
 		$groupfields = $database->setQuery($query)->loadObjectList();
 
 		foreach($positions as $group){
@@ -2941,9 +2956,7 @@ class BossTemplates{
 			}
 		}
 
-		$query = "SELECT `fieldid`, `name`, `title` " .
-			"FROM #__boss_" . $directory . "_fields WHERE published = 1 AND `profile` = 0 " .
-			"ORDER BY `title` ASC";
+		$query = "SELECT `fieldid`, `name`, `title` " . "FROM #__boss_" . $directory . "_fields WHERE published = 1 AND `profile` = 0 " . "ORDER BY `title` ASC";
 		$fields = $database->setQuery($query)->loadObjectList();
 
 		$catstemp = $database->setQuery("SELECT c.* FROM #__boss_" . $directory . "_categories as c ORDER BY c.parent,c.ordering")->loadObjectList();
@@ -2970,12 +2983,14 @@ class BossTemplates{
 
 	/** сохранение шаблона
 	 * @static
+	 *
 	 * @param  $directory
 	 * @param  $template
 	 * @param  $type_tmpl
+	 *
 	 * @return void
 	 */
-	public static function saveTemplate($directory, $template, $type_tmpl){
+	public static function saveTemplate($directory, $template, $type_tmpl) {
 		$database = database::getInstance();
 		$task = mosGetParam($_REQUEST, 'task', '');
 
@@ -2995,11 +3010,7 @@ class BossTemplates{
 					case 'required':
 						$ordering = $_POST['ordering|' . $groupid . '|' . $fieldid];
 
-						$fields[] = array(
-							'fieldid'  => $fieldid,
-							'groupid'  => $groupid,
-							'ordering' => $ordering
-						);
+						$fields[] = array('fieldid' => $fieldid, 'groupid' => $groupid, 'ordering' => $ordering);
 						break;
 				}
 			}
@@ -3008,17 +3019,13 @@ class BossTemplates{
 		//записываем связи полей с группами.
 		foreach($fields as $field){
 
-			$q = "INSERT INTO #__boss_" . $directory . "_groupfields " .
-				"(`fieldid`,               `groupid`,      `template`,      `type_tmpl`,      `ordering`) " .
-				"VALUES " .
-				"('" . $field['fieldid'] . "', '" . $field['groupid'] . "', '" . $template . "', '" . $type_tmpl . "', '" . $field['ordering'] . "')";
+			$q = "INSERT INTO #__boss_" . $directory . "_groupfields " . "(`fieldid`,               `groupid`,      `template`,      `type_tmpl`,      `ordering`) " . "VALUES " . "('" . $field['fieldid'] . "', '" . $field['groupid'] . "', '" . $template . "', '" . $type_tmpl . "', '" . $field['ordering'] . "')";
 			$database->setQuery($q)->query();
 		}
 
 		mosCache::cleanCache('com_boss');
 
-		if($task == 'apply')
-			$link = "index2.php?option=com_boss&directory=$directory&act=templates&task=edit_tmpl&template=$template&type_tmpl=$type_tmpl";
+		if($task == 'apply') $link = "index2.php?option=com_boss&directory=$directory&act=templates&task=edit_tmpl&template=$template&type_tmpl=$type_tmpl";
 		else
 			$link = "index2.php?option=com_boss&act=templates&directory=$directory";
 		mosRedirect($link);
@@ -3026,10 +3033,12 @@ class BossTemplates{
 
 	/**  удаление шаблона
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deleteTemplate($directory){
+	public static function deleteTemplate($directory) {
 		$database = database::getInstance();
 		$tid = $_POST['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -3050,15 +3059,17 @@ class BossTemplates{
 	}
 }
 
-class BossTemplateFields{
+class BossTemplateFields {
 	/** редактирование списка позиций шаблона
 	 * @static
+	 *
 	 * @param  $directory
 	 * @param  $template
 	 * @param  $type_tmpl
+	 *
 	 * @return void
 	 */
-	public static function listTemplateFields($directory, $template, $conf){
+	public static function listTemplateFields($directory, $template, $conf) {
 		$database = database::getInstance();
 		$directories = BossDirectory::getDirectories();
 
@@ -3069,7 +3080,7 @@ class BossTemplateFields{
 		HTML_boss::listTemplateFields($directory, $directories, $fields, $cats, $template, $conf);
 	}
 
-	public static function editTemplateField($directory, $conf){
+	public static function editTemplateField($directory, $conf) {
 		$database = database::getInstance();
 		$directories = BossDirectory::getDirectories();
 		$id = mosGetParam($_REQUEST, 'fieldid', 0);
@@ -3085,7 +3096,7 @@ class BossTemplateFields{
 		HTML_boss::editTemplateField($directory, $directories, $field, $cats, $selectedCats, $templates, $conf);
 	}
 
-	public static function deleteTemplateFields($directory){
+	public static function deleteTemplateFields($directory) {
 		$database = database::getInstance();
 		$template = mosGetParam($_REQUEST, 'template', '');
 		$id = mosGetParam($_REQUEST, 'fieldid', 0);
@@ -3099,7 +3110,7 @@ class BossTemplateFields{
 		mosRedirect("index2.php?option=com_boss&directory=$directory&act=templates&task=list_tmpl_fields&template=$template");
 	}
 
-	public static function saveTmplField($directory){
+	public static function saveTmplField($directory) {
 		$database = database::getInstance();
 
 		$published = mosGetParam($_REQUEST, 'published', 0);
@@ -3113,20 +3124,15 @@ class BossTemplateFields{
 		$catsid = (!empty($catsid)) ? ',' . implode(',', $catsid) . ',' : '';
 
 		if($id > 0){
-			$q = "UPDATE #__boss_" . $directory . "_groups SET " .
-				"`name`='$name', `desc`='$desc', `template`='$template', `type_tmpl`='$type_tmpl', `published`='$published', `catsid`='$catsid' " .
-				"WHERE  `id`= '$id' LIMIT 1";
+			$q = "UPDATE #__boss_" . $directory . "_groups SET " . "`name`='$name', `desc`='$desc', `template`='$template', `type_tmpl`='$type_tmpl', `published`='$published', `catsid`='$catsid' " . "WHERE  `id`= '$id' LIMIT 1";
 			$database->setQuery($q)->query();
 			if($database->getErrorNum()){
 				echo $database->stderr();
 				return false;
 			}
-
-		} else{
-			$q = "INSERT INTO #__boss_" . $directory . "_groups " .
-				"(`name`, `desc`, `template`, `type_tmpl`, `published`, `catsid`) " .
-				"VALUES " .
-				"('$name', '$desc', '$template', '$type_tmpl', '$published', `catsid`) ";
+		}
+		else{
+			$q = "INSERT INTO #__boss_" . $directory . "_groups " . "(`name`, `desc`, `template`, `type_tmpl`, `published`, `catsid`) " . "VALUES " . "('$name', '$desc', '$template', '$type_tmpl', '$published', `catsid`) ";
 			$database->setQuery($q)->query();
 			if($database->getErrorNum()){
 				echo $database->stderr();
@@ -3136,7 +3142,7 @@ class BossTemplateFields{
 		mosRedirect("index2.php?option=com_boss&directory=$directory&act=templates&task=list_tmpl_fields&template=$template");
 	}
 
-	function editTmplSource($directory, $template, $source_file, $conf){
+	function editTmplSource($directory, $template, $source_file, $conf) {
 		$files = array();
 		$source = '';
 		$path = JPATH_BASE . "/templates/com_boss/$template";
@@ -3163,7 +3169,7 @@ class BossTemplateFields{
 		HTML_boss::editTmplSource($directory, $directories, $template, $source_file, $files, $source, $conf);
 	}
 
-	public static function saveTmplSource($directory, $template, $source_file){
+	public static function saveTmplSource($directory, $template, $source_file) {
 		$path = JPATH_BASE . "/templates/com_boss/$template/$source_file";
 		$source = mosGetParam($_REQUEST, 'source', '', _MOS_ALLOWHTML);
 		$file = fopen($path, 'w');
@@ -3172,7 +3178,7 @@ class BossTemplateFields{
 		mosRedirect("index2.php?option=com_boss&act=templates&task=edit_tmpl_source&source_file=&template=$template&directory=$directory");
 	}
 
-	public static function getTemplateFields($directory, $template, $type_tmpl = ''){
+	public static function getTemplateFields($directory, $template, $type_tmpl = '') {
 		$database = database::getInstance();
 
 		$where = ($type_tmpl == '') ? '' : " AND `type_tmpl` = '$type_tmpl'";
@@ -3181,9 +3187,7 @@ class BossTemplateFields{
 		if(count($fields) == 0){
 			$positions = array();
 			require(JPATH_BASE . "/templates/com_boss/$template/_service.php");
-			$q = "INSERT INTO #__boss_" . $directory . "_groups " .
-				"(`name`, `desc`, `template`, `type_tmpl`, `published`, `catsid`) " .
-				"VALUES ";
+			$q = "INSERT INTO #__boss_" . $directory . "_groups " . "(`name`, `desc`, `template`, `type_tmpl`, `published`, `catsid`) " . "VALUES ";
 			$q1 = array();
 			foreach($positions['category'] as $key => $val){
 				$q1[] = "('" . $key . "', '" . $val . "', '" . $template . "', 'category', '1', ',-1,')";
@@ -3202,7 +3206,7 @@ class BossTemplateFields{
 /**
  * Класс работы с плагинами.
  */
-class BossPlugins extends mosDBTable{
+class BossPlugins extends mosDBTable {
 
 	var $id = null;
 	var $directory = null;
@@ -3211,18 +3215,20 @@ class BossPlugins extends mosDBTable{
 	var $title = null;
 	var $value = null;
 
-	function __construct(){
+	function __construct() {
 		$this->mosDBTable('#__boss_plug_config', 'id');
 	}
 
 	/**
 	 * @static
+	 *
 	 * @param        $directory - каталог
 	 * @param string $plug_type - тип плагина
 	 * @param string $plug_name - название плагина
+	 *
 	 * @return array|bool - возвращает массив настроек плагинов
 	 */
-	public static function getPluginsSettings($directory, $plug_type = '', $plug_name = ''){
+	public static function getPluginsSettings($directory, $plug_type = '', $plug_name = '') {
 		$database = database::getInstance();
 
 		$wheres = array();
@@ -3248,9 +3254,10 @@ class BossPlugins extends mosDBTable{
 
 	/**
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public function save($directory){
+	public function save($directory) {
 
 		// bind it to the table
 		if(!$this->bind($_POST)){
@@ -3267,11 +3274,13 @@ class BossPlugins extends mosDBTable{
 
 	/**
 	 * @static
+	 *
 	 * @param        $directory - каталог
-	 * @param string $folder - тип/папка плагинов
+	 * @param string $folder    - тип/папка плагинов
+	 *
 	 * @return array - возвращает объектлист плагинов заданного типа.
 	 */
-	public static function get_plugins($directory, $folder = 'fields'){
+	public static function get_plugins($directory, $folder = 'fields') {
 		$bossPlugins = array();
 		$path = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'plugins' . DS . $folder . DS;
 		$handle = opendir($path);
@@ -3291,12 +3300,14 @@ class BossPlugins extends mosDBTable{
 
 	/**
 	 * @static
+	 *
 	 * @param        $directory - каталог
-	 * @param        $name - название класса плагина
-	 * @param string $folder - тип/папка плагина
+	 * @param        $name      - название класса плагина
+	 * @param string $folder    - тип/папка плагина
+	 *
 	 * @return - возвращает объект класса плагина.
 	 */
-	public static function get_plugin($directory, $name, $folder = 'fields', $params = array()){
+	public static function get_plugin($directory, $name, $folder = 'fields', $params = array()) {
 		$bossPlugins = array();
 		$path = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'plugins' . DS . $folder . DS . $name . DS;
 		require_once($path . 'plugin.php');
@@ -3306,15 +3317,17 @@ class BossPlugins extends mosDBTable{
 
 	/** запускает функцию из плагина
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function run_plugins_func($directory){
+	public static function run_plugins_func($directory) {
 		$class = mosGetParam($_REQUEST, 'class', '');
 		$function = mosGetParam($_REQUEST, 'function', '');
 		$path = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory . DS . 'plugins' . DS . 'fields' . DS . $class . '/plugin.php';
 		if(is_file($path)){
 			require_once($path);
-		} else{
+		}
+		else{
 			return false;
 		}
 		$class = new $class;
@@ -3324,10 +3337,12 @@ class BossPlugins extends mosDBTable{
 
 	/**  удаление плагина
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deletePlugin($directory){
+	public static function deletePlugin($directory) {
 		$database = database::getInstance();
 
 		$tid = $_POST['tid'];
@@ -3351,10 +3366,12 @@ class BossPlugins extends mosDBTable{
 
 	/** установка плагина
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function installPlugin($directory){
+	public static function installPlugin($directory) {
 
 		// Check that the zlib is available
 		if(!extension_loaded('zlib')){
@@ -3383,10 +3400,12 @@ class BossPlugins extends mosDBTable{
 			$zipfile = new PclZip($userfile['tmp_name']);
 			if(substr(PHP_OS, 0, 3) == 'WIN'){
 				define('OS_WINDOWS', 1);
-			} else{
+			}
+			else{
 				define('OS_WINDOWS', 0);
 			}
-		} else{
+		}
+		else{
 			require_once(JPATH_BASE . '/includes/Archive/Tar.php');
 			$archive = new Archive_Tar($userfile['tmp_name']);
 			$archive->setErrorHandling(PEAR_ERROR_PRINT);
@@ -3400,7 +3419,8 @@ class BossPlugins extends mosDBTable{
 					$zipfile->setError(1, 'Unrecoverable error "' . $zipfile->errorName(true) . '"');
 					return false;
 				}
-			} else{
+			}
+			else{
 				if(!$archive->extractModify(JPATH_BASE . "/images/boss/$dir/plugins/$folder", '')){
 					$archive->setError(1, 'Extract Error');
 					return false;
@@ -3418,10 +3438,12 @@ class BossPlugins extends mosDBTable{
 
 	/** редактирование настроек плагина
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function editPlugin($directory, $conf){
+	public static function editPlugin($directory, $conf) {
 		$folder = mosGetParam($_REQUEST, 'folder', null);
 		$plugin = mosGetParam($_REQUEST, 'plugin', null);
 		$directories = BossDirectory::getDirectories();
@@ -3429,7 +3451,7 @@ class BossPlugins extends mosDBTable{
 		HTML_boss::editPlugin($directory, $directories, $bossPlugin, $conf);
 	}
 
-	public static function savePlugin($directory){
+	public static function savePlugin($directory) {
 		$folder = mosGetParam($_REQUEST, 'folder', null);
 		$plugin = mosGetParam($_REQUEST, 'plugin', null);
 
@@ -3441,10 +3463,12 @@ class BossPlugins extends mosDBTable{
 
 	/**  список плагинов
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function listPlugins($directory, $conf){
+	public static function listPlugins($directory, $conf) {
 		$database = database::getInstance();
 		//значение селекта использования
 		$used = mosGetParam($_REQUEST, 'used', '');
@@ -3453,8 +3477,7 @@ class BossPlugins extends mosDBTable{
 		//используемые плагины
 		$usedPlugins = $database->setQuery("SELECT DISTINCT `type` FROM #__boss_" . $directory . "_fields")->loadResultArray();
 		$path = JPATH_BASE . "/images/boss/$directory/plugins";
-		if(!is_dir($path))
-			mkdir($path);
+		if(!is_dir($path)) mkdir($path);
 
 		$handle = opendir($path);
 		while($dir = readdir($handle)){
@@ -3471,7 +3494,8 @@ class BossPlugins extends mosDBTable{
 
 						if($used === '0' && in_array($plugins[$i]['type'], $usedPlugins)){
 							unset($plugins[$i]);
-						} elseif($used === '1' && !in_array($plugins[$i]['type'], $usedPlugins)){
+						}
+						elseif($used === '1' && !in_array($plugins[$i]['type'], $usedPlugins)){
 							unset($plugins[$i]);
 						}
 						$i++;
@@ -3486,29 +3510,29 @@ class BossPlugins extends mosDBTable{
 
 		HTML_boss::listPlugins($directory, $directories, $plugins, $used, $conf);
 	}
-
 }
 
 /**
 
  */
-class BossMain{
+class BossMain {
 
 	/**
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function displayMain($directory, $conf){
+	public static function displayMain($directory, $conf) {
 		$directories = BossDirectory::getDirectories();
 		HTML_boss::displayMain($directory, $directories, $conf);
 	}
-
 }
 
-class Sliders{
+class Sliders {
 
-	function __construct(){
+	function __construct() {
 		/* запрет повторного включения css и js файлов в документ */
 		if(!defined('_SLIDER_LOADED')){
 			define('_SLIDER_LOADED', 1);
@@ -3517,16 +3541,17 @@ class Sliders{
 
 	/**
 	 * creates a tab pane and creates JS obj
+	 *
 	 * @param string The Tab Pane Name
 	 */
-	function startPane($paneid){
+	function startPane($paneid) {
 		echo '<div class="slider-page" id="' . $paneid . '">';
 	}
 
 	/**
 	 * Ends Tab Pane
 	 */
-	function endPane(){
+	function endPane() {
 		echo '</div>';
 	}
 
@@ -3536,7 +3561,7 @@ class Sliders{
      * @param paneid - This is the parent pane to build this tab on
      */
 
-	function startTab($tabText, $paneid){
+	function startTab($tabText, $paneid) {
 		echo "<div class=\"jwts_title\">";
 		echo "<div class=\"jwts_title_left\">";
 		echo "<a href=\"javascript:void(null);\" onclick=\"showHide('$paneid')\" title=\"Click to open!\" class=\"jwts_title_text\">" . $tabText . "</a>";
@@ -3549,19 +3574,19 @@ class Sliders{
      * Ends a tab page
      */
 
-	function endTab(){
+	function endTab() {
 		echo '</div></div>';
 	}
-
 }
 
-class bossFieldImages{
+class bossFieldImages {
 
 	/** удаление катринки
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deleteFieldImage($directory){
+	public static function deleteFieldImage($directory) {
 
 		$tid = $_POST['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -3578,10 +3603,12 @@ class bossFieldImages{
 
 	/**  загрузка картинки
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function uploadFieldImage($directory){
+	public static function uploadFieldImage($directory) {
 
 		$userfile = mosGetParam($_FILES, 'userfile', null);
 		$filename = russian_transliterate($userfile['name']);
@@ -3595,10 +3622,12 @@ class bossFieldImages{
 
 	/** список картинок
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function listFieldImages($directory, $conf){
+	public static function listFieldImages($directory, $conf) {
 		$fieldimages = self::getFieldImages($directory);
 		$directories = BossDirectory::getDirectories();
 		HTML_boss::listFieldImages($fieldimages, $directory, $directories, $conf);
@@ -3606,10 +3635,12 @@ class bossFieldImages{
 
 	/** список картинок
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function getFieldImages($directory){
+	public static function getFieldImages($directory) {
 
 		$path = JPATH_BASE . "/images/boss/$directory/fields";
 		$handle = opendir($path);
@@ -3626,25 +3657,25 @@ class bossFieldImages{
 
 		return $fieldimages;
 	}
-
 }
 
-class bossExportImport{
+class bossExportImport {
 
 	/** Форма импорта-экспорта
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function showImpExpForm($directory, $conf){
+	public static function showImpExpForm($directory, $conf) {
 
 		$directories = BossDirectory::getDirectories();
 		$packs = array();
 		if(is_dir(JPATH_BASE . '/images/boss/' . $directory)){
 			if($handle = opendir(JPATH_BASE . '/images/boss/' . $directory)){
 				while(false !== ($file = readdir($handle))){
-					if(substr($file, -4) == '.zip')
-						$packs[] = $file;
+					if(substr($file, -4) == '.zip') $packs[] = $file;
 				}
 				closedir($handle);
 			}
@@ -3654,11 +3685,13 @@ class bossExportImport{
 
 	/** экспорт каталога
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 * modification 06.03.2012 GoDr
 	 */
-	public static function exportDirectory($directory){
+	public static function exportDirectory($directory) {
 		static $name;
 		$exp_tables = mosGetParam($_REQUEST, 'exp_tables', 0);
 		$exp_content = mosGetParam($_REQUEST, 'exp_content', 0);
@@ -3673,8 +3706,7 @@ class bossExportImport{
 		$patchToContentFolders = JPATH_BASE . DS . 'images' . DS . 'boss' . DS . $directory;
 
 		//если нет папки с названием пака, то создаем
-		if(!is_dir($patch))
-			mkdir($patch);
+		if(!is_dir($patch)) mkdir($patch);
 
 		//если выбрано экспортировать таблицы
 		if($exp_tables){
@@ -3731,7 +3763,8 @@ class bossExportImport{
 					$field = addslashes($field);
 					$field = preg_replace("/\n/", "/\/\n/", $field);
 					$content .= !$first2 ? (",'" . $field . "'") : '".$directory."';
-				} else{
+				}
+				else{
 					$content .= !$first2 ? (',' . $field) : '".$directory."';
 				}
 				$first2 = false;
@@ -3782,23 +3815,13 @@ class bossExportImport{
 	/**
 	 * Содержимое файла описания каталога
 	 * @static
+	 *
 	 * @param $directory
+	 *
 	 * @return string
 	 */
-	private static function extFile($directory, $name){
-		$result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-			. "<boss_expansion>\n"
-			. "\t<cmsVer>" . joomlaVersion::get('CMS_ver') . "</cmsVer>\n"
-			. "\t<cmsBuild>" . joomlaVersion::get('BUILD') . "</cmsBuild>\n"
-			. "\t<directoryId>" . $directory . "</directoryId>\n"
-			. "\t<directoryName>" . htmlspecialchars($name) . "</directoryName>\n"
-			. "\t<creationDate>" . date("d.m.Y H:i:s") . "</creationDate>\n"
-			. "\t<author>" . joomlaVersion::get('CMS') . " " . joomlaVersion::get('CODENAME') . "</author>\n"
-			. "\t<authorEmail>mail@joostinadev.ru</authorEmail>\n"
-			. "\t<authorUrl>Joostinadev.ru</authorUrl>\n"
-			. "\t<copyright>Авторские права &copy; 2011-2012 Joostina Dev.</copyright>\n"
-			. "\t<version>1.0</version>\n"
-			. "</boss_expansion>";
+	private static function extFile($directory, $name) {
+		$result = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" . "<boss_expansion>\n" . "\t<cmsVer>" . joomlaVersion::get('CMS_ver') . "</cmsVer>\n" . "\t<cmsBuild>" . joomlaVersion::get('BUILD') . "</cmsBuild>\n" . "\t<directoryId>" . $directory . "</directoryId>\n" . "\t<directoryName>" . htmlspecialchars($name) . "</directoryName>\n" . "\t<creationDate>" . date("d.m.Y H:i:s") . "</creationDate>\n" . "\t<author>" . joomlaVersion::get('CMS') . " " . joomlaVersion::get('CODENAME') . "</author>\n" . "\t<authorEmail>mail@joostinadev.ru</authorEmail>\n" . "\t<authorUrl>Joostinadev.ru</authorUrl>\n" . "\t<copyright>Авторские права &copy; 2011-2012 Joostina Dev.</copyright>\n" . "\t<version>1.0</version>\n" . "</boss_expansion>";
 		return $result;
 	}
 
@@ -3806,7 +3829,7 @@ class bossExportImport{
 	 * @static
 	 * @return bool
 	 */
-	public static function importDirectory(){
+	public static function importDirectory() {
 
 		$database = database::getInstance();
 		$pack = mosGetParam($_FILES, 'pack', '');
@@ -3824,7 +3847,8 @@ class bossExportImport{
 
 		if(substr(PHP_OS, 0, 3) == 'WIN'){
 			define('OS_WINDOWS', 1);
-		} else{
+		}
+		else{
 			define('OS_WINDOWS', 0);
 		}
 
@@ -3840,7 +3864,8 @@ class bossExportImport{
 		if($directory == 0){
 			$directory = installNewDirectory(0);
 			$directory = (int)$directory['id'];
-		} else{
+		}
+		else{
 			//проверим существование каталога
 			$q = "SELECT `id` FROM #__boss_config WHERE `id` = '$directory'";
 			$result = $database->setQuery($q)->loadObjectList();
@@ -3871,21 +3896,22 @@ class bossExportImport{
 		$pathToReserve = JPATH_BASE . '/components/com_boss';
 		!is_dir($pathTo . '/plugins/fields') ? boss_helpers::copy_folder_rf($pathToReserve . '/plugins', $pathTo . '/plugins') : null;
 
-
 		//редиректим на настройки
 		mosRedirect("index2.php?option=com_boss&act=configuration&directory=" . $directory);
 		return true;
 	}
 }
 
-class BossUsers{
+class BossUsers {
 
 	/**  список пользователей
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function listUsers($directory, $conf){
+	public static function listUsers($directory, $conf) {
 		global $mosConfig_list_limit;
 		$database = database::getInstance();
 
@@ -3900,10 +3926,7 @@ class BossUsers{
 		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
-		$q = "SELECT p.userid, u.name, u.username, u.registerDate, u.lastvisitDate, u.usertype "
-			. "FROM #__boss_" . $directory . "_profile as p "
-			. "LEFT JOIN #__users as u ON p.userid = u.id "
-			. "ORDER BY u.username";
+		$q = "SELECT p.userid, u.name, u.username, u.registerDate, u.lastvisitDate, u.usertype " . "FROM #__boss_" . $directory . "_profile as p " . "LEFT JOIN #__users as u ON p.userid = u.id " . "ORDER BY u.username";
 		$users = $database->setQuery($q, $limitstart, $limit)->loadObjectList();
 
 		if($database->getErrorNum()){
@@ -3919,37 +3942,32 @@ class BossUsers{
 
 	/** редактирование информации пользователя
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function editUserInfo($directory, $conf){
+	public static function editUserInfo($directory, $conf) {
 		$database = database::getInstance();
 		$userid = mosGetParam($_REQUEST, 'tid', array(0));
 		$selectedUserId = $userid[0];
 		$userFields = null;
 
-		$q = "SELECT * "
-			. "FROM #__boss_" . $directory . "_profile  "
-			. "WHERE userid = " . $userid[0] . " LIMIT 1";
+		$q = "SELECT * " . "FROM #__boss_" . $directory . "_profile  " . "WHERE userid = " . $userid[0] . " LIMIT 1";
 		$database->setQuery($q)->loadObject($userFields);
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
 		}
 
-		$q = "SELECT * "
-			. "FROM #__boss_" . $directory . "_fields "
-			. "WHERE profile = 1 "
-			. "ORDER BY ordering";
+		$q = "SELECT * " . "FROM #__boss_" . $directory . "_fields " . "WHERE profile = 1 " . "ORDER BY ordering";
 		$fields = $database->setQuery($q)->loadObjectList();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
 		}
 
-		$q = "SELECT id as userid, name "
-			. "FROM #__users "
-			//. "WHERE profile = 1 "
+		$q = "SELECT id as userid, name " . "FROM #__users " //. "WHERE profile = 1 "
 			. "ORDER BY name";
 		$users = $database->setQuery($q)->loadObjectList();
 		if($database->getErrorNum()){
@@ -3964,16 +3982,17 @@ class BossUsers{
 
 	/** сохранение информации пользователя
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function saveUserInfo($directory){
+	public static function saveUserInfo($directory) {
 		$database = database::getInstance();
 		$userid = mosGetParam($_REQUEST, 'userid', 0);
 		$task = mosGetParam($_REQUEST, 'task', '');
 
-		if($userid == 0)
-			return false;
+		if($userid == 0) return false;
 
 		$q = "DELETE FROM #__boss_" . $directory . "_profile WHERE userid = $userid ";
 		$database->setQuery($q)->query();
@@ -3994,17 +4013,13 @@ class BossUsers{
 		$fields = implode(', ', $fields);
 		$values = implode(', ', $values);
 
-		$q = "INSERT INTO #__boss_" . $directory . "_profile "
-			. "(" . $fields . ") "
-			. "VALUES "
-			. "(" . $values . ")";
+		$q = "INSERT INTO #__boss_" . $directory . "_profile " . "(" . $fields . ") " . "VALUES " . "(" . $values . ")";
 		$database->setQuery($q)->query();
 		if($database->getErrorNum()){
 			echo $database->stderr();
 			return false;
 		}
-		if($task == 'apply')
-			$link = "index2.php?option=com_boss&act=users&task=edit&directory=$directory&tid[]=$userid";
+		if($task == 'apply') $link = "index2.php?option=com_boss&act=users&task=edit&directory=$directory&tid[]=$userid";
 		else
 			$link = "index2.php?option=com_boss&act=users&directory=$directory";
 		mosRedirect($link, BOSS_UPDATE_SUCCESSFULL);
@@ -4013,15 +4028,16 @@ class BossUsers{
 
 	/** удаление информации пользователя
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function deleteUserInfo($directory){
+	public static function deleteUserInfo($directory) {
 		$database = database::getInstance();
 		$userids = mosGetParam($_REQUEST, 'tid', array());
 
-		if(count($userids) == 0)
-			return false;
+		if(count($userids) == 0) return false;
 
 		foreach($userids as $userid){
 			$q = "DELETE FROM #__boss_" . $directory . "_profile WHERE userid = $userid ";
@@ -4034,13 +4050,12 @@ class BossUsers{
 		mosRedirect("index2.php?option=com_boss&act=users&directory=$directory", BOSS_FORM_USER_DELETED);
 		return true;
 	}
-
 }
 
 /**
  * Класс типов контента
  */
-class BossContentTypes extends mosDBTable{
+class BossContentTypes extends mosDBTable {
 
 	var $id = null;
 	var $name = null;
@@ -4049,11 +4064,11 @@ class BossContentTypes extends mosDBTable{
 	var $published = null;
 	var $ordering = null;
 
-	function __construct($db, $directory){
+	function __construct($db, $directory) {
 		$this->mosDBTable('#__boss_' . $directory . '_content_types', 'id', $db);
 	}
 
-	public static function getAllContentTypes($directory){
+	public static function getAllContentTypes($directory) {
 		$database = database::getInstance();
 		$rows = $database->setQuery("SELECT * FROM #__boss_" . $directory . "_content_types ORDER BY ordering")->loadObjectList();
 		if($database->getErrorNum()){
@@ -4065,11 +4080,13 @@ class BossContentTypes extends mosDBTable{
 
 	/** сохранение порядка сортировки
 	 * @static
+	 *
 	 * @param  $tid
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function saveOrder($tid, $directory){
+	public static function saveOrder($tid, $directory) {
 		$database = database::getInstance();
 
 		$total = count($tid);
@@ -4095,12 +4112,14 @@ class BossContentTypes extends mosDBTable{
 
 	/** перемещение категории в списке при сортировке
 	 * @static
+	 *
 	 * @param  $uid
 	 * @param  $inc
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function orderContentTypes($uid, $inc, $directory){
+	public static function orderContentTypes($uid, $inc, $directory) {
 		$database = database::getInstance();
 
 		$row = new BossContentTypes($database, $directory);
@@ -4115,10 +4134,12 @@ class BossContentTypes extends mosDBTable{
 
 	/** форма создания категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function newContentTypes($directory, $conf){
+	public static function newContentTypes($directory, $conf) {
 		$database = database::getInstance();
 		$row = new BossContentTypes($database, $directory);
 		$directories = BossDirectory::getDirectories();
@@ -4127,10 +4148,12 @@ class BossContentTypes extends mosDBTable{
 
 	/** удаление категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return void
 	 */
-	public static function deleteContentTypes($directory){
+	public static function deleteContentTypes($directory) {
 
 		$tid = $_POST['tid'];
 		if(!is_array($tid) || count($tid) < 1){
@@ -4156,10 +4179,12 @@ class BossContentTypes extends mosDBTable{
 
 	/**
 	 * @static список категорий
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function listContentTypes($directory, $conf){
+	public static function listContentTypes($directory, $conf) {
 
 		$database = database::getInstance();
 		$mainframe = mosMainFrame::getInstance();
@@ -4202,7 +4227,6 @@ class BossContentTypes extends mosDBTable{
 		mosMainFrame::addLib('pagenavigation');
 		$pageNav = new mosPageNav($total, $limitstart, $limit);
 
-
 		$directories = BossDirectory::getDirectories();
 
 		HTML_boss::listContentTypes($types, $pageNav, $directory, $directories, count($types), $conf);
@@ -4211,10 +4235,12 @@ class BossContentTypes extends mosDBTable{
 
 	/**
 	 * @static публикация категорий
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function publishContentTypes($directory){
+	public static function publishContentTypes($directory) {
 
 		$tid = $_GET['tid'];
 
@@ -4225,7 +4251,8 @@ class BossContentTypes extends mosDBTable{
 
 		if(isset($_GET['publish'])){
 			$publish = (int)$_GET['publish'];
-		} else{
+		}
+		else{
 			mosRedirect("index2.php?option=com_boss&act=categories&directory=$directory", BOSS_ERROR_IN_URL);
 			return;
 		}
@@ -4247,10 +4274,12 @@ class BossContentTypes extends mosDBTable{
 
 	/** форма редактирования категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return bool
 	 */
-	public static function displayContentTypes($directory, $conf){
+	public static function displayContentTypes($directory, $conf) {
 
 		$id = mosGetParam($_REQUEST, 'tid', array(0));
 		if(is_array($id)){
@@ -4276,10 +4305,12 @@ class BossContentTypes extends mosDBTable{
 
 	/** сохранение категории
 	 * @static
+	 *
 	 * @param  $directory
+	 *
 	 * @return
 	 */
-	public static function saveContentTypes($directory){
+	public static function saveContentTypes($directory) {
 
 		$database = database::getInstance();
 		$task = mosGetParam($_REQUEST, 'task');
@@ -4302,8 +4333,7 @@ class BossContentTypes extends mosDBTable{
 		// clean any existing cache files
 		mosCache::cleanCache('com_boss');
 
-		if($task == 'apply')
-			$link = "index2.php?option=com_boss&directory=$directory&act=content_types&task=edit&tid[]=$row->id";
+		if($task == 'apply') $link = "index2.php?option=com_boss&directory=$directory&act=content_types&task=edit&tid[]=$row->id";
 		else
 			$link = "index2.php?option=com_boss&act=content_types&directory=$directory";
 		mosRedirect($link, BOSS_CONTENT_TYPE_SAVED);

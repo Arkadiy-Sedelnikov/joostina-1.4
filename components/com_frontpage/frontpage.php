@@ -11,7 +11,7 @@
 defined('_JLINDEX') or die();
 
 require_once ($mainframe->getPath('class', 'com_frontpage'));
-$frontpageConf = null;
+$frontpageConf = (object)null;
 $configObject = new frontpageConfig();
 $frontpageConf->directory = $configObject->get('directory', 0);
 $frontpageConf->task = $configObject->get('page', 'front');

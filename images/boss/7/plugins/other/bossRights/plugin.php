@@ -110,7 +110,7 @@ class bossRights extends joiBossRights{
 
 	//загружаем права скопом
 	function loadRights($rights = array(), $groupId){
-		$perms = null;
+		$perms = new stdClass();
 		foreach($rights as $right){
 			$perms->$right = $this->allow_me($right, $groupId);
 		}

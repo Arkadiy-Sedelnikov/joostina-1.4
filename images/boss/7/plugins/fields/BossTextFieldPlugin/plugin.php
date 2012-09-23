@@ -32,7 +32,7 @@ class BossTextFieldPlugin{
 			$_MAMBOTS = mosMambotHandler::getInstance();
 			$_MAMBOTS->loadBotGroup('content');
 			$params = new mosParameters('');
-			$row = null;
+			$row = new stdClass();
 			$row->text = $value;
 			$_MAMBOTS->trigger('onPrepareContent', array(&$row, &$params, 0), true);
 			$content->$fieldname = $value;

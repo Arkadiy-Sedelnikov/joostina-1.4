@@ -35,7 +35,7 @@ class BossTextAreaEditorPlugin{
 				$_MAMBOTS = mosMambotHandler::getInstance();
 				$_MAMBOTS->loadBotGroup('content');
 				$params = new mosParameters('');
-				$row = null;
+				$row = new stdClass();
 				$row->text = $content->$fieldname;
 				$row->id = $content->id;
 				$row->access = 0;

@@ -41,7 +41,7 @@ class BossFileMultiPlugin{
 	function getDetailsDisplay($directory, $content, $field, $field_values, $conf){
 		$fieldname = $field->name;
 
-		$field_conf = null;
+		$field_conf = new stdClass();
 		foreach($field_values as $field_value){
 			$ft = $field_value->fieldtitle;
 			$field_conf->$ft = $field_value->fieldvalue;
