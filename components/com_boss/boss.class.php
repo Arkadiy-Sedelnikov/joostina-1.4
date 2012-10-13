@@ -648,11 +648,13 @@ class jDirectoryContent extends mosDBTable {
 		}
 
 		//Save Field
-		$row->save($directory, $fields, $conf);
+        // TODO: GoDr: заменил save на saveSelf
+		$row->saveSelf($directory, $fields, $conf);
 		return true;
 	}
 
 	/**
+     * // TODO: GoDr: заменил save на saveSelf, т.е. дополнительных параметров нет в интерфейсе mosDBTable
 	 * @param     $directory    - каталог
 	 * @param     $fields       - поля
 	 * @param     $conf         - конфигурация
@@ -660,7 +662,7 @@ class jDirectoryContent extends mosDBTable {
 	 *
 	 * @return
 	 */
-	function save($directory, $fields, $conf, $isUpdateMode = 0) {
+    public function saveSelf($directory, $fields, $conf, $isUpdateMode = 0) {
 		$mainframe = mosMainFrame::getInstance();
 		;
 		$database = database::getInstance();
@@ -934,7 +936,8 @@ class jDirectoryContent extends mosDBTable {
 			$content = new jDirectoryContent($database, $directory);
 			$content->load($contentid);
 			if($content != null){
-				$content->delete($directory, $conf);
+                // TODO: GoDr: заменил save на deleteSelf, т.е. дополнительных параметров нет в интерфейсе mosDBTable
+                $content->deleteSelf($directory, $conf);
 			}
 		}
 
@@ -945,12 +948,12 @@ class jDirectoryContent extends mosDBTable {
 	}
 
 	/**
+     * TODO: GoDr: заменил save на deleteSelf, т.е. дополнительных параметров нет в интерфейсе mosDBTable
 	 * @param  $directory
-	 * @param  $conf
 	 *
 	 * @return void
 	 */
-	function delete($directory, $conf) {
+	function deleteSelf($directory, $conf) {
 
 		$database = database::getInstance();
 
@@ -3206,7 +3209,7 @@ class BossTemplateFields {
 /**
  * Класс работы с плагинами.
  */
-class BossPlugins extends mosDBTable {
+class BossPlugins{
 
 	var $id = null;
 	var $directory = null;
@@ -3216,7 +3219,6 @@ class BossPlugins extends mosDBTable {
 	var $value = null;
 
 	function __construct() {
-		$this->mosDBTable('#__boss_plug_config', 'id');
 	}
 
 	/**

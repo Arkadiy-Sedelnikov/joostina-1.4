@@ -1206,7 +1206,8 @@ function save_content($directory){
 	$isUpdateMode = (int)mosGetParam($_POST, 'isUpdateMode', 0);
 
 	//Save Field
-	$redirect_text = $row->save($directory, $fields, $conf, $isUpdateMode);
+    // TODO: GoDr: заменил save на saveSelf
+	$redirect_text = $row->saveSelf($directory, $fields, $conf, $isUpdateMode);
 	if((($conf->send_email_on_new == 1) && ($isUpdateMode == 0)) || (($conf->send_email_on_update == 1) && ($isUpdateMode == 1))){
 		$title = mosGetParam($_POST, "name", "");
 		$body = '';
@@ -1351,7 +1352,8 @@ function delete_content($contentid, $directory, $template_name){
 				$content = new jDirectoryContent($database, $directory);
 				$content->load($contentid);
 				if($content != null){
-					$content->delete($directory, $conf);
+                    // TODO: GoDr: заменил save на deleteSelf, т.е. дополнительных параметров нет в интерфейсе mosDBTable
+					$content->deleteSelf($directory, $conf);
 				}
 			}
 			mosRedirect(JSef::getUrlToSef("index.php?option=com_boss&amp;task=show_user&amp;directory=$directory", ''));
