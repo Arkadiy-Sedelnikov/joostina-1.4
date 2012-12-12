@@ -23,16 +23,16 @@ class DBConfig{
 	/**
 
 	 */
-	function __construct($group = '', $subgroup = ''){
+	function __construct($group = null, $subgroup = ''){
 		global $option;
 
 		$this->_db = database::getInstance();
 
 		// проверяем - задана ли группа
-		if(trim($group) == ''){
-			$this->_group = $option; // нет не задана - принимаем значение $option
-		} else{
+		if(is_null($group)){
 			$this->_group = $group; // задано
+		} else{
+			$this->_group = $option; // нет не задана - принимаем значение $option
 		}
 
 		// проверяем - задана ли подгруппа
@@ -46,7 +46,6 @@ class DBConfig{
 		if($this->bindConfig($this->_formatArray($values = $this->getBatchValues()))){
 			return $values;
 		}
-		;
 		return false;
 	}
 
@@ -117,7 +116,7 @@ class DBConfig{
 			$where = " AND c.subgroup = '" . $this->_subgroup . "'";
 		}
 
-		$sql = "SELECT c.name, c.value, c.subgroup FROM #__config AS c WHERE c.group='$this->_group'" . $where;
+		$sql = "SELECT c.name, c.value, c.subgroup FROM #__config AS c WHERE c.group='".$this->_group."'" . $where;
 		$this->_db->setQuery($sql);
 		$return = $this->_db->loadObjectList();
 		if(count($return) && is_array($return)){

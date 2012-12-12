@@ -19,7 +19,7 @@ define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
 // подключение основных глобальных переменных
 require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
 
-define('JPATH_BASE', dirname(dirname(__FILE__)));
+//define('JPATH_BASE', dirname(dirname(__FILE__)));
 
 (ini_get('register_globals') == 1) ? require_once (JPATH_BASE . DS . 'includes' . DS . 'globals.php') : null;
 require_once (JPATH_BASE . DS . 'configuration.php');

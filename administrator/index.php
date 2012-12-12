@@ -17,7 +17,7 @@ define('_JLPATH_ROOT',dirname(dirname(__FILE__)));
 require_once _JLPATH_ROOT . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'defines.php';
 
 // корень файлов
-define('JPATH_BASE', dirname(dirname(__FILE__)));
+//define('JPATH_BASE', dirname(dirname(__FILE__)));
 
 if(!defined('IS_ADMIN')) define('IS_ADMIN', 1);
 
