@@ -24,15 +24,15 @@ class joomlaVersion{
 	/** @var int Номер основной версии*/
 	var $RELEASE = '1.4';
 	/** @var строка  статус разработки*/
-	var $DEV_STATUS = 'alfa';
+	var $DEV_STATUS = 'beta';
 	/** @var int Подверсия*/
-	var $DEV_LEVEL = '1040101';
+	var $DEV_LEVEL = '1040102';
 	/** @var int Номер сборки*/
-	var $BUILD = '201208151212';
+	var $BUILD = '201212121212';
 	/** @var string Кодовое имя*/
 	var $CODENAME = 'Lotos';
 	/** @var string Дата*/
-	var $RELDATE = '14.08.2012';
+	var $RELDATE = '12.12.2012';
 	/** @var string Время*/
 	var $RELTIME = '12:12';
 	/** @var string Временная зона*/
