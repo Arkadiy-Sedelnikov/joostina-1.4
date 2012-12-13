@@ -11,7 +11,7 @@
 define('_JLINDEX', 1);
 
 
-//error_reporting(E_ALL & ~E_NOTICE, _COM_CONFIG_ERROR_PARANOIDAL);
+error_reporting(E_ALL & ~E_NOTICE, _COM_CONFIG_ERROR_PARANOIDAL);
 
 // корень файлов
 define('_JLPATH_ROOT',dirname(dirname(__FILE__)));

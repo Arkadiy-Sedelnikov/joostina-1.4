@@ -12,6 +12,8 @@ defined('_JLINDEX') or die();
 
 global $mosConfig_form_date, $mosConfig_form_date_full;
 
+DEFINE('_COM_CONFIG_ERROR_PARANOIDAL', 'Максимальная отладка');
+
 /**
  * Измените строчку ниже, для изменения вывода даты на сайте
  * Например: DEFINE("_DATE_FORMAT_LC"," %d %B %Y г. %H:%M");

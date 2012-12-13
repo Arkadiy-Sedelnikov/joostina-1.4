@@ -56,7 +56,6 @@ DEFINE('_COM_CONFIG_CONTENT_ORDER_SORT_HELP', 'Выберите порядок �
 DEFINE('_COM_CONFIG_COUNT_FOR_USER_BLOCK', 'Число неудачных авторизаций для блокировки аккаунта');
 DEFINE('_COM_CONFIG_ERROR_ALL', 'Отображать ошибки');
 DEFINE('_COM_CONFIG_ERROR_HIDE', 'Отсутствуют');
-DEFINE('_COM_CONFIG_ERROR_PARANOIDAL', 'Максимальная отладка');
 DEFINE('_COM_CONFIG_ERROR_SYSTEM', 'Настройки системы');
 DEFINE('_COM_CONFIG_ERROR_TINY', 'Простые');
 DEFINE('_COM_CONFIG_HOURS', 'ч:');
